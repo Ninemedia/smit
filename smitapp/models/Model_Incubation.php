@@ -1,0 +1,578 @@
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once('SMIT_Model.php');
+
+class Model_Incubation extends SMIT_Model{
+    /**
+     * Initialize table
+     */
+    var $user                       = "smit_user";
+    var $incubation_selection       = "smit_incubation_selection";
+    var $incubation_selection_set   = "smit_incubation_selection_setting";
+    var $incubation_selection_rpt   = "smit_incubation_selection_report";
+    
+    /**
+     * Initialize primary field
+     */
+    var $primary                    = "id";
+    
+    /**
+	* Constructor - Sets up the object properties.
+	*/
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    // ---------------------------------------------------------------------------------
+    // CRUD (Manipulation) data incubation
+    // ---------------------------------------------------------------------------------
+    
+    /**
+     * Get Incubation
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Incubation
+     * @return  Mixed   False on invalid date parameter, otherwise data of incubation(s).
+     */
+    function get_incubation($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where('id', $id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->incubation_selection);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Get Incubation Setting
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Incubation
+     * @return  Mixed   False on invalid date parameter, otherwise data of incubation(s) setting.
+     */
+    function get_incubation_setting($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where($primary, $id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->incubation_selection_set);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Get Incubation Report
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Incubation Report
+     * @return  Mixed   False on invalid date parameter, otherwise data of incubation(s) report.
+     */
+    function get_incubation_report($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where($primary, $id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->incubation_selection_rpt);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Get incubation data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of incubation
+     */
+    function get_incubation_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'userid':
+                $value  = $value;
+                $id     = '';
+                $field  = 'user_id';
+                break;
+            case 'username':
+                $value  = $value;
+                $id     = '';
+                $field  = 'username';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_incubation($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->incubation_selection);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $incubation = $row;
+        }
+
+        return $incubation;
+    }
+    
+    /**
+     * Get incubation data by uniquecode
+     * 
+     * @author  Iqbal
+     * @param   Int  $uniquecode  (Required)  Incubation Uniquecode
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of incubation
+     */
+    function get_incubation_by_uniquecode($uniquecode)
+    {
+        if( empty($uniquecode) || !$uniquecode ) return false;
+        
+        $sql = '
+            SELECT A.*, B.name AS user_name, B.email, B.phone
+            FROM '.$this->incubation_selection.' AS A
+            INNER JOIN '.$this->user.' AS B
+            ON B.id = A.user_id 
+            WHERE A.uniquecode = ?';
+        $qry = $this->db->query($sql, array($uniquecode));
+        
+        if( !$qry || $qry->num_rows == 0 ) return false;
+        return $qry->row();
+    }
+    
+    /**
+     * Get incubation setting data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of incubation setting
+     */
+    function get_incubation_setting_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'uniquecode':
+                $value  = $value;
+                $id     = '';
+                $field  = 'uniquecode';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_incubation_setting($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->incubation_selection_set);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $incubationset = $row;
+        }
+
+        return $incubationset;
+    }
+    
+    /**
+     * Get incubation report data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of incubation report
+     */
+    function get_incubation_report_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'uniquecode':
+                $value  = $value;
+                $id     = '';
+                $field  = 'uniquecode';
+                break;
+            case 'user_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'user_id';
+                break;
+            case 'selection_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'selection_id';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_incubation_report($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->incubation_selection_rpt);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $incubationrpt = $row;
+        }
+
+        return $incubationrpt;
+    }
+    
+    /**
+     * Get incubation report data by uniquecode
+     * 
+     * @author  Iqbal
+     * @param   Int  $uniquecode  (Required)  Incubation Report Uniquecode
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of incubation report
+     */
+    function get_incubation_report_by_uniquecode($uniquecode)
+    {
+        if( empty($uniquecode) || !$uniquecode ) return false;
+        
+        $sql = '
+            SELECT A.*, B.name AS user_name, B.email, B.phone
+            FROM '.$this->incubation_selection_rpt.' AS A
+            INNER JOIN '.$this->user.' AS B
+            ON B.id = A.user_id 
+            WHERE A.uniquecode = ?';
+        $qry = $this->db->query($sql, array($uniquecode));
+        
+        if( !$qry || $qry->num_rows == 0 ) return false;
+        return $qry->row();
+    }
+    
+    /**
+     * Save data of incubation_selection
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation_selection($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_selection, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of incubation_selection_setting
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation_selection_setting($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_selection_set, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of incubation_selection_report
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of incubation report
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation_selection_report($data){
+        if( empty($data) ) return false;
+		
+		// We have UNIQUE index on this table so we can't use Active Record to do insert
+		$sql = 'INSERT IGNORE INTO '.$this->incubation_selection_rpt.'(`' . implode('`,`', array_keys($data)) . '`)
+	            VALUES(' . rtrim(str_repeat('?,', count($data)), ',') . ')';
+		
+		$data_values 	= array_values($data);
+        $this->db->query($sql, $data_values);
+		
+		if ($this->db->affected_rows()) {
+			$id = $this->db->insert_id();
+            return $id;
+		}
+        return false;
+    }
+    
+    /**
+     * Retrieve all incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_incubation($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%jury%",                 "A.jury_id", $conditions);
+            $conditions = str_replace("%jury_username%",        "B.username",  $conditions);
+            $conditions = str_replace("%jury_name%",            "B.name",  $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%url%",                  "A.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "A.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
+            $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
+            $order_by   = str_replace("%jury_name%",            "B.name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT 
+                A.*,
+                B.username AS jury_username,
+                B.name as jury_name 
+            FROM ' . $this->incubation_selection. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.jury_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all incubation setting data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incset             default 0
+     * @param   Int     $offset             Offset ot incset            default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation setting list
+     */
+    function get_all_incubation_setting($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",           "id", $conditions);
+            $conditions = str_replace("%date_start%",   "selection_date_start", $conditions);
+            $conditions = str_replace("%date_end%",     "selection_date_end", $conditions);
+            $conditions = str_replace("%impdate_start%","selection_imp_date_start", $conditions);
+            $conditions = str_replace("%impdate_end%",  "selection_imp_date_end", $conditions);
+            $conditions = str_replace("%files%",        "selection_files", $conditions);
+            $conditions = str_replace("%juri_phase1%",  "selection_juri_phase1", $conditions);
+            $conditions = str_replace("%juri_phase2%",  "selection_juri_phase2", $conditions);
+            $conditions = str_replace("%status%",       "status", $conditions);
+            $conditions = str_replace("%datecreated%",  "datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by = str_replace("%id%",             "id", $order_by);
+            $order_by = str_replace("%date_start%",     "selection_date_start", $order_by);
+            $order_by = str_replace("%date_end%",       "selection_date_end", $order_by);
+            $order_by = str_replace("%impdate_start%",  "selection_imp_date_start", $order_by);
+            $order_by = str_replace("%impdate_end%",    "selection_imp_date_end", $order_by);
+            $order_by = str_replace("%files%",          "selection_files", $order_by);
+            $order_by = str_replace("%juri_phase1%",    "selection_juri_phase1", $order_by);
+            $order_by = str_replace("%juri_phase2%",    "selection_juri_phase2", $order_by);
+            $order_by = str_replace("%status%",         "status", $order_by);
+            $order_by = str_replace("%datecreated%",    "datecreated", $order_by);
+        }
+        
+        $sql = 'SELECT * FROM ' . $this->incubation_selection_set. '';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all incubation report data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incrpt             default 0
+     * @param   Int     $offset             Offset ot incrpt            default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation report list
+     */
+    function get_all_incubation_report($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%confirmed%",            "A.confirmed", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%jury%",                 "A.jury_id", $conditions);
+            $conditions = str_replace("%jury_username%",        "B.username",  $conditions);
+            $conditions = str_replace("%jury_name%",            "B.name",  $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%confirmed%",            "A.confirmed",  $order_by);
+            $order_by   = str_replace("%url%",                  "A.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "A.extension",  $order_by);
+            $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
+            $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
+            $order_by   = str_replace("%jury_name%",            "B.name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT 
+                A.*,
+                B.username AS jury_username,
+                B.name as jury_name 
+            FROM ' . $this->incubation_selection_rpt. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.jury_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Update data of incubation
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_incubation($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in($this->primary, $id);
+		else $this->db->where($this->primary, $id);
+    
+        if( $this->db->update($this->incubation_selection, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    /**
+     * Update data of incubation setting
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation Setting ID
+     * @param   Array   $data   (Required)  Array data of incubation setting
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_incubation_setting($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in($this->primary, $id);
+		else $this->db->where($this->primary, $id);
+    
+        if( $this->db->update($this->incubation_selection_set, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    /**
+     * Update data of incubation report
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation Report ID
+     * @param   Array   $data   (Required)  Array data of incubation report
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_incubation_report($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in($this->primary, $id);
+		else $this->db->where($this->primary, $id);
+    
+        if( $this->db->update($this->incubation_selection_rpt, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    // ---------------------------------------------------------------------------------
+}
+/* End of file Model_Incubation.php */
+/* Location: ./application/models/Model_Iuide.php */

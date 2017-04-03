@@ -1,0 +1,311 @@
+<?php 
+    $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user; 
+    $avatar         = empty($user->avatar) ? ( $user->gender == GENDER_MALE ? 'avatar1.png' : 'avatar3.png' ) : $user->avatar;
+    $status         = $user->type;
+    if($status == ADMINISTRATOR){
+        $status     = 'ADMINISTRATOR';
+    }elseif($status == PENGUSUL){
+        $status     = 'PENGUSUL';
+    }elseif($status == PENDAMPING){
+        $status     = 'PENDAMPING';
+    }elseif($status == JURI){
+        $status     = 'JURI';
+    }elseif($status == TENANT){
+        $status     = 'TENANT';
+    }else{
+        $status     = 'PELAKSANA';
+    }
+?>  
+
+<!-- Content -->
+<div class="row clearfix">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="header"><h2>Profil Anda</h2></div>
+            <div class="body">
+                <div class="row">
+                    <!-- Profile -->
+                    <div class="col-md-3">
+                        <!-- Profile Image -->
+                        <div class="box box-primary">
+                            <div class="box-body box-profile">
+                                <img class="profile-user-img img-responsive img-circle" 
+                                src="<?php echo BE_IMG_PATH . 'avatar/' . $avatar; ?>" 
+                                alt="User Profile Picture" />
+                                <h3 class="profile-username text-center" id="profile_username"><?php echo $the_user->name; ?></h3>
+                                <p class="text-muted text-center"><?php echo $status; ?></p>
+                                <a href="javascript:;" class="btn btn-primary btn-block bg-blue waves-effect"><b>Ganti Avatar</b></a>
+                            </div>
+                        </div>
+                        <!-- About Me Box -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">About Me</h3>
+                            </div>
+                            <div class="box-body">
+                                <strong>ALAMAT</strong>
+                                <p class="text-muted">
+                                    <?php 
+                                        echo $the_user->address;
+                                        echo !empty( $the_user->district ) ? br() . $the_user->district : ''; 
+                                    ?>
+                                </p>
+                                
+                                <strong>HP/TELP</strong>
+                                <p class="text-muted">
+                                    <?php echo $the_user->phone; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#info" data-toggle="tab">
+                                    <i class="material-icons">home</i> INFORMASI PRIBADI
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#job" data-toggle="tab">
+                                    <i class="material-icons">style</i> INFORMASI PEKERJAAN
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#change_password" data-toggle="tab">
+                                    <i class="material-icons">style</i> GANTI PASSWORD
+                                </a>
+                            </li>
+                        </ul>
+    
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="info">
+                                <?php echo form_open( 'user/personalinfo', array( 'id'=>'personal', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                                    <div class="alert alert-danger text-center display-hide error-validate">
+                            			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                            		</div>
+                                    <div class="input-group">
+                                        <label class="form-label">Username Pengguna</label>
+                                        <div class="form-line">
+                                            <?php if( !empty($user_other) && $user_other->type != ADMINISTRATOR ): ?>
+                                            <input type="hidden" name="user_id" value="<?php echo $user_other->id; ?>" />
+                                            <?php endif ?>
+                                            <input type="hidden" name="up_username" placeholder="Username" value="<?php echo $the_user->username; ?>" />
+                                            <input type="text" class="form-control" id="up_username" disabled="" value="<?php echo $the_user->username; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Name *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_name" id="up_name" value="<?php echo strtoupper($the_user->name); ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Email *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_email" id="up_email" value="<?php echo $the_user->email; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Telp/HP *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_phone" id="up_phone" value="<?php echo $the_user->phone; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Alamat *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_address" id="up_address" value="<?php echo $the_user->address; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <?php
+                                            $user_province      = $the_user->province;
+                                            $province           = smit_provinces();
+                                        ?>
+                                        <label class="form-label">Provinsi *</label>
+                                        <select class="form-control show-tick" name="up_province" id="province-select" 
+                                        <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?> 
+                                        data-url="<?php echo base_url('selectprovince'); ?>">
+            	                        	<?php
+                                                echo '<option value="">-- Pilih Propinsi --</option>';
+                                                if( !empty($province) ){
+                                                    foreach($province as $p){
+                                                        echo '<option value="'.$p->province_id.'" '.( $user_province == $p->province_id ? 'selected="selected"' : '' ).'>'.$p->province_name.'</option>';
+                                                    }
+                                                }
+                                            ?>  
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <?php
+                                            $user_city          = $the_user->city;
+                                            $cities             = smit_cities_by_provinces($user_province);
+                                        ?>
+                                        <label class="form-label">Kota/Kabupaten *</label>
+                                        <select class="form-control show-tick" name="up_regional" id="regional-select" 
+                                        <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>
+                                        <?php echo ( empty($user_city) ? 'disabled="disabled"' : '' ); ?>>
+                                            <option value="">-- Pilih Kota/Kabupaten --</option>
+                                            <?php 
+                                                if( !empty($user_city) ){
+                                                    foreach($cities as $c){
+                                                        echo '<option value="'.$c->regional_id.'" '.( $user_city == $c->regional_id ? 'selected="selected"' : '' ).'>'.$c->regional_name.'</option>';
+                                                    }
+                                                } 
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Kecamatan/Kelurahan *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_district" id="up_district" value="<?php echo $the_user->district; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <?php
+                                            $user_gender        = $the_user->gender;
+                                        ?>
+                                        <label class="form-label">Jenis Kelamin *</label>
+                                        <select class="form-control show-tick" name="up_gender">
+                                            <option value="">-- Pilih Jenis Kelamin --</option>
+                                            <option value="<?php echo GENDER_MALE; ?>" <?php echo $user_gender == GENDER_MALE ? 'selected="selected"' : '' ?>>PRIA</option>
+                                            <option value="<?php echo GENDER_FEMALE; ?>" <?php echo $user_gender == GENDER_FEMALE ? 'selected="selected"' : '' ?>>WANITA</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Tempat Lahir *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_birthplace" id="up_birthplace" value="<?php echo $the_user->birthplace; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Tanggal Lahir *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_birthdate" id="up_birthdate" value="<?php echo $the_user->birthdate; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <?php
+                                            $user_religion       = $the_user->religion;
+        		                        ?>
+                                        <label class="form-label">Agama *</label>
+                                        <select class="form-control show-tick" name="up_religion">
+                                            <option value="">-- Pilih Agama --</option>
+                                            <option value="1" <?php echo $user_religion == 1 ? 'selected="selected"' : '' ?>>ISLAM</option>
+                                            <option value="2" <?php echo $user_religion == 2 ? 'selected="selected"' : '' ?>>KRISTEN PROTESTAN</option>
+                                            <option value="3" <?php echo $user_religion == 3 ? 'selected="selected"' : '' ?>>KRISTEN KATOLIK</option>
+                                            <option value="4" <?php echo $user_religion == 4 ? 'selected="selected"' : '' ?>>HIDNU</option>
+                                            <option value="5" <?php echo $user_religion == 5 ? 'selected="selected"' : '' ?>>BUDHA</option>
+                                            <option value="6" <?php echo $user_religion == 6 ? 'selected="selected"' : '' ?>>KONGHUCHU</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <?php
+                                            $user_marital       = $the_user->marital_status;
+                                        ?>
+                                        <label class="form-label">Status Pernikahan *</label>
+                                        <select class="form-control show-tick" name="up_marital_status" id="up_marital_status">
+                                            <option value="">-- Pilih Status Pernikahan --</option>
+                                            <option value="0" <?php echo $user_marital == 0 ? 'selected="selected"' : '' ?>>BELUM MENIKAH</option>
+                                            <option value="1" <?php echo $user_marital == 1 ? 'selected="selected"' : '' ?>>MENIKAH</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+
+                                <?php echo form_close(); ?>
+                            </div>
+                            
+                            <div role="tabpanel" class="tab-pane fade" id="job">
+                                <?php echo form_open( 'user/jobinfo', array( 'id'=>'jobupdate', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                                    <div class="alert alert-danger text-center display-hide error-validate">
+                            			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                            		</div>
+                                    <h2 class="card-inside-title top35">Data Jabatan</h2>
+                                    <?php if( !empty($user_other) && $user_other->type != ADMINISTRATOR ): ?>
+                                    <input type="hidden" name="user_id" value="<?php echo $user_other->id; ?>" />
+                                    <?php endif ?>
+                                    <input type="hidden" name="up_username" placeholder="Username" value="<?php echo $the_user->username; ?>" />
+                                    <div class="input-group">
+                                        <label class="form-label">Nomor Induk Pegawai *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_nip" id="up_nip" value="<?php echo $the_user->nip; ?>" maxlength="16" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label">Jabatan *</label>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="up_position" id="up_position" value="<?php echo $the_user->position; ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="form-label"> Satuan Kerja *</label>
+                                        <?php
+            	                        	$workunit_type = smit_workunit_type();
+                                            $option = array('' => '-- Pilih Satuan Kerja --');
+                                            $extra = 'class="form-control show-tick" id="workunit_type"';
+            
+            	                            if( !empty($workunit_type) ){
+            	                                foreach($workunit_type as $val){
+                                                    $option[$val->workunit_id] = $val->workunit_name;
+            	                                }
+            	                            }
+                                            echo form_dropdown('workunit_type',$option,'',$extra);
+            	                        ?>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                <?php echo form_close(); ?>
+                            </div>
+                            
+                            <div role="tabpanel" class="tab-pane fade" id="change_password">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE PROFILE MODAL -->
+<div class="modal fade" id="save_profile" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Perbaharui Data Profile Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Berhasil memperbaharui data profile anda</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_profile" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE PROFILE MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE JOB MODAL -->
+<div class="modal fade" id="save_job" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Perbaharui Data Job Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Berhasil memperbaharui data job anda</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_job" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE JOB MODAL -->

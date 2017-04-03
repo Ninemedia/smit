@@ -1,0 +1,349 @@
+$(function () {
+    $('#form_validation').validate({
+        rules: {
+            'checkbox': {
+                required: true
+            },
+            'gender': {
+                required: true
+            }
+        },
+        highlight: function (input) {
+            $(input).parents('.form-line').addClass('error');
+        },
+        unhighlight: function (input) {
+            $(input).parents('.form-line').removeClass('error');
+        },
+        errorPlacement: function (error, element) {
+            $(element).parents('.form-group').append(error);
+        }
+    });
+
+    //Advanced Form Validation
+    $('#form_advanced_validation').validate({
+        rules: {
+            'date': {
+                customdate: true
+            },
+            'creditcard': {
+                creditcard: true
+            }
+        },
+        highlight: function (input) {
+            $(input).parents('.form-line').addClass('error');
+        },
+        unhighlight: function (input) {
+            $(input).parents('.form-line').removeClass('error');
+        },
+        errorPlacement: function (error, element) {
+            $(element).parents('.form-group').append(error);
+        }
+    });
+
+    //Custom Validations ===============================================================================
+    //Date
+    $.validator.addMethod('customdate', function (value, element) {
+        return value.match(/^\d\d\d\d?-\d\d?-\d\d$/);
+    },
+        'Please enter a date in the format YYYY-MM-DD.'
+    );
+
+    //Credit card
+    $.validator.addMethod('creditcard', function (value, element) {
+        return value.match(/^\d\d\d\d?-\d\d\d\d?-\d\d\d\d?-\d\d\d\d$/);
+    },
+        'Please enter a credit card in the format XXXX-XXXX-XXXX-XXXX.'
+    );
+    //==================================================================================================
+});
+
+// Additional Function
+// =====================================================================================================
+var GuidesValidation = function () {
+    var handleGuideValidation = function(){
+        $('#guide_files').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                guide_title: {
+                    required: true,
+                },
+                guide_description: {
+                    required: true,
+                },
+            },
+            messages: {
+                guide_title: {
+                    required: "Judul panduan harus di isi."
+                },
+                guide_description: {
+                    required: "Deskripsi panduan harus di isi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleGuideValidation();
+        }
+    };
+}();
+
+var ProfileValidation = function () {
+    var handleProfileValidation = function(){
+        $('#personal').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                up_name: {
+                    required: true,
+                },
+                up_email: {
+                    required: true,
+                    email: true,
+                },
+                up_phone: {
+                    required: true,
+                },
+                up_address: {
+                    required: true,
+                },
+                up_province: {
+                    required: true,
+                },
+                up_regional: {
+                    required: true,
+                },
+                up_district: {
+                    required: true,
+                },
+                up_gender: {
+                    required: true,
+                },
+                up_birthplace: {
+                    required: true,
+                },
+                up_birthdate: {
+                    required: true,
+                },
+                up_religion: {
+                    required: true,
+                },
+                up_marital_status: {
+                    required: true,
+                },
+            },
+            messages: {
+                up_name: {
+                    required: 'Nama harus di isi',
+                },
+                up_email: {
+                    required: 'Email harus di isi',
+                    email: 'Masukkan alamat email Anda yang benar',
+                },
+                up_phone: {
+                    required: 'Nomor Telp/HP harus di isi',
+                },
+                up_address: {
+                    required: 'Alamat harus di isi',
+                },
+                up_province: {
+                    required: 'Provinsi harus di isi',
+                },
+                up_regional: {
+                    required: 'Kota/Kabupaten harus di isi',
+                },
+                up_district: {
+                    required: 'Kecamatan/Kelurahan harus di isi',
+                },
+                up_address: {
+                    required: 'Alamat harus di isi',
+                },
+                up_gender: {
+                    required: 'Jenis Kelamin harus di pilih',
+                },
+                up_birthplace: {
+                    required: 'Tempat lahir harus di pilih',
+                },
+                up_birthdate: {
+                    required: 'Tanggal lahir harus di pilih',
+                },
+                up_regional: {
+                    required: 'Agama harus di pilih',
+                },
+                up_marital_status: {
+                    required: 'Status pernikahan harus di pilih',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_profile').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleProfileValidation();
+        }
+    };
+}();
+
+var JobValidation = function () {
+    var handleJobValidation = function(){
+        $$('#jobupdate').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                up_nip: {
+                    required: true,
+                },
+                up_position: {
+                    required: true,
+                },
+                workunit_type: {
+                    required: true,
+                },
+            },
+            messages: {
+                up_nip: {
+                    required: 'Nomor Induk Pegawai harus di isi',
+                },
+                up_position: {
+                    required: 'Posisi anda harus di isi',
+                },
+                workunit_type: {
+                    required: 'Satuan kerja anda harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_job').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleJobValidation();
+        }
+    };
+}();
+
+
+var AnnouncementValidation = function () {
+    var handleAnnouncementValidation = function(){
+        $('#announcementadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_title: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_agree: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_desc: {
+                    required: 'Deskripsi Kegiatan harus di isi',
+                },
+                reg_title: {
+                    required: 'Judul Kegiatan harus di isi',
+                },
+                reg_agree: {
+                    required: 'Anda harus setuju atas pengisian formulir ini',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_announcement').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleAnnouncementValidation();
+        }
+    };
+}();
+
+
+
