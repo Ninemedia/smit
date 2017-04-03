@@ -1,0 +1,2 @@
+# smit
+SMIT Development
