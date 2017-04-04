@@ -3,7 +3,6 @@
     $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
-<!--
 <div id="gtco-contentbreadcumb" class="animate-box">
 	<div class="gtco-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -110,4 +109,3 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
 		</div>
 	</div>
 </div>
--->
