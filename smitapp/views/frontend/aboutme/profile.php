@@ -1,5 +1,6 @@
 <?php
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
+    $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
 <div id="gtco-contentbreadcumb" class="animate-box">
@@ -17,7 +18,7 @@
                             <i class=""></i> Tentang Kami
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'profil' ? 'class="active"' : ''); ?>>
+                    <li <?php echo ($active_page2 == 'profil' ? 'class="active"' : ''); ?>>
                         <a href="<?php echo base_url('tentangkami/profil'); ?>">
                             <i class=""></i> <strong>Profil</strong>
                         </a>
@@ -86,7 +87,7 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
                                     </ol>
                                     <ol>
                                     Menelaah kemungkinan perlindungan kekayaan intelektual hasil litbang LIPI serta melaksanakan proses untuk mendapatkan perlindungan tersebut.
-                                    </o>
+                                    </ol>
                                 </ul>
                             </p>
                         </div>

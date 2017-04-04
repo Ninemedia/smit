@@ -16,8 +16,6 @@
 	<meta name="twitter:url" content="" />
 	<meta name="twitter:card" content="" />
     
-    
-    
     <!-- Title -->
 	<title><?php echo $title; ?></title>
     
