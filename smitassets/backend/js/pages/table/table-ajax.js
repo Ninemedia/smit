@@ -16,6 +16,28 @@ var TableAjax = function () {
         gridTable( $("#user_list"), true );
     };
     
+    // -------------------------------------------------------------------------
+    // PRAINCUBATION
+    // ------------------------------------------------------------------------- 
+    // Pra Incubation Selection Lists
+    var handleRecordsPraIncubationSelectionList = function() {
+        gridTable( $("#praincubation_list"), true );
+    };
+    
+    // Pra Incubation Selection Setting Lists
+    var handleRecordsPraIncubationSettingSelectionList = function() {
+        gridTable( $("#praincubation_setting_list"), true );
+    };
+    
+    // Pra Incubation Selection Report Lists
+    var handleRecordsPraIncubationReportSelectionList = function() {
+        gridTable( $("#praincubationreport_list"), true );
+    };
+    // -------------------------------------------------------------------------
+    
+    // -------------------------------------------------------------------------
+    // INCUBATION
+    // ------------------------------------------------------------------------- 
     // Incubation Selection Lists
     var handleRecordsIncubationSelectionList = function() {
         gridTable( $("#incubation_list"), true );
@@ -30,6 +52,7 @@ var TableAjax = function () {
     var handleRecordsIncubationReportSelectionList = function() {
         gridTable( $("#incubationreport_list"), true );
     };
+    // -------------------------------------------------------------------------
     
     // Tenant Selection Lists
     var handleRecordsTenantSelectionList = function() {
@@ -119,16 +142,32 @@ var TableAjax = function () {
         //main function to initiate the module
         init: function () {
             initPickers();
+            //User
             handleRecordsUserList();
+            
+            //Pra Incubation
+            handleRecordsPraIncubationSelectionList();
+            handleRecordsPraIncubationSettingSelectionList();
+            handleRecordsPraIncubationReportSelectionList();
+            
+            //Incubation
             handleRecordsIncubationSelectionList();
             handleRecordsIncubationSettingSelectionList();
+            handleRecordsIncubationReportSelectionList();
+            
+            //Tenant
             handleRecordsTenantSelectionList();
-            handleRecordsGuidesList();
+            
+            //Jury
             handleRecordsJuryStepOneList();
             handleRecordsJuryStepTwoList();
+            
+            //Announcement
             handleRecordsAnnouncementList();
-            handleRecordsIncubationReportSelectionList();
             handleRecordsAnnouncementUserList();
+            
+            //Guide
+            handleRecordsGuidesList();
         }
     };
 

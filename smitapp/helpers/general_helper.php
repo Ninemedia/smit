@@ -1546,6 +1546,26 @@ if ( !function_exists('smit_workunit_type') )
 	}
 }
 
+if ( !function_exists('smit_latest_praincubation') ) 
+{
+    /**
+     * Get latest pra incubation
+     * @author  Iqbal
+     * @param   Int     $step   (Optional)  Selction Step
+     * @return  User Type Data
+     */
+	function smit_latest_praincubation( $step=0 ) {
+		$CI =& get_instance();
+        $condition  = ' WHERE %jury% = 1';
+        $condition .= !empty($step) || $step > 0 ? ' AND %step% = '.$step.'' : '';
+        $order_by   = ' %id% DESC';
+        $ls         = $CI->Model_Praincubation->get_all_praincubation(1,0,$condition,$order_by); 
+
+        if( !$ls || empty($ls) ) return false;
+		return $ls[0];
+	}
+}
+
 if ( !function_exists('smit_latest_incubation') ) 
 {
     /**
@@ -1563,6 +1583,24 @@ if ( !function_exists('smit_latest_incubation') )
 
         if( !$ls || empty($ls) ) return false;
 		return $ls[0];
+	}
+}
+
+if ( !function_exists('smit_latest_praincubation_setting') ) 
+{
+    /**
+     * Get latest pra incubation setting
+     * @author  Iqbal
+     * @return  User Type Data
+     */
+	function smit_latest_praincubation_setting() {
+		$CI =& get_instance();
+        $condition  = ' WHERE %status% = 1';
+        $order_by   = ' %datecreated% DESC';
+        $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by); 
+
+        if( !$lss || empty($lss) ) return false;
+		return $lss[0];
 	}
 }
 
