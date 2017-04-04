@@ -2,16 +2,16 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Laporan Seleksi Inkubasi</h2></div>
+            <div class="header"><h2>Laporan Seleksi Pra Inkubasi</h2></div>
             <div class="body">
                 <?php if($is_admin): ?>
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">                           
-                        <a href="<?php echo base_url('incubationreportconfirm'); ?>" class="btn btn-sm btn-success incubationreportconfirm">Konfirmasi Semua</a>     
+                        <a href="<?php echo base_url('prainkubasi/laporan/korfimall'); ?>" class="btn btn-sm btn-success praincubationreportconfirm">Konfirmasi Semua</a>     
             		</div>
-                    <table class="table table-striped table-bordered table-hover" id="incubationreport_list" data-url="<?php echo base_url('incubation/incubationrepordatatlist'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="praincubationreport_list" data-url="<?php echo base_url('praincubation/praincubationrepordatatlist'); ?>">
                         <thead>
-    						<tr role="row" class="heading">
+    						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
     							<th class="width15 text-center">Username</th>
     							<th class="width25">Nama</th>
@@ -21,9 +21,9 @@
                                 <th class="width10 text-center">Jenis File</th>
     							<th class="width15 text-center">Pemeriksa</th>
                                 <th class="width15 text-center">Tanggal Daftar</th>
-    							<th class="width15 text-center">Actions</th>
+    							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     						</tr>
-                            <tr role="row" class="filter">
+                            <tr role="row" class="filter display-hide table-filter">
     							<td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
@@ -64,7 +64,7 @@
     								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
     							</td>
     							<td style="text-align: center;">
-    								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_incubationreport_list">Search</button>
+    								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_praincubationreport_list">Search</button>
                                     <button class="btn bg-red waves-effect filter-cancel">Reset</button>
     							</td>
     						</tr>
@@ -77,9 +77,9 @@
                 <?php endif ?> 
                 <?php if($is_jury): ?> 
                 <div class="table-container table-responsive">
-                    <table class="table table-striped table-bordered table-hover" id="incubationreport_list" data-url="<?php echo base_url('incubation/incubationrepordatatlist'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="praincubationreport_list" data-url="<?php echo base_url('praincubation/praincubationrepordatatlist'); ?>">
                         <thead>
-    						<tr role="row" class="heading">
+    						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
     							<th class="width15 text-center">Username</th>
     							<th class="width25">Nama</th>
@@ -88,9 +88,9 @@
                                 <th class="width10 text-center">Jenis File</th>
     							<th class="width15 text-center">Pemeriksa</th>
                                 <th class="width15 text-center">Tanggal Daftar</th>
-    							<th class="width15 text-center">Actions</th>
+    							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     						</tr>
-                            <tr role="row" class="filter">
+                            <tr role="row" class="filter display-hide table-filter">
     							<td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>

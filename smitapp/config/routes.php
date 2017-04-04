@@ -84,6 +84,8 @@ $route['prainkubasi/nilai']             = "praincubation/praincubationscore";
 $route['prainkubasi/laporan']           = "praincubation/praincubationreport";
 $route['prainkubasi/konfirmall']        = "praincubation/praincubationconfirm";
 $route['prainkubasi/konfirmall/(:any)'] = "praincubation/praincubationconfirm/$1";
+$route['prainkubasi/laporan/konfirmall']        = "praincubation/praincubationreportconfirm";
+$route['prainkubasi/laporan/konfirmall/(:any)'] = "praincubation/praincubationreportconfirm/$1";
 
 // Incubation Page Routes
 $route['inkubasi/daftar']               = "incubation/incubationlist";

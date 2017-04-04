@@ -99,7 +99,7 @@
                     'sub'       => false,
                 ),
     			array (
-                    'title'     => 'Laporan Inkubasi',
+                    'title'     => 'Laporan Pra Inkubasi',
                     'nav'       => 'prainkubasi/laporan',
                     'parent'    => 'prainkubasi',
                     'link'      => base_url('prainkubasi/laporan'),

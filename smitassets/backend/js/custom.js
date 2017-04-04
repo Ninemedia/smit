@@ -359,6 +359,7 @@ var PraIncubationList = function () {
                             }else{
                                 $(location).attr('href',response.message);
                             }
+                            $('#btn_praincubationreport_list').trigger('click');
                         }
                     });
                 }

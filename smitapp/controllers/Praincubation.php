@@ -340,36 +340,36 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         };
         
-        // Check Data Incubation Selection
+        // Check Data Pra Incubation Selection
         $condition  = ' WHERE %status% = 1 AND %confirmed% = 0';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
-        $incseldata = $this->Model_Praincubation->get_all_praincubation_report(0,0,$condition,$order_by);
+        $praincseldata  = $this->Model_Praincubation->get_all_praincubation_report(0,0,$condition,$order_by);
         
-        if( !$incseldata || empty($incseldata) ){
+        if( !$praincseldata || empty($praincseldata) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data laporan seleksi inkubasi yang belum dikonfirmasi');
             // JSON encode data
             die(json_encode($data));
         }
         
-        // Check Incubation Setting
-        $incset     = smit_latest_praincubation_setting();
-        if( !$incset || empty($incset) ){
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
             // JSON encode data
             die(json_encode($data));
         }
         
-        if( $incset->status == 0 ){
+        if( $praincset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
             // JSON encode data
             die(json_encode($data));
         }
         
-        $juriphase2data = $incset->selection_juri_phase2;
+        $juriphase2data = $praincset->selection_juri_phase2;
         if( empty($juriphase2data) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Data juri tahap 2 tidak ditemukan');
@@ -384,20 +384,20 @@ class PraIncubation extends User_Controller {
         // -------------------------------------------------
         $this->db->trans_begin();
         
-        foreach($incseldata as $row){
-            $incselrepupdatedata = array(
+        foreach($praincseldata as $row){
+            $praincselrepupdatedata = array(
                 'confirmed'     => 1,
                 'datemodified'  => $curdate,
             );
-            $this->Model_Praincubation->update_data_praincubation_report($row->id, $incselrepupdatedata);
+            $this->Model_Praincubation->update_data_praincubation_report($row->id, $praincselrepupdatedata);
         
-            $incselupdatedata = array(
+            $praincselupdatedata = array(
                 'jury_id'       => $juriphase2data,
                 'status'        => 1,
                 'step'          => 2,
                 'datemodified'  => $curdate,
             );
-            $this->Model_Praincubation->update_data_praincubation($row->selection_id, $incselupdatedata);
+            $this->Model_Praincubation->update_data_praincubation($row->selection_id, $praincselupdatedata);
         }
         
         // Commit Transaction
@@ -1354,7 +1354,7 @@ class PraIncubation extends User_Controller {
             foreach($praincubationreport_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'" 
-                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details">Details</a> ';
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 
                 if($row->status == REPORT_CALLED)       { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REPORT_REJECTED) { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -1371,7 +1371,7 @@ class PraIncubation extends User_Controller {
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     strtoupper($row->name),
                     '<a href="'.base_url('upload/incubationselection/'.$row->uniquecode).'">' . $row->event_title . '</a>',
                     smit_center( $status ),

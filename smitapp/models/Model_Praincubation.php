@@ -566,7 +566,7 @@ class Model_Praincubation extends SMIT_Model{
         if ( is_array($id) ) $this->db->where_in($this->primary, $id);
 		else $this->db->where($this->primary, $id);
     
-        if( $this->db->update($this->incubation_selection_rpt, $data) ) 
+        if( $this->db->update($this->praincubation_selection_rpt, $data) ) 
             return true;
             
         return false;
