@@ -52,17 +52,17 @@ class PraIncubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation';
+        $data['main_content']   = 'praincubation';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
     // ---------------------------------------------------------------------------------------------
-    // INCUBATION
+    // PRAINCUBATION
     /**
-	 * List Incubation function.
+	 * List Pra Incubation function.
 	 */
-	public function incubationlist()
+	public function praincubationlist()
 	{
         auth_redirect();
         
@@ -104,7 +104,7 @@ class PraIncubation extends User_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
-            'IncubationList.init();',
+            'PraIncubationList.init();',
         ));
         
         $scripts_add            = '';
@@ -116,15 +116,15 @@ class PraIncubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation/list';
+        $data['main_content']   = 'praincubation/list';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
     /**
-	 * Incubation list data function.
+	 * Pra Incubation list data function.
 	 */
-    function incubationlistdata(){
+    function praincubationlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
@@ -183,18 +183,18 @@ class PraIncubation extends User_Controller {
         elseif( $column == 7 )  { $order_by .= '%jury% ' . $sort; }
         elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
         
-        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
         
-        if( !empty($incubation_list) ){
+        if( !empty($praincubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
             
             $i = $offset + 1;
-            foreach($incubation_list as $row){
+            foreach($praincubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('prainkubasi/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -214,9 +214,9 @@ class PraIncubation extends User_Controller {
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     strtoupper($row->name),
-                    '<a href="'.base_url('upload/incubationselection/'.$row->uniquecode).'">' . $row->event_title . '</a>',
+                    '<a href="'.base_url('upload/praincubationselection/'.$row->uniquecode).'">' . $row->event_title . '</a>',
                     smit_center( $status ),
                     smit_center( $extension ),
                     smit_center( $row->step ),
@@ -239,9 +239,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Incubation Confirm function.
+	 * Pra Incubation Confirm function.
 	 */
-    function incubationconfirm($uniquecode=''){
+    function praincubationconfirm($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
@@ -254,36 +254,36 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         };
         
-        // Check Data Incubation Selection
+        // Check Data Pra Incubation Selection
         $condition  = ' WHERE %status% = 0 AND %step% = 1';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
-        $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+        $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
         
-        if( !$incseldata || empty($incseldata) ){
+        if( !$praincseldata || empty($praincseldata) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data seleksi yang belum dikonfirmasi');
             // JSON encode data
             die(json_encode($data));
         }
         
-        // Check Incubation Setting
-        $incset     = smit_latest_incubation_setting();
-        if( !$incset || empty($incset) ){
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_incubation_setting();
+        if( !$praincset || empty($praincset) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
             // JSON encode data
             die(json_encode($data));
         }
         
-        if( $incset->status == 0 ){
+        if( $praincset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
             // JSON encode data
             die(json_encode($data));
         }
         
-        $juriphase1data = $incset->selection_juri_phase1;
+        $juriphase1data = $praincset->selection_juri_phase1;
         $juriphase1data = !empty($juriphase1data) ? explode(',',$juriphase1data) : '';
         
         if( empty($juriphase1data) ){
@@ -293,7 +293,7 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $lastselection  = smit_latest_incubation(1);
+        $lastselection  = smit_latest_praincubation(1);
         $curdate        = date('Y-m-d H:i:s');
         
         // -------------------------------------------------
@@ -302,14 +302,14 @@ class PraIncubation extends User_Controller {
         $this->db->trans_begin();
         
         $last_jury      = !empty($lastselection) ? $lastselection->jury_id : 0;
-        foreach($incseldata as $row){
+        foreach($praincseldata as $row){
             $get_jury   = smit_get_jury($juriphase1data,1,$last_jury);
-            $incselupdatedata = array(
+            $praincselupdatedata    = array(
                 'jury_id'       => $get_jury->jury,
                 'status'        => 1,
                 'datemodified'  => $curdate,
             );
-            if( $this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
+            if( $this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
                 $last_jury  = $get_jury->last_jury;
             }
         }
@@ -319,15 +319,15 @@ class PraIncubation extends User_Controller {
         // Complete Transaction
         $this->db->trans_complete();
         // Set JSON data
-        $data = array('msg' => 'success','message' => 'Semua data Seleksi Inkubasi sudah dikonfirmasi.');
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi sudah dikonfirmasi.');
         // JSON encode data
         die(json_encode($data));
     }
     
     /**
-	 * Incubation Report Confirm function.
+	 * Pra Incubation Report Confirm function.
 	 */
-    function incubationreportconfirm($uniquecode=''){
+    function praincubationreportconfirm($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
@@ -344,7 +344,7 @@ class PraIncubation extends User_Controller {
         $condition  = ' WHERE %status% = 1 AND %confirmed% = 0';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
-        $incseldata = $this->Model_Incubation->get_all_incubation_report(0,0,$condition,$order_by);
+        $incseldata = $this->Model_Praincubation->get_all_praincubation_report(0,0,$condition,$order_by);
         
         if( !$incseldata || empty($incseldata) ){
             // Set JSON data
@@ -354,7 +354,7 @@ class PraIncubation extends User_Controller {
         }
         
         // Check Incubation Setting
-        $incset     = smit_latest_incubation_setting();
+        $incset     = smit_latest_praincubation_setting();
         if( !$incset || empty($incset) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
@@ -389,7 +389,7 @@ class PraIncubation extends User_Controller {
                 'confirmed'     => 1,
                 'datemodified'  => $curdate,
             );
-            $this->Model_Incubation->update_data_incubation_report($row->id, $incselrepupdatedata);
+            $this->Model_Praincubation->update_data_praincubation_report($row->id, $incselrepupdatedata);
         
             $incselupdatedata = array(
                 'jury_id'       => $juriphase2data,
@@ -397,7 +397,7 @@ class PraIncubation extends User_Controller {
                 'step'          => 2,
                 'datemodified'  => $curdate,
             );
-            $this->Model_Incubation->update_data_incubation($row->selection_id, $incselupdatedata);
+            $this->Model_Praincubation->update_data_praincubation($row->selection_id, $incselupdatedata);
         }
         
         // Commit Transaction
@@ -411,9 +411,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Incubation Action function.
+	 * Pra Incubation Action function.
 	 */
-    function incubationaction($action, $uniquecode){
+    function praincubationaction($action, $uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
@@ -442,9 +442,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Setting Incubation function.
+	 * Setting Pra Incubation function.
 	 */
-	public function incubationsetting()
+	public function praincubationsetting()
 	{
         auth_redirect();
         
@@ -510,15 +510,15 @@ class PraIncubation extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['guide_files']    = $guide_files;
         $data['juri_list']      = $juri_list;
-        $data['main_content']   = 'incubation/setting';
+        $data['main_content']   = 'praincubation/setting';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
     /**
-	 * Setting Incubation Save function.
+	 * Setting Pra Incubation Save function.
 	 */
-	public function incubationsettingsave()
+	public function praincubationsettingsave()
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
@@ -589,7 +589,7 @@ class PraIncubation extends User_Controller {
                 'datemodified'              => $curdate,
             );
             
-            if( $save_setting   = $this->Model_Incubation->save_data_incubation_selection_setting($settingdata) ){
+            if( $save_setting   = $this->Model_Prancubation->save_data_praincubation_selection_setting($settingdata) ){
                 // Set JSON data
                 $data = array(
                     'message'   => 'success',
@@ -608,9 +608,9 @@ class PraIncubation extends User_Controller {
 	}
     
     /**
-	 * Incubation setting list data function.
+	 * Pra Incubation setting list data function.
 	 */
-    function incubationsettinglistdata(){
+    function praincubationsettinglistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
@@ -660,16 +660,16 @@ class PraIncubation extends User_Controller {
         elseif( $column == 3 )  { $order_by .= '%impdate_start% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%impdate_end% ' . $sort; }
         
-        $incubationset_list = $this->Model_Incubation->get_all_incubation_setting($limit, $offset, $condition, $order_by);
+        $praincubationset_list = $this->Model_Praincubation->get_all_praincubation_setting($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
         
-        if( !empty($incubationset_list) ){
+        if( !empty($praincubationset_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             
             $i = $offset + 1;
-            foreach($incubationset_list as $row){
+            foreach($praincubationset_list as $row){
                 $btn_details    = '<a href="'.base_url('incubationsetdetails/'.$row->uniquecode).'" 
                     class="incubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
@@ -703,9 +703,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Incubation setting details data function.
+	 * Pra Incubation setting details data function.
 	 */
-    function incubationsettingdetails($uniquecode){
+    function praincubationsettingdetails($uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         // Check Auth Redirect
@@ -735,34 +735,34 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $incubationsetdata      = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
-        if( !$incubationsetdata ){
+        $praincubationsetdata      = $this->Model_Praincubation->get_praincubation_setting_by('uniquecode',$uniquecode);
+        if( !$praincubationsetdata ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
             // JSON encode data
             die(json_encode($data));
         }
         
-        unset($incubationsetdata->id);
-        unset($incubationsetdata->uniquecode);
-        unset($incubationsetdata->status);
-        unset($incubationsetdata->datecreated);
-        unset($incubationsetdata->datemodified);
+        unset($praincubationsetdata->id);
+        unset($praincubationsetdata->uniquecode);
+        unset($praincubationsetdata->status);
+        unset($praincubationsetdata->datecreated);
+        unset($praincubationsetdata->datemodified);
 
-        $incubationsetdata->selection_files  = explode(',', $incubationsetdata->selection_files);
-        $incubationsetdata->selection_juri_phase1  = explode(',', $incubationsetdata->selection_juri_phase1);
-        $incubationsetdata->selection_juri_phase2  = explode(',', $incubationsetdata->selection_juri_phase2);
+        $praincubationsetdata->selection_files  = explode(',', $praincubationsetdata->selection_files);
+        $praincubationsetdata->selection_juri_phase1  = explode(',', $praincubationsetdata->selection_juri_phase1);
+        $praincubationsetdata->selection_juri_phase2  = explode(',', $praincubationsetdata->selection_juri_phase2);
         
         // Set JSON data
-        $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $incubationsetdata);
+        $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $praincubationsetdata);
         // JSON encode data
         die(json_encode($data));
     }
     
     /**
-	 * Incubation setting close data function.
+	 * Pra Incubation setting close data function.
 	 */
-    function incubationsettingclose($uniquecode){
+    function praincubationsettingclose($uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         // Check Auth Redirect
@@ -791,16 +791,16 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $incubationsetdata      = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
-        if( !$incubationsetdata ){
+        $praincubationsetdata   = $this->Model_Praincubation->get_praincubation_setting_by('uniquecode',$uniquecode);
+        if( !$praincubationsetdata ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
             // JSON encode data
             die(json_encode($data));
         }
         
-        $incubationsetupdate    = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
-        if( $this->Model_Incubation->update_data_incubation_setting($incubationsetdata->id, $incubationsetupdate) ){
+        $praincubationsetupdate = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
+        if( $this->Model_Incubation->update_data_incubation_setting($praincubationsetdata->id, $praincubationsetupdate) ){
             // Set JSON data
             $data = array('message' => 'success','data' => 'Data pengaturan seleksi berhasi di close');
         }else{
@@ -812,9 +812,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Score Incubation function.
+	 * Score Pra Incubation function.
 	 */
-	public function incubationscore()
+	public function praincubationscore()
 	{
         auth_redirect();
         
@@ -872,7 +872,7 @@ class PraIncubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_init']   = $scripts_init;
         $data['scripts_add']    = $scripts_add;
-        $data['main_content']   = 'incubation/score';
+        $data['main_content']   = 'praincubation/score';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -1096,9 +1096,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Incubation Selection Download File function.
+	 * Pra Incubation Selection Download File function.
 	 */
-    function incubationdownloadfile($uniquecode){
+    function praincubationdownloadfile($uniquecode){
         // Check Auth Redirect
         $auth = auth_redirect();
         if( !$auth ){
@@ -1110,7 +1110,7 @@ class PraIncubation extends User_Controller {
         }
         
         // Check Selection Data
-        $selectiondata  = $this->Model_Incubation->get_incubation_by_uniquecode($uniquecode);
+        $selectiondata  = $this->Model_Praincubation->get_praincubation_by_uniquecode($uniquecode);
         if( !$selectiondata || empty($selectiondata) ){
             die('Data seleksi tidak ditemukan atau belum terdaftar');
         }
@@ -1205,7 +1205,7 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $scoresetdata      = $this->Model_Incubation->get_incubation_by('id',$id);
+        $scoresetdata      = $this->Model_Praincubation->get_praincubation_by('id',$id);
         if( !$scoresetdata ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
@@ -1221,9 +1221,9 @@ class PraIncubation extends User_Controller {
     
     
     /**
-	 * Report Incubation function.
+	 * Report Pra Incubation function.
 	 */
-	public function incubationreport()
+	public function praincubationreport()
 	{
         auth_redirect();
         
@@ -1275,15 +1275,15 @@ class PraIncubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation/report';
+        $data['main_content']   = 'praincubation/report';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
     /**
-	 * Incubation Report list data function.
+	 * Pra Incubation Report list data function.
 	 */
-    function incubationrepordatatlist(){
+    function praincubationrepordatatlist(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
@@ -1342,16 +1342,16 @@ class PraIncubation extends User_Controller {
         elseif( $column == 7 )  { $order_by .= '%jury% ' . $sort; }
         elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
         
-        $incubationreport_list  = $this->Model_Incubation->get_all_incubation_report($limit, $offset, $condition, $order_by);
+        $praincubationreport_list  = $this->Model_Praincubation->get_all_praincubation_report($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
         
-        if( !empty($incubationreport_list) ){
+        if( !empty($praincubationreport_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_report_status');
             
             $i = $offset + 1;
-            foreach($incubationreport_list as $row){
+            foreach($praincubationreport_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details">Details</a> ';

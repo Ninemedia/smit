@@ -78,10 +78,13 @@ $route['signup']                        = "user/signup";
 // -------------------------------------------------------------------------
 $route['beranda']                     = "backend";
 // Pra Incubation Page Routes
-$route['prainkubasi/daftar']            = "praincubation/incubationlist";
-$route['prainkubasi/pengaturan']        = "praincubation/incubationsetting";
-$route['prainkubasi/nilai']             = "praincubation/incubationscore";
-$route['prainkubasi/laporan']           = "praincubation/incubationreport";
+$route['prainkubasi/daftar']            = "praincubation/praincubationlist";
+$route['prainkubasi/pengaturan']        = "praincubation/praincubationsetting";
+$route['prainkubasi/nilai']             = "praincubation/praincubationscore";
+$route['prainkubasi/laporan']           = "praincubation/praincubationreport";
+$route['prainkubasi/konfirmall']        = "praincubation/praincubationconfirm";
+$route['prainkubasi/konfirmall/(:any)'] = "praincubation/praincubationconfirm/$1";
+
 // Incubation Page Routes
 $route['inkubasi/daftar']               = "incubation/incubationlist";
 $route['inkubasi/pengaturan']           = "incubation/incubationsetting";

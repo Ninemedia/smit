@@ -159,6 +159,7 @@ $autoload['model'] = array(
     'Model_User',
     'Model_Address',
     'Model_Guide',
+    'Model_Praincubation',
     'Model_Incubation',
     'Model_Announcement',
 );

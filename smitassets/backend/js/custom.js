@@ -282,6 +282,100 @@ var Company = function () {
     };
 }();
 
+var PraIncubationList = function () {
+    var handlePraIncubationList = function(){
+        // User Confirm
+        $("body").delegate( "a.praincubationconfirm", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var table_container = $('#praincubation_list').parents('.dataTables_wrapper');
+            var msg = '';
+            
+            bootbox.confirm("Anda yakin akan mengkonfirmasi semua data seleksi?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.msg == 'error' ){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.message, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.message, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }
+                            $('#btn_praincubation_list').trigger('click');
+                        }
+                    });
+                }
+            });
+        });
+    };
+    
+    var handlePraIncubationReportList = function(){
+        // User Confirm
+        $("body").delegate( "a.praincubationreportconfirm", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var table_container = $('#praincubationreport_list').parents('.dataTables_wrapper');
+            var msg = '';
+            
+            bootbox.confirm("Anda yakin akan mengkonfirmasi semua data laporan pra inkubasi seleksi?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.msg == 'error' ){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.message, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }else{
+                                $(location).attr('href',response.message);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handlePraIncubationList();
+            handlePraIncubationReportList();
+        }
+    };
+}();
+
+
 var IncubationList = function () {
     var handleIncubationList = function(){
         // User Confirm
