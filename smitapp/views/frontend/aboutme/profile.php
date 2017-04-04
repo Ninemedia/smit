@@ -3,6 +3,7 @@
     $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
+<!--
 <div id="gtco-contentbreadcumb" class="animate-box">
 	<div class="gtco-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -41,7 +42,7 @@
                     </h4>
                 </div>
                 <div class="body">
-                    <!-- Nav tabs -->
+
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#history" data-toggle="tab">
@@ -65,7 +66,6 @@
                         </li>
                     </ul>
 
-                    <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="history">
                             <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
@@ -110,3 +110,4 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
 		</div>
 	</div>
 </div>
+-->

@@ -106,7 +106,7 @@ define('BASE_URL', SCHEMA . ( isset( $_SERVER["SERVER_NAME"] ) ? $_SERVER["SERVE
 | Document Root Path
 |--------------------------------------------------------------------------
 */
-define('ROOTPATH', '');
+define('ROOTPATH', rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/');
 
 /*
 |--------------------------------------------------------------------------
@@ -126,48 +126,48 @@ define('VIEW_MAINTENANCE',  'maintenance/');
 | Backend Assets Path Settings
 |--------------------------------------------------------------------------
 */
-define('BE_CSS_PATH',       ROOTPATH . 'smitassets/backend/css/');
-define('BE_IMG_PATH',       ROOTPATH . 'smitassets/backend/images/');
-define('BE_AVA_PATH',       ROOTPATH . 'smitassets/backend/images/user/');
-define('BE_JS_PATH',        ROOTPATH . 'smitassets/backend/js/');
-define('BE_PLUGIN_PATH',    ROOTPATH . 'smitassets/backend/plugins/');
+define('BE_CSS_PATH',       BASE_URL . 'smitassets/backend/css/');
+define('BE_IMG_PATH',       BASE_URL . 'smitassets/backend/images/');
+define('BE_AVA_PATH',       BASE_URL . 'smitassets/backend/images/user/');
+define('BE_JS_PATH',        BASE_URL . 'smitassets/backend/js/');
+define('BE_PLUGIN_PATH',    BASE_URL . 'smitassets/backend/plugins/');
 
 /*
 |--------------------------------------------------------------------------
 | Bootsrap Assets Path Settings
 |--------------------------------------------------------------------------
 */
-define('BOOTSTRAP_PATH',        ROOTPATH . 'smitassets/bootstrap/');
-define('BOOTSTRAP_CSS_PATH',    ROOTPATH . 'smitassets/bootstrap/dist/css/');
-define('BOOTSTRAP_JS_PATH',     ROOTPATH . 'smitassets/bootstrap/dist/js/');
+define('BOOTSTRAP_PATH',        BASE_URL . 'smitassets/bootstrap/');
+define('BOOTSTRAP_CSS_PATH',    BASE_URL . 'smitassets/bootstrap/dist/css/');
+define('BOOTSTRAP_JS_PATH',     BASE_URL . 'smitassets/bootstrap/dist/js/');
 
 /*
 |--------------------------------------------------------------------------
 | Frontend Assets Path Settings
 |--------------------------------------------------------------------------
 */
-define('FE_CSS_PATH',           ROOTPATH . 'smitassets/frontend/css/');
-define('FE_IMG_PATH',           ROOTPATH . 'smitassets/frontend/images/');
-define('FE_JS_PATH',            ROOTPATH . 'smitassets/frontend/js/');
-define('FE_PLUGIN_PATH',        ROOTPATH . 'smitassets/frontend/plugins/');
-define('FE_FONTS',              ROOTPATH . 'smitassets/frontend/fonts/');
+define('FE_CSS_PATH',           BASE_URL . 'smitassets/frontend/css/');
+define('FE_IMG_PATH',           BASE_URL . 'smitassets/frontend/images/');
+define('FE_JS_PATH',            BASE_URL . 'smitassets/frontend/js/');
+define('FE_PLUGIN_PATH',        BASE_URL . 'smitassets/frontend/plugins/');
+define('FE_FONTS',              BASE_URL . 'smitassets/frontend/fonts/');
 
 /*
 |--------------------------------------------------------------------------
 | Coming Soon and Maintenance Assets Path Settings
 |--------------------------------------------------------------------------
 */
-define('COMINGSOON_CSS_PATH',   ROOTPATH . 'smitassets/comingsoon/css/');
-define('COMINGSOON_JS_PATH',    ROOTPATH . 'smitassets/comingsoon/js/');
-define('MAINTENANCE_CSS_PATH',  ROOTPATH . 'smitassets/maintenance/css/');
-define('MAINTENANCE_JS_PATH',   ROOTPATH . 'smitassets/maintenance/js/');
+define('COMINGSOON_CSS_PATH',   BASE_URL . 'smitassets/comingsoon/css/');
+define('COMINGSOON_JS_PATH',    BASE_URL . 'smitassets/comingsoon/js/');
+define('MAINTENANCE_CSS_PATH',  BASE_URL . 'smitassets/maintenance/css/');
+define('MAINTENANCE_JS_PATH',   BASE_URL . 'smitassets/maintenance/js/');
 
 /*
 |--------------------------------------------------------------------------
 | Export Assets Path Settings
 |--------------------------------------------------------------------------
 */
-define('EXPORT_PATH', ROOTPATH . 'smitassets/export/');
+define('EXPORT_PATH', BASE_URL . 'smitassets/export/');
 
 /*
 |--------------------------------------------------------------------------
