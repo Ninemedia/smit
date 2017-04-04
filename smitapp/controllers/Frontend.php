@@ -75,11 +75,12 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
         
@@ -89,6 +90,9 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'aboutme/profile';
+        
+        
+        
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
