@@ -7,16 +7,16 @@
                 <div class="table-container table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="user_list" data-url="<?php echo base_url('userlistdata'); ?>">
                         <thead>
-    						<tr role="row" class="heading">
+    						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
     							<th class="width15 text-center">Username</th>
     							<th class="width20">Nama</th>
                                 <th class="width15 text-center">Tipe</th>
                                 <th class="width10 text-center">Status</th>
                                 <th class="width15 text-center">Tanggal Daftar</th>
-    							<th class="width20 text-center">Actions</th>
+    							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
     						</tr>
-                            <tr role="row" class="filter">
+                            <tr role="row" class="filter display-hide table-filter">
     							<td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>

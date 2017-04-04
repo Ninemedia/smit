@@ -24,16 +24,16 @@
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
                         <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('incubationsetlist'); ?>">
                             <thead>
-        						<tr role="row" class="heading">
+        						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
         							<th class="width15 text-center">Tanggal<br />Mulai Seleksi</th>
         							<th class="width15 text-center">Tanggal<br />Selesai Seleksi</th>
                                     <th class="width15 text-center">Tanggal<br />Mulai Pelaksanaan</th>
                                     <th class="width15 text-center">Tanggal<br />Selesai Pelaksanaan</th>
                                     <th class="width15 text-center">Status</th>
-        							<th class="width15 text-center">Actions</th>
+        							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
         						</tr>
-                                <tr role="row" class="filter">
+                                <tr role="row" class="filter display-hide table-filter">
         							<td></td>
         							<td>
         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_start_min" placeholder="From" />

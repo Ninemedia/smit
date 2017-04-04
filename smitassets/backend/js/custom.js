@@ -7,6 +7,7 @@ $(function () {
         setSkinListHeightAndScroll();
         setSettingListHeightAndScroll();
     });
+    tableSearchFilterToggle();
 });
 
 //Skin tab content set height and show scroll
@@ -54,6 +55,14 @@ function activateNotificationAndTasksScroll() {
         alwaysVisible: false,
         borderRadius: '0',
         railBorderRadius: '0'
+    });
+}
+
+// Table Search Filter Toggle
+function tableSearchFilterToggle() {
+    $("body").delegate( "button.table-search", "click", function( event ) {
+        event.preventDefault();
+        $('tr.table-filter').toggle();
     });
 }
 

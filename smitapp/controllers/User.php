@@ -566,7 +566,6 @@ class User extends SMIT_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
-            'User.init();',
         ));
 
         $data['title']          = TITLE . 'Daftar Pengguna';
