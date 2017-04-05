@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>REGISTRASI PENGGUNA BARU</h2></div>
+            <div class="header"><h2>PENDAFTARAN PENGGUNA BARU</h2></div>
             <div class="body">
                 <!-- BEGIN SIGN UP FORM -->
                 <?php echo form_open( base_url('registration'), array( 'id'=>'sign-up-form', 'role'=>'form' ) ); ?>

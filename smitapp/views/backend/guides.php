@@ -15,6 +15,7 @@
                 </ul>
             </div>
             <div class="body">
+                <?php if($is_admin): ?>
                 <div class="table-container table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
                         <thead>
@@ -57,10 +58,13 @@
                         </tbody>
                     </table>
                 </div>
+                <?php else: ?>
+                <?php endif ?> 
             </div>
         </div>
         <!-- End List Guide Files -->
-    
+        
+        <?php if($is_admin): ?>
         <!-- Start Add Guide Files -->
         <div class="card">
             <div class="header"><h2>Tambah Berkas Panduan</h2></div>
@@ -128,6 +132,7 @@
             </div>
         </div>
         <!-- End Add Guide Files -->
+        <?php endif ?> 
 
     </div>
 </div>

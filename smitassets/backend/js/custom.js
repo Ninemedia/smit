@@ -103,7 +103,7 @@ $("body").delegate( "a.userconfirm", "click", function( event ) {
     var table_container = $('#user_list').parents('.dataTables_wrapper');
     var msg = '';
     
-    bootbox.confirm("Anda yakin akan mengkonfirmasi user ini?", function(result) {
+    bootbox.confirm("Anda yakin akan mengkonfirmasi pengguna ini?", function(result) {
         if( result == true ){
             $.ajax({
                 type:   "POST",

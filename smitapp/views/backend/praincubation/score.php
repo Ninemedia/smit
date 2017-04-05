@@ -30,16 +30,16 @@
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('incubation/juryscorelistdata/'.$user->id.'/1'); ?>">
                                     <thead>
-                						<tr role="row" class="heading">
+                						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
                 							<th class="width15 text-center">Username</th>
                 							<th class="width25">Nama</th>
                                             <th class="width15 text-center">Judul Kegiatan</th>
                                             <th class="width10 text-center">Status</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
-                							<th class="width20 text-center">Actions</th>
-                						</tr>
-                                        <tr role="row" class="filter">
+                							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+   						                </tr>
+                                        <tr role="row" class="filter display-hide table-filter">
                 							<td></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
@@ -188,7 +188,7 @@
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('incubation/juryscorelistdata/'.$user->id.'/2'); ?>">
                                     <thead>
-                						<tr role="row" class="heading">
+                						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
                 							<th class="width15 text-center">Username</th>
                 							<th class="width25">Nama</th>
@@ -196,9 +196,9 @@
                                             <th class="width10 text-center">Status</th>
                 							<th class="width5 text-center">Nilai</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
-                							<th class="width20 text-center">Actions</th>
-                						</tr>
-                                        <tr role="row" class="filter">
+                							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+   						                </tr>
+                                        <tr role="row" class="filter display-hide table-filter">
                 							<td></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
