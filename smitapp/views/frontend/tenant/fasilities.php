@@ -53,7 +53,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -284,7 +284,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
