@@ -147,16 +147,14 @@ class Incubation extends User_Controller {
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
         $s_step             = $this->input->post('search_step');
         $s_step             = smit_isset($s_step, '');
-        $s_jury             = $this->input->post('search_jury');
-        $s_jury             = smit_isset($s_jury, '');
-        $s_extension        = $this->input->post('search_extension');
-        $s_extension        = smit_isset($s_extension, '');
         
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -165,23 +163,21 @@ class Incubation extends User_Controller {
         
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); 
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = "%s%"'); }
-        if( !empty($s_jury) )           { $condition .= str_replace('%s%', $s_jury, ' AND %jury% LIKE "%%s%%"'); }
+        if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = "%s%"'); }}
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        if( !empty($s_extension) )      { $condition .= str_replace('%s%', $s_extension, ' AND %extension% LIKE "%%s%%"'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%extension% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%step% ' . $sort; }
-        elseif( $column == 7 )  { $order_by .= '%jury% ' . $sort; }
-        elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
         
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -206,21 +202,23 @@ class Incubation extends User_Controller {
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 
                 //Extension
+                $workunit_type = smit_workunit_type($row->workunit);
+                /*
                 if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
                 elseif($row->extension == 'doc')    { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
                 elseif($row->extension == 'docx')   { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
                 elseif($row->extension == 'xls')    { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
                 elseif($row->extension == 'xlsx')   { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
+                */
 
                 $records["aaData"][] = array(
                     smit_center($i),
                     '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                     strtoupper($row->name),
+                    strtoupper($workunit_type->workunit_name),
                     '<a href="'.base_url('upload/incubationselection/'.$row->uniquecode).'">' . $row->event_title . '</a>',
                     smit_center( $status ),
-                    smit_center( $extension ),
                     smit_center( $row->step ),
-                    $row->jury_id > 0 ? smit_center( strtoupper($row->jury_name) ) : smit_center(''),
                     smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );

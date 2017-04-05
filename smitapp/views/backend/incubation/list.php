@@ -14,11 +14,10 @@
     							<th class="width5">No</th>
     							<th class="width15 text-center">Username</th>
     							<th class="width25">Nama</th>
+                                <th class="width10 text-center">Satuan Kerja</th>
                                 <th class="width15 text-center">Judul Kegiatan</th>
                                 <th class="width10 text-center">Status</th>
-                                <th class="width10 text-center">Jenis File</th>
     							<th class="width10 text-center">Tahap</th>
-    							<th class="width15 text-center">Pemeriksa</th>
                                 <th class="width15 text-center">Tanggal Daftar</th>
     							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     						</tr>
@@ -26,6 +25,20 @@
     							<td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
+                                <td>
+                                    <?php
+                                    	$workunit_type = smit_workunit_type();
+                                        $option = array('' => 'Pilih...');
+                                        $extra = 'name="search_workunit" class="form-control show-tick"';
+            
+                                        if( !empty($workunit_type) ){
+                                            foreach($workunit_type as $val){
+                                                $option[$val->workunit_id] = $val->workunit_name;
+                                            }
+                                        }
+                                        echo form_dropdown('workunit_type',$option,'',$extra);
+                                    ?>
+                                </td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td>
                                     <select name="search_status" class="form-control form-filter input-sm">
@@ -41,23 +54,12 @@
     								</select>
                                 </td>
                                 <td>
-                                    <select name="search_extension" class="form-control form-filter input-sm">
-    									<option value="">Pilih...</option>
-    									<option value="pdf">PDF</option>
-    									<option value="doc">DOC</option>
-    									<option value="docx">DOCX</option>
-    									<option value="xls">XLS</option>
-    									<option value="xlsx">XLSX</option>
-    								</select>
-                                </td>
-                                <td>
                                     <select name="search_step" class="form-control form-filter input-sm">
     									<option value="">Pilih...</option>
     									<option value="<?php echo ONE; ?>">Tahap 1</option>
     									<option value="<?php echo TWO; ?>">Tahap 2</option>
     								</select>
                                 </td>
-    							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_jury" /></td>
                                 <td>
     								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
     								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
