@@ -6,13 +6,13 @@
     				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
     			</div>
     			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider2.jpg" alt="" />
+    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
     			</div>
     			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider3.jpg" alt="" />
+    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
     			</div>
     			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider4.jpg" alt="" />
+    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
     			</div>
 			</div>
 		</div>
