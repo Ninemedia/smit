@@ -555,6 +555,7 @@ class PraIncubation extends User_Controller {
         $post_selection_date_agreement          = $this->input->post('selection_date_agreement');
         $post_selection_imp_date_start          = $this->input->post('selection_imp_date_start');
         $post_selection_imp_date_end            = $this->input->post('selection_imp_date_end');
+        $post_selection_desc                    = $this->input->post('selection_desc');
         $post_selection_files                   = $this->input->post('selection_files');
         $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
         $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
@@ -649,36 +650,32 @@ class PraIncubation extends User_Controller {
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
         
-        $s_date_start_min       = $this->input->post('search_date_start_min');
-        $s_date_start_min       = smit_isset($s_date_start_min, '');
-        $s_date_start_max       = $this->input->post('search_date_start_max');
-        $s_date_start_max       = smit_isset($s_date_start_max, '');
-        $s_date_end_min         = $this->input->post('search_date_end_min');
-        $s_date_end_min         = smit_isset($s_date_end_min, '');
-        $s_date_end_max         = $this->input->post('search_date_end_max');
-        $s_date_end_max         = smit_isset($s_date_end_max, '');
-        $s_impdate_start_min    = $this->input->post('search_impdate_start_min');
-        $s_impdate_start_min    = smit_isset($s_impdate_start_min, '');
-        $s_impdate_start_max    = $this->input->post('search_impdate_start_max');
-        $s_impdate_start_max    = smit_isset($s_impdate_start_max, '');
-        $s_impdate_end_min      = $this->input->post('search_impdate_end_min');
-        $s_impdate_end_min      = smit_isset($s_impdate_end_min, '');
-        $s_impdate_end_max      = $this->input->post('search_impdate_end_max');
-        $s_impdate_end_max      = smit_isset($s_impdate_end_max, '');
+        $s_date_pub_min         = $this->input->post('selection_date_publication_min');
+        $s_date_pub_min         = smit_isset($s_date_pub_min, '');
+        $s_date_pub_max         = $this->input->post('selection_date_publication_max');
+        $s_date_pub_max         = smit_isset($s_date_pub_max, '');
         
-        if ( !empty($s_date_start_min) )        { $condition .= ' AND %date_start% >= '.strtotime($s_date_start_min).''; }
-        if ( !empty($s_date_start_max) )        { $condition .= ' AND %date_start% <= '.strtotime($s_date_start_max).''; }
-        if ( !empty($s_date_end_min) )          { $condition .= ' AND %date_end% >= '.strtotime($s_date_end_min).''; }
-        if ( !empty($s_date_end_max) )          { $condition .= ' AND %date_end% <= '.strtotime($s_date_end_max).''; }
-        if ( !empty($s_impdate_start_min) )     { $condition .= ' AND %impdate_start% >= '.strtotime($s_impdate_start_min).''; }
-        if ( !empty($s_impdate_start_max) )     { $condition .= ' AND %impdate_start% <= '.strtotime($s_impdate_start_max).''; }
-        if ( !empty($s_impdate_end_min) )       { $condition .= ' AND %impdate_end% >= '.strtotime($s_impdate_end_min).''; }
-        if ( !empty($s_impdate_end_max) )       { $condition .= ' AND %impdate_end% <= '.strtotime($s_impdate_end_max).''; }
+        $s_date_reg_min         = $this->input->post('search_date_reg_min');
+        $s_date_reg_min         = smit_isset($s_date_reg_min, '');
+        $s_date_reg_max         = $this->input->post('search_date_reg_max');
+        $s_date_reg_max         = smit_isset($s_date_reg_max, '');
         
-        if( $column == 1 )      { $order_by .= '%date_start% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%date_end% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%impdate_start% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%impdate_end% ' . $sort; }
+        $s_desc                 = $this->input->post('search_desc');
+        $s_desc                 = smit_isset($s_desc, '');
+        $s_status               = $this->input->post('search_status');
+        $s_status               = smit_isset($s_status, '');
+        
+        if ( !empty($s_date_pub_min) )  { $condition .= ' AND %date_publication% >= '.strtotime($s_date_pub_min).''; }
+        if ( !empty($s_date_pub_max) )  { $condition .= ' AND %date_publication% <= '.strtotime($s_date_pub_max).''; }
+        if ( !empty($s_date_reg_min) )  { $condition .= ' AND %date_reg_start% >= '.strtotime($s_date_reg_min).''; }
+        if ( !empty($s_date_reg_max) )  { $condition .= ' AND %date_reg_start% <= '.strtotime($s_date_reg_max).''; }
+        if ( !empty($s_desc) )          { $condition .= ' AND %desc% LIKE "%'.$s_desc.'%"'; }
+        if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
+        
+        if( $column == 1 )      { $order_by .= '%date_publication% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%date_reg_start% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%desc% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
         
         $praincubationset_list = $this->Model_Praincubation->get_all_praincubation_setting($limit, $offset, $condition, $order_by);
 
@@ -690,10 +687,10 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($praincubationset_list as $row){
-                $btn_details    = '<a href="'.base_url('incubationsetdetails/'.$row->uniquecode).'" 
-                    class="incubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
+                $btn_details    = '<a href="'.base_url('praincubationsetdetails/'.$row->uniquecode).'" 
+                    class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('incubationsetclose/'.$row->uniquecode).'" class="incubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                '<a href="'.base_url('praincubationsetclose/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
                 
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
@@ -701,10 +698,9 @@ class PraIncubation extends User_Controller {
                 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    smit_center( date('Y-m-d H:i', strtotime($row->selection_date_start)) ),
-                    smit_center( date('Y-m-d H:i', strtotime($row->selection_date_end)) ),
-                    smit_center( date('Y-m-d H:i', strtotime($row->selection_imp_date_start)) ),
-                    smit_center( date('Y-m-d H:i', strtotime($row->selection_imp_date_end)) ),
+                    smit_center( date('d F Y', strtotime($row->selection_date_publication)) ),
+                    smit_center( date('d F Y', strtotime($row->selection_date_reg_start)) . ' - ' . date('d F Y', strtotime($row->selection_date_reg_end)) ),
+                    $row->selection_desc,
                     smit_center($status),
                     smit_center($btn_details . ' ' . $btn_close),
                 );

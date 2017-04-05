@@ -26,30 +26,24 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width15 text-center">Tanggal<br />Mulai Seleksi</th>
-        							<th class="width15 text-center">Tanggal<br />Selesai Seleksi</th>
-                                    <th class="width15 text-center">Tanggal<br />Mulai Pelaksanaan</th>
-                                    <th class="width15 text-center">Tanggal<br />Selesai Pelaksanaan</th>
+        							<th class="width20 text-center">Tanggal<br />Publikasi</th>
+        							<th class="width25 text-center">Tanggal<br />Pendaftaran Online</th>
+                                    <th class="width20 text-center">Keterangan</th>
                                     <th class="width15 text-center">Status</th>
         							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     				            </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
         							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_start_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_start_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="selection_date_publication_min" placeholder="From" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="selection_date_publication_max" placeholder="To" />
         							</td>
         							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_end_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_end_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_reg_min" placeholder="From" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_reg_max" placeholder="To" />
         							</td>
                                     <td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_impdate_start_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_impdate_start_max" placeholder="To" />
-        							</td>
-                                    <td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_impdate_end_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_impdate_end_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm" name="search_desc" placeholder="Cari..." />
         							</td>
                                     <td>
                                         <select name="search_status" class="form-control form-filter input-sm def">
@@ -272,7 +266,7 @@
                                 <h2 class="card-inside-title">Penetapan &amp; Penandatanganan Perjanjian</h2>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="selection_date_agreement form-control" placeholder="Pilih tanggal..." name="selection_date_result" required>
+                                        <input type="text" class="selection_date_agreement form-control" placeholder="Pilih tanggal..." name="selection_date_agreement" required>
                                     </div>
                                 </div>
                                 
@@ -294,7 +288,7 @@
                                     </div>
                                 </div>
                                 
-                                <label class="control-label">Keterangan</label>
+                                <h2 class="card-inside-title">Keterangan</h2>
                                 <div class="form-group">
                                     <div class="form-line">
                                         <?php 

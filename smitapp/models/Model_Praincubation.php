@@ -410,29 +410,31 @@ class Model_Praincubation extends SMIT_Model{
      */
     function get_all_praincubation_setting($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
-            $conditions = str_replace("%id%",           "id", $conditions);
-            $conditions = str_replace("%date_start%",   "selection_date_start", $conditions);
-            $conditions = str_replace("%date_end%",     "selection_date_end", $conditions);
-            $conditions = str_replace("%impdate_start%","selection_imp_date_start", $conditions);
-            $conditions = str_replace("%impdate_end%",  "selection_imp_date_end", $conditions);
-            $conditions = str_replace("%files%",        "selection_files", $conditions);
-            $conditions = str_replace("%juri_phase1%",  "selection_juri_phase1", $conditions);
-            $conditions = str_replace("%juri_phase2%",  "selection_juri_phase2", $conditions);
-            $conditions = str_replace("%status%",       "status", $conditions);
-            $conditions = str_replace("%datecreated%",  "datecreated", $conditions);
+            $conditions = str_replace("%id%",               "id", $conditions);
+            $conditions = str_replace("%date_publication%", "selection_date_publication", $conditions);
+            $conditions = str_replace("%date_reg_start%",   "selection_date_reg_start", $conditions);
+            $conditions = str_replace("%date_reg_end%",     "selection_date_reg_end", $conditions);
+            $conditions = str_replace("%impdate_start%",    "selection_imp_date_start", $conditions);
+            $conditions = str_replace("%impdate_end%",      "selection_imp_date_end", $conditions);
+            $conditions = str_replace("%files%",            "selection_files", $conditions);
+            $conditions = str_replace("%juri_phase1%",      "selection_juri_phase1", $conditions);
+            $conditions = str_replace("%juri_phase2%",      "selection_juri_phase2", $conditions);
+            $conditions = str_replace("%status%",           "status", $conditions);
+            $conditions = str_replace("%datecreated%",      "datecreated", $conditions);
         }
         
         if( !empty($order_by) ){
-            $order_by = str_replace("%id%",             "id", $order_by);
-            $order_by = str_replace("%date_start%",     "selection_date_start", $order_by);
-            $order_by = str_replace("%date_end%",       "selection_date_end", $order_by);
-            $order_by = str_replace("%impdate_start%",  "selection_imp_date_start", $order_by);
-            $order_by = str_replace("%impdate_end%",    "selection_imp_date_end", $order_by);
-            $order_by = str_replace("%files%",          "selection_files", $order_by);
-            $order_by = str_replace("%juri_phase1%",    "selection_juri_phase1", $order_by);
-            $order_by = str_replace("%juri_phase2%",    "selection_juri_phase2", $order_by);
-            $order_by = str_replace("%status%",         "status", $order_by);
-            $order_by = str_replace("%datecreated%",    "datecreated", $order_by);
+            $order_by = str_replace("%id%",                 "id", $order_by);
+            $order_by = str_replace("%date_publication%",   "selection_date_publication", $order_by);
+            $order_by = str_replace("%date_reg_start%",     "selection_date_reg_start", $order_by);
+            $order_by = str_replace("%date_reg_end%",       "selection_date_reg_end", $order_by);
+            $order_by = str_replace("%impdate_start%",      "selection_imp_date_start", $order_by);
+            $order_by = str_replace("%impdate_end%",        "selection_imp_date_end", $order_by);
+            $order_by = str_replace("%files%",              "selection_files", $order_by);
+            $order_by = str_replace("%juri_phase1%",        "selection_juri_phase1", $order_by);
+            $order_by = str_replace("%juri_phase2%",        "selection_juri_phase2", $order_by);
+            $order_by = str_replace("%status%",             "status", $order_by);
+            $order_by = str_replace("%datecreated%",        "datecreated", $order_by);
         }
         
         $sql = 'SELECT * FROM ' . $this->praincubation_selection_set. '';
