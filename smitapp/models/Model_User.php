@@ -304,6 +304,23 @@ class Model_User extends SMIT_Model{
         return false;
     }
     
+    /**
+     * Get user newest
+     * 
+     * @param   Int     $limit  (Optional)  Limit of User
+     * @return  stdClass of user newest.
+     */
+    function get_user_newest($limit=1){
+        $sql    = 'SELECT * FROM '.$this->_user.' WHERE status = 1 ORDER BY datecreated DESC LIMIT ' . $limit;
+        $query  = $this->db->query($sql);
+
+        if($limit==1){
+            return $query->row();
+        }else{
+            return $query->result();
+        }
+    }
+    
     // ---------------------------------------------------------------------------------
     // Decode and Encode Password
     // ---------------------------------------------------------------------------------
