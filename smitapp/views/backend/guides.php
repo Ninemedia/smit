@@ -17,6 +17,9 @@
             <div class="body">
                 <?php if($is_admin): ?>
                 <div class="table-container table-responsive">
+                    <div class="table-actions-wrapper">                           
+                        <a href="<?php echo base_url('prainkubasi/konfirmall'); ?>" class="btn btn-sm btn-success praincubationconfirm">Tambah Panduan</a>     
+            		</div>
                     <table class="table table-striped table-bordered table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
@@ -100,7 +103,7 @@
                                     ( !empty($post) ? smit_isset($post['guide_title'],'') : '' ),
                                     array(
                                         'class'=>'form-control text-uppercase',
-                                        'placeholder'=>'Masukan Judul File...',
+                                        'placeholder'=>'Masukan Judul Berkas...',
                                         'required'=>'required'
                                     )
                                 ); 
@@ -127,7 +130,7 @@
                         <label>Berkas Panduan</label>
                         <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
                     </div>
-                    <button class="btn btn-sm bg-blue waves-effect" type="submit">UPLOAD</button>
+                    <button class="btn btn-sm bg-blue waves-effect" type="submit">UNGGAH</button>
                 <?php echo form_close(); ?>
             </div>
         </div>
