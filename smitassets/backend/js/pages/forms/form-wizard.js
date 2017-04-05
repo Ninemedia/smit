@@ -1,9 +1,9 @@
 var Wizard = function () {
 
     // Selection Incubation Wizard Validation
-    var handleSelectionIncubationWizard = function(){
+    var handleSelectionPraIncubationWizard = function(){
         
-        var form = $('#selection_incubation_wizard');
+        var form = $('#selection_praincubation_wizard');
         form.steps({
             headerTag: 'h3',
             bodyTag: 'section',
@@ -43,54 +43,76 @@ var Wizard = function () {
         });
         formWizardValidate(form);
         
-        //Datetimepicker plugin
-        $('.selection_date_end, .selection_det_date_end').bootstrapMaterialDatePicker({
-            format: 'YYYY-MM-DD H:mm',
-            clearButton: true,
-            weekStart: 1,
-        }).on('change', function(e, date){
-            $(this).parent().removeClass('error');
-            $(this).parent().parent().find('label').remove();
-        });
-        
-        $('.selection_date_start, .selection_det_date_start').bootstrapMaterialDatePicker({ 
-            format: 'YYYY-MM-DD H:mm',
-            clearButton: true,
-            weekStart: 1,
-        }).on('change', function(e, date){
-            $('.selection_date_end').bootstrapMaterialDatePicker('setMinDate', date);
-            $(this).parent().removeClass('error');
-            $(this).parent().parent().find('label').remove();
-        });
-        
-        $('.selection_imp_date_start, .selection_det_imp_date_start').bootstrapMaterialDatePicker({ 
-            format: 'YYYY-MM-DD H:mm',
-            clearButton: true,
-            weekStart: 1,
-        }).on('change', function(e, date){
-            $(this).parent().removeClass('error');
-            $(this).parent().parent().find('label').remove();
-        });
-        
-        $('.selection_imp_date_end, .selection_det_imp_date_end').bootstrapMaterialDatePicker({ 
-            format: 'YYYY-MM-DD H:mm',
-            clearButton: true,
-            weekStart: 1,
-        }).on('change', function(e, date){
-            $(this).parent().removeClass('error');
-            $(this).parent().parent().find('label').remove();
-        });
+        //Datetimepicker plugin        
+        selectDatePicker( $('.selection_date_publication'),'',$('.selection_date_reg_start') );
+        selectDatePicker( $('.selection_date_reg_start'),'',$('.selection_date_reg_end') );
+        selectDatePicker( $('.selection_date_reg_end'),'',$('.selection_date_adm_start') );
+        selectDatePicker( $('.selection_date_adm_start'),'',$('.selection_date_adm_end') );
+        selectDatePicker( $('.selection_date_adm_end'),'',$('.selection_date_invitation_send') );
+        selectDatePicker( $('.selection_date_invitation_send'),'',$('.selection_date_interview_start') );
+        selectDatePicker( $('.selection_date_interview_start'),'',$('.selection_date_interview_end') );
+        selectDatePicker( $('.selection_date_interview_end'),'',$('.selection_date_result') );
+        selectDatePicker( $('.selection_date_result'),'',$('.selection_date_proposal_start') );
+        selectDatePicker( $('.selection_date_proposal_start'),'',$('.selection_date_proposal_end') );
+        selectDatePicker( $('.selection_date_proposal_end'),'',$('.selection_date_agreement') );
+        selectDatePicker( $('.selection_date_agreement'),'',$('.selection_imp_date_start') );
+        selectDatePicker( $('.selection_imp_date_start'),'',$('.selection_imp_date_end') );
     };
+    
+    var selectDatePicker = function(el, formatdate='', el_end=''){
+        //Datetimepicker plugin
+        $(el).bootstrapMaterialDatePicker({
+            format: formatdate!="" ? formatdate : 'YYYY-MM-DD H:mm',
+            clearButton: true,
+            weekStart: 1,
+        }).on('change', function(e, date){
+            if( el_end!="" ){
+                $(el_end).bootstrapMaterialDatePicker('setMinDate', date);
+            }
+            $(el).parent().removeClass('error');
+            $(el).parent().parent().find('label').remove();
+        });
+    }
 
     var formWizardValidate = function(form){
         form.validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
-                selection_date_start: {
+                selection_date_publication: {
                     required: true,
                 },
-                selection_date_end: {
+                selection_date_reg_start: {
+                    required: true,
+                },
+                selection_date_reg_end: {
+                    required: true,
+                },
+                selection_date_adm_start: {
+                    required: true,
+                },
+                selection_date_adm_end: {
+                    required: true,
+                },
+                selection_date_invitation_send: {
+                    required: true,
+                },
+                selection_date_interview_start: {
+                    required: true,
+                },
+                selection_date_interview_end: {
+                    required: true,
+                },
+                selection_date_result: {
+                    required: true,
+                },
+                selection_date_proposal_start: {
+                    required: true,
+                },
+                selection_date_proposal_end: {
+                    required: true,
+                },
+                selection_date_agreement: {
                     required: true,
                 },
                 selection_imp_date_start: {
@@ -110,17 +132,47 @@ var Wizard = function () {
                 }
             },
             messages: {
-                selection_date_start: {
-                    required: "Tanggal Pembukaan Seleksi harus di isi."
+                selection_date_publication: {
+                    required: "Tanggal Publikasi harus di isi",
                 },
-                selection_date_end: {
-                    required: "Tanggal Penutupan Seleksi harus di isi."
+                selection_date_reg_start: {
+                    required: "Tanggal mulai pendaftaran online harus di isi",
+                },
+                selection_date_reg_end: {
+                    required: "Tanggal selesai pendaftaran online harus di isi",
+                },
+                selection_date_adm_start: {
+                    required: "Tanggal mulai seleksi administrasi harus di isi",
+                },
+                selection_date_adm_end: {
+                    required: "Tanggal selesai seleksi administrasi harus di isi",
+                },
+                selection_date_invitation_send: {
+                    required: "Tanggal undangan presentasi harus di isi",
+                },
+                selection_date_interview_start: {
+                    required: "Tanggal mulai seleksi presentasi harus di isi",
+                },
+                selection_date_interview_end: {
+                    required: "Tanggal selesai seleksi presentasi harus di isi",
+                },
+                selection_date_result: {
+                    required: "Tanggal pengumuman hasil seleksi harus di isi",
+                },
+                selection_date_proposal_start: {
+                    required: "Tanggal mulai perbaikan proposal harus di isi",
+                },
+                selection_date_proposal_end: {
+                    required: "Tanggal selesai perbaikan proposal harus di isi",
+                },
+                selection_date_agreement: {
+                    required: "Tanggal penetapan &amp; penandatanganan perjanjian harus di isi",
                 },
                 selection_imp_date_start: {
-                    required: "Tanggal Pembukaan Pelaksanaan Seleksi harus di isi."
+                    required: "Tanggal mulai pelaksanaan kegiatan harus di isi",
                 },
                 selection_imp_date_end: {
-                    required: "Tanggal Penutupan Pelaksanaan Seleksi harus di isi."
+                    required: "Tanggal selesai pelaksanaan kegiatan harus di isi",
                 },
                 selection_files: {
                     required: "Silahkan pilih berkas panduan",
@@ -156,12 +208,12 @@ var Wizard = function () {
     };
     
     // Save Registered Member
-    $('#do_save_selectionincubationsetting').click(function(e){
+    $('#do_save_selectionpraincubationsetting').click(function(e){
         e.preventDefault();
-        processSaveSelectionIncubationSetting($('#selection_incubation_wizard'));
+        processSaveSelectionPraIncubationSetting($('#selection_praincubation_wizard'));
     });
     
-    var processSaveSelectionIncubationSetting = function( form ) {
+    var processSaveSelectionPraIncubationSetting = function( form ) {
         var url     = form.attr( 'action' );
         var data    = new FormData(form[0]);
         var msg     = $('#alert');
@@ -187,8 +239,8 @@ var Wizard = function () {
                     msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                 }else{
                     msg.removeClass('alert-danger').addClass('alert-success').hide();
-                    $('#selection_incubation_wizard').steps('reset');
-                    $('#selection_incubation_wizard')[0].reset();
+                    $('#selection_praincubation_wizard').steps('reset');
+                    $('#selection_praincubation_wizard')[0].reset();
                     $('#selection_list_tab').trigger('click');
                 }
 			}
@@ -203,14 +255,14 @@ var Wizard = function () {
     // Selection Setting Tabs
     $('#selection_list_tab').click(function(e){
         e.preventDefault();
-        $('#btn_incubation_setting_list').trigger('click');
+        $('#btn_praincubation_setting_list').trigger('click');
         
     });
 
     return {
         //main function to initiate the module
         init: function () {
-            handleSelectionIncubationWizard();
+            handleSelectionPraIncubationWizard();
         }
     };
 }();

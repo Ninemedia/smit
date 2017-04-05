@@ -76,35 +76,45 @@ $route['signup']                        = "user/signup";
 // -------------------------------------------------------------------------
 // Backend Page Routes
 // -------------------------------------------------------------------------
-$route['beranda']                     = "backend";
+$route['beranda']                       = "backend";
 // Pra Incubation Page Routes
-$route['prainkubasi/daftar']            = "praincubation/praincubationlist";
-$route['prainkubasi/pengaturan']        = "praincubation/praincubationsetting";
-$route['prainkubasi/nilai']             = "praincubation/praincubationscore";
-$route['prainkubasi/laporan']           = "praincubation/praincubationreport";
-$route['prainkubasi/konfirmall']        = "praincubation/praincubationconfirm";
-$route['prainkubasi/konfirmall/(:any)'] = "praincubation/praincubationconfirm/$1";
+$route['selectionsetting']                      = "praincubation/praincubationsettingsave";
+$route['prainkubasi/daftar']                    = "praincubation/praincubationlist";
+$route['prainkubasi/pengaturan']                = "praincubation/praincubationsetting";
+$route['prainkubasi/nilai']                     = "praincubation/praincubationscore";
+$route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
+$route['prainkubasi/konfirmall']                = "praincubation/praincubationconfirm";
+$route['prainkubasi/konfirmall/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmall']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmall/(:any)'] = "praincubation/praincubationreportconfirm/$1";
 
-// Incubation Page Routes
-$route['inkubasi/daftar']               = "incubation/incubationlist";
-$route['inkubasi/pengaturan']           = "incubation/incubationsetting";
-$route['inkubasi/nilai']                = "incubation/incubationscore";
-$route['inkubasi/laporan']              = "incubation/incubationreport";
+$route['praincubationsetlist']                  = "praincubation/praincubationsettinglistdata";
+$route['praincubationsetdetails/(:any)']        = "praincubation/praincubationsettingdetails/$1";
+$route['praincubationsetclose/(:any)']          = "praincubation/praincubationsettingclose/$1";
+$route['praincubationconfirm']                  = "praincubation/praincubationconfirm";
+$route['praincubationconfirm/(:any)']           = "praincubation/praincubationconfirm/$1";
+$route['praincubationreportconfirm']            = "praincubation/praincubationreportconfirm";
+$route['praincubationreportconfirm/(:any)']     = "praincubation/praincubationreportconfirm/$1";
+$route['praincubationscoreact/(:any)/(:any)']   = "praincubation/praincubationscoreaction/$1/$2";
+$route['praincubationdownloadfile/(:any)']      = "praincubation/praincubationdownloadfile/$1";
 
-$route['selectionsetting']              = "incubation/incubationsettingsave";
-$route['incubationsetlist']             = "incubation/incubationsettinglistdata";
-$route['incubationsetdetails/(:any)']   = "incubation/incubationsettingdetails/$1";
-$route['incubationsetclose/(:any)']     = "incubation/incubationsettingclose/$1";
-$route['incubationconfirm']             = "incubation/incubationconfirm";
-$route['incubationconfirm/(:any)']      = "incubation/incubationconfirm/$1";
-$route['incubationreportconfirm']       = "incubation/incubationreportconfirm";
-$route['incubationreportconfirm/(:any)']= "incubation/incubationreportconfirm/$1";
-$route['incubationscoreact/(:any)/(:any)'] = "incubation/incubationscoreaction/$1/$2";
-$route['incubationdownloadfile/(:any)'] = "incubation/incubationdownloadfile/$1";
-$route['juryscoresetdetails/(:any)']    = "incubation/juryscoredatadetails/$1";
-$route['juryscoresetnilai/(:any)']      = "incubation/juryscoredatanilai/$1";
+// Incubation Page Routes
+$route['inkubasi/daftar']                       = "incubation/incubationlist";
+$route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
+$route['inkubasi/nilai']                        = "incubation/incubationscore";
+$route['inkubasi/laporan']                      = "incubation/incubationreport";
+
+$route['incubationsetlist']                     = "incubation/incubationsettinglistdata";
+$route['incubationsetdetails/(:any)']           = "incubation/incubationsettingdetails/$1";
+$route['incubationsetclose/(:any)']             = "incubation/incubationsettingclose/$1";
+$route['incubationconfirm']                     = "incubation/incubationconfirm";
+$route['incubationconfirm/(:any)']              = "incubation/incubationconfirm/$1";
+$route['incubationreportconfirm']               = "incubation/incubationreportconfirm";
+$route['incubationreportconfirm/(:any)']        = "incubation/incubationreportconfirm/$1";
+$route['incubationscoreact/(:any)/(:any)']      = "incubation/incubationscoreaction/$1/$2";
+$route['incubationdownloadfile/(:any)']         = "incubation/incubationdownloadfile/$1";
+$route['juryscoresetdetails/(:any)']            = "incubation/juryscoredatadetails/$1";
+$route['juryscoresetnilai/(:any)']              = "incubation/juryscoredatanilai/$1";
 // Tenant Page Routes
 $route['tenants/blogs']                 = "tenant/tenantblogs";
 $route['tenants/daftar']                = "tenant/tenantdata";

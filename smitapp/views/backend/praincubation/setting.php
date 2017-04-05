@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Pengaturan Seleksi Inkubasi</h2></div>
+            <div class="header"><h2>Pengaturan Seleksi Pra-Inkubasi</h2></div>
             <div class="body">
             
                 <!-- Nav tabs -->
@@ -22,7 +22,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
-                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('incubationsetlist'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="praincubation_setting_list" data-url="<?php echo base_url('praincubationsetlist'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
@@ -59,7 +59,7 @@
     									</select>
                                     </td>
         							<td style="text-align: center;">
-        								<button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_incubation_setting_list">Search</button>
+        								<button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_setting_list">Search</button>
                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
         							</td>
         						</tr>
@@ -171,35 +171,142 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <div id="alert" class="alert display-hide"></div>
-                        <?php echo form_open_multipart( base_url('selectionsetting'), array( 'id'=>'selection_incubation_wizard', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( base_url('selectionsetting'), array( 'id'=>'selection_praincubation_wizard', 'role'=>'form' ) ); ?>
                             <h3>Tanggal Seleksi</h3>
                             <section>
-                                <h2 class="card-inside-title">Tanggal Mulai Seleksi</h2>
+                                <div class="alert bg-teal">Pengaturan Tanggal Tahap 1</div>
+                                <h2 class="card-inside-title">Publikasi</h2>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="selection_date_start form-control" placeholder="Pilih tanggal..." name="selection_date_start" required>
+                                        <input type="text" class="selection_date_publication form-control" placeholder="Pilih tanggal..." name="selection_date_publication" required>
                                     </div>
                                 </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Seleksi</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_date_end form-control" placeholder="Pilih tanggal..." name="selection_date_end" required>
-                                    </div>
-                                </div>
-                            </section>
                             
-                            <h3>Jadwal Pelaksanaan</h3>
-                            <section>
-                                <h2 class="card-inside-title">Tanggal Mulai Pelaksanaan</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_imp_date_start form-control" placeholder="Pilih tanggal..." name="selection_imp_date_start" required>
+                                <h2 class="card-inside-title">Pendaftaran Online</h2>
+                                <div class="row">
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_reg_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_reg_start" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_reg_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_reg_end" required>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Pelaksanaan</h2>
+                                
+                                <h2 class="card-inside-title">Seleksi Administrasi &amp; Substansi Awal</h2>
+                                <div class="row">
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_adm_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_adm_start" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_adm_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_adm_end" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h2 class="card-inside-title">Undangan Presentasi Dikirim</h2>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="selection_imp_date_end form-control" placeholder="Pilih tanggal..." name="selection_imp_date_end" required>
+                                        <input type="text" class="selection_date_invitation_send form-control" placeholder="Pilih tanggal..." name="selection_date_invitation_send" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert bg-teal">Pengaturan Tanggal Tahap 2</div>
+                                <h2 class="card-inside-title">Seleksi Presentasi &amp; Wawancara</h2>
+                                <div class="row">
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_interview_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_interview_start" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_interview_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_interview_end" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h2 class="card-inside-title">Pengumuman Hasil Seleksi</h2>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="selection_date_result form-control" placeholder="Pilih tanggal..." name="selection_date_result" required>
+                                    </div>
+                                </div>
+                                
+                                <h2 class="card-inside-title">Perbaikan Proposal &amp; Penelaahan Anggaran</h2>
+                                <div class="row">
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_proposal_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_proposal_start" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_date_proposal_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_proposal_end" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h2 class="card-inside-title">Penetapan &amp; Penandatanganan Perjanjian</h2>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="selection_date_agreement form-control" placeholder="Pilih tanggal..." name="selection_date_result" required>
+                                    </div>
+                                </div>
+                                
+                                <h2 class="card-inside-title">Pelaksanaan Kegiatan</h2>
+                                <div class="row">
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_imp_date_start form-control" placeholder="Pilih tanggal mulai..." name="selection_imp_date_start" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 bottom0">
+                                        <div class="form-group bottom0">
+                                            <div class="form-line">
+                                                <input type="text" class="selection_imp_date_end form-control" placeholder="Pilih tanggal selesai..." name="selection_imp_date_end" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <label class="control-label">Keterangan</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <?php 
+                                            echo form_textarea(
+                                                array(
+                                                    'name'=>'selection_desc',
+                                                    'class'=>'form-control no-resize',
+                                                    'rows'=>4,
+                                                    'placeholder'=>'Silahkan isi deskripsi dari pengaturan...'
+                                                )
+                                            ); 
+                                        ?>
                                     </div>
                                 </div>
                             </section>

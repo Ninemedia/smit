@@ -217,7 +217,7 @@ class Frontend extends Public_Controller {
             'Selection.init();',
         ));
         
-        $lss = smit_latest_incubation_setting();
+        $lss = smit_latest_praincubation_setting();
         
         $data['title']          = TITLE . 'Seleksi';
         $data['headstyles']     = $headstyles;

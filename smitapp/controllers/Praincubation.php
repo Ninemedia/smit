@@ -541,16 +541,36 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $post_selection_date_start      = $this->input->post('selection_date_start');
-        $post_selection_date_end        = $this->input->post('selection_date_end');
-        $post_selection_imp_date_start  = $this->input->post('selection_imp_date_start');
-        $post_selection_imp_date_end    = $this->input->post('selection_imp_date_end');
-        $post_selection_files           = $this->input->post('selection_files');
-        $post_selection_juri_phase1     = $this->input->post('selection_juri_phase1');
-        $post_selection_juri_phase2     = $this->input->post('selection_juri_phase2');
+        $post_selection_date_publication        = $this->input->post('selection_date_publication');
+        $post_selection_date_reg_start          = $this->input->post('selection_date_reg_start');
+        $post_selection_date_reg_end            = $this->input->post('selection_date_reg_end');
+        $post_selection_date_adm_start          = $this->input->post('selection_date_adm_start');
+        $post_selection_date_adm_end            = $this->input->post('selection_date_adm_end');
+        $post_selection_date_invitation_send    = $this->input->post('selection_date_invitation_send');
+        $post_selection_date_interview_start    = $this->input->post('selection_date_interview_start');
+        $post_selection_date_interview_end      = $this->input->post('selection_date_interview_end');
+        $post_selection_date_result             = $this->input->post('selection_date_result');
+        $post_selection_date_proposal_start     = $this->input->post('selection_date_proposal_start');
+        $post_selection_date_proposal_end       = $this->input->post('selection_date_proposal_end');
+        $post_selection_date_agreement          = $this->input->post('selection_date_agreement');
+        $post_selection_imp_date_start          = $this->input->post('selection_imp_date_start');
+        $post_selection_imp_date_end            = $this->input->post('selection_imp_date_end');
+        $post_selection_files                   = $this->input->post('selection_files');
+        $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
+        $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
         
-        $this->form_validation->set_rules('selection_date_start','Tanggal Mulai Seleksi','required');
-        $this->form_validation->set_rules('selection_date_end','Tanggal Selesai Seleksi','required');
+        $this->form_validation->set_rules('selection_date_publication','Tanggal Publikasi','required');
+        $this->form_validation->set_rules('selection_date_reg_start','Tanggal Mulai Pendaftaran Online','required');
+        $this->form_validation->set_rules('selection_date_reg_end','Tanggal Selesai Pendaftaran Online','required');
+        $this->form_validation->set_rules('selection_date_adm_start','Tanggal Mulai Seleksi Administrasi &amp; Substansi Awal','required');
+        $this->form_validation->set_rules('selection_date_adm_end','Tanggal Selesai Seleksi Administrasi &amp; Substansi Awal','required');
+        $this->form_validation->set_rules('selection_date_invitation_send','Tanggal Undangan Presentasi Dikirim','required');
+        $this->form_validation->set_rules('selection_date_interview_start','Tanggal Mulai Seleksi Presentasi &amp; Wawancara','required');
+        $this->form_validation->set_rules('selection_date_interview_end','Tanggal Selesai Seleksi Presentasi &amp; Wawancara','required');
+        $this->form_validation->set_rules('selection_date_result','Tanggal Pengumuman Hasil Seleksi','required');
+        $this->form_validation->set_rules('selection_date_proposal_start','Tanggal Mulai Perbaikan Proposal &amp; Penelaahan Anggaran','required');
+        $this->form_validation->set_rules('selection_date_proposal_end','Tanggal Selesai Perbaikan Proposal &amp; Penelaahan Anggaran','required');
+        $this->form_validation->set_rules('selection_date_agreement','Tanggal Penetapan &amp; Penandatanganan Perjanjian','required');
         $this->form_validation->set_rules('selection_imp_date_start','Tanggal Mulai Pelaksanaan','required');
         $this->form_validation->set_rules('selection_imp_date_end','Tanggal Selesai Pelaksanaan','required');
         $this->form_validation->set_rules('selection_files','Berkas Panduan','required');
