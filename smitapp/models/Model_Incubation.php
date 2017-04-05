@@ -355,6 +355,7 @@ class Model_Incubation extends SMIT_Model{
             $conditions = str_replace("%status%",               "A.status", $conditions);
             $conditions = str_replace("%url%",                  "A.url", $conditions);
             $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%workunit%",             "B.workunit", $conditions);
             $conditions = str_replace("%step%",                 "A.step", $conditions);
             $conditions = str_replace("%jury%",                 "A.jury_id", $conditions);
             $conditions = str_replace("%jury_username%",        "B.username",  $conditions);
@@ -371,6 +372,7 @@ class Model_Incubation extends SMIT_Model{
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
             $order_by   = str_replace("%url%",                  "A.url",  $order_by);
             $order_by   = str_replace("%extension%",            "A.extension",  $order_by);
+            $order_by   = str_replace("%workunit%",             "B.workunit",  $order_by);
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
             $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
@@ -382,10 +384,11 @@ class Model_Incubation extends SMIT_Model{
             SELECT 
                 A.*,
                 B.username AS jury_username,
-                B.name as jury_name 
+                B.name as jury_name,
+                B.workunit
             FROM ' . $this->incubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.jury_id';
+            ON B.id = A.user_id';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

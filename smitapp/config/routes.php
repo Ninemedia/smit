@@ -87,6 +87,7 @@ $route['prainkubasi/konfirmall']                = "praincubation/praincubationco
 $route['prainkubasi/konfirmall/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmall']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmall/(:any)'] = "praincubation/praincubationreportconfirm/$1";
+$route['prainkubasi/detail/(:any)']     = "praincubation/praincubationdetails/$1";
 
 $route['praincubationsetlist']                  = "praincubation/praincubationsettinglistdata";
 $route['praincubationsetdetails/(:any)']        = "praincubation/praincubationsettingdetails/$1";

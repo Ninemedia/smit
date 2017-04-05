@@ -6,7 +6,7 @@
 <div id="gtco-contentbreadcumb" class="animate-box">
 	<div class="gtco-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="body pull-right">
+            <div class="body pull-left">
                 <ol class="breadcrumb">
                     <li>
                         <a href="<?php echo base_url(); ?>">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>
@@ -284,7 +284,7 @@
                     </div>
                     <div class="body table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="bg bg-blue">
                                 <tr>
                                     <th><center>NO</center></th>
                                     <th><center>ITEM</center></th>

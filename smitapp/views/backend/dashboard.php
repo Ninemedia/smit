@@ -28,25 +28,33 @@
 
 <!-- Widgets -->
 <div class="row clearfix">
+    <?php if($is_admin): ?>
+    <?php
+        $count_all      = $this->Model_User->count_all();
+        $count_all      = $count_all - 1;
+        $user_newest    = $this->Model_User->get_user_newest();
+    ?>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
             <div class="icon">
-                <i class="material-icons">playlist_add_check</i>
+                <i class="material-icons">person_add</i>
             </div>
             <div class="content">
-                <div class="text">NEW TASKS</div>
+                <div class="text"><strong>PENGGUNA BARU</strong></div>
                 <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                <div class="text"><?php echo ( $user_newest->type == 1 ? '-' : $user_newest->name ); ?></div>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-cyan hover-expand-effect">
             <div class="icon">
-                <i class="material-icons">help</i>
+                <i class="material-icons">info</i>
             </div>
             <div class="content">
-                <div class="text">NEW TICKETS</div>
+                <div class="text"><strong>TOTAL PENGGUNA</strong></div>
                 <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $count_all; ?> PENGGUNA</div>
             </div>
         </div>
     </div>
@@ -64,7 +72,7 @@
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-orange hover-expand-effect">
             <div class="icon">
-                <i class="material-icons">person_add</i>
+                <i class="material-icons">playlist_add_check</i>
             </div>
             <div class="content">
                 <div class="text">NEW VISITORS</div>
@@ -72,6 +80,8 @@
             </div>
         </div>
     </div>
+    <?php else: ?>
+    <?php endif ?> 
 </div>
 <!-- #END# Widgets -->
 

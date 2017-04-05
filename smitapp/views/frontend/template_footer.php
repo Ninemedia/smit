@@ -2,7 +2,7 @@
 <footer id="gtco-footer" role="contentinfo">
 	<div class="gtco-container">
 		<div class="row row-p b-md">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="gtco-widget">
 					<h3>Tenant</h3>
         			<div class="owl-carousel owl-carousel-footer">
@@ -37,7 +37,7 @@
                 </div>
 			</div>
             
-            <div class="col-md-2">
+            <div class="col-md-3">
 				<div class="gtco-widget">
 					<h3>Menu Utama</h3>
 					<ul class="gtco-footer-links">
@@ -51,15 +51,7 @@
 				</div>
 			</div>
             
-            <div class="col-md-3">
-				<div class="gtco-widget">
-					<h3>Unduh Berkas</h3>
-					<ul class="gtco-footer-links">
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="gtco-widget">
 					<h3>Alamat</h3>
 					<ul class="gtco-quick-contact">

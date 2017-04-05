@@ -24,15 +24,15 @@
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <table class="table table-striped table-bordered table-hover" id="announcement_list" data-url="<?php echo base_url('backend/announcementlistdata'); ?>">
                             <thead>
-        						<tr role="row" class="heading">
+        						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
         							<th class="width35 text-center">Judul Pengumuman</th>
         							<th class="width5 text-center">File</th>
                                     <th class="width10 text-center">Jenis File</th>
                                     <th class="width15 text-center">Tanggal Daftar</th>
-        							<th class="width15 text-center">Actions</th>
-        						</tr>
-                                <tr role="row" class="filter">
+        							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+   						        </tr>
+                                <tr role="row" class="filter display-hide table-filter">
         							<td></td>
         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
         							<td></td>
@@ -201,9 +201,9 @@
     							<th class="width5">No</th>
     							<th class="width65 text-center">Judul Pengumuman</th>
                                 <th class="width20 text-center">Tanggal Publikasi</th>
-                                <th class="width10 text-center">Actions</th>
-    						</tr>
-                            <tr role="row" class="filter">
+                                <th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+					        </tr>
+                            <tr role="row" class="filter display-hide table-filter">
     							<td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                 <td>

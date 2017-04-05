@@ -15,19 +15,23 @@
                 </ul>
             </div>
             <div class="body">
+                <?php if($is_admin): ?>
                 <div class="table-container table-responsive">
+                    <div class="table-actions-wrapper">                           
+                        <a href="<?php echo base_url('prainkubasi/konfirmall'); ?>" class="btn btn-sm btn-success praincubationconfirm">Tambah Panduan</a>     
+            		</div>
                     <table class="table table-striped table-bordered table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
                         <thead>
-    						<tr role="row" class="heading">
+    						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
                                 <th class="width15 text-center">Judul Berkas</th>
     							<th class="width20 text-center">Deskripsi</th>
     							<th class="width20">Nama</th>
     							<th class="width10">Jenis File</th>
                                 <th class="width10 text-center">Tanggal</th>
-    							<th class="width15 text-center">Actions</th>
-    						</tr>
-                            <tr role="row" class="filter">
+    							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+					        </tr>
+                            <tr role="row" class="filter display-hide table-filter">
     							<td></td>
                                 <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td><input type="text" class="form-control form-filter input-sm" name="search_desc" /></td>
@@ -57,10 +61,13 @@
                         </tbody>
                     </table>
                 </div>
+                <?php else: ?>
+                <?php endif ?> 
             </div>
         </div>
         <!-- End List Guide Files -->
-    
+        
+        <?php if($is_admin): ?>
         <!-- Start Add Guide Files -->
         <div class="card">
             <div class="header"><h2>Tambah Berkas Panduan</h2></div>
@@ -96,7 +103,7 @@
                                     ( !empty($post) ? smit_isset($post['guide_title'],'') : '' ),
                                     array(
                                         'class'=>'form-control text-uppercase',
-                                        'placeholder'=>'Masukan Judul File...',
+                                        'placeholder'=>'Masukan Judul Berkas...',
                                         'required'=>'required'
                                     )
                                 ); 
@@ -123,11 +130,12 @@
                         <label>Berkas Panduan</label>
                         <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
                     </div>
-                    <button class="btn btn-sm bg-blue waves-effect" type="submit">UPLOAD</button>
+                    <button class="btn btn-sm bg-blue waves-effect" type="submit">UNGGAH</button>
                 <?php echo form_close(); ?>
             </div>
         </div>
         <!-- End Add Guide Files -->
+        <?php endif ?> 
 
     </div>
 </div>

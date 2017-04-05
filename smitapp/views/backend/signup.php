@@ -53,7 +53,7 @@
                 <div class="body">
                     <!-- BEGIN SIGN UP FORM -->
                     <?php echo form_open( base_url('registration'), array( 'id'=>'sign-up-form', 'role'=>'form') ); ?>
-                        <div class="msg">Registrasi Pengguna Baru</div>
+                        <div class="msg">Pendaftaran Pengguna Baru</div>
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                 		</div>
@@ -70,13 +70,13 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">lock</i></span>
                             <div class="form-line">
-                                <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Kata Sandi','required'=>'required','minlength'=>'6')); ?>
                             </div>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">lock</i></span>
                             <div class="form-line">
-                                <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Password','required'=>'required','minlength'=>'6')); ?>
+                                <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Kata Sandi','required'=>'required','minlength'=>'6')); ?>
                             </div>
                         </div>
                         
@@ -131,9 +131,9 @@
                 			<div class="g-recaptcha smit-captcha-signup-user" data-smit-site-key="<?php echo config_item( 'captcha_site_key' ); ?>"></div>
                 		</div>
                     
-                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">REGISTER</button>
+                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">DAFTAR</button>
                         <div class="m-t-25 m-b--5 align-center">
-                            Kembali ke <a href="<?php echo base_url('selection'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> atau <a href="<?php echo base_url('signuptenant'); ?>" id="back-selection-btn">Menu Seleksi Tenant</a> 
+                            Kembali ke <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" id="back-selection-btn">Menu Seleksi Pra Inkubasi</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> 
                         </div>
                     <?php echo form_close(); ?>
                     <!-- END SIGN UP FORM -->

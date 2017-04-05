@@ -5,7 +5,7 @@
 <div id="gtco-contentbreadcumb" class="animate-box">
 	<div class="gtco-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="body pull-right">
+            <div class="body pull-left">
                 <ol class="breadcrumb">
                     <li>
                         <a href="<?php echo base_url(); ?>">
