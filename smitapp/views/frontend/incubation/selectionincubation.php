@@ -42,13 +42,12 @@
                             <h3 class="bottom0">SELEKSI </h3>
                         </div>
                         <div class="body">
-                            <a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="right font-bold col-cyan"><i class="icon-user"></i> Registrasi Pengguna</a>
                             <h4>Formulir Pendaftaran Seleksi Inkubasi</h4>
                             <div class="body bg-teal bottom30">
                                 <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
                                 <p>Catatan :<br />
                                     <ul>
-                                        <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Registrasi Pengguna di pojok kanan atas.</li>
+                                        <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
                                         <li>Isi formulir dengan benar.</li>
                                         <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
                                         <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
@@ -67,9 +66,9 @@
                                         </div>
                                     </div>
                                     <div class="input-group">
-                                        <label class="form-label">Password Pengguna <b style="color: red !important;">(*)</b></label>
+                                        <label class="form-label">Kata Sandi Pengguna <b style="color: red !important;">(*)</b></label>
                                         <div class="form-line">
-                                            <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan password pengguna anda" autocomplete="off" required>
+                                            <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
                                         </div>
                                     </div>
                                     <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
@@ -129,6 +128,7 @@
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
+                            <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
                         </div>
                 </div>
                 </div>
