@@ -6,9 +6,9 @@
             <div class="body">
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">                           
-                        <a href="<?php echo base_url('prainkubasi/konfirmall'); ?>" class="btn btn-sm btn-success praincubationconfirm">Konfirmasi Semua</a>     
+                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success praincubationconfirm">Konfirmasi Semua</a>     
             		</div>
-                    <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('praincubation/praincubationlistdata'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
@@ -65,7 +65,7 @@
     								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
     							</td>
     							<td style="text-align: center;">
-    								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_incubation_list">Search</button>
+    								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_praincubation_list">Search</button>
                                     <button class="btn bg-red waves-effect filter-cancel">Reset</button>
     							</td>
     						</tr>

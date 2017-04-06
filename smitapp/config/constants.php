@@ -230,11 +230,9 @@ define('DELETED',       3);
 */
 define('NOTCONFIRMED',  0);
 define('CONFIRMED',     1);
-define('EXAMINED',      2);
-define('CALLED',        3);
-define('RATED',         4);
-define('ACCEPTED',      5);
-define('REJECTED',      6);
+define('RATED',         2);
+define('ACCEPTED',      3);
+define('REJECTED',      4);
 
 /*
 |--------------------------------------------------------------------------

@@ -22,7 +22,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
-                        <table class="table table-striped table-bordered table-hover" id="praincubation_setting_list" data-url="<?php echo base_url('praincubationsetlist'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="praincubation_setting_list" data-url="<?php echo base_url('daftarprainkubasi'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
