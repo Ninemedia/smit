@@ -203,13 +203,6 @@ class PraIncubation extends User_Controller {
                 
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
-                /*
-                if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'doc')    { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'docx')   { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xls')    { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xlsx')   { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                */
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -986,13 +979,6 @@ class PraIncubation extends User_Controller {
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 }
-                
-                if( !empty( $row->url ) ){
-                    $btn_files  = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';    
-                }else{
-                    $btn_files  = ' - ';
-                }
 
                 if( $row->step == 1){
                     $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
@@ -1002,7 +988,6 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
-                        smit_Center( $btn_files ),
                         smit_center( $status ),
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                         smit_center($btn_details),
@@ -1015,7 +1000,6 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
-                        smit_Center( $btn_files ),
                         smit_center( $status ),
                         '',
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),

@@ -386,8 +386,8 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%description%",          "A.description",  $order_by);
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
-            $order_by   = str_replace("%url%",                  "C.url",  $order_by);
-            $order_by   = str_replace("%extension%",            "C.extension",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
             $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
@@ -400,12 +400,9 @@ class Model_Praincubation extends SMIT_Model{
                 A.*,
                 B.username AS jury_username,
                 B.name as jury_name,
-                B.workunit,
-                C.url,
-                C.extension 
+                B.workunit
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            LEFT JOIN ' . $this->user . ' AS C
             ON B.id = A.user_id';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
