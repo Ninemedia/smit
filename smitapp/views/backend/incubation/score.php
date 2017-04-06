@@ -6,7 +6,7 @@
             <div class="body">
                 <?php if($is_admin): ?>
                 
-                <?php else: ?>
+                <?php elseif($is_juri): ?>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
@@ -563,6 +563,11 @@
                             
                         </div>
                     </div>
+                    
+                <?php elseif($is_pelaksana): ?>
+                
+                <?php else: ?>
+                
                 <?php endif ?>  
             </div>
         </div>

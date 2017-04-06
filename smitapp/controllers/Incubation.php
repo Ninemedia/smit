@@ -818,6 +818,9 @@ class Incubation extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_juri                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -866,6 +869,9 @@ class Incubation extends User_Controller {
         $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_juri']        = $is_juri;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pelaksana']   = $is_pelaksana;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_init']   = $scripts_init;
