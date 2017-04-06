@@ -68,7 +68,6 @@ $autoload['libraries'] = array(
     'upload', 
     'image_lib',
     'SMIT_User',
-    'MY_Upload'
 );
 
 /*

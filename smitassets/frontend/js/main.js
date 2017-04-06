@@ -355,6 +355,7 @@
             var username    = $('#reg_username').val();
             var password    = $('#reg_password').val();
             var url         = element.data('url');
+            var sel         = element.data('selection');
             var el          = $('#username_info');
             var eldet       = $('#detail_selection');
             var elacc       = $('#account_selection');
@@ -365,7 +366,8 @@
                 type:   "POST",
                 data:   {
                     'username' : username,
-                    'password' : password
+                    'password' : password,
+                    'selection': sel,
                 },
                 url:    url,
                 beforeSend: function (){
