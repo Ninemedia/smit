@@ -357,6 +357,8 @@
             var url         = element.data('url');
             var el          = $('#username_info');
             var eldet       = $('#detail_selection');
+            var elacc       = $('#account_selection');
+            var btn_add     = $('#btn_addincubation');
             var msg         = $('#alert');
             
             $.ajax({
@@ -385,11 +387,13 @@
                         msg.html(response.info);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast');
                         $(el).html(response.data).fadeIn('fast');
+                        $(btn_add).hide();
                         $(eldet).show();
                     }else{
                         msg.fadeOut('fast');
                         $(el).hide();
                         $(eldet).hide();
+                        $(elacc).show();
                     }
                 }
             });

@@ -58,21 +58,23 @@
                             <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
-                                    <h4>Data Profil Pengguna</h4>
-                                    <div class="input-group">
-                                        <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" name="reg_username" id="reg_username" placeholder="Masukan username pengguna anda" autocomplete="off" required>
+                                    <section id="account_selection">
+                                        <h4>Data Profil Pengguna</h4>
+                                        <div class="input-group">
+                                            <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="reg_username" id="reg_username" placeholder="Masukan username pengguna anda" autocomplete="off" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <label class="form-label">Kata Sandi Pengguna <b style="color: red !important;">(*)</b></label>
-                                        <div class="form-line">
-                                            <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
+                                        <div class="input-group">
+                                            <label class="form-label">Kata Sandi Pengguna <b style="color: red !important;">(*)</b></label>
+                                            <div class="form-line">
+                                                <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
-                                    <div id="username_info" class="top30"></div>
+                                        <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
+                                        <div id="username_info" class="top30"></div>
+                                    </section>
                                     
                                     <section id="detail_selection" class="display-hide top30">
                                         <h4>Usulan Kegiatan Tenant</h4>
@@ -123,8 +125,8 @@
                                             <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                         </div>
                                         
+                                        <button type="submit" class="btn btn-primary waves-effect" id="btn_addincubation">Ajukan Kegiatan</button>
                                         <button type="button" class="btn btn-danger waves-effect" id="btn_addincubation_reset">Bersihkan</button>
-                                        <button type="submit" class="btn btn-primary waves-effect">Ajukan Kegiatan</button>
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
