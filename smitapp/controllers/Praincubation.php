@@ -824,6 +824,9 @@ class PraIncubation extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -872,6 +875,9 @@ class PraIncubation extends User_Controller {
         $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pelaksana']   = $is_pelaksana;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_init']   = $scripts_init;
@@ -884,10 +890,15 @@ class PraIncubation extends User_Controller {
     /**
 	 * Jury Score list data function.
 	 */
-    function juryscorelistdata( $jury_id=0, $step=0 ){
+    function juryscorelistdata( $step='' ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE jury_id = '.$jury_id.' AND step = '.$step.'';
+        
+        if( !empty($jury_id) || !empty($step)){
+            $condition          = ' WHERE step = '.$step.'';    
+        }else{
+            $condition          = '';
+        }
         
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -935,7 +946,7 @@ class PraIncubation extends User_Controller {
         elseif( $column == 5 )  { $order_by .= '%jury% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         
-        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
+        $incubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
         
@@ -960,7 +971,7 @@ class PraIncubation extends User_Controller {
 
                 if( $row->step == 1){
                     $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
-                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details">Details</a>';
+                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
@@ -972,7 +983,7 @@ class PraIncubation extends User_Controller {
                     );    
                 }else{
                     $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
-                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details">Details</a>';
+                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                     $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
@@ -982,6 +993,130 @@ class PraIncubation extends User_Controller {
                         '',
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                         smit_center($btn_details),
+                    ); 
+                }
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Pengusul Score list data function.
+	 */
+    function pengusulscorelistdata( $user_id='', $step='' ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        
+        if( !empty($user_id) || !empty($step)){
+            $condition          = ' WHERE user_id ='.$user_id.' AND step = '.$step.'';    
+        }else{
+            $condition          = '';
+        }
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_username         = $this->input->post('search_username');
+        $s_username         = smit_isset($s_username, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        $s_jury             = $this->input->post('search_jury');
+        $s_jury             = smit_isset($s_jury, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_jury) )           { $condition .= str_replace('%s%', $s_jury, ' AND %jury% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%jury% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $incubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($incubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($incubation_list as $row){
+                // Status
+                if( $row->step == 1){
+                    if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == EXAMINED)    { $status = '<span class="label bg-brown">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == CALLED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; } 
+                    elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }   
+                }else{
+                    if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                }
+
+                if( $row->step == 1){
+                    $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
+                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                        strtoupper($row->name),
+                        $row->event_title,
+                        smit_center( $status ),
+                        smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                        //smit_center($btn_details),
+                        '',
+                    );    
+                }else{
+                    $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
+                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                        strtoupper($row->name),
+                        $row->event_title,
+                        smit_center( $status ),
+                        '',
+                        smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                        //smit_center($btn_details),
+                        '',
                     ); 
                 }
                 $i++;
