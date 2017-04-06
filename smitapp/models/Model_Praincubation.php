@@ -8,6 +8,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     var $user                           = "smit_user";
     var $praincubation_selection        = "smit_praincubation_selection";
+    var $praincubation_selection_file   = "smit_praincubation_selection_file";
     var $praincubation_selection_set    = "smit_praincubation_selection_setting";
     var $praincubation_selection_rpt    = "smit_praincubation_selection_report";
     
@@ -369,8 +370,8 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%description%",          "A.description",  $order_by);
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
-            $order_by   = str_replace("%url%",                  "A.url",  $order_by);
-            $order_by   = str_replace("%extension%",            "A.extension",  $order_by);
+            $order_by   = str_replace("%url%",                  "C.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "C.extension",  $order_by);
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
             $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
@@ -383,9 +384,12 @@ class Model_Praincubation extends SMIT_Model{
                 A.*,
                 B.username AS jury_username,
                 B.name as jury_name,
-                B.workunit 
+                B.workunit,
+                C.url,
+                C.extension 
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
+            LEFT JOIN ' . $this->user . ' AS C
             ON B.id = A.user_id';
         
         if( !empty($conditions) ){ $sql .= $conditions; }

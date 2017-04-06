@@ -28,13 +28,14 @@
                                 Dibawah ini merupakan daftar seleksi Tahap 1 
                             </div>
                             <div class="table-container table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('incubation/juryscorelistdata/'.$user->id.'/1'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/juryscorelistdata/1'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
                 							<th class="width15 text-center">Username</th>
                 							<th class="width25">Nama</th>
                                             <th class="width15 text-center">Judul Kegiatan</th>
+                                            <th class="width5 text-center">File</th>
                                             <th class="width10 text-center">Status</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
                 							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
@@ -44,6 +45,7 @@
                 							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                                            <td></td>
                                             <td>
                                                 <select name="search_status" class="form-control form-filter input-sm">
                 									<option value="">Pilih...</option>
@@ -186,7 +188,7 @@
                                 Dibawah ini merupakan daftar seleksi Tahap 2 yang telah dilakukan penyaringan pada Tahap 1. 
                             </div>
                             <div class="table-container table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('incubation/juryscorelistdata/'.$user->id.'/2'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('praincubation/juryscorelistdata/2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>

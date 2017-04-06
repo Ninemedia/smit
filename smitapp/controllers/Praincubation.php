@@ -908,10 +908,15 @@ class PraIncubation extends User_Controller {
     /**
 	 * Jury Score list data function.
 	 */
-    function juryscorelistdata( $jury_id=0, $step=0 ){
+    function juryscorelistdata( $step='' ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE jury_id = '.$jury_id.' AND step = '.$step.'';
+        
+        if( !empty($jury_id) || !empty($step)){
+            $condition          = ' WHERE step = '.$step.'';    
+        }else{
+            $condition          = '';
+        }
         
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -959,7 +964,7 @@ class PraIncubation extends User_Controller {
         elseif( $column == 5 )  { $order_by .= '%jury% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         
-        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
+        $incubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
         
@@ -981,6 +986,13 @@ class PraIncubation extends User_Controller {
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 }
+                
+                if( !empty( $row->url ) ){
+                    $btn_files  = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';    
+                }else{
+                    $btn_files  = ' - ';
+                }
 
                 if( $row->step == 1){
                     $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
@@ -990,6 +1002,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
+                        smit_Center( $btn_files ),
                         smit_center( $status ),
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                         smit_center($btn_details),
@@ -1002,6 +1015,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
+                        smit_Center( $btn_files ),
                         smit_center( $status ),
                         '',
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
