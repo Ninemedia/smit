@@ -895,7 +895,7 @@ class PraIncubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         
         if( !empty($jury_id) || !empty($step)){
-            $condition          = ' WHERE step = '.$step.'';    
+            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';    
         }else{
             $condition          = '';
         }
@@ -970,29 +970,33 @@ class PraIncubation extends User_Controller {
                 }
 
                 if( $row->step == 1){
-                    $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     $records["aaData"][] = array(
                         smit_center($i),
-                        '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
                         smit_center( $status ),
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
-                        smit_center($btn_details),
+                        smit_center($btn_score),
                     );    
                 }else{
-                    $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                     $records["aaData"][] = array(
                         smit_center($i),
-                        '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $row->username . '</a>',
                         strtoupper($row->name),
                         $row->event_title,
                         smit_center( $status ),
                         '',
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
-                        smit_center($btn_details),
+                        smit_center($btn_score),
                     ); 
                 }
                 $i++;
@@ -1008,6 +1012,172 @@ class PraIncubation extends User_Controller {
         
         echo json_encode($records);
     }
+    
+    
+    // PENILAIAN JURI
+    /**
+	 * Score Jury Pra Incubation function.
+	 */
+	public function juryscoreuser($id='', $unique='')
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Range Slider Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/forms/editors.js',
+            BE_JS_PATH . 'pages/index.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'ScoreSetting.init();',
+            'SliderIndikator.init()'
+        ));
+        $scripts_add            = '';
+        $data_user              = '';
+        $data_selection         = '';
+        if(!empty($id) || !empty($unique)){
+            $condition          = ' WHERE A.uniquecode = "'.$unique.'" AND step = 1 AND A.status <> 0';
+            $data_user          = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
+            $data_user          = $data_user[0];
+            $condition1         = ' WHERE user_id = "'.$id.'"'; 
+            $data_selection     = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition1, '');
+        }
+
+        $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pelaksana']   = $is_pelaksana;
+        
+        $data['data_user']      = $data_user;
+        $data['data_selection'] = $data_selection;
+        
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_init']   = $scripts_init;
+        $data['scripts_add']    = $scripts_add;
+        $data['main_content']   = 'praincubation/scoreuser';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Score Pra Incubation function.
+	 */
+	public function juryscoreuser2($id='', $unique='')
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Range Slider Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'ScoreSetting.init();',
+            'SliderIndikator.init()'
+        ));
+        $scripts_add            = '';
+        
+        $data_user              = '';
+        $data_selection         = '';
+        if(!empty($id) || !empty($unique)){
+            $condition          = ' WHERE A.uniquecode = "'.$unique.'" AND step = 2 AND A.status <> 0';
+            $data_user          = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
+            $data_user          = $data_user[0];
+            $condition1         = ' WHERE user_id = "'.$id.'"'; 
+            $data_selection     = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition1, '');
+        }
+        
+        $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pelaksana']   = $is_pelaksana;
+        
+        $data['data_user']      = $data_user;
+        $data['data_selection'] = $data_selection;
+        
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_init']   = $scripts_init;
+        $data['scripts_add']    = $scripts_add;
+        $data['main_content']   = 'praincubation/scoreuser2';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
     
     /**
 	 * Pengusul Score list data function.

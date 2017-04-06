@@ -417,6 +417,65 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_praincubation_files($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "event_title", $conditions);
+            $conditions = str_replace("%username%",             "username", $conditions);
+            $conditions = str_replace("%name%",                 "name", $conditions);
+            $conditions = str_replace("%description%",          "description", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
+            $conditions = str_replace("%url%",                  "url", $conditions);
+            $conditions = str_replace("%extension%",            "extension", $conditions);
+            $conditions = str_replace("%step%",                 "step", $conditions);
+            $conditions = str_replace("%jury%",                 "jury_id", $conditions);
+            $conditions = str_replace("%jury_username%",        "username",  $conditions);
+            $conditions = str_replace("%jury_name%",            "name",  $conditions);
+            $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%event_title%",          "event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "username",  $order_by);
+            $order_by   = str_replace("%name%",                 "name",  $order_by);
+            $order_by   = str_replace("%description%",          "description",  $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
+            $order_by   = str_replace("%url%",                  "url",  $order_by);
+            $order_by   = str_replace("%extension%",            "extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "step",  $order_by);
+            $order_by   = str_replace("%jury%",                 "jury_id",  $order_by);
+            $order_by   = str_replace("%jury_username%",        "username",  $order_by);
+            $order_by   = str_replace("%jury_name%",            "name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT *
+            FROM ' . $this->praincubation_selection_files. '';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
      * Retrieve all pra incubation setting data
      * 
      * @author  Iqbal

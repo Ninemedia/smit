@@ -87,7 +87,9 @@ $route['prainkubasi/konfirmasi']                = "praincubation/praincubationco
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
-$route['prainkubasi/detail/(:any)']     = "praincubation/praincubationdetails/$1";
+$route['prainkubasi/detail/(:any)']             = "praincubation/praincubationdetails/$1";
+$route['prainkubasi/nilai/(:any)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
+$route['prainkubasi/nilai2/(:any)/(:any)']      = "praincubation/juryscoreuser2/$1/$2";
 
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
