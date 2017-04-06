@@ -54,8 +54,12 @@
                     <!-- BEGIN LOGIN FORM -->
                     <?php echo form_open( base_url('validate'), array( 'id'=>'login-form', 'role'=>'form' ) ); ?>
                         <div class="msg">Login untuk memulai session Anda</div>
+                        <div class="pull-right">
+                            <a href="<?php echo base_url(); ?>" id="back-btn">Kembali</a>
+                        </div>
+                        
                         <div class="alert alert-danger text-center display-hide error-validate">
-                			<small><span>Silahkan masukkan Username dan Password Anda</span></small>
+                			<small><span>Silahkan masukkan Username dan Kata Sandi Anda</span></small>
                 		</div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">person</i></span>
@@ -66,7 +70,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">lock</i></span>
                             <div class="form-line">
-                                <?php echo form_password('password','',array('class'=>'form-control','placeholder'=>'Password','required'=>'required')); ?>
+                                <?php echo form_password('password','',array('class'=>'form-control','placeholder'=>'Kata Sandi','required'=>'required')); ?>
                             </div>
                         </div>
                         <div class="input-group smit-captcha-box" data-captcha="<?php echo ! empty( $login_failed ); ?>" style="display: none;">
@@ -78,15 +82,15 @@
                                 <label for="rememberme">Ingat Saya</label>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-block bg-blue waves-effect" type="submit">LOGIN</button>
+                                <button class="btn btn-block bg-blue waves-effect" type="submit">MASUK</button>
                             </div>
                         </div>
                         <div class="row m-t-15 m-b--20">
                             <div class="col-xs-6">
-                                <a href="javascript:;" id="sign-up-btn">Registrasi Pengguna</a>
+                                <a href="javascript:;" id="sign-up-btn">Pendaftaran Pengguna</a>
                             </div>
                             <div class="col-xs-6 text-right">
-                                <a href="javascript:;" id="forgot-btn">Lupa Password?</a>
+                                <a href="javascript:;" id="forgot-btn">Lupa Kata Sandi?</a>
                             </div>
                         </div>
                     <?php echo form_close(); ?>
@@ -96,7 +100,7 @@
                     <?php echo form_open( base_url('forgot'), array( 'id'=>'forgot-password-form', 'role'=>'form', 'class'=>'display-hide' ) ); ?>
                         <div class="msg">
                             Masukkan alamat email Anda yang telah digunakan untuk registrasi. Kami akan mengirimkan email
-                            berisikan username dan password baru Anda.
+                            berisikan username dan kata sandi baru Anda.
                         </div>
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Silahkan masukkan alamat Email Anda</span></small>
@@ -107,7 +111,7 @@
                                 <?php echo form_input('email','',array('class'=>'form-control','placeholder'=>'Email','required'=>'required','autofocus'=>'autofocus','autocomplete'=>'off')); ?>
                             </div>
                         </div>
-                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">RESET PASSWORD SAYA</button>
+                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">RESET KATA SANDI SAYA</button>
                         <div class="row m-t-20 m-b--5 align-center">
                             <a href="javascript:;" id="login-btn">Login!</a>
                         </div>
@@ -116,7 +120,7 @@
                     
                     <!-- BEGIN SIGN UP FORM -->
                     <?php echo form_open( base_url('registration'), array( 'id'=>'sign-up-form', 'role'=>'form', 'class'=>'display-hide' ) ); ?>
-                        <div class="msg">Registrasi Pengguna Baru</div>
+                        <div class="msg">Pendaftaran Pengguna Baru</div>
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                 		</div>
@@ -133,13 +137,13 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">lock</i></span>
                             <div class="form-line">
-                                <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Kata Sandi','required'=>'required','minlength'=>'6')); ?>
                             </div>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">lock</i></span>
                             <div class="form-line">
-                                <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Password','required'=>'required','minlength'=>'6')); ?>
+                                <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Kata Sandi','required'=>'required','minlength'=>'6')); ?>
                             </div>
                         </div>
                         
@@ -194,9 +198,9 @@
                 			<div class="g-recaptcha smit-captcha-signup" data-smit-site-key="<?php echo config_item( 'captcha_site_key' ); ?>"></div>
                 		</div>
                   
-                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">REGISTER</button>
+                        <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">DAFTAR</button>
                         <div class="m-t-25 m-b--5 align-center">
-                            <a href="javascript:;" id="login-reg-btn">Anda sudah registrasi?</a>
+                            <a href="javascript:;" id="login-reg-btn">Anda sudah mendaftar?</a>
                         </div>
                     <?php echo form_close(); ?>
                     <!-- END SIGN UP FORM -->
