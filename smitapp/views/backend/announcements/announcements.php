@@ -56,13 +56,6 @@
                         <div class="card top30 bottom0 display-hide" id="announcement_details">
                             <div class="header bg-cyan">
                                 <h2>Seleksi Inkubasi Tahap 1</h2>
-                                <ul class="header-dropdown m-r--0">
-                                    <li class="dropdown">
-                                        <a class="close-details" href="javascript:void(0);">
-                                            <i class="material-icons">close</i>
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                             <div class="body">
                                 <div class="row">
