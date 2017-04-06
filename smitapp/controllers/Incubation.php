@@ -201,7 +201,7 @@ class Incubation extends User_Controller {
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 
-                //Extension
+                //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
                 /*
                 if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }

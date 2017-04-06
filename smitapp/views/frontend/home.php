@@ -56,7 +56,7 @@
 	</div>
 </div>
 -->
-
+<!--
 <div id="gtco-content">
 	<div class="gtco-container">
 		<div class="row animate-box">
@@ -68,16 +68,16 @@
         </div>
 	</div>
 </div>
-
+-->
 <div id="gtco-content">
 	<div class="gtco-container">
+        <div class="row animate-box">
+			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+				<h3>ARTIKEL TERBARU</h3>
+			</div>
+		</div>
 		<div class="row animate-box">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="header">
-                    <h4>
-                        ARTIKEL TERBARU
-                    </h4>
-                </div>
                 <div class="body">
                     <div class="media row">
                         <div class="col-md-3">

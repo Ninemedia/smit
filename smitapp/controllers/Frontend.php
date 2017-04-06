@@ -663,7 +663,12 @@ class Frontend extends Public_Controller {
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
-            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            //FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
             
             //Css Path
             FE_CSS_PATH    . 'animate.css',
@@ -674,14 +679,29 @@ class Frontend extends Public_Controller {
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            
+            // DataTable Plugin
+            FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'momentjs/moment.js',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
+            FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
         
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();'
+        ));
         
         $data['title']          = TITLE . 'Panduan';
         $data['headstyles']     = $headstyles;

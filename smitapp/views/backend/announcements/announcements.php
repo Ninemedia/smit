@@ -26,32 +26,23 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
+        							<th class="width15 text-center">No Pengumuman</th>
         							<th class="width35 text-center">Judul Pengumuman</th>
         							<th class="width5 text-center">File</th>
-                                    <th class="width10 text-center">Jenis File</th>
                                     <th class="width15 text-center">Tanggal Daftar</th>
         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
    						        </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
+        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
         							<td></td>
-                                    <td>
-                                        <select name="search_extension" class="form-control form-filter input-sm">
-        									<option value="">Pilih...</option>
-        									<option value="pdf">PDF</option>
-        									<option value="doc">DOC</option>
-        									<option value="docx">DOCX</option>
-        									<option value="xls">XLS</option>
-        									<option value="xlsx">XLSX</option>
-        								</select>
-                                    </td>
                                     <td>
         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
         							</td>
         							<td style="text-align: center;">
-        								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_list_user">Search</button>
+        								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
         							</td>
         						</tr>
@@ -65,13 +56,6 @@
                         <div class="card top30 bottom0 display-hide" id="announcement_details">
                             <div class="header bg-cyan">
                                 <h2>Seleksi Inkubasi Tahap 1</h2>
-                                <ul class="header-dropdown m-r--0">
-                                    <li class="dropdown">
-                                        <a class="close-details" href="javascript:void(0);">
-                                            <i class="material-icons">close</i>
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                             <div class="body">
                                 <div class="row">
@@ -199,12 +183,14 @@
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
+    							<th class="width15 text-center">No Pengumuman</th>
     							<th class="width65 text-center">Judul Pengumuman</th>
                                 <th class="width20 text-center">Tanggal Publikasi</th>
                                 <th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
 					        </tr>
                             <tr role="row" class="filter display-hide table-filter">
     							<td></td>
+    							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                 <td>
     								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />

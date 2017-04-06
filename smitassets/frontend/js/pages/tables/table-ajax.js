@@ -16,6 +16,11 @@ var TableAjax = function () {
         gridTable( $("#announcement_list"), true );
     };
     
+    // Guide Lists
+    var handleRecordsGuideList = function() {
+        gridTable( $("#guide_list"), true );
+    };
+    
     
     var gridTable = function(el, action=false, target='' ) {
         var url     = el.data('url');
@@ -76,6 +81,7 @@ var TableAjax = function () {
         init: function () {
             initPickers();
             handleRecordsAnnouncementList();
+            handleRecordsGuideList();
         }
     };
 

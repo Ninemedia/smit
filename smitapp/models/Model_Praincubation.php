@@ -382,10 +382,11 @@ class Model_Praincubation extends SMIT_Model{
             SELECT 
                 A.*,
                 B.username AS jury_username,
-                B.name as jury_name 
+                B.name as jury_name,
+                B.workunit 
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.jury_id';
+            ON B.id = A.user_id';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
