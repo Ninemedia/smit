@@ -112,12 +112,14 @@
                                                             <input id="edit_selection_files" name="edit_selection_files" class="form-control" type="file">
                                                         </div>
                                                     </div>
+                                                    <!--
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
                                                             <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                                         </div>
                                                     </div>
+                                                    -->
                                                     
                                                     <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
                                                     <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
@@ -162,14 +164,15 @@
                                             <input id="selection_files" name="selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
+                                    <!--   
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
                                             <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                         </div>
                                     </div>
-                                    
-                                    <button type="submit" class="btn btn-primary waves-effect">Buat Pengumuman</button>
+                                    -->
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_add_announcement">Buat Pengumuman</button>
                                     <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
                                 </section>
                             </div>

@@ -462,46 +462,6 @@ var ScoreSetting = function () {
 
 var AnnouncementSetting = function () {
     handleAnnouncementDataAction = function(){
-        // Close Incubation Setting
-        $("body").delegate( "a.incubsetclose", "click", function( event ) {
-            event.preventDefault();
-            var url = $(this).attr('href');
-            var table_container = $('#incubation_setting_list').parents('.dataTables_wrapper');
-            
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                            
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                        $('#btn_incubation_setting_list').trigger('click');
-                    }
-                }
-            });
-        });    
-        
         // Details Announcement Setting
         $("body").delegate( "a.announdetailset", "click", function( event ) {
             event.preventDefault();

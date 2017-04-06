@@ -473,7 +473,40 @@ var App = function() {
     };
     
     var handleAddAnnouncement = function() {
-        // Save Registered Member
+        // Save Announcement
+        $('body').on('click', '#btn_addannouncement_reset', function(event){
+			event.preventDefault();
+            var url = $(this).attr('href');
+            var table_container = $('#announcementuser_list').parents('.dataTables_wrapper');
+            var el = $('#save_announcement');
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response    = $.parseJSON(response);
+                            
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error'){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }else{
+                        el.fadeIn();
+                    }
+                }
+            });
+        }); 
+        
         $('#do_save_announcement').click(function(e){
             e.preventDefault();
             processSaveAnnouncement($('#announcementadd'));
@@ -528,7 +561,7 @@ var App = function() {
     		});
         };
         
-        // Reset Selection Inkubasi Form
+        // Reset Announcement Form
         $('body').on('click', '#btn_addannouncement_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');

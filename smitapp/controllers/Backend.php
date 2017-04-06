@@ -370,6 +370,8 @@ class Backend extends User_Controller {
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
         
         $loadscripts            = smit_scripts(array(
@@ -394,6 +396,8 @@ class Backend extends User_Controller {
             // Jquery Validation Plugin
             BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
@@ -445,9 +449,14 @@ class Backend extends User_Controller {
         $title                  = trim( smit_isset($title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
+        
+        echo '<pre>';
+        print_r($_POST);
+        die();
+        /*
         $agree                  = $this->input->post('reg_agree');
         $agree                  = trim( smit_isset($agree, "") );
-        
+        */
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -467,11 +476,13 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
+        /*
         if( $agree != 'on' ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.'); 
             die(json_encode($data));
         }
+        */
         
         // -------------------------------------------------
         // Check File
