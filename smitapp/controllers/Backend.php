@@ -1033,7 +1033,7 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($guides_list as $row){
                 if( !empty( $row->url ) ){
-                    $btn_files  = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
+                    $btn_files  = '<a href="'.base_url('unduh/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';    
                 }else{
                     $btn_files  = ' - ';
