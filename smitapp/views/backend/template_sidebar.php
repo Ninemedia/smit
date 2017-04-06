@@ -172,6 +172,14 @@
                     'icon'      => 'view_list',
                     'sub'       => false,
                 ),
+                array (
+                    'title'     => 'Pendaftaran Tenant',
+                    'nav'       => 'tenants/pendaftaran',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/pendaftaran'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
     			array (
                     'title'     => 'Pendampingan',
                     'nav'       => 'tenants/pendampingan',

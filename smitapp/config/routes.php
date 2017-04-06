@@ -123,6 +123,7 @@ $route['tenants/pendampingan']          = "tenant/tenantaccompaniment";
 $route['tenants/produk']                = "tenant/tenantproduct";
 $route['tenants/pembayaran']            = "tenant/tenantpayment";
 $route['tenants/laporan']               = "tenant/tenantreport";
+$route['tenants/pendaftaran']           = "tenant/tenantadd";
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
