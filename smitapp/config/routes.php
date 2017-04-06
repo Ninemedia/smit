@@ -53,7 +53,6 @@ $route['translate_uri_dashes']          = FALSE;
 $route['default_controller']            = "frontend";
 $route['404_override']                  = "frontend";
 
-
 // -------------------------------------------------------------------------
 // User Page Routes
 // -------------------------------------------------------------------------
@@ -140,6 +139,7 @@ $route['layanan']                       = "backend/services";
 $route['company/list']                  = "backend/listcompany";
 $route['company/detail']                = "backend/detailcompany";
 $route['company/setting']               = "backend/settingcompany";
+$route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // -------------------------------------------------------------------------
 
 

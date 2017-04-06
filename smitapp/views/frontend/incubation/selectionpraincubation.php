@@ -90,6 +90,23 @@
                                 </p>
                             </div>
                             
+                            <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
+                            <?php
+                                $guide_files_ids    = $lss->selection_files;
+                                $guide_files_ids    = explode(',',$guide_files_ids);
+                                $guide_files        = smit_get_selection_files($guide_files_ids);
+                                
+                                if( !empty($guide_files) ){
+                                    echo '<ul class="bottom40">';
+                                    foreach($guide_files as $file){
+                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduh/'.$file->uniquecode).'">Unduh disini</a></li>';
+                                    }
+                                    echo '</ul>';
+                                }else{
+                                    echo '<strong>Tidak ada berkas panduan</strong>';
+                                }
+                            ?>
+                            
                             <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
@@ -151,7 +168,7 @@
                                         </div>
                                         <div class="input-group">
                                             <label class="form-label">Upload Berkas <b style="color: red !important;">(*)</b></label>
-                                            <input id="selection_files" name="reg_selection_files" class="form-control" type="file">
+                                            <input id="selection_files" name="reg_selection_files[]" class="form-control" type="file" multiple="multiple">
                                         </div>
                                         <div class="input-group">
                                             <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">

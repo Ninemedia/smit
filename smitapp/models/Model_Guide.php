@@ -34,13 +34,62 @@ class Model_Guide extends SMIT_Model{
      */
     function get_guide($id=''){
         if ( !empty($id) ) { 
-            $id = absint($id); 
-            $this->db->where($primary, $id);
+            if( is_array($id) ){
+                $this->db->where_in($this->primary, $id);
+            }else{
+                $id = absint($id); 
+                $this->db->where($this->primary, $id);
+            }
         };
         
         $this->db->order_by("datecreated", "DESC"); 
         $query      = $this->db->get($this->guide);        
-        return ( !empty($id) ? $query->row() : $query->result() );
+        return ( !empty($id) && !is_array($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Get guide data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of guide
+     */
+    function get_guide_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'uniquecode':
+                $value  = $value;
+                $id     = '';
+                $field  = 'uniquecode';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_guide($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->guide);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $guide = $row;
+        }
+
+        return $guide;
     }
     
     /**

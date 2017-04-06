@@ -885,7 +885,9 @@ class Backend extends User_Controller {
                     $message = $this->upload->display_errors();
                 }else{
                     $upload_data    = $this->upload->data();
+                    $random         = smit_generate_rand_string(10,'low');
                     $guide_data     = array(
+                        'uniquecode'    => $random,
                         'title'         => strtoupper( smit_isset($_POST['guide_title'],'') ),
                         'url'           => smit_isset($upload_data['full_path'],''),
                         'description'   => smit_isset($_POST['guide_description'],''),
@@ -1054,6 +1056,26 @@ class Backend extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
         
         echo json_encode($records);
+    }
+    
+    /**
+	 * Guides Download File function.
+	 */
+    function guidesdownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+        
+        // Check Guide File Data
+        $guidedata  = $this->Model_Guide->get_guide_by('uniquecode',$uniquecode);
+        if( !$guidedata || empty($guidedata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $guidedata->name . '.' . $guidedata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $guidedata->uploader . '/' . $file_name;
+        
+        force_download($file_name, $file_url);
     }
     
     // ---------------------------------------------------------------------------------------------

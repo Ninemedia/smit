@@ -1625,6 +1625,23 @@ if ( !function_exists('smit_select_year') )
 	}
 }
 
+if ( !function_exists('smit_get_selection_files') ) 
+{
+    /**
+     * Get selection files
+     * @author  Iqbal
+     * @return  Array Object selection files
+     */
+	function smit_get_selection_files($ids) {
+		$CI =& get_instance();
+        
+        if ( empty($ids) || !$ids ) return false;
+        
+        $guides = $CI->Model_Guide->get_guide($ids);
+        return $guides;
+	}
+}
+
 /*
 CHANGELOG
 ---------

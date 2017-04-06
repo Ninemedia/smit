@@ -291,6 +291,9 @@ class Frontend extends Public_Controller {
         $category               = trim( smit_isset($category, "") );
         $agree                  = $this->input->post('reg_agree');
         $agree                  = trim( smit_isset($agree, "") );
+        
+        print_r($_FILES);
+        die();
 
         // -------------------------------------------------
         // Check Form Validation

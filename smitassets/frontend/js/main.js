@@ -417,7 +417,6 @@
     			type : "POST",
     			url  : url,
     			data : data,
-                
                 cache : false,
                 contentType : false,
                 processData : false,
