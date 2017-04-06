@@ -610,24 +610,24 @@ class Backend extends User_Controller {
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
         
+        $s_no_announcement  = $this->input->post('search_no_announcement');
+        $s_no_announcement  = smit_isset($s_no_announcement, '');
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
-        $s_extension        = $this->input->post('search_extension');
-        $s_extension        = smit_isset($s_extension, '');
         
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_no_announcement) ){ $condition .= str_replace('%s%', $s_no_announcement, ' AND %no_announcement% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
-        if( !empty($s_extension) )      { $condition .= str_replace('%s%', $s_extension, ' AND %extension% LIKE "%%s%%"'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
-        if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%extension% ' . $sort; }
+        if( $column == 1 )      { $order_by .= '%no_announcement% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
         
         $announcement_list  = $this->Model_Announcement->get_all_announcements($limit, $offset, $condition, $order_by);
@@ -641,34 +641,23 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($announcement_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('announcements/details/'.$row->uniquecode).'" 
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a>
-                    <a href="'.base_url('announcements/deleted/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
+                    <a href="'.base_url('pengumuman/hapus/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
                 
                 if( !empty( $row->url ) ){
-                    $btn_files  = '<a href="'.base_url('announcement/details/'.$row->uniquecode).'" 
+                    $btn_files  = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';    
                 }else{
                     $btn_files  = ' - ';
                 }
-                
-                //Extension
-                if( !empty($row->extension) ){
-                    if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
-                    elseif($row->extension == 'doc')    { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                    elseif($row->extension == 'docx')   { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                    elseif($row->extension == 'xls')    { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                    elseif($row->extension == 'xlsx')   { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }    
-                }else{
-                    $extension  = ' - ';
-                }
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('upload/announcement/'.$row->uniquecode).'">' . $row->title . '</a>',
+                    $row->no_announcement,
+                    '<a href="'.base_url('upload/pengumuman/'.$row->uniquecode).'">' . $row->title . '</a>',
                     smit_center( $btn_files ),
-                    smit_center( $extension ),
                     smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
@@ -705,6 +694,8 @@ class Backend extends User_Controller {
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
         
+        $s_no_announcement  = $this->input->post('search_no_announcement');
+        $s_no_announcement  = smit_isset($s_no_announcement, '');
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_date_min         = $this->input->post('search_datecreated_min');
@@ -712,6 +703,7 @@ class Backend extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_no_announcement) ){ $condition .= str_replace('%s%', $s_no_announcement, ' AND %no_announcment% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
@@ -733,12 +725,13 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($announcement_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('announcements/'.$row->uniquecode).'" 
-                    class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details">Details</a> ';
+                $btn_action = '<a href="'.base_url('pengumuman/'.$row->uniquecode).'" 
+                    class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('announcement/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
+                    $row->no_announcement,
+                    '<a href="'.base_url('pengumuman/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
                     smit_center( $row->datecreated ),
                     smit_center($btn_action),
                 );

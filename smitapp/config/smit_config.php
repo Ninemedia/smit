@@ -176,7 +176,6 @@ $config['user_menu_access']         = array(
         'inkubasi/laporan',
         'tenants',
         'tenants/blogs',
-        'tenants/daftar',
         'tenants/pendaftaran',
         'tenants/pendampingan',
         'tenants/produk',

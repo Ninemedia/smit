@@ -89,6 +89,7 @@ class Model_Announcement extends SMIT_Model{
     function get_all_announcements($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%no_announcement%",      "no_announcement", $conditions);
             $conditions = str_replace("%title%",                "title", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
             $conditions = str_replace("%description%",          "description", $conditions);
@@ -99,6 +100,7 @@ class Model_Announcement extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%no_announcement%",      "no_announcement",  $order_by);
             $order_by   = str_replace("%title%",                "title",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);
             $order_by   = str_replace("%description%",          "description",  $order_by);
