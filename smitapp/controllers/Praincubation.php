@@ -195,28 +195,19 @@ class PraIncubation extends User_Controller {
                 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == EXAMINED)    { $status = '<span class="label bg-brown">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == CALLED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
-                /*
-                if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'doc')    { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'docx')   { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xls')    { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xlsx')   { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                */
 
                 $records["aaData"][] = array(
                     smit_center($i),
                     '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
                     strtoupper($row->name),
                     strtoupper($workunit_type->workunit_name),
-                    '<a href="'.base_url('upload/incubationselection/'.$row->uniquecode).'">' . $row->event_title . '</a>',
+                    '<a href="'.base_url('unduh/prainkubasi/'.$row->uniquecode).'">' . $row->event_title . '</a>',
                     smit_center( $status ),
                     smit_center( $row->step ),
                     smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
@@ -243,6 +234,7 @@ class PraIncubation extends User_Controller {
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
+        $curdate            = date('Y-m-d H:i:s');
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -266,7 +258,7 @@ class PraIncubation extends User_Controller {
         }
         
         // Check Pra Incubation Setting
-        $praincset     = smit_latest_incubation_setting();
+        $praincset     = smit_latest_praincubation_setting();
         if( !$praincset || empty($praincset) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
@@ -280,35 +272,19 @@ class PraIncubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
-        $juriphase1data = $praincset->selection_juri_phase1;
-        $juriphase1data = !empty($juriphase1data) ? explode(',',$juriphase1data) : '';
-        
-        if( empty($juriphase1data) ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data juri tahap 1 tidak ditemukan');
-            // JSON encode data
-            die(json_encode($data));
-        }
-        
-        $lastselection  = smit_latest_praincubation(1);
-        $curdate        = date('Y-m-d H:i:s');
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
         
-        $last_jury      = !empty($lastselection) ? $lastselection->jury_id : 0;
         foreach($praincseldata as $row){
-            $get_jury   = smit_get_jury($juriphase1data,1,$last_jury);
             $praincselupdatedata    = array(
-                'jury_id'       => $get_jury->jury,
                 'status'        => 1,
                 'datemodified'  => $curdate,
             );
-            if( $this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
-                $last_jury  = $get_jury->last_jury;
+            if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
+                continue;
             }
         }
         
@@ -699,10 +675,10 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($praincubationset_list as $row){
-                $btn_details    = '<a href="'.base_url('praincubationsetdetails/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('detilprainkubasi/'.$row->uniquecode).'" 
                     class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('praincubationsetclose/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                '<a href="'.base_url('tutupprainkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
                 
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
