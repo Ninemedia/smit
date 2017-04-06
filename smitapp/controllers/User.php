@@ -1097,6 +1097,8 @@ class User extends SMIT_Controller {
         $username               = smit_isset($username);
         $password               = $this->input->post('password');
         $password               = smit_isset($password);
+        $selection              = $this->input->post('selection');
+        $selection              = smit_isset($selection);
         $message                = '';
         $data                   = '';
         $info                   = smit_alert('Username dan Password tidak boleh kosong. Silahkan ketik Username dan Password anda!');
@@ -1121,7 +1123,12 @@ class User extends SMIT_Controller {
                         $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran Seleksi Inkubasi');
                     }else{
                         // Check if username has been registeren on incubation selection
-                        $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
+                        if( $selection == 'praincubation' ){
+                            $user_selection = $this->Model_Praincubation->get_praincubation_by('userid',$userdata->id);
+                        }else{
+                            $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
+                        }
+
                         if( $user_selection || !empty($user_selection) ){
                             $message    = 'error';
                             $info       = smit_alert('Username sudah terdaftar dalam seleksi inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');

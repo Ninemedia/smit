@@ -8,6 +8,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     var $user                           = "smit_user";
     var $praincubation_selection        = "smit_praincubation_selection";
+    var $praincubation_selection_files  = "smit_praincubation_selection_files";
     var $praincubation_selection_set    = "smit_praincubation_selection_setting";
     var $praincubation_selection_rpt    = "smit_praincubation_selection_report";
     
@@ -288,6 +289,22 @@ class Model_Praincubation extends SMIT_Model{
     function save_data_praincubation_selection($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->praincubation_selection, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of praincubation_selection_files
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of pra incubation files
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_praincubation_selection_files($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_selection_files, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };

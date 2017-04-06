@@ -99,7 +99,7 @@
                                 if( !empty($guide_files) ){
                                     echo '<ul class="bottom40">';
                                     foreach($guide_files as $file){
-                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduh/'.$file->uniquecode).'">Unduh disini</a></li>';
+                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                     }
                                     echo '</ul>';
                                 }else{
@@ -107,7 +107,7 @@
                                 }
                             ?>
                             
-                            <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
+                            <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
                                     <h4>Data Profil Pengguna</h4>
@@ -123,7 +123,7 @@
                                             <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
                                         </div>
                                     </div>
-                                    <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
+                                    <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="praincubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
                                     <div id="username_info" class="top30"></div>
                                     
                                     <section id="detail_selection" class="display-hide top30">
