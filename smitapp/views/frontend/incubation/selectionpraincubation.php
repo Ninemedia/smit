@@ -72,7 +72,7 @@
                     <?php }else{?>
                         <div class="header">
                             <?php
-                                $selection_year     = date('Y', strtotime($lss->selection_date_start));
+                                $selection_year     = date('Y', strtotime($lss->selection_year_publication));
                             ?>
                             <h3 class="bottom0">SELEKSI <?php echo $selection_year; ?></h3>
                         </div>

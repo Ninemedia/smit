@@ -540,7 +540,8 @@ class PraIncubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
+        $post_selection_year_publication        = $this->input->post('selection_year_publication');
         $post_selection_date_publication        = $this->input->post('selection_date_publication');
         $post_selection_date_reg_start          = $this->input->post('selection_date_reg_start');
         $post_selection_date_reg_end            = $this->input->post('selection_date_reg_end');
@@ -560,6 +561,7 @@ class PraIncubation extends User_Controller {
         $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
         $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
         
+        $this->form_validation->set_rules('selection_year_publication','Tahun Publikasi','required');
         $this->form_validation->set_rules('selection_date_publication','Tanggal Publikasi','required');
         $this->form_validation->set_rules('selection_date_reg_start','Tanggal Mulai Pendaftaran Online','required');
         $this->form_validation->set_rules('selection_date_reg_end','Tanggal Selesai Pendaftaran Online','required');
@@ -574,9 +576,9 @@ class PraIncubation extends User_Controller {
         $this->form_validation->set_rules('selection_date_agreement','Tanggal Penetapan &amp; Penandatanganan Perjanjian','required');
         $this->form_validation->set_rules('selection_imp_date_start','Tanggal Mulai Pelaksanaan','required');
         $this->form_validation->set_rules('selection_imp_date_end','Tanggal Selesai Pelaksanaan','required');
-        $this->form_validation->set_rules('selection_files','Berkas Panduan','required');
-        $this->form_validation->set_rules('selection_juri_phase1','Juri Tahap 1','required');
-        $this->form_validation->set_rules('selection_juri_phase2','Juri Tahap 2','required');
+        $this->form_validation->set_rules('selection_files[]','Berkas Panduan','required');
+        $this->form_validation->set_rules('selection_juri_phase1[]','Juri Tahap 1','required');
+        $this->form_validation->set_rules('selection_juri_phase2[]','Juri Tahap 2','required');
         
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -597,20 +599,32 @@ class PraIncubation extends User_Controller {
             $post_selection_juri_phase2 = implode(',',$post_selection_juri_phase2);
             
             $settingdata                = array(
-                'uniquecode'                => $random,
-                'selection_date_start'      => smit_isset($post_selection_date_start, ''),
-                'selection_date_end'        => smit_isset($post_selection_date_end, ''),
-                'selection_imp_date_start'  => smit_isset($post_selection_imp_date_start, ''),
-                'selection_imp_date_end'    => smit_isset($post_selection_imp_date_end, ''),
-                'selection_files'           => $post_selection_files,
-                'selection_juri_phase1'     => $post_selection_juri_phase1,
-                'selection_juri_phase2'     => $post_selection_juri_phase2,
-                'status'                    => 1,
-                'datecreated'               => $curdate,
-                'datemodified'              => $curdate,
+                'uniquecode'                        => $random,
+                'selection_year_publication'        => smit_isset($post_selection_year_publication, ''),
+                'selection_date_publication'        => smit_isset($post_selection_date_publication, ''),
+                'selection_date_reg_start'          => smit_isset($post_selection_date_reg_start, ''),
+                'selection_date_reg_end'            => smit_isset($post_selection_date_reg_end, ''),
+                'selection_date_adm_start'          => smit_isset($post_selection_date_adm_start, ''),
+                'selection_date_adm_end'            => smit_isset($post_selection_date_adm_end, ''),
+                'selection_date_invitation_send'    => smit_isset($post_selection_date_invitation_send, ''),
+                'selection_date_interview_start'    => smit_isset($post_selection_date_interview_start, ''),
+                'selection_date_interview_end'      => smit_isset($post_selection_date_interview_end, ''),
+                'selection_date_result'             => smit_isset($post_selection_date_result, ''),
+                'selection_date_proposal_start'     => smit_isset($post_selection_date_proposal_start, ''),
+                'selection_date_proposal_end'       => smit_isset($post_selection_date_proposal_end, ''),
+                'selection_date_agreement'          => smit_isset($post_selection_date_agreement, ''),
+                'selection_imp_date_start'          => smit_isset($post_selection_imp_date_start, ''),
+                'selection_imp_date_end'            => smit_isset($post_selection_imp_date_end, ''),
+                'selection_desc'                    => $post_selection_desc,
+                'selection_files'                   => $post_selection_files,
+                'selection_juri_phase1'             => $post_selection_juri_phase1,
+                'selection_juri_phase2'             => $post_selection_juri_phase2,
+                'status'                            => 1,
+                'datecreated'                       => $curdate,
+                'datemodified'                      => $curdate,
             );
             
-            if( $save_setting   = $this->Model_Prancubation->save_data_praincubation_selection_setting($settingdata) ){
+            if( $save_setting   = $this->Model_Praincubation->save_data_praincubation_selection_setting($settingdata) ){
                 // Set JSON data
                 $data = array(
                     'message'   => 'success',

@@ -32,13 +32,19 @@ var Wizard = function () {
             },
             onStepChanged: function (event, currentIndex, priorIndex) {
                 setButtonWavesEffect(event);
+                
+                if (currentIndex == 3) {
+                    setSelecetionDet();
+                }else{
+                    clearSelecetionDet();
+                }
             },
             onFinishing: function (event, currentIndex) {
                 form.validate().settings.ignore = ':disabled';
                 return form.valid();
             },
             onFinished: function (event, currentIndex) {
-                $('#save_selectionincubationsetting').modal('show');
+                $('#save_selectionpraincubationsetting').modal('show');
             }
         });
         formWizardValidate(form);
@@ -57,7 +63,77 @@ var Wizard = function () {
         selectDatePicker( $('.selection_date_proposal_end'),'',$('.selection_date_agreement') );
         selectDatePicker( $('.selection_date_agreement'),'',$('.selection_imp_date_start') );
         selectDatePicker( $('.selection_imp_date_start'),'',$('.selection_imp_date_end') );
+        selectDatePicker( $('.selection_imp_date_end') );
     };
+    
+    var setSelecetionDet = function(){
+        var selection_year_publication_val = $('#selection_year_publication').val();
+        $('.selection_det_year_publication').empty().html( selection_year_publication_val ).show();
+        
+        var selection_det_date_publication_val = $('.selection_date_publication').val();
+        selection_det_date_publication_val = moment(selection_det_date_publication_val).format('DD MMM YYYY');
+        $('.selection_det_date_publication').empty().html( selection_det_date_publication_val ).show();
+        
+        var selection_det_reg_start_val = $('.selection_date_reg_start').val();
+        var selection_det_reg_end_val = $('.selection_date_reg_end').val();
+        var selection_det_reg = moment(selection_det_reg_start_val).format('DD MMM') + ' - ' + moment(selection_det_reg_end_val).format('DD MMM YYYY');
+        $('.selection_det_reg').empty().html( selection_det_reg ).show();
+        
+        var selection_det_adm_start_val = $('.selection_date_adm_start').val();
+        var selection_det_adm_end_val = $('.selection_date_adm_end').val();
+        var selection_det_adm = moment(selection_det_adm_start_val).format('DD MMM') + ' - ' + moment(selection_det_adm_end_val).format('DD MMM YYYY');
+        $('.selection_det_adm').empty().html( selection_det_adm ).show();
+        
+        var selection_det_invitation_send_val = $('.selection_date_invitation_send').val();
+        selection_det_invitation_send_val = moment(selection_det_invitation_send_val).format('DD MMM YYYY');
+        $('.selection_det_invitation_send').empty().html( selection_det_invitation_send_val ).show();
+        
+        var selection_det_interview_start_val = $('.selection_date_interview_start').val();
+        var selection_det_interview_end_val = $('.selection_date_interview_end').val();
+        var selection_det_interview = moment(selection_det_interview_start_val).format('DD MMM') + ' - ' + moment(selection_det_interview_end_val).format('DD MMM YYYY');
+        $('.selection_det_interview').empty().html( selection_det_interview ).show();
+        
+        var selection_det_result_val = $('.selection_date_result').val();
+        selection_det_result_val = moment(selection_det_result_val).format('DD MMM YYYY');
+        $('.selection_det_result').empty().html( selection_det_result_val ).show();
+        
+        var selection_det_proposal_start_val = $('.selection_date_proposal_start').val();
+        var selection_det_proposal_end_val = $('.selection_date_proposal_end').val();
+        var selection_det_proposal = moment(selection_det_proposal_start_val).format('DD MMM') + ' - ' + moment(selection_det_proposal_end_val).format('DD MMM YYYY');
+        $('.selection_det_proposal').empty().html( selection_det_proposal ).show();
+        
+        var selection_det_date_agreement_val = $('.selection_date_agreement').val();
+        selection_det_date_agreement_val = moment(selection_det_date_agreement_val).format('DD MMM YYYY');
+        $('.selection_det_date_agreement').empty().html( selection_det_date_agreement_val ).show();
+        
+        var selection_det_imp_date_start_val = $('.selection_imp_date_start').val();
+        var selection_det_imp_date_end_val = $('.selection_imp_date_end').val();
+        var selection_det_imp_date = moment(selection_det_imp_date_start_val).format('DD MMM') + ' - ' + moment(selection_det_imp_date_end_val).format('DD MMM YYYY');
+        $('.selection_det_imp_date').empty().html( selection_det_imp_date ).show();
+        
+        $('.selection_det_desc').empty().html( $('.selection_desc').val() ).show();
+        
+        var selection_det_selection_files_val = $('#selection_files').val();
+        var selection_det_juri_phase1_val = $('#selection_juri_phase1').val();
+        var selection_det_juri_phase2_val = $('#selection_juri_phase2').val();
+    }
+    
+    var clearSelecetionDet = function(){
+        $('.selection_det_year_publication').empty().html('-').show();
+        $('.selection_det_date_publication').empty().html('-').show();
+        $('.selection_det_reg').empty().html('-').show();
+        $('.selection_det_adm').empty().html('-').show();
+        $('.selection_det_invitation_send').empty().html('-').show();
+        $('.selection_det_interview').empty().html('-').show();
+        $('.selection_det_result').empty().html('-').show();
+        $('.selection_det_proposal').empty().html('-').show();
+        $('.selection_det_date_agreement').empty().html('-').show();
+        $('.selection_det_imp_date').empty().html('-').show();
+        $('.selection_det_desc').empty().html('-').show();
+        $('.selection_det_selection_files').empty().html('-').show();
+        $('.selection_det_juri_phase1').empty().html('-').show();
+        $('.selection_det_juri_phase2').empty().html('-').show();
+    }
     
     var selectDatePicker = function(el, formatdate='', el_end=''){
         //Datetimepicker plugin
@@ -65,6 +141,7 @@ var Wizard = function () {
             format: formatdate!="" ? formatdate : 'YYYY-MM-DD H:mm',
             clearButton: true,
             weekStart: 1,
+            year: false
         }).on('change', function(e, date){
             if( el_end!="" ){
                 $(el_end).bootstrapMaterialDatePicker('setMinDate', date);
@@ -79,6 +156,9 @@ var Wizard = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
+                selection_year_publication: {
+                    required: true,
+                },
                 selection_date_publication: {
                     required: true,
                 },
@@ -121,17 +201,20 @@ var Wizard = function () {
                 selection_imp_date_end: {
                     required: true,
                 },
-                selection_files: {
+                'selection_files[]': {
                     required: true,
                 },
-                juri_phase1: {
+                'selection_juri_phase1[]': {
                     required: true,
                 },
-                juri_phase2: {
+                'selection_juri_phase2[]': {
                     required: true,
                 }
             },
             messages: {
+                selection_year_publication: {
+                    required: "Tahun Publikasi harus di isi",
+                },
                 selection_date_publication: {
                     required: "Tanggal Publikasi harus di isi",
                 },
@@ -174,13 +257,13 @@ var Wizard = function () {
                 selection_imp_date_end: {
                     required: "Tanggal selesai pelaksanaan kegiatan harus di isi",
                 },
-                selection_files: {
+                'selection_files[]': {
                     required: "Silahkan pilih berkas panduan",
                 },
-                juri_phase1: {
+                'selection_juri_phase1[]': {
                     required: "Silahkan pilih juri tahap 1",
                 },
-                juri_phase2: {
+                'selection_juri_phase2[]': {
                     required: "Silahkan pilih juri tahap 2",
                 }
             },

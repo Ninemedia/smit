@@ -1589,7 +1589,7 @@ if ( !function_exists('smit_latest_incubation') )
 if ( !function_exists('smit_latest_praincubation_setting') ) 
 {
     /**
-     * Get latest pra incubation setting
+     * Get latest pra-incubation setting
      * @author  Iqbal
      * @return  User Type Data
      */
@@ -1604,21 +1604,24 @@ if ( !function_exists('smit_latest_praincubation_setting') )
 	}
 }
 
-if ( !function_exists('smit_latest_praincubation_setting') ) 
+if ( !function_exists('smit_select_year') ) 
 {
     /**
-     * Get latest pra-incubation setting
+     * Get select year option
      * @author  Iqbal
-     * @return  User Type Data
+     * @return  Array year option
      */
-	function smit_latest_praincubation_setting() {
+	function smit_select_year($earliest_year, $latest_year) {
 		$CI =& get_instance();
-        $condition  = ' WHERE %status% = 1';
-        $order_by   = ' %datecreated% DESC';
-        $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by); 
-
-        if( !$lss || empty($lss) ) return false;
-		return $lss[0];
+        
+        if ( empty($earliest_year) || !$earliest_year ) return false;
+        if ( empty($latest_year) || !$latest_year ) return false;
+        
+        $year_arr = array();
+        foreach ( range( $earliest_year, $latest_year ) as $i ) {
+            $year_arr[] = $i;
+        }
+        return $year_arr;
 	}
 }
 
