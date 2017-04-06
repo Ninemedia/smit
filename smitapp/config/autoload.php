@@ -67,7 +67,8 @@ $autoload['libraries'] = array(
     'table', 
     'upload', 
     'image_lib',
-    'SMIT_User'
+    'SMIT_User',
+    'MY_Upload'
 );
 
 /*

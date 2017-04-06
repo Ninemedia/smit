@@ -900,7 +900,7 @@ class Backend extends User_Controller {
                     );
                     if( $this->Model_Guide->save_data_guide($guide_data) ){
                         $this->session->set_flashdata('success','Berkas panduan berhasil diupload');
-                        redirect(base_url('guidefiles'));
+                        redirect(base_url('panduan/berkas'));
                     }
                 }
             }

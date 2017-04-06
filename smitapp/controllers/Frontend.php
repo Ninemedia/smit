@@ -390,14 +390,17 @@ class Frontend extends Public_Controller {
             );
             $this->upload->initialize($config);
                 
-            if( ! $this->upload->do_upload('reg_selection_files') ){
+            if( ! $this->upload->do_multi_upload('reg_selection_files') ){
                 $message = $this->upload->display_errors();
                 
                 // Set JSON data
                 $data = array('message' => 'error','data' => $this->upload->display_errors()); 
                 die(json_encode($data));
             }
-                
+            
+            print_r($this->upload->get_multi_upload_data());
+            die();
+            
             // -------------------------------------------------
             // Begin Transaction
             // -------------------------------------------------
