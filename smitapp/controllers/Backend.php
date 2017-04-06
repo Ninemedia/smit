@@ -996,10 +996,6 @@ class Backend extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_desc             = $this->input->post('search_desc');
         $s_desc             = smit_isset($s_desc, '');
-        $s_name             = $this->input->post('search_name');
-        $s_name             = smit_isset($s_name, '');
-        $s_extension        = $this->input->post('search_extension');
-        $s_extension        = smit_isset($s_extension, '');
         
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -1008,17 +1004,13 @@ class Backend extends User_Controller {
         
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if( !empty($s_desc) )           { $condition .= str_replace('%s%', $s_desc, ' AND %description% = %s%'); }
-        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_extension) )      { $condition .= str_replace('%s%', $s_extension, ' AND %extension% LIKE "%%s%%"'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
         if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%description% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%extension% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
         
         $guides_list        = $this->Model_Guide->get_all_guides($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -1029,18 +1021,17 @@ class Backend extends User_Controller {
             
             $i = $offset + 1;
             foreach($guides_list as $row){
-                if($row->extension == 'pdf')             { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'doc')         { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'docx')        { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xls')         { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                elseif($row->extension == 'xlsx')        { $extension = '<span class="label label-success">'.strtoupper($row->extension).'</span>'; }
-                
+                if( !empty( $row->url ) ){
+                    $btn_files  = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';    
+                }else{
+                    $btn_files  = ' - ';
+                }
                 $records["aaData"][] = array(
                     smit_center($i),
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
-                    '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->name . '</a>',
-                    smit_center( $extension ),
+                    smit_center( $btn_files ),
                     smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                     '',
                 );
