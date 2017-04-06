@@ -87,8 +87,7 @@ $route['prainkubasi/konfirmasi']                = "praincubation/praincubationco
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
-$route['prainkubasi/detail/(:any)']     = "praincubation/praincubationdetails/$1";
-
+$route['prainkubasi/detail/(:any)']             = "praincubation/praincubationdetails/$1";
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
 $route['tutupprainkubasi/(:any)']               = "praincubation/praincubationsettingclose/$1";
@@ -98,6 +97,8 @@ $route['praincubationreportconfirm']            = "praincubation/praincubationre
 $route['praincubationreportconfirm/(:any)']     = "praincubation/praincubationreportconfirm/$1";
 $route['praincubationscoreact/(:any)/(:any)']   = "praincubation/praincubationscoreaction/$1/$2";
 $route['praincubationdownloadfile/(:any)']      = "praincubation/praincubationdownloadfile/$1";
+$route['penilaianseleksi/(:any)']               = "praincubation/praincubationselectiondetails/$1";
+$route['detailseleksi/(:any)']                  = "praincubation/praincubationselectiondetails/$1";
 
 // Incubation Page Routes
 $route['inkubasi/daftar']                       = "incubation/incubationlist";

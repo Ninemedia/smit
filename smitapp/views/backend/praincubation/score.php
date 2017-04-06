@@ -28,7 +28,7 @@
                             <div class="alert bg-blue">
                                 Dibawah ini merupakan daftar seleksi Tahap 1 
                             </div>
-                            <div class="table-container table-responsive">
+                            <div class="table-container table-responsive table-praincubation-score">
                                 <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/juryscorelistdata/1'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
@@ -95,14 +95,9 @@
                                             <!-- Profile Image -->
                                             <div class="box box-primary">
                                                 <div class="box-body box-profile">
-                                                    <img class="profile-user-img img-responsive img-circle" 
-                                                    src="<?php echo BE_IMG_PATH . 'avatar/avatar1.png'; ?>" 
-                                                    alt="User Profile Picture" />
                                                     <h3 class="profile-name text-center col-teal">Nama Pengguna</h3>
                                                     <h5 class="profile-username text-center"><i class="material-icons">person</i> Username Pengguna</h5>
-                                                    <h5 class="profile-email text-center"><i class="material-icons">email</i> example@email.com</h5>
-                                                    <h5 class="profile-phone text-center"><i class="material-icons">phone</i> +8123456789</h5>
-                                                    <h3 class="selection-status text-center"></h3>
+                                                    <h5 class="profile-workunit text-center"><i class="material-icons">assignment_ind</i> Satuan Kerja</h5>
                                                 </div>
                                             </div>
                                             <hr class="line-warning bottom20" />
@@ -144,44 +139,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <!-- Status for Examined -->
-                                            <div class="status-examined display-hide">
-                                                <div class="input-group">
-                                                    <button class="btn btn-lg bg-green waves-effect btn-download-file" 
-                                                    data-baseurl="<?php echo base_url('incubationscoreact/download'); ?>" type="button">
-                                                        <i class="material-icons">file_download</i> Download Berkas
-                                                    </button>
-                                                    <button class="btn btn-lg btn-primary waves-effect btn-examine" 
-                                                    data-baseurl="<?php echo base_url('incubationscoreact/examine'); ?>" type="button">
-                                                        <i class="material-icons">autorenew</i> Periksa Seleksi
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Status for Called -->
-                                            <div class="status-called display-hide">
-                                                <div class="input-group">
-                                                    <button class="btn btn-lg bg-green waves-effect btn-download-file" 
-                                                    data-baseurl="<?php echo base_url('incubationscoreact/download'); ?>" type="button">
-                                                        <i class="material-icons">file_download</i> Download Berkas
-                                                    </button>
-                                                    <button class="btn btn-lg btn-danger waves-effect btn-reject" 
-                                                    data-baseurl="<?php echo base_url('incubationscoreact/reject'); ?>" type="button">
-                                                        <i class="material-icons">close</i> Tolak
-                                                    </button>
-                                                    <button class="btn btn-lg btn-primary waves-effect btn-call" 
-                                                    data-baseurl="<?php echo base_url('incubationscoreact/call'); ?>" type="button">
-                                                        <i class="material-icons">phone</i> Panggil
-                                                    </button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Score Incubation Details -->
                         </div>
+                        
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="alert bg-blue">
                                 Dibawah ini merupakan daftar seleksi Tahap 2 yang telah dilakukan penyaringan pada Tahap 1. 
@@ -568,6 +532,7 @@
                 <?php elseif($is_pelaksana): ?>
                 
                 <?php else: ?>
+                
                 <div class="table-container table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdata/1'); ?>">
                         <thead>

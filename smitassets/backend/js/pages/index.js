@@ -200,6 +200,83 @@ var ScoreSetting = function () {
             });
         });  
         
+        // Rate Score Incubation Setting
+        $("body").delegate( "a.scoresetrate", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var step = $(this).data('step');
+
+            var table_container = $('#jury_stepone').parents('.dataTables_wrapper');
+            var el = $('#scoredata_details');
+            var el_table = $('.table-praincubation-score');
+
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response    = $.parseJSON(response);
+                         
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error'){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }else{
+                        $('.profile-name').empty().html(response.details.user_name).show();
+                        $('.profile-username').empty().html('<i class="material-icons">person</i> ' + response.details.username).show();
+                        $('.profile-email').empty().html('<i class="material-icons">email</i> ' + response.details.email).show();
+                        $('.profile-phone').empty().html('<i class="material-icons">phone</i> ' + response.details.phone).show();
+                        
+                        $('#reg_event_title, #reg_event_title2').val(response.details.event_title);
+                        $('#reg_desc, #reg_desc2').val(response.details.event_desc);
+                        $('#reg_name, #reg_name2').val(response.details.name);
+                        $('#reg_category, #reg_category2').val(response.details.category);
+                        
+                        if( step == 1 ){
+                            $('.status-examined').hide();
+                            $('.status-called').hide();
+                            
+                            $('button.btn-examine, button.btn-call, button.btn-reject').attr('data-uniquecode',response.details.uniquecode);
+                            $('button.btn-download-file').attr('data-uniquecode', response.details.uniquecode);
+                        }else{
+                            if(response.details.status == 1){
+                                $('.selection-status').empty().html('<span class="label label-success">DIKONFIRMASI</span>').show();
+                            }
+                        }
+
+                        App.scrollTo(table_container,240);
+                        el.fadeIn();
+                    }
+                }
+            });
+        });  
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // Button Score Action
         $("body").delegate( "button.btn-examine", "click", function( event ) {
             event.preventDefault();

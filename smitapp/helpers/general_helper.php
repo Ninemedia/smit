@@ -1546,6 +1546,21 @@ if ( !function_exists('smit_workunit_type') )
 	}
 }
 
+if ( !function_exists('smit_workunit_type_by_id') ) 
+{
+    /**
+     * Get workunit type by ID
+     * @author  Rifal
+     * @param   Int         $id     (Optional)  ID of Work Unit
+     * @return  User Type Data
+     */
+	function smit_workunit_type_by_id($id='') {
+		$CI =& get_instance();
+        $workunit   = $CI->Model_User->get_workunit_by_id($id); 
+		return $workunit;
+	}
+}
+
 if ( !function_exists('smit_latest_praincubation') ) 
 {
     /**

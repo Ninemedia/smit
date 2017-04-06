@@ -147,12 +147,18 @@ class Model_Praincubation extends SMIT_Model{
         $sql = '
             SELECT A.*, B.name AS user_name, B.email, B.phone
             FROM '.$this->praincubation_selection.' AS A
-            INNER JOIN '.$this->user.' AS B
+            LEFT JOIN '.$this->user.' AS B
             ON B.id = A.user_id 
-            WHERE A.uniquecode = ?';
-        $qry = $this->db->query($sql, array($uniquecode));
+            WHERE A.uniquecode = "'.$uniquecode.'"';
+        $qry = $this->db->query($sql);
+        //if( $qry->num_rows == 0 ) return false;
         
-        if( !$qry || $qry->num_rows == 0 ) return false;
+        print_r($qry);
+        die();
+        
+        print_r($qry);
+        die();
+        
         return $qry->row();
     }
     

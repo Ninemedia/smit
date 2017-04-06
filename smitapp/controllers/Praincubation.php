@@ -872,7 +872,7 @@ class PraIncubation extends User_Controller {
         ));
         $scripts_add            = '';
 
-        $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
+        $data['title']          = TITLE . 'Penilaian Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
@@ -960,9 +960,7 @@ class PraIncubation extends User_Controller {
                 if( $row->step == 1){
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    elseif($row->status == EXAMINED)    { $status = '<span class="label bg-brown">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    elseif($row->status == CALLED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; } 
-                    elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }   
+                    elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }  
                 }else{
                     if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -970,8 +968,15 @@ class PraIncubation extends User_Controller {
                 }
 
                 if( $row->step == 1){
-                    $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
-                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    if($row->status == CONFIRMED){
+                        $btn_action = '<a href="'.base_url('penilaianseleksi/'.$row->uniquecode).'" 
+                        class="scoresetrate btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">content_paste</i></a>';
+                    }else{
+                        $btn_action = '<a href="'.base_url('detailseleksi/'.$row->uniquecode).'" 
+                        class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    }
+                    
+                    
                     $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->username . '</a>',
@@ -979,7 +984,7 @@ class PraIncubation extends User_Controller {
                         $row->event_title,
                         smit_center( $status ),
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
-                        smit_center($btn_details),
+                        smit_center($btn_action),
                     );    
                 }else{
                     $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
@@ -1261,9 +1266,9 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Jury Detail Incubation data function.
+	 * Pra-Incubation Selection Detailss data function.
 	 */
-    function juryscoredatadetails($uniquecode){
+    function praincubationselectiondetails($uniquecode){
         
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
@@ -1275,7 +1280,7 @@ class PraIncubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-          
+
         $current_user   = smit_get_current_user();
         $is_jury        = as_juri($current_user);
         $content        = '';
@@ -1294,10 +1299,29 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $scoresetdata      = $this->Model_Incubation->get_incubation_by_uniquecode($uniquecode);
-        unset($scoresetdata->id);
+        $selectiondata  = $this->Model_Praincubation->get_praincubation_by_uniquecode($uniquecode);
+        
+        print_r($selectiondata);
+        die();
+        
+        unset($selectiondata->id);
+        
+        
+        
+        $userdata       = smit_get_userdata_by_id($selectiondata->user_id);
+        if( !$userdata ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Data pengguna tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $workunitdata   = smit_workunit_type_by_id($userdata->workunit);
+        $selectiondata->workunit = $workunitdata->workunit_name;
+        
+        
 
-        if( !$scoresetdata ){
+        if( !$selectiondata ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
             // JSON encode data
@@ -1305,7 +1329,7 @@ class PraIncubation extends User_Controller {
         }
         
         // Set JSON data
-        $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $scoresetdata);
+        $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $selectiondata);
         // JSON encode data
         die(json_encode($data));
     }

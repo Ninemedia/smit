@@ -417,6 +417,23 @@ class Model_User extends SMIT_Model{
         $query      = $this->db->get($this->_workunit);        
         return ( !empty($id) ? $query->row() : $query->result() );
     }
+    
+    /**
+     * Get Workunit by ID
+     * 
+     * @param   Int     $id     (Required)  ID of Workunit
+     * @return  Mixed   False on invalid date parameter, otherwise data of workunit(s).
+     */
+    function get_workunit_by_id($id){
+        if ( empty($id) || !$id ) return false;
+
+        $id = absint($id); 
+        $this->db->where('workunit_id', $id);
+        $this->db->order_by("workunit_id", "ASC"); 
+        
+        $query  = $this->db->get($this->_workunit);        
+        return $query->row();
+    }
 
     // ---------------------------------------------------------------------------------
 }
