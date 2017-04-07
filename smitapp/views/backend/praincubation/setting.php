@@ -171,8 +171,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php $latest_selection_praincubation_setting = smit_latest_praincubation_setting(); ?>
-                        
-                        <?php if( $latest_selection_praincubation_setting || !empty($latest_selection_praincubation_setting) ){ ?>
+                        <?php if( !$latest_selection_praincubation_setting || empty($latest_selection_praincubation_setting) ){ ?>
                             <div class="alert alert-warning bottom0">Pengaturan Pra-Inkubasi tidak dapat ditambahkan karena saat ini sedang dibuka Seleksi Pra-Inkubasi</div>
                         <?php }else{ ?>
                             <div id="alert" class="alert display-hide"></div>

@@ -88,8 +88,9 @@ $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationco
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
 $route['prainkubasi/detail/(:any)']             = "praincubation/praincubationdetails/$1";
-$route['prainkubasi/nilai/(:any)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
-$route['prainkubasi/nilai2/(:any)/(:any)']      = "praincubation/juryscoreuser2/$1/$2";
+$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
+$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
+
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
 $route['tutupprainkubasi/(:any)']               = "praincubation/praincubationsettingclose/$1";
@@ -169,7 +170,7 @@ $route['informasi/pengumuman']          = "frontend/announcement";
 $route['informasi/pengumuman/(:any)']   = "frontend/announcementdetails/$1";
 $route['announcementlist']              = "frontend/announcementlistdata";
 // Statistic
-$route['statistik']                    = "frontend/statistic";
+$route['statistik']                     = "frontend/statistic";
 // Contact
 $route['kontak']                        = "frontend/contact";
 // -------------------------------------------------------------------------

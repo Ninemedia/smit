@@ -200,188 +200,6 @@ var ScoreSetting = function () {
             });
         });  
         
-        // Rate Score Incubation Setting
-        $("body").delegate( "a.scoresetrate", "click", function( event ) {
-            event.preventDefault();
-            var url = $(this).attr('href');
-            var step = $(this).data('step');
-
-            var table_container = $('#jury_stepone').parents('.dataTables_wrapper');
-            var el = $('#scoredata_details');
-            var el_table = $('.table-praincubation-score');
-
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                         
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        $('.profile-name').empty().html(response.details.user_name).show();
-                        $('.profile-username').empty().html('<i class="material-icons">person</i> ' + response.details.username).show();
-                        $('.profile-email').empty().html('<i class="material-icons">email</i> ' + response.details.email).show();
-                        $('.profile-phone').empty().html('<i class="material-icons">phone</i> ' + response.details.phone).show();
-                        
-                        $('#reg_event_title, #reg_event_title2').val(response.details.event_title);
-                        $('#reg_desc, #reg_desc2').val(response.details.event_desc);
-                        $('#reg_name, #reg_name2').val(response.details.name);
-                        $('#reg_category, #reg_category2').val(response.details.category);
-                        
-                        if( step == 1 ){
-                            $('.status-examined').hide();
-                            $('.status-called').hide();
-                            
-                            $('button.btn-examine, button.btn-call, button.btn-reject').attr('data-uniquecode',response.details.uniquecode);
-                            $('button.btn-download-file').attr('data-uniquecode', response.details.uniquecode);
-                        }else{
-                            if(response.details.status == 1){
-                                $('.selection-status').empty().html('<span class="label label-success">DIKONFIRMASI</span>').show();
-                            }
-                        }
-
-                        App.scrollTo(table_container,240);
-                        el.fadeIn();
-                    }
-                }
-            });
-        });  
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // Button Score Action
-        $("body").delegate( "button.btn-examine", "click", function( event ) {
-            event.preventDefault();
-            var div_container   = $('#alert-display');
-            var baseurl         = $(this).data('baseurl');
-            var uniquecode      = $(this).data('uniquecode');
-            var url             = baseurl + '/' + uniquecode;
-
-            bootbox.confirm("Anda yakin akan melakukan pemeriksaan seleksi user ini?", function(result) {
-                if( result == true ){
-                    $.ajax({
-                        type:   "POST",
-                        url:    url,
-                        beforeSend: function (){
-                            $("div.page-loader-wrapper").fadeIn();
-                        },
-                        success: function( response ){                    
-                            $("div.page-loader-wrapper").fadeOut();
-                            response = $.parseJSON(response);
-                            
-                            if( response.msg == 'error' ){
-                                App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: div_container, 
-                                    place: 'prepend',
-                                    focus: false
-                                });
-                                App.scrollTo(div_container, -90);
-                                $('button.btn-download-file').attr('disabled','disabled');
-                            }else{
-                                App.alert({
-                                    type: 'success', 
-                                    icon: 'check', 
-                                    message: response.message, 
-                                    container: div_container, 
-                                    place: 'prepend',
-                                    focus: false
-                                });
-                                App.scrollTo($('#scoredata_details'), -90);
-                                $('button.btn-download-file').removeAttr('disabled');
-                                $('.selection-status').empty().html('<span class="label bg-brown">DIPERIKSA</span>').show();
-                                $('#btn_list_user').trigger('click');
-                                $('.status-examined').hide();
-                                $('.status-called').show();
-                            }
-                            return false;
-                        }
-                    });
-                }
-            });
-        });
-        
-        $("body").delegate( "button.btn-call", "click", function( event ) {
-            event.preventDefault();
-            var div_container   = $('#alert-display');
-            var baseurl         = $(this).data('baseurl');
-            var uniquecode      = $(this).data('uniquecode');
-            var url             = baseurl + '/' + uniquecode;
-
-            bootbox.confirm("Anda yakin akan memanggil user ini?", function(result) {
-                if( result == true ){
-                    $.ajax({
-                        type:   "POST",
-                        url:    url,
-                        beforeSend: function (){
-                            $("div.page-loader-wrapper").fadeIn();
-                        },
-                        success: function( response ){                    
-                            $("div.page-loader-wrapper").fadeOut();
-                            response = $.parseJSON(response);
-                            
-                            if( response.msg == 'error' ){
-                                App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: div_container, 
-                                    place: 'prepend',
-                                    focus: false
-                                });
-                                App.scrollTo(div_container, -90);
-                            }else{
-                                App.alert({
-                                    type: 'success', 
-                                    icon: 'check', 
-                                    message: response.message, 
-                                    container: div_container, 
-                                    place: 'prepend',
-                                    focus: false
-                                });
-                                App.scrollTo($('#scoredata_details'), -90);
-                                $('.selection-status').empty().html('<span class="label label-warning">DIPANGGIL</span>').show();
-                                $('#btn_list_user').trigger('click');
-                                $('.status-examined').hide();
-                                $('.status-called').hide();
-                            }
-                            return false;
-                        }
-                    });
-                }
-            });
-        });
-        
         $("body").delegate( "button.btn-reject", "click", function( event ) {
             event.preventDefault();
             var div_container   = $('#alert-display');
@@ -481,51 +299,89 @@ var ScoreSetting = function () {
             App.scrollTo($('body'),0);
         });
         
-        // Score Setting Rate
-        $("body").delegate( "a.scoresetnilai", "click", function( event ) {
+        $("body").delegate( "button.btn-rate-step1", "click", function( event ) {
             event.preventDefault();
-            var url = $(this).attr('href');
-            var table_container = $('#jury_steptwo').parents('.dataTables_wrapper');
-            var el = $('#scoredata_nilai');
+            var div_container   = $('#alert-display');
+            var url             = $('#selection_score_step1').attr('action');
             
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                         
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        //$('#reg_username').val(response.details.username);
-                        //$('#reg_username_data').val(response.details.username);
-                        
-                        App.scrollTo($('#jury_steptwo'),240);
-                        el.fadeIn();
+            bootbox.confirm("Anda yakin akan memproses penilaian seleksi user ini?", function(result) {
+                if( result == true ){
+                    for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
                     }
+                    
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        data:   $('#selection_score_step1').serialize(),
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.message == 'redirect'){
+                                $(location).attr('href',response.data);
+                            }else if( response.message == 'error' ){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.data, 
+                                    container: div_container, 
+                                    place: 'prepend',
+                                    focus: false
+                                });
+                                App.scrollTo(div_container, -90);
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.data, 
+                                    container: div_container, 
+                                    place: 'prepend',
+                                    focus: false
+                                });
+                                App.scrollTo(div_container, -90);
+                            }
+                            return false;
+                        }
+                    });
                 }
             });
         });
         
-        // Close Nilai Incubation Setting
-        $("body").delegate( "a.close-nilai, button.close-nilai", "click", function( event ) {
+        // Rate Step 1 Change
+        $('.rate-step1').change(function( event ){
             event.preventDefault();
-            var el = $('#scoredata_nilai');
-            el.fadeOut();
-            App.scrollTo($('body'),0);
-        }); 
+
+            var val = $(this).val();
+            var rate = $(this).data('rate');
+            var rateplus = 0;
+            
+            if( val == 0 || val == "" ){
+                rateplus = parseInt(rateplus) - parseInt(rate);
+            }else{
+                rateplus = parseInt(val);
+            }
+            countTotalRateStep1(rateplus);
+        });
+    };
+    
+    countTotalRateStep1 = function( val ){
+        if( !val ) return false;
+        
+        var total_rate = 0;
+        var el = $('#nilai_total_tahap1');
+        var elval = el.val();
+        elval = parseInt(elval);
+ 
+        total_rate = elval + val;
+        if( total_rate < 0 ){
+            total_rate = 0;
+        }
+
+        el.prop('value', total_rate);
     };
     
     return {

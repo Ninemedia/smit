@@ -6,16 +6,18 @@ class Model_Praincubation extends SMIT_Model{
     /**
      * Initialize table
      */
-    var $user                           = "smit_user";
-    var $praincubation_selection        = "smit_praincubation_selection";
-    var $praincubation_selection_files  = "smit_praincubation_selection_files";
-    var $praincubation_selection_set    = "smit_praincubation_selection_setting";
-    var $praincubation_selection_rpt    = "smit_praincubation_selection_report";
+    var $user                               = "smit_user";
+    var $praincubation_selection            = "smit_praincubation_selection";
+    var $praincubation_selection_files      = "smit_praincubation_selection_files";
+    var $praincubation_selection_set        = "smit_praincubation_selection_setting";
+    var $praincubation_selection_rpt        = "smit_praincubation_selection_report";
+    var $praincubation_selection_rate_s1    = "smit_praincubation_selection_rate_step1";
+    var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
     
     /**
      * Initialize primary field
      */
-    var $primary                        = "id";
+    var $primary = "id";
     
     /**
 	* Constructor - Sets up the object properties.
@@ -84,6 +86,24 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1.
+     */
+    function get_praincubation_rate_step1($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where($primary, $id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_selection_rate_s1);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
      * Get pra incubation data by conditions
      * 
      * @author  Iqbal
@@ -114,7 +134,7 @@ class Model_Praincubation extends SMIT_Model{
         }
         
         if ( $id != '' && $id > 0 )
-            return $this->get_incubation($id);
+            return $this->get_praincubation($id);
         
         if( empty($field) ) return false;
         
@@ -127,10 +147,10 @@ class Model_Praincubation extends SMIT_Model{
             return false;
 
         foreach ( $query->result() as $row ) {
-            $incubation = $row;
+            $praincubation = $row;
         }
 
-        return $incubation;
+        return $praincubation;
     }
     
     /**
@@ -151,14 +171,8 @@ class Model_Praincubation extends SMIT_Model{
             ON B.id = A.user_id 
             WHERE A.uniquecode = "'.$uniquecode.'"';
         $qry = $this->db->query($sql);
-        //if( $qry->num_rows == 0 ) return false;
-        
-        print_r($qry);
-        die();
-        
-        print_r($qry);
-        die();
-        
+        if( $qry->num_rows == 0 ) return false;
+
         return $qry->row();
     }
     
@@ -201,10 +215,10 @@ class Model_Praincubation extends SMIT_Model{
             return false;
 
         foreach ( $query->result() as $row ) {
-            $incubationset = $row;
+            $praincubationset = $row;
         }
 
-        return $incubationset;
+        return $praincubationset;
     }
     
     /**
@@ -256,10 +270,10 @@ class Model_Praincubation extends SMIT_Model{
             return false;
 
         foreach ( $query->result() as $row ) {
-            $incubationrpt = $row;
+            $praincubationrpt = $row;
         }
 
-        return $incubationrpt;
+        return $praincubationrpt;
     }
     
     /**
@@ -283,6 +297,61 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !$qry || $qry->num_rows == 0 ) return false;
         return $qry->row();
+    }
+    
+    /**
+     * Get pra incubation rate step1 data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of pra incubation rate step1
+     */
+    function get_praincubation_rate_step1_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'jury_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'jury_id';
+                break;
+            case 'selection_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'selection_id';
+                break;
+            case 'uniquecode':
+                $value  = $value;
+                $id     = '';
+                $field  = 'uniquecode';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_praincubation_rate_step1($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->praincubation_selection_rate_s1);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $praincubation_rate_s1 = $row;
+        }
+
+        return $praincubation_rate_s1;
     }
     
     /**
@@ -358,6 +427,54 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Save data of praincubation_selection_rate_step1
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of praincubation rate step 1
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_praincubation_selection_rate_step1($data){
+        if( empty($data) ) return false;
+		
+		// We have UNIQUE index on this table so we can't use Active Record to do insert
+		$sql = 'INSERT IGNORE INTO '.$this->praincubation_selection_rate_s1.'(`' . implode('`,`', array_keys($data)) . '`)
+	            VALUES(' . rtrim(str_repeat('?,', count($data)), ',') . ')';
+		
+		$data_values 	= array_values($data);
+        $this->db->query($sql, $data_values);
+		
+		if ($this->db->affected_rows()) {
+			$id = $this->db->insert_id();
+            return $id;
+		}
+        return false;
+    }
+    
+    /**
+     * Save data of praincubation_selection_rate_step2
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of praincubation rate step 2
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_praincubation_selection_rate_step2($data){
+        if( empty($data) ) return false;
+		
+		// We have UNIQUE index on this table so we can't use Active Record to do insert
+		$sql = 'INSERT IGNORE INTO '.$this->praincubation_selection_rate_s2.'(`' . implode('`,`', array_keys($data)) . '`)
+	            VALUES(' . rtrim(str_repeat('?,', count($data)), ',') . ')';
+		
+		$data_values 	= array_values($data);
+        $this->db->query($sql, $data_values);
+		
+		if ($this->db->affected_rows()) {
+			$id = $this->db->insert_id();
+            return $id;
+		}
+        return false;
+    }
+    
+    /**
      * Retrieve all pra incubation data
      * 
      * @author  Iqbal
@@ -379,9 +496,6 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%url%",                  "A.url", $conditions);
             $conditions = str_replace("%extension%",            "A.extension", $conditions);
             $conditions = str_replace("%step%",                 "A.step", $conditions);
-            $conditions = str_replace("%jury%",                 "A.jury_id", $conditions);
-            $conditions = str_replace("%jury_username%",        "B.username",  $conditions);
-            $conditions = str_replace("%jury_name%",            "B.name",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
         }
         
@@ -395,18 +509,11 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%url%",                  "B.url",  $order_by);
             $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
-            $order_by   = str_replace("%jury%",                 "A.jury_id",  $order_by);
-            $order_by   = str_replace("%jury_username%",        "B.username",  $order_by);
-            $order_by   = str_replace("%jury_name%",            "B.name",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
         }
         
         $sql = '
-            SELECT 
-                A.*,
-                B.username AS jury_username,
-                B.name as jury_name,
-                B.workunit
+            SELECT A.*,B.workunit,B.name AS user_name
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
             ON B.id = A.user_id';
@@ -436,39 +543,29 @@ class Model_Praincubation extends SMIT_Model{
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
             $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
-            $conditions = str_replace("%event_title%",          "event_title", $conditions);
+            $conditions = str_replace("%selection_id%",         "selection_id", $conditions);
             $conditions = str_replace("%username%",             "username", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
             $conditions = str_replace("%description%",          "description", $conditions);
             $conditions = str_replace("%status%",               "status", $conditions);
             $conditions = str_replace("%url%",                  "url", $conditions);
             $conditions = str_replace("%extension%",            "extension", $conditions);
-            $conditions = str_replace("%step%",                 "step", $conditions);
-            $conditions = str_replace("%jury%",                 "jury_id", $conditions);
-            $conditions = str_replace("%jury_username%",        "username",  $conditions);
-            $conditions = str_replace("%jury_name%",            "name",  $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
         }
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
-            $order_by   = str_replace("%event_title%",          "event_title",  $order_by);
             $order_by   = str_replace("%username%",             "username",  $order_by);
+            $order_by   = str_replace("%selection_id%",         "selection_id",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);
             $order_by   = str_replace("%description%",          "description",  $order_by);
             $order_by   = str_replace("%status%",               "status",  $order_by);
             $order_by   = str_replace("%url%",                  "url",  $order_by);
             $order_by   = str_replace("%extension%",            "extension",  $order_by);
-            $order_by   = str_replace("%step%",                 "step",  $order_by);
-            $order_by   = str_replace("%jury%",                 "jury_id",  $order_by);
-            $order_by   = str_replace("%jury_username%",        "username",  $order_by);
-            $order_by   = str_replace("%jury_name%",            "name",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
         }
         
-        $sql = '
-            SELECT *
-            FROM ' . $this->praincubation_selection_files. '';
+        $sql = 'SELECT * FROM ' . $this->praincubation_selection_files. ' ';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');

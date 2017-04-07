@@ -968,9 +968,9 @@ class PraIncubation extends User_Controller {
                 }
 
                 if( $row->step == 1){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -1011,14 +1011,16 @@ class PraIncubation extends User_Controller {
         echo json_encode($records);
     }
     
-    
+    // ---------------------------------------------------------------------------------------------
     // PENILAIAN JURI
     /**
 	 * Score Jury Pra Incubation function.
 	 */
-	public function juryscoreuser($id='', $unique='')
+	public function juryscoreuser($step, $unique)
 	{
         auth_redirect();
+        
+        if( !$step || !$unique ) redirect( base_url('prainkubasi/nilai') );
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
@@ -1054,42 +1056,42 @@ class PraIncubation extends User_Controller {
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
-            BE_JS_PATH . 'pages/forms/editors.js',
             BE_JS_PATH . 'pages/index.js',
         ));
         
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
-            'TableAjax.init();',
-            'ScoreSetting.init();',
-            'SliderIndikator.init()'
+            'ScoreSetting.init();'
         ));
         $scripts_add            = '';
-        $data_user              = '';
-        $data_selection         = '';
-        if(!empty($id) || !empty($unique)){
-            $condition          = ' WHERE A.uniquecode = "'.$unique.'" AND step = 1 AND A.status <> 0';
-            $data_user          = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
-            $data_user          = $data_user[0];
-            $condition1         = ' WHERE user_id = "'.$id.'"'; 
-            $data_selection     = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition1, '');
+
+        // Get Pra-Incubation Selection Data
+        $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = 1 AND %status% <> 0';
+        $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
+        if( !$data_selection || empty($data_selection) ){
+            redirect( base_url('prainkubasi/nilai') );
+        }
+        $data_selection         = $data_selection[0];
+            
+        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
+        $data_selection_files   = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition, '');
+        if( !$data_selection_files || empty($data_selection_files) ){
+            redirect( base_url('prainkubasi/nilai') );
         }
 
-        $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
-        $data['user']           = $current_user;
-        $data['is_admin']       = $is_admin;
-        $data['is_jury']        = $is_jury;
-        $data['is_pengusul']    = $is_pengusul;
-        $data['is_pelaksana']   = $is_pelaksana;
-        
-        $data['data_user']      = $data_user;
-        $data['data_selection'] = $data_selection;
-        
-        $data['headstyles']     = $headstyles;
-        $data['scripts']        = $loadscripts;
-        $data['scripts_init']   = $scripts_init;
-        $data['scripts_add']    = $scripts_add;
-        $data['main_content']   = 'praincubation/scoreuser';
+        $data['title']                  = TITLE . 'Penilaian Seleksi Inkubasi';
+        $data['user']                   = $current_user;
+        $data['is_admin']               = $is_admin;
+        $data['is_jury']                = $is_jury;
+        $data['is_pengusul']            = $is_pengusul;
+        $data['is_pelaksana']           = $is_pelaksana;
+        $data['data_selection']         = $data_selection;
+        $data['data_selection_files']   = $data_selection_files;
+        $data['headstyles']             = $headstyles;
+        $data['scripts']                = $loadscripts;
+        $data['scripts_init']           = $scripts_init;
+        $data['scripts_add']            = $scripts_add;
+        $data['main_content']           = 'praincubation/scoreuser';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -1176,7 +1178,110 @@ class PraIncubation extends User_Controller {
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
+    /**
+	 * Score Jury Pra Incubation function.
+	 */
+	public function juryscoreuserprocess($step)
+	{
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        // Check Auth Redirect
+        $auth = auth_redirect( $this->input->is_ajax_request() );
+        if( !$auth ){
+            // Set JSON data
+            $data = array('message' => 'redirect','data' => base_url('dashboard'));
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( !$step ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter tahap data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $current_user   = smit_get_current_user();
+        $is_jury        = as_juri($current_user);
+        if( !$is_jury ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Proses penilaian hanya bisa dilakukan oleh Juri');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $step == 1 ){
+            $selection_id   = $this->input->post('nilai_selection_id');
+            $selection_id   = smit_isset($selection_id, '');
+            $rate1          = $this->input->post('nilai_dokumen');
+            $rate1          = smit_isset($rate1, '');
+            $rate2          = $this->input->post('nilai_target');
+            $rate2          = smit_isset($rate2, '');
+            $rate3          = $this->input->post('nilai_perlingungan');
+            $rate3          = smit_isset($rate3, '');
+            $rate4          = $this->input->post('nilai_penelitian');
+            $rate4          = smit_isset($rate4, '');
+            $rate5          = $this->input->post('nilai_market');
+            $rate5          = smit_isset($rate5, '');
+            $rate_total     = $this->input->post('nilai_total_tahap1');
+            $rate_total     = smit_isset($rate_total, '');
+            $rate_comment   = $this->input->post('nilai_juri_comment');
+            $rate_comment   = smit_isset($rate_comment, '');
+            
+            // Check Pra-Incubation Selection Data
+            $data_selection     = $this->Model_Praincubation->get_praincubation($selection_id);
+            if( !$data_selection || empty($data_selection) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data seleksi pra-inkubasi tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            } 
+            
+            // Check this Pra-Incubation Selection Rate Process
+            $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_by('selection_id',$selection_id);
+            if( $rate_process || !empty($rate_process) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah diproses');
+                // JSON encode data
+                die(json_encode($data));
+            }
+            
+            $curdate            = date("Y-m-d H:i:s");
+            $random             = smit_generate_rand_string(10,'low');
+            
+            // Set Data Rate Step 1
+            $rate_data_step1    = array(
+                'uniquecode'    => $random,
+                'selection_id'  => $selection_id,
+                'jury_id'       => $current_user->id,
+                'rate_1'        => $rate1,
+                'rate_2'        => $rate2,
+                'rate_3'        => $rate3,
+                'rate_4'        => $rate4,
+                'rate_5'        => $rate5,
+                'rate_total'    => $rate_total,
+                'comment'       => $rate_comment,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate
+            );
+            if( $this->Model_Praincubation->save_data_praincubation_selection_rate_step1($rate_data_step1) ){
+                // Set JSON data
+                $data = array('message' => 'success','data' => 'Proses penilaian seleksi pra-inkubasi ini berhasil');
+            }else{
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Proses penilaian seleksi pra-inkubasi ini tidak berhasil');
+            }
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            
+        }
+    }
     
+    
+    // ---------------------------------------------------------------------------------------------
+    // PENGUSUL
     /**
 	 * Pengusul Score list data function.
 	 */

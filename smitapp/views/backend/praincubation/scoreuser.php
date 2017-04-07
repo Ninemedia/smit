@@ -18,11 +18,11 @@
                                         <img class="profile-user-img img-responsive img-circle" 
                                         src="<?php echo BE_IMG_PATH . 'avatar/avatar1.png'; ?>" 
                                         alt="User Profile Picture" />
-                                        <h3 class="profile-name text-center col-teal"><?php echo strtoupper($data_user->name); ?></h3>
-                                        <h5 class="profile-username text-center"><i class="material-icons">person</i> <?php echo strtolower($data_user->username); ?></h5>
+                                        <h5 class="profile-name text-center col-teal"><?php echo strtoupper($data_selection->user_name); ?></h5>
+                                        <h5 class="profile-username text-center"><i class="material-icons">person</i> <?php echo strtolower($data_selection->username); ?></h5>
                                         <!--
-                                        <h5 class="profile-email text-center"><i class="material-icons">email</i> <?php echo strtolower($data_user->email); ?></h5>
-                                        <h5 class="profile-phone text-center"><i class="material-icons">phone</i> <?php echo strtolower($data_user->phone); ?></h5>
+                                        <h5 class="profile-email text-center"><i class="material-icons">email</i> <?php echo strtolower($data_selection->email); ?></h5>
+                                        <h5 class="profile-phone text-center"><i class="material-icons">phone</i> <?php echo strtolower($data_selection->phone); ?></h5>
                                         -->
                                         <h3 class="selection-status text-center"></h3>
                                     </div>
@@ -39,27 +39,16 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                         <div class="form-line">
-                                            <input type="text" name="reg_event_title" id="reg_event_title" class="form-control" value="<?php echo $data_user->event_title; ?>" disabled="" />
+                                            <input type="text" name="reg_event_title" id="reg_event_title" class="form-control" value="<?php echo $data_selection->event_title; ?>" disabled="" />
                                         </div>
                                     </div>
                                 </div>
-                                <!--
-                                <div class="form-group form-float">
-                                    <label class="form-label">Nama Peneliti Utama</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                        <div class="form-line">
-                                            <input type="text" name="reg_name" id="reg_name" class="form-control" value="<?php echo $data_user->event_title; ?>" disabled="" />
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
                                 <div class="form-group form-float">
                                     <label class="form-label">Kategori Bidang</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <div class="form-line">
-                                            <input type="text" name="reg_category" id="reg_category" class="form-control" value="<?php echo $data_user->category; ?>" disabled="" />
+                                            <input type="text" name="reg_category" id="reg_category" class="form-control" value="<?php echo $data_selection->category; ?>" disabled="" />
                                         </div>
                                     </div>
                                 </div>
@@ -67,16 +56,16 @@
                                     <div class="input-group">
                                         <label class="form-label">Deskripsi Kegiatan</label>
                                         <div class="form-line">
-                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize" disabled="" ><?php echo $data_user->event_desc; ?></textarea>
+                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize" disabled="" ><?php echo $data_selection->event_desc; ?></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <h2 class="card-inside-title text-uppercase">Berkas dan Proposal Kegiatan</h2>
                                 <?php
-                                    if( !empty($data_selection) ){
+                                    if( !empty($data_selection_files) ){
                                         echo '<ul class="bottom40">';
-                                        foreach($data_selection as $file){
+                                        foreach($data_selection_files as $file){
                                             echo '<li>'.strtoupper($file->filename).' - <a href="'.base_url('unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                         }
                                         echo '</ul>';
@@ -84,116 +73,100 @@
                                         echo '<strong>Tidak ada berkas panduan</strong>';
                                     }
                                 ?>
-                                <!-- Status for Examined -->
-                                <!--
-                                <div class="status-examined">
-                                    <div class="input-group">
-                                        <button class="btn btn-lg bg-green waves-effect btn-download-file" 
-                                        data-baseurl="<?php echo base_url('incubationscoreact/download'); ?>" type="button">
-                                            <i class="material-icons">file_download</i> Download Berkas
-                                        </button>
-                                        <button class="btn btn-lg btn-primary waves-effect btn-examine" 
-                                        data-baseurl="<?php echo base_url('incubationscoreact/examine'); ?>" type="button">
-                                            <i class="material-icons">autorenew</i> Periksa Seleksi
-                                        </button>
-                                    </div>
-                                </div>
-                                -->
-                                <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
-                                <div class="table-container table-responsive">
-                                    <table class="table table-striped table-bordered table-hover" id="jury_stepone">
-                                        <tr class="bg-blue-grey">
-                                            <th class="width5">No</th>
-                							<th class="width15 text-center">Kriteria Penilaian</th>
-                							<th class="width5 text-center">Bobot</th>
-                                            <th class="width10 text-center">Keterangan</th>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Kelengkapan Dokumen</td>
-                                            <td class="align-center">20</td>
-                                            <td>
-                                                <select class="form-control show-tick" name="nilai_dokumen" id="">
-                    	                        	<option>Beri Nilai..</option>
-                                                    <option value="20">Lengkap</option>
-                                                    <option value="0">Tidak Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Kesesuaian Target dan Biaya</td>
-                                            <td class="align-center">20</td>
-                                            <td>
-                                                <select class="form-control show-tick" name="nilai_target" id="">
-                    	                        	<option>Beri Nilai..</option>
-                                                    <option value="20">Lengkap</option>
-                                                    <option value="0">Tidak Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Adanya Perlindungan KI</td>
-                                            <td class="align-center">20</td>
-                                            <td>
-                                                <select class="form-control show-tick" name="nilai_perlingungan" id="">
-                    	                        	<option>Beri Nilai..</option>
-                                                    <option value="20">Lengkap</option>
-                                                    <option value="0">Tidak Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Penelitian Lanjutan</td>
-                                            <td class="align-center">10</td>
-                                            <td>
-                                                <select class="form-control show-tick" name="nilai_penelitian" id="">
-                    	                        	<option>Beri Nilai..</option>
-                                                    <option value="10">Lengkap</option>
-                                                    <option value="0">Tidak Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Marketable</td>
-                                            <td class="align-center">30</td>
-                                            <td>
-                                                <select class="form-control show-tick" name="nilai_market" id="">
-                    	                        	<option>Beri Nilai..</option>
-                                                    <option value="30">Lengkap</option>
-                                                    <option value="0">Tidak Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><strong>Jumlah Nilai</strong></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                
+                                <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/1'), array( 'id'=>'selection_score_step1', 'role'=>'form' ) ); ?>
+                                    <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
+                                    <div class="table-container table-responsive">
+                                        <table class="table table-striped table-bordered table-hover" id="jury_stepone">
+                                            <tr class="bg-blue-grey">
+                                                <th class="width5 text-center">No</th>
+                    							<th class="width15 text-center">Kriteria Penilaian</th>
+                    							<th class="width5 text-center">Bobot</th>
+                                                <th class="width10 text-center">Keterangan</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle text-center">1</td>
+                                                <td class="text-middle">Kelengkapan Dokumen</td>
+                                                <td class="text-middle align-center">20</td>
+                                                <td>
+                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20">
+                        	                        	<option value="">Beri Nilai..</option>
+                                                        <option value="20">Lengkap</option>
+                                                        <option value="0">Tidak Lengkap</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle text-center">2</td>
+                                                <td class="text-middle">Kesesuaian Target dan Biaya</td>
+                                                <td class="text-middle align-center">20</td>
+                                                <td>
+                                                    <select class="form-control rate-step1" name="nilai_target" data-rate="20">
+                        	                        	<option value="">Beri Nilai..</option>
+                                                        <option value="20">Lengkap</option>
+                                                        <option value="0">Tidak Lengkap</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle text-center">3</td>
+                                                <td class="text-middle">Adanya Perlindungan KI</td>
+                                                <td class="text-middle align-center">20</td>
+                                                <td>
+                                                    <select class="form-control rate-step1" name="nilai_perlingungan" data-rate="20">
+                        	                        	<option value="">Beri Nilai..</option>
+                                                        <option value="20">Lengkap</option>
+                                                        <option value="0">Tidak Lengkap</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle text-center">4</td>
+                                                <td class="text-middle">Penelitian Lanjutan</td>
+                                                <td class="text-middle align-center">10</td>
+                                                <td>
+                                                    <select class="form-control rate-step1" name="nilai_penelitian" data-rate="10">
+                        	                        	<option value="">Beri Nilai..</option>
+                                                        <option value="10">Lengkap</option>
+                                                        <option value="0">Tidak Lengkap</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle text-center">5</td>
+                                                <td class="text-middle">Marketable</td>
+                                                <td class="text-middle align-center">30</td>
+                                                <td>
+                                                    <select class="form-control rate-step1" name="nilai_market" data-rate="30">
+                        	                        	<option value="">Beri Nilai..</option>
+                                                        <option value="30">Lengkap</option>
+                                                        <option value="0">Tidak Lengkap</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-middle"></td>
+                                                <td class="text-middle"><strong>Jumlah Nilai</strong></td>
+                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="nilai_total_tahap1" id="nilai_total_tahap1" value="0" /></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
                                     </table>
-                                </table>
-                            </div>
-                            <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
-                            <div class="form-group">
-                                <textarea class="form-control ckeditor" id="be_dashboard_user"></textarea>
-                            </div>
-                            <!-- Status for Called -->
-                            <div class="status-called">
-                                <div class="input-group">
-                                    <button class="btn btn-lg btn-primary waves-effect btn-call" 
-                                    data-baseurl="<?php echo base_url('incubationscoreact/call'); ?>" type="button">
+                                </div>
+                                <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
+                                <div class="form-group">
+                                    <textarea class="form-control ckeditor" name="nilai_juri_comment"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />
+                                    <button class="btn btn-lg btn-primary waves-effect btn-rate-step1" type="button">
                                         <i class="material-icons">phone</i> Selesai
                                     </button>
-                                    <button class="btn btn-lg btn-danger waves-effect btn-reject" 
-                                    data-baseurl="<?php echo base_url('incubationscoreact/reject'); ?>" type="button">
+                                    <button class="btn btn-lg btn-danger waves-effect btn-rate-step1-reset" type="button">
                                         <i class="material-icons">close</i> Bersihkan
                                     </button>
                                 </div>
-                            </div>
+                            <?php echo form_close(); ?> 
                         </div>
                     </div>
                     <!-- End Score Incubation Details -->
