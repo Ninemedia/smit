@@ -90,8 +90,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Website Title
 |--------------------------------------------------------------------------
 */
-define('TITLE', "SMIT | ");
-define('COMPANY_NAME', "Pusinov LIPI");
+define('TITLE', "INKUBATOR LIPI | ");
+define('COMPANY_NAME', "Inkubator Teknologi Pusinov LIPI");
 
 /*
 |--------------------------------------------------------------------------

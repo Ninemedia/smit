@@ -115,7 +115,7 @@ h1, h2, h3, h4, h5, h6, figure {
   }
 }
 .gtco-nav #gtco-logo {
-  font-size: 14px;
+  font-size: 24px !important;
   margin: 0;
   padding: 10px 0;
   text-transform: uppercase;
@@ -127,6 +127,16 @@ h1, h2, h3, h4, h5, h6, figure {
 .gtco-nav a {
   padding: 5px 10px;
   color: #fff;
+}
+.gtco-nav #gtco-titlenav {
+  font-size: 12px;
+  margin: 0;
+  padding: 10px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.gtco-nav #gtco-titlenav em {
+  color: #1D315F;
 }
 
 .gtco-nav .gtco-contact ul {
@@ -174,6 +184,22 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #menu-header{
     position: relative !important;
+}
+
+#gtco-navbarheader{
+  color: white;
+  background-color: #254384 !important;
+}
+#gtco-navbarheader marquee{
+  padding: 10px 0;
+}
+#gtco-navbarheader #gtco-socialnav ul {
+  padding: 10px 0;
+  margin: 2px 0 0 0;
+}
+#gtco-navbarheader #gtco-socialnav ul li a:hover {
+  color: white;
+  background-color: #254384 !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -317,6 +343,10 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #gtco-logo a {
     color: #303841 !important;
+}
+#gtco-titlenav a {
+    color: #303841 !important;
+    font-size: 18px !important;
 }
 #gtco-header,
 #gtco-counter,

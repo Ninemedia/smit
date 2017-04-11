@@ -71,104 +71,200 @@
 -->
 <div id="gtco-content">
 	<div class="gtco-container">
-        <div class="row animate-box">
-			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-				<h3>ARTIKEL TERBARU</h3>
-			</div>
-		</div>
 		<div class="row animate-box">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <div class="body">
-                    <div class="media row">
-                        <div class="col-md-3">
-                            <div class="media-left">
-                                <a href="javascript:void(0);">
-                                    <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" width="250" height="250" />
-                                </a>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#history" data-toggle="tab">
+                                <i class="material-icons">home</i> BERITA
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#structur" data-toggle="tab">
+                                <i class="material-icons">people</i> BLOG TENANT
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#vision" data-toggle="tab">
+                                <i class="material-icons">style</i> PENGUMUMAN
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="history">
+                            <div class="media row">
+                                <div class="col-md-3">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" width="250" height="250" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">Media heading</h4> 
+                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
+                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
+                                        in faucibus.<br />
+                                        <a href="">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="media row">
+                                <div class="col-md-3">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" width="250" height="250" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">Media heading</h4> 
+                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
+                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
+                                        in faucibus.<br />
+                                        <a href="">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="media row">
+                                <div class="col-md-3">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" width="250" height="250" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">Media heading</h4> 
+                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
+                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
+                                        in faucibus.<br />
+                                        <a href="">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="media row">
+                                <div class="col-md-3">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" width="250" height="250" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">Media heading</h4> 
+                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
+                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
+                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
+                                        in faucibus.<br />
+                                        <a href="">Selengkapnya</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4> 
-                                <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                in faucibus.<br />
-                                <a href="">Selengkapnya</a>
-                            </div>
+                        <div role="tabpanel" class="tab-pane fade" id="structur">
+                            <div class="row">
+                    			<div class="col-md-6">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                    			<div class="col-md-6">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                    			<div class="col-md-6">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                    			<div class="col-md-6">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                    		</div>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="vision">
+                            <b>Tugas Inkubator Teknologi</b>
+                            <p align="justify">
+                                Pusat Inovasi mempunyai dua tugas pokok yaitu : <br />
+                                <ul>
+                                    <ol>
+                                    Melakukan kajian, membangun dan mendukung kegiatan kerjasama yang dilakukan oleh berbagai pusat penelitian dan UPT LIPI dengan pihak di luar LIPI, terutama dengan industri, dalam upaya pemanfaatan hasil penelitian dan pengembangan LIPI.
+                                    </ol>
+                                    <ol>
+                                    Menelaah kemungkinan perlindungan kekayaan intelektual hasil litbang LIPI serta melaksanakan proses untuk mendapatkan perlindungan tersebut.
+                                    </ol>
+                                </ul>
+                            </p>
                         </div>
                     </div>
-                    <hr />
-                    <div class="media row">
-                        <div class="col-md-9">
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4> 
-                                <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                in faucibus.<br />
-                                <a href="">Selengkapnya</a>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="media-left">
-                                <a href="javascript:void(0);">
-                                    <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" width="250" height="250" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="media row">
-                        <div class="col-md-3">
-                            <div class="media-left">
-                                <a href="javascript:void(0);">
-                                    <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" width="250" height="250" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4> 
-                                <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                in faucibus.<br />
-                                <a href="">Selengkapnya</a>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="media row">
-                        <div class="col-md-9">
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4> 
-                                <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                in faucibus.<br />
-                                <a href="">Selengkapnya</a>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="media-left">
-                                <a href="javascript:void(0);">
-                                    <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" width="250" height="250" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                
             </div>
         </div>
 	</div>
 </div>
 
-
+<!--
 <div id="gtco-products">
 	<div class="gtco-container">
 		<div class="row animate-box">
@@ -230,102 +326,19 @@
 		</div>
 	</div>
 </div>
-
+-->
 
 
 <div id="gtco-blog">
 	<div class="gtco-container">
 		<div class="row animate-box">
 			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-				<h3>Blog Tenant Terbaru</h3>
-				<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+				<h3></h3>
+				<p></p>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_5.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_6.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
+			
 		</div>
 	</div>
 </div>

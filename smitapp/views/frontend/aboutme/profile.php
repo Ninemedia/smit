@@ -2,7 +2,6 @@
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
     $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
-
 <div id="gtco-contentbreadcumb" class="animate-box">
 	<div class="gtco-container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -37,7 +36,7 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="header">
                     <h4>
-                        PUSAT INOVASI LIPI
+                        INKUBATOR TEKNOLOGI PUSAT INOVASI LIPI
                     </h4>
                 </div>
                 <div class="body">
@@ -45,12 +44,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#history" data-toggle="tab">
-                                <i class="material-icons">home</i> SEJARAH PUSINOV
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#vision" data-toggle="tab">
-                                <i class="material-icons">style</i> VISI DAN MISI
+                                <i class="material-icons">home</i> SEJARAH INKUBATOR
                             </a>
                         </li>
                         <li role="presentation">
@@ -59,8 +53,13 @@
                             </a>
                         </li>
                         <li role="presentation">
+                            <a href="#vision" data-toggle="tab">
+                                <i class="material-icons">style</i> TUGAS
+                            </a>
+                        </li>
+                        <li role="presentation">
                             <a href="#settings_with_icon_title" data-toggle="tab">
-                                <i class="material-icons">view_comfy</i> INKUBASI DAN ALIH TEKNOLOGI
+                                <i class="material-icons">view_comfy</i> FUNGSI
                             </a>
                         </li>
                     </ul>
@@ -77,7 +76,7 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
                             </p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="vision">
-                            <b>Visi dan Misi</b>
+                            <b>Tugas Inkubator Teknologi</b>
                             <p align="justify">
                                 Pusat Inovasi mempunyai dua tugas pokok yaitu : <br />
                                 <ul>
@@ -91,11 +90,10 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
                             </p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="structur">
-                            <b>Struktur Organisasi</b>
-                            <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>file/structur_pusinov.jpg" alt="" />
+                            <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>file/structur_pusinov.jpg" alt="Struktur Pusat Ino" />
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
-                            <b>Inkubasi dan Alih Teknologi</b>
+                            <b>Fungsi Inkubator Teknologi</b>
                             <p>
                                 Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
                                 Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid

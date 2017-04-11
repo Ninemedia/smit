@@ -152,6 +152,7 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // Frontend Page Routes
 // -------------------------------------------------------------------------
 // About Me
+$route['profil']                        = "frontend/profile";
 $route['tentangkami/profil']            = "frontend/profile";
 $route['tentangkami/layanan']           = "frontend/services";
 $route['tentangkami/artikel']           = "frontend/article";
