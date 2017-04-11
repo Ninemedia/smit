@@ -389,8 +389,8 @@
                         msg.html(response.info);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast');
                         $(el).html(response.data).fadeIn('fast');
-                        $(btn_add).hide();
                         $(eldet).show();
+                        $(elacc).hide();
                     }else{
                         msg.fadeOut('fast');
                         $(el).hide();

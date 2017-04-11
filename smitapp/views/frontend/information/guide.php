@@ -32,12 +32,12 @@
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Panduan</h3>
+				<h3>Berkas</h3>
 			</div>
 			<div class="col-md-12">
                 <div class="panel-body">
                     <div class="table-container table-responsive bottom50">
-                        <table class="table table-striped table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
+                        <table class="table table-striped table-hover" id="guide_list" data-url="<?php echo base_url('frontend/guidelistdata'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>

@@ -110,23 +110,27 @@
                             <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
-                                    <h4>Data Profil Pengguna</h4>
-                                    <div class="input-group">
-                                        <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" name="reg_username" id="reg_username" placeholder="Masukan username pengguna anda" autocomplete="off" required>
+                                    <section id="account_selection">
+                                        <h4>Data Profil Pengguna</h4>
+                                        <div class="input-group">
+                                            <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="reg_username" id="reg_username" placeholder="Masukan username pengguna anda" autocomplete="off" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <label class="form-label">Kata Sandi Pengguna <b style="color: red !important;">(*)</b></label>
-                                        <div class="form-line">
-                                            <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
+                                        <div class="input-group">
+                                            <label class="form-label">Kata Sandi Pengguna <b style="color: red !important;">(*)</b></label>
+                                            <div class="form-line">
+                                                <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="praincubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
-                                    <div id="username_info" class="top30"></div>
+                                        <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="praincubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
+                                    </section>
                                     
                                     <section id="detail_selection" class="display-hide top30">
+                                        <a href="<?php echo base_url('seleksi/prainkubasi');?>" class="pull-right">Kembali</a>
+                                        <h4>Data Profil Pengguna</h4>
+                                        <div id="username_info" class="top30"></div>
                                         <h4>Usulan Kegiatan Inkubasi</h4>
                                         <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">

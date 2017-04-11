@@ -174,6 +174,9 @@ $route['announcementlist']              = "frontend/announcementlistdata";
 $route['statistik']                     = "frontend/statistic";
 // Contact
 $route['kontak']                        = "frontend/contact";
+
+// All
+$route['unduhberkas/(:any)']            = "frontend/guidesdownloadfile/$1";
 // -------------------------------------------------------------------------
 
 /* End of file routes.php */

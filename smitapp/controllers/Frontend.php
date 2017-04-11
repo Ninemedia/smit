@@ -939,6 +939,105 @@ class Frontend extends Public_Controller {
     }
     
     /**
+	 * Guides list data function.
+	 */
+    function guidelistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_desc             = $this->input->post('search_desc');
+        $s_desc             = smit_isset($s_desc, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_desc) )           { $condition .= str_replace('%s%', $s_desc, ' AND %description% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%description% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $guides_list        = $this->Model_Guide->get_all_guides($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($guides_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            
+            $i = $offset + 1;
+            foreach($guides_list as $row){
+                if( !empty( $row->url ) ){
+                    $btn_files  = '<a href="'.base_url('unduhberkas/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh Berkas"><i class="material-icons">file_download</i></a> ';    
+                }else{
+                    $btn_files  = ' - ';
+                }
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
+                    $row->description,
+                    smit_center( $btn_files ),
+                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    '',
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Guides Download File function.
+	 */
+    function guidesdownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+        
+        // Check Guide File Data
+        $guidedata  = $this->Model_Guide->get_guide_by('uniquecode',$uniquecode);
+        if( !$guidedata || empty($guidedata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $guidedata->name . '.' . $guidedata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $guidedata->uploader . '/' . $file_name;
+        
+        force_download($file_name, $file_url);
+    }
+    
+    /**
 	 * Announcement Incubation function.
 	 */
     function announcement(){

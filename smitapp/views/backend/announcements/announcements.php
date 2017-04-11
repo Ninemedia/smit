@@ -71,7 +71,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                                             <div class="form-line">
-                                                                <input type="text" name="reg_title" id="reg_title" class="form-control" required>
+                                                                <input type="text" name="reg_title" id="reg_title" class="form-control text-uppercase" required>
                                                             </div>
                                                         </div>
                                                     </div>

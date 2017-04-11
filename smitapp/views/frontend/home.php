@@ -77,7 +77,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#history" data-toggle="tab">
-                                <i class="material-icons">home</i> BERITA
+                                <i class="material-icons">home</i> PUBLIKASI
                             </a>
                         </li>
                         <li role="presentation">

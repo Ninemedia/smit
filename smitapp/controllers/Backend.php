@@ -433,9 +433,6 @@ class Backend extends User_Controller {
 	 */
 	public function announcementadd()
 	{
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
         auth_redirect();
         
         $current_user           = smit_get_current_user();
@@ -450,9 +447,6 @@ class Backend extends User_Controller {
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
         
-        echo '<pre>';
-        print_r($_POST);
-        die();
         /*
         $agree                  = $this->input->post('reg_agree');
         $agree                  = trim( smit_isset($agree, "") );
@@ -462,14 +456,14 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_title','Judul Pengumuman','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi','required');
-        $this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
+        //$this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
         
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
         
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran pengguna baru tidak berhasil. '.validation_errors().''); 
+            $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. '.validation_errors().''); 
             die(json_encode($data));
         }
         
