@@ -332,6 +332,19 @@
             $status = 'Pelaksana';
         }
     }
+    
+    $uploaded       = $user->uploader;
+    if($uploaded != 0){
+        $file_name      = $user->filename . '.' . $user->extension;
+        $file_url       = BE_AVA_PATH . $user->uploader . '/' . $file_name; 
+        $avatar_side    = $file_url;
+    }else{
+        if($user->gender == GENDER_MALE){
+            $avatar_side    = BE_IMG_PATH . 'avatar/avatar1.png';
+        }else{
+            $avatar_side    = BE_IMG_PATH . 'avatar/avatar3.png';
+        }    
+    }
 ?>
 
 <section>
@@ -341,7 +354,7 @@
         <!-- User Info -->
         <div class="user-info">
             <div class="image">
-                <img src="<?php echo BE_IMG_PATH . 'user.png'; ?>" width="48" height="48" alt="User" />
+                <img src="<?php echo $avatar_side; ?>" width="48" height="48" alt="User" />
             </div>
             <div class="info-container">
                 <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $user->name; ?></div>

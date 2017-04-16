@@ -75,21 +75,25 @@ $route['signup']                        = "user/signup";
 // -------------------------------------------------------------------------
 // Backend Page Routes
 // -------------------------------------------------------------------------
-$route['beranda']                       = "backend";
+$route['beranda']                               = "backend";
 // Pra Incubation Page Routes
 $route['selectionsetting']                      = "praincubation/praincubationsettingsave";
 $route['prainkubasi/daftar']                    = "praincubation/praincubationlist";
-$route['prainkubasi/daftardata']                = "praincubation/praincubationlistdata";
+$route['prainkubasi/detail/(:any)']             = "praincubation/praincubationdetails/$1";
+$route['prainkubasi/daftardata/(:any)']         = "praincubation/praincubationlistdata/$1";
 $route['prainkubasi/pengaturan']                = "praincubation/praincubationsetting";
 $route['prainkubasi/nilai']                     = "praincubation/praincubationscore";
+$route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
+$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
+$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
+
+
 $route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/konfirmasi']                = "praincubation/praincubationconfirm";
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
-$route['prainkubasi/detail/(:any)']             = "praincubation/praincubationdetails/$1";
-$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
-$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
+$route['prainkubasi/unduh/(:any)']              = "praincubation/guidesdownloadfile/$1";
 
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";

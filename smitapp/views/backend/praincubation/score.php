@@ -25,26 +25,23 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            <div class="alert bg-blue">
-                                Dibawah ini merupakan daftar seleksi Tahap 1 
-                            </div>
                             <div class="table-container table-responsive table-praincubation-score">
-                                <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/juryscorelistdata/1'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('prainkubasi/jurinilaidata/1'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
-                							<th class="width15 text-center">Username</th>
                 							<th class="width25">Nama</th>
                                             <th class="width15 text-center">Judul Kegiatan</th>
+                							<th class="width5 text-center">Nilai</th>
                                             <th class="width10 text-center">Status</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
                 							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
    						                </tr>
                                         <tr role="row" class="filter display-hide table-filter">
                 							<td></td>
-                							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_score" /></td>
                                             <td>
                                                 <select name="search_status" class="form-control form-filter input-sm">
                 									<option value="">Pilih...</option>
@@ -79,27 +76,23 @@
                         </div>
                         
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
-                            <div class="alert bg-blue">
-                                Dibawah ini merupakan daftar seleksi Tahap 2 yang telah dilakukan penyaringan pada Tahap 1. 
-                            </div>
                             <div class="table-container table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('praincubation/juryscorelistdata/2'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('prainkubasi/jurinilaidata/2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
-                							<th class="width15 text-center">Username</th>
                 							<th class="width25">Nama</th>
                                             <th class="width15 text-center">Judul Kegiatan</th>
-                                            <th class="width10 text-center">Status</th>
                 							<th class="width5 text-center">Nilai</th>
+                                            <th class="width10 text-center">Status</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
                 							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
    						                </tr>
                                         <tr role="row" class="filter display-hide table-filter">
                 							<td></td>
-                							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_score" /></td>
                                             <td>
                                                 <select name="search_status" class="form-control form-filter input-sm">
                 									<option value="">Pilih...</option>
@@ -113,7 +106,6 @@
                 			                        ?>
                 								</select>
                                             </td>
-                                            <td></td>
                                             <td>
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
@@ -481,16 +473,14 @@
                         </div>
                     </div>
                     
-                <?php elseif($is_pelaksana): ?>
+                <!-- <?php elseif($is_pelaksana): ?> -->
                 
                 <?php else: ?>
-                
                 <div class="table-container table-responsive">
-                    <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdata/1'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdata/'. $user->id.''); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
-    							<th class="width15 text-center">Username</th>
     							<th class="width25">Nama</th>
                                 <th class="width15 text-center">Judul Kegiatan</th>
                                 <th class="width10 text-center">Status</th>
@@ -499,7 +489,6 @@
 			                </tr>
                             <tr role="row" class="filter display-hide table-filter">
     							<td></td>
-    							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td>

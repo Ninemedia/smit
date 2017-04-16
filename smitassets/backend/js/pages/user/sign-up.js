@@ -16,6 +16,7 @@ var SignUp = function () {
                     required: true,
                     email: true,
                 },
+                /*
                 password: {
                     minlength: 6,
                     required: true,
@@ -25,6 +26,7 @@ var SignUp = function () {
                     required: true,
                     equalTo : "#password"
                 },
+                */
                 name: {
                     required: true,
                 },
@@ -48,6 +50,7 @@ var SignUp = function () {
                     required: 'Email harus di isi',
                     email: 'Masukkan alamat email Anda yang benar',
                 },
+                /*
                 password: {
                     required: 'Password harus di isi',
                     minlength: 'Minimal 6 karakter',
@@ -57,6 +60,7 @@ var SignUp = function () {
                     minlength: 'Minimal 6 karakter',
                     equalTo : "Konfirmasi password tidak sesuai dengan password yang diinputkan"
                 },
+                */
                 name: {
                     required: 'Nama harus di isi',
                 },
@@ -214,6 +218,67 @@ var SignUp = function () {
         });
     };
     
+    // --------------------------------
+    // Handle Profile Setting
+    // --------------------------------
+    var handleSaveAccount = function() {
+        // Save Account
+        $('#do_save_account').click(function(e){
+            e.preventDefault();
+            processSaveAccount($('#accountsetting'));
+        });
+        
+        var processSaveAccount = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                    $('#save_account').modal('hide');
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#accountsetting')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#ava_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 1024,
+                        });
+                    }
+    			}
+    		});
+        };
+    };
+    
     var handleSaveJob = function() {
         // Save Job
         $('#do_save_job').click(function(e){
@@ -232,6 +297,7 @@ var SignUp = function () {
     			data : data,
                 beforeSend: function(){
                     $("div.page-loader-wrapper").fadeIn();
+                    $('#save_job').modal('hide');
                 },
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
@@ -246,6 +312,47 @@ var SignUp = function () {
                         
                         $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
                         $(".selectpicker, .show-tick").val('').selectpicker('render');
+                    }
+    			}
+    		});
+        };
+        
+        //NIP
+        $('#up_nip').inputmask('99999999999999', { placeholder: '+__ ___________' });
+    };
+    
+    var handleSaveChangePassword = function() {
+        // Save Job
+        $('#do_save_changepassword').click(function(e){
+            e.preventDefault();
+            processSaveChangePassword($('#changepassword'));
+        });
+        
+        var processSaveChangePassword = function( form ) {
+        	var url = $( form ).attr( 'action' );
+        	var data = $( form ).serialize(); // convert form to array
+            var msg = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                    $('#save_changepassword').modal('hide');
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
                     }
     			}
     		});
@@ -356,6 +463,8 @@ var SignUp = function () {
             handleProvinceChange();
             handleSaveJob();
             handleSaveProfile();
+            handleSaveAccount();
+            handleSaveChangePassword();
         },
         loadCaptcha: function() {
 			showCaptcha();

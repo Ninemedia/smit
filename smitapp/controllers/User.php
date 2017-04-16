@@ -671,7 +671,7 @@ class User extends SMIT_Controller {
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->username,
-                    '<a href="'.base_url('users/profile/'.$row->id).'">' . $row->name . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->name . '</a>',
                     smit_center($type),
                     smit_center($status),
                     smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
@@ -784,6 +784,9 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
         
         $loadscripts            = smit_scripts(array(
@@ -799,11 +802,17 @@ class User extends SMIT_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/user/sign-up.js',
             BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
@@ -812,18 +821,33 @@ class User extends SMIT_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'SignUp.init();',
+            'UploadFiles.init();',
             'ProfileValidation.init();',
-            'JobValidation.init();',
         ));
-
+        
+        $uploaded       = $current_user->uploader;
+        if($uploaded != 0){
+            $file_name      = $current_user->filename . '.' . $current_user->extension;
+            $file_url       = BE_AVA_PATH . $current_user->uploader . '/' . $file_name; 
+            $avatar         = $file_url;
+        }else{
+            if($current_user->gender == GENDER_MALE){
+                $avatar     = BE_IMG_PATH . 'avatar/avatar1.png';
+            }else{
+                $avatar     = BE_IMG_PATH . 'avatar/avatar3.png';
+            }    
+        }
+        
         $data['title']          = TITLE . 'Profil Pengguna';
         $data['user_other']     = $user_data;
         $data['user']           = $current_user;
+        $data['avatar']         = $avatar;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
+        
         $data['main_content']   = 'user/profile';
         
         $this->load->view(VIEW_BACK . 'template', $data);
@@ -909,6 +933,157 @@ class User extends SMIT_Controller {
                 $data['msg']        = 'error';
                 $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
             }
+            
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
+    
+    /**
+	 * Account Setting Info Update function.
+	 */
+    function accountsetting()
+    {
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $post_user_username     = $this->input->post('username');
+        $username               = smit_isset($post_user_username, '');
+        
+        $this->form_validation->set_rules('username','Username anda','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // -------------------------------------------------
+            // Check File
+            // -------------------------------------------------
+            if( empty($_FILES['ava_selection_files']['name']) ){
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => smit_alert('Tidak ada berkas avatar yang di unggah. Silahkan inputkan berkas avatar!'),
+                );
+                die(json_encode($data));
+            }
+            
+            if( !empty( $_POST ) ){
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/user/' . $current_user->id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                    
+                $config = array(
+                    'upload_path'   => $upload_path,
+                    'allowed_types' => "jpg|jpeg|png",
+                    'overwrite'     => FALSE,
+                    'max_size'      => "1024000", 
+                );
+                $this->upload->initialize($config);
+                
+                // -------------------------------------------------
+                // Begin Transaction
+                // -------------------------------------------------
+                $this->db->trans_begin();
+                
+                if( !empty($_FILES['ava_selection_files']['name']) ){
+                    if( ! $this->upload->do_upload('ava_selection_files') ){
+                        $message = $this->upload->display_errors();
+                        // Set JSON data
+                        $data = array('message' => 'error','data' => $this->upload->display_errors()); 
+                        die(json_encode($data));
+                    }
+                    $upload_data    = $this->upload->data();
+                    $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+                    $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_file, TRUE);
+                    $this->image_moo->clear();
+                    
+                    $account_data  = array(
+                        'url'           => smit_isset($upload_data['full_path'],''),
+                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                        'filename'      => smit_isset($upload_data['raw_name'],''),
+                        'size'          => smit_isset($upload_data['file_size'],0),
+                        'uploader'      => $current_user->id,
+                        'datemodified'  => $curdate,
+                    );     
+                }
+            }
+            
+            // -------------------------------------------------
+            // Save Account 
+            // -------------------------------------------------
+            $trans_save_account         = FALSE;
+            if( $save_user    = $this->Model_User->update_data($current_user->id, $account_data) ){
+                $trans_save_account  = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Perbaharui profil avatar tidak berhasil. Terjadi kesalahan berkas anda'); 
+                die(json_encode($data));
+            }
+            
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_account ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Perbaharui akun baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'ACCOUNT_UPDATE', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+            
+            /*
+            if( $save_user    = $this->Model_User->update_data($id_user, $userdata) ){
+                // Set Message
+                $msg            = ( $id_user != $current_user->id ? 'Data profil <strong>'. $username .'</strong> sudah tersimpan.' : 'Data profil Anda sudah tersimpan.' );
+                
+                // Set JSON data
+                $data = array(
+                    'message'   => 'success',
+                    'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
+                    'name'      => ( !empty($id_user) ? '' : smit_isset($post_user_name, '') ),
+                );
+            }else{
+                // Set JSON data
+                $data['success']    = false;
+                $data['msg']        = 'error';
+                $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
+            }
+            */
             
             // JSON encode data
             die(json_encode($data));
@@ -1179,6 +1354,131 @@ class User extends SMIT_Controller {
 
         // JSON encode data
         die(json_encode($data));
+    }
+    
+    /**
+     * Change Password function.
+     */
+    function changepassword()
+    {
+        auth_redirect();
+        /*
+        if( smit_isset($this->input->post('id_user_other'), '') != '' ){
+            $id_member          = smit_isset($this->input->post('id_member_other'), '');
+            $username           = smit_isset($this->input->post('username_other'), '');
+            $curdate            = date("Y-m-d H:i:s");
+
+            $userdata           = smit_get_userdata_by_id($id_member);
+            if( !$memberdata || empty($memberdata) ){
+                // Set JSON data
+                $data = array(
+                    'message'   => 'error',
+                    'data'      => '<button class="close" data-close="alert"></button>Data anggota <strong>'.$username.'</strong> tidak ditemukan!',
+                );
+            }
+
+            $global_pass        = get_option('global_password');
+            $passdata           = array(
+                'password'      => md5($global_pass),
+                'datemodified'  => $curdate
+            );
+
+            if( $save_pass      = $this->model_member->update_data($id_member, $passdata) ){
+                // Send SMS Confirmation
+                //$this->gmc_sms->sms_cpassword($memberdata->phone, $username, $global_pass);
+                // Set JSON data
+                $data = array(
+                    'message'   => 'success',
+                    'data'      => '<button class="close" data-close="alert"></button>Reset/Atur ulang password anggota <strong>'.$username.'</strong> berhasil!',
+                );
+            }else{
+                // Set JSON data
+                $data = array(
+                    'message'   => 'error',
+                    'data'      => '<button class="close" data-close="alert"></button>Reset/Atur ulang password anggota <strong>'.$username.'</strong> tidak berhasil!',
+                );
+            }
+            // JSON encode data
+            die(json_encode($data));
+
+        }
+        */
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        // Set Variable
+        $cur_pass               = $this->input->post('cur_pass');
+        $cur_pass               = smit_isset($cur_pass, '');
+        $new_pass               = $this->input->post('new_pass');
+        $new_pass               = smit_isset($new_pass, '');
+        $cnew_pass              = $this->input->post('cnew_pass');
+        $cnew_pass              = smit_isset($cnew_pass, '');
+        
+        $this->form_validation->set_rules('cur_pass','Password Lama','required');
+        $this->form_validation->set_rules('new_pass','Pasword Baru','required');
+        $this->form_validation->set_rules('cnew_pass','Konfirmasi Password Baru','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Check Member Password
+            $check_pass     = $this->Model_User->authenticate($current_user->username, $cur_pass);
+
+            if ( !$check_pass ){
+                // Set JSON data
+                $data = array(
+                    'message'   => 'error',
+                   'data'      => smit_alert('Konfirmasi password tidak sesuai dengan password baru!'),
+                );
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                if( $new_pass != $cnew_pass ){
+                    // Set JSON data
+                    $data = array(
+                        'message'   => 'error',
+                        'data'      => '<button class="close" data-close="alert"></button>Konfirmasi password tidak sesuai dengan password baru!',
+                    );
+                    // JSON encode data
+                    die(json_encode($data));
+                }else{
+                    $passdata           = array(
+                        'password'      => $new_pass,
+                        'datemodified'  => $curdate,
+                    );
+
+                    if( $save_pass      = $this->Model_User->update_data($current_user->id, $passdata) ){
+                        // Set JSON data
+                        $data = array(
+                            'message'   => 'success',
+                            'data'      => base_url('logout'),
+                        );
+                    }else{
+                        // Set JSON data
+                        $data = array(
+                            'message'   => 'error',
+                            'data'      => smit_alert('Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!'),
+                        );
+                    }
+                    // JSON encode data
+                    die(json_encode($data));
+                }
+            }
+        }
     }
     
     // ------------------------------------------------------------------------------------------------

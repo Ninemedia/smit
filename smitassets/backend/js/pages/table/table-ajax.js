@@ -24,6 +24,10 @@ var TableAjax = function () {
         gridTable( $("#praincubation_list"), true );
     };
     
+    var handleRecordsPraIncubationSelectionList2 = function() {
+        gridTable( $("#praincubation_list2"), true );
+    };
+    
     // Pra Incubation Selection Setting Lists
     var handleRecordsPraIncubationSettingSelectionList = function() {
         gridTable( $("#praincubation_setting_list"), true );
@@ -147,6 +151,7 @@ var TableAjax = function () {
             
             //Pra Incubation
             handleRecordsPraIncubationSelectionList();
+            handleRecordsPraIncubationSelectionList2();
             handleRecordsPraIncubationSettingSelectionList();
             handleRecordsPraIncubationReportSelectionList();
             

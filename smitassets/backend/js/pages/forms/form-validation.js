@@ -71,6 +71,9 @@ var GuidesValidation = function () {
                 guide_description: {
                     required: true,
                 },
+                guide_selection_files: {
+                    required: true,
+                },
             },
             messages: {
                 guide_title: {
@@ -78,6 +81,9 @@ var GuidesValidation = function () {
                 },
                 guide_description: {
                     required: "Deskripsi panduan harus di isi."
+                },
+                guide_selection_files: {
+                    required: "Berkas harus diisi."
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -220,17 +226,45 @@ var ProfileValidation = function () {
         });
     };
     
-    return {
-        //main function to initiate the module
-        init: function () {
-            handleProfileValidation();
-        }
+    var handleAccountValidation = function(){
+        $('#accountsetting').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                ava_selection_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                ava_selection_files: {
+                    required: "Berkas harus diisi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_account').modal('show');
+            }
+        });
     };
-}();
-
-var JobValidation = function () {
+    
     var handleJobValidation = function(){
-        $$('#jobupdate').validate({
+        $('#jobupdate').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
@@ -278,14 +312,65 @@ var JobValidation = function () {
         });
     };
     
+    var handleChangePasswordValidation = function(){
+        $('#changepassword').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                cur_pass: {
+                    required: true,
+                },
+                new_pass: {
+                    required: true,
+                },
+                cnew_pass: {
+                    required: true,
+                },
+            },
+            messages: {
+                cur_pass: {
+                    required: "Kata sandi lama anda harus diisi.."
+                },
+                new_pass: {
+                    required: "Kata sandi baru harus diisi."
+                },
+                cnew_pass: {
+                    required: "Ulangi kata sandi baru harus diisi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_changepassword').modal('show');
+            }
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
+            handleProfileValidation();
+            handleAccountValidation();
             handleJobValidation();
+            handleChangePasswordValidation();
         }
     };
 }();
-
 
 var AnnouncementValidation = function () {
     var handleAnnouncementValidation = function(){

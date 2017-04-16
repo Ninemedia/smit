@@ -2,37 +2,33 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Penilaian Seleksi Pra-Inkubasi Tahap 1</h2></div>
+            <div class="header">
+                <h2>Penilaian Seleksi Pra-Inkubasi Tahap 1</h2>
+            </div>
             <div class="body">
                 <?php if($is_jury): ?>
-                    <div class="alert bg-blue">
-                        Dibawah ini merupakan daftar seleksi Tahap 1 
-                    </div>
                     <!-- Score Pra Incubation Details -->
                     <div class="body">
+                        
+                        
                         <div class="row">
-                            <div class="col-md-3 bottom0">
-                                <!-- Profile Image -->
-                                <div class="box box-primary">
-                                    <div class="box-body box-profile">
-                                        <img class="profile-user-img img-responsive img-circle" 
-                                        src="<?php echo BE_IMG_PATH . 'avatar/avatar1.png'; ?>" 
-                                        alt="User Profile Picture" />
-                                        <h5 class="profile-name text-center col-teal"><?php echo strtoupper($data_selection->user_name); ?></h5>
-                                        <h5 class="profile-username text-center"><i class="material-icons">person</i> <?php echo strtolower($data_selection->username); ?></h5>
-                                        <!--
-                                        <h5 class="profile-email text-center"><i class="material-icons">email</i> <?php echo strtolower($data_selection->email); ?></h5>
-                                        <h5 class="profile-phone text-center"><i class="material-icons">phone</i> <?php echo strtolower($data_selection->phone); ?></h5>
-                                        -->
-                                        <h3 class="selection-status text-center"></h3>
-                                    </div>
-                                </div>
-                                <hr class="line-warning bottom20" />
+                            <div class="col-md-12 bottom0">                      
+                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back">Kembali</a>
+                                <hr />
                             </div>
-                            <div class="col-md-9 bottom0">
-                                
+                            
+                            <div class="col-md-12 bottom0">
                                 <div id="alert-display"></div>
-                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success incubationconfirm pull-right">Kembali</a> 
+                                <h2 class="card-inside-title text-uppercase">Identitas Pengusul</h2>
+                                <div class="form-group form-float">
+                                    <label class="form-label">Nama Pengusul</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                        <div class="form-line">
+                                            <input type="text" name="reg_event_title" id="reg_event_title" class="form-control" value="<?php echo $data_selection->user_name; ?>" disabled="" />
+                                        </div>
+                                    </div>
+                                </div> 
                                 <h2 class="card-inside-title text-uppercase">Usulan Kegiatan Inkubasi</h2>
                                 <div class="form-group form-float">
                                     <label class="form-label">Judul Kegiatan</label>
@@ -89,7 +85,7 @@
                                                 <td class="text-middle">Kelengkapan Dokumen</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20">
+                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20"> 
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="20">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>

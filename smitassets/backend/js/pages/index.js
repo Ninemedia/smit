@@ -518,3 +518,4 @@ var SliderIndikator = function () {
         }
     };
 }();
+

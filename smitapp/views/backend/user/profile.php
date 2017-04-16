@@ -1,6 +1,5 @@
 <?php 
     $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user; 
-    $avatar         = empty($user->avatar) ? ( $user->gender == GENDER_MALE ? 'avatar1.png' : 'avatar3.png' ) : $user->avatar;
     $status         = $user->type;
     if($status == ADMINISTRATOR){
         $status     = 'ADMINISTRATOR';
@@ -25,43 +24,15 @@
             <div class="body">
                 <div class="row">
                     <!-- Profile -->
-                    <div class="col-md-3">
-                        <!-- Profile Image -->
-                        <div class="box box-primary">
-                            <div class="box-body box-profile">
-                                <img class="profile-user-img img-responsive img-circle" 
-                                src="<?php echo BE_IMG_PATH . 'avatar/' . $avatar; ?>" 
-                                alt="User Profile Picture" />
-                                <h3 class="profile-username text-center" id="profile_username"><?php echo $the_user->name; ?></h3>
-                                <p class="text-muted text-center"><?php echo $status; ?></p>
-                                <a href="javascript:;" class="btn btn-primary btn-block bg-blue waves-effect"><b>Ganti Avatar</b></a>
-                            </div>
-                        </div>
-                        <!-- About Me Box -->
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">About Me</h3>
-                            </div>
-                            <div class="box-body">
-                                <strong>ALAMAT</strong>
-                                <p class="text-muted">
-                                    <?php 
-                                        echo $the_user->address;
-                                        echo !empty( $the_user->district ) ? br() . $the_user->district : ''; 
-                                    ?>
-                                </p>
-                                
-                                <strong>HP/TELP</strong>
-                                <p class="text-muted">
-                                    <?php echo $the_user->phone; ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
+                            <li role="accountdata" class="active">
+                                <a href="#account" data-toggle="tab">
+                                    <i class="material-icons">home</i> AKUN
+                                </a>
+                            </li>
+                            <li role="presentation">
                                 <a href="#info" data-toggle="tab">
                                     <i class="material-icons">home</i> INFORMASI PRIBADI
                                 </a>
@@ -80,7 +51,54 @@
     
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade in active" id="info">
+                            <div role="tabpanel" class="tab-pane fade in active" id="account">
+                                <!-- Profile Image -->
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $avatar; ?>" alt="Avatar Pengguna" />
+                                        <h3 class="profile-username text-center" id="profile_username"><?php echo $the_user->name; ?></h3>
+                                        <p class="text-muted text-center"><?php echo $status; ?></p>
+                                        <?php echo form_open_multipart( 'user/accountsetting', array( 'id'=>'accountsetting', 'role'=>'form' ) ); ?>
+                                            <div class="form-group">
+                                                <div class="alert bg-teal">
+                                                    <strong>Perhatian!</strong>
+                                                    File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
+                                                </div>
+                                                <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
+                                                <div class="form-group">
+                                                    <label>Unggah Avatar</label>
+                                                    <input id="ava_selection_files" name="ava_selection_files" class="form-control" type="file" />
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-block bg-blue waves-effect">Ganti Avatar</button>
+                                        <?php echo form_close(); ?>
+                                    </div>
+                                </div>
+                                
+                                <!-- About Me Box -->
+                                <!--
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">About Me</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <strong>ALAMAT</strong>
+                                        <p class="text-muted">
+                                            <?php 
+                                                echo $the_user->address;
+                                                echo !empty( $the_user->district ) ? br() . $the_user->district : ''; 
+                                            ?>
+                                        </p>
+                                        
+                                        <strong>HP/TELP</strong>
+                                        <p class="text-muted">
+                                            <?php echo $the_user->phone; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade in" id="info">
                                 <?php echo form_open( 'user/personalinfo', array( 'id'=>'personal', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
                                     <div class="alert alert-danger text-center display-hide error-validate">
                             			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
@@ -222,7 +240,6 @@
                                     <div class="alert alert-danger text-center display-hide error-validate">
                             			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                             		</div>
-                                    <h2 class="card-inside-title top35">Data Jabatan</h2>
                                     <?php if( !empty($user_other) && $user_other->type != ADMINISTRATOR ): ?>
                                     <input type="hidden" name="user_id" value="<?php echo $user_other->id; ?>" />
                                     <?php endif ?>
@@ -259,7 +276,55 @@
                             </div>
                             
                             <div role="tabpanel" class="tab-pane fade" id="change_password">
-                                
+                                <?php if( !empty($user_other) ){ ?>
+                                    <?php if( $is_admin ){ ?>
+                                        <?php echo form_open( base_url('user/changepassword'), array( 'id'=>'changepassword', 'role'=>'form' ) ); ?>
+                	                       <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Password','required'=>'required','minlength'=>'6')); ?>
+                                                </div>
+                                            </div>
+                                        <?php echo form_close(); ?>
+                                    <?php } ?>
+                                <?php }else{ ?>
+                                    <?php echo form_open( base_url('user/changepassword'), array( 'id'=>'changepassword', 'role'=>'form' ) ); ?>
+            	                        <label class="form-label">Kata Sandi Lama Anda *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_password('cur_pass','',array('id'=>'cur_pass','class'=>'form-control','placeholder'=>'Kata Sandi Lama Anda','required'=>'required','minlength'=>'6')); ?>
+                                            </div>
+                                        </div>
+                                        <label class="form-label">Kata Sandi Baru Anda *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_password('new_pass','',array('id'=>'new_pass','class'=>'form-control','placeholder'=>'Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
+                                            </div>
+                                        </div>
+                                        <label class="form-label">Ulangi Kata Sandi Anda *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_password('cnew_pass','',array('class'=>'form-control','placeholder'=>'Ulangi Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <?php echo form_close(); ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -270,16 +335,37 @@
 </div>
 <!-- #END# Content -->
 
+
+<!-- BEGIN INFORMATION SUCCESS SAVE ACCOUNT MODAL -->
+<div class="modal fade" id="save_account" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Perbaharui Data Akun Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Berhasil memperbaharui data akun anda</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_account" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE ACCOUNT MODAL -->
+
 <!-- BEGIN INFORMATION SUCCESS SAVE PROFILE MODAL -->
 <div class="modal fade" id="save_profile" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Perbaharui Data Profile Anda</h4>
+				<h4 class="modal-title">Perbaharui Data Profil Anda</h4>
 			</div>
 			<div class="modal-body">
-                <p>Berhasil memperbaharui data profile anda</p>
+                <p>Apakah anda yakin akan memperbaharui data profil anda ?</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
@@ -299,7 +385,7 @@
 				<h4 class="modal-title">Perbaharui Data Job Anda</h4>
 			</div>
 			<div class="modal-body">
-                <p>Berhasil memperbaharui data job anda</p>
+                <p>Apakah anda yakin akan memperbaharui data pekerjaan anda ?</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
@@ -309,3 +395,23 @@
 	</div>
 </div>
 <!-- END INFORMATION SUCCESS SAVE JOB MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE CHANGEPASSWORD MODAL -->
+<div class="modal fade" id="save_changepassword" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Perbaharui Kata Sandi Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan memperbaharui kata sandi anda ?</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_changepassword" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE CHANGEPASSWORD MODAL -->
