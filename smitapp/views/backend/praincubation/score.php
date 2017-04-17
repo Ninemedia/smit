@@ -32,13 +32,25 @@
                                 if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) :
                             ?>      
                                 <div class="table-container table-responsive table-praincubation-score">
+                                    <div class="table-actions-wrapper">                           
+                                    <?php
+                                        $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
+                                        $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
+                                        if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
+                                    ?>                           
+                                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                            		<?php }else{ ?>
+                                        <button class="btn btn-grey waves-effect" type="button" disabled="disabled">Konfirmasi Semua</button>
+                                    <?php } ?>    
+                        		</div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/adminnilaidata/1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
                     							<th class="width25">Nama</th>
                                                 <th class="width15 text-center">Judul Kegiatan</th>
-                    							<th class="width5 text-center">Nilai</th>
+                    							<th class="width5 text-center">Total Nilai</th>
+                    							<th class="width5 text-center">Rata Nilai</th>
                                                 <th class="width15 text-center">Tanggal Daftar</th>
                                                 <th class="width10 text-center">Status</th>
                     							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
@@ -48,6 +60,7 @@
                     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_score" /></td>
+                    							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_avarage_score" /></td>
                                                 <td>
                     								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                     								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
@@ -80,11 +93,16 @@
                                     </table>
                                 </div>
                     		<?php else : ?>
-                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div>  
+                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <strong><?php echo $lss->selection_date_adm_start; ?></strong> Terima Kasih</div>  
                             <?php endif; ?>
                         </div>
                         
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
+                            <?php
+                                $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
+                                $selection_date_interview_end     = strtotime($lss->selection_date_interview_end);
+                                if( $curdate >= $selection_date_interview_start && $curdate <= $selection_date_interview_end ) :
+                            ?>  
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('prainkubasi/adminnilaidata/2'); ?>">
                                     <thead>
@@ -92,7 +110,8 @@
                 							<th class="width5">No</th>
                 							<th class="width25">Nama</th>
                                             <th class="width15 text-center">Judul Kegiatan</th>
-                							<th class="width5 text-center">Nilai</th>
+                							<th class="width5 text-center">Total Nilai</th>
+                    							<th class="width5 text-center">Rata Nilai</th>
                                             <th class="width15 text-center">Tanggal Daftar</th>
                                             <th class="width10 text-center">Status</th>
                 							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
@@ -102,6 +121,7 @@
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                 							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_score" /></td>
+                							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_avarage_score" /></td>
                                             <td>
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
@@ -132,7 +152,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+                            <?php else : ?>
+                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 2 belum dibuka. Dibuka pada tanggal <strong><?php echo $lss->selection_date_interview_start; ?></strong> Terima Kasih</div>  
+                            <?php endif; ?>
                         </div>
                     </div>
                 

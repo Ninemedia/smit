@@ -1088,6 +1088,7 @@ class PraIncubation extends User_Controller {
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     
                     $score          = $row->score;
+                    $avarage_score  = $row->avarage_score;
                 }else{
                     $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
@@ -1099,6 +1100,7 @@ class PraIncubation extends User_Controller {
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     
                     $score          = $row->scoretwo;
+                    $avarage_score  = $row->avarage_score;
                 }
                 
                 $records["aaData"][] = array(
@@ -1106,6 +1108,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         $row->event_title,
                         smit_center( $score ),
+                        smit_center( $avarage_score ),
                         smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center($btn_score),
