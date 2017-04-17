@@ -84,13 +84,16 @@ $route['prainkubasi/daftardata/(:any)']         = "praincubation/praincubationli
 $route['prainkubasi/pengaturan']                = "praincubation/praincubationsetting";
 $route['prainkubasi/nilai']                     = "praincubation/praincubationscore";
 $route['prainkubasi/adminnilaidata/(:any)']     = "praincubation/adminscorelistdata/$1";
-$route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
-$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
-$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
 $route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 $route['prainkubasi/nilai/detail/step1/(:num)'] = "praincubation/admindetailscorestep1/$1";
+$route['prainkubasi/nilai/detail/(:num)/(:any)']= "praincubation/adminscoreuser/$1/$2";
+
+// Juri
+$route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
+$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
+$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
 
 
 

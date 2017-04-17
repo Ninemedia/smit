@@ -1076,11 +1076,11 @@ class PraIncubation extends User_Controller {
                 if( $row->step == 1 && $row->steptwo == 0){
                     $btn_score          = '';
                     if( $row->status == 1 ){
-                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                         class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     }
                     
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -1278,11 +1278,6 @@ class PraIncubation extends User_Controller {
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             
-            // DataTable Plugin
-            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
-            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
-            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
@@ -1295,12 +1290,10 @@ class PraIncubation extends User_Controller {
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/index.js',
-            BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
         
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
-            'TableAjax.init();',
             'ScoreSetting.init();'
         ));
         $scripts_add            = '';
@@ -2211,6 +2204,97 @@ class PraIncubation extends User_Controller {
         
         echo json_encode($records);
     }
+    
+    /**
+	 * Score Jury Pra Incubation function.
+	 */
+	public function adminscoreuser($step, $unique)
+	{
+        auth_redirect();
+        
+        if( !$step || !$unique ) redirect( base_url('prainkubasi/nilai') );
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Range Slider Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
+            BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'ScoreSetting.init();'
+        ));
+        $scripts_add            = '';
+
+        // Get Pra-Incubation Selection Data
+        $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = 1 AND %status% <> 0';
+        $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
+        if( !$data_selection || empty($data_selection) ){
+            redirect( base_url('prainkubasi/nilai') );
+        }
+        $data_selection         = $data_selection[0];
+            
+        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
+        $data_selection_files   = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition, '');
+        if( !$data_selection_files || empty($data_selection_files) ){
+            redirect( base_url('prainkubasi/nilai') );
+        }
+
+        $data['title']                  = TITLE . 'Penilaian Seleksi Inkubasi';
+        $data['user']                   = $current_user;
+        $data['is_admin']               = $is_admin;
+        $data['is_jury']                = $is_jury;
+        $data['is_pengusul']            = $is_pengusul;
+        $data['is_pelaksana']           = $is_pelaksana;
+        $data['data_selection']         = $data_selection;
+        $data['data_selection_files']   = $data_selection_files;
+        $data['headstyles']             = $headstyles;
+        $data['scripts']                = $loadscripts;
+        $data['scripts_init']           = $scripts_init;
+        $data['scripts_add']            = $scripts_add;
+        $data['main_content']           = 'praincubation/scoredetailstep1';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
     
     // ---------------------------------------------------------------------------------------------
 }
