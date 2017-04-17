@@ -99,6 +99,14 @@
                     'sub'       => false,
                 ),
     			array (
+                    'title'     => 'Peringkat Penilaian',
+                    'nav'       => 'prainkubasi/peringkat',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/peringkat'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                ),
+    			array (
                     'title'     => 'Laporan Pra Inkubasi',
                     'nav'       => 'prainkubasi/laporan',
                     'parent'    => 'prainkubasi',

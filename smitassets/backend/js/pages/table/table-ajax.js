@@ -37,6 +37,22 @@ var TableAjax = function () {
     var handleRecordsPraIncubationReportSelectionList = function() {
         gridTable( $("#praincubationreport_list"), true );
     };
+    
+    // Admin Selection Lists Step One
+    var handleRecordsAdminStepOneList = function() {
+        gridTable( $("#admin_stepone"), true );
+    };
+    
+    // Admin Selection Lists Step Two
+    var handleRecordsAdminStepTwoList = function() {
+        gridTable( $("#admin_steptwo"), true );
+    };
+    
+    // Admin Score Lists Step One
+    var handleRecordsAdminScoreStepOneList = function() {
+        gridTable( $("#adminscore_stepone"), true );
+    };
+    
     // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
@@ -154,6 +170,9 @@ var TableAjax = function () {
             handleRecordsPraIncubationSelectionList2();
             handleRecordsPraIncubationSettingSelectionList();
             handleRecordsPraIncubationReportSelectionList();
+            handleRecordsAdminStepOneList();
+            handleRecordsAdminStepTwoList();
+            handleRecordsAdminScoreStepOneList();
             
             //Incubation
             handleRecordsIncubationSelectionList();
