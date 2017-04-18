@@ -62,7 +62,7 @@
                                     if( !empty($data_selection_files) ){
                                         echo '<ul class="bottom40">';
                                         foreach($data_selection_files as $file){
-                                            echo '<li>'.strtoupper($file->filename).' - <a href="'.base_url('unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                            echo '<li>'.strtoupper($file->filename).' - <a href="'.base_url('prainkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                         }
                                         echo '</ul>';
                                     }else{

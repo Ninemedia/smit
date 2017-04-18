@@ -99,7 +99,7 @@
                                 if( !empty($guide_files) ){
                                     echo '<ul class="bottom40">';
                                     foreach($guide_files as $file){
-                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                     }
                                     echo '</ul>';
                                 }else{

@@ -104,7 +104,7 @@ $route['prainkubasi/konfirmasi']                = "praincubation/praincubationco
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
-$route['prainkubasi/unduh/(:any)']              = "praincubation/guidesdownloadfile/$1";
+$route['prainkubasi/unduh/(:any)']              = "praincubation/downloadfile/$1";
 
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
@@ -114,7 +114,6 @@ $route['praincubationconfirm/(:any)']           = "praincubation/praincubationco
 $route['praincubationreportconfirm']            = "praincubation/praincubationreportconfirm";
 $route['praincubationreportconfirm/(:any)']     = "praincubation/praincubationreportconfirm/$1";
 $route['praincubationscoreact/(:any)/(:any)']   = "praincubation/praincubationscoreaction/$1/$2";
-$route['praincubationdownloadfile/(:any)']      = "praincubation/praincubationdownloadfile/$1";
 $route['penilaianseleksi/(:any)']               = "praincubation/praincubationselectiondetails/$1";
 $route['detailseleksi/(:any)']                  = "praincubation/praincubationselectiondetails/$1";
 

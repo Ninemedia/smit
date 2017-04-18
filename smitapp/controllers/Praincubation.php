@@ -311,7 +311,7 @@ class PraIncubation extends User_Controller {
     /**
 	 * Files Download File function.
 	 */
-    function guidesdownloadfile($uniquecode){
+    function downloadfile($uniquecode){
         if ( !$uniquecode ){
             redirect( current_url() );
         }
@@ -323,8 +323,8 @@ class PraIncubation extends User_Controller {
             redirect( current_url() );
         }
 
-        $file_name      = $praincubation_files->name . '.' . $praincubation_files->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $praincubation_files->uploader . '/' . $file_name;
+        $file_name      = $praincubation_files->filename . '.' . $praincubation_files->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->uploader . '/' . $file_name;
         
         force_download($file_name, $file_url);
     }
@@ -1487,10 +1487,13 @@ class PraIncubation extends User_Controller {
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_by('jury_id', $current_user->id);
                 if( $rate_process || !empty($rate_process) ){
-                    // Set JSON data
-                    $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah anda diproses');
-                    // JSON encode data
-                    die(json_encode($data));
+                    $selection_process      = $this->Model_Praincubation->get_praincubation_rate_step1_by('selection_id', $data_selection->id);
+                    if( $rate_process || !empty($rate_process) ){
+                        // Set JSON data
+                        $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah anda diproses');
+                        // JSON encode data
+                        die(json_encode($data));    
+                    }
                 }     
             }
                      
@@ -1756,32 +1759,6 @@ class PraIncubation extends User_Controller {
                 die(json_encode($data));
                 break;
         }
-    }
-    
-    /**
-	 * Pra Incubation Selection Download File function.
-	 */
-    function praincubationdownloadfile($uniquecode){
-        // Check Auth Redirect
-        $auth = auth_redirect();
-        if( !$auth ){
-            die('Anda harus login terlebih dahulu untuk mendownload file ini');
-        }
-        
-        if ( !$uniquecode ){
-            die('Parameter data seleksi harus dicantumkan');
-        }
-        
-        // Check Selection Data
-        $selectiondata  = $this->Model_Praincubation->get_praincubation_by_uniquecode($uniquecode);
-        if( !$selectiondata || empty($selectiondata) ){
-            die('Data seleksi tidak ditemukan atau belum terdaftar');
-        }
-        
-        $file_name      = $selectiondata->filename . '.' . $selectiondata->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $selectiondata->user_id . '/' . $file_name;
-        
-        force_download($file_name, $file_url);
     }
     
     /**

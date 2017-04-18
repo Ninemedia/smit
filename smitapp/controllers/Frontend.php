@@ -631,6 +631,7 @@ class Frontend extends Public_Controller {
                 }
                 
                 $upload_data    = $this->my_upload->data();
+                
                 if( !empty($upload_data) ){
                     foreach($upload_data as $file){
                         // Set File Upload Save

@@ -661,10 +661,10 @@
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
-    							<th class="width25">Nama</th>
-                                <th class="width15 text-center">Judul Kegiatan</th>
+    							<th class="width15">Nama</th>
+                                <th class="width20 text-center">Judul Kegiatan</th>
                                 <th class="width10 text-center">Status</th>
-                                <th class="width15 text-center">Tanggal Daftar</th>
+                                <th class="width10 text-center">Tanggal Daftar</th>
     							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
 			                </tr>
                             <tr role="row" class="filter display-hide table-filter">
