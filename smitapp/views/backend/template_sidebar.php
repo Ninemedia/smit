@@ -114,6 +114,14 @@
                     'icon'      => 'build',
                     'sub'       => false,
                 ),
+    			array (
+                    'title'     => 'Riwayat Penilaian',
+                    'nav'       => 'prainkubasi/riwayat',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/riwayat'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                ),
             ),
 	    ),
         array (

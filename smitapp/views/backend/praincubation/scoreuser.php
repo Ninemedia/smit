@@ -13,7 +13,7 @@
                         
                         <div class="row">
                             <div class="col-md-12 bottom0">                      
-                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back">Kembali</a>
+                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">undo</i> Kembali</a>
                                 <hr />
                             </div>
                             
@@ -155,10 +155,10 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />
-                                    <button class="btn btn-lg btn-primary waves-effect btn-rate-step1" type="button">
-                                        <i class="material-icons">phone</i> Selesai
+                                    <button class="btn btn-sm btn-primary waves-effect btn-rate-step1" type="button">
+                                        <i class="material-icons">done</i> Nilai
                                     </button>
-                                    <button class="btn btn-lg btn-danger waves-effect btn-rate-step1-reset" type="button">
+                                    <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">
                                         <i class="material-icons">close</i> Bersihkan
                                     </button>
                                 </div>

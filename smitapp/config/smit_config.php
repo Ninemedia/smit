@@ -71,8 +71,8 @@ $config['incsel_status']            = array(
     NOTCONFIRMED                    => 'Belum Dikonfirmasi',
     CONFIRMED                       => 'Dikonfirmasi',
     RATED                           => 'Dinilai',
-    ACCEPTED                        => 'Diterima',
-    REJECTED                        => 'Ditolak',
+    ACCEPTED                        => 'Lulus',
+    REJECTED                        => 'Tidak Lulus',
 );
 
 /**
@@ -103,6 +103,7 @@ $config['user_menu_access']         = array(
         'prainkubasi/nilai',
         'prainkubasi/peringkat',
         'prainkubasi/laporan',
+        'prainkubasi/riwayat',
         'inkubasi',
         'inkubasi/daftar',
         //'inkubasi/pengaturan',
@@ -149,7 +150,8 @@ $config['user_menu_access']         = array(
         'prainkubasi',
         'prainkubasi/nilai',
         'prainkubasi/peringkat',
-        'prainkubasi/laporan',
+        //'prainkubasi/laporan',
+        'prainkubasi/riwayat',
         'inkubasi',
         'inkubasi/nilai',
         'inkubasi/laporan',

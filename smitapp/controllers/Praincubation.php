@@ -133,9 +133,9 @@ class PraIncubation extends User_Controller {
         $condition          = '';
         
         if( !empty($is_admin) && $step == 1 ){
-            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';    
+            $condition          = ' WHERE step = '.$step.' ';    
         }elseif( !empty($is_admin) && $step == 2 ){
-            $condition          = ' WHERE steptwo = '.$step.' AND A.status <> 0';
+            $condition          = ' WHERE steptwo = '.$step.' ';
         }
         
         $order_by           = '';
@@ -208,8 +208,8 @@ class PraIncubation extends User_Controller {
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
                     strtoupper($workunit_type->workunit_name),
                     strtoupper($row->event_title),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     smit_center( $status ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );
                 $i++;
@@ -1109,7 +1109,7 @@ class PraIncubation extends User_Controller {
                         $row->event_title,
                         smit_center( $score ),
                         smit_center( $avarage_score ),
-                        smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center($btn_score),
                     );  
@@ -1158,6 +1158,8 @@ class PraIncubation extends User_Controller {
         
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_title            = $this->input->post('search_title');
@@ -1172,19 +1174,20 @@ class PraIncubation extends User_Controller {
         
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
-        if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         
-        $praincubation_list = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        $praincubation_list = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by); 
         
         $records            = array();
         $records["aaData"]  = array();
@@ -1208,6 +1211,8 @@ class PraIncubation extends User_Controller {
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == REJECTED)    { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     
                     $score          = $row->score;
                 }else{
@@ -1219,18 +1224,22 @@ class PraIncubation extends User_Controller {
                     if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == REJECTED)    { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     
                     $score          = $row->scoretwo;
                 }
+                //Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
                 
                 $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
-                        $row->event_title,
+                        strtoupper( $workunit_type->workunit_name ),
+                        strtoupper( $row->event_title ),
                         smit_center( $score ),
-                        smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
-                        smit_center($btn_score),
+                        smit_center( $btn_score ),
                     );  
                 $i++;
             }   
@@ -1506,6 +1515,25 @@ class PraIncubation extends User_Controller {
             );
             
             if( $this->Model_Praincubation->save_data_praincubation_selection_rate_step1($rate_data_step1) ){
+                // History Step1
+                $random_history     = smit_generate_rand_string(10,'low');
+                $rate_history_step1 = array(
+                    'uniquecode'    => $random_history,
+                    'selection_id'  => $selection_id,
+                    'jury_id'       => $current_user->id,
+                    'name_jury'     => $current_user->name,
+                    'user_id'       => $data_selection->user_id,
+                    'username'      => $data_selection->username,
+                    'name'          => $data_selection->name,
+                    'event_title'   => $data_selection->event_title,
+                    'step'          => 1,
+                    'rate_total'    => $rate_total,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate
+                );
+                
+                $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step1);
+                
                 // Set Data Rate Step 1
                 /*
                 $rate_data_step1    = array(
@@ -1611,7 +1639,7 @@ class PraIncubation extends User_Controller {
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->name . '</a>',
                     $row->event_title,
                     smit_center( $status ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     //smit_center($btn_details),
                     '',
                 ); 
@@ -2032,7 +2060,7 @@ class PraIncubation extends User_Controller {
                     smit_center( $conf ),
                     smit_center( $extension ),
                     $row->jury_id > 0 ? smit_center( strtoupper($row->jury_name) ) : smit_center(''),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );
                 $i++;
@@ -2132,7 +2160,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         $row->event_title,
                         smit_center( $score ),
-                        smit_center( date('Y-m-d', strtotime($row->dateprocess)) ),
+                        smit_center( date('d F Y', strtotime($row->dateprocess)) ),
                         smit_center( $status ),
                         smit_center($btn_score),
                     );  
@@ -2298,6 +2326,169 @@ class PraIncubation extends User_Controller {
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * History Pra Incubation function.
+	 */
+	public function praincubationhistory()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'IncubationList.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/history';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * History List data function.
+	 */
+    function historylistdata( $id='' ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $jury_id            = as_juri($current_user);
+        $condition          = '';
+        
+        if( !empty($id) ){
+            $condition          = ' WHERE jury_id = '. $current_user->id .' ';    
+        }
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_step             = $this->input->post('search_step');
+        $s_step             = smit_isset($s_step, '');
+        $s_score            = $this->input->post('search_score');
+        $s_score             = smit_isset($s_score, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = %s%'); }
+        if( !empty($s_score) )          { $condition .= str_replace('%s%', $s_score, ' AND %score% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %dateprocess% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %dateprocess% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%step% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%score% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $history_list   = $this->Model_Praincubation->get_all_praincubation_history($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($history_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($history_list as $row){
+                if( !empty($is_admin)){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name_jury) . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                        $row->event_title,
+                        smit_center( $row->step ),
+                        smit_center( $row->rate_total ),
+                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                        '',
+                    );     
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                        $row->event_title,
+                        smit_center( $row->step ),
+                        smit_center( $row->rate_total ),
+                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                        '',
+                    );     
+                }
+                 
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
     
     // ---------------------------------------------------------------------------------------------
 }

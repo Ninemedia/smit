@@ -11,6 +11,7 @@ class Model_Praincubation extends SMIT_Model{
     var $praincubation_selection_files      = "smit_praincubation_selection_files";
     var $praincubation_selection_set        = "smit_praincubation_selection_setting";
     var $praincubation_selection_rpt        = "smit_praincubation_selection_report";
+    var $praincubation_selection_his        = "smit_praincubation_selection_history";
     var $praincubation_selection_rate_s1    = "smit_praincubation_selection_rate_step1";
     var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
     
@@ -403,6 +404,22 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Save data of praincubation_selection
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_praincubation_history($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_selection_his, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
      * Save data of praincubation_selection_report
      * 
      * @author  Iqbal
@@ -496,6 +513,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%url%",                  "A.url", $conditions);
             $conditions = str_replace("%extension%",            "A.extension", $conditions);
             $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
         }
         
@@ -509,6 +527,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%url%",                  "B.url",  $order_by);
             $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
         }
         
@@ -831,6 +850,55 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_praincubation_history($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "event_title", $conditions);
+            $conditions = str_replace("%username%",             "username", $conditions);
+            $conditions = str_replace("%name%",                 "name", $conditions);
+            $conditions = str_replace("%jury_id%",              "jury_id", $conditions);
+            $conditions = str_replace("%user_id%",              "user_id", $conditions);
+            $conditions = str_replace("%score%",                "score", $conditions);
+            $conditions = str_replace("%step%",                 "step", $conditions);
+            $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%event_title%",          "event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "username",  $order_by);
+            $order_by   = str_replace("%name%",                 "name",  $order_by);
+            $order_by   = str_replace("%jury_id%",              "jury_id",  $order_by);
+            $order_by   = str_replace("%user_id%",              "user_id",  $order_by);
+            $order_by   = str_replace("%score%",                "score",  $order_by);
+            $order_by   = str_replace("%step%",                 "step",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+        }
+        
+        $sql = ' SELECT * FROM ' . $this->praincubation_selection_his. ' ';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
         
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 

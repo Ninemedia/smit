@@ -89,6 +89,9 @@ $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatas
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 $route['prainkubasi/nilai/detail/step1/(:num)'] = "praincubation/admindetailscorestep1/$1";
 $route['prainkubasi/nilai/detail/(:num)/(:any)']= "praincubation/adminscoreuser/$1/$2";
+$route['prainkubasi/riwayat']                   = "praincubation/praincubationhistory";
+$route['prainkubasi/riwayatdata']               = "praincubation/historylistdata";
+$route['prainkubasi/riwayatdata/(:num)']        = "praincubation/historylistdata/$1";
 
 // Juri
 $route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
