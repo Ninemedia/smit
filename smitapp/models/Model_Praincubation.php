@@ -105,6 +105,27 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1.
+     */
+    function get_praincubation_rate_step1_files($jury_id='', $selection_id=''){
+        if ( !empty($jury_id) || !empty($selection_id) ) { 
+            $jury_id = absint($jury_id); 
+            $this->db->where('jury_id', $jury_id);
+            
+            $selection_id = absint($selection_id); 
+            $this->db->where('selection_id', $selection_id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_selection_rate_s1);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
      * Get pra incubation data by conditions
      * 
      * @author  Iqbal
@@ -682,9 +703,9 @@ class Model_Praincubation extends SMIT_Model{
      * @param   Int     $id   (Optional) Type of user, default 'all'
      * @return  Int of total rows user
      */
-    function sum_all_score($id=0){
-        if ( $id != 0 )   { $this->db->where('selection_id', $id); }
-        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s1.'';
+    function sum_all_score($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s1.' WHERE selection_id = '.$id.' ';
         
         $query  = $this->db->query($sql);
         $row    = $query->row();

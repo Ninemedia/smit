@@ -1033,7 +1033,28 @@ class Frontend extends Public_Controller {
         }
 
         $file_name      = $guidedata->name . '.' . $guidedata->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $guidedata->uploader . '/' . $file_name;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $guidedata->uploader . '/' . $file_name;
+        
+        force_download($file_name, $file_url);
+    }
+    
+    /**
+	 * Pra Incubation Download File function.
+	 */
+    function praincubationdownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+        
+        // Check Guide File Data
+        $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE uniquecode = "'.$uniquecode.'"', '');
+        $praincubation_files    = $praincubation_files[0];
+        if( !$praincubation_files || empty($praincubation_files) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $praincubation_files->filename . '.' . $praincubation_files->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->uploader . '/' . $file_name;
         
         force_download($file_name, $file_url);
     }

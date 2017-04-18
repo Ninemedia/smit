@@ -98,8 +98,6 @@ $route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistda
 $route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
 $route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
 
-
-
 $route['prainkubasi/konfirmasi']                = "praincubation/praincubationconfirm";
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
@@ -191,6 +189,7 @@ $route['kontak']                        = "frontend/contact";
 
 // All
 $route['unduhberkas/(:any)']            = "frontend/guidesdownloadfile/$1";
+$route['unduhberkas/prainkubasi/(:any)']    = "frontend/praincubationdownloadfile/$1";
 // -------------------------------------------------------------------------
 
 /* End of file routes.php */

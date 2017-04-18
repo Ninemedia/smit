@@ -36,8 +36,21 @@
                             <tfoot>
                                 <?php
                                     $sum_score      = $this->Model_Praincubation->sum_all_score($data_selection->id);
+                                    if(empty($sum_score)){
+                                        $sum_score  = 0;
+                                    }
+                                    
                                     $count_all_jury = $this->Model_Praincubation->count_all_score($data_selection->id);
-                                    $avarage_score  = $sum_score / $count_all_jury;
+                                    if(empty($count_all_jury)){
+                                        $count_all_jury = 0;
+                                    }
+                                    
+                                    if(!empty($sum_score) && !empty($count_all_jury)){
+                                        $avarage_score  = $sum_score / $count_all_jury;
+                                    }else{
+                                        $avarage_score  = 0;
+                                    }
+                                    
                                 ?>
                                 <tr>
                                     <td colspan="7" align="right">Jumlah Total Nilai</td>

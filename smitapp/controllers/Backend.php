@@ -872,7 +872,7 @@ class Backend extends User_Controller {
             if( empty($_FILES['guide_selection_files']['name']) ){
                 $message = 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!';
             }else{
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/' . $current_user->id;
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $current_user->id;
                 if( !file_exists($upload_path) ) 
                 {
                     mkdir($upload_path, 0777, TRUE);
@@ -1069,7 +1069,7 @@ class Backend extends User_Controller {
         }
 
         $file_name      = $guidedata->name . '.' . $guidedata->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $guidedata->uploader . '/' . $file_name;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $guidedata->uploader . '/' . $file_name;
         
         force_download($file_name, $file_url);
     }

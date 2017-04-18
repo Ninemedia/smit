@@ -1483,20 +1483,19 @@ class PraIncubation extends User_Controller {
                 die(json_encode($data));
             } 
             
+            
+            
             // Check this Pra-Incubation Selection Rate Process
             if( !empty($is_jury) ){
-                $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_by('jury_id', $current_user->id);
+                $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_files($current_user->id, $data_selection->id);
+                
                 if( $rate_process || !empty($rate_process) ){
-                    $selection_process      = $this->Model_Praincubation->get_praincubation_rate_step1_by('selection_id', $data_selection->id);
-                    if( $rate_process || !empty($rate_process) ){
-                        // Set JSON data
-                        $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah anda diproses');
-                        // JSON encode data
-                        die(json_encode($data));    
-                    }
-                }     
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah anda diproses');
+                    // JSON encode data
+                    die(json_encode($data));    
+                } 
             }
-                     
             
             $curdate            = date("Y-m-d H:i:s");
             $random             = smit_generate_rand_string(10,'low');
