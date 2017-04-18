@@ -38,11 +38,11 @@
                                         $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
                                         if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
                                     ?>                           
-                                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                                        <a href="<?php echo base_url('prainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1">Konfirmasi Semua</a>     
                             		<?php }else{ ?>
                                         <button class="btn btn-grey waves-effect" type="button" disabled="disabled">Konfirmasi Semua</button>
                                     <?php } ?>    
-                        		</div>
+                        		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/adminnilaidata/1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
@@ -81,7 +81,7 @@
                                                 </td>
                     							<td style="text-align: center;">
                                                     <div class="bottom5">
-                    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
+                    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_stepone">Search</button>
                                                     </div>
                                                     <button class="btn bg-red waves-effect filter-cancel">Reset</button>
                     							</td>

@@ -368,6 +368,51 @@ var ScoreSetting = function () {
         });
     };
     
+    var handlePraIncubationStep1List = function(){
+        // User Confirm
+        $("body").delegate( "a.praincubationconfirmstep1", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var table_container = $('#admin_stepone').parents('.dataTables_wrapper');
+            var msg = '';
+            
+            bootbox.confirm("Anda yakin akan mengkonfirmasi semua data seleksi tahap 1?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.msg == 'error' ){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.message, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.message, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }
+                            $('#btn_admin_stepone').trigger('click');
+                        }
+                    });
+                }
+            });
+        });
+    };
+    
     countTotalRateStep1 = function( val ){
         if( !val ) return false;
         
@@ -388,6 +433,7 @@ var ScoreSetting = function () {
         // main function to initiate the module
         init: function () {
             handleScoreSetting();
+            handlePraIncubationStep1List();
         }
     };
 }();

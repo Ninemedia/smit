@@ -401,6 +401,105 @@ class PraIncubation extends User_Controller {
     }
     
     /**
+	 * Pra Incubation Confirm function.
+	 */
+    function praincubationconfirmstep1($uniquecode=''){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Pra Inkubasi hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        // Check Data Pra Incubation Selection
+        $condition  = ' WHERE %status% = 1 AND %step% = 1';
+        $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
+        $order_by   = ' %id% ASC';
+        $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+        
+        if( !$praincseldata || empty($praincseldata) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dikonfirmasi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $praincset->status == 0 ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        foreach($praincseldata as $row){
+            
+            $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
+            if(empty($sum_score)){
+                $sum_score  = 0;
+            }
+            
+            $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
+            if(empty($count_all_jury)){
+                $count_all_jury = 0;
+            }
+            
+            if(!empty($sum_score) && !empty($count_all_jury)){
+                $avarage_score  = $sum_score / $count_all_jury;
+            }else{
+                $avarage_score  = 0;
+            }
+            
+            if( $avarage_score < MAX_SCORE ){
+                $status         = REJECTED;    
+            }else{
+                $status         = ACCEPTED;
+            }
+            
+            $praincselupdatedata    = array(
+                'score'         => $sum_score,
+                'avarage_score' => $avarage_score,
+                'status'        => $status,
+                'statustwo'     => 1,
+                'steptwo'       => 2,
+                'datemodified'  => $curdate,
+            );
+            
+            if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
+                continue;
+            }
+        }
+        
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+        // Set JSON data
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi Step 1 sudah dikonfirmasi.');
+        // JSON encode data
+        die(json_encode($data));
+    }
+    
+    /**
 	 * Pra Incubation Report Confirm function.
 	 */
     function praincubationreportconfirm($uniquecode=''){
@@ -1073,7 +1172,16 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                if( $row->step == 1 && $row->steptwo == 0){
+                if( $row->step == 1 && $row->steptwo == 2){
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                    
+                    if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                }elseif( $row->step == 1 ){
                     $btn_score          = '';
                     if( $row->status == 1 ){
                         $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
@@ -1086,29 +1194,32 @@ class PraIncubation extends User_Controller {
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    
-                    $score          = $row->score;
-                    $avarage_score  = $row->avarage_score;
+                    elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                    elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                }
+                
+                $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
+                if(empty($sum_score)){
+                    $sum_score  = 0;
+                }
+                
+                $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
+                if(empty($count_all_jury)){
+                    $count_all_jury = 0;
+                }
+                
+                if(!empty($sum_score) && !empty($count_all_jury)){
+                    $avarage_score  = $sum_score / $count_all_jury;
                 }else{
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
-                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
-                    class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    
-                    if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    
-                    $score          = $row->scoretwo;
-                    $avarage_score  = $row->avarage_score;
+                    $avarage_score  = 0;
                 }
                 
                 $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         $row->event_title,
-                        smit_center( $score ),
-                        smit_center( $avarage_score ),
+                        smit_center( floor($sum_score) ),
+                        smit_center( floor($avarage_score) ),
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center($btn_score),
@@ -1482,8 +1593,6 @@ class PraIncubation extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             } 
-            
-            
             
             // Check this Pra-Incubation Selection Rate Process
             if( !empty($is_jury) ){
