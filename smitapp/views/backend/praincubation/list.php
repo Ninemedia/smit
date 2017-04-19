@@ -36,7 +36,7 @@
                                     <button class="btn btn-grey waves-effect" type="button" disabled="disabled">Konfirmasi Semua</button>
                                 <?php } ?>    
                     		</div>
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardata/1'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
@@ -96,7 +96,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('prainkubasi/daftardata/2'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('prainkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
