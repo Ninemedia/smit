@@ -111,7 +111,7 @@
                                         </div>
                                         <div id="collapse_nilai" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="nilai">
                                             <div class="panel-body">
-                                                <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/1'), array( 'id'=>'selection_score_step1', 'role'=>'form' ) ); ?>
+                                                <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/2'), array( 'id'=>'selection_score_step2', 'role'=>'form' ) ); ?>
                                                 <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
                                                 <div class="table-container table-responsive">
                                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo">
@@ -302,7 +302,7 @@
                                                             </tr>  
                                                             <tr class="bg-blue-grey">
                                                                 <td colspan="2"><strong>TOTAL NILAI</strong></td>
-                                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="total_rate" id="total_rate" value="0" /></td>
+                                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="total_rate2" id="total_rate" value="0" /></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -313,7 +313,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />
-                                                    <button class="btn btn-sm btn-primary waves-effect btn-rate-step1" type="button">
+                                                    <button class="btn btn-sm btn-primary waves-effect btn-rate-step2" type="button">
                                                         <i class="material-icons">done</i> Nilai
                                                     </button>
                                                     <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">

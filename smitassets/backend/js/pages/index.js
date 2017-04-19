@@ -366,6 +366,58 @@ var ScoreSetting = function () {
             }
             countTotalRateStep1(rateplus);
         });
+        
+        $("body").delegate( "button.btn-rate-step2", "click", function( event ) {
+            event.preventDefault();
+            var div_container   = $('#alert-display');
+            var url             = $('#selection_score_step2').attr('action');
+            
+            bootbox.confirm("Anda yakin akan memproses penilaian seleksi user ini?", function(result) {
+                if( result == true ){
+                    for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
+                    }
+                    
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        data:   $('#selection_score_step2').serialize(),
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.message == 'redirect'){
+                                $(location).attr('href',response.data);
+                            }else if( response.message == 'error' ){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.data, 
+                                    container: div_container, 
+                                    place: 'prepend',
+                                    focus: false
+                                });
+                                App.scrollTo(div_container, -90);
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.data, 
+                                    container: div_container, 
+                                    place: 'prepend',
+                                    focus: false
+                                });
+                                App.scrollTo(div_container, -90);
+                            }
+                            return false;
+                        }
+                    });
+                }
+            });
+        });
     };
     
     var handlePraIncubationStep1List = function(){

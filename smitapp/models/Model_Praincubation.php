@@ -126,6 +126,27 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1.
+     */
+    function get_praincubation_rate_step2_files($jury_id='', $selection_id=''){
+        if ( !empty($jury_id) || !empty($selection_id) ) { 
+            $jury_id = absint($jury_id); 
+            $this->db->where('jury_id', $jury_id);
+            
+            $selection_id = absint($selection_id); 
+            $this->db->where('selection_id', $selection_id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_selection_rate_s2);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
      * Get pra incubation data by conditions
      * 
      * @author  Iqbal
@@ -492,7 +513,7 @@ class Model_Praincubation extends SMIT_Model{
      * Save data of praincubation_selection_rate_step2
      * 
      * @author  Iqbal
-     * @param   Array   $data   (Required)  Array data of praincubation rate step 2
+     * @param   Array   $data   (Required)  Array data of praincubation rate step 1
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
     function save_data_praincubation_selection_rate_step2($data){

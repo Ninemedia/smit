@@ -2302,6 +2302,141 @@ class PraIncubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }else{
+            $selection_id           = $this->input->post('nilai_selection_id');
+            $selection_id           = smit_isset($selection_id, '');
+            // Kriteria Pasar
+            $klaster1_a_indikator   = $this->input->post('klaster1_a_indikator');
+            $klaster1_a_indikator   = smit_isset($klaster1_a_indikator, '');
+            $klaster1_b_indikator   = $this->input->post('klaster1_b_indikator');
+            $klaster1_b_indikator   = smit_isset($klaster1_b_indikator, '');
+            $klaster1_c_indikator   = $this->input->post('klaster1_c_indikator');
+            $klaster1_c_indikator   = smit_isset($klaster1_c_indikator, '');
+            $klaster1_d_indikator   = $this->input->post('klaster1_d_indikator');
+            $klaster1_d_indikator   = smit_isset($klaster1_d_indikator, '');
+            $klaster1_e_indikator   = $this->input->post('klaster1_e_indikator');
+            $klaster1_e_indikator   = smit_isset($klaster1_e_indikator, '');
+            // Kriteria Produk / Jasa
+            $klaster2_a_indikator   = $this->input->post('klaster2_a_indikator');
+            $klaster2_a_indikator   = smit_isset($klaster2_a_indikator, '');
+            $klaster2_b_indikator   = $this->input->post('klaster2_b_indikator');
+            $klaster2_b_indikator   = smit_isset($klaster2_b_indikator, '');
+            $klaster2_c_indikator   = $this->input->post('klaster2_c_indikator');
+            $klaster2_c_indikator   = smit_isset($klaster2_c_indikator, '');
+            $klaster2_d_indikator   = $this->input->post('klaster2_d_indikator');
+            $klaster2_d_indikator   = smit_isset($klaster2_d_indikator, '');
+            $klaster2_e_indikator   = $this->input->post('klaster2_e_indikator');
+            $klaster2_e_indikator   = smit_isset($klaster2_e_indikator, '');
+            // Kriteria Financial
+            $klaster3_a_indikator   = $this->input->post('klaster3_a_indikator');
+            $klaster3_a_indikator   = smit_isset($klaster3_a_indikator, '');
+            $klaster3_b_indikator   = $this->input->post('klaster3_b_indikator');
+            $klaster3_b_indikator   = smit_isset($klaster3_b_indikator, '');
+            $klaster3_c_indikator   = $this->input->post('klaster3_c_indikator');
+            $klaster3_c_indikator   = smit_isset($klaster3_c_indikator, '');
+            $klaster3_d_indikator   = $this->input->post('klaster3_d_indikator');
+            $klaster3_d_indikator   = smit_isset($klaster3_d_indikator, '');
+            $klaster3_e_indikator   = $this->input->post('klaster3_e_indikator');
+            $klaster3_e_indikator   = smit_isset($klaster3_e_indikator, '');
+            // Kriteria SDM dan Alih Teknologi
+            $klaster4_a_indikator   = $this->input->post('klaster4_a_indikator');
+            $klaster4_a_indikator   = smit_isset($klaster4_a_indikator, '');
+            $klaster4_b_indikator   = $this->input->post('klaster4_b_indikator');
+            $klaster4_b_indikator   = smit_isset($klaster4_b_indikator, '');
+            $klaster4_c_indikator   = $this->input->post('klaster4_c_indikator');
+            $klaster4_c_indikator   = smit_isset($klaster4_c_indikator, '');
+            $klaster4_d_indikator   = $this->input->post('klaster4_d_indikator');
+            $klaster4_d_indikator   = smit_isset($klaster4_d_indikator, '');
+            $klaster4_e_indikator   = $this->input->post('klaster4_e_indikator');
+            $klaster4_e_indikator   = smit_isset($klaster4_e_indikator, '');
+            
+            $rate_total2    = $this->input->post('total_rate');
+            $rate_total2    = smit_isset($rate_total2, '');
+            $rate_comment2  = $this->input->post('nilai_juri_comment');
+            $rate_comment2  = smit_isset($rate_comment2, '');
+            
+            // Check Pra-Incubation Selection Data
+            $data_selection     = $this->Model_Praincubation->get_praincubation($selection_id);
+            if( !$data_selection || empty($data_selection) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data seleksi pra-inkubasi tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            } 
+            
+            // Check this Pra-Incubation Selection Rate Process
+            if( !empty($is_jury) ){
+                $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step2_files($current_user->id, $data_selection->id);
+                
+                if( $rate_process || !empty($rate_process) ){
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => 'Penilaian data seleksi pra-inkubasi ini sudah anda diproses');
+                    // JSON encode data
+                    die(json_encode($data));    
+                } 
+            }
+            
+            $curdate            = date("Y-m-d H:i:s");
+            $random             = smit_generate_rand_string(10,'low');
+            
+            // Set Data Rate Step 2
+            $rate_data_step2    = array(
+                'uniquecode'    => $random,
+                'selection_id'  => $selection_id,
+                'jury_id'       => $current_user->id,
+                'klaster1_a'    => $klaster1_a_indikator,
+                'klaster1_b'    => $klaster1_b_indikator,
+                'klaster1_c'    => $klaster1_c_indikator,
+                'klaster1_d'    => $klaster1_d_indikator,
+                'klaster1_e'    => $klaster1_e_indikator,
+                'klaster2_a'    => $klaster2_a_indikator,
+                'klaster2_b'    => $klaster2_b_indikator,
+                'klaster2_c'    => $klaster2_c_indikator,
+                'klaster2_d'    => $klaster2_d_indikator,
+                'klaster2_e'    => $klaster2_e_indikator,
+                'klaster3_a'    => $klaster3_a_indikator,
+                'klaster3_b'    => $klaster3_b_indikator,
+                'klaster3_c'    => $klaster3_c_indikator,
+                'klaster3_d'    => $klaster3_d_indikator,
+                'klaster3_e'    => $klaster3_e_indikator,
+                'klaster4_a'    => $klaster4_a_indikator,
+                'klaster4_b'    => $klaster4_b_indikator,
+                'klaster4_c'    => $klaster4_c_indikator,
+                'klaster4_d'    => $klaster4_d_indikator,
+                'klaster4_e'    => $klaster4_e_indikator,
+                'rate_total'    => $rate_total2,
+                'comment'       => $rate_comment2,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate
+            );
+            
+            if( $this->Model_Praincubation->save_data_praincubation_selection_rate_step2($rate_data_step2) ){
+                // History Step1
+                $random_history     = smit_generate_rand_string(10,'low');
+                $rate_history_step2 = array(
+                    'uniquecode'    => $random_history,
+                    'selection_id'  => $selection_id,
+                    'jury_id'       => $current_user->id,
+                    'name_jury'     => $current_user->name,
+                    'user_id'       => $data_selection->user_id,
+                    'username'      => $data_selection->username,
+                    'name'          => $data_selection->name,
+                    'event_title'   => $data_selection->event_title,
+                    'step'          => 2,
+                    'rate_total'    => $rate_total2,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate
+                );
+                
+                $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step2);
+                
+                // Set JSON data
+                $data = array('message' => 'success','data' => 'Proses penilaian seleksi pra-inkubasi ini berhasil');
+            }else{
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Proses penilaian seleksi pra-inkubasi ini tidak berhasil');
+            }
+            // JSON encode data
+            die(json_encode($data));
             
         }
     }
