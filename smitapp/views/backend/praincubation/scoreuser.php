@@ -13,8 +13,7 @@
                         
                         <div class="row">
                             <div class="col-md-12 bottom0">                      
-                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">undo</i> Kembali</a>
-                                <hr />
+                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                             </div>
                             
                             <div class="col-md-12 bottom0">
