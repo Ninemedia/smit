@@ -1538,6 +1538,9 @@ class PraIncubation extends User_Controller {
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE step = 1 AND A.status <> 0';
         
+        $curdate            = date('Y-m-d H:i:s');
+        $curdate            = strtotime($curdate);
+        
         $order_by           = '';
         $iTotalRecords      = 0;
         
@@ -1596,12 +1599,19 @@ class PraIncubation extends User_Controller {
             foreach($praincubation_list as $row){
                 $btn_score          = '';
                 $btn_details        = '';
-                if( $row->status == CONFIRMED ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/konfirmasistep1/'.$row->uniquecode).'" 
-                    class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                if( $row->status == RATED ){
+                    $lss                    = smit_latest_praincubation_setting();
+                    $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
+                    $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
+                    if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
+                        $btn_score  = '<a href="'.base_url('prainkubasi/konfirmasistep1/'.$row->uniquecode).'" 
+                        class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                    }else{
+                        $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                    }
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                }elseif( $row->status == RATED || $row->status == REJECTED || $row->status == ACCEPTED ){
+                }elseif( $row->status == CONFIRMED || $row->status == REJECTED || $row->status == ACCEPTED ){
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
