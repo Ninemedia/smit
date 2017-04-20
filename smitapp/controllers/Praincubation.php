@@ -2367,6 +2367,14 @@ class PraIncubation extends User_Controller {
                 'datemodified'  => $curdate
             );
             
+            
+            $lss                    = smit_latest_praincubation_setting();
+            $jury_step1             = $lss->selection_juri_phase1;
+            $jury_step1             = explode(",", $jury_step1);
+            echo '<pre>';
+            print_r($lss);
+            die();
+            
             if( $this->Model_Praincubation->save_data_praincubation_selection_rate_step1($rate_data_step1) ){
                 // History Step1
                 $random_history     = smit_generate_rand_string(10,'low');
@@ -2386,6 +2394,10 @@ class PraIncubation extends User_Controller {
                 );
                 
                 $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step1);
+                
+                $lss                    = smit_latest_praincubation_setting();
+                $jury_step1             = $lss->selection_juri_phase1;
+                $jury_step1             = explode(",", $jury_step1);
                 
                 // Set Data Rate Step 1
                 /*
