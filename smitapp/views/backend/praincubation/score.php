@@ -125,7 +125,7 @@
                                     $selection_date_proposal_start  = strtotime($lss->selection_date_proposal_start);
                                     if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
                                 ?>                           
-                                    <a href="<?php echo base_url('prainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                    <a href="<?php echo base_url('prainkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
                         		<?php }else{ ?>
                                     <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button>
                                 <?php } ?>    

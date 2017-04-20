@@ -108,8 +108,10 @@ $route['prainkubasi/riwayatdata']               = "praincubation/historylistdata
 $route['prainkubasi/riwayatdata/(:num)']        = "praincubation/historylistdata/$1";
 $route['prainkubasi/konfirmasi']                = "praincubation/praincubationconfirm";
 $route['prainkubasi/konfirmasi/(:any)']         = "praincubation/praincubationconfirm/$1";
-$route['prainkubasi/konfirmasistep1']          = "praincubation/praincubationconfirmstep1";
-$route['prainkubasi/konfirmasistep1/(:any)']   = "praincubation/praincubationconfirmstep1/$1";
+$route['prainkubasi/konfirmasistep1']           = "praincubation/praincubationconfirmstep1";
+$route['prainkubasi/konfirmasistep1/(:any)']    = "praincubation/praincubationconfirmstep1/$1";
+$route['prainkubasi/konfirmasistep2']           = "praincubation/praincubationconfirmstep2";
+$route['prainkubasi/konfirmasistep2/(:any)']    = "praincubation/praincubationconfirmstep2/$1";
 // Menu Laporan
 $route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";

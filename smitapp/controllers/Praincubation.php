@@ -593,7 +593,7 @@ class PraIncubation extends User_Controller {
     }
     
     /**
-	 * Pra Incubation Confirm function.
+	 * Pra Incubation Confirm Score Step 1 function.
 	 */
     function praincubationconfirmstep1($uniquecode=''){
         // This is for AJAX request
@@ -611,6 +611,105 @@ class PraIncubation extends User_Controller {
         
         // Check Data Pra Incubation Selection
         $condition  = ' WHERE %status% = 1 AND %step% = 1';
+        $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
+        $order_by   = ' %id% ASC';
+        $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+        
+        if( !$praincseldata || empty($praincseldata) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dikonfirmasi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $praincset->status == 0 ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        foreach($praincseldata as $row){
+            
+            $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
+            if(empty($sum_score)){
+                $sum_score  = 0;
+            }
+            
+            $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
+            if(empty($count_all_jury)){
+                $count_all_jury = 0;
+            }
+            
+            if(!empty($sum_score) && !empty($count_all_jury)){
+                $avarage_score  = $sum_score / $count_all_jury;
+            }else{
+                $avarage_score  = 0;
+            }
+            
+            if( $avarage_score < MAX_SCORE ){
+                $status         = REJECTED;    
+            }else{
+                $status         = ACCEPTED;
+            }
+            
+            $praincselupdatedata    = array(
+                'score'         => $sum_score,
+                'avarage_score' => $avarage_score,
+                'status'        => $status,
+                'statustwo'     => 1,
+                'steptwo'       => 2,
+                'datemodified'  => $curdate,
+            );
+            
+            if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
+                continue;
+            }
+        }
+        
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+        // Set JSON data
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi Step 1 sudah dikonfirmasi.');
+        // JSON encode data
+        die(json_encode($data));
+    }
+    
+    /**
+	 * Pra Incubation Confirm Score Step 2 function.
+	 */
+    function praincubationconfirmstep2($uniquecode=''){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Pra Inkubasi hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        // Check Data Pra Incubation Selection
+        $condition  = ' WHERE %statustwo% = 1 AND %steptwo% = 2';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
@@ -1498,8 +1597,10 @@ class PraIncubation extends User_Controller {
                 $btn_score          = '';
                 $btn_details        = '';
                 if( $row->status == CONFIRMED ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
-                    class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    $btn_score      = '<a href="'.base_url('prainkubasi/konfirmasistep1/'.$row->uniquecode).'" 
+                    class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->status == RATED || $row->status == REJECTED || $row->status == ACCEPTED ){
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
@@ -1610,7 +1711,9 @@ class PraIncubation extends User_Controller {
                 $btn_details        = '';
                 if( $row->statustwo == RATED ){
                     $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
-                    class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    class="btn_scorestep2  btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
