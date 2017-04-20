@@ -12,8 +12,8 @@
                                 <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                                 <br /><br />
                             </div>
+                            <div id="alert-display"></div>
                             <div class="col-md-12 bottom0">
-                                <div id="alert-display"></div>
                                 <!-- Multiple Items To Be Open -->
                                 <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-col-blue">

@@ -2365,15 +2365,7 @@ class PraIncubation extends User_Controller {
                 'comment'       => $rate_comment,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate
-            );
-            
-            
-            $lss                    = smit_latest_praincubation_setting();
-            $jury_step1             = $lss->selection_juri_phase1;
-            $jury_step1             = explode(",", $jury_step1);
-            echo '<pre>';
-            print_r($lss);
-            die();
+            ); 
             
             if( $this->Model_Praincubation->save_data_praincubation_selection_rate_step1($rate_data_step1) ){
                 // History Step1
@@ -2395,11 +2387,34 @@ class PraIncubation extends User_Controller {
                 
                 $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step1);
                 
+                // Set Data Rate Step 1
                 $lss                    = smit_latest_praincubation_setting();
                 $jury_step1             = $lss->selection_juri_phase1;
                 $jury_step1             = explode(",", $jury_step1);
                 
-                // Set Data Rate Step 1
+                $count              = 0;   
+                foreach( $jury_step1 as $id){
+                    $count++;
+                }
+                
+                $i                  = 0;
+                foreach( $jury_step1 as $id){
+                    $check_all_score_member     = $this->Model_Praincubation->get_praincubation_rate_step1_files($id, $data_selection->id);
+                    if( !empty($check_all_score_member) ){
+                        $i++;
+                        continue;
+                    }
+                }
+                
+                if( $i == $count ){
+                    $status_step1   = array(
+                        'status'    => RATED,
+                    );
+                    
+                    $update_selection   = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $status_step1);
+                }
+                
+                
                 /*
                 $rate_data_step1    = array(
                     'score'     => $rate_total,
