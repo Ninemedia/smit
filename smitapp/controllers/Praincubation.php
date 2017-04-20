@@ -610,14 +610,14 @@ class PraIncubation extends User_Controller {
         };
         
         // Check Data Pra Incubation Selection
-        $condition  = ' WHERE %status% = 1 AND %step% = 1';
+        $condition  = ' WHERE %status% = 2 AND %step% = 1';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
         
         if( !$praincseldata || empty($praincseldata) ){
             // Set JSON data
-            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dikonfirmasi');
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dinilai oleh juri');
             // JSON encode data
             die(json_encode($data));
         }
@@ -661,7 +661,7 @@ class PraIncubation extends User_Controller {
                 $avarage_score  = 0;
             }
             
-            if( $avarage_score < MAX_SCORE ){
+            if( $avarage_score < KKM_STEP1 ){
                 $status         = REJECTED;    
             }else{
                 $status         = ACCEPTED;
