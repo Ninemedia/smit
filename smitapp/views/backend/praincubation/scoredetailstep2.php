@@ -58,34 +58,49 @@
                             </tbody>
                             <tfoot>
                                 <?php
-                                    $sum_score      = $this->Model_Praincubation->sum_all_score($data_selection->id);
-                                    if(empty($sum_score)){
-                                        $sum_score  = 0;
+                                    // Total
+                                    $sum_score2     = $this->Model_Praincubation->sum_all_score2($data_selection->id);
+                                    if(empty($sum_score2)){
+                                        $sum_score2  = 0;
                                     }
                                     
-                                    $count_all_jury = $this->Model_Praincubation->count_all_score($data_selection->id);
-                                    if(empty($count_all_jury)){
-                                        $count_all_jury = 0;
+                                    $count_all_jury2= $this->Model_Praincubation->count_all_score2($data_selection->id);
+                                    if(empty($count_all_jury2)){
+                                        $count_all_jury2 = 0;
                                     }
                                     
-                                    if(!empty($sum_score) && !empty($count_all_jury)){
-                                        $avarage_score  = $sum_score / $count_all_jury;
+                                    if(!empty($sum_score2) && !empty($count_all_jury2)){
+                                        $avarage_score  = $sum_score2 / $count_all_jury2;
                                     }else{
                                         $avarage_score  = 0;
+                                    }
+                                    
+                                    // IRL
+                                    $sum_irl        = $this->Model_Praincubation->sum_all_irl($data_selection->id);
+                                    if(empty($sum_irl)){
+                                        $sum_irl  = 0;
+                                    }
+                                    
+                                    if(!empty($sum_irl) && !empty($count_all_jury2)){
+                                        $avarage_irl    = $sum_irl / $count_all_jury2;
+                                    }else{
+                                        $avarage_irl  = 0;
                                     }
                                     
                                 ?>
                                 <tr>
                                     <td colspan="26" align="right">Jumlah Total Nilai</td>
-                                    <td colspan="2" class="text-center"><strong><?php echo $sum_score; ?></strong></td>
+                                    <td class="text-center"><strong><?php echo $sum_score2; ?></strong></td>
+                                    <td class="text-center"><strong><?php echo $sum_irl; ?></strong></td>
                                 </tr>
                                 <tr>
                                     <td colspan="26" align="right">Nilai Rata-rata</td>
-                                    <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
-                                    <td colspan="2" class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <?php if($avarage_score >= KKM_STEP2 && $avarage_score <= MAX_SCORE) :?>
+                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php else : ?>
-                                    <td colspan="2" class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php endif; ?>
+                                    <td class="text-center" style="font-size: 20px;"><strong><?php echo $avarage_irl; ?></strong></td>
                                 </tr>
                             </tfoot>
                         </table>

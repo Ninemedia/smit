@@ -775,6 +775,22 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Count All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_score2($id=0){
+        if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        
+        $query = $this->db->get($this->praincubation_selection_rate_s2);
+        
+        return $query->num_rows();
+    }
+    
+    /**
      * Sum All Score Rows
      * 
      * @author  Iqbal
@@ -785,6 +801,46 @@ class Model_Praincubation extends SMIT_Model{
     function sum_all_score($id){
         //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
         $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s1.' WHERE selection_id = '.$id.' ';
+        
+        $query  = $this->db->query($sql);
+        $row    = $query->row();
+        
+        if ( empty($row->total) ) return 0;
+        
+        return $row->total;
+    }
+    
+    /**
+     * Sum All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $id   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function sum_all_score2($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
+        
+        $query  = $this->db->query($sql);
+        $row    = $query->row();
+        
+        if ( empty($row->total) ) return 0;
+        
+        return $row->total;
+    }
+    
+    /**
+     * Sum All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $id   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function sum_all_irl($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(irl) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
         
         $query  = $this->db->query($sql);
         $row    = $query->row();
