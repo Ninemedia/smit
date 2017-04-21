@@ -620,15 +620,72 @@ var SliderIndikator = function () {
     
     countTotalRate = function(){
         var el = $('#total_rate');
-        var sum_rate_a = 0;
-        var sum_rate_b = 0;
-        var sum_rate_c = 0;
-        var sum_rate_d = 0;
-        var sum_rate_e = 0;
+        var el2 = $('#total_rate2');
+        var total_sum_rate_1 = 0;
+        var total_sum_rate_2 = 0;
+        var total_sum_rate_3 = 0;
+        var total_sum_rate_4 = 0;
         var total_rate = 0;
         
+        //klaster1
+        var rate1_a = $("#klaster1_a_rate").prop('value');
+        var rate1_b = $("#klaster1_b_rate").prop('value');
+        var rate1_c = $("#klaster1_c_rate").prop('value');
+        var rate1_d = $("#klaster1_d_rate").prop('value');
+        var rate1_e = $("#klaster1_e_rate").prop('value');
+        var sum_rate1_a = parseFloat(rate1_a);
+        var sum_rate1_b = parseFloat(rate1_b);
+        var sum_rate1_c = parseFloat(rate1_c);
+        var sum_rate1_d = parseFloat(rate1_d);
+        var sum_rate1_e = parseFloat(rate1_e);
+        total_sum_rate_1    = (sum_rate1_a + sum_rate1_b + sum_rate1_c + sum_rate1_d + sum_rate1_e) * 25/100;
+        total_sum_rate_1    = parseFloat(total_sum_rate_1);
+        
+        //klaster2
+        var rate2_a = $("#klaster2_a_rate").prop('value');
+        var rate2_b = $("#klaster2_b_rate").prop('value');
+        var rate2_c = $("#klaster2_c_rate").prop('value');
+        var rate2_d = $("#klaster2_d_rate").prop('value');
+        var rate2_e = $("#klaster2_e_rate").prop('value');
+        var sum_rate2_a = parseFloat(rate2_a);
+        var sum_rate2_b = parseFloat(rate2_b);
+        var sum_rate2_c = parseFloat(rate2_c);
+        var sum_rate2_d = parseFloat(rate2_d);
+        var sum_rate2_e = parseFloat(rate2_e);
+        total_sum_rate_2    = (sum_rate2_a + sum_rate2_b + sum_rate2_c + sum_rate2_d + sum_rate2_e) * 40/100;
+        total_sum_rate_2    = parseFloat(total_sum_rate_2);
+        
+        //klaster3
+        var rate3_a = $("#klaster3_a_rate").prop('value');
+        var rate3_b = $("#klaster3_b_rate").prop('value');
+        var rate3_c = $("#klaster3_c_rate").prop('value');
+        var rate3_d = $("#klaster3_d_rate").prop('value');
+        var rate3_e = $("#klaster3_e_rate").prop('value');
+        var sum_rate3_a = parseFloat(rate3_a);
+        var sum_rate3_b = parseFloat(rate3_b);
+        var sum_rate3_c = parseFloat(rate3_c);
+        var sum_rate3_d = parseFloat(rate3_d);
+        var sum_rate3_e = parseFloat(rate3_e);
+        total_sum_rate_3    = (sum_rate3_a + sum_rate3_b + sum_rate3_c + sum_rate3_d + sum_rate3_e) * 15/100;
+        total_sum_rate_3    = parseFloat(total_sum_rate_3);
+        
+        //klaster4
+        var rate4_a = $("#klaster4_a_rate").prop('value');
+        var rate4_b = $("#klaster4_b_rate").prop('value');
+        var rate4_c = $("#klaster4_c_rate").prop('value');
+        var rate4_d = $("#klaster4_d_rate").prop('value');
+        var rate4_e = $("#klaster4_e_rate").prop('value');
+        var sum_rate4_a = parseFloat(rate4_a);
+        var sum_rate4_b = parseFloat(rate4_b);
+        var sum_rate4_c = parseFloat(rate4_c);
+        var sum_rate4_d = parseFloat(rate4_d);
+        var sum_rate4_e = parseFloat(rate4_e);
+        total_sum_rate_4    = (sum_rate4_a + sum_rate4_b + sum_rate4_c + sum_rate4_d + sum_rate4_e) * 20/100;
+        total_sum_rate_4    = parseFloat(total_sum_rate_4);
+        
+        /*
         for (i=1; i<5; i++) { 
-            var rate    = $("#klaster" + i + "_a_rate").prop('value');
+            var rate = $("#klaster" + i + "_a_rate").prop('value');
             sum_rate_a  += parseFloat(rate);
         }
         for (i=1; i<5; i++) { 
@@ -643,13 +700,16 @@ var SliderIndikator = function () {
             var rate    = $("#klaster" + i + "_d_rate").prop('value');
             sum_rate_d  += parseFloat(rate);
         }
+        
         for (i=1; i<5; i++) { 
             var rate    = $("#klaster" + i + "_e_rate").prop('value');
             sum_rate_e  += parseFloat(rate);
         }
+        */
         
-        total_rate = ( sum_rate_a + sum_rate_b + sum_rate_c + sum_rate_d + sum_rate_e ) / 4;
+        total_rate = ( total_sum_rate_1 + total_sum_rate_2 + total_sum_rate_3 + total_sum_rate_4 );
         el.prop('value', total_rate.toFixed(2));
+        el2.prop('value', total_rate.toFixed(2));
     };
     
     return {

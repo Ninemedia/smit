@@ -556,12 +556,13 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%url%",                  "A.url", $conditions);
             $conditions = str_replace("%extension%",            "A.extension", $conditions);
             $conditions = str_replace("%step%",                 "A.step", $conditions);
-            $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
+            $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
         }
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
@@ -688,6 +689,61 @@ class Model_Praincubation extends SMIT_Model{
         $sql = '
             SELECT A.*,B.name
             FROM ' . $this->praincubation_selection_rate_s1. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.jury_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_praincubation_scorestep2($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%dateprocess%",          "B.datemodified", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%dateprocess%",          "B.datemodified",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.name
+            FROM ' . $this->praincubation_selection_rate_s2. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
             ON B.id = A.jury_id';
         

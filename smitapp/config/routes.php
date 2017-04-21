@@ -95,6 +95,7 @@ $route['prainkubasi/adminnilaidatastep1']       = "praincubation/adminscorelistd
 $route['prainkubasi/adminnilaidatastep2']       = "praincubation/adminscorelistdatastep2";
 $route['prainkubasi/nilai']                     = "praincubation/praincubationscore";
 $route['prainkubasi/nilai/detail/step1/(:num)'] = "praincubation/admindetailscorestep1/$1";
+$route['prainkubasi/nilai/detail/step2/(:num)'] = "praincubation/admindetailscorestep2/$1";
 $route['prainkubasi/nilai/detail/(:num)/(:any)']= "praincubation/adminscoreuser/$1/$2";
 // Juri
 $route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";

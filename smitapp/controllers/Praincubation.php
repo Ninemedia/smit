@@ -1720,12 +1720,12 @@ class PraIncubation extends User_Controller {
                 $btn_score          = '';
                 $btn_details        = '';
                 if( $row->statustwo == RATED ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_scorestep2  btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                }elseif( $row->statustwo == RATED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
                 
@@ -2489,6 +2489,28 @@ class PraIncubation extends User_Controller {
             $klaster4_e_indikator   = $this->input->post('klaster4_e_indikator');
             $klaster4_e_indikator   = smit_isset($klaster4_e_indikator, '');
             
+            // Innovation Readiness Level
+            $irl1           = $this->input->post('irl1');
+            $irl1           = smit_isset($irl1, '');
+            $irl2           = $this->input->post('irl2');
+            $irl2           = smit_isset($irl2, '');
+            $irl3           = $this->input->post('irl3');
+            $irl3           = smit_isset($irl3, '');
+            $irl4           = $this->input->post('irl4');
+            $irl4           = smit_isset($irl4, '');
+            $irl5           = $this->input->post('irl5');
+            $irl5           = smit_isset($irl5, '');
+            $irl6           = $this->input->post('irl6');
+            $irl6           = smit_isset($irl6, '');
+            $irl7           = $this->input->post('irl7');
+            $irl7           = smit_isset($irl7, '');
+            $irl8           = $this->input->post('irl8');
+            $irl8           = smit_isset($irl8, '');
+            $irl9           = $this->input->post('irl9');
+            $irl9           = smit_isset($irl9, '');
+            $irl10          = $this->input->post('irl10');
+            $irl10          = smit_isset($irl10, '');
+            
             $rate_total2    = $this->input->post('total_rate');
             $rate_total2    = smit_isset($rate_total2, '');
             $rate_comment2  = $this->input->post('nilai_juri_comment');
@@ -2518,6 +2540,32 @@ class PraIncubation extends User_Controller {
             $curdate            = date("Y-m-d H:i:s");
             $random             = smit_generate_rand_string(10,'low');
             
+            // Set IRL
+            $value_irl1     = 0;
+            $value_irl2     = 0;
+            $value_irl3     = 0;
+            $value_irl4     = 0;
+            $value_irl5     = 0;
+            $value_irl6     = 0;
+            $value_irl7     = 0;
+            $value_irl8     = 0;
+            $value_irl9     = 0;
+            $value_irl10    = 0;
+            $total_irl      = 0;
+            
+            if( $irl1 == 'on'){ $value_irl1 = 1; }
+            if( $irl2 == 'on'){ $value_irl2 = 1; }
+            if( $irl3 == 'on'){ $value_irl3 = 1; }
+            if( $irl4 == 'on'){ $value_irl4 = 1; }
+            if( $irl5 == 'on'){ $value_irl5 = 1; }
+            if( $irl6 == 'on'){ $value_irl6 = 1; }
+            if( $irl7 == 'on'){ $value_irl7 = 1; }
+            if( $irl8 == 'on'){ $value_irl8 = 1; }
+            if( $irl9 == 'on'){ $value_irl9 = 1; }
+            if( $irl10 == 'on'){ $value_irl10 = 1; }
+            
+            $total_irl  = $value_irl1 + $value_irl2 + $value_irl3 + $value_irl4 + $value_irl5 + $value_irl6 + $value_irl7 + $value_irl8 + $value_irl9 + $value_irl10;
+
             // Set Data Rate Step 2
             $rate_data_step2    = array(
                 'uniquecode'    => $random,
@@ -2544,6 +2592,7 @@ class PraIncubation extends User_Controller {
                 'klaster4_d'    => $klaster4_d_indikator,
                 'klaster4_e'    => $klaster4_e_indikator,
                 'rate_total'    => $rate_total2,
+                'irl'           => $total_irl,
                 'comment'       => $rate_comment2,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate
@@ -3236,6 +3285,96 @@ class PraIncubation extends User_Controller {
     }
     
     /**
+	 * Admin Dteail Score list Step 2 data function.
+	 */
+    function admindetailscorestep2( $id='' ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $is_jury            = as_juri($current_user);
+        $condition          = ' WHERE A.selection_id = '. $id .' ';  
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $praincubation_list = $this->Model_Praincubation->get_all_praincubation_scorestep2($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($praincubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($praincubation_list as $row){
+                $sum_klaster1   = $row->klaster1_a + $row->klaster1_b + $row->klaster1_c + $row->klaster1_d + $row->klaster1_e; 
+                $sum_klaster2   = $row->klaster2_a + $row->klaster2_b + $row->klaster1_c + $row->klaster2_d + $row->klaster2_e; 
+                $sum_klaster3   = $row->klaster3_a + $row->klaster3_b + $row->klaster3_c + $row->klaster3_d + $row->klaster3_e; 
+                $sum_klaster4   = $row->klaster4_a + $row->klaster4_b + $row->klaster4_c + $row->klaster4_d + $row->klaster4_e;
+                
+                $total_klaster1 = floor(($sum_klaster1 * (25/100)/5));
+                $total_klaster2 = floor(($sum_klaster2 * (40/100)/5));
+                $total_klaster3 = floor(($sum_klaster3 * (15/100)/5));
+                $total_klaster4 = floor(($sum_klaster4 * (10/100)/5));
+                $total_sum      = $total_klaster1 + $total_klaster2 + $total_klaster3 + $total_klaster4;
+                $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
+                
+                $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name) . '</a>',
+                        smit_center( $row->klaster1_a ),
+                        smit_center( $row->klaster1_b ),
+                        smit_center( $row->klaster1_c ),
+                        smit_center( $row->klaster1_d ),
+                        smit_center( $row->klaster1_e ),
+                        smit_center( floor($sum_klaster1 ) ),
+                        smit_center( $row->klaster2_a ),
+                        smit_center( $row->klaster2_b ),
+                        smit_center( $row->klaster2_c ),
+                        smit_center( $row->klaster2_d ),
+                        smit_center( $row->klaster2_e ),
+                        smit_center( floor($sum_klaster2 ) ),
+                        smit_center( $row->klaster3_a ),
+                        smit_center( $row->klaster3_b ),
+                        smit_center( $row->klaster3_c ),
+                        smit_center( $row->klaster3_d ),
+                        smit_center( $row->klaster3_e ),
+                        smit_center( floor($sum_klaster3 ) ),
+                        smit_center( $row->klaster4_a ),
+                        smit_center( $row->klaster4_b ),
+                        smit_center( $row->klaster4_c ),
+                        smit_center( $row->klaster4_d ),
+                        smit_center( $row->klaster4_e ),
+                        smit_center( floor($sum_klaster4) ),
+                        smit_center( floor($row->rate_total) ),
+                        smit_center( floor($row->irl) ),
+                    );  
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
 	 * Score Jury Pra Incubation function.
 	 */
 	public function adminscoreuser($step, $unique)
@@ -3296,7 +3435,12 @@ class PraIncubation extends User_Controller {
         $scripts_add            = '';
 
         // Get Pra-Incubation Selection Data
-        $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0';
+        if( $step == 1 ){
+            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';    
+        }else{
+            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND A.steptwo = '.$step.' AND %statustwo% <> 0 ';    
+        }
+        
         $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
         if( !$data_selection || empty($data_selection) ){
             redirect( base_url('prainkubasi/nilai') );
@@ -3321,7 +3465,12 @@ class PraIncubation extends User_Controller {
         $data['scripts']                = $loadscripts;
         $data['scripts_init']           = $scripts_init;
         $data['scripts_add']            = $scripts_add;
-        $data['main_content']           = 'praincubation/scoredetailstep1';
+        
+        if( $step == 1 ){
+            $data['main_content']           = 'praincubation/scoredetailstep1';    
+        }else{
+            $data['main_content']           = 'praincubation/scoredetailstep2';    
+        }
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}

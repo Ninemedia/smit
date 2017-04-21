@@ -117,7 +117,7 @@
                                                         <thead>
                                                             <tr class="bg-blue-grey">
                                                                 <td colspan="2"><strong>TOTAL NILAI</strong></td>
-                                                                <td class="text-large text-center"><input class="text-center input-mini text-darken-1" name="total_rate" id="total_rate" value="0" /></td>
+                                                                <td class="text-large text-center"><input class="text-center input-large text-darken-1" name="total_rate" id="total_rate" value="0" /></td>
                                                             </tr>
                                     						<tr role="row" class="heading">
                                     							<th class="width15 text-center text-middle">Klaster Kriteria</th>
@@ -130,7 +130,7 @@
                                                             
                                                             <!-- Pasar -->
                                                             <tr>
-                                                                <td rowspan="5">Pasar<br />(Total 100%)</td>
+                                                                <td rowspan="5">Pasar<br />(Total 25%)</td>
                                                                 <td>Deskripsi Kebutuhan Pengguna</td>
                                                                 <td>
                                                                     <input type="text" class="slider-indikator" name="klaster1_a_indikator" id="klaster1_a_indikator" data-selector="klaster1_a" value="" />
@@ -173,7 +173,7 @@
                                                             
                                                             <!-- Produk/Jasa -->
                                                             <tr>
-                                                                <td rowspan="5">Produk/Jasa<br />(Total 100%)</td>
+                                                                <td rowspan="5">Produk/Jasa<br />(Total 40%)</td>
                                                                 <td>Deskripsi dan fungsi produk</td>
                                                                 <td>
                                                                     <input type="text" class="slider-indikator" name="klaster2_a_indikator" id="klaster2_a_indikator" data-selector="klaster2_a" value="" />
@@ -216,8 +216,8 @@
                                                             
                                                             <!-- Finansial -->
                                                             <tr>
-                                                                <td rowspan="5">Finansial<br />(Total 100%)</td>
-                                                                <td>Target skenario harga jual</td>
+                                                                <td rowspan="5">Finansial<br />(Total 15%)</td>
+                                                                <td>Perkiraan harga pokok penjualan</td>
                                                                 <td>
                                                                     <input type="text" class="slider-indikator" name="klaster3_a_indikator" id="klaster3_a_indikator" data-selector="klaster3_a" value="" />
                                                                     <input type="hidden" name="klaster3_a_max" id="klaster3_a_max" value="15" />
@@ -259,7 +259,7 @@
                                                             
                                                             <!-- Kapasitas SDM dan Alih Teknologi -->
                                                             <tr>
-                                                                <td rowspan="5">Kapasitas SDM dan Alih Teknologi<br />(Total 100%)</td>
+                                                                <td rowspan="5">Kapasitas SDM dan Alih Teknologi<br />(Total 20%)</td>
                                                                 <td>Mentor teknis/ peneliti/perekayasa</td>
                                                                 <td>
                                                                     <input type="text" class="slider-indikator" name="klaster4_a_indikator" id="klaster4_a_indikator" data-selector="klaster4_a" value="" />
@@ -306,6 +306,35 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <h2 class="card-inside-title text-uppercase">Innovation Readiness Level (IRL)</h2>
+                                                <p>Ceklis yang sesuai dengan kriteria</p>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input id="irl-1" name="irl1" type="checkbox" required>
+                                                        <label for="irl-1">Idea Prospefektif</label><br />
+                                                        <input id="irl-2" name="irl2" type="checkbox" required>
+                                                        <label for="irl-2">Proposal Riset</label><br />
+                                                        <input id="irl-3" name="irl3" type="checkbox" required>
+                                                        <label for="irl-3">Hasil Antara Lab</label><br />
+                                                        <input id="irl-4" name="irl4" type="checkbox" required>
+                                                        <label for="irl-4">Publikasi</label><br />
+                                                        <input id="irl-5" name="irl5" type="checkbox" required>
+                                                        <label for="irl-5">Hasil Riset Skala Prototipe</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input id="irl-6" name="irl6" type="checkbox" required>
+                                                        <label for="irl-6">Paten</label><br />
+                                                        <input id="irl-7" name="irl7" type="checkbox" required>
+                                                        <label for="irl-7">Contoh Prouk Skala Komersial</label><br />
+                                                        <input id="irl-8" name="irl8" type="checkbox" required>
+                                                        <label for="irl-8">Mitra Bisnis / Tenant</label><br />
+                                                        <input id="irl-9" name="irl9" type="checkbox" required>
+                                                        <label for="irl-9">Captive Market</label><br />
+                                                        <input id="irl-10" name="irl10" type="checkbox" required>
+                                                        <label for="irl-10">Lisensi</label>
+                                                    </div>
+                                                </div>
+                                                
                                                 <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
                                                 <div class="form-group">
                                                     <textarea class="form-control ckeditor" name="nilai_juri_comment"></textarea>

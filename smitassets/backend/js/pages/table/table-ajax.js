@@ -53,6 +53,11 @@ var TableAjax = function () {
         gridTable( $("#adminscore_stepone"), true );
     };
     
+    // Admin Score Lists Step Two
+    var handleRecordsAdminScoreStepTwoList = function() {
+        gridTable( $("#adminscore_steptwo"), true );
+    };
+    
     // Juri History List
     var handleRecordsJuryHistoryList = function() {
         gridTable( $("#praincubationhistory_list"), true );
@@ -178,6 +183,7 @@ var TableAjax = function () {
             handleRecordsAdminStepOneList();
             handleRecordsAdminStepTwoList();
             handleRecordsAdminScoreStepOneList();
+            handleRecordsAdminScoreStepTwoList();
             handleRecordsJuryHistoryList();
             
             //Incubation
