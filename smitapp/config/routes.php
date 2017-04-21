@@ -118,11 +118,9 @@ $route['prainkubasi/laporan']                   = "praincubation/praincubationre
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 
-
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
 $route['prainkubasi/unduh/(:any)']              = "praincubation/downloadfile/$1";
-
 
 $route['praincubationconfirm']                  = "praincubation/praincubationconfirm";
 $route['praincubationconfirm/(:any)']           = "praincubation/praincubationconfirm/$1";

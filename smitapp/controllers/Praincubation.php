@@ -709,14 +709,14 @@ class PraIncubation extends User_Controller {
         };
         
         // Check Data Pra Incubation Selection
-        $condition  = ' WHERE %statustwo% = 1 AND %steptwo% = 2';
+        $condition  = ' WHERE %statustwo% = 2 AND %steptwo% = 2';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
-        
+
         if( !$praincseldata || empty($praincseldata) ){
             // Set JSON data
-            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dikonfirmasi');
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 2 yang belum dikonfirmasi');
             // JSON encode data
             die(json_encode($data));
         }
@@ -744,40 +744,67 @@ class PraIncubation extends User_Controller {
         
         foreach($praincseldata as $row){
             
-            $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
-            if(empty($sum_score)){
-                $sum_score  = 0;
+            // Total
+            $sum_score2     = $this->Model_Praincubation->sum_all_score2($row->id);
+            if(empty($sum_score2)){
+                $sum_score2  = 0;
             }
             
-            $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
-            if(empty($count_all_jury)){
-                $count_all_jury = 0;
+            $count_all_jury2= $this->Model_Praincubation->count_all_score2($row->id);
+            if(empty($count_all_jury2)){
+                $count_all_jury2 = 0;
             }
             
-            if(!empty($sum_score) && !empty($count_all_jury)){
-                $avarage_score  = $sum_score / $count_all_jury;
+            if(!empty($sum_score2) && !empty($count_all_jury2)){
+                $avarage_score  = $sum_score2 / $count_all_jury2;
             }else{
                 $avarage_score  = 0;
             }
             
-            if( $avarage_score < MAX_SCORE ){
+            if( $avarage_score < KKM_STEP2 ){
                 $status         = REJECTED;    
             }else{
                 $status         = ACCEPTED;
             }
             
             $praincselupdatedata    = array(
-                'score'         => $sum_score,
-                'avarage_score' => $avarage_score,
-                'status'        => $status,
-                'statustwo'     => 1,
-                'steptwo'       => 2,
-                'datemodified'  => $curdate,
-            );
+                'scoretwo'          => $sum_score2,
+                'avarage_scoretwo'  => $avarage_score,
+                'statustwo'         => $status,
+                'datemodified'      => $curdate,
+            );    
             
             if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
                 continue;
             }
+            
+            // History Step2
+            $random_history     = smit_generate_rand_string(10,'low');
+            $rate_history_step2 = array(
+                'uniquecode'    => $random_history,
+                'selection_id'  => $row->id,
+                'jury_id'       => $current_user->id,
+                'name_jury'     => $current_user->name,
+                'user_id'       => $row->user_id,
+                'username'      => $row->username,
+                'name'          => $row->name,
+                'event_title'   => $row->event_title,
+                'step'          => 2,
+                'rate_total'    => $avarage_score,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate
+            );
+            $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step2);
+            
+            if( $avarage_score < KKM_STEP2 ){
+                // Status User
+                $status             = array(
+                    'type'          => PELAKSANA,
+                    'datemodified'  => $curdate
+                );
+                $update_status_user = $this->Model_User->update_data($row->user_id, $status);  
+            }
+            
         }
         
         // Commit Transaction
@@ -785,7 +812,7 @@ class PraIncubation extends User_Controller {
         // Complete Transaction
         $this->db->trans_complete();
         // Set JSON data
-        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi Step 1 sudah dikonfirmasi.');
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi Step 2 sudah dikonfirmasi.');
         // JSON encode data
         die(json_encode($data));
     }
@@ -1661,6 +1688,9 @@ class PraIncubation extends User_Controller {
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE steptwo = 2 AND A.status <> 0';
         
+        $curdate            = date('Y-m-d H:i:s');
+        $curdate            = strtotime($curdate);
+        
         $order_by           = '';
         $iTotalRecords      = 0;
         
@@ -1720,8 +1750,15 @@ class PraIncubation extends User_Controller {
                 $btn_score          = '';
                 $btn_details        = '';
                 if( $row->statustwo == RATED ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
-                    class="btn_scorestep2  btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    $lss                                = smit_latest_praincubation_setting();
+                    $selection_date_result              = strtotime($lss->selection_date_result);
+                    $selection_date_proposal_start     =     strtotime($lss->selection_date_proposal_start);
+                    if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
+                        $btn_score  = '<a href="'.base_url('prainkubasi/konfirmasistep2/'.$row->uniquecode).'" 
+                        class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                    }else{
+                        $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                    }
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
@@ -1731,7 +1768,7 @@ class PraIncubation extends User_Controller {
                 
                 if($row->statustwo == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 
                 $sum_score          = $row->scoretwo;
@@ -2076,10 +2113,10 @@ class PraIncubation extends User_Controller {
                 if( $row->statustwo == CONFIRMED ){
                     $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
                     class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }
                 
@@ -3470,10 +3507,11 @@ class PraIncubation extends User_Controller {
         if( $step == 1 ){
             $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';    
         }else{
-            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND A.steptwo = '.$step.' AND %statustwo% <> 0 ';    
+            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';    
         }
         
         $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
+        
         if( !$data_selection || empty($data_selection) ){
             redirect( base_url('prainkubasi/nilai') );
         }
