@@ -182,7 +182,7 @@
                 
                 <?php else: ?>
                 <div class="table-container table-responsive bottom50">
-                    <table class="table table-striped table-hover" id="announcementuser_list" data-url="<?php echo base_url('announcementslist'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="announcementuser_list" data-url="<?php echo base_url('announcementslist'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
