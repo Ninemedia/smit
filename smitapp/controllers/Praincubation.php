@@ -2131,16 +2131,16 @@ class PraIncubation extends User_Controller {
                 $workunit_type = smit_workunit_type($row->workunit);
                 
                 $records["aaData"][] = array(
-                        smit_center($i),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
-                        strtoupper( $workunit_type->workunit_name ),
-                        strtoupper( $row->event_title ),
-                        smit_center( floor($score) ),
-                        smit_center( floor($avarage_score) ),
-                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
-                        smit_center( $status ),
-                        smit_center( $btn_score .' '. $btn_details ),
-                    );  
+                    smit_center($i),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                    strtoupper( $workunit_type->workunit_name ),
+                    strtoupper( $row->event_title ),
+                    smit_center( floor($score) ),
+                    smit_center( floor($avarage_score) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( $status ),
+                    smit_center( $btn_score .' '. $btn_details ),
+                );  
                 $i++;
             }   
         }
@@ -2703,16 +2703,15 @@ class PraIncubation extends User_Controller {
     // ---------------------------------------------------------------------------------------------
     // PENGUSUL
     /**
-	 * Pengusul Score list data function.
+	 * Pengusul Score Step 1 list data function.
 	 */
-    function pengusulscorelistdata( $user_id=''){
+    function pengusulscorelistdatastep1( $user_id=''){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
+        $condition          = '';
         
         if( !empty($user_id)){
             $condition          = ' WHERE A.user_id ='.$user_id.' ';    
-        }else{
-            $condition          = '';
         }
         
         $order_by           = '';
@@ -2748,7 +2747,7 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
-        if( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        if( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
@@ -2764,28 +2763,127 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($incubation_list as $row){
-                // Status
-                if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/1/'.$row->uniquecode).'" 
+                class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                
+                
+                if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == EXAMINED)    { $status = '<span class="label bg-brown">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == CALLED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; } 
-                elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }   
-
-                if($row->status == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-
-                $btn_details    = '<a href="'.base_url('juryscoresetdetails/'.$row->uniquecode).'" 
-                class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                
+                $score          = $row->score;
+                $avarage_score  = $row->avarage_score;
+                //Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
                 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->name . '</a>',
-                    $row->event_title,
-                    smit_center( $status ),
+                    strtoupper( $row->event_title ),
+                    smit_center( floor($score) ),
+                    smit_center( floor($avarage_score) ),
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
-                    //smit_center($btn_details),
-                    '',
-                ); 
+                    smit_center( $status ),
+                    smit_center( $btn_details ),
+                );  
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Pengusul Score Step 2 list data function.
+	 */
+    function pengusulscorelistdatastep2( $user_id=''){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        
+        if( !empty($user_id)){
+            $condition          = ' WHERE A.user_id ='.$user_id.' ';    
+        }
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $incubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($incubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($incubation_list as $row){
+                $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                
+                if($row->statustwo == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                
+                $score          = $row->scoretwo;
+                $avarage_score  = $row->avarage_scoretwo;
+                //Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
+                
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper( $row->event_title ),
+                    smit_center( floor($score) ),
+                    smit_center( floor($avarage_score) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( $status ),
+                    smit_center( $btn_details ),
+                );  
                 $i++;
             }   
         }
