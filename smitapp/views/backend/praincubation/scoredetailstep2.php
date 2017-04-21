@@ -100,11 +100,11 @@
                                     <?php else : ?>
                                     <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php endif; ?>
-                                    <td class="text-center" style="font-size: 20px;"><strong><?php echo $avarage_irl; ?></strong></td>
+                                    <td class="text-center" style="font-size: 20px;"><strong><?php echo floor($avarage_irl); ?></strong></td>
                                 </tr>
                             </tfoot>
                         </table>
-                        
+                        <!--
                         <div class="alert bg-grey bottom0">
                             <p>
                                 Keterangan Kriteria:
@@ -117,6 +117,7 @@
                                 </ul>
                             </p>
                         </div>
+                        -->
                     </div>
                     
                 <?php elseif($is_jury): ?>

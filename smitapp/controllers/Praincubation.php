@@ -2071,12 +2071,17 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                if( $row->statustwo == 1 ){
+                $btn_score          = '';
+                $btn_details        = '';
+                if( $row->statustwo == CONFIRMED ){
                     $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
                     class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
+                }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }
-                $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
-                class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 
                 if($row->statustwo == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
@@ -2617,6 +2622,33 @@ class PraIncubation extends User_Controller {
                 );
                 
                 $history            = $this->Model_Praincubation->save_data_praincubation_history($rate_history_step2);
+                
+                // Set Data Rate Step 1
+                $lss                    = smit_latest_praincubation_setting();
+                $jury_step2             = $lss->selection_juri_phase2;
+                $jury_step2             = explode(",", $jury_step2);
+                
+                $count              = 0;   
+                foreach( $jury_step2 as $id){
+                    $count++;
+                }
+                
+                $i                  = 0;
+                foreach( $jury_step2 as $id){
+                    $check_all_score_member     = $this->Model_Praincubation->get_praincubation_rate_step2_files($id, $data_selection->id);
+                    if( !empty($check_all_score_member) ){
+                        $i++;
+                        continue;
+                    }
+                }
+                
+                if( $i == $count ){
+                    $status_step2   = array(
+                        'statustwo' => RATED,
+                    );
+                    
+                    $update_selection   = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $status_step2);
+                }
                 
                 // Set JSON data
                 $data = array('message' => 'success','data' => 'Proses penilaian seleksi pra-inkubasi ini berhasil');
@@ -3338,27 +3370,27 @@ class PraIncubation extends User_Controller {
                         smit_center( $row->klaster1_c ),
                         smit_center( $row->klaster1_d ),
                         smit_center( $row->klaster1_e ),
-                        smit_center( floor($sum_klaster1 ) ),
+                        '<strong>' . smit_center( floor($sum_klaster1 ) ) .'</strong>',
                         smit_center( $row->klaster2_a ),
                         smit_center( $row->klaster2_b ),
                         smit_center( $row->klaster2_c ),
                         smit_center( $row->klaster2_d ),
                         smit_center( $row->klaster2_e ),
-                        smit_center( floor($sum_klaster2 ) ),
+                        '<strong>' . smit_center( floor($sum_klaster2 ) ) .'</strong>',
                         smit_center( $row->klaster3_a ),
                         smit_center( $row->klaster3_b ),
                         smit_center( $row->klaster3_c ),
                         smit_center( $row->klaster3_d ),
                         smit_center( $row->klaster3_e ),
-                        smit_center( floor($sum_klaster3 ) ),
+                        '<strong>' . smit_center( floor($sum_klaster3 ) ) .'</strong>',
                         smit_center( $row->klaster4_a ),
                         smit_center( $row->klaster4_b ),
                         smit_center( $row->klaster4_c ),
                         smit_center( $row->klaster4_d ),
                         smit_center( $row->klaster4_e ),
-                        smit_center( floor($sum_klaster4) ),
-                        smit_center( floor($row->rate_total) ),
-                        smit_center( floor($row->irl) ),
+                        '<strong>' . smit_center( floor($sum_klaster4) ) .'</strong>',
+                        '<strong>' . smit_center( floor($row->rate_total) ) .'</strong>',
+                        '<strong>' . smit_center( floor($row->irl) ) .'</strong>',
                     );  
                 $i++;
             }   
