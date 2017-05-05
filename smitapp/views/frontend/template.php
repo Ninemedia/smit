@@ -15,7 +15,11 @@
             <div class="row" id="gtco-navbarheader">
                 <div class="gtco-container">
                     <div class="col-sm-9 col-xs-12">
-    				    <marquee>TES TEXT BERJALAN DIATAS  |  PENGUMUMAN SELEKSI INKUBASI TEKNOLOGI</marquee>	
+                        <div class="marquee-parent">
+                            <div class="marquee-child">
+                                TES TEXT BERJALAN DIATAS  |  PENGUMUMAN SELEKSI INKUBASI TEKNOLOGI
+                            </div>
+                        </div>	
     				</div>
                     <div class="col-sm-3 col-xs-12">
     				    <div id="gtco-socialnav">
@@ -112,8 +116,6 @@
     
     <!-- Load Template Header -->
     <?php $this->load->view(VIEW_FRONT . 'template_footer_javascript'); ?>    
-    
-	
 
 	</body>
 </html>

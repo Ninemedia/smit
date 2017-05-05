@@ -44,36 +44,10 @@ class User extends SMIT_Controller {
 			}
 		}
         
-        $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
-            BE_PLUGIN_PATH . 'node-waves/waves.css',
-            BE_PLUGIN_PATH . 'animate-css/animate.css',
-            // Bootstrap Select Plugin
-            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
-            // Datetime Picker Plugin
-            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-        ));
-        
-        $loadscripts            = smit_scripts(array(
-            // Default JS Plugin
-            BE_PLUGIN_PATH . 'node-waves/waves.js',
-            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            // Jquery Validation Plugin
-            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
-            // Bootstrap Select Plugin
-            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
-            // Input Mask Plugin
-            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
-            // Datetime Picker Plugin
-            BE_PLUGIN_PATH . 'momentjs/moment.js',
-            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-        ));
-        
+        $headstyles             = '';
+        $loadscripts            = '';
         $scripts_add            = '';
-        $scripts_init           = smit_scripts_init(array(
-            'Login.init();',
-            'SignUp.init();',
-        ));
+        $scripts_init           = '';
         
         $data['login_failed']	= ( $login_failed >= 5 ? 1 : 0 );
         $data['headstyles']     = $headstyles;

@@ -72,7 +72,7 @@
     <div class="gtco-container">
         <div class="row copyright">
 			<div class="col-md-12 copy">
-				<p class="center" align="center">
+				<p class="center" align="center" style="margin: 15px 0;">
 					<strong>Hak Cipta &copy; 2017 Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi.</strong>
 				</p>
 			</div>
