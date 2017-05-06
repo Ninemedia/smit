@@ -266,26 +266,24 @@ var Tenant = function () {
 	var handleProvinceChange = function() {
         // Province Change
         $('#province-select').on("change",function(){
-            
             var val     = $(this).val();
             var url     = $(this).data('url');
             var el      = $('#regional-select');
             
-            alert();
-            return false;
-            
             $.ajax({
                 type:   "POST",
                 data:   {
-                    'province' : val,
-                    'csrf_smit' : $('input[name="csrf_smit"]').val()
+                    'province' : val
                 },
                 url:    url,
-                beforeSend: function (){},
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
                 success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
+
                     el.empty().hide();
-                    
                     el.parent().removeClass('has-error');
                     el.parent().find('.help-block').empty().hide();
                     
