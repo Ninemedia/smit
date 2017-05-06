@@ -476,7 +476,7 @@ class Tenant extends User_Controller {
         
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
-            'App.init();',
+            //'App.init();',
             'Tenant.init();',
         ));
 
