@@ -63,6 +63,7 @@
                                 <!-- Data Will Be Placed Here -->
                             </tbody>
                         </table>
+                        </div>
                     </div>
                     
                     <div role="tabpanel" class="tab-pane fade" id="add">

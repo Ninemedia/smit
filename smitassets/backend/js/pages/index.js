@@ -18,44 +18,48 @@ var SelectGuide = function () {
     };
 }();
 
-var IncubationSetting = function () {
-    handleIncubationSettingAction = function(){
-        // Close Incubation Setting
-        $("body").delegate( "a.incubsetclose", "click", function( event ) {
+var PraIncubationSetting = function () {
+    handlePraIncubationSettingAction = function(){
+        // Close Pra-Incubation Setting
+        $("body").delegate( "a.praincubsetclose", "click", function( event ) {
             event.preventDefault();
             var url = $(this).attr('href');
-            var table_container = $('#incubation_setting_list').parents('.dataTables_wrapper');
+            var table_container = $('#praincubation_setting_list').parents('.dataTables_wrapper');
             
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                            
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                        $('#btn_incubation_setting_list').trigger('click');
-                    }
+            bootbox.confirm("Anda yakin akan menutup pengaturan Pra-Inkubasi ini?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response    = $.parseJSON(response);
+                                    
+                            if( response.message == 'redirect'){
+                                $(location).attr('href',response.data);
+                            }else if( response.message == 'error'){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.data, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.data, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                                $('#btn_praincubation_setting_list').trigger('click');
+                            }
+                        }
+                    });
                 }
             });
         });    
@@ -64,7 +68,7 @@ var IncubationSetting = function () {
     return {
         //main function to initiate the module
         init: function () {
-            handleIncubationSettingAction();
+            handlePraIncubationSettingAction();
         }
     };
 }();

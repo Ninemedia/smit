@@ -972,6 +972,8 @@ class PraIncubation extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // Always placed at bottom
@@ -988,7 +990,7 @@ class PraIncubation extends User_Controller {
             'TableAjax.init();',
             'Wizard.init();',
             'SelectGuide.init();',
-            'IncubationSetting.init();',
+            'PraIncubationSetting.init();',
         ));
         
         // Get All Guides Filed
@@ -1189,7 +1191,7 @@ class PraIncubation extends User_Controller {
             'TableAjax.init();',
             'Wizard.init();',
             'SelectGuide.init();',
-            'IncubationSetting.init();',
+            'PraIncubationSetting.init();',
         ));
         
         // Get Pra-Incubation Setting Data
@@ -1451,7 +1453,7 @@ class PraIncubation extends User_Controller {
         }
         
         $praincubationsetupdate = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
-        if( $this->Model_Incubation->update_data_incubation_setting($praincubationsetdata->id, $praincubationsetupdate) ){
+        if( $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $praincubationsetupdate) ){
             // Set JSON data
             $data = array('message' => 'success','data' => 'Data pengaturan seleksi berhasi di close');
         }else{
