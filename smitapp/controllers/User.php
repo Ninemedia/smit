@@ -1199,6 +1199,10 @@ class User extends SMIT_Controller {
         $province           = $this->input->post('province');
         $province           = smit_isset($province, '');
         $data               = '<option value="">-- Pilih Kota/Kabupaten --</option>';
+        
+        echo '<pre>';
+        print_r($province);
+        die();
 
         if( empty($province) ){
             // Set JSON data

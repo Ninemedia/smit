@@ -260,12 +260,11 @@ var Tenant = function () {
     // --------------------------------
 	var handleProvinceChange = function() {
         // Province Change
-        $('#province-select').change(function(e){
+        $('#province-select').on("change",function(){
+            
             var val     = $(this).val();
             var url     = $(this).data('url');
             var el      = $('#regional-select');
-            
-            alert(val);
             
             $.ajax({
                 type:   "POST",
