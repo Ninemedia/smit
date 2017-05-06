@@ -17,7 +17,10 @@
         <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap/css/bootstrap.css'; ?>" rel="stylesheet" />
         
         <!-- Additional/Plugins CSS -->
-        <?php echo $headstyles; ?>
+        <link href="<?php echo BE_PLUGIN_PATH . 'node-waves/waves.css'; ?>" rel="stylesheet" />
+        <link href="<?php echo BE_PLUGIN_PATH . 'animate-css/animate.css'; ?>" rel="stylesheet" />
+        <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css'; ?>" rel="stylesheet" />
+        <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css'; ?>" rel="stylesheet" />
     
         <!-- Custom CSS -->
         <link href="<?php echo BE_CSS_PATH . 'style.css'; ?>" rel="stylesheet" />
@@ -216,7 +219,13 @@
         <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap/js/bootstrap.js'; ?>"></script>
         
         <!-- Additional/Plugins JS -->
-        <?php echo $scripts; ?>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'node-waves/waves.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'momentjs/moment.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js'; ?>"></script>
     
         <!-- Custom Js -->
         <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>
@@ -225,13 +234,17 @@
         <script type="text/javascript" src="<?php echo BE_JS_PATH . 'pages/user/sign-up.js'; ?>"></script>
         
         <!-- Init JavaScript -->
-        <?php echo $scripts_init; ?>
         <script type="text/javascript">
+            jQuery(document).ready(function() {
+                Login.init();
+                SignUp.init();
+            });
+            
             function onloadCallback() {
     			Login.loadCaptcha();
                 SignUp.loadCaptcha();
     		}
-    	</script>
+        </script>
     </body>
     <!-- End Body Section -->
 </html>
