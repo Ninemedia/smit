@@ -1,5 +1,18 @@
 ﻿/* Navbar ====================================== */
 @import url(materialize.css);
+.table-responsive {
+    border: none !important;
+}
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 0px solid #ddd !important;
+  }
+}
+
 .navbar {
   font-family: "Roboto", sans-serif;
   -webkit-border-radius: 0;
@@ -2969,7 +2982,7 @@ section.content {
           font-weight: bold;
           color: #777; }
   .card .body {
-    font-size: 14px;
+    font-size: 13px;
     color: #555;
     padding: 20px; }
     .card .body .col-xs-1,
@@ -4551,10 +4564,10 @@ section.content {
 .table-bordered {
   border-top: 1px solid #eee; }
   .table-bordered tbody tr td, .table-bordered tbody tr th {
-    padding: 10px;
+    padding: 7px;
     border: 1px solid #eee; }
   .table-bordered thead tr th {
-    padding: 10px;
+    padding: 7px;
     border: 1px solid #eee; }
 
 /* Panel ======================================= */
@@ -7624,7 +7637,7 @@ fieldset[disabled] .form-control {
         display: inline-flex;
         vertical-align: middle;
         width: 100%;
-        padding: 10px 13px; }
+        padding: 7px 13px; }
         .sidebar .menu .list a:hover, .sidebar .menu .list a:active, .sidebar .menu .list a:focus {
           text-decoration: none !important; }
         .sidebar .menu .list a small {

@@ -241,7 +241,7 @@ var UploadFiles = function () {
 }();
 
 var Tenant = function () {
-    var handleUploadAvatarCompany = function(){
+    var handleUploadAvatarTenant = function(){
         $("#avatar_company").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
@@ -260,10 +260,51 @@ var Tenant = function () {
         });
     };
     
+    // --------------------------------
+    // Handle Province Change
+    // --------------------------------
+	var handleProvinceChange = function() {
+        // Province Change
+        $('#province-select').change(function(e){
+            var val     = $(this).val();
+            var url     = $(this).data('url');
+            var el      = $('#regional-select');
+            
+            alert(val);
+            
+            $.ajax({
+                type:   "POST",
+                data:   {
+                    'province' : val,
+                    'csrf_smit' : $('input[name="csrf_smit"]').val()
+                },
+                url:    url,
+                beforeSend: function (){},
+                success: function( response ){
+                    response = $.parseJSON(response);
+                    el.empty().hide();
+                    
+                    el.parent().removeClass('has-error');
+                    el.parent().find('.help-block').empty().hide();
+                    
+                    if(response.message == 'success'){
+                        el.attr('disabled', false);
+                        el.html(response.data).selectpicker('refresh'); 
+                    }else{
+                        el.attr('disabled', true);
+                        el.html(response.data).selectpicker('refresh'); 
+                    }
+                }
+            });
+            return false;
+        });
+	};
+    
     return {
         //main function to initiate the module
         init: function () {
-            handleUploadAvatarCompany();
+            handleUploadAvatarTenant();
+            handleProvinceChange();
         }
     };
 }();

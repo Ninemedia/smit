@@ -472,7 +472,6 @@ class Tenant extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/forms/editors.js',
             BE_JS_PATH . 'pages/forms/form-validation.js',
-            //BE_JS_PATH . 'pages/user/sign-up.js',
         ));
         
         $scripts_add            = '';

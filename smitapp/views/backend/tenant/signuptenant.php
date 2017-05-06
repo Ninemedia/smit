@@ -45,7 +45,7 @@
                                 <?php echo form_close(); ?>
                             </div>
                             <div class="col-md-8">
-                                <?php echo form_open( 'tenatn/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                                <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
                                 <label for="name_contact">Nama Tenant</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
@@ -53,13 +53,43 @@
                                         <?php echo form_input('tenant_name','',array('class'=>'form-control tenant_name','placeholder'=>'Nama Tenant Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
-                                <label for="name_contact">Tahun Berdiri</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_year','',array('class'=>'form-control company_year','placeholder'=>'Tahun Berdiri Tenant Anda','required'=>'required')); ?>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label for="email_contact">Email Tenant</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">email</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_input('company_email','',array('class'=>'form-control company_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="name_contact">Tahun Berdiri</label>
+                                        <!--
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_input('tenant_year','',array('class'=>'form-control company_year','placeholder'=>'Tahun Berdiri Tenant Anda','required'=>'required')); ?>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <div class="form-line">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(1900,2030);
+                                                //$extra = 'class="form-control def" id="tenant_year"';
+                                                
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }                                        
+                                                echo form_dropdown('tenant_year', $option, '');
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
+                                
                                 <label for="name_contact">Alamat Tenant</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -94,14 +124,7 @@
                                     </div>
                                 </div>
                                 
-                                <label for="email_contact">Email Perusahaan</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">email</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('company_email','',array('class'=>'form-control company_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
-                                    </div>
-                                </div>
-                                <label for="telp_contact">Telp Kontak</label>
+                                <label for="telp_contact">Kontak</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
                                     <div class="form-line">
