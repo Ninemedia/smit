@@ -45,26 +45,26 @@
                                 <?php echo form_close(); ?>
                             </div>
                             <div class="col-md-8">
-                                <?php echo form_open( 'backend/addcompany', array( 'id'=>'addcompany', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
-                                <label for="name_contact">Nama Perusahaan</label>
+                                <?php echo form_open( 'tenatn/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                                <label for="name_contact">Nama Tenant</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_name','',array('class'=>'form-control company_name','placeholder'=>'Nama Perusahaan Anda','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_name','',array('class'=>'form-control tenant_name','placeholder'=>'Nama Tenant Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
                                 <label for="name_contact">Tahun Berdiri</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_year','',array('class'=>'form-control company_year','placeholder'=>'Tahun Berdiri Perusahaan Anda','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_year','',array('class'=>'form-control company_year','placeholder'=>'Tahun Berdiri Tenant Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
-                                <label for="name_contact">Alamat Perusahaan</label>
+                                <label for="name_contact">Alamat Tenant</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_address','',array('class'=>'form-control company_address','placeholder'=>'Alamat','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_address','',array('class'=>'form-control company_address','placeholder'=>'Alamat Tenant Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
                                 <div class="input-group">

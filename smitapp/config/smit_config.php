@@ -171,10 +171,10 @@ $config['user_menu_access']         = array(
     PELAKSANA                        => array(
         'beranda',
         'prainkubasi',
-        'prainkubasi/nilai',
+        //'prainkubasi/nilai',
         'prainkubasi/laporan',
         'inkubasi',
-        'inkubasi/nilai',
+        //'inkubasi/nilai',
         'inkubasi/laporan',
         'tenants',
         'tenants/blogs',

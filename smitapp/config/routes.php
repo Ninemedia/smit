@@ -148,13 +148,13 @@ $route['incubationdownloadfile/(:any)']         = "incubation/incubationdownload
 $route['juryscoresetdetails/(:any)']            = "incubation/juryscoredatadetails/$1";
 $route['juryscoresetnilai/(:any)']              = "incubation/juryscoredatanilai/$1";
 // Tenant Page Routes
-$route['tenants/blogs']                 = "tenant/tenantblogs";
-$route['tenants/daftar']                = "tenant/tenantdata";
-$route['tenants/pendampingan']          = "tenant/tenantaccompaniment";
-$route['tenants/produk']                = "tenant/tenantproduct";
-$route['tenants/pembayaran']            = "tenant/tenantpayment";
-$route['tenants/laporan']               = "tenant/tenantreport";
-$route['tenants/pendaftaran']           = "tenant/tenantadd";
+$route['tenants/blogs']                         = "tenant/tenantblogs";
+$route['tenants/daftar']                        = "tenant/tenantdata";
+$route['tenants/pendampingan']                  = "tenant/tenantaccompaniment";
+$route['tenants/produk']                        = "tenant/tenantproduct";
+$route['tenants/pembayaran']                    = "tenant/tenantpayment";
+$route['tenants/laporan']                       = "tenant/tenantreport";
+$route['tenants/pendaftaran']                   = "tenant/tenantadd";
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
