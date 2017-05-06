@@ -135,7 +135,6 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
-            BE_JS_PATH . 'custom.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/forms/editors.js',
         ));
@@ -167,15 +166,29 @@ class Backend extends User_Controller {
         $field  = smit_isset($field, '');
         $value  = $this->input->post('value');
         $value  = smit_isset($value, '');
-        
-        echo '<pre>';
-        print_r($_POST);
-        die();
-        
+                
         if( $field == 'be_dashboard_user' ){
             update_option('be_dashboard_user', $value);
         }elseif( $field == 'be_dashboard_juri' ){
             update_option('be_dashboard_juri', $value);
+        }elseif( $field == 'be_dashboard_pendamping' ){
+            update_option('be_dashboard_pendamping', $value);
+        }elseif( $field == 'be_dashboard_tenant' ){
+            update_option('be_dashboard_tenant', $value);
+        }elseif( $field == 'be_dashboard_pelaksana' ){
+            update_option('be_dashboard_pelaksana', $value);
+        }elseif( $field == 'be_notif_praincubation_not_success' ){
+            update_option('be_notif_praincubation_not_success', $value);
+        }elseif( $field == 'be_notif_praincubation_not_success2' ){
+            update_option('be_notif_praincubation_not_success2', $value);
+        }elseif( $field == 'be_notif_praincubation_success' ){
+            update_option('be_notif_praincubation_success', $value);
+        }elseif( $field == 'be_notif_incubation_not_success' ){
+            update_option('be_notif_incubation_not_success', $value);
+        }elseif( $field == 'be_notif_incubation_not_success2' ){
+            update_option('be_notif_incubation_not_success2', $value);
+        }elseif( $field == 'be_notif_incubation_success' ){
+            update_option('be_notif_incubation_success', $value);
         }
     }
     

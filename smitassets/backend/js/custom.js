@@ -271,6 +271,9 @@ var Tenant = function () {
             var url     = $(this).data('url');
             var el      = $('#regional-select');
             
+            alert();
+            return false;
+            
             $.ajax({
                 type:   "POST",
                 data:   {
@@ -503,22 +506,59 @@ var Setting = function () {
     var handleSetting = function() {
         
         // Dashboard Setting
-        //$('#btn_be_dashboard_user').click(function(e){
-        $("body").delegate( "button.btn_be_dashboard_user", "click", function( event ) {
+        $("body").delegate( "button.btn-dashboard-setting", "click", function( event ) {
             event.preventDefault();
             var url = $(this).data('url');
-            alert(url);
-            
+            var type = $(this).data('type');
+            var instances = 'be_dashboard_' + type;
+            var value = getValue(instances);
             
             $.ajax({
                 type:   "POST",
                 url:    url,
-                data: { 'field' : 'be_dashboard_user', 'value' : CKEDITOR.instances['be_dashboard_user'].getData() },
+                data: { 'field' : instances, 'value' : value },
+                beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
+                success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
+            });
+        });
+        
+        $("body").delegate( "button.btn-notif-praincubation-setting", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).data('url');
+            var type = $(this).data('type');
+            var instances = 'be_notif_praincubation_' + type;
+            var value = getValue(instances);
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data: { 'field' : instances, 'value' : value },
+                beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
+                success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
+            });
+        });
+        
+        $("body").delegate( "button.btn-notif-incubation-setting", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).data('url');
+            var type = $(this).data('type');
+            var instances = 'be_notif_incubation_' + type;
+            var value = getValue(instances);
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data: { 'field' : instances, 'value' : value },
                 beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
                 success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
             });
         });
         // ---------------------------------------------------------------------
+    };
+    
+    var getValue = function(id) {
+        var content = CKEDITOR.instances[id].getData();
+        return content;
     };
     
     return {

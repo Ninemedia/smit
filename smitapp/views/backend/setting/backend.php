@@ -7,131 +7,34 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#history" data-toggle="tab">
+                        <a href="#general" data-toggle="tab">
                             <i class="material-icons">home</i> GENERAL
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#vision" data-toggle="tab">
+                        <a href="#registration_email" data-toggle="tab">
                             <i class="material-icons">style</i> EMAIL PENDAFTARAN
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#structur" data-toggle="tab">
-                            <i class="material-icons">people</i> FORMAT EMAIL & NOTIFIKASI
+                        <a href="#notification_praincubation" data-toggle="tab">
+                            <i class="material-icons">people</i> FORMAT PRA INKUBASI
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#settings_with_icon_title" data-toggle="tab">
-                            <i class="material-icons">view_comfy</i> INKUBASI DAN ALIH TEKNOLOGI
+                        <a href="#notification_incubation" data-toggle="tab">
+                            <i class="material-icons">people</i> FORMAT INKUBASI
                         </a>
                     </li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="history">
-                        <!-- Multiple Items To Be Open -->
-                        <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-col-blue">
-                                <div class="panel-heading" role="tab" id="heading_user">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse_user" aria-expanded="true" aria-controls="collapse_user">
-                                            <i class="material-icons">format_align_justify</i> Text Dashboard Pengguna / Pengusul
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_user" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_user">
-                                    <form class="horizontal-form" action="#" novalidate="novalidate">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control ckeditor" id="be_dashboard_user"><?php echo get_option('be_dashboard_user'); ?></textarea>
-                                            </div>
-                                            <button class="btn btn-success waves-effect" id="btn_be_dashboard_user" type="button" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="panel panel-col-blue">
-                                <div class="panel-heading" role="tab" id="heading_juri">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_juri" aria-expanded="false" aria-controls="collapse_juri">
-                                            <i class="material-icons">format_align_justify</i> Text Dashboard Juri
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_juri" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_juri">
-                                    <form class="horizontal-form" action="#" novalidate="novalidate">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control ckeditor" id="be_dashboard_juri"><?php echo get_option('be_dashboard_juri'); ?></textarea>
-                                            </div>
-                                            <button class="btn btn-success waves-effect" type="button">Simpan Pengaturan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="panel panel-col-blue">
-                                <div class="panel-heading" role="tab" id="heading_pendamping">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_pendamping" aria-expanded="false" aria-controls="collapse_pendamping">
-                                            <i class="material-icons">format_align_justify</i> Text Dashboard Pendamping
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_pendamping" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_pendamping">
-                                    <form class="horizontal-form" action="#" novalidate="novalidate">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control ckeditor" id="be_dashboard_pendamping"><?php echo get_option('be_dashboard_pendamping'); ?></textarea>
-                                            </div>
-                                            <button class="btn btn-success waves-effect" type="button">Simpan Pengaturan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="panel panel-col-blue">
-                                <div class="panel-heading" role="tab" id="heading_tenant">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_tenant" aria-expanded="false" aria-controls="collapse_tenant">
-                                            <i class="material-icons">format_align_justify</i> Text Dashboard Tenant
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_tenant" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_tenant">
-                                    <form class="horizontal-form" action="#" novalidate="novalidate">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control ckeditor" id="be_dashboard_tenant"><?php echo get_option('be_dashboard_tenant'); ?></textarea>
-                                            </div>
-                                            <button class="btn btn-success waves-effect" type="button">Simpan Pengaturan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="panel panel-col-blue">
-                                <div class="panel-heading" role="tab" id="heading_pelaksana">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_pelaksana" aria-expanded="false" aria-controls="collapse_pelaksana">
-                                            <i class="material-icons">format_align_justify</i> Text Dashboard Pelaksana
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse_pelaksana" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_pelaksana">
-                                    <form class="horizontal-form" action="#" novalidate="novalidate">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control ckeditor" id="be_dashboard_pelasana"><?php echo get_option('be_dashboard_pelaksana'); ?></textarea>
-                                            </div>
-                                            <button class="btn btn-success waves-effect" type="button">Simpan Pengaturan</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- #END# Multiple Items To Be Open -->
+                    <div role="tabpanel" class="tab-pane fade in active" id="general">
+                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/general'); ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="vision">
+                    
+                    <div role="tabpanel" class="tab-pane fade" id="registration_email">
                         <!-- Multiple Items To Be Open -->
                         <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-col-blue">
@@ -225,24 +128,15 @@
                         </div>
                         <!-- #END# Multiple Items To Be Open -->
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="structur">
-                        <b>Struktur Organisasi</b>
-                        <p>
-                            Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                            Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                            pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                            sadipscing mel.
-                        </p>
+                    
+                    <div role="tabpanel" class="tab-pane fade" id="notification_praincubation">
+                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/notificationpraincubation'); ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
-                        <b>Inkubasi dan Alih Teknologi</b>
-                        <p>
-                            Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                            Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                            pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                            sadipscing mel.
-                        </p>
+                    
+                    <div role="tabpanel" class="tab-pane fade" id="notification_incubation">
+                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/notificationincubation'); ?>
                     </div>
+                    
                 </div>
             </div>
         </div>

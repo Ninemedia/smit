@@ -1455,7 +1455,7 @@ class PraIncubation extends User_Controller {
         $praincubationsetupdate = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
         if( $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $praincubationsetupdate) ){
             // Set JSON data
-            $data = array('message' => 'success','data' => 'Data pengaturan seleksi berhasi di close');
+            $data = array('message' => 'redirect','data' => base_url('prainkubasi/pengaturan'));
         }else{
             // Set JSON data
             $data = array('message' => 'error','data' => 'Terjadi kesalahan data, pengaturan seleksi tidak berhasi di close');

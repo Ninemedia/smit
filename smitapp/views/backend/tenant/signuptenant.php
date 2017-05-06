@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         -->
-                                        <div class="form-line">
+                                        <div class="input-group">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(1900,2030);
