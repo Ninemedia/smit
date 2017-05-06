@@ -59,57 +59,6 @@ var IncubationSetting = function () {
                 }
             });
         });    
-        
-        // Details Incubation Setting
-        $("body").delegate( "a.incubsetdet", "click", function( event ) {
-            event.preventDefault();
-            var url = $(this).attr('href');
-            var table_container = $('#incubation_setting_list').parents('.dataTables_wrapper');
-            var el = $('#incubation_details');
-            
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                         
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        $('.selection_det_date_start').bootstrapMaterialDatePicker('setDate', response.details.selection_date_start);
-                        $('.selection_det_date_end').bootstrapMaterialDatePicker('setDate', response.details.selection_date_end);
-                        $('.selection_det_imp_date_start').bootstrapMaterialDatePicker('setDate', response.details.selection_imp_date_start);
-                        $('.selection_det_imp_date_end').bootstrapMaterialDatePicker('setDate', response.details.selection_imp_date_end);
-                        $('#selection_det_files').val(response.details.selection_files);
-                        $('#selection_det_juri_phase1').val(response.details.selection_juri_phase1);
-                        $('#selection_det_juri_phase2').val(response.details.selection_juri_phase2);
-                        
-                        App.scrollTo($('#incubation_setting_list'),240);
-                        el.fadeIn();
-                    }
-                }
-            });
-        });  
-        
-        // Close Details Incubation Setting
-        $("body").delegate( "a.close-details, button.close-details", "click", function( event ) {
-            event.preventDefault();
-            var el = $('#incubation_details');
-            el.fadeOut();
-            App.scrollTo($('body'),0);
-        });
     };
 
     return {

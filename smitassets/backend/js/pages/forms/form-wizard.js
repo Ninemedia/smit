@@ -66,6 +66,12 @@ var Wizard = function () {
         selectDatePicker( $('.selection_imp_date_end') );
     };
     
+    // Details Selection Incubation Validation
+    var handleDetailsSelectionPraIncubation = function(){
+        var form = $('#details_selection_praincubation');
+        formWizardValidate(form, 'details_selection_praincubation');
+    };
+    
     var setSelecetionDet = function(){
         var selection_year_publication_val = $('#selection_year_publication').val();
         $('.selection_det_year_publication').empty().html( selection_year_publication_val ).show();
@@ -151,7 +157,7 @@ var Wizard = function () {
         });
     }
 
-    var formWizardValidate = function(form){
+    var formWizardValidate = function(form, id=''){
         form.validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
@@ -283,17 +289,28 @@ var Wizard = function () {
             },
             errorPlacement: function (error, element) {
                 $(element).parents('.form-group').append(error);
+                App.scrollTo( $('#details_selection_praincubation') );
             },
             submitHandler: function (form) {
-                return false;
+                if( id == 'details_selection_praincubation' ){
+                    $('#save_selectionpraincubationsettingdetails').modal('show');
+                }else{
+                    return false;
+                }
             }
         });
     };
     
-    // Save Registered Member
+    // Save Pra-Incubation Setting
     $('#do_save_selectionpraincubationsetting').click(function(e){
         e.preventDefault();
         processSaveSelectionPraIncubationSetting($('#selection_praincubation_wizard'));
+    });
+    
+    // Update Pra-Incubation Setting
+    $('#do_save_selectionpraincubationsettingdetails').click(function(e){
+        e.preventDefault();
+        processUpdateSelectionPraIncubationSetting($('#details_selection_praincubation'));
     });
     
     var processSaveSelectionPraIncubationSetting = function( form ) {
@@ -329,6 +346,29 @@ var Wizard = function () {
 			}
 		});
     };
+    
+    var processUpdateSelectionPraIncubationSetting = function( form ) {
+        var url     = form.attr( 'action' );
+        var data    = new FormData(form[0]);
+        var msg     = $('#alert');
+    	
+        $.ajax({
+			type : "POST",
+			url  : url,
+			data : data,
+            cache : false,
+            contentType : false,
+            processData : false,
+            beforeSend: function(){
+                $("div.page-loader-wrapper").fadeIn();
+            },
+			success: function(response) {
+                $("div.page-loader-wrapper").fadeOut();
+                response = $.parseJSON( response );
+                $(location).attr('href',response.data);
+			}
+		});
+    };
 
     var setButtonWavesEffect = function(event) {
         $(event.currentTarget).find('[role="menu"] li a').removeClass('waves-effect');
@@ -346,6 +386,7 @@ var Wizard = function () {
         //main function to initiate the module
         init: function () {
             handleSelectionPraIncubationWizard();
+            handleDetailsSelectionPraIncubation();
         }
     };
 }();

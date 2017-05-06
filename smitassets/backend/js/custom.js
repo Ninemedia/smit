@@ -8,6 +8,11 @@ $(function () {
         setSettingListHeightAndScroll();
     });
     tableSearchFilterToggle();
+    
+    $("body").delegate( "button.close", "click", function( event ) {
+        event.preventDefault();
+        $(this).parent().fadeOut();
+    });
 });
 
 //Skin tab content set height and show scroll
