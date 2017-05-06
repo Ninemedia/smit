@@ -22,6 +22,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
+                        <div class="table-container table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="praincubation_setting_list" data-url="<?php echo base_url('daftarprainkubasi'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
@@ -62,6 +63,7 @@
                                 <!-- Data Will Be Placed Here -->
                             </tbody>
                         </table>
+                        </div>
                         
                         <!-- Incubation Details -->
                         <div class="card top30 bottom0 display-hide" id="incubation_details">
