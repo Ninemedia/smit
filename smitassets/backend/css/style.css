@@ -1,5 +1,18 @@
 ﻿/* Navbar ====================================== */
 @import url(materialize.css);
+.table-responsive {
+    border: none !important;
+}
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 0px solid #ddd !important;
+  }
+}
+
 .navbar {
   font-family: "Roboto", sans-serif;
   -webkit-border-radius: 0;
