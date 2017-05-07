@@ -177,6 +177,10 @@ class Backend extends User_Controller {
             update_option('be_dashboard_tenant', $value);
         }elseif( $field == 'be_dashboard_pelaksana' ){
             update_option('be_dashboard_pelaksana', $value);
+        }elseif( $field == 'be_notif_praincubation_confirm' ){
+            update_option('be_notif_praincubation_confirm', $value);
+        }elseif( $field == 'be_notif_praincubation_confirm2' ){
+            update_option('be_notif_praincubation_confirm2', $value);
         }elseif( $field == 'be_notif_praincubation_not_success' ){
             update_option('be_notif_praincubation_not_success', $value);
         }elseif( $field == 'be_notif_praincubation_not_success2' ){

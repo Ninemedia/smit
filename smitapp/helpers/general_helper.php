@@ -193,7 +193,7 @@ if ( !function_exists('add_option') )
             'value' => $value,
         );
         
-        $result = $CI->model_option->add_option($data);
+        $result = $CI->Model_Option->add_option($data);
     
         if ( $result ) return true;
     
@@ -1401,7 +1401,7 @@ if ( !function_exists('smit_notification_template') )
     function smit_notification_template( $message='' ) {
         $template_open      = '
         <div style="width:100%; background: #F5F5F5; text-align: center; padding: 24px 0;">
-            <div style="display:inline-block;width:90%;max-width:680px;min-width:280px;text-align:left;font-family:Roboto,Arial,Helvetica,sans-serif">
+            <div style="display:inline-block;width:95%;min-width:280px;text-align:left;font-family:Roboto,Arial,Helvetica,sans-serif">
                 <div class="adM" style="padding: 0px 2px; display: block;">
                     <div style="display: block; min-height: 2px; background: rgb(255, 255, 255) none repeat scroll 0px 0px;"></div>
                 </div>';
@@ -1409,6 +1409,9 @@ if ( !function_exists('smit_notification_template') )
         $template_header    = '';
         $template_body      = '
         <div style="border-left:1px solid #f0f0f0;border-right:1px solid #f0f0f0;color:#666;font-size:12px;line-height:24px;">
+            <div dir="ltr" style="background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea; text-align:center;">
+                <img style="width:97%;" src="https://lh4.googleusercontent.com/EmbCpaE7pXFSAbtEMg74BaX5_TNCAPdCzmzrjd-KihGOCZiuDiXeWOmlV431kDS4FJDgCDGi=w1366-h672" />
+            </div>
             <div dir="ltr" style="padding:24px 32px 24px 32px;background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea">
                 '.( empty($message) ? 'This notification has empty message' : $message).'
             </div>
@@ -1472,7 +1475,7 @@ if ( !function_exists('smit_notification_template') )
                         PUSINOV LIPI 2017. All Right Reserved.
                     </td>
                     <td style="width:50%;padding-left:20px;vertical-align:middle;text-align:right;">
-                        <span style="font-size:16px;font-family:Impact,sans-serif;color:#F39C12;">PUSINOV LIPI</span>
+                        <span style="font-size:16px;font-family:Impact,sans-serif;color:#254384;">PUSINOV LIPI</span>
                     </td>
                 </tr>
             </tbody>

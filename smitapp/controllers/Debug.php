@@ -17,25 +17,66 @@ class Debug extends Public_Controller {
         parent::__construct();
     }
     
-    public function test( $id=0 ){
-        set_time_limit(0);
-    	$this->benchmark->mark('started');
-        echo "<pre>";
+    /**
+	 * Test email functionality
+	 */
+	public function testmail() {
+		$to = $this->input->get('to');
+		
+		// using PHP mailer
+		echo 'sending email using PHP mailer...' . br();
+		@mail($to, 'Test Email PHP Mail', 'This is test email using PHP mailer.');
+		
+		// using Swiftmailer
+		echo 'sending email using Swiftmailer...' . br();
+		$response = $this->smit_email->send_email_test($to);
+		if(is_array($response)) {
+			echo 'failed:' . br();
+			var_dump($response);
+		} else {
+			echo 'success.';
+		}
+	}
+    
+    /**
+	 * email format functionality
+	 */
+	public function emailtemplate() {
+        auth_redirect();
         
-        //$province   = smit_cities($id);
-        //$religion            = smit_religion();
-        $rand           = smit_generate_no_announcement(1, 'charup');
-        print_r($rand);
-        die();
-        foreach($province as $c){
-            print_r($c);
-        }
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
         
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
         
-        $this->benchmark->mark('ended');
-		echo br() . 'Elapsed Time ' . $this->benchmark->elapsed_time('started', 'ended') . '</pre>';
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+        ));
         
-    }
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+        ));
+
+        $data['title']          = TITLE . 'Email Template';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'emailtemplate';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
 }
 
 /* End of file Debug.php */
