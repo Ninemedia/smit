@@ -296,6 +296,8 @@ var ScoreSetting = function () {
                                     focus: false
                                 });
                                 App.scrollTo(div_container, -90);
+                                $('button.btn-rate-step1').hide();
+                                $('button.btn-rate-step1-reset').hide();
                             }
                             return false;
                         }

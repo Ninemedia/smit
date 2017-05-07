@@ -2129,9 +2129,15 @@ class PraIncubation extends User_Controller {
             $i = $offset + 1;
             foreach($praincubation_list as $row){
                 $btn_score          = '';
+                
+                // Check Jury Rated Selection
+                $rated = smit_check_juri_rated($current_user->id, $row->id, ONE);
+                
                 if( $row->status == 1 ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
-                    class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    if( empty($rated) ){
+                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                        class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
+                    }
                 }
                 
                 $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
@@ -2241,9 +2247,15 @@ class PraIncubation extends User_Controller {
             foreach($praincubation_list as $row){
                 $btn_score          = '';
                 $btn_details        = '';
+                
+                // Check Jury Rated Selection
+                $rated = smit_check_juri_rated($current_user->id, $row->selection_id, TWO);
+
                 if( $row->statustwo == CONFIRMED ){
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
-                    class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
+                    if( empty($rated) ){
+                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                        class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
+                    }
                     $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
@@ -2347,6 +2359,12 @@ class PraIncubation extends User_Controller {
             redirect( base_url('prainkubasi/nilai') );
         }
         $data_selection         = $data_selection[0];
+        
+        // Check Jury Rated Selection
+        $rated = smit_check_juri_rated($current_user->id, $data_selection->id, $step);
+        if( !empty($rated) ){
+            redirect( base_url('prainkubasi/nilai') );
+        }
             
         $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
         $data_selection_files   = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition, '');
@@ -2372,8 +2390,7 @@ class PraIncubation extends User_Controller {
         }else{
             $data['main_content']           = 'praincubation/scoreuser2';
         }
-        
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     

@@ -633,7 +633,7 @@ class Frontend extends Public_Controller {
                 $upload_data    = $this->my_upload->data();
                 
                 if( !empty($upload_data) ){
-                    if( count($_FILES['reg_selection_files']['name']) > 1 ){
+                    if( smit_isset($upload_data[0]) ){
                         foreach($upload_data as $file){
                             // Set File Upload Save
                             $praincubationselectionfiles_data = array(

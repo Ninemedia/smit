@@ -279,6 +279,7 @@ var Wizard = function () {
             highlight: function (element) { // hightlight error inputs
                 console.log(element);
                 $(element).parents('.form-line').addClass('error'); // set error class to the control group
+                App.scrollTo( $('#details_selection_praincubation') );
             },
             unhighlight: function (element) {
                 $(element).parents('.form-line').removeClass('error');
@@ -289,7 +290,6 @@ var Wizard = function () {
             },
             errorPlacement: function (error, element) {
                 $(element).parents('.form-group').append(error);
-                App.scrollTo( $('#details_selection_praincubation') );
             },
             submitHandler: function (form) {
                 if( id == 'details_selection_praincubation' ){
