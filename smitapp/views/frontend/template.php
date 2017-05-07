@@ -63,14 +63,16 @@
             							</ul>
             						</li>
             						<li><a <?php echo ($active_page == 'statistik' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('statistik'); ?>">Statistik</a></li>
-            						<li class="has-dropdown">
+            						<!--
+                                    <li class="has-dropdown">
             							<a <?php echo ($active_page2 == 'event' || $active_page2 == 'layanan' || $active_page2 == 'artikel' ? 'class="currentactive"' : ''); ?> href="#">Tentang Kami</a>
             							<ul class="dropdown">
             								<li><a <?php echo ($active_page2 == 'layanan' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tentangkami/layanan'); ?>">Layanan</a></li>
             								<li><a <?php echo ($active_page2 == 'artikel' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tentangkami/artikel'); ?>">Artikel</a></li>
-            								<!-- <li><a <?php echo ($active_page2 == 'event' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tentangkami/event'); ?>">Kegiatan</a></li> -->
+            								<li><a <?php echo ($active_page2 == 'event' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tentangkami/event'); ?>">Kegiatan</a></li> 
             							</ul>
             						</li>
+                                    -->
                                     <li class="has-dropdown">
             							<a <?php echo ($active_page2 == 'prainkubasi' || $active_page2 == 'inkubasi' ? 'class="currentactive"' : ''); ?> href="#">Seleksi</a>
             							<ul class="dropdown">

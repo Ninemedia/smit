@@ -155,6 +155,10 @@ $route['tenants/produk']                        = "tenant/tenantproduct";
 $route['tenants/pembayaran']                    = "tenant/tenantpayment";
 $route['tenants/laporan']                       = "tenant/tenantreport";
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
+$route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
+$route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
+$route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
+
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";

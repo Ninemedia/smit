@@ -123,45 +123,51 @@ class Model_Tenant extends SMIT_Model{
     }
     
     /**
-     * Retrieve all user data
+     * Retrieve all tenant data
      * 
      * @author  Iqbal
-     * @param   Int     $limit              Limit of user               default 0
-     * @param   Int     $offset             Offset ot user              default 0
+     * @param   Int     $limit              Limit of tenant         default 0
+     * @param   Int     $offset             Offset ot tenant        default 0
      * @param   String  $conditions         Condition of query          default ''
      * @param   String  $order_by           Column that make to order   default ''
-     * @return  Object  Result of user list
+     * @return  Object  Result of tenant list
      */
-    function get_all_user($limit=0, $offset=0, $conditions='', $order_by=''){
+    function get_all_tenant($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
             $conditions = str_replace("%username%",             "username", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
-            $conditions = str_replace("%type%",                 "type", $conditions);
+            $conditions = str_replace("%name_tenant%",          "name_tenant", $conditions);
             $conditions = str_replace("%status%",               "status", $conditions);
-            $conditions = str_replace("%position%",             "position", $conditions);
-            $conditions = str_replace("%city%",                 "city",  $conditions);
+            $conditions = str_replace("%email%",                "email", $conditions);
+            $conditions = str_replace("%phone%",                "phone", $conditions);
+            $conditions = str_replace("%year%",                 "year", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
         }
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "uniquecode",  $order_by);
             $order_by   = str_replace("%username%",             "username",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);
-            $order_by   = str_replace("%type%",                 "type",  $order_by);
+            $order_by   = str_replace("%name_tenant%",          "name_tenant",  $order_by);
             $order_by   = str_replace("%status%",               "status",  $order_by);
-            $order_by   = str_replace("%position%",             "position",  $order_by);
-            $order_by   = str_replace("%city%",                 "city",  $order_by);
+            $order_by   = str_replace("%email%",                "email",  $order_by);
+            $order_by   = str_replace("%phone%",                "phone",  $order_by);
+            $order_by   = str_replace("%year%",                 "year",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
         }
         
-        $sql = 'SELECT * FROM ' . $this->_user . '';
+        $sql = '
+            SELECT *
+            FROM ' . $this->_tenant. '';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
         
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
-        
+
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return false;
         

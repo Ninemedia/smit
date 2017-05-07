@@ -168,19 +168,34 @@ class Tenant extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
         
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
         
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+        ));
 
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['user']           = $current_user;
@@ -456,8 +471,6 @@ class Tenant extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
@@ -467,6 +480,8 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -501,6 +516,7 @@ class Tenant extends User_Controller {
         $data['title']          = TITLE . 'Pengaturan Data Perusahaan';
         $data['user']           = $current_user;
         $data['avatar']         = $avatar;
+        $data['tenant']         = $tenant;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -731,6 +747,166 @@ class Tenant extends User_Controller {
                 die(json_encode($data)); 
             } 
             
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
+    
+    /**
+	 * Tenant list data function.
+	 */
+    function tenantlistdata( ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ''; 
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_name_tenant      = $this->input->post('search_name_tenant');
+        $s_name_tenant      = smit_isset($$s_name_tenant, '');
+        $s_email            = $this->input->post('search_email');
+        $s_email            = smit_isset($s_email, '');
+        $s_phone            = $this->input->post('search_phone');
+        $s_phone            = smit_isset($s_phone, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
+        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); } 
+        if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%name_teannt% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%email% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%phone% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($tenant_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+            
+            $i = $offset + 1;
+            foreach($tenant_list as $row){
+                // Status
+                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'" 
+                    class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                    
+                if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
+                    strtoupper($row->name_tenant),
+                    $row->email,
+                    smit_center( $row->phone ),
+                    smit_center( $row->year ),
+                    smit_center( $status ),
+                    smit_center( $btn_confirm . ' '. $btn_action ),
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Tenant confirm function.
+	 */
+    function tenantconfirm($action, $id){
+        // This is for AJAX request
+    	//if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        if ( !$id ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'ID Pengguna harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Pengguna hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $userdata           = smit_get_userdata_by_id($id);
+        if( !$userdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data pengguna tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='active' )     { $status = ACTIVE; }
+        elseif( $action=='banned' ) { $status = BANNED; }
+        elseif( $action=='delete' ) { $status = DELETED; }
+        
+        $data_update = array('status'=>$status,'datemodified'=>$curdate);
+        if( $this->Model_Tenant->update_data_tenant($id,$data_update) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Konfirmasi data pengguna berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data pengguna tidak berhasil dilakukan.');
             // JSON encode data
             die(json_encode($data));
         }

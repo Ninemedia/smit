@@ -84,10 +84,22 @@ var TableAjax = function () {
     };
     // -------------------------------------------------------------------------
     
+    
+    
+    // -------------------------------------------------------------------------
+    // TENANT
+    // ------------------------------------------------------------------------- 
+    // Incubation Selection Lists
+    var handleRecordsTenantList = function() {
+        gridTable( $("#list_tenant"), true );
+    };
+    
     // Tenant Selection Lists
     var handleRecordsTenantSelectionList = function() {
         gridTable( $("#tenant_list"), true );
     };
+    
+    // -------------------------------------------------------------------------
     
     // Tenant Selection Lists
     var handleRecordsGuidesList = function() {
@@ -192,6 +204,7 @@ var TableAjax = function () {
             handleRecordsIncubationReportSelectionList();
             
             //Tenant
+            handleRecordsTenantList();
             handleRecordsTenantSelectionList();
             
             //Jury
