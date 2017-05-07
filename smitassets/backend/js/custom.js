@@ -541,6 +541,24 @@ var Setting = function () {
             });
         });
         
+        // Registration Setting
+        $("body").delegate( "button.btn-notif-registration", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).data('url');
+            var type = $(this).data('type');
+            var instances = 'be_notif_' + type;
+            var value = getValue(instances);
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data: { 'field' : instances, 'value' : value },
+                beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
+                success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
+            });
+        });
+        
+        // Pra-Incubation Setting
         $("body").delegate( "button.btn-notif-praincubation-setting", "click", function( event ) {
             event.preventDefault();
             var url = $(this).data('url');
@@ -557,6 +575,7 @@ var Setting = function () {
             });
         });
         
+        // Incubation Setting
         $("body").delegate( "button.btn-notif-incubation-setting", "click", function( event ) {
             event.preventDefault();
             var url = $(this).data('url');

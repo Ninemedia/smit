@@ -602,7 +602,7 @@ class Frontend extends Public_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-                    
+
             // -------------------------------------------------
             // Save Incubation Selection
             // -------------------------------------------------
@@ -633,8 +633,30 @@ class Frontend extends Public_Controller {
                 $upload_data    = $this->my_upload->data();
                 
                 if( !empty($upload_data) ){
-                    foreach($upload_data as $file){
+                    if( count($_FILES['reg_selection_files']['name']) > 1 ){
+                        foreach($upload_data as $file){
+                            // Set File Upload Save
+                            $praincubationselectionfiles_data = array(
+                                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                                'selection_id'  => $praincubation_save_id,
+                                'user_id'       => $userdata->id,
+                                'username'      => strtolower($username),
+                                'name'          => $name,
+                                'url'           => smit_isset($file['full_path'],''),
+                                'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                                'filename'      => smit_isset($file['raw_name'],''),
+                                'size'          => smit_isset($file['file_size'],0),
+                                'status'        => ACTIVE,
+                                'datecreated'   => $curdate,
+                                'datemodified'  => $curdate,
+                            );
+                            if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
+                                continue;
+                            }
+                        }
+                    }else{
                         // Set File Upload Save
+                        $file = $upload_data;
                         $praincubationselectionfiles_data = array(
                             'uniquecode'    => smit_generate_rand_string(10,'low'),
                             'selection_id'  => $praincubation_save_id,
@@ -679,6 +701,9 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
+                    
+                    // Send Email Notification
+                    $this->smit_email->send_email_regitration_selection($userdata->email, $event_title);
                     
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi pra-inkubasi baru berhasil!'); 
