@@ -69,7 +69,7 @@ $autoload['libraries'] = array(
     'image_lib',
     'SMIT_User',
     'SMIT_Email',
-    'image_moo',
+    'Image_moo',
 );
 
 /*

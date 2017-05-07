@@ -117,7 +117,30 @@ class SMIT_Email
 	}
     
     /**
-	 * Send email reset password function.
+	 * Send email registration selection function.
+	 *
+     * @param string    $to             (Required)  Email Destionation
+     * @param string    $event_title    (Required)  Title of Selection
+	 * @return Mixed
+	 */
+	function send_email_regitration_selection( $to, $event_title ) {
+        if ( !$to ) return false;
+        if ( !$event_title ) return false;
+        
+        $message    = trim( get_option('be_notif_registration_selection') );
+        $message    = str_replace("{%event_title%}", $event_title, $message);
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $to, 'Konfirmasi Seleksi Pra-Inkubasi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email selection confirmation step 1 function.
 	 *
      * @param string    $data       (Required)  Pra-Incubation Selection Data
 	 * @return Mixed
