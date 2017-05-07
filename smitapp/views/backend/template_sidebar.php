@@ -272,6 +272,31 @@
             ),
 	    ),
         array (
+            'title'     => 'Publikasi',
+            'nav'       => 'publikasi',
+            'parent'    => 'false',
+            'link'      => 'javascript:;',
+            'icon'      => 'web',
+            'sub'       => array(
+    			array (
+                    'title'     => 'Daftar Publikasi',
+                    'nav'       => 'publikasi/daftar',
+                    'parent'    => 'statistik',
+                    'link'      => base_url('publikasi/daftar'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                ),
+                array (
+                    'title'     => 'Tambah Publikasi',
+                    'nav'       => 'publikasi/tambah',
+                    'parent'    => 'statistik',
+                    'link'      => base_url('publikasi/tambah'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
+            ),
+	    ),
+        array (
             'title'     => 'Panduan',
             'nav'       => 'panduan',
             'parent'    => 'false',
