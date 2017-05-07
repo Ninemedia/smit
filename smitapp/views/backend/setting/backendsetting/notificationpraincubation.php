@@ -76,7 +76,7 @@
         </div>
     </div>
     
-    <!-- Email Tidak Lolos Seleksi -->
+    <!-- Email Lolos Seleksi Tahap 1 -->
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_success">
             <h4 class="panel-title">
@@ -91,6 +91,25 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_success"><?php echo get_option('be_notif_praincubation_success'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="success" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Email Diterima Seleksi Tahap 1 -->
+    <div class="panel panel-col-blue">
+        <div class="panel-heading" role="tab" id="heading_notif_praincubation_accepted">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_notif_praincubation_accepted" aria-expanded="false" aria-controls="collapse_notif_praincubation_accepted">
+                    <i class="material-icons">email</i> Format Email Diterima
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_notif_praincubation_accepted" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_notif_praincubation_accepted">
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control ckeditor" id="be_notif_praincubation_accepted"><?php echo get_option('be_notif_praincubation_accepted'); ?></textarea>
+                </div>
+                <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="accepted" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
             </div>
         </div>
     </div>

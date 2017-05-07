@@ -13,7 +13,7 @@
                     </li>
                     <li role="presentation">
                         <a href="#registration_email" data-toggle="tab">
-                            <i class="material-icons">style</i> EMAIL PENDAFTARAN
+                            <i class="material-icons">style</i> EMAIL KONFIRMASI
                         </a>
                     </li>
                     <li role="presentation">
@@ -36,12 +36,6 @@
                     
                     <div role="tabpanel" class="tab-pane fade" id="registration_email">
                         <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/registrationnotification'); ?>
-                    
-                        <!-- Multiple Items To Be Open -->
-                        <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
-                            
-                        </div>
-                        <!-- #END# Multiple Items To Be Open -->
                     </div>
                     
                     <div role="tabpanel" class="tab-pane fade" id="notification_praincubation">

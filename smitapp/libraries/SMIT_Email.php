@@ -140,6 +140,26 @@ class SMIT_Email
 	}
     
     /**
+	 * Send email rated confirmation function.
+	 *
+     * @param string    $to             (Required)  Email Destionation
+	 * @return Mixed
+	 */
+	function send_email_rated_confirmation( $to ) {
+        if ( !$to ) return false;
+        
+        $message    = trim( get_option('be_notif_rated_confirm') );
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $to, 'Konfirmasi Penilaian', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
 	 * Send email selection confirmation step 1 function.
 	 *
      * @param string    $data       (Required)  Pra-Incubation Selection Data
@@ -158,6 +178,100 @@ class SMIT_Email
         $mail_message->html		= $html_message;
 		
 		return $this->send( $data->email, 'Konfirmasi Seleksi Pra-Inkubasi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email selection confirmation step 2 function.
+	 *
+     * @param string    $data       (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_confirmation_step2( $data ) {
+        if ( !$data ) return false;
+        
+        $message    = trim( get_option('be_notif_praincubation_confirm2') );
+        $message    = str_replace("{%event_title%}", $data->event_title, $message);
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Seleksi Pra-Inkubasi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email selection not success step 1 function.
+	 *
+     * @param array object  $selection_setting  (Required)  Selection Setting
+     * @param array object  $data               (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_not_success_step1 ($selection_setting, $data  ) {
+        if ( !$selection_setting ) return false;
+        if ( !$data ) return false;
+        
+        $adm_date   = date('j', strtotime($selection_setting->selection_date_adm_start)) . 
+            ' - ' . date('j', strtotime($selection_setting->selection_date_adm_end)) . 
+            ' ' . smit_indo_month( date('F', strtotime($selection_setting->selection_date_adm_end)) ) . 
+            ' ' . date('Y', strtotime($selection_setting->selection_date_adm_end));
+            
+        $curdate    = date('j') .' '. smit_indo_month( date('F') ) .' '. date('Y');
+ 
+        $message    = trim( get_option('be_notif_praincubation_not_success') );
+        $message    = str_replace("{%curdate%}",            $curdate, $message);
+        $message    = str_replace("{%selection_year%}",     $selection_setting->selection_year_publication, $message);
+        $message    = str_replace("{%user_name%}",          $data->name, $message);
+        $message    = str_replace("{%adm_date%}",           $adm_date, $message);
+        $message    = str_replace("{%event_title%}",        $data->event_title, $message);
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Tidak Lolos Seleksi Tahap Awal', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email selection success function.
+	 *
+     * @param array object  $selection_setting  (Required)  Selection Setting
+     * @param array object  $data               (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_success( $selection_setting, $data  ) {
+        if ( !$selection_setting ) return false;
+        if ( !$data ) return false;
+        
+        $adm_date   = date('j', strtotime($selection_setting->selection_date_adm_start)) . 
+            ' - ' . date('j', strtotime($selection_setting->selection_date_adm_end)) . 
+            ' ' . smit_indo_month( date('F', strtotime($selection_setting->selection_date_adm_end)) ) . 
+            ' ' . date('Y', strtotime($selection_setting->selection_date_adm_end));
+            
+        $curdate    = date('j') .' '. smit_indo_month( date('F') ) .' '. date('Y');
+        $inv_day    = smit_indo_day( date('D', strtotime($selection_setting->selection_date_invitation_send) ) );
+        $inv_date   = date('j', strtotime($selection_setting->selection_date_invitation_send)) . 
+            ' ' . smit_indo_month( date('F', strtotime($selection_setting->selection_date_invitation_send)) ) . 
+            ' ' . date('Y', strtotime($selection_setting->selection_date_invitation_send));
+        
+        $message    = trim( get_option('be_notif_praincubation_success') );
+        $message    = str_replace("{%curdate%}",            $curdate, $message);
+        $message    = str_replace("{%selection_year%}",     $selection_setting->selection_year_publication, $message);
+        $message    = str_replace("{%user_name%}",          $data->name, $message);
+        $message    = str_replace("{%adm_date%}",           $adm_date, $message);
+        $message    = str_replace("{%interview_date%}",     $inv_day .', '.$inv_date, $message);
+        
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Lolos Seleksi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
 }
 

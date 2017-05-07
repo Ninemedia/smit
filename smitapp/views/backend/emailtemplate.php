@@ -14,10 +14,10 @@
                         
                         <div style="border-left:1px solid #f0f0f0;border-right:1px solid #f0f0f0;color:#666;font-size:12px;line-height:24px;">
                             <div dir="ltr" style="background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea; text-align:center;">
-                                <img style="width:97%;" src="https://lh4.googleusercontent.com/EmbCpaE7pXFSAbtEMg74BaX5_TNCAPdCzmzrjd-KihGOCZiuDiXeWOmlV431kDS4FJDgCDGi=w1366-h672" />
+                                <img style="width:97%;" src="<?php echo BE_IMG_PATH . 'kop.jpg'; ?>" />
                             </div>
                             <div dir="ltr" style="padding:24px 32px 24px 32px;background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea">
-                                <?php echo get_option('be_notif_praincubation_not_success'); ?>
+                                <?php echo get_option('be_notif_praincubation_success'); ?>
                             </div>
                         </div>
                         <table role="presentation" style="width: 100%; border-collapse: collapse;">

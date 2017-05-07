@@ -1410,7 +1410,7 @@ if ( !function_exists('smit_notification_template') )
         $template_body      = '
         <div style="border-left:1px solid #f0f0f0;border-right:1px solid #f0f0f0;color:#666;font-size:12px;line-height:24px;">
             <div dir="ltr" style="background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea; text-align:center;">
-                <img style="width:97%;" src="https://lh4.googleusercontent.com/EmbCpaE7pXFSAbtEMg74BaX5_TNCAPdCzmzrjd-KihGOCZiuDiXeWOmlV431kDS4FJDgCDGi=w1366-h672" />
+                <img style="width:97%;" src="'. BE_IMG_PATH . 'kop.jpg" />
             </div>
             <div dir="ltr" style="padding:24px 32px 24px 32px;background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea">
                 '.( empty($message) ? 'This notification has empty message' : $message).'
@@ -1680,6 +1680,59 @@ if ( !function_exists('smit_check_juri_rated') )
         $qry = $CI->db->query($sql);
 
         return $qry->row();
+	}
+}
+
+if ( !function_exists('smit_indo_day') ) 
+{
+    /**
+     * Get indo day
+     * @author  Iqbal
+     * @return  String day
+     */
+	function smit_indo_day($day) {
+        if ( empty($day) || !$day ) return false;
+ 
+        $day_arr = array(
+            'Sun'   => 'Minggu',
+            'Mon'   => 'Senin',
+            'Tue'   => 'Selasa',
+            'Wed'   => 'Rabu',
+            'Thu'   => 'Kamis',
+            'Fri'   => 'Jumat',
+            'Sat'   => 'Sabtu',
+        );
+       
+        return $day_arr[$day];
+	}
+}
+
+if ( !function_exists('smit_indo_month') ) 
+{
+    /**
+     * Get indo month
+     * @author  Iqbal
+     * @return  String month
+     */
+	function smit_indo_month($month) {
+        if ( empty($month) || !$month ) return false;
+        
+        $month_arr = array(
+            'January'       => 'Januari',
+            'February'      => 'Februari',
+            'March'         => 'Maret',
+            'April'         => 'April',
+            'May'           => 'Mei',
+            'June'          => 'Juni',
+            'July'          => 'Juli',
+            'August'        => 'Agustus',
+            'September'     => 'September',
+            'October'       => 'Oktober',
+            'November'      => 'Nopember',
+            'December'      => 'Desember',
+        );
+       
+        return $month_arr[$month];
 	}
 }
 

@@ -36,12 +36,12 @@
                                     <?php
                                         $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
                                         $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
-                                        if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
-                                    ?>                           
+                                    ?>   
+                                    <?php //if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
                                         <a href="<?php echo base_url('prainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
-                            		<?php }else{ ?>
-                                        <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button>
-                                    <?php } ?>    
+                            		<?php //}else{ ?>
+                                        <!--<button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button>-->
+                                    <?php //} ?>    
                         		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
