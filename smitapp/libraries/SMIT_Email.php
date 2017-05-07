@@ -76,6 +76,23 @@ class SMIT_Email
 	}
     
     /**
+	 * Send email test function.
+	 * @return Mixed
+	 */
+	function send_email_test( $to ) {
+        if ( !$to ) return false;
+            
+        $message                = 'This is test email using Swiftmailer.';        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $to, 'Test Email Swiftmailer', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
 	 * Send email reset password function.
 	 *
      * @param string    $id_user    (Required)  ID User
@@ -97,6 +114,27 @@ class SMIT_Email
         $mail_message->html		= $html_message;
 		
 		return $this->send( $user->email, 'Reset Password', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email reset password function.
+	 *
+     * @param string    $data       (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_confirmation_step1( $data ) {
+        if ( !$data ) return false;
+        
+        $message    = trim( get_option('be_notif_praincubation_confirm') );
+        $message    = str_replace("{%event_title%}", $data->event_title, $message);
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Seleksi Pra-Inkubasi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
 }
 

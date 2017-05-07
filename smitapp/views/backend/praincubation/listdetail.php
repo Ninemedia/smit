@@ -6,14 +6,13 @@
             <div class="body">
                 <h4><?php echo $praincubation->event_title; ?></h4>
                 <div class="table-container table-responsive">
-                    <div class="table-wrapper pull-right bottom25">                        
+                    <div class="table-wrapper pull-right bottom10">                        
                         <a href="<?php echo base_url('prainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back">Kembali</a>     
                     </div>
                     <table class="table table-striped table-hover" id="">
                         <thead>
                             <tr class="bg-blue-grey">
-                                <td colspan="2" style="width: 30%;"><strong></strong></td>
-                                <td><strong>DESKRIPSI</strong></td>
+                                <td colspan="3" class="text-center"><strong>DESKRIPSI</strong></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,7 +42,7 @@
                                 <td>
                                     <?php
                                         if( !empty($praincubation_files) ){
-                                            echo '<ul class="bottom40">';
+                                            echo '<ul class="bottom0" style="padding-left:10px;">';
                                             foreach($praincubation_files as $file){
                                                 echo '<li>'.$file->filename.' - <a href="'.base_url('prainkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                             }

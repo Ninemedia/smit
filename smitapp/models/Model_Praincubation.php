@@ -577,7 +577,7 @@ class Model_Praincubation extends SMIT_Model{
         }
         
         $sql = '
-            SELECT A.*,B.workunit, B.name AS user_name
+            SELECT A.*,B.workunit, B.name AS user_name, B.email
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
             ON B.id = A.user_id';
