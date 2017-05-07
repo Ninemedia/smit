@@ -298,6 +298,9 @@ class User extends SMIT_Controller {
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
         $user_type              = $this->input->post('user_type');
         $user_type              = trim( smit_isset($user_type, 0) );
         $username               = $this->input->post('username');
@@ -408,16 +411,18 @@ class User extends SMIT_Controller {
         // -------------------------------------------------
         $datetime               = date( 'Y-m-d H:i:s' );
 		$username				= strtolower( $username );
+        $password_global        = get_option('global_password');
         $phone                  = str_replace(' ','',$phone);
         $data_user              = array(
             'username'          => $username,
-            'password'          => $password,
+            'password'          => $is_admin ? $password_global : $password,
             'name'              => strtoupper($name),
             'email'             => $email,
             'type'              => $user_type,
             'phone'             => $phone,
             'gender'            => $gender,
             'workunit'          => $workunit,
+            'status'            => $is_admin ? 1 : 0,
             'datecreated'       => $datetime,
             'datemodified'      => $datetime,
         );
@@ -463,6 +468,12 @@ class User extends SMIT_Controller {
                 $this->db->trans_commit();
                 // Complete Transaction
                 $this->db->trans_complete();
+                // Send Email Confirmation
+                if( $is_admin ){
+                    if( $user_type == JURI ){
+                        $this->smit_email->send_email_regitration_juri($email, $username, $password_global);
+                    }
+                }
                 
                 // Set JSON data
                 $userinfo   = '
@@ -1180,6 +1191,8 @@ class User extends SMIT_Controller {
         
         $data_update = array('status'=>$status,'datemodified'=>$curdate);
         if( $this->Model_User->update_data($id,$data_update) ){
+            // Send Email Confirmation
+            $this->smit_email->send_email_regitration_user($userdata->email, $userdata->username);
             // Set JSON data
             $data = array('msg' => 'success','message' => 'Konfirmasi data pengguna berhasil dilakukan.');
             // JSON encode data

@@ -8439,6 +8439,9 @@ hr.line-warning{
 .text-middle{
     vertical-align: middle !important;
 }
+.text-top{
+    vertical-align: top !important;
+}
 
 #total_rate{
     color: #666666;

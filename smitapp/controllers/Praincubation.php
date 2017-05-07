@@ -1530,18 +1530,19 @@ class PraIncubation extends User_Controller {
         
         $active                 = '';
         $lss                    = smit_latest_praincubation_setting();
-        $jury_step1             = $lss->selection_juri_phase1;
-        $jury_step1             = explode(",", $jury_step1);
-        
-        foreach($jury_step1 as $id){
-            if($id == $current_user->id){
-                $active = 1;
-                break;
-            }else{
-                $active = 0;
+        if( !empty($lss) ){
+            $jury_step1             = $lss->selection_juri_phase1;
+            $jury_step1             = explode(",", $jury_step1);
+            foreach($jury_step1 as $id){
+                if($id == $current_user->id){
+                    $active = 1;
+                    break;
+                }else{
+                    $active = 0;
+                }
             }
         }
-
+        
         $data['title']          = TITLE . 'Penilaian Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;

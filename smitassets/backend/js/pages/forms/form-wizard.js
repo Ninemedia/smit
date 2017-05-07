@@ -119,9 +119,26 @@ var Wizard = function () {
         
         $('.selection_det_desc').empty().html( $('.selection_desc').val() ).show();
         
-        var selection_det_selection_files_val = $('#selection_files').val();
+        var selection_det_selection_files_val = $('#selection_files').val()
+        var selection_det_selection_files_txt = '';
+        $.each( selection_det_selection_files_val, function( index, value ){
+            selection_det_selection_files_txt += "- " + $("#selection_files option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_selection_files').empty().html( selection_det_selection_files_txt ).show();
+        
         var selection_det_juri_phase1_val = $('#selection_juri_phase1').val();
+        var selection_det_juri_phase1_txt = '';
+        $.each( selection_det_juri_phase1_val, function( index, value ){
+            selection_det_juri_phase1_txt += "- " + $("#selection_juri_phase1 option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_juri_phase1').empty().html( selection_det_juri_phase1_txt ).show();
+        
         var selection_det_juri_phase2_val = $('#selection_juri_phase2').val();
+        var selection_det_juri_phase2_txt = '';
+        $.each( selection_det_juri_phase2_val, function( index, value ){
+            selection_det_juri_phase2_txt += "- " + $("#selection_juri_phase2 option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_juri_phase2').empty().html( selection_det_juri_phase2_txt ).show();
     }
     
     var clearSelecetionDet = function(){

@@ -26,14 +26,16 @@
                                 <?php
                                     $curdate    = date('Y-m-d H:i:s');
                                     $curdate    = strtotime($curdate);
-                                    
-                                    $selection_date_adm_start   = strtotime($lss->selection_date_adm_start);
-                                    $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
                                 ?>  
                                 
-                                <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
-                                    <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
-                                <?php } ?>    
+                                <?php if( !empty($lss) ){
+                                    $selection_date_adm_start   = strtotime($lss->selection_date_adm_start);
+                                    $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
+                                    
+                                    if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
+                                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                                    <?php }
+                                } ?>  
                     		</div>
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardatastep1'); ?>">
                                 <thead>

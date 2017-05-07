@@ -361,8 +361,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Berkas Panduan</strong></td><td> : </td>
-                                            <td><div class="selection_det_selection_files">-</div></td>
+                                            <td class="text-top"><strong>Berkas Panduan</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_selection_files">-</div></td>
                                         </tr>
                                         <tr>
                                             <td colspan="3">
@@ -370,12 +370,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Juri Tahap 1 Administrasi dan Subtansi</strong></td><td> : </td>
-                                            <td><div class="selection_det_juri_phase1">-</div></td>
+                                            <td class="text-top"><strong>Juri Tahap 1 Administrasi dan Subtansi</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_juri_phase1">-</div></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Juri Tahap 2 Presentasi dan Wawancara</strong></td><td> : </td>
-                                            <td><div class="selection_det_juri_phase2">-</div></td>
+                                            <td class="text-top"><strong>Juri Tahap 2 Presentasi dan Wawancara</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_juri_phase2">-</div></td>
                                         </tr>
                                     </table>
                                 
