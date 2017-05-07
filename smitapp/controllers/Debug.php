@@ -77,6 +77,29 @@ class Debug extends Public_Controller {
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * Send email selection success functionality
+	 */
+	public function emailselectionsuccess() {
+        // Check Data Pra Incubation Selection
+        $condition  = ' WHERE %status% = 2 AND %step% = 1 AND %id% = 1';
+        $order_by   = ' %id% ASC';
+        $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+        if( !$praincseldata || empty($praincseldata) ){
+            die('Tidak ada data seleksi step 1 yang belum dinilai oleh juri');
+        }
+       
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            die('Tidak ada data pengaturan seleksi');
+        }
+        
+        foreach($praincseldata as $row){
+            $this->smit_email->send_email_selection_success($praincset, $row);
+        }
+	}
 }
 
 /* End of file Debug.php */

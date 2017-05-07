@@ -1683,6 +1683,59 @@ if ( !function_exists('smit_check_juri_rated') )
 	}
 }
 
+if ( !function_exists('smit_indo_day') ) 
+{
+    /**
+     * Get indo day
+     * @author  Iqbal
+     * @return  String day
+     */
+	function smit_indo_day($day) {
+        if ( empty($day) || !$day ) return false;
+        
+        $day_arr = array(
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        );
+       
+        return $day_arr[$day];
+	}
+}
+
+if ( !function_exists('smit_indo_month') ) 
+{
+    /**
+     * Get indo month
+     * @author  Iqbal
+     * @return  String month
+     */
+	function smit_indo_month($month) {
+        if ( empty($month) || !$month ) return false;
+        
+        $month_arr = array(
+            'January'       => 'Januari',
+            'February'      => 'Februari',
+            'March'         => 'Maret',
+            'April'         => 'April',
+            'May'           => 'Mei',
+            'June'          => 'Juni',
+            'July'          => 'Juli',
+            'August'        => 'Agustus',
+            'September'     => 'September',
+            'October'       => 'Oktober',
+            'November'      => 'Nopember',
+            'December'      => 'Desember',
+        );
+       
+        return $month_arr[$month];
+	}
+}
+
 /*
 CHANGELOG
 ---------

@@ -645,7 +645,6 @@ class PraIncubation extends User_Controller {
         $this->db->trans_begin();
         
         foreach($praincseldata as $row){
-            
             $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
             if(empty($sum_score)){
                 $sum_score  = 0;
@@ -679,6 +678,13 @@ class PraIncubation extends User_Controller {
             
             if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
                 continue;
+            }else{
+                if( $avarage_score < KKM_STEP1 ){
+                        
+                }else{
+                    $this->smit_email->send_email_selection_confirmation_step2($row);
+                    $this->smit_email->send_email_selection_success($praincset, $row);
+                }
             }
         }
         
@@ -2536,6 +2542,15 @@ class PraIncubation extends User_Controller {
                 die(json_encode($data));
             } 
             
+            // Check Pra-Incubation Selection User Data
+            $data_selection_user = smit_get_userdata_by_id($data_selection->user_id);
+            if( !$data_selection_user || empty($data_selection_user) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data user seleksi pra-inkubasi tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            } 
+            
             // Check this Pra-Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_files($current_user->id, $data_selection->id);
@@ -2611,18 +2626,11 @@ class PraIncubation extends User_Controller {
                         'status'    => RATED,
                     );
                     
-                    $update_selection   = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $status_step1);
+                    if( $update_selection   = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $status_step1) ){
+                        $this->smit_email->send_email_rated_confirmation($data_selection_user->email);
+                    }
                 }
-                
-                
-                /*
-                $rate_data_step1    = array(
-                    'score'     => $rate_total,
-                    'status'    => RATED,
-                );
-                
-                $update_selection   = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $rate_data_step1);
-                */
+
                 // Set JSON data
                 $data = array('message' => 'success','data' => 'Proses penilaian seleksi pra-inkubasi ini berhasil');
             }else{
