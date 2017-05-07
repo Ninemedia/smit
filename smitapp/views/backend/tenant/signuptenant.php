@@ -1,3 +1,7 @@
+<?php 
+    $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user; 
+?> 
+
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -35,17 +39,29 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <?php echo form_open_multipart( '', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
-                                <label for="name_contact">Foto</label>
-                                <div class="form-group">
-                                    <label>Berkas Panduan</label>
-                                    <input id="avatar_company" name="avatar_company" class="form-control" type="file" />
+                                <!-- Profile Image -->
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $avatar; ?>" alt="Logo Tenant" />
+                                        <p class="text-muted text-center"></p>
+                                        <?php echo form_open_multipart( 'tenant/logotenant', array( 'id'=>'logotenant', 'role'=>'form' ) ); ?>
+                                        <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
+                                        <div class="form-group">
+                                            <label>Logo Tenant</label>
+                                            <input id="avatar_company" name="avatar_company" class="form-control" type="file" />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block bg-blue waves-effect">Ganti Logo</button>
+                                        <?php echo form_close(); ?>
+                                    </div>
                                 </div>
-                                <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">UPLOAD</button>
-                                <?php echo form_close(); ?>
+                                
                             </div>
                             <div class="col-md-8">
                                 <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                                <div class="alert alert-danger text-center display-hide error-validate">
+                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                        		</div>
+                                
                                 <label for="name_contact">Nama Tenant</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
@@ -59,7 +75,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">email</i></span>
                                             <div class="form-line">
-                                                <?php echo form_input('company_email','',array('class'=>'form-control company_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
+                                                <?php echo form_input('tenant_email','',array('class'=>'form-control tenant_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +115,7 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <select class="form-control show-tick" name="province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
+                                    <select class="form-control show-tick province" name="province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
         	                        	<?php
                                             $province = smit_provinces();
                                             echo '<option value="">-- Pilih Propinsi --</option>';
@@ -113,14 +129,14 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <select class="form-control show-tick" name="regional" id="regional-select" disabled="disabled">
+                                    <select class="form-control show-tic province" name="province" id="regional-select" disabled="disabled">
                                         <option value="">-- Pilih Kota/Kabupaten --</option>
                                     </select>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_district','',array('class'=>'form-control company_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
+                                        <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                     </div>
                                 </div>
                                 
@@ -128,29 +144,29 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_phone_contact','',array('class'=>'form-control mobile-phone-number','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_phone_contact','',array('class'=>'form-control tenant_phone_contact','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
                                     </div>
                                 </div>
                                 <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_legal','',array('class'=>'form-control company_legal','placeholder'=>'Legalitas Usaha Anda','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_legal','',array('class'=>'form-control tenant_legal','placeholder'=>'Legalitas Usaha Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
                                 <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
                                     <div class="form-line">
-                                        <?php echo form_input('company_bussiness','',array('class'=>'form-control company_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
+                                        <?php echo form_input('tenant_bussiness','',array('class'=>'form-control tenant_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
                                     </div>
                                 </div>
                                 <label for="telp_contact">Kemitraan Usaha yang Dimiliki</label>
                                 <div class="form-group">
-                                    <textarea class="form-control ckeditor" id="company_mitra" name="company_mitra" ></textarea>
+                                    <textarea class="form-control ckeditor" id="tenant_mitra" name="tenant_mitra" ></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary m-t-15 waves-effect">Simpan</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Simpan</button>
                                 </div>
                                 <?php echo form_close(); ?>
                             </div>
@@ -440,3 +456,43 @@
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE TENANT MODAL -->
+<div class="modal fade" id="save_addtenant" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Data Tenant Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan menambahkan data tenant anda ?</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_add_tenant" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE TENANT MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE LOGO TENANT MODAL -->
+<div class="modal fade" id="save_logotenant" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Logo Tenant Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan memperbaharui logo tenant anda ?</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_logotenant" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE LOGO TENANT MODAL -->

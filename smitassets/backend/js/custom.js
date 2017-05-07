@@ -211,6 +211,25 @@ var UploadFiles = function () {
         });
     };
     
+    var handleUploadLogoTenant = function(){
+        $("#avatar_company").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
     var handleEditUploadFiles = function(){
         $("#edit_selection_files").fileinput({
             showUpload : false,
@@ -236,6 +255,7 @@ var UploadFiles = function () {
             handleUploadFiles();
             handleEditUploadFiles();
             handleUploadAvatar();
+            handleUploadLogoTenant();
         }
     };
 }();
@@ -298,6 +318,7 @@ var Tenant = function () {
             });
             return false;
         });
+        
 	};
     
     return {
