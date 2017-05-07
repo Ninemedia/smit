@@ -680,7 +680,7 @@ class PraIncubation extends User_Controller {
                 continue;
             }else{
                 if( $avarage_score < KKM_STEP1 ){
-                        
+                    $this->smit_email->send_email_selection_not_success_step1($praincset, $row);
                 }else{
                     $this->smit_email->send_email_selection_confirmation_step2($row);
                     $this->smit_email->send_email_selection_success($praincset, $row);

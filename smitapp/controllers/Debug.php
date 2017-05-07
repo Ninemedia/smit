@@ -83,7 +83,7 @@ class Debug extends Public_Controller {
 	 */
 	public function emailselectionsuccess() {
         // Check Data Pra Incubation Selection
-        $condition  = ' WHERE %status% = 2 AND %step% = 1 AND %id% = 1';
+        $condition  = ' WHERE %step% = 1 AND %id% = 1';
         $order_by   = ' %id% ASC';
         $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
         if( !$praincseldata || empty($praincseldata) ){
@@ -97,7 +97,17 @@ class Debug extends Public_Controller {
         }
         
         foreach($praincseldata as $row){
-            $this->smit_email->send_email_selection_success($praincset, $row);
+            /*
+            $response = $this->smit_email->send_email_selection_success($praincset, $row);
+            $response = $this->smit_email->send_email_selection_confirmation_step2($row);
+            $response = $this->smit_email->send_email_selection_not_success_step1($praincset, $row);
+            if(is_array($response)) {
+    			echo 'failed:' . br();
+    			var_dump($response);
+    		} else {
+    			echo 'success.';
+    		}
+            */
         }
 	}
 }
