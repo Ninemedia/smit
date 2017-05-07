@@ -111,7 +111,7 @@ class Model_Tenant extends SMIT_Model{
         $user_id = absint($user_id);
         if ( !$user_id ) return false;
         
-        $query = $this->db->get_where($this->_tenant, array($this->primary => $user_id));
+        $query = $this->db->get_where($this->_tenant, array('user_id' => $user_id));
         if ( !$query->num_rows() )
             return false;
 
@@ -208,6 +208,26 @@ class Model_Tenant extends SMIT_Model{
         }
 
         if( $this->update($id, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    /**
+     * Update data of tenant
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  tenant ID
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_tenant($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in('user_id', $id);
+		else $this->db->where('user_id', $id);
+    
+        if( $this->db->update($this->_tenant, $data) ) 
             return true;
             
         return false;

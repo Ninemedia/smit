@@ -483,15 +483,21 @@ class Tenant extends User_Controller {
             'TenantValidation.init();',
         ));
         
-        $uploaded       = $current_user->uploader;
-        if($uploaded != 0){
-            $file_name      = $current_user->filename . '.' . $current_user->extension;
-            $file_url       = BE_AVA_PATH . $current_user->uploader . '/' . $file_name; 
-            $avatar         = $file_url;
-        }else{
-            $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';
-        }
+        $tenant         = $this->Model_Tenant->get_tenantdata($current_user->id);
 
+        if( !empty($tenant) ){
+            $uploaded       = $tenant->uploader;
+            if($uploaded != 0){
+                $file_name      = $tenant->filename . '.' . $tenant->extension;
+                $file_url       = BE_IMG_PATH . 'tenant/' . $tenant->uploader . '/' . $file_name; 
+                $avatar         = $file_url;
+            }else{
+                $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';
+            }    
+        }else{
+            $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';    
+        }
+        
         $data['title']          = TITLE . 'Pengaturan Data Perusahaan';
         $data['user']           = $current_user;
         $data['avatar']         = $avatar;
@@ -677,11 +683,13 @@ class Tenant extends User_Controller {
                 }
             }
             
+            
             // -------------------------------------------------
             // Save Tenant 
             // -------------------------------------------------
             $trans_save_Tenant  = FALSE;
-            if( $save_tenant    = $this->Model_Tenant->update_data($current_user->id, $logotenant_data) ){
+            if( $save_tenant    = $this->Model_Tenant->update_data_tenant($current_user->id, $logotenant_data) ){
+                
                 $trans_save_Tenant  = TRUE;
             }else{
                 // Rollback Transaction

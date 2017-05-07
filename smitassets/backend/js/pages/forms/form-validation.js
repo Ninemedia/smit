@@ -861,7 +861,7 @@ var TenantValidation = function () {
             }
         });
         
-        // Save Account
+        // Save Logo Tenant
         $('#do_save_logotenant').click(function(e){
             e.preventDefault();
             processSaveLogoTenant($('#logotenant'));
