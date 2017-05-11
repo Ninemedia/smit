@@ -448,6 +448,7 @@ class Tenant extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -498,19 +499,24 @@ class Tenant extends User_Controller {
             'TenantValidation.init();',
         ));
         
-        $tenant         = $this->Model_Tenant->get_tenantdata($current_user->id);
-
-        if( !empty($tenant) ){
-            $uploaded       = $tenant->uploader;
-            if($uploaded != 0){
-                $file_name      = $tenant->filename . '.' . $tenant->extension;
-                $file_url       = BE_IMG_PATH . 'tenant/' . $tenant->uploader . '/' . $file_name; 
-                $avatar         = $file_url;
-            }else{
-                $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';
-            }    
+        $tenant         = '';
+        
+        if( !empty($is_admin) ){
+            $avatar     = BE_IMG_PATH . 'tenant/avatar1.png'; 
         }else{
-            $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';    
+            $tenant         = $this->Model_Tenant->get_tenantdata($current_user->id);
+            if( !empty($tenant) ){
+                $uploaded       = $tenant->uploader;
+                if($uploaded != 0){
+                    $file_name      = $tenant->filename . '.' . $tenant->extension;
+                    $file_url       = BE_IMG_PATH . 'tenant/' . $tenant->uploader . '/' . $file_name; 
+                    $avatar         = $file_url;
+                }else{
+                    $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';
+                }    
+            }else{
+                $avatar     = BE_IMG_PATH . 'tenant/avatar1.png';    
+            }
         }
         
         $data['title']          = TITLE . 'Pengaturan Data Perusahaan';

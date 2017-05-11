@@ -659,7 +659,7 @@ class User extends SMIT_Controller {
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->name . '</a>',
                     smit_center($type),
                     smit_center($status),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );
                 $i++;
