@@ -116,7 +116,7 @@
                                         </div>
                                         <div class="input-group">
                                             <label class="form-label">Upload Berkas <b style="color: red !important;">(*)</b></label>
-                                            <input id="selection_files" name="reg_selection_files" class="form-control" type="file">
+                                            <input id="selection_files" name="reg_selection_files[]" class="form-control" type="file" multiple="multiple">
                                         </div>
                                         <div class="input-group">
                                             <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
