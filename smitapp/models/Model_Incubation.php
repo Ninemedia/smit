@@ -10,6 +10,7 @@ class Model_Incubation extends SMIT_Model{
     var $incubation_selection       = "smit_incubation_selection";
     var $incubation_selection_set   = "smit_incubation_selection_setting";
     var $incubation_selection_rpt   = "smit_incubation_selection_report";
+    var $incubation_selection_files = "smit_incubation_selection_files";
     
     /**
      * Initialize primary field
@@ -288,6 +289,22 @@ class Model_Incubation extends SMIT_Model{
     function save_data_incubation_selection($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->incubation_selection, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of praincubation_selection_files
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of pra incubation files
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation_selection_files($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_selection_files, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };

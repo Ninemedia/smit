@@ -295,6 +295,7 @@ class Frontend extends Public_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
         
         $username               = $this->input->post('reg_username');
         $username               = trim( smit_isset($username, "") );
@@ -310,10 +311,6 @@ class Frontend extends Public_Controller {
         $category               = trim( smit_isset($category, "") );
         $agree                  = $this->input->post('reg_agree');
         $agree                  = trim( smit_isset($agree, "") );
-        
-        echo '<pre>';
-        print_r($_POST);
-        die();
 
         // -------------------------------------------------
         // Check Form Validation
@@ -365,16 +362,18 @@ class Frontend extends Public_Controller {
         // Check User Selection
         // -------------------------------------------------
         // Check if username has been registeren on incubation selection
+        /*
         $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
         if( $user_selection || !empty($user_selection) ){
-            // Set JSON data
             $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.'); 
             die(json_encode($data));
         }
+        */
         
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
+        /*
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
             // Set JSON data
@@ -388,6 +387,7 @@ class Frontend extends Public_Controller {
             // JSON encode data
             die(json_encode($data));
         }
+        */
         
         // -------------------------------------------------
         // Check File
@@ -399,59 +399,99 @@ class Frontend extends Public_Controller {
         }
         
         if( !empty( $_POST ) ){
-            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
-            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                
-            $config = array(
-                'upload_path'   => $upload_path,
-                'allowed_types' => "doc|docx|pdf|xls|xlsx",
-                'overwrite'     => FALSE,
-                'max_size'      => "2048000",
-                'multi'         => 'all' 
-            );
-            
-            $this->upload->initialize($config);
-                
-            if( ! $this->upload->do_upload('reg_selection_files') ){
-                $message = $this->upload->display_errors();
-                
-                // Set JSON data
-                $data = array('message' => 'error','data' => $this->upload->display_errors()); 
-                die(json_encode($data));
-            }
-            
             // -------------------------------------------------
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
-            $upload_data    = $this->upload->data();
-            $incubationselection_data     = array(
+
+            $incubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
-                'setting_id'    => $incset->id,
+                //'setting_id'    => $incset->id,
                 'user_id'       => $userdata->id,
                 'username'      => strtolower($username),
                 'name'          => $name,
                 'event_title'   => $event_title,
                 'event_desc'    => $description,
                 'category'      => $category,
-                'url'           => smit_isset($upload_data['full_path'],''),
-                'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
-                'filename'      => smit_isset($upload_data['raw_name'],''),
-                'size'          => smit_isset($upload_data['file_size'],0),
-                'uploader'      => $userdata->id,
                 'step'          => ONE,
                 'status'        => NONACTIVE,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-                    
+
             // -------------------------------------------------
             // Save Incubation Selection
             // -------------------------------------------------
-            $trans_save_incubation      = FALSE;
-            if( $incubation_save_id     = $this->Model_Incubation->save_data_incubation_selection($incubationselection_data) ){
-                $trans_save_incubation  = TRUE;
+            $trans_save_incubation          = FALSE;
+            if( $incubation_save_id         = $this->Model_Incubation->save_data_incubation_selection($incubationselection_data) ){
+                $trans_save_incubation      = TRUE;
+                
+                // Upload Files Process
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $userdata->id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                    
+                $config = array(
+                    'upload_path'       => $upload_path,
+                    'allowed_types'     => "doc|docx|pdf|xls|xlsx",
+                    'overwrite'         => FALSE,
+                    'max_size'          => "2048000",
+                );
+                $this->load->library('MY_Upload', $config);
+                    
+                if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                
+                $upload_data    = $this->my_upload->data();
+                
+                if( !empty($upload_data) ){
+                    if( smit_isset($upload_data[0]) ){
+                        foreach($upload_data as $file){
+                            // Set File Upload Save
+                            $incubationselectionfiles_data  = array(
+                                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                                'selection_id'  => $incubation_save_id,
+                                'user_id'       => $userdata->id,
+                                'username'      => strtolower($username),
+                                'name'          => $name,
+                                'url'           => smit_isset($file['full_path'],''),
+                                'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                                'filename'      => smit_isset($file['raw_name'],''),
+                                'size'          => smit_isset($file['file_size'],0),
+                                'status'        => ACTIVE,
+                                'datecreated'   => $curdate,
+                                'datemodified'  => $curdate,
+                            );
+                            if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
+                                continue;
+                            }
+                        }
+                    }else{
+                        // Set File Upload Save
+                        $file = $upload_data;
+                        $incubationselectionfiles_data = array(
+                            'uniquecode'    => smit_generate_rand_string(10,'low'),
+                            'selection_id'  => $praincubation_save_id,
+                            'user_id'       => $userdata->id,
+                            'username'      => strtolower($username),
+                            'name'          => $name,
+                            'url'           => smit_isset($file['full_path'],''),
+                            'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                            'filename'      => smit_isset($file['raw_name'],''),
+                            'size'          => smit_isset($file['file_size'],0),
+                            'status'        => ACTIVE,
+                            'datecreated'   => $curdate,
+                            'datemodified'  => $curdate,
+                        );
+                        if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
+                            continue;
+                        }
+                    }
+                }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
@@ -459,7 +499,7 @@ class Frontend extends Public_Controller {
                 $data = array('message' => 'error','data' => 'Pendaftaran seleksi inkubasi tidak berhasil. Terjadi kesalahan data formulir anda'); 
                 die(json_encode($data));
             }
-                    
+            
             // -------------------------------------------------
             // Commit or Rollback Transaction
             // -------------------------------------------------
@@ -478,11 +518,14 @@ class Frontend extends Public_Controller {
                     // Complete Transaction
                     $this->db->trans_complete();
                     
+                    // Send Email Notification
+                    $this->smit_email->send_email_regitration_selection($userdata->email, $event_title);
+                    
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi inkubasi baru berhasil!'); 
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran seleksi inkubasi baru berhasil!'); 
                     die(json_encode($data));
                     // Set Log Data
-                    smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                    smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
                 }
             }else{
                 // Rollback Transaction
