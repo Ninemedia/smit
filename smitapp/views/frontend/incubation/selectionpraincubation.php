@@ -74,43 +74,40 @@
                             <?php
                                 $selection_year     = date('Y', strtotime($lss->selection_year_publication));
                             ?>
-                            <h3 class="bottom0">SELEKSI <?php echo $selection_year; ?></h3>
+                            <h3 class="bottom0">SELEKSI PRA INKUBASI TAHUN <?php echo $selection_year; ?></h3>
                         </div>
                         <div class="body">
-                            <h4>Formulir Pendaftaran Seleksi Pra Inkubasi</h4>
-                            <div class="body bg-teal bottom30">
-                                <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI PRA INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
-                                <p>Catatan :<br />
-                                    <ul>
-                                        <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
-                                        <li>Isi formulir dengan benar.</li>
-                                        <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
-                                        <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
-                                    </ul>
-                                </p>
-                            </div>
-                            
-                            <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
-                            <?php
-                                $guide_files_ids    = $lss->selection_files;
-                                $guide_files_ids    = explode(',',$guide_files_ids);
-                                $guide_files        = smit_get_selection_files($guide_files_ids);
-                                
-                                if( !empty($guide_files) ){
-                                    echo '<ul class="bottom40">';
-                                    foreach($guide_files as $file){
-                                        echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/prainkubasi/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
-                                    }
-                                    echo '</ul>';
-                                }else{
-                                    echo '<strong>Tidak ada berkas panduan</strong>';
-                                }
-                            ?>
-                            
                             <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
                                     <section id="account_selection">
+                                        <div class="body bg-teal bottom30">
+                                            <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI PRA INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
+                                            <p>Catatan :<br />
+                                                <ul>
+                                                    <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
+                                                    <li>Isi formulir dengan benar.</li>
+                                                    <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
+                                                    <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                        <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
+                                        <?php
+                                            $guide_files_ids    = $lss->selection_files;
+                                            $guide_files_ids    = explode(',',$guide_files_ids);
+                                            $guide_files        = smit_get_selection_files($guide_files_ids);
+                                            
+                                            if( !empty($guide_files) ){
+                                                echo '<ul class="bottom40">';
+                                                foreach($guide_files as $file){
+                                                    echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/prainkubasi/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                                }
+                                                echo '</ul>';
+                                            }else{
+                                                echo '<strong>Tidak ada berkas panduan</strong>';
+                                            }
+                                        ?>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
@@ -125,6 +122,8 @@
                                             </div>
                                         </div>
                                         <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="praincubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
+                                        <br />
+                                        <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
                                     </section>
                                     
                                     <section id="detail_selection" class="display-hide top30">
@@ -184,7 +183,7 @@
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
-                            <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
+                            
                         </div>
                     <?php } ?>
                 </div>

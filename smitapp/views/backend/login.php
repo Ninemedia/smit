@@ -56,10 +56,10 @@
                 <div class="body">
                     <!-- BEGIN LOGIN FORM -->
                     <?php echo form_open( base_url('validate'), array( 'id'=>'login-form', 'role'=>'form' ) ); ?>
-                        <div class="msg">Login untuk memulai session Anda</div>
                         <div class="pull-right">
                             <a href="<?php echo base_url(); ?>" id="back-btn">Kembali</a>
                         </div>
+                        <div class="msg">Login untuk memulai session Anda</div>
                         
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Silahkan masukkan Username dan Kata Sandi Anda</span></small>

@@ -237,6 +237,10 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
             
             //Css Path
             FE_CSS_PATH    . 'animate.css',
@@ -247,14 +251,29 @@ class Frontend extends Public_Controller {
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            FE_PLUGIN_PATH . 'momentjs/moment.js',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            FE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            FE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            FE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
+            FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
         
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'Guides.init();',
+            'SelectionValidation.init();',
+            'Selection.init();',
+        ));
         
         $data['title']          = TITLE . 'Pendaftaran Tenant';
         $data['headstyles']     = $headstyles;

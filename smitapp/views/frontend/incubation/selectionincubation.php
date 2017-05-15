@@ -38,27 +38,24 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="body">
                     <div class="card">
-                        <div class="header">
-                            <h3 class="bottom0">SELEKSI </h3>
-                        </div>
                         <div class="body">
                             <h4>Formulir Pendaftaran Seleksi Inkubasi</h4>
-                            <div class="body bg-teal bottom30">
-                                <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
-                                <p>Catatan :<br />
-                                    <ul>
-                                        <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
-                                        <li>Isi formulir dengan benar.</li>
-                                        <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
-                                        <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
-                                    </ul>
-                                </p>
-                            </div>
                             
                             <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
                                     <section id="account_selection">
+                                        <div class="body bg-teal bottom30">
+                                            <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
+                                            <p>Catatan :<br />
+                                                <ul>
+                                                    <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
+                                                    <li>Isi formulir dengan benar.</li>
+                                                    <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
+                                                    <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
+                                                </ul>
+                                            </p>
+                                        </div>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
@@ -74,6 +71,7 @@
                                         </div>
                                         <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
                                         <div id="username_info" class="top30"></div>
+                                        <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
                                     </section>
                                     
                                     <section id="detail_selection" class="display-hide top30">
@@ -130,7 +128,7 @@
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
-                            <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
+                            
                         </div>
                 </div>
                 </div>
