@@ -865,6 +865,7 @@ class Incubation extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        if( !$is_admin ) redirect( base_url('dashboard') );
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -893,6 +894,8 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // Always placed at bottom

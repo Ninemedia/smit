@@ -106,7 +106,7 @@ $config['user_menu_access']         = array(
         'prainkubasi/riwayat',
         'inkubasi',
         'inkubasi/daftar',
-        //'inkubasi/pengaturan',
+        'inkubasi/pengaturan',
         'inkubasi/nilai',
         'inkubasi/laporan',
         'tenants',

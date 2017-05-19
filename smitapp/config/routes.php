@@ -151,6 +151,11 @@ $route['inkubasi/jurinilaidatastep2']           = "incubation/juryscorelistdatas
 $route['inkubasi/nilai']                        = "incubation/incubationscore";
 $route['inkubasi/nilai/(:num)/(:any)']          = "incubation/juryscoreuser/$1/$2";
 $route['inkubasi/prosesnilai/(:num)']           = "incubation/juryscoreuserprocess/$1";
+// Menu Pengaturan
+$route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
+$route['daftarinkubasi']                        = "incubation/incubationsettinglistdata";
+$route['detilinkubasi/(:any)']                  = "incubation/incubationsettingdetails/$1";
+$route['tutupinkubasi/(:any)']                  = "incubation/incubationsettingclose/$1";
 
 
 
