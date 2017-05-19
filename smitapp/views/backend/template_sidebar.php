@@ -251,7 +251,7 @@
             'nav'       => 'statistik',
             'parent'    => 'false',
             'link'      => 'javascript:;',
-            'icon'      => 'group_work',
+            'icon'      => ' donut_small',
             'sub'       => array(
     			array (
                     'title'     => 'Pengguna',
