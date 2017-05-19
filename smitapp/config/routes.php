@@ -133,8 +133,27 @@ $route['detailseleksi/(:any)']                  = "praincubation/praincubationse
 // Incubation Page Routes
 $route['inkubasi/daftar']                       = "incubation/incubationlist";
 $route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
-$route['inkubasi/nilai']                        = "incubation/incubationscore";
 $route['inkubasi/laporan']                      = "incubation/incubationreport";
+$route['inkubasi/daftardatastep1']              = "incubation/incubationlistdatastep1";
+$route['inkubasi/daftardatastep2']              = "incubation/incubationlistdatastep2";
+$route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdetails/$1";
+$route['inkubasi/unduh/(:any)']                 = "incubation/downloadfile/$1";
+$route['inkubasi/konfirmasi']                   = "incubation/incubationconfirm";
+$route['inkubasi/konfirmasi/(:any)']            = "incubation/incubationconfirm/$1";
+$route['inkubasi/konfirmasistep1']              = "incubation/incubationconfirmstep1";
+$route['inkubasi/konfirmasistep1/(:any)']       = "incubation/incubationconfirmstep1/$1";
+$route['inkubasi/konfirmasistep2']              = "incubation/incubationconfirmstep2";
+$route['inkubasi/konfirmasistep2/(:any)']       = "incubation/incubationconfirmstep2/$1";
+// Juri
+$route['inkubasi/jurinilaidata/(:any)']         = "incubation/juryscorelistdata/$1";
+$route['inkubasi/jurinilaidatastep1']           = "incubation/juryscorelistdatastep1";
+$route['inkubasi/jurinilaidatastep2']           = "incubation/juryscorelistdatastep2";
+$route['inkubasi/nilai']                        = "incubation/incubationscore";
+$route['inkubasi/nilai/(:num)/(:any)']          = "incubation/juryscoreuser/$1/$2";
+$route['inkubasi/prosesnilai/(:num)']           = "incubation/juryscoreuserprocess/$1";
+
+
+
 
 $route['incubationsetlist']                     = "incubation/incubationsettinglistdata";
 $route['incubationsetdetails/(:any)']           = "incubation/incubationsettingdetails/$1";
