@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 
-                <h3 class="top50">Berkas Panduan</h3>
+                <h3 class="top10">Berkas Panduan</h3>
                 <div class="alert bg-teal">
                     Silahkan pilih file yang akan ditampilah di halaman seleksi inkubasi. Bisa memilih lebih dari 1 file panduan.
                 </div>
@@ -201,7 +201,7 @@
                 </div>
                 <!-- #END# Select Guide Files -->
                 
-                <h3 class="top50">Penentuan Juri</h3>
+                <h3 class="top10">Penentuan Juri</h3>
                 <div class="alert bg-grey">
                     Silahkan pilih juri tahap 1. Bisa memilih lebih dari 1 juri.
                 </div>
