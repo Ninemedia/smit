@@ -1622,6 +1622,24 @@ if ( !function_exists('smit_latest_praincubation_setting') )
 	}
 }
 
+if ( !function_exists('smit_latest_incubation_setting') ) 
+{
+    /**
+     * Get latest incubation setting
+     * @author  Iqbal
+     * @return  User Type Data
+     */
+	function smit_latest_incubation_setting() {
+		$CI =& get_instance();
+        $condition  = ' WHERE %status% = 1';
+        $order_by   = ' %datecreated% DESC';
+        $lss        = $CI->Model_Incubation->get_all_incubation_setting(1,0,$condition,$order_by); 
+
+        if( !$lss || empty($lss) ) return false;
+		return $lss[0];
+	}
+}
+
 if ( !function_exists('smit_select_year') ) 
 {
     /**

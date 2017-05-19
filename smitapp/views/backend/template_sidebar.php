@@ -254,7 +254,7 @@
             'icon'      => ' donut_small',
             'sub'       => array(
     			array (
-                    'title'     => 'Pengguna',
+                    'title'     => 'Pengguna',  
                     'nav'       => 'statistik/pengguna',
                     'parent'    => 'statistik',
                     'link'      => base_url('statistik/blogs'),

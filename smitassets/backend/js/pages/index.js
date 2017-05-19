@@ -73,6 +73,61 @@ var PraIncubationSetting = function () {
     };
 }();
 
+var IncubationSetting = function () {
+    handleIncubationSettingAction = function(){
+        // Close Pra-Incubation Setting
+        $("body").delegate( "a.incubsetclose", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var table_container = $('#incubation_setting_list').parents('.dataTables_wrapper');
+            
+            bootbox.confirm("Anda yakin akan menutup pengaturan Inkubasi ini?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){                    
+                            $("div.page-loader-wrapper").fadeOut();
+                            response    = $.parseJSON(response);
+                                    
+                            if( response.message == 'redirect'){
+                                $(location).attr('href',response.data);
+                            }else if( response.message == 'error'){
+                                App.alert({
+                                    type: 'danger', 
+                                    icon: 'warning', 
+                                    message: response.data, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                            }else{
+                                App.alert({
+                                    type: 'success', 
+                                    icon: 'check', 
+                                    message: response.data, 
+                                    container: table_container, 
+                                    place: 'prepend'
+                                });
+                                $('#btn_incubation_setting_list').trigger('click');
+                            }
+                        }
+                    });
+                }
+            });
+        });    
+    };
+
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleIncubationSettingAction();
+        }
+    };
+}();
+
 var ScoreSetting = function () {
     handleScoreSetting = function(){
         // Details Score Incubation Setting
