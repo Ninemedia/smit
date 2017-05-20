@@ -69,8 +69,12 @@ var TableAjax = function () {
     // INCUBATION
     // ------------------------------------------------------------------------- 
     // Incubation Selection Lists
-    var handleRecordsIncubationSelectionList = function() {
+    var handleRecordsIncubationSelectionList    = function() {
         gridTable( $("#incubation_list"), true );
+    };
+    
+    var handleRecordsIncubationSelectionList2   = function() {
+        gridTable( $("#incubation_list2"), true );
     };
     
     // Incubation Selection Setting Lists
@@ -200,6 +204,7 @@ var TableAjax = function () {
             
             //Incubation
             handleRecordsIncubationSelectionList();
+            handleRecordsIncubationSelectionList2();
             handleRecordsIncubationSettingSelectionList();
             handleRecordsIncubationReportSelectionList();
             

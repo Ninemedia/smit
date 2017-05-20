@@ -66,7 +66,79 @@ var Wizard = function () {
         selectDatePicker( $('.selection_imp_date_end') );
     };
     
+    // Selection Incubation Wizard Validation
+    var handleSelectionIncubationWizard = function(){
+        
+        var form = $('#selection_incubation_wizard');
+        form.steps({
+            headerTag: 'h3',
+            bodyTag: 'section',
+            transitionEffect: 'slideLeft',
+            onInit: function (event, currentIndex) {
+                $.AdminBSB.input.activate();
+    
+                //Set tab width
+                var $tab = $(event.currentTarget).find('ul[role="tablist"] li');
+                var tabCount = $tab.length;
+                $tab.css('width', (100 / tabCount) + '%');
+    
+                //set button waves effect
+                setButtonWavesEffect(event);
+            },
+            onStepChanging: function (event, currentIndex, newIndex) {
+                if (currentIndex > newIndex) { return true; }
+    
+                if (currentIndex < newIndex) {
+                    form.find('.body:eq(' + newIndex + ') label.error').remove();
+                    form.find('.body:eq(' + newIndex + ') .error').removeClass('error');
+                }
+    
+                form.validate().settings.ignore = ':disabled,:hidden';
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+                setButtonWavesEffect(event);
+                
+                if (currentIndex == 3) {
+                    setSelecetionDet();
+                }else{
+                    clearSelecetionDet();
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                form.validate().settings.ignore = ':disabled';
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                $('#save_selectionincubationsetting').modal('show');
+            }
+        });
+        formWizardValidateIncubation(form);
+        
+        //Datetimepicker plugin        
+        selectDatePicker( $('.selection_date_publication'),'',$('.selection_date_reg_start') );
+        selectDatePicker( $('.selection_date_reg_start'),'',$('.selection_date_reg_end') );
+        selectDatePicker( $('.selection_date_reg_end'),'',$('.selection_date_adm_start') );
+        selectDatePicker( $('.selection_date_adm_start'),'',$('.selection_date_adm_end') );
+        selectDatePicker( $('.selection_date_adm_end'),'',$('.selection_date_invitation_send') );
+        selectDatePicker( $('.selection_date_invitation_send'),'',$('.selection_date_interview_start') );
+        selectDatePicker( $('.selection_date_interview_start'),'',$('.selection_date_interview_end') );
+        selectDatePicker( $('.selection_date_interview_end'),'',$('.selection_date_result') );
+        selectDatePicker( $('.selection_date_result'),'',$('.selection_date_proposal_start') );
+        selectDatePicker( $('.selection_date_proposal_start'),'',$('.selection_date_proposal_end') );
+        selectDatePicker( $('.selection_date_proposal_end'),'',$('.selection_date_agreement') );
+        selectDatePicker( $('.selection_date_agreement'),'',$('.selection_imp_date_start') );
+        selectDatePicker( $('.selection_imp_date_start'),'',$('.selection_imp_date_end') );
+        selectDatePicker( $('.selection_imp_date_end') );
+    };
     // Details Selection Incubation Validation
+    var handleDetailsSelectionIncubation = function(){
+        var form = $('#details_selection_incubation');
+        formWizardValidateIncubation(form, 'details_selection_incubation');
+    };
+    
+    
+    // Details Selection Pra Incubation Validation
     var handleDetailsSelectionPraIncubation = function(){
         var form = $('#details_selection_praincubation');
         formWizardValidate(form, 'details_selection_praincubation');
@@ -330,6 +402,100 @@ var Wizard = function () {
         processUpdateSelectionPraIncubationSetting($('#details_selection_praincubation'));
     });
     
+    // Save Pra-Incubation Setting
+    $('#do_save_selectionincubationsetting').click(function(e){
+        e.preventDefault();
+        processSaveSelectionIncubationSetting($('#selection_incubation_wizard'));
+    });
+    
+    var processSaveSelectionIncubationSetting = function( form ) {
+        var url     = form.attr( 'action' );
+        var data    = new FormData(form[0]);
+        var msg     = $('#alert');
+    	
+        $.ajax({
+			type : "POST",
+			url  : url,
+			data : data,
+            cache : false,
+            contentType : false,
+            processData : false,
+            beforeSend: function(){
+                $("div.page-loader-wrapper").fadeIn();
+            },
+			success: function(response) {
+                $("div.page-loader-wrapper").fadeOut();
+                response = $.parseJSON( response );
+                
+                if(response.message == 'redirect'){
+                    $(location).attr('href',response.data);
+                }else if(response.message == 'error'){
+                    msg.html(response.data);
+                    msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                }else{
+                    msg.removeClass('alert-danger').addClass('alert-success').hide();
+                    $('#selection_incubation_wizard').steps('reset');
+                    $('#selection_incubation_wizard')[0].reset();
+                    $('#selection_list_tab').trigger('click');
+                }
+			}
+		});
+    };
+    
+    var formWizardValidateIncubation = function(form, id=''){
+        form.validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                'selection_files[]': {
+                    required: true,
+                },
+                'selection_juri_phase1[]': {
+                    required: true,
+                },
+                'selection_juri_phase2[]': {
+                    required: true,
+                }
+            },
+            messages: {
+                'selection_files[]': {
+                    required: "Silahkan pilih berkas panduan",
+                },
+                'selection_juri_phase1[]': {
+                    required: "Silahkan pilih juri tahap 1",
+                },
+                'selection_juri_phase2[]': {
+                    required: "Silahkan pilih juri tahap 2",
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+                App.scrollTo( $('#details_selection_incubation') );
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                if( id == 'details_selection_praincubation' ){
+                    $('#save_selectionincubationsettingdetails').modal('show');
+                }else{
+                    return false;
+                }
+            }
+        });
+    };
+    
     var processSaveSelectionPraIncubationSetting = function( form ) {
         var url     = form.attr( 'action' );
         var data    = new FormData(form[0]);
@@ -396,6 +562,7 @@ var Wizard = function () {
     $('#selection_list_tab').click(function(e){
         e.preventDefault();
         $('#btn_praincubation_setting_list').trigger('click');
+        $('#btn_incubation_setting_list').trigger('click');
         
     });
 
@@ -404,6 +571,7 @@ var Wizard = function () {
         init: function () {
             handleSelectionPraIncubationWizard();
             handleDetailsSelectionPraIncubation();
+            handleDetailsSelectionIncubation();
         }
     };
 }();

@@ -22,34 +22,29 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
-                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('incubationsetlist'); ?>">
+                        <div class="table-container table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('daftarinkubasi'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width15 text-center">Tanggal<br />Mulai Seleksi</th>
-        							<th class="width15 text-center">Tanggal<br />Selesai Seleksi</th>
-                                    <th class="width15 text-center">Tanggal<br />Mulai Pelaksanaan</th>
-                                    <th class="width15 text-center">Tanggal<br />Selesai Pelaksanaan</th>
+        							<th class="width20 text-center">Tanggal<br />Publikasi</th>
+        							<th class="width25 text-center">Tanggal<br />Pendaftaran Online</th>
+                                    <th class="width20 text-center">Keterangan</th>
                                     <th class="width15 text-center">Status</th>
         							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-        						</tr>
+    				            </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
         							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_start_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_start_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="selection_date_publication_min" placeholder="From" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="selection_date_publication_max" placeholder="To" />
         							</td>
         							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_end_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_end_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_reg_min" placeholder="From" />
+        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_reg_max" placeholder="To" />
         							</td>
                                     <td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_impdate_start_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_impdate_start_max" placeholder="To" />
-        							</td>
-                                    <td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_impdate_end_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_impdate_end_max" placeholder="To" />
+        								<input type="text" class="form-control form-filter input-sm" name="search_desc" placeholder="Cari..." />
         							</td>
                                     <td>
                                         <select name="search_status" class="form-control form-filter input-sm def">
@@ -68,215 +63,325 @@
                                 <!-- Data Will Be Placed Here -->
                             </tbody>
                         </table>
-                        
-                        <!-- Incubation Details -->
-                        <div class="card top30 bottom0 display-hide" id="incubation_details">
-                            <div class="header bg-cyan">
-                                <h2>Pengaturan Seleksi Inkubasi</h2>
-                                <ul class="header-dropdown m-r--0">
-                                    <li class="dropdown">
-                                        <a class="close-details" href="javascript:void(0);">
-                                            <i class="material-icons">close</i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="body">
-
-                                <h2 class="card-inside-title">Tanggal Mulai Seleksi</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_det_date_start form-control" placeholder="Pilih tanggal..." name="selection_det_date_start" required>
-                                    </div>
-                                </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Seleksi</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_det_date_end form-control" placeholder="Pilih tanggal..." name="selection_det_date_end" required>
-                                    </div>
-                                </div>
-                                <h2 class="card-inside-title">Tanggal Mulai Pelaksanaan</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_det_imp_date_start form-control" placeholder="Pilih tanggal..." name="selection_det_imp_date_start" required>
-                                    </div>
-                                </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Pelaksanaan</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_det_imp_date_end form-control" placeholder="Pilih tanggal..." name="selection_det_imp_date_end" required>
-                                    </div>
-                                </div>
-
-                                <!-- Select Guide Files -->
-                                <div class="alert bg-grey">
-                                    Silahkan pilih file yang akan ditampilah di halaman seleksi inkubasi. Bisa memilih lebih dari 1 file panduan.
-                                </div>
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_det_files" multiple="multiple" size="5"';
-                
-                                        if( !empty($guide_files) ){
-                                            foreach($guide_files as $val){
-                                                $option[$val->id] = $val->title . ' ('.$val->size.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_det_files[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                
-                                <!-- Juri Phase 1 -->
-                                <div class="alert bg-grey">
-                                    Silahkan pilih juri tahap 1. Bisa memilih lebih dari 1 juri.
-                                </div>
-                                <h2 class="card-inside-title">Juri Tahap 1 Administrasi dan Subtansi</h2>
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_det_juri_phase1" multiple="multiple" size="5"';
-                
-                                        if( !empty($juri_list) ){
-                                            foreach($juri_list as $val){
-                                                $option[$val->id] = $val->name . ' ('.$val->username.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_det_juri_phase1[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                
-                                <!-- Juri Phase 2 -->
-                                <div class="alert bg-grey">
-                                    Silahkan pilih juri tahap 2. Bisa memilih lebih dari 1 juri.
-                                </div>
-                                <h2 class="card-inside-title">Juri Tahap 2 Presentasi dan Wawancara</h2>
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_det_juri_phase2" multiple="multiple" size="5"';
-                
-                                        if( !empty($juri_list) ){
-                                            foreach($juri_list as $val){
-                                                $option[$val->id] = $val->name . ' ('.$val->username.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_det_juri_phase2[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                <button class="btn btn-warning m-t-15 waves-effect close-details" type="button">Tutup</button>
-                                <button class="btn btn-primary m-t-15 waves-effect" type="button">Update Pengaturan</button>
-                                
-                            </div>
                         </div>
                     </div>
+                    
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <div id="alert" class="alert display-hide"></div>
-                        <?php echo form_open_multipart( base_url('selectionsetting'), array( 'id'=>'selection_incubation_wizard', 'role'=>'form' ) ); ?>
-                            <h3>Tanggal Seleksi</h3>
-                            <section>
-                                <h2 class="card-inside-title">Tanggal Mulai Seleksi</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_date_start form-control" placeholder="Pilih tanggal..." name="selection_date_start" required>
+                            <div id="alert" class="alert display-hide"></div>
+                            <?php echo form_open_multipart( base_url('incubationselectionsetting'), array( 'id'=>'selection_incubation_wizard', 'role'=>'form' ) ); ?>
+                                <!--
+                                <h3>Tanggal Seleksi</h3>
+                                <section>
+                                    <div class="alert bg-teal">Pengaturan Tanggal Tahap 1</div>
+                                    
+                                    <h2 class="card-inside-title">Tahun Publikasi</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $extra = 'class="form-control def" id="selection_year_publication"';
+                        
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }                                        
+                                                echo form_dropdown('selection_year_publication',$option,'',$extra);
+                                            ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Seleksi</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_date_end form-control" placeholder="Pilih tanggal..." name="selection_date_end" required>
+    
+                                    <h2 class="card-inside-title">Publikasi</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="selection_date_publication form-control" placeholder="Pilih tanggal..." name="selection_date_publication" required>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
-                            
-                            <h3>Jadwal Pelaksanaan</h3>
-                            <section>
-                                <h2 class="card-inside-title">Tanggal Mulai Pelaksanaan</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_imp_date_start form-control" placeholder="Pilih tanggal..." name="selection_imp_date_start" required>
+    
+                                    <h2 class="card-inside-title">Pendaftaran Online</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_reg_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_reg_start" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_reg_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_reg_end" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <h2 class="card-inside-title">Tanggal Selesai Pelaksanaan</h2>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="selection_imp_date_end form-control" placeholder="Pilih tanggal..." name="selection_imp_date_end" required>
+
+                                    <h2 class="card-inside-title">Seleksi Administrasi &amp; Substansi Awal</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_adm_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_adm_start" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_adm_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_adm_end" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
-                            
-                            <h3>Berkas Panduan</h3>
-                            <section>
-                                <div class="alert bg-grey">
-                                    Silahkan pilih file yang akan ditampilah di halaman seleksi inkubasi. Bisa memilih lebih dari 1 file panduan.
-                                </div>
-                                <!-- Select Guide Files -->
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_files" multiple="multiple" size="5"';
-                
-                                        if( !empty($guide_files) ){
-                                            foreach($guide_files as $val){
-                                                $option[$val->id] = $val->title . ' ('.$val->size.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_files[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                <!-- #END# Select Guide Files -->
-                            </section>
-        
-                            <h3>Penentuan Juri</h3>
-                            <section>
-                                <div class="alert bg-grey">
-                                    Silahkan pilih juri tahap 1. Bisa memilih lebih dari 1 juri.
-                                </div>
-                                <!-- Juri Phase 1 -->
-                                <h2 class="card-inside-title">Juri Tahap 1 Administrasi dan Subtansi</h2>
-                                <!-- Select Juri Phase 1 -->
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_juri_phase1" multiple="multiple" size="5"';
-                
-                                        if( !empty($juri_list) ){
-                                            foreach($juri_list as $val){
-                                                $option[$val->id] = $val->name . ' ('.$val->username.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_juri_phase1[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                <!-- #END# Juri Tahap 1 -->
+                                    
+                                    <h2 class="card-inside-title">Undangan Presentasi Dikirim</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="selection_date_invitation_send form-control" placeholder="Pilih tanggal..." name="selection_date_invitation_send" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert bg-teal">Pengaturan Tanggal Tahap 2</div>
+                                    <h2 class="card-inside-title">Seleksi Presentasi &amp; Wawancara</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_interview_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_interview_start" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_interview_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_interview_end" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h2 class="card-inside-title">Pengumuman Hasil Seleksi</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="selection_date_result form-control" placeholder="Pilih tanggal..." name="selection_date_result" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <h2 class="card-inside-title">Perbaikan Proposal &amp; Penelaahan Anggaran</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_proposal_start form-control" placeholder="Pilih tanggal mulai..." name="selection_date_proposal_start" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_date_proposal_end form-control" placeholder="Pilih tanggal selesai..." name="selection_date_proposal_end" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h2 class="card-inside-title">Penetapan &amp; Penandatanganan Perjanjian</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="selection_date_agreement form-control" placeholder="Pilih tanggal..." name="selection_date_agreement" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <h2 class="card-inside-title">Pelaksanaan Kegiatan</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_imp_date_start form-control" placeholder="Pilih tanggal mulai..." name="selection_imp_date_start" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 bottom0">
+                                            <div class="form-group bottom0">
+                                                <div class="form-line">
+                                                    <input type="text" class="selection_imp_date_end form-control" placeholder="Pilih tanggal selesai..." name="selection_imp_date_end" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h2 class="card-inside-title">Keterangan</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <?php 
+                                                echo form_textarea(
+                                                    array(
+                                                        'name'=>'selection_desc',
+                                                        'class'=>'form-control no-resize selection_desc',
+                                                        'rows'=>4,
+                                                        'placeholder'=>'Silahkan isi deskripsi dari pengaturan...'
+                                                    )
+                                                ); 
+                                            ?>
+                                        </div>
+                                    </div>
+                                </section>
+                                -->
                                 
-                                <div class="alert bg-grey">
-                                    Silahkan pilih juri tahap 2. Bisa memilih lebih dari 1 juri.
-                                </div>
-                                <!-- Juri Phase 2 -->
-                                <h2 class="card-inside-title">Juri Tahap 2 Presentasi dan Wawancara</h2>
-                                <!-- Select Juri Phase 2 -->
-                                <div class="form-group multi_select">
-                                    <?php
-                                        $option = array();
-                                        $extra = 'class="form-control def" id="selection_juri_phase2" multiple="multiple" size="5"';
-                
-                                        if( !empty($juri_list) ){
-                                            foreach($juri_list as $val){
-                                                $option[$val->id] = $val->name . ' ('.$val->username.')';
-                                            }
-                                        }                                        
-                                        echo form_dropdown('selection_juri_phase2[]',$option,'',$extra);
-                                    ?>
-                                </div>
-                                <!-- #END# Juri Tahap 2 -->
-                            </section>
-        
-                            <h3>Informasi Detail</h3>
-                            <section>
-                                <input id="acceptTerms-2" name="acceptTerms" type="checkbox" required>
-                                <label for="acceptTerms-2">Saya setuju dengan ketentuan pengaturan seleksi.</label>
-                            </section>
-                        <?php echo form_close(); ?>          
+                                <h3>Berkas Panduan</h3>
+                                <section>
+                                    <div class="alert bg-grey">
+                                        Silahkan pilih file yang akan ditampilah di halaman seleksi inkubasi. Bisa memilih lebih dari 1 file panduan.
+                                    </div>
+                                    <!-- Select Guide Files -->
+                                    <div class="form-group multi_select">
+                                        <?php
+                                            $option = array();
+                                            $extra = 'class="form-control def" id="selection_files" multiple="multiple" size="5"';
+                    
+                                            if( !empty($guide_files) ){
+                                                foreach($guide_files as $val){
+                                                    $option[$val->id] = $val->title . ' ('.$val->size.')';
+                                                }
+                                            }                                        
+                                            echo form_dropdown('selection_files[]',$option,'',$extra);
+                                        ?>
+                                    </div>
+                                    <!-- #END# Select Guide Files -->
+                                </section>
+            
+                                <h3>Penentuan Juri</h3>
+                                <section>
+                                    <div class="alert bg-grey">
+                                        Silahkan pilih juri tahap 1. Bisa memilih lebih dari 1 juri.
+                                    </div>
+                                    <!-- Juri Phase 1 -->
+                                    <h2 class="card-inside-title">Juri Tahap 1 Administrasi dan Subtansi</h2>
+                                    <!-- Select Juri Phase 1 -->
+                                    <div class="form-group multi_select">
+                                        <?php
+                                            $option = array();
+                                            $extra = 'class="form-control def" id="selection_juri_phase1" multiple="multiple" size="5"';
+                    
+                                            if( !empty($juri_list) ){
+                                                foreach($juri_list as $val){
+                                                    $option[$val->id] = $val->name . ' ('.$val->username.')';
+                                                }
+                                            }                                        
+                                            echo form_dropdown('selection_juri_phase1[]',$option,'',$extra);
+                                        ?>
+                                    </div>
+                                    <!-- #END# Juri Tahap 1 -->
+                                    
+                                    <div class="alert bg-grey">
+                                        Silahkan pilih juri tahap 2. Bisa memilih lebih dari 1 juri.
+                                    </div>
+                                    <!-- Juri Phase 2 -->
+                                    <h2 class="card-inside-title">Juri Tahap 2 Presentasi dan Wawancara</h2>
+                                    <!-- Select Juri Phase 2 -->
+                                    <div class="form-group multi_select">
+                                        <?php
+                                            $option = array();
+                                            $extra = 'class="form-control def" id="selection_juri_phase2" multiple="multiple" size="5"';
+                    
+                                            if( !empty($juri_list) ){
+                                                foreach($juri_list as $val){
+                                                    $option[$val->id] = $val->name . ' ('.$val->username.')';
+                                                }
+                                            }                                        
+                                            echo form_dropdown('selection_juri_phase2[]',$option,'',$extra);
+                                        ?>
+                                    </div>
+                                    <!-- #END# Juri Tahap 2 -->
+                                </section>
+            
+                                <h3>Informasi Detail</h3>
+                                <section>
+                                    <table class="selection-details-table">
+                                        <!--
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="alert bg-grey bottom0">Pengaturan Tanggal Tahap 1</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="width35"><strong>Tahun Publikasi</strong></td><td class="width5"> : </td>
+                                            <td class="width60"><div class="selection_det_year_publication">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tanggal Publikasi</strong></td><td> : </td>
+                                            <td><div class="selection_det_date_publication">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pendaftaran Online</strong></td><td> : </td>
+                                            <td><div class="selection_det_reg">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Seleksi Administrasi &amp; Substansi Awal</strong></td><td> : </td>
+                                            <td><div class="selection_det_adm">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Undangan Presentasi Dikirim</strong></td><td> : </td>
+                                            <td><div class="selection_det_invitation_send">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="alert bg-grey bottom0">Pengaturan Tanggal Tahap 2</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Seleksi Presentasi &amp; Wawancara</strong></td><td> : </td>
+                                            <td><div class="selection_det_interview">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pengumuman Hasil Seleksi</strong></td><td> : </td>
+                                            <td><div class="selection_det_result">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Perbaikan Proposal &amp; Penelaahan Anggaran</strong></td><td> : </td>
+                                            <td><div class="selection_det_proposal">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Penetapan &amp; Penandatanganan Perjanjian</strong></td><td> : </td>
+                                            <td><div class="selection_det_date_agreement">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pelaksanaan Kegiatan</strong></td><td> : </td>
+                                            <td><div class="selection_det_imp_date">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Keterangan</strong></td><td> : </td>
+                                            <td><div class="selection_det_desc">-</div></td>
+                                        </tr>
+                                        -->
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="alert bg-grey bottom0">Berkas Panduan</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-top"><strong>Berkas Panduan</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_selection_files">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="alert bg-grey bottom0">Penentuan Juri</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-top"><strong>Juri Tahap 1 Administrasi dan Subtansi</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_juri_phase1">-</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-top"><strong>Juri Tahap 2 Presentasi dan Wawancara</strong></td><td class="text-top"> : </td>
+                                            <td class="text-top"><div class="selection_det_juri_phase2">-</div></td>
+                                        </tr>
+                                    </table>
+                                
+                                    <input id="acceptTerms-2" name="acceptTerms" type="checkbox" required>
+                                    <label for="acceptTerms-2">Saya setuju dengan ketentuan pengaturan seleksi.</label>
+                                </section>   
                     </div>
                 </div>
                 
