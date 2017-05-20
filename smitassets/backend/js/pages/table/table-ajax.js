@@ -63,6 +63,16 @@ var TableAjax = function () {
         gridTable( $("#praincubationhistory_list"), true );
     };
     
+    // Pra Incubation Accompaniment Lists
+    var handleRecordsPraIncubationAccompanimentList = function() {
+        gridTable( $("#accompaniment_list"), true );
+    };
+    
+    // Pra Incubation Accepted Lists
+    var handleRecordsPraIncubationAcceptedList = function() {
+        gridTable( $("#acceptedselection_list"), true );
+    };
+    
     // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
@@ -201,6 +211,8 @@ var TableAjax = function () {
             handleRecordsAdminScoreStepOneList();
             handleRecordsAdminScoreStepTwoList();
             handleRecordsJuryHistoryList();
+            handleRecordsPraIncubationAccompanimentList();
+            handleRecordsPraIncubationAcceptedList();
             
             //Incubation
             handleRecordsIncubationSelectionList();

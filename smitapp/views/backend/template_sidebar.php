@@ -82,6 +82,14 @@
                     'icon'      => 'view_list',
                     'sub'       => false,
                 ),
+                array (
+                    'title'     => 'Daftar Pendampingan',
+                    'nav'       => 'prainkubasi/pendampingan',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/pendampingan'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
     			array (
                     'title'     => 'Pengaturan Seleksi',
                     'nav'       => 'prainkubasi/pengaturan',
@@ -139,6 +147,14 @@
                     'icon'      => 'view_list',
                     'sub'       => false,
                 ),
+                array (
+                    'title'     => 'Daftar Pendampingan',
+                    'nav'       => 'inkubasi/pendampingan',
+                    'parent'    => 'inkubasi',
+                    'link'      => base_url('inkubasi/pendampingan'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
     			array (
                     'title'     => 'Pengaturan Seleksi',
                     'nav'       => 'inkubasi/pengaturan',
@@ -188,12 +204,22 @@
             'link'      => 'javascript:;',
             'icon'      => 'group_work',
             'sub'       => array(
+                /*
                 array (
                     'title'     => 'Daftar Pendamping',
                     'nav'       => 'pendamping/daftar',
                     'parent'    => 'pendamping',
                     'link'      => base_url('pendamping/daftar'),
                     'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
+                */
+                array (
+                    'title'     => 'Laporan Pendamping',
+                    'nav'       => 'pendamping/laporan',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/laporan'),
+                    'icon'      => 'build',
                     'sub'       => false,
                 ),
             ),

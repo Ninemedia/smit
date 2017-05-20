@@ -41,7 +41,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-            							<th class="width15">Nama</th>
+            							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
@@ -103,7 +103,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-            							<th class="width15">Nama</th>
+            							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>

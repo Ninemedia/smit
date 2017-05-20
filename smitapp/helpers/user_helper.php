@@ -843,6 +843,29 @@ if (!function_exists('smit_get_jury')){
     }
 }
 
+if ( !function_exists('smit_companion_list') ) 
+{
+    /**
+     * Get companion list
+     * @author  Iqbal
+     * @param   Int         $id     (Optional)  ID of Companion
+     * @return  Companion Data
+     */
+	function smit_companion_list($id=0) {
+	   $CI =& get_instance();
+       
+	   $condition = ' WHERE %type% = '.PENDAMPING.' ';
+	   if( !empty($id) ){
+	       $condition  .= ' AND %id% = '.$id.' ';
+	   }
+       $order_by = ' %name% ASC ';
+       
+       $companion = $CI->Model_User->get_all_user(0,0,$condition,$order_by);
+       if( !$companion ) return false;
+       
+       return $companion;
+	}
+}
 
 /*
 CHANGELOG

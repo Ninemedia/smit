@@ -699,6 +699,9 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%companion_id%",         "A.companion_id", $conditions);
+            $conditions = str_replace("%companion_name%",       "C.companion_name", $conditions);
             $conditions = str_replace("%description%",          "A.description", $conditions);
             $conditions = str_replace("%status%",               "A.status", $conditions);
             $conditions = str_replace("%statustwo%",            "A.statustwo", $conditions);
@@ -715,6 +718,8 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%companion_name%",       "C.companion_name",  $order_by);
             $order_by   = str_replace("%description%",          "A.description",  $order_by);
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
             $order_by   = str_replace("%statustwo%",            "A.statustwo",  $order_by);
@@ -726,10 +731,12 @@ class Model_Praincubation extends SMIT_Model{
         }
         
         $sql = '
-            SELECT A.*,B.workunit, B.name AS user_name, B.email
+            SELECT A.*,B.workunit, B.name AS user_name, B.email, C.name AS companion_name
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.user_id';
+            ON B.id = A.user_id
+            LEFT JOIN ' . $this->user . ' AS C
+            ON C.id = A.companion_id ';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

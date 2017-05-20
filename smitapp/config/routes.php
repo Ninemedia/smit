@@ -84,6 +84,11 @@ $route['prainkubasi/daftar/detail/(:any)']      = "praincubation/praincubationde
 $route['prainkubasi/daftardata/(:any)']         = "praincubation/praincubationlistdata/$1";
 $route['prainkubasi/daftardatastep1']           = "praincubation/praincubationlistdatastep1";
 $route['prainkubasi/daftardatastep2']           = "praincubation/praincubationlistdatastep2";
+$route['prainkubasi/pendampingan']              = "praincubation/accompanimentlist";
+$route['prainkubasi/pendampingan/detail/(:any)']= "praincubation/companionassignment/$1";
+$route['prainkubasi/daftarpendampingan']        = "praincubation/accompanimentlistdata";
+$route['prainkubasi/daftarditerima']            = "praincubation/praincubationacceptedlistdata";
+
 // Menu Pengaturan
 $route['prainkubasi/pengaturan']                = "praincubation/praincubationsetting";
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";

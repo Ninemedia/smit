@@ -459,11 +459,26 @@ var PraIncubationList = function () {
         });
     };
     
+    var handlePraIncubationAccompanimentList = function(){
+        // Save Update Profile
+        $('#listaccompaniment_tab').click(function(e){
+            e.preventDefault();
+            $('#btn_accompaniment_list').trigger('click');
+        });
+        
+        // Save Change Password
+        $('#companionassignment_tab').click(function(e){
+            e.preventDefault();
+            $('#btn_acceptedselection_list').trigger('click');
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
             handlePraIncubationList();
             handlePraIncubationReportList();
+            handlePraIncubationAccompanimentList();
         }
     };
 }();

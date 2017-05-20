@@ -99,20 +99,23 @@ $config['user_menu_access']         = array(
         */
         'prainkubasi',
         'prainkubasi/daftar',
+        'prainkubasi/pendampingan',
         'prainkubasi/pengaturan',
         'prainkubasi/nilai',
-        'prainkubasi/peringkat',
-        'prainkubasi/laporan',
+        /*'prainkubasi/peringkat',*/
+        /*'prainkubasi/laporan',*/
         'prainkubasi/riwayat',
         'inkubasi',
         'inkubasi/daftar',
+        'inkubasi/pendampingan',
         'inkubasi/pengaturan',
         'inkubasi/nilai',
-        'inkubasi/peringkat',
+        /*'inkubasi/peringkat',*/
         'inkubasi/laporan',
         'inkubasi/riwayat',
         'pendamping',
-        'pendamping/daftar',
+        /*'pendamping/daftar',*/
+        'pendamping/laporan',
         'tenants',
         'tenants/blogs',
         'tenants/daftar',
@@ -139,6 +142,8 @@ $config['user_menu_access']         = array(
     ),
     PENDAMPING                      => array(
         'beranda',
+        'pendamping',
+        'pendamping/laporan',
         'tenants',
         'tenants/daftar',
         'tenants/pendampingan',

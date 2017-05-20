@@ -301,7 +301,7 @@ class PraIncubation extends User_Controller {
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                     strtoupper($workunit_type->workunit_name),
                     strtoupper($row->event_title),
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
@@ -397,7 +397,7 @@ class PraIncubation extends User_Controller {
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                     strtoupper($workunit_type->workunit_name),
                     strtoupper($row->event_title),
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
@@ -4044,6 +4044,341 @@ class PraIncubation extends User_Controller {
         
         echo json_encode($records);
     }
+    
+    // ---------------------------------------------------------------------------------------------
+    
+    // ---------------------------------------------------------------------------------------------
+    // ACCOMPANIMENT
+    // ---------------------------------------------------------------------------------------------
+    
+    /**
+	 * List Pra Incubation Accompaniment function.
+	 */
+	public function accompanimentlist()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        if( !$is_admin ){
+            redirect( base_url('dashboard') );
+        }
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+        
+        $scripts_add            = '';
+        
+        $lss                    = smit_latest_praincubation_setting();
+        
+        $data['title']          = TITLE . 'Daftar Pendampingan PraInkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['lss']            = $lss;
+        $data['main_content']   = 'praincubation/listaccompaniment';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Pra Incubation Accompaniment list data function.
+	 */
+    function accompanimentlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ' WHERE companion_id > 0 ';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_user_name        = $this->input->post('search_user_name');
+        $s_user_name        = smit_isset($s_user_name, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_companion_name   = $this->input->post('search_companion_name');
+        $s_companion_name   = smit_isset($s_companion_name, '');
+
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
+        
+        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
+        
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($praincubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            
+            $i = $offset + 1;
+            foreach($praincubation_list as $row){
+                //Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->event_title),
+                    strtoupper($workunit_type->workunit_name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper($row->name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($row->companion_name) . '</a>',
+                    '',
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Pra Incubation Accepted list data function.
+	 */
+    function praincubationacceptedlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ' WHERE %statustwo% = '.ACCEPTED.' AND %companion_id% = 0 ';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_user_name        = $this->input->post('search_user_name');
+        $s_user_name        = smit_isset($s_user_name, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        
+        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+        
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($praincubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            
+            $i = $offset + 1;
+            foreach($praincubation_list as $row){
+                // Add Companion Button
+                $btn_add = '<a href="'.base_url('prainkubasi/pendampingan/detail/'.$row->uniquecode).'" 
+                class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
+                
+                // Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->event_title),
+                    strtoupper($workunit_type->workunit_name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper($row->name),
+                    smit_center($btn_add),
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Pra Incubation Detail list data function.
+	 */
+    public function companionassignment($uniquecode)
+	{
+        auth_redirect();
+        
+        $curdate                = date('Y-m-d H:i:s');
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        if( !$is_admin ){
+            redirect( base_url('dashboard') );
+        }
+        
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+        
+        $scripts_add            = '';
+
+        // Custom
+        $condition              = '';
+        $praincubation_list     = '';
+        if(!empty($uniquecode)){
+            $praincubation_list     = $this->Model_Praincubation->get_all_praincubation('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $praincubation_list     = $praincubation_list[0];
+            $user_id                = $praincubation_list->user_id;
+            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE user_id = '.$user_id.'', '');    
+        }
+        
+        if( !empty($_POST) ){
+            $companion_id           = $this->input->post('companion_id');
+            $companion_id           = smit_isset($companion_id, '');
+            if( empty($companion_id) ){
+                $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Silahkan pilih pendamping!').'</div>');
+            }else{
+                // Check Companion Data
+                $comppanion_data        = smit_get_userdata_by_id($companion_id);
+                if( !$comppanion_data || empty($comppanion_data) ){
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Data pendamping tidak ditemukan atau belum terdaftar').'</div>');
+                }else{
+                    $selection_update_data  = array(
+                        'companion_id'      => $companion_id,
+                        'datemodified'      => $curdate
+                    );
+                    if( $this->Model_Praincubation->update_data_praincubation($praincubation_list->id, $selection_update_data) ){
+                        redirect( base_url('prainkubasi/pendampingan') );
+                    }
+                }
+            } 
+        }
+        
+        $data['title']              = TITLE . 'Detail Seleksi PraInkubasi Diterima';
+        $data['user']               = $current_user;
+        $data['is_admin']           = $is_admin;
+        $data['praincubation']      = $praincubation_list;
+        $data['praincubation_files']= $praincubation_files;
+        $data['headstyles']         = $headstyles;
+        $data['scripts']            = $loadscripts;
+        $data['scripts_add']        = $scripts_add;
+        $data['scripts_init']       = $scripts_init;
+        $data['main_content']       = 'praincubation/accepteddetail';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
     
     // ---------------------------------------------------------------------------------------------
 }
