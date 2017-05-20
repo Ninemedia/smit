@@ -713,7 +713,7 @@ class Backend extends User_Controller {
                     $row->no_announcement,
                     '<a href="'.base_url('upload/pengumuman/'.$row->uniquecode).'">' . $row->title . '</a>',
                     smit_center( $btn_files ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;

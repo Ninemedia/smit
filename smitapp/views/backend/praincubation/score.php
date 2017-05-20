@@ -37,9 +37,9 @@
                                         $selection_date_invitation_send   = !empty($lss) ? strtotime($lss->selection_date_invitation_send) : date('Y-m-d H:i:s');
                                         $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                     ?>   
-                                    <?php if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
+                                    <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
                                         <a href="<?php echo base_url('prainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
-                                    <?php } ?>    
+                                    <?php // } ?>    
                         		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
