@@ -70,6 +70,7 @@
                             <br /><br />
                             <b>Mengenai Pusat Inovasi LIPI</b>
                             <p align="justify">
+                                <?php echo get_option('be_dashboard_profile'); ?>
                                 Pusat Inovasi LIPI, berdiri pada bulan Juni 2001, merupakan salah satu Pusat dari 22 Pusat Penelitian yang ada di LIPI. Disamping Pusat Penelitian juga terdapat Inspektorat, 5 Biro, dan 20 UPT yang lokasinya terdistribusi di berbagai daerah di tanah air. Pusat Inovasi berada didalam Kedeputian Bidang Jasa Ilmiah - LIPI.
 
 Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung baru yang berlokasi di komplek Cibinong Science Center-Botanical Garden (CSC-BG) di Cibinong, Jawa Barat. This facility equipt with several office rooms for tenants, workshop, function rooms, meeting rooms, and display room to accelerate LIPI's research utilization into business and applied widely to users. This facility known as Incubator LIPI.
@@ -78,15 +79,7 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
                         <div role="tabpanel" class="tab-pane fade" id="vision">
                             <b>Tugas Inkubator Teknologi</b>
                             <p align="justify">
-                                Pusat Inovasi mempunyai dua tugas pokok yaitu : <br />
-                                <ul>
-                                    <ol>
-                                    Melakukan kajian, membangun dan mendukung kegiatan kerjasama yang dilakukan oleh berbagai pusat penelitian dan UPT LIPI dengan pihak di luar LIPI, terutama dengan industri, dalam upaya pemanfaatan hasil penelitian dan pengembangan LIPI.
-                                    </ol>
-                                    <ol>
-                                    Menelaah kemungkinan perlindungan kekayaan intelektual hasil litbang LIPI serta melaksanakan proses untuk mendapatkan perlindungan tersebut.
-                                    </ol>
-                                </ul>
+                                <?php echo get_option('be_dashboard_task'); ?>
                             </p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="structur">
@@ -94,12 +87,7 @@ Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
                             <b>Fungsi Inkubator Teknologi</b>
-                            <p>
-                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                sadipscing mel.
-                            </p>
+                            <?php echo get_option('be_dashboard_function'); ?>
                         </div>
                     </div>
                 </div>

@@ -122,48 +122,6 @@
 					</div>
 				</div>
 			</div>
-            <div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_5.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_6.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
-            <div class="col-md-4">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_6.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
-					</div>
-				</div>
-			</div>
             <div class="col-md-12">
                 <div class="body">
                     <nav>

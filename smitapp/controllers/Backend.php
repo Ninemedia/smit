@@ -95,7 +95,10 @@ class Backend extends User_Controller {
         ));
         
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'Setting.init();',
+        ));
 
         $data['title']          = TITLE . 'Pengaturan Frontend';
         $data['user']           = $current_user;
@@ -205,6 +208,25 @@ class Backend extends User_Controller {
             update_option('be_notif_registration_juri', $value);
         }elseif( $field == 'be_notif_rated_selection' ){
             update_option('be_notif_rated_selection', $value);
+        }
+    }
+    
+    /**
+	 * Update Setting Frontend function.
+	 */
+    function updatesettingfrontend()
+    {
+        $field  = $this->input->post('field');
+        $field  = smit_isset($field, '');
+        $value  = $this->input->post('value');
+        $value  = smit_isset($value, '');
+                
+        if( $field == 'be_dashboard_profile' ){
+            update_option('be_dashboard_profile', $value);
+        }elseif( $field == 'be_dashboard_task' ){
+            update_option('be_dashboard_task', $value);
+        }elseif( $field == 'be_dashboard_function' ){
+            update_option('be_dashboard_function', $value);
         }
     }
     
