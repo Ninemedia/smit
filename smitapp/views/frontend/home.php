@@ -240,18 +240,33 @@
                         </div>
                         
                         <div role="tabpanel" class="tab-pane fade" id="vision">
-                            <b>Tugas Inkubator Teknologi</b>
-                            <p align="justify">
-                                Pusat Inovasi mempunyai dua tugas pokok yaitu : <br />
-                                <ul>
-                                    <ol>
-                                    Melakukan kajian, membangun dan mendukung kegiatan kerjasama yang dilakukan oleh berbagai pusat penelitian dan UPT LIPI dengan pihak di luar LIPI, terutama dengan industri, dalam upaya pemanfaatan hasil penelitian dan pengembangan LIPI.
-                                    </ol>
-                                    <ol>
-                                    Menelaah kemungkinan perlindungan kekayaan intelektual hasil litbang LIPI serta melaksanakan proses untuk mendapatkan perlindungan tersebut.
-                                    </ol>
-                                </ul>
-                            </p>
+                            <div class="table-container table-responsive bottom50">
+                                <table class="table table-striped table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
+                                    <thead>
+                						<tr role="row" class="heading bg-blue">
+                							<th class="width5">No</th>
+                							<th class="width65 text-center">Judul Pengumuman</th>
+                                            <th class="width20 text-center">Tanggal Publikasi</th>
+                                            <th class="width10 text-center">Actions</th>
+                						</tr>
+                                        <tr role="row" class="filter">
+                							<td></td>
+                							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
+                                            <td>
+                								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
+                								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
+                							</td>
+                							<td style="text-align: center;">
+                								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_announcement_list">Search</button>
+                                                <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                							</td>
+                						</tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data Will Be Placed Here -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     
