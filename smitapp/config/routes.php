@@ -197,7 +197,7 @@ $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
 // Announcements
 $route['pengumuman']                    = "backend/announcements";
-$route['pengumuman/(:any)']             = "backend/announcementdetails/$1";
+$route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";
 $route['announcements/details/(:any)']  = "backend/announcementdatadetails/$1";
 $route['announcementslist']             = "backend/announcementuserlistdata";
 // Guide Files

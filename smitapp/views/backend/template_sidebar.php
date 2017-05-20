@@ -182,6 +182,23 @@
             ),
 	    ),
         array (
+            'title'     => 'Pendamping',
+            'nav'       => 'pendamping',
+            'parent'    => 'false',
+            'link'      => 'javascript:;',
+            'icon'      => 'group_work',
+            'sub'       => array(
+                array (
+                    'title'     => 'Daftar Pendamping',
+                    'nav'       => 'pendamping/daftar',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/daftar'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
+            ),
+	    ),
+        array (
             'title'     => 'Tenant',
             'nav'       => 'tenants',
             'parent'    => 'false',

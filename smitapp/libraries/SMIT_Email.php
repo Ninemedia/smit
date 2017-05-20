@@ -123,7 +123,7 @@ class SMIT_Email
      * @param string    $username       (Required)  Username of user
 	 * @return Mixed
 	 */
-	function send_email_regitration_user( $to, $username ) {
+	function send_email_registration_user( $to, $username ) {
         if ( !$to ) return false;
         if ( !$username ) return false;
         
@@ -147,7 +147,7 @@ class SMIT_Email
      * @param string    $password       (Required)  Password of user
 	 * @return Mixed
 	 */
-	function send_email_regitration_juri( $to, $username, $password ) {
+	function send_email_registration_juri( $to, $username, $password ) {
         if ( !$to ) return false;
         if ( !$username ) return false;
         if ( !$password ) return false;
@@ -172,7 +172,7 @@ class SMIT_Email
      * @param string    $event_title    (Required)  Title of Selection
 	 * @return Mixed
 	 */
-	function send_email_regitration_selection( $to, $event_title ) {
+	function send_email_registration_selection( $to, $event_title ) {
         if ( !$to ) return false;
         if ( !$event_title ) return false;
         
@@ -194,10 +194,12 @@ class SMIT_Email
      * @param string    $to             (Required)  Email Destionation
 	 * @return Mixed
 	 */
-	function send_email_rated_confirmation( $to ) {
+	function send_email_rated_confirmation( $to, $step ) {
         if ( !$to ) return false;
+        if ( !$step ) return false;
         
         $message    = trim( get_option('be_notif_rated_confirm') );
+        $message    = str_replace("{%step%}", 'Proses penilaian Tahap '.$step, $message);
         
         $html_message           = smit_notification_template($message);
         
@@ -285,6 +287,39 @@ class SMIT_Email
 	}
     
     /**
+	 * Send email selection not success step 2 function.
+	 *
+     * @param array object  $selection_setting  (Required)  Selection Setting
+     * @param array object  $data               (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_not_success_step2 ($selection_setting, $data  ) {
+        if ( !$selection_setting ) return false;
+        if ( !$data ) return false;
+        
+        $adm_date   = date('j', strtotime($selection_setting->selection_date_adm_start)) . 
+            ' - ' . date('j', strtotime($selection_setting->selection_date_adm_end)) . 
+            ' ' . smit_indo_month( date('F', strtotime($selection_setting->selection_date_adm_end)) ) . 
+            ' ' . date('Y', strtotime($selection_setting->selection_date_adm_end));
+            
+        $curdate    = date('j') .' '. smit_indo_month( date('F') ) .' '. date('Y');
+ 
+        $message    = trim( get_option('be_notif_praincubation_not_success2') );
+        $message    = str_replace("{%curdate%}",            $curdate, $message);
+        $message    = str_replace("{%selection_year%}",     $selection_setting->selection_year_publication, $message);
+        $message    = str_replace("{%user_name%}",          $data->name, $message);
+        $message    = str_replace("{%adm_date%}",           $adm_date, $message);
+        
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Tidak Lolos Seleksi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
 	 * Send email selection success function.
 	 *
      * @param array object  $selection_setting  (Required)  Selection Setting
@@ -321,6 +356,39 @@ class SMIT_Email
         $mail_message->html		= $html_message;
 		
 		return $this->send( $data->email, 'Konfirmasi Lolos Seleksi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email selection accepted function.
+	 *
+     * @param array object  $selection_setting  (Required)  Selection Setting
+     * @param array object  $data               (Required)  Pra-Incubation Selection Data
+	 * @return Mixed
+	 */
+	function send_email_selection_accepted( $selection_setting, $data  ) {
+        if ( !$selection_setting ) return false;
+        if ( !$data ) return false;
+        
+        $adm_date   = date('j', strtotime($selection_setting->selection_date_adm_start)) . 
+            ' - ' . date('j', strtotime($selection_setting->selection_date_adm_end)) . 
+            ' ' . smit_indo_month( date('F', strtotime($selection_setting->selection_date_adm_end)) ) . 
+            ' ' . date('Y', strtotime($selection_setting->selection_date_adm_end));
+            
+        $curdate    = date('j') .' '. smit_indo_month( date('F') ) .' '. date('Y');
+        
+        $message    = trim( get_option('be_notif_praincubation_accepted') );
+        $message    = str_replace("{%curdate%}",            $curdate, $message);
+        $message    = str_replace("{%selection_year%}",     $selection_setting->selection_year_publication, $message);
+        $message    = str_replace("{%user_name%}",          $data->name, $message);
+        $message    = str_replace("{%adm_date%}",           $adm_date, $message);
+
+        $html_message           = smit_notification_template($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $data->email, 'Konfirmasi Seleksi Diterima', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
 }
 

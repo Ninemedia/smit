@@ -1,5 +1,6 @@
 <?php
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
+    $active_subpage = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
 <div id="gtco-contentbreadcumb" class="animate-box">
@@ -18,14 +19,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('announcement'); ?>">
+                        <a href="<?php echo base_url('informasi/pengumuman'); ?>">
                             Pengumuman
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'contact' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('announcement'); ?>">
-                            <i class=""></i> <strong>Details</strong>
-                        </a>
+                    <li <?php echo ($active_subpage == 'pengumuman' ? 'class="active"' : ''); ?>>
+                        <i class=""></i> <strong>Details</strong>
                     </li>
                 </ol>
             </div>
@@ -42,18 +41,13 @@
     				<h3><?php echo strtoupper($announ_data->title); ?></h3>
     				<p>Tanggal Publikasi : <?php echo $announ_data->datecreated; ?></p>
                     <hr />
-                </div>
-            </div>
-			<div class="col-md-12">
-                <div class="panel-body">
                     <p align="justify" class="uppercase">
-                    Pengumuman Nomor : <?php echo $announ_data->no_announcement; ?>  Tentang <?php echo strtoupper($announ_data->title); ?> Pada Pusat Inovasi LIPI
+                        Pengumuman Nomor : <?php echo $announ_data->no_announcement; ?>  Tentang <?php echo strtoupper($announ_data->title); ?> Pada Pusat Inovasi LIPI
                     </p>
-                    <p align="justify">
-                    <?php echo $announ_data->desc; ?>
+                    <p>
+                        <?php echo $announ_data->desc; ?>
                     </p>
                 </div>
-			    
             </div>
 		</div>
 	</div>

@@ -105,6 +105,100 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 score.
+     */
+    function get_praincubation_rate_step1_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 1 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 count.
+     */
+    function get_praincubation_rate_step1_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->praincubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 2
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2.
+     */
+    function get_praincubation_rate_step2($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where($primary, $id);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_selection_rate_s2);        
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 2 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 score.
+     */
+    function get_praincubation_rate_step2_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 2 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 count.
+     */
+    function get_praincubation_rate_step2_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
      * Get Pra Incubation Rate Step 1
      * 
      * @author  Iqbal
@@ -395,6 +489,61 @@ class Model_Praincubation extends SMIT_Model{
         }
 
         return $praincubation_rate_s1;
+    }
+    
+    /**
+     * Get pra incubation rate step2 data by conditions
+     * 
+     * @author  Iqbal
+     * @param   String  $field  (Required)  Database field name or special field name defined inside this function
+     * @param   String  $value  (Optional)  Value of the field being searched
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of pra incubation rate step2
+     */
+    function get_praincubation_rate_step2_by($field, $value='')
+    {
+        $id = '';
+        
+        switch ($field) {
+            case 'id':
+                $id     = $value;
+                break;
+            case 'jury_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'jury_id';
+                break;
+            case 'selection_id':
+                $value  = $value;
+                $id     = '';
+                $field  = 'selection_id';
+                break;
+            case 'uniquecode':
+                $value  = $value;
+                $id     = '';
+                $field  = 'uniquecode';
+                break;
+            default:
+                return false;
+        }
+        
+        if ( $id != '' && $id > 0 )
+            return $this->get_praincubation_rate_step2($id);
+        
+        if( empty($field) ) return false;
+        
+        $db     = $this->db;
+        
+        $db->where($field, $value);
+        $query  = $db->get($this->praincubation_selection_rate_s2);
+        
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $praincubation_rate_s2 = $row;
+        }
+
+        return $praincubation_rate_s2;
     }
     
     /**
@@ -840,7 +989,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     function sum_all_irl($id){
         //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
-        $sql    = 'SELECT SUM(irl) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
+        $sql    = 'SELECT SUM(irl_total) AS total FROM '.$this->praincubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
         
         $query  = $this->db->query($sql);
         $row    = $query->row();

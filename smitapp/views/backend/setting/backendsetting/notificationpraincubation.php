@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_not_success2"><?php echo get_option('be_notif_praincubation_not_success2'); ?></textarea>
                 </div>
-                <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="not_success" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="not_success2" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
             </div>
         </div>
     </div>

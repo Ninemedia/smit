@@ -12,15 +12,13 @@
                             <i class="icon-home"></i> Beranda
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'profile' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('profile'); ?>">
+                    <li>
+                        <a href="<?php echo base_url(); ?>">
                             <i class=""></i> Inkubasi
                         </a>
                     </li>
                     <li <?php echo ($active_page == 'announcement' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('announcement'); ?>">
-                            <i class=""></i> <strong>Pengumuman</strong>
-                        </a>
+                        <i class=""></i> <strong>Pengumuman</strong>
                     </li>
                 </ol>
             </div>

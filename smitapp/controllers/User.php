@@ -471,7 +471,7 @@ class User extends SMIT_Controller {
                 // Send Email Confirmation
                 if( $is_admin ){
                     if( $user_type == JURI ){
-                        $this->smit_email->send_email_regitration_juri($email, $username, $password_global);
+                        $this->smit_email->send_email_registration_juri($email, $username, $password_global);
                     }
                 }
                 
@@ -1192,7 +1192,7 @@ class User extends SMIT_Controller {
         $data_update = array('status'=>$status,'datemodified'=>$curdate);
         if( $this->Model_User->update_data($id,$data_update) ){
             // Send Email Confirmation
-            $this->smit_email->send_email_regitration_user($userdata->email, $userdata->username);
+            $this->smit_email->send_email_registration_user($userdata->email, $userdata->username);
             // Set JSON data
             $data = array('msg' => 'success','message' => 'Konfirmasi data pengguna berhasil dilakukan.');
             // JSON encode data

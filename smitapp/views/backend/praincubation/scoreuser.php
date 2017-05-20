@@ -83,7 +83,7 @@
                                     <h2 class="card-inside-title text-uppercase">Berkas dan Proposal Kegiatan</h2>
                                     <?php
                                         if( !empty($data_selection_files) ){
-                                            echo '<ul class="bottom=0">';
+                                            echo '<ul class="bottom0">';
                                             foreach($data_selection_files as $file){
                                                 echo '<li>'.strtoupper($file->filename).' <a href="'.base_url('prainkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                             }
@@ -122,7 +122,7 @@
                                                 <td class="text-middle">Kelengkapan Dokumen</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20"> 
+                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20" data-plus="0"> 
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="20">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>
@@ -134,7 +134,7 @@
                                                 <td class="text-middle">Kesesuaian Target dan Biaya</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_target" data-rate="20">
+                                                    <select class="form-control rate-step1" name="nilai_target" data-rate="20" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="20">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>
@@ -146,7 +146,7 @@
                                                 <td class="text-middle">Adanya Perlindungan KI</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_perlingungan" data-rate="20">
+                                                    <select class="form-control rate-step1" name="nilai_perlingungan" data-rate="20" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="20">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>
@@ -158,7 +158,7 @@
                                                 <td class="text-middle">Penelitian Lanjutan</td>
                                                 <td class="text-middle align-center">10</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_penelitian" data-rate="10">
+                                                    <select class="form-control rate-step1" name="nilai_penelitian" data-rate="10" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="10">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>
@@ -170,7 +170,7 @@
                                                 <td class="text-middle">Marketable</td>
                                                 <td class="text-middle align-center">30</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_market" data-rate="30">
+                                                    <select class="form-control rate-step1" name="nilai_market" data-rate="30" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
                                                         <option value="30">Lengkap</option>
                                                         <option value="0">Tidak Lengkap</option>

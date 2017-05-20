@@ -519,7 +519,7 @@ class Frontend extends Public_Controller {
                     $this->db->trans_complete();
                     
                     // Send Email Notification
-                    $this->smit_email->send_email_regitration_selection($userdata->email, $event_title);
+                    $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
                     
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran seleksi inkubasi baru berhasil!'); 
@@ -769,7 +769,7 @@ class Frontend extends Public_Controller {
                     $this->db->trans_complete();
                     
                     // Send Email Notification
-                    $this->smit_email->send_email_regitration_selection($userdata->email, $event_title);
+                    $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
                     
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi pra-inkubasi baru berhasil!'); 
@@ -1279,7 +1279,9 @@ class Frontend extends Public_Controller {
     /**
     * Announcement Details function.
     */
-    public function announcementdetails( $uniquecode='' ){
+    public function announcementdetails( $uniquecode ){
+        if( !$uniquecode ) redirect(base_url('informasi/pengumuman'));
+        
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1303,11 +1305,9 @@ class Frontend extends Public_Controller {
         
         $scripts_add            = '';
         $scripts_init           = '';
-        $announcementdata       = '';
-        
-        if( !empty($uniquecode) ){
-            $announcementdata   = $this->Model_Announcement->get_announcement_by_uniquecode($uniquecode);
-        }
+
+        $announcementdata   = $this->Model_Announcement->get_announcement_by_uniquecode($uniquecode);
+        if( empty($announcementdata) || !$announcementdata ) redirect(base_url('informasi/pengumuman'));
         
         $data['title']          = TITLE . 'Detail Pengumuman';
         $data['headstyles']     = $headstyles;
