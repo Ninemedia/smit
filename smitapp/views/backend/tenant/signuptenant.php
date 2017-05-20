@@ -573,15 +573,15 @@
                             </div>
                         </div>
                         <?php else : ?>
-                                <div class="row clearfix">
-                                    <div class="col-md-12">
-                                        <div class="alert alert-info">
-                                            <strong>Perhatian!</strong>
-                                            Pengajuan data tenant anda sedang di proses oleh administrator. Harap menunggu konfirmasi dari Administrator.
-                                        </div>
+                            <div class="row clearfix">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <strong>Perhatian!</strong>
+                                        Pengajuan data tenant anda sedang di proses oleh administrator. Harap menunggu konfirmasi dari Administrator.
                                     </div>
                                 </div>
-                            <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <!--
                     <div role="tabpanel" class="tab-pane fade" id="contact">

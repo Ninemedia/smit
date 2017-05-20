@@ -1125,6 +1125,237 @@ class Incubation extends User_Controller {
 	}
     
     /**
+	 * Incubation Confirm Score Step 1 function.
+	 */
+    function incubationconfirmstep1($uniquecode=''){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Inkubasi hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        // Check Data Pra Incubation Selection
+        $condition  = ' WHERE %status% = 2 AND %step% = 1';
+        $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
+        $order_by   = ' %id% ASC';
+        $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+        
+        if( !$incseldata || empty($incseldata) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dinilai oleh juri');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        // Check Incubation Setting
+        $incset     = smit_latest_incubation_setting();
+        if( !$incset || empty($incset) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $incset->status == 0 ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        foreach($incseldata as $row){
+            $sum_score      = $this->Model_Incubation->sum_all_score($row->id);
+            if(empty($sum_score)){
+                $sum_score  = 0;
+            }
+            
+            $count_all_jury = $this->Model_Incubation->count_all_score($row->id);
+            if(empty($count_all_jury)){
+                $count_all_jury = 0;
+            }
+            
+            if(!empty($sum_score) && !empty($count_all_jury)){
+                $avarage_score  = $sum_score / $count_all_jury;
+            }else{
+                $avarage_score  = 0;
+            }
+            
+            if( $avarage_score < KKM_STEP1 ){
+                $status         = REJECTED;    
+            }else{
+                $status         = ACCEPTED;
+            }
+            
+            $incselupdatedata    = array(
+                'score'         => $sum_score,
+                'avarage_score' => $avarage_score,
+                'status'        => $status,
+                'statustwo'     => 1,
+                'steptwo'       => 2,
+                'datemodified'  => $curdate,
+            );
+            
+            if( !$this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
+                continue;
+            }else{
+                if( $avarage_score < KKM_STEP1 ){
+                    $this->smit_email->send_email_selection_not_success_step1($incset, $row);
+                }else{
+                    $this->smit_email->send_email_selection_confirmation_step2($row);
+                    $this->smit_email->send_email_selection_success($incset, $row);
+                }
+            }
+        }
+        
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+        // Set JSON data
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Inkubasi Step 1 sudah dikonfirmasi.');
+        // JSON encode data
+        die(json_encode($data));
+    }
+    
+    /**
+	 * Incubation Confirm Score Step 2 function.
+	 */
+    function incubationconfirmstep2($uniquecode=''){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Inkubasi hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        // Check Data Pra Incubation Selection
+        $condition  = ' WHERE %statustwo% = 2 AND %steptwo% = 2';
+        $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
+        $order_by   = ' %id% ASC';
+        $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+
+        if( !$incseldata || empty($incseldata) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 2 yang belum dikonfirmasi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        // Check Incubation Setting
+        $incset     = smit_latest_incubation_setting();
+        if( !$incset || empty($incset) ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $incset->status == 0 ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        foreach($incseldata as $row){
+            
+            // Total
+            $sum_score2     = $this->Model_Incubation->sum_all_score2($row->id);
+            if(empty($sum_score2)){
+                $sum_score2  = 0;
+            }
+            
+            $count_all_jury2= $this->Model_Incubation->count_all_score2($row->id);
+            if(empty($count_all_jury2)){
+                $count_all_jury2 = 0;
+            }
+            
+            if(!empty($sum_score2) && !empty($count_all_jury2)){
+                $avarage_score  = $sum_score2 / $count_all_jury2;
+            }else{
+                $avarage_score  = 0;
+            }
+            
+            if( $avarage_score < KKM_STEP2 ){
+                $status         = REJECTED;    
+            }else{
+                $status         = ACCEPTED;
+            }
+            
+            $incselupdatedata    = array(
+                'scoretwo'          => $sum_score2,
+                'avarage_scoretwo'  => $avarage_score,
+                'statustwo'         => $status,
+                'datemodified'      => $curdate,
+            );    
+            
+            if( !$this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
+                continue;
+            }
+            
+            // History Step2
+            $random_history     = smit_generate_rand_string(10,'low');
+            $rate_history_step2 = array(
+                'uniquecode'    => $random_history,
+                'selection_id'  => $row->id,
+                'jury_id'       => $current_user->id,
+                'name_jury'     => $current_user->name,
+                'user_id'       => $row->user_id,
+                'username'      => $row->username,
+                'name'          => $row->name,
+                'event_title'   => $row->event_title,
+                'step'          => 2,
+                'rate_total'    => $avarage_score,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate
+            );
+            $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step2);
+            
+            if( $avarage_score < KKM_STEP2 ){
+                // Status User
+                $status             = array(
+                    'type'          => PELAKSANA,
+                    'datemodified'  => $curdate
+                );
+                $update_status_user = $this->Model_User->update_data($row->user_id, $status);  
+            }
+            
+        }
+        
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+        // Set JSON data
+        $data = array('msg' => 'success','message' => 'Semua data Seleksi Inkubasi Step 2 sudah dikonfirmasi.');
+        // JSON encode data
+        die(json_encode($data));
+    }
+    
+    /**
 	 * Admin Score list data function.
 	 */
     function adminscorelistdata( $step='' ){
