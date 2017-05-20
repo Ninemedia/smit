@@ -1111,7 +1111,7 @@ class Frontend extends Public_Controller {
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     '',
                 );
                 $i++;
