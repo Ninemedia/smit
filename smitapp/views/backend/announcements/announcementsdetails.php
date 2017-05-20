@@ -7,7 +7,7 @@
                     <i class="material-icons">arrow_back</i> Kembali
                 </a>
                 <h2><?php echo strtoupper($announ_data->title); ?></h2>
-                <p class="bottom0">Tanggal Publikasi : <?php echo $announ_data->datecreated; ?></p>    
+                <p class="bottom0">Tanggal Publikasi : <?php echo date('d F Y H:i:s', strtotime($announ_data->datecreated)); ?></p>    
             </div>
             <div class="body">
                 <p align="justify" class="uppercase">

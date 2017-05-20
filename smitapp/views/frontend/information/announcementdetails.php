@@ -39,7 +39,8 @@
 			<div class="col-md-12">
                 <div class="panel-body">
     				<h3><?php echo strtoupper($announ_data->title); ?></h3>
-    				<p>Tanggal Publikasi : <?php echo $announ_data->datecreated; ?></p>
+    				<p>Tanggal Publikasi : <?php echo date('d F Y H:i:s', strtotime($announ_data->datecreated)); ?>
+                    </p>
                     <hr />
                     <p align="justify" class="uppercase">
                         Pengumuman Nomor : <?php echo $announ_data->no_announcement; ?>  Tentang <?php echo strtoupper($announ_data->title); ?> Pada Pusat Inovasi LIPI
