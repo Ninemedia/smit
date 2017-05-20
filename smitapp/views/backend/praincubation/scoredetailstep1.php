@@ -14,7 +14,7 @@
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
                     <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
@@ -46,9 +46,9 @@
                                     }
                                     
                                     if(!empty($sum_score) && !empty($count_all_jury)){
-                                        $avarage_score  = $sum_score / $count_all_jury;
+                                        $average_score  = round( $sum_score / $count_all_jury );
                                     }else{
-                                        $avarage_score  = 0;
+                                        $average_score  = 0;
                                     }
                                     
                                 ?>
@@ -58,10 +58,10 @@
                                 </tr>
                                 <tr>
                                     <td colspan="7" align="right">Nilai Rata-rata</td>
-                                    <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
-                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <?php if($average_score >= KKM_STEP1 && $average_score <= MAX_SCORE) :?>
+                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
                                     <?php else : ?>
-                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
                                     <?php endif; ?>
                                 </tr>
                             </tfoot>
@@ -89,7 +89,7 @@
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
                     <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
@@ -164,7 +164,7 @@
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
                     <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>

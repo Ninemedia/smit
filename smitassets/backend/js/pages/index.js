@@ -310,16 +310,33 @@ var ScoreSetting = function () {
         $('.rate-step1').change(function( event ){
             event.preventDefault();
 
-            var val = $(this).val();
-            var rate = $(this).data('rate');
-            var rateplus = 0;
+            var val         = $(this).val();
+            var rate        = parseInt( $(this).data('rate') );
+
+            var rate_total  = 0;
+            var rate_el     = $('#nilai_total_tahap1');
+            var rate_elval  = parseInt( rate_el.val() );
             
             if( val == 0 || val == "" ){
-                rateplus = parseInt(rateplus) - parseInt(rate);
+                var rate_plus = parseInt( $(this).data('plus') );
+                if( rate_plus > 0 ){
+                    rate_total  = rate_elval - rate_plus;
+                }else{
+                    rate_total  = rate_elval;
+                }
+                $(this).data('plus',0);
             }else{
-                rateplus = parseInt(val);
+                $(this).data('plus',rate);
+                rate_total  = rate_elval + parseInt(val);
             }
-            countTotalRateStep1(rateplus);
+            
+            if( rate_total < 0 ){
+                rate_total = 0;
+            }
+            
+            rate_el.prop('value', rate_total);
+            
+            
         });
         
         $("body").delegate( "button.btn-rate-step2", "click", function( event ) {
@@ -366,6 +383,8 @@ var ScoreSetting = function () {
                                     focus: false
                                 });
                                 App.scrollTo(div_container, -90);
+                                $('button.btn-rate-step2').hide();
+                                $('button.btn-rate-step2-reset').hide();
                             }
                             return false;
                         }
@@ -547,22 +566,6 @@ var ScoreSetting = function () {
         });
     };
     
-    countTotalRateStep1 = function( val ){
-        if( !val ) return false;
-        
-        var total_rate = 0;
-        var el = $('#nilai_total_tahap1');
-        var elval = el.val();
-        elval = parseInt(elval);
- 
-        total_rate = elval + val;
-        if( total_rate < 0 ){
-            total_rate = 0;
-        }
-
-        el.prop('value', total_rate);
-    };
-    
     return {
         // main function to initiate the module
         init: function () {
@@ -575,55 +578,7 @@ var ScoreSetting = function () {
 
 var AnnouncementSetting = function () {
     handleAnnouncementDataAction = function(){
-        // Details Announcement Setting
-        $("body").delegate( "a.announdetailset", "click", function( event ) {
-            event.preventDefault();
-            var url = $(this).attr('href');
-            var table_container = $('#announcement_list').parents('.dataTables_wrapper');
-            var el = $('#announcement_details');
-            
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){                    
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-                         
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
-                            place: 'prepend'
-                        });
-                    }else{
-                        
-                        $('#reg_uniquecode').val(response.details.uniquecode);
-                        $('#reg_title').val(response.details.title);
-                        $('#reg_desc').val(response.details.desc);
-                        $('#reg_no_announcement').val(response.details.no_announcement);
-                        $('#reg_url').val(response.details.url);
-                        
-                        App.scrollTo($('#announcement_list'),240);
-                        el.fadeIn();
-                    }
-                }
-            });
-        });  
         
-        // Close Details Incubation Setting
-        $("body").delegate( "a.close-details, button.close-details", "click", function( event ) {
-            event.preventDefault();
-            var el = $('#announcement_details');
-            el.fadeOut();
-            App.scrollTo($('body'),0);
-        }); 
     };
 
     return {

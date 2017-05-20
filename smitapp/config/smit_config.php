@@ -109,6 +109,8 @@ $config['user_menu_access']         = array(
         //'inkubasi/pengaturan',
         'inkubasi/nilai',
         'inkubasi/laporan',
+        'pendamping',
+        'pendamping/daftar',
         'tenants',
         'tenants/blogs',
         'tenants/daftar',

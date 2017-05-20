@@ -187,6 +187,8 @@ class Backend extends User_Controller {
             update_option('be_notif_praincubation_not_success2', $value);
         }elseif( $field == 'be_notif_praincubation_success' ){
             update_option('be_notif_praincubation_success', $value);
+        }elseif( $field == 'be_notif_praincubation_accepted' ){
+            update_option('be_notif_praincubation_accepted', $value);
         }elseif( $field == 'be_notif_incubation_not_success' ){
             update_option('be_notif_incubation_not_success', $value);
         }elseif( $field == 'be_notif_incubation_not_success2' ){
@@ -440,7 +442,6 @@ class Backend extends User_Controller {
             'TableAjax.init();',
             'UploadFiles.init();',
             'AnnouncementValidation.init();',
-            'AnnouncementSetting.init()',
         ));
 
         $data['title']          = TITLE . 'Pengumuman';

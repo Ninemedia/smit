@@ -88,7 +88,7 @@
                                                 <h2 class="card-inside-title text-uppercase">Berkas dan Proposal Kegiatan</h2>
                                                 <?php
                                                     if( !empty($data_selection_files) ){
-                                                        echo '<ul class="bottom40">';
+                                                        echo '<ul class="bottom0">';
                                                         foreach($data_selection_files as $file){
                                                             echo '<li>'.strtoupper($file->filename).' - <a href="'.base_url('prainkubasi/unduh//'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                                         }
@@ -104,7 +104,7 @@
                                         <div class="panel-heading" role="tab" id="nilai">
                                             <h4 class="panel-title">
                                                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_nilai" aria-expanded="false" aria-controls="collapse_nilai">
-                                                    <i class="material-icons">edit</i> Penilaian
+                                                    <i class="material-icons">edit</i> PENILAIAN
                                                 </a>
                                             </h4>
                                         </div>
@@ -116,7 +116,7 @@
                                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo">
                                                         <thead>
                                                             <tr class="bg-blue-grey">
-                                                                <td colspan="2"><strong>TOTAL NILAI</strong></td>
+                                                                <td class="text-middle" colspan="2"><strong>TOTAL NILAI</strong></td>
                                                                 <td class="text-large text-center"><input class="text-center input-large text-darken-1" name="total_rate" id="total_rate" value="0" /></td>
                                                             </tr>
                                     						<tr role="row" class="heading">
@@ -300,8 +300,8 @@
                                                                 </td>
                                                             </tr>  
                                                             <tr class="bg-blue-grey">
-                                                                <td colspan="2"><strong>TOTAL NILAI</strong></td>
-                                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="total_rate2" id="total_rate" value="0" /></td>
+                                                                <td class="text-middle" colspan="2"><strong>TOTAL NILAI</strong></td>
+                                                                <td class="text-middle text-center"><input style="color: #666666 !important; font-weight: bold;" class="text-center input-mini" name="total_rate2" id="total_rate2" value="0" /></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -344,7 +344,7 @@
                                                     <button class="btn btn-sm btn-primary waves-effect btn-rate-step2" type="button">
                                                         <i class="material-icons">done</i> Nilai
                                                     </button>
-                                                    <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">
+                                                    <button class="btn btn-sm btn-danger waves-effect btn-rate-step2-reset" type="button">
                                                         <i class="material-icons">close</i> Bersihkan
                                                     </button>
                                                 </div>

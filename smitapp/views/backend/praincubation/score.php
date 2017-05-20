@@ -21,16 +21,15 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
+                        <?php
+                            $curdate    = date('Y-m-d H:i:s');
+                            $curdate    = strtotime($curdate);
+                            
+                            $selection_date_adm_start   = !empty($lss) ? strtotime($lss->selection_date_adm_start) : date('Y-m-d H:i:s');
+                            $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
+                        ?>   
+                        
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            
-                            <?php
-                                $curdate    = date('Y-m-d H:i:s');
-                                $curdate    = strtotime($curdate);
-                                
-                                $selection_date_adm_start   = !empty($lss) ? strtotime($lss->selection_date_adm_start) : date('Y-m-d H:i:s');
-                                $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
-                            ?>     
-                            
                             <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">                           
@@ -116,18 +115,16 @@
                                 $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                 $selection_date_interview_end     = !empty($lss) ? strtotime($lss->selection_date_interview_end) : date('Y-m-d H:i:s');
                             ?>  
-                            <?php if( $curdate >= $selection_date_interview_start && $curdate <= $selection_date_interview_end ) : ?>
+                            <?php //if( $curdate >= $selection_date_interview_start && $curdate <= $selection_date_interview_end ) : ?>
                             <div class="table-container table-responsive">
                                 <div class="table-actions-wrapper">                           
                                 <?php
                                     $selection_date_result          = !empty($lss) ? strtotime($lss->selection_date_result) : date('Y-m-d H:i:s');
                                     $selection_date_proposal_start  = !empty($lss) ? strtotime($lss->selection_date_proposal_start) : date('Y-m-d H:i:s');
                                 ?> 
-                                <?php if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){ ?>                          
+                                <?php //if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){ ?>                          
                                     <a href="<?php echo base_url('prainkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep2"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
-                        		<?php }else{ ?>
-                                    <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button>
-                                <?php } ?>    
+                                <?php //} ?>    
                     		    </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('prainkubasi/adminnilaidatastep2'); ?>">
                                     <thead>
@@ -192,9 +189,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <?php else : ?>
-                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 2 belum dibuka. Terima Kasih</div>  
-                            <?php endif; ?>
+                            <?php //else : ?>
+                                <!--<div class="alert alert-info bottom0">Proses penilaian pada tahap 2 belum dibuka. Terima Kasih</div>-->
+                            <?php //endif; ?>
                         </div>
                     </div>
                 
