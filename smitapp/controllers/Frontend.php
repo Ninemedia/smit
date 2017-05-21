@@ -238,13 +238,13 @@ class Frontend extends Public_Controller {
         
         $lss = smit_latest_praincubation_setting();
         
-        $data['title']          = TITLE . 'Seleksi';
+        $data['title']          = TITLE . 'Seleksi Pra-Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['lss']            = $lss;
-        $data['main_content']   = 'incubation/selectionpraincubation';
+        $data['main_content']   = 'selection/selectionpraincubation';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
@@ -294,12 +294,12 @@ class Frontend extends Public_Controller {
             'Selection.init();',
         ));
         
-        $data['title']          = TITLE . 'Pendaftaran Tenant';
+        $data['title']          = TITLE . 'Seleksi Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation/selectionincubation';
+        $data['main_content']   = 'selection/selectionincubation';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
@@ -809,7 +809,82 @@ class Frontend extends Public_Controller {
     // ---------------------------------------------------------------------------------------------
     
     // ---------------------------------------------------------------------------------------------
-    // TENANT
+    // PRA-INCUBATION
+    /**
+	 * List Pra-Incubation function.
+	 */
+    function listpraincubation(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Daftar Tenant';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/list';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+	 * Product Pra-Incubation function.
+	 */
+    function productpraincubation(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Produk Tenant';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/product';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    
+    // ---------------------------------------------------------------------------------------------
+    // INKUBASI / TENANT
     /**
 	 * List Tenant function.
 	 */
@@ -992,7 +1067,7 @@ class Frontend extends Public_Controller {
     // ---------------------------------------------------------------------------------------------
     
     // ---------------------------------------------------------------------------------------------
-    // INFORMATION
+    // BERKAS DIGITAL
     /**
 	 * Guide function.
 	 */
@@ -1045,7 +1120,7 @@ class Frontend extends Public_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'information/guide';
+        $data['main_content']   = 'guide';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
@@ -1108,7 +1183,7 @@ class Frontend extends Public_Controller {
                 }
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
+                    '<a href="'.base_url('unduhberkas/'.$row->uniquecode).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
@@ -1221,7 +1296,7 @@ class Frontend extends Public_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'information/announcement';
+        $data['main_content']   = 'selection/announcement';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
@@ -1272,12 +1347,12 @@ class Frontend extends Public_Controller {
             $i = $offset + 1;
             foreach($announcement_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('informasi/pengumuman/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksi/pengumuman/'.$row->uniquecode).'" 
                     class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details">Details</a> ';
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    '<a href="'.base_url('informasi/pengumuman/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
+                    '<a href="'.base_url('seleksi/pengumuman/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );
@@ -1299,7 +1374,7 @@ class Frontend extends Public_Controller {
     * Announcement Details function.
     */
     public function announcementdetails( $uniquecode ){
-        if( !$uniquecode ) redirect(base_url('informasi/pengumuman'));
+        if( !$uniquecode ) redirect(base_url('seleksi/pengumuman'));
         
         $headstyles             = smit_headstyles(array(
             //Plugin Path
@@ -1334,7 +1409,7 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['announ_data']    = $announcementdata;
-        $data['main_content']   = 'information/announcementdetails';
+        $data['main_content']   = 'selection/announcementdetails';
         $this->load->view(VIEW_FRONT . 'template', $data); 
     }
     // ---------------------------------------------------------------------------------------------

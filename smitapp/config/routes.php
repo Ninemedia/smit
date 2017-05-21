@@ -220,32 +220,40 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // -------------------------------------------------------------------------
 // Frontend Page Routes
 // -------------------------------------------------------------------------
-// About Me
+// 1. Home 
+// 2. About Me (Profile)
 $route['profil']                        = "frontend/profile";
 $route['tentangkami/profil']            = "frontend/profile";
+/*
 $route['tentangkami/layanan']           = "frontend/services";
 $route['tentangkami/artikel']           = "frontend/article";
-// Incubation
+*/
+// 3. Selection
+$route['seleksi/pengumuman']            = "frontend/announcement";
+$route['seleksi/pengumuman/(:any)']     = "frontend/announcementdetails/$1";
+$route['announcementlist']              = "frontend/announcementlistdata";
 $route['seleksi/prainkubasi']           = "frontend/selectionpraincubation";
 $route['seleksi/inkubasi']              = "frontend/selectionincubation";
-// Tenant
-$route['tenant/daftar']                 = "frontend/listtenant";
-$route['tenant/produk']                 = "frontend/producttenant";
-$route['tenant/fasilitas']              = "frontend/fasilitiestenant";
-$route['tenant/blog']                   = "frontend/blogtenant";
-$route['tenant/kategori']               = "frontend/blogcategory";
-// Information
-$route['informasi/panduan']             = "frontend/guide";
-$route['informasi/pengumuman']          = "frontend/announcement";
-$route['informasi/pengumuman/(:any)']   = "frontend/announcementdetails/$1";
-$route['announcementlist']              = "frontend/announcementlistdata";
-// Statistic
-$route['statistik']                     = "frontend/statistic";
-// Contact
+// 4. Pra-Incubation
+$route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
+$route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
+// 5. Incubation/Tenant
+$route['tenant/daftartenant']           = "frontend/listtenant";
+$route['tenant/produktenant']           = "frontend/producttenant";
+$route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
+$route['tenant/blogtenant']             = "frontend/blogtenant";
+/*
+$route['tenant/kategoritenant']         = "frontend/blogcategory";
+*/
+// 6. Berkas Digital
+$route['berkasdigital']                 = "frontend/guide";
+// 7. Info Grafis
+$route['infografis']                    = "frontend/statistic";
+// 8. Contact
 $route['kontak']                        = "frontend/contact";
 
 // All
-$route['unduhberkas/(:any)']            = "frontend/guidesdownloadfile/$1";
+$route['unduhberkas/(:any)']                = "frontend/guidesdownloadfile/$1";
 $route['unduhberkas/prainkubasi/(:any)']    = "frontend/praincubationdownloadfile/$1";
 // -------------------------------------------------------------------------
 

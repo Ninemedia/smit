@@ -14,8 +14,8 @@
                         </a>
                     </li>
                     <li <?php echo ($active_page == 'seleksi' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('seleksi'); ?>">
-                            <i class=""></i> Inkubasi
+                        <a href="<?php echo base_url('seleksi/inkubasi'); ?>">
+                            <i class=""></i> Seleksi
                         </a>
                     </li>
                     <li <?php echo ($active_page2 == 'inkubasi' ? 'class="active"' : ''); ?>>

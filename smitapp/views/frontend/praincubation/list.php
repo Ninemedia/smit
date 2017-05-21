@@ -1,5 +1,6 @@
 <?php
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
+    $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
 <div id="gtco-contentbreadcumb" class="animate-box">
@@ -12,9 +13,14 @@
                             <i class="icon-home"></i> Beranda
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'statistic' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('infografis'); ?>">
-                            <i class=""></i> <strong>Info Grafis</strong>
+                    <li>
+                        <a href="<?php echo base_url('prainkubasi/daftarprainkubasi'); ?>">
+                            <i class=""></i> Pra-Inkubasi
+                        </a>
+                    </li>
+                    <li <?php echo ($active_page2 == 'daftar' ? 'class="active"' : ''); ?>>
+                        <a href="<?php echo base_url('prainkubasi/daftarprainkubasi'); ?>">
+                            <i class=""></i> <strong>Daftar Pra-Inkubasi</strong>
                         </a>
                     </li>
                 </ol>
@@ -23,18 +29,20 @@
     </div>
 </div>
 
-
 <div id="gtco-content" class="gtco-section border-bottom animate-box">
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Info Grafis</h3>
+				<h3>Daftar Pra-Inkubasi</h3>
 			</div>
-			<div class="col-md-12">
-                <div class="panel-body">
-                    <p align="justify"></p>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="header">
+                    <h4>
+                        
+                    </h4>
                 </div>
-			    
+                <div class="body">
+                </div>
             </div>
 		</div>
 	</div>

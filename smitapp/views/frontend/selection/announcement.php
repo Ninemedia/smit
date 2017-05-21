@@ -13,8 +13,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url(); ?>">
-                            <i class=""></i> Inkubasi
+                        <a href="<?php echo base_url('seleksi/pengumuman'); ?>">
+                            <i class=""></i> Seleksi
                         </a>
                     </li>
                     <li <?php echo ($active_page == 'announcement' ? 'class="active"' : ''); ?>>

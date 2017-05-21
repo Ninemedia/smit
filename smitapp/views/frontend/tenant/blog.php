@@ -14,12 +14,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('#'); ?>">
+                        <a href="<?php echo base_url('tenant/blogtenant'); ?>">
                             <i class=""></i> Tenant
                         </a>
                     </li>
                     <li <?php echo ($active_page2 == 'blog' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('tenant/blog'); ?>">
+                        <a href="<?php echo base_url('tenant/blogtenant'); ?>">
                             <i class=""></i> <strong>Blog Tenant</strong>
                         </a>
                     </li>

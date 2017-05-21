@@ -14,12 +14,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url(); ?>">
-                            Inkubasi
+                        <a href="<?php echo base_url('seleksi/pengumuman'); ?>">
+                            Seleksi
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('informasi/pengumuman'); ?>">
+                        <a href="<?php echo base_url('seleksi/pengumuman'); ?>">
                             Pengumuman
                         </a>
                     </li>
