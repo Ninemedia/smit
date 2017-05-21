@@ -434,6 +434,30 @@ class Model_User extends SMIT_Model{
         $query  = $this->db->get($this->_workunit);        
         return $query->row();
     }
+    
+    /**
+	 * Stats monthly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_monthly() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y-%c") AS period,
+			DATE_FORMAT( datecreated, "%b %Y") AS period_name,
+			COUNT(id) AS total
+		FROM '.$this->_user.'
+		WHERE type <> '.ADMINISTRATOR.'
+		GROUP BY 1
+		ORDER BY 1 DESC';
+        
+		$qry = $this->db->query( $sql );
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+		
+		return $qry->result();
+	}
 
     // ---------------------------------------------------------------------------------
 }

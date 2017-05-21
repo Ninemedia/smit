@@ -198,33 +198,6 @@
             ),
 	    ),
         array (
-            'title'     => 'Pendamping',
-            'nav'       => 'pendamping',
-            'parent'    => 'false',
-            'link'      => 'javascript:;',
-            'icon'      => 'group_work',
-            'sub'       => array(
-                /*
-                array (
-                    'title'     => 'Daftar Pendamping',
-                    'nav'       => 'pendamping/daftar',
-                    'parent'    => 'pendamping',
-                    'link'      => base_url('pendamping/daftar'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                ),
-                */
-                array (
-                    'title'     => 'Laporan Pendamping',
-                    'nav'       => 'pendamping/laporan',
-                    'parent'    => 'pendamping',
-                    'link'      => base_url('pendamping/laporan'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                ),
-            ),
-	    ),
-        array (
             'title'     => 'Tenant',
             'nav'       => 'tenants',
             'parent'    => 'false',
@@ -300,7 +273,7 @@
                     'title'     => 'Pengguna',  
                     'nav'       => 'statistik/pengguna',
                     'parent'    => 'statistik',
-                    'link'      => base_url('statistik/blogs'),
+                    'link'      => base_url('statistik/pengguna'),
                     'icon'      => 'build',
                     'sub'       => false,
                 ),

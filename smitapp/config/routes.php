@@ -94,6 +94,7 @@ $route['prainkubasi/pengaturan']                = "praincubation/praincubationse
 $route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
 $route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
 $route['tutupprainkubasi/(:any)']               = "praincubation/praincubationsettingclose/$1";
+
 // Menu Penilaian
 $route['prainkubasi/adminnilaidata/(:any)']     = "praincubation/adminscorelistdata/$1";
 $route['prainkubasi/adminnilaidatastep1']       = "praincubation/adminscorelistdatastep1";
@@ -170,10 +171,6 @@ $route['daftarinkubasi']                        = "incubation/incubationsettingl
 $route['detilinkubasi/(:any)']                  = "incubation/incubationsettingdetails/$1";
 $route['tutupinkubasi/(:any)']                  = "incubation/incubationsettingclose/$1";
 $route['incubationselectionsetting']            = "incubation/incubationsettingsave";
-
-
-
-
 $route['incubationsetlist']                     = "incubation/incubationsettinglistdata";
 $route['incubationsetdetails/(:any)']           = "incubation/incubationsettingdetails/$1";
 $route['incubationsetclose/(:any)']             = "incubation/incubationsettingclose/$1";
@@ -185,6 +182,7 @@ $route['incubationscoreact/(:any)/(:any)']      = "incubation/incubationscoreact
 $route['incubationdownloadfile/(:any)']         = "incubation/incubationdownloadfile/$1";
 $route['juryscoresetdetails/(:any)']            = "incubation/juryscoredatadetails/$1";
 $route['juryscoresetnilai/(:any)']              = "incubation/juryscoredatanilai/$1";
+
 // Tenant Page Routes
 $route['tenants/blogs']                         = "tenant/tenantblogs";
 $route['tenants/daftar']                        = "tenant/tenantdata";
@@ -196,6 +194,9 @@ $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
+
+// Statistik Page Routes
+$route['statistik/pengguna']                    = "tenant/tenantblogs";
 
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
