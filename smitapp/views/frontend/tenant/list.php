@@ -14,12 +14,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('#'); ?>">
+                        <a href="<?php echo base_url('tenant/daftartenant'); ?>">
                             <i class=""></i> Tenant
                         </a>
                     </li>
                     <li <?php echo ($active_page2 == 'daftar' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('tenant/daftar'); ?>">
+                        <a href="<?php echo base_url('tenant/daftartenant'); ?>">
                             <i class=""></i> <strong>Daftar Tenant</strong>
                         </a>
                     </li>

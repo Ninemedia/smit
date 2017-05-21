@@ -1,5 +1,6 @@
 <?php
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
+    $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
 ?>
 
 <div id="gtco-contentbreadcumb" class="animate-box">
@@ -12,9 +13,14 @@
                             <i class="icon-home"></i> Beranda
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'statistic' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('infografis'); ?>">
-                            <i class=""></i> <strong>Info Grafis</strong>
+                    <li>
+                        <a href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">
+                            <i class=""></i> Pra-Inkubasi
+                        </a>
+                    </li>
+                    <li <?php echo ($active_page2 == 'produk' ? 'class="active"' : ''); ?>>
+                        <a href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">
+                            <i class=""></i> <strong>Produk Pra-Inkubasi</strong>
                         </a>
                     </li>
                 </ol>
@@ -23,12 +29,11 @@
     </div>
 </div>
 
-
 <div id="gtco-content" class="gtco-section border-bottom animate-box">
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Info Grafis</h3>
+				<h3>Produk Pra-Inkubasi</h3>
 			</div>
 			<div class="col-md-12">
                 <div class="panel-body">

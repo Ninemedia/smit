@@ -180,11 +180,12 @@ $config['user_menu_access']         = array(
     PELAKSANA                        => array(
         'beranda',
         'prainkubasi',
-        //'prainkubasi/nilai',
+        'prainkubasi/nilai',
         'prainkubasi/laporan',
-        'inkubasi',
+        //'inkubasi',
         //'inkubasi/nilai',
-        'inkubasi/laporan',
+        //'inkubasi/laporan',
+        /*
         'tenants',
         'tenants/blogs',
         'tenants/pendaftaran',
@@ -192,6 +193,7 @@ $config['user_menu_access']         = array(
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
+        */
         'panduan',
         'panduan/berkas',
         'pengumuman',

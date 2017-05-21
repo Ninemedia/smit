@@ -14,12 +14,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('#'); ?>">
+                        <a href="<?php echo base_url('tenant/ketegoritenant'); ?>">
                             <i class=""></i> Tenant
                         </a>
                     </li>
                     <li <?php echo ($active_page2 == 'ketegori' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('tenant/ketegori'); ?>">
+                        <a href="<?php echo base_url('tenant/ketegoritenant'); ?>">
                             <i class=""></i> <strong>Kategori Blog Tenant</strong>
                         </a>
                     </li>
