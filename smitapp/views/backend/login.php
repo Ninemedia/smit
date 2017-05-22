@@ -50,7 +50,7 @@
         <!-- Login Box -->
         <div class="login-box">
             <div class="logo">
-                <a href="javascript:void(0);"><b>PUSINOV LIPI</b></a>
+                <a href="javascript:void(0);"><b>SMIT <br /> PUSINOV LIPI</b></a>
             </div>
             <div class="card">
                 <div class="body">

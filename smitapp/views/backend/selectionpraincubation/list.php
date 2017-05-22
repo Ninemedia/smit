@@ -2,18 +2,18 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Daftar Seleksi Pra Inkubasi</h2></div>
+            <div class="header"><h2>Daftar Seleksi Pra-Inkubasi</h2></div>
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="listselection" class="active">
                         <a href="#stepone" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR TAHAP 1
+                            <i class="material-icons">list</i> TAHAP 1
                         </a>
                     </li>
                     <li role="listselection">
                         <a href="#steptwo" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR TAHAP 2
+                            <i class="material-icons">list</i> TAHAP 2
                         </a>
                     </li>
                 </ul>

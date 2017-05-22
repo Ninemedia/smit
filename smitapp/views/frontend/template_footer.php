@@ -3,6 +3,7 @@
 	<div class="gtco-container">
 		<div class="row row-p b-md">
             <div class="col-md-5">
+                <!--
                 <div class="gtco-widget">
 					<h3>Tenant</h3>
         			<div class="owl-carousel owl-carousel-footer">
@@ -26,6 +27,7 @@
         				</div>
         			</div>
 				</div>
+                -->
                 <div class="gtco-widget">
                     <h3>Media Sosial</h3>
         			<ul class="gtco-social-icons pull-left">
@@ -73,7 +75,7 @@
         <div class="row copyright">
 			<div class="col-md-12 copy">
 				<p class="center" align="center" style="margin: 15px 0;">
-					<strong>Hak Cipta &copy; 2017 Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi.</strong>
+					<strong>Hak Cipta &copy; 2017 Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi | Powered By Raden Rifal Ardiansyah</strong>
 				</p>
 			</div>
 		</div>

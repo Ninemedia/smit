@@ -14,7 +14,7 @@
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab" id="selection_add_tab">
-                            <i class="material-icons">add_box</i> TAMBAH SELEKSI 
+                            <i class="material-icons">add_box</i> TAMBAH
                         </a>
                     </li>
                 </ul>

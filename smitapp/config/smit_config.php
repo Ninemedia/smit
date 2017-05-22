@@ -133,9 +133,9 @@ $config['user_menu_access']         = array(
         'pendamping',
         /*'pendamping/daftar',*/
         'pendamping/laporan',
-        'publikasi',
-        'publikasi/daftar',
-        'publikasi/tambah',
+        'berita',
+        'berita/daftar',
+        'berita/tambah',
         'statistik',
         'statistik/pengguna',
         'statistik/prainkubasi',
