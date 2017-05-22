@@ -33,11 +33,11 @@
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
                                     
                                     if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
-                                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
                                     <?php }
                                 } ?>  
                     		</div>
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardatastep1'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
@@ -99,7 +99,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('prainkubasi/daftardatastep2'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>

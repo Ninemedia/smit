@@ -243,8 +243,8 @@
                     ?>
                 </div>
                 <!-- #END# Juri Tahap 2 -->
-
-                <a href="<?php echo base_url('prainkubasi/pengaturan'); ?>" class="btn btn-warning m-t-15 waves-effect" type="button">Kembali</a>
+                
+                <a href="<?php echo base_url('seleksiprainkubasi/pengaturan'); ?>" class="btn btn-warning m-t-15 waves-effect" type="button">Kembali</a>
                 <button class="btn btn-primary m-t-15 waves-effect" type="submit">Update Pengaturan</button>
                 <?php echo form_close(); ?>
 

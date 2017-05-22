@@ -41,7 +41,7 @@
                                         <a href="<?php echo base_url('prainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
                                     <?php // } ?>    
                         		    </div>
-                                    <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/adminnilaidatastep1'); ?>">
+                                    <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
@@ -123,10 +123,10 @@
                                     $selection_date_proposal_start  = !empty($lss) ? strtotime($lss->selection_date_proposal_start) : date('Y-m-d H:i:s');
                                 ?> 
                                 <?php //if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){ ?>                          
-                                    <a href="<?php echo base_url('prainkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep2"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                    <a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep2"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
                                 <?php //} ?>    
                     		    </div>
-                                <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('prainkubasi/adminnilaidatastep2'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>

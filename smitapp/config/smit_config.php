@@ -89,33 +89,39 @@ $config['incsel_report_status']     = array(
 $config['user_menu_access']         = array(
     ADMINISTRATOR                   => array(
         'beranda',
+        // ------------------- PENGGUNA 
         'pengguna',
-        'pengguna/daftar',
         'pengguna/tambah',
+        'pengguna/daftar',
         /*
         'company',
         'company/list',
         'company/setting',
         */
+        // ------------------- SELEKSI PRA-INKUBASI 
+        'seleksiprainkubasi',
+        'seleksiprainkubasi/pengaturan',
+        'seleksiprainkubasi/daftar',
+        'seleksiprainkubasi/nilai',
+        'seleksiprainkubasi/peringkat',
+        'seleksiprainkubasi/riwayat',
+        // ------------------- PRA-INKUBASI
         'prainkubasi',
-        'prainkubasi/daftar',
+        'prainkubasi/tambah',
+        'prainkubasi/produk',
         'prainkubasi/pendampingan',
-        'prainkubasi/pengaturan',
-        'prainkubasi/nilai',
-        /*'prainkubasi/peringkat',*/
-        /*'prainkubasi/laporan',*/
-        'prainkubasi/riwayat',
+        'prainkubasi/laporan',
+        // ------------------- SELEKSI INKUBASI
         'inkubasi',
         'inkubasi/daftar',
-        'inkubasi/pendampingan',
         'inkubasi/pengaturan',
         'inkubasi/nilai',
-        /*'inkubasi/peringkat',*/
-        'inkubasi/laporan',
+        'inkubasi/peringkat',
         'inkubasi/riwayat',
-        'pendamping',
-        /*'pendamping/daftar',*/
-        'pendamping/laporan',
+        // ------------------- KEGIATAN INKUBASI/TENANT
+        
+        //'inkubasi/pendampingan',
+        //'inkubasi/laporan',
         'tenants',
         'tenants/blogs',
         'tenants/daftar',
@@ -124,14 +130,17 @@ $config['user_menu_access']         = array(
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
+        'pendamping',
+        /*'pendamping/daftar',*/
+        'pendamping/laporan',
+        'publikasi',
+        'publikasi/daftar',
+        'publikasi/tambah',
         'statistik',
         'statistik/pengguna',
         'statistik/prainkubasi',
         'statistik/inkubasi',
         'statistik/tenant',
-        'publikasi',
-        'publikasi/daftar',
-        'publikasi/tambah',
         'panduan',
         'panduan/berkas',
         'pengumuman',
