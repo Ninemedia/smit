@@ -646,18 +646,21 @@ class User extends SMIT_Controller {
                     $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
+                /*
                 if($row->type == ADMINISTRATOR) { $type = '<span class="label label-info">'.strtoupper($cfg_type[$row->type]).'</span>'; }
                 elseif($row->type == PENDAMPING){ $type = '<span class="label label-primary">'.strtoupper($cfg_type[$row->type]).'</span>'; }
                 elseif($row->type == TENANT)    { $type = '<span class="label label-warning">'.strtoupper($cfg_type[$row->type]).'</span>'; }
                 elseif($row->type == JURI)      { $type = '<span class="label label-danger">'.strtoupper($cfg_type[$row->type]).'</span>'; }
                 elseif($row->type == PENGUSUL)  { $type = '<span class="label label-default">'.strtoupper($cfg_type[$row->type]).'</span>'; }
                 elseif($row->type == PELAKSANA) { $type = '<span class="label label-success">'.strtoupper($cfg_type[$row->type]).'</span>'; }
+                */
+                $type               = strtoupper($cfg_type[$row->type]);
                 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    $row->username,
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->name . '</a>',
-                    smit_center($type),
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
+                    $row->name,
+                    $type,
                     smit_center($status),
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
@@ -1282,9 +1285,9 @@ class User extends SMIT_Controller {
                 }else{
                     if($userdata->type == 1){
                         $message    = 'error';
-                        $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran Seleksi Inkubasi');
+                        $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran seleksi');
                     }else{
-                        // Check if username has been registeren on incubation selection
+                        // Check if username has been registeren on selection selection
                         if( $selection == 'praincubation' ){
                             $user_selection = $this->Model_Praincubation->get_praincubation_by('userid',$userdata->id);
                         }else{
@@ -1293,7 +1296,7 @@ class User extends SMIT_Controller {
 
                         if( $user_selection || !empty($user_selection) ){
                             $message    = 'error';
-                            $info       = smit_alert('Username sudah terdaftar dalam seleksi inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
+                            $info       = smit_alert('Username sudah terdaftar dalam seleksi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
                         }else{
                             $message    = 'success';
                             $info       = smit_alert('Data anda ditemukan, Anda dapat mengisi formulir pendaftaran kegiatan.');

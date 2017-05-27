@@ -46,15 +46,7 @@
                                 <div class="form-group form-float">
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
-                                            <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
-                                            <p>Catatan :<br />
-                                                <ul>
-                                                    <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
-                                                    <li>Isi formulir dengan benar.</li>
-                                                    <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
-                                                    <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
-                                                </ul>
-                                            </p>
+                                            <?php echo get_option('be_frontend_incubation_note'); ?>
                                         </div>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">

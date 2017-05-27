@@ -7,16 +7,19 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
+                        <a href="#general" data-toggle="tab">
+                            <i class="material-icons">style</i> General
+                        </a>
+                    </li>
+                    
+                    <li role="presentation">
                         <a href="#profil" data-toggle="tab">
                             <i class="material-icons">home</i> PROFIL
                         </a>
                     </li>
+                    
+                    
                     <!--
-                    <li role="presentation">
-                        <a href="#task" data-toggle="tab">
-                            <i class="material-icons">style</i> TUGAS
-                        </a>
-                    </li>
                     <li role="presentation">
                         <a href="#function" data-toggle="tab">
                             <i class="material-icons">people</i> FUNGSI
@@ -27,13 +30,13 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="profil">
+                    <div role="tabpanel" class="tab-pane fade in active" id="general">
+                        <?php $this->load->view(VIEW_BACK . 'setting/frontendsetting/general'); ?>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="profil">
                         <?php $this->load->view(VIEW_BACK . 'setting/frontendsetting/profil'); ?>
                     </div>
                     <!--
-                    <div role="tabpanel" class="tab-pane fade" id="task">
-                        
-                    </div>
                     <div role="tabpanel" class="tab-pane fade" id="function">
                         
                     </div>

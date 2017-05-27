@@ -1,4 +1,12 @@
 <?php
+    $badgelist_user     = 0;
+    if(!empty($is_admin)){
+        $user_list          = $this->Model_User->count_user(NONACTIVE);
+        if($user_list > 0){
+            $badgelist_user = $user_list;
+        }
+    }
+    
     // Set menu array
     $menu_arr = array(
         array (
@@ -7,6 +15,7 @@
             'parent'    => false,
             'link'      => base_url('beranda'),
             'icon'      => 'home',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -15,6 +24,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'people',
+            'badge'     => 0,
             'sub'       => array(
     			array (
                     'title'     => 'Tambah Pengguna',
@@ -23,6 +33,7 @@
                     'link'      => base_url('pengguna/tambah'),
                     'icon'      => 'person_add',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Pengguna',
@@ -31,6 +42,7 @@
                     'link'      => base_url('pengguna/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => $badgelist_user,
                 ),
             ),
 	    ),
@@ -40,6 +52,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'location_city',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Daftar Perusahaan',
@@ -48,6 +61,7 @@
                     'link'      => base_url('company/list'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Detail Perusahaan',
@@ -56,6 +70,7 @@
                     'link'      => base_url('company/detail'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pengaturan Perusahaan',
@@ -64,6 +79,7 @@
                     'link'      => base_url('company/setting'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -73,6 +89,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'assignment',
+            'badge'     => 0,
             'sub'       => array(
     			array (
                     'title'     => 'Pengaturan Seleksi',
@@ -81,6 +98,7 @@
                     'link'      => base_url('seleksiprainkubasi/pengaturan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Seleksi',
@@ -89,6 +107,7 @@
                     'link'      => base_url('seleksiprainkubasi/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Penilaian Seleksi',
@@ -97,6 +116,7 @@
                     'link'      => base_url('seleksiprainkubasi/nilai'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Peringkat Penilaian',
@@ -105,6 +125,7 @@
                     'link'      => base_url('seleksiprainkubasi/peringkat'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Riwayat Penilaian',
@@ -113,6 +134,7 @@
                     'link'      => base_url('seleksiprainkubasi/riwayat'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -122,6 +144,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'wb_incandescent',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Tambah Kegiatan',
@@ -130,6 +153,7 @@
                     'link'      => base_url('prainkubasi/tambah'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Produk Pra-Inkubasi',
@@ -138,6 +162,7 @@
                     'link'      => base_url('prainkubasi/produk'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Pendampingan',
@@ -146,6 +171,7 @@
                     'link'      => base_url('prainkubasi/pendampingan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Laporan Pra-Inkubasi',
@@ -154,6 +180,7 @@
                     'link'      => base_url('prainkubasi/laporan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -163,6 +190,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'assignment',
+            'badge'     => 0,
             'sub'       => array(
     			array (
                     'title'     => 'Pengaturan Seleksi',
@@ -171,6 +199,7 @@
                     'link'      => base_url('inkubasi/pengaturan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Seleksi',
@@ -179,6 +208,7 @@
                     'link'      => base_url('inkubasi/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Penilaian Seleksi',
@@ -187,6 +217,7 @@
                     'link'      => base_url('inkubasi/nilai'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Peringkat Penilaian',
@@ -195,6 +226,7 @@
                     'link'      => base_url('inkubasi/peringkat'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Riwayat Penilaian',
@@ -203,6 +235,7 @@
                     'link'      => base_url('inkubasi/riwayat'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -212,6 +245,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'wb_incandescent',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Tambah Tenant',
@@ -220,6 +254,7 @@
                     'link'      => base_url('tenants/pendaftaran'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Tenant',
@@ -228,6 +263,7 @@
                     'link'      => base_url('tenants/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Produk Tenant',
@@ -236,6 +272,7 @@
                     'link'      => base_url('tenants/produk'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Daftar Pendampingan',
@@ -244,6 +281,7 @@
                     'link'      => base_url('tenants/pendampingan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Blog Tenant',
@@ -252,6 +290,7 @@
                     'link'      => base_url('tenants/blogs'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pembayaran',
@@ -260,6 +299,7 @@
                     'link'      => base_url('tenants/pembayaran'),
                     'icon'      => 'account_balance_wallet',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Laporan Tenant',
@@ -268,6 +308,7 @@
                     'link'      => base_url('tenants/laporan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -277,6 +318,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'group_work',
+            'badge'     => 0,
             'sub'       => array(
                 /*
                 array (
@@ -295,6 +337,7 @@
                     'link'      => base_url('pendamping/laporan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -304,6 +347,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => ' donut_small',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Seleksi Pra-Inkubasi',
@@ -312,6 +356,7 @@
                     'link'      => base_url('statistik/prainkubasi'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Seleksi Inkubasi',
@@ -320,6 +365,7 @@
                     'link'      => base_url('statistik/inkubasi'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Kegiatan Pra-Inkubasi',
@@ -328,6 +374,7 @@
                     'link'      => base_url('statistik/prainkubasi'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Kegiatan Inkubasi/Tenant',
@@ -336,6 +383,7 @@
                     'link'      => base_url('statistik/tenant'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pengguna',  
@@ -344,6 +392,7 @@
                     'link'      => base_url('statistik/blogs'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -353,6 +402,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'web',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Tambah Berita',
@@ -361,6 +411,7 @@
                     'link'      => base_url('berita/tambah'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Daftar Berita',
@@ -369,6 +420,7 @@
                     'link'      => base_url('berita/daftar'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -378,6 +430,7 @@
             'parent'    => 'false',
             'link'      => base_url('panduan/berkas'),
             'icon'      => 'insert_drive_file',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -386,6 +439,7 @@
             'parent'    => 'false',
             'link'      => base_url('pengumuman'),
             'icon'      => 'add_alert',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -394,6 +448,7 @@
             'parent'    => 'false',
             'link'      => base_url('layanan'),
             'icon'      => 'ring_volume',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -402,6 +457,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'build',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Pengaturan Frontend',
@@ -410,6 +466,7 @@
                     'link'      => base_url('pengaturan/depan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pengaturan Backend',
@@ -418,6 +475,7 @@
                     'link'      => base_url('pengaturan/belakang'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -500,6 +558,9 @@
                         <a href="<?php echo $menu->link; ?>" <?php echo !empty($menu->sub) ? 'class="menu-toggle"' : ''; ?>>
                             <i class="material-icons"><?php echo $menu->icon; ?></i>
                             <span><?php echo $menu->title; ?></span>
+                            <?php if($menu->badge != 0) : ?>
+                            <span class="badge bg-red" style="color: white;"><?php echo $menu->badge?></span>
+                            <?php endif ?>
                         </a>
                         
                         <?php if( !empty($menu->sub) ){ ?>
@@ -507,7 +568,11 @@
                             <?php foreach($menu->sub as $sub){ ?>
                                 <?php if( in_array($sub->nav, $user_acc) ){ ?>
                                     <li <?php echo ($active_sub == $sub->nav ? 'class="active"' : ''); ?>>
-                                        <a href="<?php echo $sub->link; ?>"><?php echo $sub->title; ?></a>
+                                        <a href="<?php echo $sub->link; ?>"><?php echo $sub->title; ?>
+                                            <?php if($sub->badge != 0) : ?>
+                                            <span class="badge bg-blue" style="color: white;"><?php echo $sub->badge?></span>
+                                            <?php endif ?>
+                                        </a>
                                     </li>
                                 <?php } ?>
                             <?php }?>
@@ -519,6 +584,7 @@
             </ul>
         </div>
         <!-- #Menu -->
+        <!-- <span class="badge bg-red" style="color: white;">0</span> -->
         
         <!-- Footer -->
         <div class="legal">

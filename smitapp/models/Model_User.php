@@ -401,6 +401,13 @@ class Model_User extends SMIT_Model{
         return $query->num_rows();
     }
     
+    function count_user($status){
+        $this->db->where('status', $status);
+        $query = $this->db->get($this->_user);
+        
+        return $query->num_rows();
+    }
+    
     /**
      * Get Workunit
      * 

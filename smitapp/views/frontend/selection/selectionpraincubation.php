@@ -40,16 +40,7 @@
 			<div class="col-md-12">
                 <div class="panel-body">
                     <p align="justify">
-                        LIPI sebagai lembaga penelitian terbesar dan tertua di Indonesia selain berkontribusi aktif dalam peningkatan kapasitas 
-                        ilmiah bangsa melalui berbagai macam jurnal nasional/internasional, kajian keilmuan, dan peningkatan hak kekayaan ilmiah 
-                        juga memiliki tanggungjawab untuk meningkatkan kapasitas penelitiannya agar invensi tersebut bisa digunakan di masyarakat 
-                        dan industri. Untuk  tujuan itulah kelembagaan Inkubator Teknologi LIPI dibentuk dan dikembangkan. Pusat Inovasi LIPI 
-                        sebagai pengelola Inkubator Teknologi LIPI membuka kesempatan bagi inventor/peneliti/wirausaha untuk mengembangkan ide/invensinya 
-                        sehingga pada akhirnya bisa dimanfaatkan oleh masyarakat/industri Inkubator Teknologi LIPI. Beragam fasilitas yang 
-                        ditawarkan oleh Inkubator Teknologi LIPI antara lain sewa kantor yang murah (Rp.500.000/bulan), yang sudah termasuk 
-                        internet dan listrik serta fasilitas gedung workshop/bengkel produksi, ruang pertemuan, fasilitas promosi dan juga 
-                        fasilitas pendampingan yang rutin diberikan diharapkan menjadi pendorong bagi wirausaha agar mampu bersaing dalam 
-                        mengembangkan usahanya.
+                        <?php echo get_option('be_frontend_praincubation'); ?>
                     </p>
                 </div>
             </div>
@@ -77,19 +68,10 @@
                         </div>
                         <div class="body">
                             <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
-                                <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
-                                            <p align="center"><strong>SILAHKAN ISI FORMULIR PENDAFTARAN SELEKSI PRA INKUBASI BERIKUT</strong><br />(*) mengindikasikan wajib diisi.</p>
-                                            <p>Catatan :<br />
-                                                <ul>
-                                                    <li>Masukkan Username Pengguna anda dengan benar. Jika belum terdaftar, silahkan mendaftar pada menu Pendaftaran Pengguna dibawah.</li>
-                                                    <li>Isi formulir dengan benar.</li>
-                                                    <li>Pastikan dokumen di unggah sesaui dengan ketentuan format file.</li>
-                                                    <li>Semua data yang diisikan pada Formulir Pendaftaran Seleksi adalah benar adanya dan dapat dipertanggungjawabkan.</li>
-                                                </ul>
-                                            </p>
+                                            <?php echo get_option('be_frontend_praincubation_note'); ?>
                                         </div>
                                         <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
                                         <?php
@@ -107,6 +89,7 @@
                                                 echo '<strong>Tidak ada berkas panduan</strong>';
                                             }
                                         ?>
+                                        <div id="alert" class="alert display-hide"></div>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
