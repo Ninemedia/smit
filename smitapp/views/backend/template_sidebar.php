@@ -24,7 +24,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'people',
-            'badge'     => 0,
+            'badge'     => $badgelist_user,
             'sub'       => array(
     			array (
                     'title'     => 'Tambah Pengguna',
@@ -559,7 +559,7 @@
                             <i class="material-icons"><?php echo $menu->icon; ?></i>
                             <span><?php echo $menu->title; ?></span>
                             <?php if($menu->badge != 0) : ?>
-                            <span class="badge bg-red" style="color: white;"><?php echo $menu->badge?></span>
+                            <span class="badge bg-blue" style="color: white;"><?php echo $menu->badge?></span>
                             <?php endif ?>
                         </a>
                         
