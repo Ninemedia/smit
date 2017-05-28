@@ -13,17 +13,17 @@
                     </li>
                     <li role="presentation">
                         <a href="#registration_email" data-toggle="tab">
-                            <i class="material-icons">style</i> EMAIL KONFIRMASI
+                            <i class="material-icons">style</i> SURAT KONFIRMASI
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#notification_praincubation" data-toggle="tab">
-                            <i class="material-icons">people</i> FORMAT PRA INKUBASI
+                            <i class="material-icons">people</i> PRA-INKUBASI
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#notification_incubation" data-toggle="tab">
-                            <i class="material-icons">people</i> FORMAT INKUBASI
+                            <i class="material-icons">people</i> INKUBASI
                         </a>
                     </li>
                 </ul>

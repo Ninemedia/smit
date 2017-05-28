@@ -449,6 +449,15 @@
                     'sub'       => false,
                     'badge'     => 0,
                 ),
+    			array (
+                    'title'     => 'Pengaturan Satuan Kerja',
+                    'nav'       => 'pengaturan/satuankerja',
+                    'parent'    => 'pengaturan',
+                    'link'      => base_url('pengaturan/satuankerja'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
             ),
 	    ),
     ); 

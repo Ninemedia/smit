@@ -203,6 +203,7 @@ $route['statistik/pengguna']                    = "tenant/tenantblogs";
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
+$route['pengaturan/satuankerja']        = "backend/workunit";
 // Announcements
 $route['pengumuman']                    = "backend/announcements";
 $route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";

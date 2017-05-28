@@ -4,7 +4,7 @@
         <div class="panel-heading" role="tab" id="heading_user">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_user" aria-expanded="true" aria-controls="collapse_user">
-                    <i class="material-icons">format_align_justify</i> Text Dashboard Pengguna / Pengusul
+                    <i class="material-icons">format_align_justify</i> Text Dashboard Pengusul
                 </a>
             </h4>
         </div>
