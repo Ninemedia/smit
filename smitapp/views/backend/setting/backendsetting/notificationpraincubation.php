@@ -5,7 +5,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_confirm">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_heading_notif_praincubation_confirm" aria-expanded="true" aria-controls="collapse_heading_notif_praincubation_confirm">
-                    <i class="material-icons">email</i> Format Email Konfirmasi Tahap 1
+                    <i class="material-icons">email</i> Format Surat Konfirmasi Tahap 1
                 </a>
             </h4>
         </div>
@@ -24,7 +24,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_confirm2">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_heading_notif_praincubation_confirm2" aria-expanded="true" aria-controls="collapse_heading_notif_praincubation_confirm2">
-                    <i class="material-icons">email</i> Format Email Konfirmasi Tahap 2
+                    <i class="material-icons">email</i> Format Surat Konfirmasi Tahap 2
                 </a>
             </h4>
         </div>
@@ -43,7 +43,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_not_success">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_notif_praincubation_not_success" aria-expanded="true" aria-controls="collapse_notif_praincubation_not_success">
-                    <i class="material-icons">email</i> Format Email Tidak Lolos Tahap 1
+                    <i class="material-icons">email</i> Format Surat Tidak Lolos Tahap 1
                 </a>
             </h4>
         </div>
@@ -62,7 +62,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_not_success2">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_notif_praincubation_not_success2" aria-expanded="true" aria-controls="collapse_notif_praincubation_not_success2">
-                    <i class="material-icons">email</i> Format Email Tidak Lolos Tahap 2
+                    <i class="material-icons">email</i> Format Surat Tidak Lolos Tahap 2
                 </a>
             </h4>
         </div>
@@ -81,7 +81,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_success">
             <h4 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_notif_praincubation_success" aria-expanded="false" aria-controls="collapse_notif_praincubation_success">
-                    <i class="material-icons">email</i> Format Email Lolos
+                    <i class="material-icons">email</i> Format Surat Lolos
                 </a>
             </h4>
         </div>
@@ -100,7 +100,7 @@
         <div class="panel-heading" role="tab" id="heading_notif_praincubation_accepted">
             <h4 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_notif_praincubation_accepted" aria-expanded="false" aria-controls="collapse_notif_praincubation_accepted">
-                    <i class="material-icons">email</i> Format Email Diterima
+                    <i class="material-icons">email</i> Format Surat Diterima
                 </a>
             </h4>
         </div>

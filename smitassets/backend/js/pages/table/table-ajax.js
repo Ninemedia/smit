@@ -130,6 +130,11 @@ var TableAjax = function () {
         gridTable( $("#jury_steptwo"), true );
     };
     
+    // Workunit Lists 
+    var handleRecordsWorkunitList = function() {
+        gridTable( $("#workunit_list"), true );
+    };
+    
     // Announcement Lists 
     var handleRecordsAnnouncementList = function() {
         gridTable( $("#announcement_list"), true );
@@ -227,6 +232,9 @@ var TableAjax = function () {
             //Jury
             handleRecordsJuryStepOneList();
             handleRecordsJuryStepTwoList();
+            
+            //Workunit
+            handleRecordsWorkunitList();
             
             //Announcement
             handleRecordsAnnouncementList();

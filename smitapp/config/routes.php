@@ -202,6 +202,7 @@ $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 // Setting 
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
+$route['pengaturan/satuankerja']        = "backend/workunit";
 // Announcements
 $route['pengumuman']                    = "backend/announcements";
 $route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";
