@@ -94,6 +94,47 @@ class Model_Option extends SMIT_Model{
         };
         return false;
     }
+    
+    /**
+     * Get workunit data by workunit ID
+     * 
+     * @author  Iqbal
+     * @param   Integer $user_id  (Required)  User ID
+     * @return  Mixed   False on failed process, otherwise object of user.
+     */
+    function get_workunitdata($workunit_id){
+        if ( !is_numeric($workunit_id) ) return false;
+
+        $workunit_id = absint($workunit_id);
+        if ( !$workunit_id ) return false;
+        
+        $query = $this->db->get_where($this->workunit, array('workunit_id' => $workunit_id));
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $workunit = $row;
+        }
+        
+        return $workunit;
+    }
+    
+    /**
+     * Delete Workunit 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_workunit($id){
+        if( empty($id) )
+            return false;
+
+        $this->db->where('workunit_id', $id);
+        if( $this->db->delete($this->workunit) )
+            return true;
+
+        return false;
+    }
 }
 /* End of file SModel_Option.php */
 /* Location: ./application/models/Model_Option.php */

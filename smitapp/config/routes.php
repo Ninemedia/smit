@@ -66,7 +66,6 @@ $route['pengguna/daftar']               = "user/userlist";
 $route['pengguna/tambah']               = "user/useradd";
 $route['pengguna/profil']               = "user/userprofile";
 $route['pengguna/profil/(:num)']        = "user/userprofile/$1";
-
 $route['userlistdata']                  = "user/userlistdata";
 $route['userconfirm/(:any)/(:num)']     = "user/userconfirm/$1/$2";
 $route['signup']                        = "user/signup";
@@ -203,6 +202,7 @@ $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
 $route['pengaturan/satuankerja']        = "backend/workunit";
+$route['workunitconfirm/(:any)/(:num)'] = "backend/workunitconfirm/$1/$2";
 // Announcements
 $route['pengumuman']                    = "backend/announcements";
 $route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";

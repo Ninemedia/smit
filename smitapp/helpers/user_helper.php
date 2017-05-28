@@ -457,6 +457,20 @@ if (!function_exists('smit_get_userdata_by_id')){
     }
 }
 
+if (!function_exists('smit_get_workunitdata_by_id')){
+    /**
+     * Get workunit data by id
+     *
+     * @param integer $id User ID
+     * @return (object) user data
+     */
+    function smit_get_workunitdata_by_id($id)
+    {
+    	$CI =& get_instance();
+    	return $CI->Model_Option->get_workunitdata($id);
+    }
+}
+
 // -------------------------------------------------------------------------
 // General functions helper
 // -------------------------------------------------------------------------

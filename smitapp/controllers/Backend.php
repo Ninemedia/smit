@@ -1026,11 +1026,8 @@ class Backend extends User_Controller {
             foreach($workunit_list as $row){
                 
                 // Status
-                $btn_action = '<a href="'.base_url('text-center/detail/'.$row->workunit_id).'" 
-                    class="workunitdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
-                    <a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                    <a href="'.base_url('text-center/hapus/'.$row->workunit_id).'" 
-                    class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+                $btn_action = '<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                    <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -1135,6 +1132,57 @@ class Backend extends User_Controller {
             die(json_encode($data)); 
         } 
 	}
+    
+    /**
+	 * Workunit Delete function.
+	 */
+    function workunitconfirm($action, $id){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        if ( !$id ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'ID satuan kerja harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus Satuan Kerja  hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $workunitdata       = smit_get_workunitdata_by_id($id);
+        if( !$workunitdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data satuan kerja tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'data satuan kerja berhasil dihapus.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus data satuan kerja tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
     // ---------------------------------------------------------------------------------------------
     
     // ---------------------------------------------------------------------------------------------
