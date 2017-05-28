@@ -116,7 +116,7 @@ class Incubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation/list';
+        $data['main_content']   = 'selectionincubation/list';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -183,7 +183,7 @@ class Incubation extends User_Controller {
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -280,7 +280,7 @@ class Incubation extends User_Controller {
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 
                 if($row->statustwo == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
@@ -391,7 +391,7 @@ class Incubation extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'incubation/listdetail';
+        $data['main_content']   = 'selectionincubation/listdetail';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -928,7 +928,7 @@ class Incubation extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['guide_files']    = $guide_files;
         $data['juri_list']      = $juri_list;
-        $data['main_content']   = 'incubation/setting';
+        $data['main_content']   = 'selectionincubation/setting';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -1017,7 +1017,7 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['lss']            = $lss;
         $data['active']         = $active;
-        $data['main_content']   = 'incubation/score';
+        $data['main_content']   = 'selectionincubation/score';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -1564,15 +1564,15 @@ class Incubation extends User_Controller {
                     $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
                     $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
                     if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
-                        $btn_score  = '<a href="'.base_url('inkubasi/konfirmasistep1/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'" 
                         class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->status == CONFIRMED || $row->status == REJECTED || $row->status == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
                 
@@ -1687,15 +1687,15 @@ class Incubation extends User_Controller {
                     $selection_date_result              = strtotime($lss->selection_date_result);
                     $selection_date_proposal_start     =     strtotime($lss->selection_date_proposal_start);
                     if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
-                        $btn_score  = '<a href="'.base_url('inkubasi/konfirmasistep2/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'" 
                         class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
                 
@@ -1926,10 +1926,10 @@ class Incubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($incubationset_list as $row){
-                $btn_details    = '<a href="'.base_url('detilinkubasi/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('detilseleksiinkubasi/'.$row->uniquecode).'" 
                     class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('tutupinkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                '<a href="'.base_url('tutupseleksiinkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
                 
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }

@@ -23,7 +23,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
                         <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('daftarinkubasi'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('daftarseleksiinkubasi'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>

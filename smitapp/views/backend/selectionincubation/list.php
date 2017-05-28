@@ -23,9 +23,9 @@
                     <div role="tabpanel" class="tab-pane fade in active" id="stepone">
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">                           
-                                <a href="<?php echo base_url('inkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirm">Konfirmasi Semua</a>     
+                                <a href="<?php echo base_url('seleksiinkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirm">Konfirmasi Semua</a>     
                     		</div>
-                            <table class="table table-striped table-bordered table-hover" id="incubation_list" data-url="<?php echo base_url('inkubasi/daftardatastep1'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="incubation_list" data-url="<?php echo base_url('seleksiinkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
@@ -88,7 +88,7 @@
                     
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="incubation_list2" data-url="<?php echo base_url('inkubasi/daftardatastep2'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="incubation_list2" data-url="<?php echo base_url('seleksiinkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
