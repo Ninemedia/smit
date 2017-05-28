@@ -294,6 +294,15 @@
                 ),
                 */
                 array (
+                    'title'     => 'Tambah Pendamping',
+                    'nav'       => 'pendamping/tambah',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/tambah'),
+                    'icon'      => 'view_list',
+                    'badge'     => 0,
+                    'sub'       => false,
+                ),
+                array (
                     'title'     => 'Laporan Notulensi',
                     'nav'       => 'pendamping/laporan',
                     'parent'    => 'pendamping',
