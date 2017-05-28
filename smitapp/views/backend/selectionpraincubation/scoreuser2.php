@@ -9,7 +9,7 @@
                     <div class="body">
                         <div class="row">
                             <div class="col-md-12 bottom0">                      
-                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
+                                <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                             </div><br /><br /><br />
                             <div id="alert-display"></div>
                             <div class="col-md-12 bottom0">

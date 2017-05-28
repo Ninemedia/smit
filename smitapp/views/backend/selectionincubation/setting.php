@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Pengaturan Seleksi Pra-Inkubasi</h2></div>
+            <div class="header"><h2>Pengaturan Seleksi Inkubasi</h2></div>
             <div class="body">
             
                 <!-- Nav tabs -->
@@ -23,7 +23,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="selection">
                         <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="praincubation_setting_list" data-url="<?php echo base_url('daftarprainkubasi'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="incubation_setting_list" data-url="<?php echo base_url('daftarseleksiinkubasi'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
@@ -54,7 +54,7 @@
     									</select>
                                     </td>
         							<td style="text-align: center;">
-        								<button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_setting_list">Search</button>
+        								<button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_incubation_setting_list">Search</button>
                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
         							</td>
         						</tr>
@@ -67,12 +67,9 @@
                     </div>
                     
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <?php $latest_selection_praincubation_setting = smit_latest_praincubation_setting(); ?>
-                        <?php if( !empty($latest_selection_praincubation_setting) ){ ?>
-                            <div class="alert alert-warning bottom0">Pengaturan Pra-Inkubasi tidak dapat ditambahkan karena saat ini sedang dibuka Seleksi Pra-Inkubasi</div>
-                        <?php }else{ ?>
                             <div id="alert" class="alert display-hide"></div>
-                            <?php echo form_open_multipart( base_url('selectionsetting'), array( 'id'=>'selection_praincubation_wizard', 'role'=>'form' ) ); ?>
+                            <?php echo form_open_multipart( base_url('incubationselectionsetting'), array( 'id'=>'selection_incubation_wizard', 'role'=>'form' ) ); ?>
+                                <!--
                                 <h3>Tanggal Seleksi</h3>
                                 <section>
                                     <div class="alert bg-teal">Pengaturan Tanggal Tahap 1</div>
@@ -230,6 +227,7 @@
                                         </div>
                                     </div>
                                 </section>
+                                -->
                                 
                                 <h3>Berkas Panduan</h3>
                                 <section>
@@ -301,6 +299,7 @@
                                 <h3>Informasi Detail</h3>
                                 <section>
                                     <table class="selection-details-table">
+                                        <!--
                                         <tr>
                                             <td colspan="3">
                                                 <div class="alert bg-grey bottom0">Pengaturan Tanggal Tahap 1</div>
@@ -355,6 +354,7 @@
                                             <td><strong>Keterangan</strong></td><td> : </td>
                                             <td><div class="selection_det_desc">-</div></td>
                                         </tr>
+                                        -->
                                         <tr>
                                             <td colspan="3">
                                                 <div class="alert bg-grey bottom0">Berkas Panduan</div>
@@ -381,9 +381,7 @@
                                 
                                     <input id="acceptTerms-2" name="acceptTerms" type="checkbox" required>
                                     <label for="acceptTerms-2">Saya setuju dengan ketentuan pengaturan seleksi.</label>
-                                </section>
-                            <?php echo form_close(); ?>   
-                        <?php }?>       
+                                </section>   
                     </div>
                 </div>
                 
@@ -394,7 +392,7 @@
 <!-- #END# Content -->
 
 <!-- BEGIN INFORMATION SUCCESS SAVE SELECTION MODAL -->
-<div class="modal fade" id="save_selectionpraincubationsetting" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="save_selectionincubationsetting" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -406,7 +404,7 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionpraincubationsetting" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionincubationsetting" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

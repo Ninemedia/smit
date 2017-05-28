@@ -12,8 +12,8 @@
     							<th class="width15 text-center">Username</th>
     							<th class="width20">Nama</th>
                                 <th class="width15 text-center">Tipe</th>
-                                <th class="width15 text-center">Status</th>
-                                <th class="width15 text-center">Tanggal Daftar</th>
+                                <th class="width10 text-center">Status</th>
+                                <th class="width10 text-center">Tanggal Daftar</th>
     							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
     						</tr>
                             <tr role="row" class="filter display-hide table-filter">

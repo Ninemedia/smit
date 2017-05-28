@@ -68,26 +68,20 @@
                         <div role="tabpanel" class="tab-pane fade in active" id="history">
                             <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
                             <br /><br />
-                            <b>Mengenai Pusat Inovasi LIPI</b>
                             <p align="justify">
-                                <?php echo get_option('be_dashboard_profile'); ?>
-                                Pusat Inovasi LIPI, berdiri pada bulan Juni 2001, merupakan salah satu Pusat dari 22 Pusat Penelitian yang ada di LIPI. Disamping Pusat Penelitian juga terdapat Inspektorat, 5 Biro, dan 20 UPT yang lokasinya terdistribusi di berbagai daerah di tanah air. Pusat Inovasi berada didalam Kedeputian Bidang Jasa Ilmiah - LIPI.
-
-Semenjak tanggal 13 Februari 2013, Pusat Inovasi LIPI berpindah kantor ke gedung baru yang berlokasi di komplek Cibinong Science Center-Botanical Garden (CSC-BG) di Cibinong, Jawa Barat. This facility equipt with several office rooms for tenants, workshop, function rooms, meeting rooms, and display room to accelerate LIPI's research utilization into business and applied widely to users. This facility known as Incubator LIPI.
+                                <?php echo get_option('be_frontend_profil'); ?>
                             </p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="vision">
-                            <b>Tugas Inkubator Teknologi</b>
                             <p align="justify">
-                                <?php echo get_option('be_dashboard_task'); ?>
+                                <?php echo get_option('be_frontend_task'); ?>
                             </p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="structur">
                             <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>file/structur_pusinov.jpg" alt="Struktur Pusat Ino" />
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
-                            <b>Fungsi Inkubator Teknologi</b>
-                            <?php echo get_option('be_dashboard_function'); ?>
+                            <?php echo get_option('be_frontend_function'); ?>
                         </div>
                     </div>
                 </div>

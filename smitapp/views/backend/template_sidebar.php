@@ -1,4 +1,12 @@
 <?php
+    $badgelist_user     = 0;
+    if(!empty($is_admin)){
+        $user_list          = $this->Model_User->count_user(NONACTIVE);
+        if($user_list > 0){
+            $badgelist_user = $user_list;
+        }
+    }
+    
     // Set menu array
     $menu_arr = array(
         array (
@@ -7,6 +15,7 @@
             'parent'    => false,
             'link'      => base_url('beranda'),
             'icon'      => 'home',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -15,15 +24,8 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'people',
+            'badge'     => $badgelist_user,
             'sub'       => array(
-                array (
-                    'title'     => 'Daftar Pengguna',
-                    'nav'       => 'pengguna/daftar',
-                    'parent'    => 'pengguna',
-                    'link'      => base_url('pengguna/daftar'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                ),
     			array (
                     'title'     => 'Tambah Pengguna',
                     'nav'       => 'pengguna/tambah',
@@ -31,56 +33,99 @@
                     'link'      => base_url('pengguna/tambah'),
                     'icon'      => 'person_add',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Daftar Pengguna',
+                    'nav'       => 'pengguna/daftar',
+                    'parent'    => 'pengguna',
+                    'link'      => base_url('pengguna/daftar'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => $badgelist_user,
                 ),
             ),
 	    ),
         array (
-            'title'     => 'Data Perusahaan',
-            'nav'       => 'company',
+            'title'     => 'Seleksi Pra-Inkubasi',
+            'nav'       => 'seleksiprainkubasi',
             'parent'    => 'false',
             'link'      => 'javascript:;',
-            'icon'      => 'location_city',
+            'icon'      => 'assignment',
+            'badge'     => 0,
             'sub'       => array(
-                array (
-                    'title'     => 'Daftar Perusahaan',
-                    'nav'       => 'company/list',
-                    'parent'    => 'company',
-                    'link'      => base_url('company/list'),
-                    'icon'      => 'view_list',
+    			array (
+                    'title'     => 'Pengaturan Seleksi',
+                    'nav'       => 'seleksiprainkubasi/pengaturan',
+                    'parent'    => 'seleksiprainkubasi',
+                    'link'      => base_url('seleksiprainkubasi/pengaturan'),
+                    'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
-                    'title'     => 'Detail Perusahaan',
-                    'nav'       => 'company/detail',
-                    'parent'    => 'company',
-                    'link'      => base_url('company/detail'),
+                    'title'     => 'Daftar Seleksi',
+                    'nav'       => 'seleksiprainkubasi/daftar',
+                    'parent'    => 'seleksiprainkubasi',
+                    'link'      => base_url('seleksiprainkubasi/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Pengaturan Perusahaan',
-                    'nav'       => 'company/setting',
-                    'parent'    => 'company',
-                    'link'      => base_url('company/setting'),
-                    'icon'      => 'view_list',
+                    'title'     => 'Penilaian Seleksi',
+                    'nav'       => 'seleksiprainkubasi/nilai',
+                    'parent'    => 'seleksiprainkubasi',
+                    'link'      => base_url('seleksiprainkubasi/nilai'),
+                    'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Peringkat Penilaian',
+                    'nav'       => 'seleksiprainkubasi/peringkat',
+                    'parent'    => 'seleksiprainkubasi',
+                    'link'      => base_url('seleksiprainkubasi/peringkat'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Riwayat Penilaian',
+                    'nav'       => 'seleksiprainkubasi/riwayat',
+                    'parent'    => 'seleksiprainkubasi',
+                    'link'      => base_url('seleksiprainkubasi/riwayat'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
         array (
-            'title'     => 'Pra Inkubasi',
+            'title'     => 'Pra-Inkubasi',
             'nav'       => 'prainkubasi',
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'wb_incandescent',
+            'badge'     => 0,
             'sub'       => array(
                 array (
-                    'title'     => 'Daftar Seleksi',
-                    'nav'       => 'prainkubasi/daftar',
+                    'title'     => 'Tambah Kegiatan',
+                    'nav'       => 'prainkubasi/tambah',
                     'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/daftar'),
+                    'link'      => base_url('prainkubasi/tambah'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Produk Pra-Inkubasi',
+                    'nav'       => 'prainkubasi/produk',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/produk'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Pendampingan',
@@ -89,128 +134,94 @@
                     'link'      => base_url('prainkubasi/pendampingan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Pengaturan Seleksi',
-                    'nav'       => 'prainkubasi/pengaturan',
-                    'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/pengaturan'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Penilaian Seleksi',
-                    'nav'       => 'prainkubasi/nilai',
-                    'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/nilai'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Peringkat Penilaian',
-                    'nav'       => 'prainkubasi/peringkat',
-                    'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/peringkat'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Laporan Pra Inkubasi',
+                    'title'     => 'Laporan Pra-Inkubasi',
                     'nav'       => 'prainkubasi/laporan',
                     'parent'    => 'prainkubasi',
                     'link'      => base_url('prainkubasi/laporan'),
                     'icon'      => 'build',
                     'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Riwayat Penilaian',
-                    'nav'       => 'prainkubasi/riwayat',
-                    'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/riwayat'),
-                    'icon'      => 'build',
-                    'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
         array (
-            'title'     => 'Inkubasi',
-            'nav'       => 'inkubasi',
+            'title'     => 'Seleksi Inkubasi',
+            'nav'       => 'seleksiinkubasi',
             'parent'    => 'false',
             'link'      => 'javascript:;',
-            'icon'      => 'wb_incandescent',
+            'icon'      => 'assignment',
+            'badge'     => 0,
             'sub'       => array(
-                array (
-                    'title'     => 'Daftar Seleksi',
-                    'nav'       => 'inkubasi/daftar',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/daftar'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                ),
-                array (
-                    'title'     => 'Daftar Pendampingan',
-                    'nav'       => 'inkubasi/pendampingan',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/pendampingan'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                ),
     			array (
                     'title'     => 'Pengaturan Seleksi',
-                    'nav'       => 'inkubasi/pengaturan',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/pengaturan'),
+                    'nav'       => 'seleksiinkubasi/pengaturan',
+                    'parent'    => 'seleksiinkubasi',
+                    'link'      => base_url('seleksiinkubasi/pengaturan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Daftar Seleksi',
+                    'nav'       => 'seleksiinkubasi/daftar',
+                    'parent'    => 'seleksiinkubasi',
+                    'link'      => base_url('seleksiinkubasi/daftar'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Penilaian Seleksi',
-                    'nav'       => 'inkubasi/nilai',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/nilai'),
+                    'nav'       => 'seleksiinkubasi/nilai',
+                    'parent'    => 'seleksiinkubasi',
+                    'link'      => base_url('seleksiinkubasi/nilai'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Peringkat Penilaian',
-                    'nav'       => 'inkubasi/peringkat',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/peringkat'),
+                    'nav'       => 'seleksiinkubasi/peringkat',
+                    'parent'    => 'seleksiinkubasi',
+                    'link'      => base_url('seleksiinkubasi/peringkat'),
                     'icon'      => 'build',
                     'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Laporan Inkubasi',
-                    'nav'       => 'inkubasi/laporan',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/laporan'),
-                    'icon'      => 'build',
-                    'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Riwayat Penilaian',
-                    'nav'       => 'inkubasi/riwayat',
-                    'parent'    => 'inkubasi',
-                    'link'      => base_url('inkubasi/riwayat'),
+                    'nav'       => 'seleksiinkubasi/riwayat',
+                    'parent'    => 'seleksiinkubasi',
+                    'link'      => base_url('seleksiinkubasi/riwayat'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
         array (
+<<<<<<< HEAD
             'title'     => 'Tenant',
+=======
+            'title'     => 'Inkubasi / Tenant',
+>>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
             'nav'       => 'tenants',
             'parent'    => 'false',
             'link'      => 'javascript:;',
-            'icon'      => 'group_work',
+            'icon'      => 'wb_incandescent',
+            'badge'     => 0,
             'sub'       => array(
-    			array (
-                    'title'     => 'Blog Tenant',
-                    'nav'       => 'tenants/blogs',
+                array (
+                    'title'     => 'Tambah Tenant',
+                    'nav'       => 'tenants/pendaftaran',
                     'parent'    => 'tenants',
-                    'link'      => base_url('tenants/blogs'),
-                    'icon'      => 'build',
+                    'link'      => base_url('tenants/pendaftaran'),
+                    'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
                 array (
                     'title'     => 'Daftar Tenant',
@@ -219,22 +230,7 @@
                     'link'      => base_url('tenants/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
-                ),
-                array (
-                    'title'     => 'Pendaftaran Tenant',
-                    'nav'       => 'tenants/pendaftaran',
-                    'parent'    => 'tenants',
-                    'link'      => base_url('tenants/pendaftaran'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                ),
-    			array (
-                    'title'     => 'Pendampingan',
-                    'nav'       => 'tenants/pendampingan',
-                    'parent'    => 'tenants',
-                    'link'      => base_url('tenants/pendampingan'),
-                    'icon'      => 'build',
-                    'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Produk Tenant',
@@ -243,6 +239,25 @@
                     'link'      => base_url('tenants/produk'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Daftar Pendampingan',
+                    'nav'       => 'tenants/pendampingan',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/pendampingan'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Blog Tenant',
+                    'nav'       => 'tenants/blogs',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/blogs'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pembayaran',
@@ -251,6 +266,7 @@
                     'link'      => base_url('tenants/pembayaran'),
                     'icon'      => 'account_balance_wallet',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Laporan Tenant',
@@ -259,72 +275,136 @@
                     'link'      => base_url('tenants/laporan'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
         array (
-            'title'     => 'Statistik',
-            'nav'       => 'statistik',
+            'title'     => 'Pendampingan',
+            'nav'       => 'pendamping',
             'parent'    => 'false',
             'link'      => 'javascript:;',
-            'icon'      => ' donut_small',
+            'icon'      => 'group_work',
+            'badge'     => 0,
             'sub'       => array(
+<<<<<<< HEAD
     			array (
                     'title'     => 'Pengguna',  
                     'nav'       => 'statistik/pengguna',
                     'parent'    => 'statistik',
                     'link'      => base_url('statistik/pengguna'),
-                    'icon'      => 'build',
+=======
+                /*
+                array (
+                    'title'     => 'Daftar Pendamping',
+                    'nav'       => 'pendamping/daftar',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/daftar'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                ),
+                */
+                array (
+                    'title'     => 'Tambah Pendamping',
+                    'nav'       => 'pendamping/tambah',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/tambah'),
+                    'icon'      => 'view_list',
+                    'badge'     => 0,
                     'sub'       => false,
                 ),
                 array (
-                    'title'     => 'Pra Inkubasi',
+                    'title'     => 'Laporan Notulensi',
+                    'nav'       => 'pendamping/laporan',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/laporan'),
+>>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+            ),
+	    ),
+        array (
+            'title'     => 'Info Grafis',
+            'nav'       => 'statistik',
+            'parent'    => 'false',
+            'link'      => 'javascript:;',
+            'icon'      => ' donut_small',
+            'badge'     => 0,
+            'sub'       => array(
+                array (
+                    'title'     => 'Seleksi Pra-Inkubasi',
                     'nav'       => 'statistik/prainkubasi',
                     'parent'    => 'statistik',
                     'link'      => base_url('statistik/prainkubasi'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Inkubasi',
+                    'title'     => 'Seleksi Inkubasi',
                     'nav'       => 'statistik/inkubasi',
                     'parent'    => 'statistik',
                     'link'      => base_url('statistik/inkubasi'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Kegiatan Pra-Inkubasi',
+                    'nav'       => 'statistik/prainkubasi',
+                    'parent'    => 'statistik',
+                    'link'      => base_url('statistik/prainkubasi'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Tenant',
+                    'title'     => 'Kegiatan Inkubasi/Tenant',
                     'nav'       => 'statistik/tenant',
                     'parent'    => 'tenastatistiknts',
                     'link'      => base_url('statistik/tenant'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Pengguna',  
+                    'nav'       => 'statistik/pengguna',
+                    'parent'    => 'statistik',
+                    'link'      => base_url('statistik/blogs'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
         array (
-            'title'     => 'Publikasi',
-            'nav'       => 'publikasi',
+            'title'     => 'Berita',
+            'nav'       => 'berita',
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'web',
+            'badge'     => 0,
             'sub'       => array(
-    			array (
-                    'title'     => 'Daftar Publikasi',
-                    'nav'       => 'publikasi/daftar',
-                    'parent'    => 'statistik',
-                    'link'      => base_url('publikasi/daftar'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                ),
                 array (
-                    'title'     => 'Tambah Publikasi',
-                    'nav'       => 'publikasi/tambah',
+                    'title'     => 'Tambah Berita',
+                    'nav'       => 'berita/tambah',
                     'parent'    => 'statistik',
-                    'link'      => base_url('publikasi/tambah'),
+                    'link'      => base_url('berita/tambah'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Daftar Berita',
+                    'nav'       => 'berita/daftar',
+                    'parent'    => 'statistik',
+                    'link'      => base_url('berita/daftar'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -334,6 +414,7 @@
             'parent'    => 'false',
             'link'      => base_url('panduan/berkas'),
             'icon'      => 'insert_drive_file',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -342,6 +423,7 @@
             'parent'    => 'false',
             'link'      => base_url('pengumuman'),
             'icon'      => 'add_alert',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -350,6 +432,7 @@
             'parent'    => 'false',
             'link'      => base_url('layanan'),
             'icon'      => 'ring_volume',
+            'badge'     => 0,
             'sub'       => false,
 	    ),
         array (
@@ -358,6 +441,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'build',
+            'badge'     => 0,
             'sub'       => array(
                 array (
                     'title'     => 'Pengaturan Frontend',
@@ -366,6 +450,7 @@
                     'link'      => base_url('pengaturan/depan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
     			array (
                     'title'     => 'Pengaturan Backend',
@@ -374,6 +459,7 @@
                     'link'      => base_url('pengaturan/belakang'),
                     'icon'      => 'build',
                     'sub'       => false,
+                    'badge'     => 0,
                 ),
             ),
 	    ),
@@ -456,6 +542,9 @@
                         <a href="<?php echo $menu->link; ?>" <?php echo !empty($menu->sub) ? 'class="menu-toggle"' : ''; ?>>
                             <i class="material-icons"><?php echo $menu->icon; ?></i>
                             <span><?php echo $menu->title; ?></span>
+                            <?php if($menu->badge != 0) : ?>
+                            <span class="badge bg-blue" style="color: white;"><?php echo $menu->badge?></span>
+                            <?php endif ?>
                         </a>
                         
                         <?php if( !empty($menu->sub) ){ ?>
@@ -463,7 +552,11 @@
                             <?php foreach($menu->sub as $sub){ ?>
                                 <?php if( in_array($sub->nav, $user_acc) ){ ?>
                                     <li <?php echo ($active_sub == $sub->nav ? 'class="active"' : ''); ?>>
-                                        <a href="<?php echo $sub->link; ?>"><?php echo $sub->title; ?></a>
+                                        <a href="<?php echo $sub->link; ?>"><?php echo $sub->title; ?>
+                                            <?php if($sub->badge != 0) : ?>
+                                            <span class="badge bg-blue" style="color: white;"><?php echo $sub->badge?></span>
+                                            <?php endif ?>
+                                        </a>
                                     </li>
                                 <?php } ?>
                             <?php }?>
@@ -475,6 +568,7 @@
             </ul>
         </div>
         <!-- #Menu -->
+        <!-- <span class="badge bg-red" style="color: white;">0</span> -->
         
         <!-- Footer -->
         <div class="legal">

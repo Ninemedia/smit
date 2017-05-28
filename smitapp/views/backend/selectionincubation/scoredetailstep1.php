@@ -3,18 +3,18 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="header">
-                <h2>Penilaian Seleksi Pra-Inkubasi Tahap 1</h2>
+                <h2>Penilaian Seleksi Inkubasi Tahap 1</h2>
             </div>
             <div class="body">
                 <?php if($is_admin): ?>
                     <div class="text-right bottom25">                        
-                        <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
-                    <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                    <div class="table-container table-responsive table-incubation-score">
+                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
@@ -35,20 +35,20 @@
                             </tbody>
                             <tfoot>
                                 <?php
-                                    $sum_score      = $this->Model_Praincubation->sum_all_score($data_selection->id);
+                                    $sum_score      = $this->Model_Incubation->sum_all_score($data_selection->id);
                                     if(empty($sum_score)){
                                         $sum_score  = 0;
                                     }
                                     
-                                    $count_all_jury = $this->Model_Praincubation->count_all_score($data_selection->id);
+                                    $count_all_jury = $this->Model_Incubation->count_all_score($data_selection->id);
                                     if(empty($count_all_jury)){
                                         $count_all_jury = 0;
                                     }
                                     
                                     if(!empty($sum_score) && !empty($count_all_jury)){
-                                        $average_score  = round( $sum_score / $count_all_jury );
+                                        $avarage_score  = $sum_score / $count_all_jury;
                                     }else{
-                                        $average_score  = 0;
+                                        $avarage_score  = 0;
                                     }
                                     
                                 ?>
@@ -58,10 +58,10 @@
                                 </tr>
                                 <tr>
                                     <td colspan="7" align="right">Nilai Rata-rata</td>
-                                    <?php if($average_score >= KKM_STEP1 && $average_score <= MAX_SCORE) :?>
-                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
+                                    <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
+                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php else : ?>
-                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
+                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php endif; ?>
                                 </tr>
                             </tfoot>
@@ -83,13 +83,13 @@
                     
                 <?php elseif($is_jury): ?>
                     <div class="text-right bottom25">                        
-                        <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
-                    <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                    <div class="table-container table-responsive table-incubation-score">
+                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
@@ -110,12 +110,12 @@
                             </tbody>
                             <tfoot>
                                 <?php
-                                    $sum_score      = $this->Model_Praincubation->sum_all_score($data_selection->id);
+                                    $sum_score      = $this->Model_Incubation->sum_all_score($data_selection->id);
                                     if(empty($sum_score)){
                                         $sum_score  = 0;
                                     }
                                     
-                                    $count_all_jury = $this->Model_Praincubation->count_all_score($data_selection->id);
+                                    $count_all_jury = $this->Model_Incubation->count_all_score($data_selection->id);
                                     if(empty($count_all_jury)){
                                         $count_all_jury = 0;
                                     }
@@ -158,13 +158,13 @@
                 
                 <?php elseif($is_pengusul || $is_pelaksana): ?>    
                     <div class="text-right bottom25">                        
-                        <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
-                    <div class="table-container table-responsive table-praincubation-score">
-                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('prainkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                    <div class="table-container table-responsive table-incubation-score">
+                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
@@ -185,12 +185,12 @@
                             </tbody>
                             <tfoot>
                                 <?php
-                                    $sum_score      = $this->Model_Praincubation->sum_all_score($data_selection->id);
+                                    $sum_score      = $this->Model_Incubation->sum_all_score($data_selection->id);
                                     if(empty($sum_score)){
                                         $sum_score  = 0;
                                     }
                                     
-                                    $count_all_jury = $this->Model_Praincubation->count_all_score($data_selection->id);
+                                    $count_all_jury = $this->Model_Incubation->count_all_score($data_selection->id);
                                     if(empty($count_all_jury)){
                                         $count_all_jury = 0;
                                     }

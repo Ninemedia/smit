@@ -6,7 +6,7 @@
             <div class="body">
                 <?php if($is_admin): ?>
                 <div class="table-container table-responsive table-praincubation-history">
-                    <table class="table table-striped table-bordered table-hover" id="praincubationhistory_list" data-url="<?php echo base_url('prainkubasi/riwayatdata'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="praincubationhistory_list" data-url="<?php echo base_url('seleksiprainkubasi/riwayatdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
@@ -51,7 +51,7 @@
                 <?php endif ?> 
                 <?php if($is_jury): ?>
                     <div class="table-container table-responsive table-praincubation-history">
-                        <table class="table table-striped table-bordered table-hover" id="praincubationhistory_list" data-url="<?php echo base_url('prainkubasi/riwayatdata/'.$user->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="praincubationhistory_list" data-url="<?php echo base_url('seleksiprainkubasi/riwayatdata/'.$user->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>

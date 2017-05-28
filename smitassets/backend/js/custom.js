@@ -600,6 +600,23 @@ var Setting = function () {
             });
         });
         
+        // Frontend Setting
+        $("body").delegate( "button.btn-frontend-setting", "click", function( event ) {
+            event.preventDefault();
+            var url = $(this).data('url');
+            var type = $(this).data('type');
+            var instances = 'be_frontend_' + type;
+            var value = getValue(instances);
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data: { 'field' : instances, 'value' : value },
+                beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
+                success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
+            });
+        });
+        
         // Registration Setting
         $("body").delegate( "button.btn-notif-registration", "click", function( event ) {
             event.preventDefault();

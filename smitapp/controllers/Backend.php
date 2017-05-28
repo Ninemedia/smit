@@ -220,13 +220,21 @@ class Backend extends User_Controller {
         $field  = smit_isset($field, '');
         $value  = $this->input->post('value');
         $value  = smit_isset($value, '');
-                
-        if( $field == 'be_dashboard_profile' ){
-            update_option('be_dashboard_profile', $value);
-        }elseif( $field == 'be_dashboard_task' ){
-            update_option('be_dashboard_task', $value);
-        }elseif( $field == 'be_dashboard_function' ){
-            update_option('be_dashboard_function', $value);
+        
+        if( $field == 'be_frontend_praincubation' ){
+            update_option('be_frontend_praincubation', $value);
+        }elseif( $field == 'be_frontend_incubation' ){
+            update_option('be_frontend_incubation', $value);
+        }elseif( $field == 'be_frontend_praincubation_note' ){
+            update_option('be_frontend_praincubation_note', $value);
+        }elseif( $field == 'be_frontend_incubation_note' ){
+            update_option('be_frontend_incubation_note', $value);
+        }elseif( $field == 'be_frontend_profil' ){
+            update_option('be_frontend_profil', $value);
+        }elseif( $field == 'be_frontend_task' ){
+            update_option('be_frontend_task', $value);
+        }elseif( $field == 'be_frontend_function' ){
+            update_option('be_frontend_function', $value);
         }
     }
     

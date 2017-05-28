@@ -2,18 +2,18 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Daftar Seleksi Pra Inkubasi</h2></div>
+            <div class="header"><h2>Daftar Seleksi Pra-Inkubasi</h2></div>
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="listselection" class="active">
                         <a href="#stepone" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR TAHAP 1
+                            <i class="material-icons">list</i> TAHAP 1
                         </a>
                     </li>
                     <li role="listselection">
                         <a href="#steptwo" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR TAHAP 2
+                            <i class="material-icons">list</i> TAHAP 2
                         </a>
                     </li>
                 </ul>
@@ -33,11 +33,11 @@
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
                                     
                                     if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
-                                        <a href="<?php echo base_url('prainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
                                     <?php }
                                 } ?>  
                     		</div>
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('prainkubasi/daftardatastep1'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
@@ -99,7 +99,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('prainkubasi/daftardatastep2'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
