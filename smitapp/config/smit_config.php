@@ -110,21 +110,6 @@ $config['user_menu_access']         = array(
         'prainkubasi/tambah',
         'prainkubasi/produk',
         'prainkubasi/pendampingan',
-<<<<<<< HEAD
-        'prainkubasi/pengaturan',
-        'prainkubasi/nilai',
-        /*'prainkubasi/peringkat',*/
-        /*'prainkubasi/laporan',*/
-        'prainkubasi/riwayat',
-        'inkubasi',
-        'inkubasi/daftar',
-        'inkubasi/pendampingan',
-        'inkubasi/pengaturan',
-        'inkubasi/nilai',
-        /*'inkubasi/peringkat',*/
-        'inkubasi/laporan',
-        'inkubasi/riwayat',
-=======
         'prainkubasi/laporan',
         // ------------------- SELEKSI INKUBASI
         'seleksiinkubasi',
@@ -137,7 +122,6 @@ $config['user_menu_access']         = array(
         
         //'inkubasi/pendampingan',
         //'inkubasi/laporan',
->>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
         'tenants',
         'tenants/blogs',
         'tenants/daftar',

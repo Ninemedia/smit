@@ -203,11 +203,7 @@
             ),
 	    ),
         array (
-<<<<<<< HEAD
-            'title'     => 'Tenant',
-=======
             'title'     => 'Inkubasi / Tenant',
->>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
             'nav'       => 'tenants',
             'parent'    => 'false',
             'link'      => 'javascript:;',
@@ -287,13 +283,6 @@
             'icon'      => 'group_work',
             'badge'     => 0,
             'sub'       => array(
-<<<<<<< HEAD
-    			array (
-                    'title'     => 'Pengguna',  
-                    'nav'       => 'statistik/pengguna',
-                    'parent'    => 'statistik',
-                    'link'      => base_url('statistik/pengguna'),
-=======
                 /*
                 array (
                     'title'     => 'Daftar Pendamping',
@@ -318,7 +307,6 @@
                     'nav'       => 'pendamping/laporan',
                     'parent'    => 'pendamping',
                     'link'      => base_url('pendamping/laporan'),
->>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
                     'icon'      => 'build',
                     'sub'       => false,
                     'badge'     => 0,

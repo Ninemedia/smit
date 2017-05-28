@@ -110,20 +110,11 @@ $route['prainkubasi/pendampingan']              = "praincubation/accompanimentli
 $route['prainkubasi/pendampingan/detail/(:any)']= "praincubation/companionassignment/$1";
 $route['prainkubasi/daftarpendampingan']        = "praincubation/accompanimentlistdata";
 $route['prainkubasi/daftarditerima']            = "praincubation/praincubationacceptedlistdata";
-<<<<<<< HEAD
-
-// Menu Pengaturan
-$route['prainkubasi/pengaturan']                = "praincubation/praincubationsetting";
-$route['daftarprainkubasi']                     = "praincubation/praincubationsettinglistdata";
-$route['detilprainkubasi/(:any)']               = "praincubation/praincubationsettingdetails/$1";
-$route['tutupprainkubasi/(:any)']               = "praincubation/praincubationsettingclose/$1";
-
-=======
 $route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 // --------------------------------------------------------------------------
->>>>>>> 78c67aafbe0c7e95a7ecf7987582a400ec1633ae
+
 // Menu Penilaian
 // Juri
 $route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
