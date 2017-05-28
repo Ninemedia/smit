@@ -662,7 +662,7 @@ class User extends SMIT_Controller {
                     $row->name,
                     $type,
                     smit_center($status),
-                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
                 );
                 $i++;
