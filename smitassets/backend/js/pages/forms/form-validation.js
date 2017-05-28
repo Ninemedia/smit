@@ -430,6 +430,52 @@ var AnnouncementValidation = function () {
     };
 }();
 
+var SettingValidation = function () {
+    var handleSettingWorkunitValidation = function(){
+        $('#workunitadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_workunit: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_workunit: {
+                    required: 'Nama Satuan Kerja harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_workunit').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleSettingWorkunitValidation();
+        }
+    };
+}();
+
 var TenantValidation = function () {
     var handleTenantAddValidation = function(){
         $('#addtenant').validate({

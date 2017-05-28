@@ -972,8 +972,7 @@ class Backend extends User_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
-            'UploadFiles.init();',
-            'AnnouncementValidation.init();',
+            'SettingValidation.init();',
         ));
 
         $data['title']          = TITLE . 'Satuan Kerja';
@@ -1029,8 +1028,7 @@ class Backend extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('text-center/detail/'.$row->workunit_id).'" 
                     class="workunitdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
-                    <a href="'.base_url().'" 
-                    data-toggle="modal" data-target="#save_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                    <a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
                     <a href="'.base_url('text-center/hapus/'.$row->workunit_id).'" 
                     class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
                 
@@ -1052,6 +1050,91 @@ class Backend extends User_Controller {
         
         echo json_encode($records);
     }
+    
+    /**
+	 * Workunit Add
+	 */
+	public function workunitadd()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $workunit               = $this->input->post('reg_workunit');
+        $workunit                  = trim( smit_isset($workunit, "") );
+        
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_workunit','Nama Satuan Kerja','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+         
+        $workunit_data  = array(
+            'workunit_name' => $workunit,
+        ); 
+                
+        // -------------------------------------------------
+        // Save Workunit 
+        // -------------------------------------------------
+        $trans_save_workunit        = FALSE;
+        if( $workunit_save_id       = $this->Model_Option->save_data_workunit($workunit_data) ){
+            $trans_save_workunit    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data formulir anda'); 
+            die(json_encode($data));
+        }
+                
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_workunit ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+                
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Pendaftaran satuan kerja baru berhasil!'); 
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data.'); 
+            die(json_encode($data)); 
+        } 
+	}
     // ---------------------------------------------------------------------------------------------
     
     // ---------------------------------------------------------------------------------------------

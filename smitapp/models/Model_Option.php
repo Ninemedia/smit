@@ -78,6 +78,22 @@ class Model_Option extends SMIT_Model{
         
         return $query->result();
     }
+    
+    /**
+     * Save data of workunit
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of workunit
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_workunit($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->workunit, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
 }
 /* End of file SModel_Option.php */
 /* Location: ./application/models/Model_Option.php */

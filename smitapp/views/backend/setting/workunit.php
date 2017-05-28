@@ -56,7 +56,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                             <div class="form-line">
-                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Nama Satuan Kerja" required>
+                                                <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" placeholder="Masukan Nama Satuan Kerja" required>
                                             </div>
                                         </div>
                                     </div>
@@ -86,10 +86,30 @@
                 <p>Anda Sedang Melakukan Pendaftaran Satuan Kerja. Pastinkan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
 				<button type="button" class="btn btn-info waves-effect" id="do_save_workunit" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- END INFORMATION SUCCESS SAVE WORKUNIT MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS EDIT WORKUNIT MODAL -->
+<div class="modal fade" id="edit_workunit" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Ubah Satuan Kerja</h4>
+			</div>
+			<div class="modal-body">
+                <p>Anda Sedang Melakukan Pendaftaran Satuan Kerja. Pastinkan Data yang Anda masukan sudah benar!</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_edit_workunit" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS EDIT WORKUNIT MODAL -->
