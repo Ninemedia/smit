@@ -166,8 +166,14 @@ $config['user_menu_access']         = array(
     ),
     TENANT                          => array(
         'beranda',
-        'inkubasi',
-        'tenant',
+        'tenants',
+        'tenants/blogs',
+        'tenants/daftar',
+        'tenants/pendaftaran',
+        'tenants/pendampingan',
+        'tenants/produk',
+        'tenants/pembayaran',
+        'tenants/laporan',
         'layanan',
     ),
     JURI                            => array(
