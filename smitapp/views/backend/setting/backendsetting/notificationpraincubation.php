@@ -15,6 +15,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_confirm"><?php echo get_option('be_notif_praincubation_confirm'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -34,6 +35,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_confirm2"><?php echo get_option('be_notif_praincubation_confirm2'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm2" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -53,6 +55,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_not_success"><?php echo get_option('be_notif_praincubation_not_success'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="not_success" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -72,6 +75,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_not_success2"><?php echo get_option('be_notif_praincubation_not_success2'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="not_success2" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -91,6 +95,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_success"><?php echo get_option('be_notif_praincubation_success'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="success" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -110,6 +115,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_praincubation_accepted"><?php echo get_option('be_notif_praincubation_accepted'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-praincubation-setting" type="button" data-type="accepted" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>

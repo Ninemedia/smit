@@ -213,6 +213,8 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 $route['panduan/berkas']                = "backend/guides";
 // Services
 $route['layanan']                       = "backend/services";
+// News
+$route['berita']                        = "backend/news";
 // All
 $route['company/list']                  = "backend/listcompany";
 $route['company/detail']                = "backend/detailcompany";
