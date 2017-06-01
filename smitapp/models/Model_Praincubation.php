@@ -696,6 +696,7 @@ class Model_Praincubation extends SMIT_Model{
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
             $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
@@ -715,6 +716,7 @@ class Model_Praincubation extends SMIT_Model{
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
@@ -744,6 +746,7 @@ class Model_Praincubation extends SMIT_Model{
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 
         $query = $this->db->query($sql);
+        
         if(!$query || !$query->num_rows()) return false;
         
         return $query->result();
@@ -1068,6 +1071,7 @@ class Model_Praincubation extends SMIT_Model{
     function get_all_praincubation_setting($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",               "id", $conditions);
+            $conditions = str_replace("%selection_year_publication%", "selection_year_publication", $conditions);
             $conditions = str_replace("%date_publication%", "selection_date_publication", $conditions);
             $conditions = str_replace("%date_reg_start%",   "selection_date_reg_start", $conditions);
             $conditions = str_replace("%date_reg_end%",     "selection_date_reg_end", $conditions);
@@ -1082,6 +1086,7 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by = str_replace("%id%",                 "id", $order_by);
+            $order_by = str_replace("%selection_year_publication%",   "selection_year_publication", $order_by);
             $order_by = str_replace("%date_publication%",   "selection_date_publication", $order_by);
             $order_by = str_replace("%date_reg_start%",     "selection_date_reg_start", $order_by);
             $order_by = str_replace("%date_reg_end%",       "selection_date_reg_end", $order_by);
