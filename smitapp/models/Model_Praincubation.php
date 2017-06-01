@@ -1190,6 +1190,7 @@ class Model_Praincubation extends SMIT_Model{
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
             $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "year", $conditions);
             $conditions = str_replace("%event_title%",          "event_title", $conditions);
             $conditions = str_replace("%username%",             "username", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
@@ -1202,6 +1203,7 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%year%",                 "year",  $order_by);
             $order_by   = str_replace("%event_title%",          "event_title",  $order_by);
             $order_by   = str_replace("%username%",             "username",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);

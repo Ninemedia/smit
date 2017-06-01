@@ -263,10 +263,10 @@ class PraIncubation extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% = %s%'); }
         
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
@@ -364,11 +364,11 @@ class PraIncubation extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% = %s%'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
@@ -1427,7 +1427,7 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_reg_max) )  { $condition .= ' AND %date_reg_start% <= '.strtotime($s_date_reg_max).''; }
         if ( !empty($s_desc) )          { $condition .= ' AND %desc% LIKE "%'.$s_desc.'%"'; }
         if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
-        if ( !empty($s_year) )          { $condition .= ' AND %selection_year_publication% = '.$s_year.''; }
+        if ( !empty($s_year) )          { $condition .= ' AND %selection_year_publication% LIKE "%'.$s_year.'%"'; }
         
         if( $column == 1 )      { $order_by .= '%selection_year_publication% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%date_publication% ' . $sort; }
@@ -4035,13 +4035,16 @@ class PraIncubation extends User_Controller {
         $s_step             = $this->input->post('search_step');
         $s_step             = smit_isset($s_step, '');
         $s_score            = $this->input->post('search_score');
-        $s_score             = smit_isset($s_score, '');
+        $s_score            = smit_isset($s_score, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
         
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = %s%'); }
@@ -4050,7 +4053,8 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %dateprocess% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %dateprocess% <= '.strtotime($s_date_max).''; }
         
-        if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%step% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%score% ' . $sort; }
@@ -4070,6 +4074,7 @@ class PraIncubation extends User_Controller {
                 if( !empty($is_admin)){
                     $records["aaData"][] = array(
                         smit_center($i),
+                        smit_center($row->year),
                         '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name_jury) . '</a>',
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         $row->event_title,
@@ -4081,6 +4086,7 @@ class PraIncubation extends User_Controller {
                 }elseif( !empty($is_jury) ){
                     $records["aaData"][] = array(
                         smit_center($i),
+                        smit_center($row->year),
                         strtoupper($row->name),
                         $row->event_title,
                         smit_center( $row->step ),
@@ -4091,6 +4097,7 @@ class PraIncubation extends User_Controller {
                 }else{
                     $records["aaData"][] = array(
                         smit_center($i),
+                        smit_center($row->year),
                         strtoupper($row->name_jury),
                         $row->event_title,
                         smit_center( $row->step ),
