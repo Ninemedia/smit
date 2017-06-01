@@ -22,21 +22,21 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('backend/announcementlistdata'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('backend/newslistdata'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
         							<th class="width15 text-center">No Berita</th>
-        							<th class="width35 text-center">Judul Berita</th>
-        							<th class="width5 text-center">File</th>
-                                    <th class="width15 text-center">Tanggal Daftar</th>
-        							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+        							<th class="width20 text-center">Judul Berita</th>
+        							<th class="width20 text-center">Sumber Berita</th>
+                                    <th class="width10 text-center">Tanggal Daftar</th>
+        							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
    						        </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
-        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
+        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_news" /></td>
         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
-        							<td></td>
+        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_source" /></td>
                                     <td>
         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementadd', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'backend/newsadd', array( 'id'=>'newsadd', 'role'=>'form' ) ); ?>
                             <div id="alert" class="alert display-hide"></div>
                             <div class="form-group form-float">
                                 <section id="">
@@ -69,25 +69,40 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Deskripsi <b style="color: red !important;">(*)</b></label>
+                                        <label class="form-label">Sumber Berita <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                            <div class="form-line">
+                                                <input type="text" name="reg_source" id="reg_source" class="form-control" placeholder="Masukan Sumber Berita" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Isi Berita <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <div class="form-line">
                                                 <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor" required></textarea>
                                             </div>
                                         </div>
                                     </div>
+                                    <h4>Gambar Berita</h4>
+                                    <!--
+                                    <div class="details-img">
+                                        <img class="js-animating-object img-responsive" src="<?php echo BE_IMG_PATH; ?>news/noimage.jpg" alt="" style="border: solid 1px #009688 !important;" />
+                                    </div>
+                                    -->
                                     <div class="form-group">
                                         <div class="alert bg-teal">
                                             <strong>Perhatian!</strong>
-                                            File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
+                                            File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
                                         </div>
                                         <div class="form-group">
-                                            <label>Upload Berkas</label>
-                                            <input id="selection_files" name="selection_files" class="form-control" type="file">
+                                            <label>Upload Foto Berita</label>
+                                            <input id="news_selection_files" name="news_selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_add_announcement">Tambah Berita</button>
-                                    <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_newsadd">Tambah Berita</button>
+                                    <button type="button" class="btn btn-danger waves-effect" id="btn_newsadd_reset">Bersihkan</button>
                                 </section>
                             </div>
                         <?php echo form_close(); ?>
@@ -100,19 +115,19 @@
 <!-- #END# Content -->
 
 <!-- BEGIN INFORMATION SUCCESS SAVE NEWS MODAL -->
-<div class="modal fade" id="save_announcement" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="save_news" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Pengumuman</h4>
+				<h4 class="modal-title">Pendaftaran Berita</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Pengumuman. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Melakukan Pendaftaran Berita. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_announcement" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_news" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

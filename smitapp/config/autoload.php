@@ -165,4 +165,5 @@ $autoload['model'] = array(
     'Model_Incubation',
     'Model_Announcement',
     'Model_Tenant',
+    'Model_News',
 );

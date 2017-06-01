@@ -298,6 +298,25 @@ var UploadFiles = function () {
         });
     };
     
+    var handleUploadNews= function(){
+        $("#news_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
     var handleUploadLogoTenant = function(){
         $("#avatar_company").fileinput({
             showUpload : false,
@@ -343,6 +362,7 @@ var UploadFiles = function () {
             handleEditUploadFiles();
             handleUploadAvatar();
             handleUploadLogoTenant();
+            handleUploadNews();
         }
     };
 }();

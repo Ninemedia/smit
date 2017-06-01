@@ -131,6 +131,7 @@ define('BE_IMG_PATH',       BASE_URL . 'smitassets/backend/images/');
 define('BE_AVA_PATH',       BASE_URL . 'smitassets/backend/images/user/');
 define('BE_JS_PATH',        BASE_URL . 'smitassets/backend/js/');
 define('BE_PLUGIN_PATH',    BASE_URL . 'smitassets/backend/plugins/');
+define('BE_UPLOAD_PATH',    BASE_URL . 'smitassets/backend/upload/');
 
 /*
 |--------------------------------------------------------------------------

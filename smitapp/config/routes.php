@@ -215,6 +215,7 @@ $route['panduan/berkas']                = "backend/guides";
 $route['layanan']                       = "backend/services";
 // News
 $route['berita']                        = "backend/news";
+$route['berita/detail/(:any)']          = "backend/newsdetails/$1";
 // All
 $route['company/list']                  = "backend/listcompany";
 $route['company/detail']                = "backend/detailcompany";
