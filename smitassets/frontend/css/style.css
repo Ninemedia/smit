@@ -14,6 +14,7 @@ body {
   color: #777;
   direction: ltr;
   background: #FFF !important;
+  background-image: url("../images/white_bg.jpg") !important;
 }
 #copyright {
     background-color: #1D315F !important;
