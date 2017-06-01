@@ -1427,7 +1427,7 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_reg_max) )  { $condition .= ' AND %date_reg_start% <= '.strtotime($s_date_reg_max).''; }
         if ( !empty($s_desc) )          { $condition .= ' AND %desc% LIKE "%'.$s_desc.'%"'; }
         if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
-        if ( !empty($s_year) )          { $condition .= ' AND %selection_year_publication% LIKE "%'.$s_year.'%"'; }
+        if ( !empty($s_year) )          { $condition .= ' AND %year% = '.$s_year.''; }
         
         if( $column == 1 )      { $order_by .= '%selection_year_publication% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%date_publication% ' . $sort; }

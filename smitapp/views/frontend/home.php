@@ -346,14 +346,20 @@
 
 <div id="gtco-blog">
 	<div class="gtco-container">
-		<div class="row animate-box">
-			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-				<h3></h3>
-				<p></p>
-			</div>
-		</div>
 		<div class="row">
-			
+            <div class="gtco-widget">
+    			<div class="owl-carousel owl-carousel-footer">
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant1.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant2.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant3.jpg" alt="" />
+    				</div>
+    			</div>
+			</div>  	
 		</div>
 	</div>
 </div>
