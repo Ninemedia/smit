@@ -84,9 +84,7 @@
             								</select>
                                         </td>
             							<td style="text-align: center;">
-                                            <div class="bottom5">
-            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_praincubation_list">Search</button>
-                                            </div>
+                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>
             							</td>
             						</tr>
@@ -146,7 +144,7 @@
             								</select>
                                         </td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_praincubation_list">Search</button>
+                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>
             							</td>
             						</tr>

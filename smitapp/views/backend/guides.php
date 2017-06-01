@@ -47,7 +47,9 @@
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_guide_list">Search</button>
+                                            <div class="bottom5">
+            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_guide_list">Search</button>
+                                            </div>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>
             							</td>
             						</tr>
@@ -117,7 +119,7 @@
                                 <label>Berkas Panduan <b style="color: red !important;">(*)</b></label>
                                 <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
                             </div>
-                            <button class="btn btn-sm bg-blue waves-effect" type="submit">UNGGAH</button>
+                            <button class="btn btn-sm bg-blue waves-effect" type="submit">Unggah Berkas</button>
                         <?php echo form_close(); ?>    
                     </div>
                 </div>

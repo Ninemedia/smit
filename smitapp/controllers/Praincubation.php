@@ -108,7 +108,6 @@ class PraIncubation extends User_Controller {
         ));
         
         $scripts_add            = '';
-        
         $lss                    = smit_latest_praincubation_setting();
         
         $data['title']          = TITLE . 'Daftar Seleksi PraInkubasi';
@@ -1435,7 +1434,7 @@ class PraIncubation extends User_Controller {
                 $btn_details    = '<a href="'.base_url('detilprainkubasi/'.$row->uniquecode).'" 
                     class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('tutupprainkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                '<a href="'.base_url('tutupprainkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-danger waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
                 
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
@@ -1600,6 +1599,46 @@ class PraIncubation extends User_Controller {
         $data['lss']            = $lss;
         $data['active']         = $active;
         $data['main_content']   = 'selectionpraincubation/score';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Ranking function.
+	 */
+	public function ranking()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+
+        $data['title']          = TITLE . 'Penilaian Peringkat';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'selectionpraincubation/ranking';
         
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -2186,12 +2225,12 @@ class PraIncubation extends User_Controller {
                 
                 if( $row->status == 1 ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('seleksiprainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
                     }
                 }
                 
-                $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
                 class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -2304,13 +2343,13 @@ class PraIncubation extends User_Controller {
 
                 if( $row->statustwo == CONFIRMED ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('seleksiprainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }
                 

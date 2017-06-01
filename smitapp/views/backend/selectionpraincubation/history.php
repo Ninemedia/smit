@@ -55,7 +55,7 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width20">Nama</th>
+        							<th class="width20">Nama Pengusul</th>
                                     <th class="width25 text-center">Judul Kegiatan</th>
                                     <th class="width5 text-center">Step</th>
         							<th class="width5 text-center">Nilai</th>

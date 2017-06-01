@@ -1371,7 +1371,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     '',
                 );
                 $i++;
@@ -1440,7 +1440,7 @@ class Backend extends User_Controller {
         $scripts_add            = '';
         $scripts_init           = '';
 
-        $data['title']          = TITLE . 'Data Perusahaan';
+        $data['title']          = TITLE . 'Layanan';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;

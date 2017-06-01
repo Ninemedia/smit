@@ -60,7 +60,7 @@ $(function () {
 // Additional Function
 // =====================================================================================================
 var SelectionValidation = function () {
-    var handleSelectionValidation = function(){
+    var handleSelectionValidationIncubation = function(){
         $('#selectionincubation').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
@@ -77,10 +77,13 @@ var SelectionValidation = function () {
                 reg_category: {
                     required: true,
                 },
+                reg_agree: {
+                    required: true,
+                },
                 selection_files: {
                     required: true,
                 },
-                reg_agree: {
+                rab_selection_files: {
                     required: true,
                 },
             },
@@ -97,11 +100,14 @@ var SelectionValidation = function () {
                 reg_category: {
                     required: 'Kategori bidang harus di isi',
                 },
-                selection_files: {
-                    required: 'Data File harus di isi',
-                },
                 reg_agree: {
                     required: 'Anda harus setuju atas pengisian formulir ini',
+                },
+                selection_files: {
+                    required: 'Data File Kegiatan harus di isi',
+                },
+                rab_selection_files: {
+                    required: 'Data File Rencana Anggaran Kegiatan harus di isi',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -127,10 +133,84 @@ var SelectionValidation = function () {
         });
     };
     
+    var handleSelectionValidationPraIncubaion = function(){
+        $('#selectionpraincubation').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_desc: {
+                    required: true,
+                },
+                reg_name: {
+                    required: true,
+                },
+                reg_event_title: {
+                    required: true,
+                },
+                reg_category: {
+                    required: true,
+                },
+                reg_agree: {
+                    required: true,
+                },
+                selection_files: {
+                    required: true,
+                },
+                rab_selection_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_desc: {
+                    required: 'Deskripsi Kegiatan harus di isi',
+                },
+                reg_name: {
+                    required: 'Nama Peneliti Utama harus di isi',
+                },
+                reg_event_title: {
+                    required: 'Judul Kegiatan harus di isi',
+                },
+                reg_category: {
+                    required: 'Kategori bidang harus di isi',
+                },
+                reg_agree: {
+                    required: 'Anda harus setuju atas pengisian formulir ini',
+                },
+                selection_files: {
+                    required: 'Data File Kegiatan harus di isi',
+                },
+                rab_selection_files: {
+                    required: 'Data File Rencana Anggaran Kegiatan harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_selectionpraincubation').modal('show');
+            }
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
-            handleSelectionValidation();
+            handleSelectionValidationIncubation();
+            handleSelectionValidationPraIncubaion();
         }
     };
 }();

@@ -107,16 +107,20 @@
                                             File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
                                         </div>
                                         <div class="input-group">
-                                            <label class="form-label">Upload Berkas <b style="color: red !important;">(*)</b></label>
-                                            <input id="selection_files" name="reg_selection_files[]" class="form-control" type="file" multiple="multiple">
+                                            <label class="form-label">Upload Berkas Kegiatan (Docx/Doc/PDF) <b style="color: red !important;">(*)</b></label>
+                                            <input id="selection_files" name="reg_selection_files" class="form-control" type="file" />
                                         </div>
                                         <div class="input-group">
-                                            <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
+                                            <label class="form-label">Upload Rencana Anggaran Kegiatan (Xlsx/Xls) <b style="color: red !important;">(*)</b></label>
+                                            <input id="rab_selection_files" name="reg_selection_rab" class="form-control" type="file" />
+                                        </div>
+                                        <div class="input-group">
+                                            <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox" />
                                             <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                         </div>
                                         
                                         <button type="submit" class="btn btn-primary waves-effect" id="btn_addincubation">Ajukan Kegiatan</button>
-                                        <button type="button" class="btn btn-danger waves-effect" id="btn_addincubation_reset">Bersihkan</button>
+                                        <button type="button" class="btn btn-danger waves-effect" id="btn_incubation_reset">Bersihkan</button>
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
@@ -141,7 +145,7 @@
                 <p>Anda Sedang Mendaftarkan Seleksi Inkubasi. Pastinkan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
 				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionincubation" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>

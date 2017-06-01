@@ -231,12 +231,12 @@
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5">No</th>
-                        							<th class="width20">Nama</th>
+                        							<th class="width15">Nama Pengusul</th>
                                                     <th class="width15 text-center">Satuan Kerja</th>
                                                     <th class="width20 text-center">Judul Kegiatan</th>
                         							<th class="width5 text-center">Nilai</th>
                         							<th class="width5 text-center">Rata Nilai</th>
-                                                    <th class="width5 text-center">Tanggal Daftar</th>
+                                                    <th class="width10 text-center">Tanggal Daftar</th>
                                                     <th class="width5 text-center">Status</th>
                         							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
            						                </tr>
@@ -306,12 +306,12 @@
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
-                    							<th class="width20">Nama</th>
+                    							<th class="width15">Nama Pengusul</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Nilai</th>
                         						<th class="width5 text-center">Rata Nilai</th>
-                                                <th class="width5 text-center">Tanggal Daftar</th>
+                                                <th class="width10 text-center">Tanggal Daftar</th>
                                                 <th class="width5 text-center">Status</th>
                     							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
        						                </tr>

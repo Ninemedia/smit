@@ -51,7 +51,8 @@ jQuery(document).ready(function($){
     });
 });
 
-var Guides = function () {
+/*
+var Selection = function () {
     var handleUploadFiles = function(){
         $("#selection_files").fileinput({
             showUpload : false,
@@ -77,16 +78,52 @@ var Guides = function () {
         }
     };
 }();
+*/
 
-var Selection = function () {
-    var handleSelection = function(){
-        
+var Guides = function () {
+    var handleUploadFilesEvent = function(){
+        $("#selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['doc', 'docx', 'pdf'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+        });
+    };
+    
+    var handleUploadFilesRAB = function(){ 
+        $("#rab_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['xls', 'xlsx'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+        });
     };
     
     return {
         //main function to initiate the module
         init: function () {
-            handleSelection();
+            handleUploadFilesEvent();
+            handleUploadFilesRAB();
         }
     };
 }();
+
+
