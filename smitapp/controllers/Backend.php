@@ -1757,7 +1757,7 @@ class Backend extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->no_news,
-                    '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
+                    '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
