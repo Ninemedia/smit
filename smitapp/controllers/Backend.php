@@ -1608,7 +1608,11 @@ class Backend extends User_Controller {
                 
                 $upload_data    = $this->upload->data();
                 $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+                $thumbnail      = 'Thumbnail_' . $upload_data['raw_name'];
+                $thumbfile      = $thumbnail . $upload_data['file_ext'];
+                
                 $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(1140,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$thumbfile, TRUE);
                 $this->image_moo->clear();
                  
                 $news_data      = array(
@@ -1623,6 +1627,7 @@ class Backend extends User_Controller {
                     'url'           => smit_isset($upload_data['full_path'],''),
                     'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
                     'filename'      => smit_isset($upload_data['raw_name'],''),
+                    'thumbnail'     => smit_isset($thumbnail,''),
                     'size'          => smit_isset($upload_data['file_size'],0),
                     'uploader'      => $current_user->id,
                     'datecreated'   => $curdate,
