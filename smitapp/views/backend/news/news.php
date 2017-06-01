@@ -86,7 +86,7 @@
                                             <input id="selection_files" name="selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_add_announcement">Buat Pengumuman</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_add_announcement">Tambah Berita</button>
                                     <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
                                 </section>
                             </div>
