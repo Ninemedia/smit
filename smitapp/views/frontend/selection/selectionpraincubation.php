@@ -67,7 +67,7 @@
                             <h3 class="bottom0">SELEKSI PRA-INKUBASI TAHUN <?php echo $selection_year; ?></h3>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
+                            <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionpraincubation', 'role'=>'form' ) ); ?>
                                 <div class="form-group form-float">
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
@@ -152,16 +152,21 @@
                                             File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
                                         </div>
                                         <div class="input-group">
-                                            <label class="form-label">Upload Berkas <b style="color: red !important;">(*)</b></label>
-                                            <input id="selection_files" name="reg_selection_files[]" class="form-control" type="file" multiple="multiple">
+                                            <label class="form-label">Upload Berkas Kegiatan (Docx/Doc/PDF) <b style="color: red !important;">(*)</b></label>
+                                            <input id="selection_files" name="reg_selection_files" class="form-control" type="file" />
                                         </div>
                                         <div class="input-group">
-                                            <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
+                                            <label class="form-label">Upload Rencana Anggaran Kegiatan (Xlsx/Xls) <b style="color: red !important;">(*)</b></label>
+                                            <input id="rab_selection_files" name="reg_selection_rab" class="form-control" type="file" />
+                                        </div>
+                                        
+                                        <div class="input-group">
+                                            <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox" />
                                             <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                         </div>
                                         
                                         <button type="submit" class="btn btn-primary waves-effect">Ajukan Kegiatan</button>
-                                        <button type="button" class="btn btn-danger waves-effect" id="btn_addincubation_reset">Bersihkan</button>
+                                        <button type="button" class="btn btn-danger waves-effect" id="btn_praincubation_reset">Bersihkan</button>
                                     </section>
                                 </div>
                             <?php echo form_close(); ?>
@@ -174,22 +179,22 @@
 	</div>
 </div>
 
-<!-- BEGIN INFORMATION SUCCESS SAVE SELECTION MODAL -->
-<div class="modal fade" id="save_selectionincubation" tabindex="-1" role="basic" aria-hidden="true">
+<!-- BEGIN INFORMATION SUCCESS SAVE SELECTION PRA-INCUBATION MODAL -->
+<div class="modal fade" id="save_selectionpraincubation" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Seleksi Inkubasi</h4>
+				<h4 class="modal-title">Pendaftaran Seleksi Pra-Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Mendaftarkan Seleksi Inkubasi. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Mendaftarkan Seleksi Pra-Inkubasi. Pastinkan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionincubation" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionpraincubation" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- END INFORMATION SUCCESS SAVE SELECTION MODAL -->
+<!-- END INFORMATION SUCCESS SAVE SELECTION PRA-INCUBATION MODAL -->

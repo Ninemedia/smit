@@ -1026,9 +1026,8 @@ class Backend extends User_Controller {
             foreach($workunit_list as $row){
                 
                 // Status
-                $btn_action = '<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                    <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
-                
+                $btn_action = '<a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                //<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->workunit_name,
@@ -1372,7 +1371,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
-                    smit_center( date('Y-m-d', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     '',
                 );
                 $i++;
@@ -1441,7 +1440,7 @@ class Backend extends User_Controller {
         $scripts_add            = '';
         $scripts_init           = '';
 
-        $data['title']          = TITLE . 'Data Perusahaan';
+        $data['title']          = TITLE . 'Layanan';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
@@ -1453,6 +1452,86 @@ class Backend extends User_Controller {
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     // ---------------------------------------------------------------------------------------------
+    
+    // ---------------------------------------------------------------------------------------------
+    // NEWS
+    /**
+	 * List News function.
+	 */
+	public function news()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'AnnouncementValidation.init();',
+        ));
+
+        $data['title']          = TITLE . 'Berita';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'news/news';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
 }
 
 /* End of file backend.php */

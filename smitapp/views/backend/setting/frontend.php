@@ -13,19 +13,16 @@
                     </li>
                     
                     <li role="presentation">
-                        <a href="#profil" data-toggle="tab">
-                            <i class="material-icons">home</i> PROFIL
+                        <a href="#home" data-toggle="tab">
+                            <i class="material-icons">home</i> Beranda
                         </a>
                     </li>
                     
-                    
-                    <!--
                     <li role="presentation">
-                        <a href="#function" data-toggle="tab">
-                            <i class="material-icons">people</i> FUNGSI
+                        <a href="#profil" data-toggle="tab">
+                            <i class="material-icons">people</i> Profil
                         </a>
                     </li>
-                    -->
                 </ul>
 
                 <!-- Tab panes -->
@@ -33,14 +30,12 @@
                     <div role="tabpanel" class="tab-pane fade in active" id="general">
                         <?php $this->load->view(VIEW_BACK . 'setting/frontendsetting/general'); ?>
                     </div>
+                    <div role="tabpanel" class="tab-pane fade" id="home">
+                        <?php $this->load->view(VIEW_BACK . 'setting/frontendsetting/home'); ?>
+                    </div>
                     <div role="tabpanel" class="tab-pane fade" id="profil">
                         <?php $this->load->view(VIEW_BACK . 'setting/frontendsetting/profil'); ?>
                     </div>
-                    <!--
-                    <div role="tabpanel" class="tab-pane fade" id="function">
-                        
-                    </div>
-                    -->
                 </div>
             </div>
         </div>

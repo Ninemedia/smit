@@ -103,6 +103,7 @@ $route['seleksiprainkubasi/adminnilaidatastep2']       = "praincubation/adminsco
 $route['seleksiprainkubasi/riwayat']                   = "praincubation/praincubationhistory";
 $route['seleksiprainkubasi/riwayatdata']               = "praincubation/historylistdata";
 $route['seleksiprainkubasi/riwayatdata/(:num)']        = "praincubation/historylistdata/$1";
+$route['seleksiprainkubasi/peringkat']                 = "praincubation/ranking";
 // --------------------------------------------------------------------------
 // Menu Kegiatan Pra-Inkubasi
 $route['prainkubasi/pendampingan']              = "praincubation/accompanimentlist";
@@ -213,6 +214,8 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 $route['panduan/berkas']                = "backend/guides";
 // Services
 $route['layanan']                       = "backend/services";
+// News
+$route['berita']                        = "backend/news";
 // All
 $route['company/list']                  = "backend/listcompany";
 $route['company/detail']                = "backend/detailcompany";

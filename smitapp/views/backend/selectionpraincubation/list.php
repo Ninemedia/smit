@@ -41,6 +41,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
+                                        <th class="width10 text-center">Tahun</th>
             							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
@@ -50,6 +51,27 @@
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td>
+                                            <select name="search_year" class="form-control form-filter input-sm def">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }
+                                                
+                                                if( !empty($option) ){
+                                                    foreach($option as $val){
+                                                        echo '<option value="'.$val.'">'.$val.'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">Tahun Kosong</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td>
                                             <?php
@@ -84,9 +106,7 @@
             								</select>
                                         </td>
             							<td style="text-align: center;">
-                                            <div class="bottom5">
-            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_praincubation_list">Search</button>
-                                            </div>
+                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>
             							</td>
             						</tr>
@@ -103,6 +123,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
+                                        <th class="width10 text-center">Tahun</th>
             							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
@@ -112,6 +133,27 @@
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td>
+                                            <select name="search_year" class="form-control form-filter input-sm def">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }
+                                                
+                                                if( !empty($option) ){
+                                                    foreach($option as $val){
+                                                        echo '<option value="'.$val.'">'.$val.'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">Tahun Kosong</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td>
                                             <?php
@@ -146,7 +188,7 @@
             								</select>
                                         </td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_praincubation_list">Search</button>
+                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>
             							</td>
             						</tr>

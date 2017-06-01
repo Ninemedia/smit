@@ -14,6 +14,7 @@
     	<div id="page">
             <div class="row" id="gtco-navbarheader">
                 <div class="gtco-container">
+                    <!--
                     <div class="col-sm-9 col-xs-12">
                         <div class="marquee-parent">
                             <div class="marquee-child">
@@ -21,9 +22,10 @@
                             </div>
                         </div>	
     				</div>
+                    -->
                     <div class="col-sm-3 col-xs-12">
     				    <div id="gtco-socialnav">
-                            <ul class="gtco-social-icons pull-right">
+                            <ul class="gtco-social-icons">
         						<li><a href="#"><i class="icon-twitter"></i></a></li>
         						<li><a href="#"><i class="icon-facebook"></i></a></li>
         						<li><a href="#"><i class="icon-linkedin"></i></a></li>

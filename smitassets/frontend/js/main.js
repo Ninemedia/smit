@@ -447,7 +447,22 @@
                             fileType: "any",
                             overwriteInitial: false,
                             initialPreviewAsData: true,
-                            allowedFileExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx'],
+                            allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#rab_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['xls', 'xlsx'],
                             fileActionSettings : {
                                 showUpload: false,
                                 showZoom: false,
@@ -462,7 +477,7 @@
         };
         
         // Reset Selection Inkubasi Form
-        $('body').on('click', '#btn_addincubation_reset', function(event){
+        $('body').on('click', '#btn_incubation_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
@@ -482,7 +497,142 @@
                 fileType: "any",
                 overwriteInitial: false,
                 initialPreviewAsData: true,
-                allowedFileExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx'],
+                allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#rab_selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['xls', 'xlsx'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 600 }, 500 );
+        });
+    };
+    
+    var handleAddSelectionPraIncubation = function() {
+        // Save Selection Pra-Incubation
+        $('#do_save_selectionpraincubation').click(function(e){
+            e.preventDefault();
+            processSaveSelectionPraIncubation($('#selectionpraincubation'));
+        });
+        
+        var processSaveSelectionPraIncubation = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#selectionpraincubation')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $(".selectpicker, .show-tick").val('').selectpicker('render');
+                        $('#selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#rab_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['xls', 'xlsx'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#username_info').hide();
+                        $('#detail_selection').hide();
+                    }
+    			}
+    		});
+        };
+        
+        // Reset Selection Inkubasi Form
+        $('body').on('click', '#btn_praincubation_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#reg_event_title').val('');
+            $('#reg_desc').val('');
+            $('#reg_name').val('');
+            $('select#reg_category').val('');
+            $('select#reg_category').selectpicker('render');
+            $('#selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#rab_selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['xls', 'xlsx'],
                 fileActionSettings : {
                     showUpload: false,
                     showZoom: false,
@@ -507,6 +657,7 @@
         closeAlert();
         handleSearchUsername();
         handleAddSelectionIncubation();
+        handleAddSelectionPraIncubation();
 	});
 
 }());

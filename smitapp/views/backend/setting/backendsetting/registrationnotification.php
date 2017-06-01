@@ -15,6 +15,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_registration_user"><?php echo get_option('be_notif_registration_user'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_user" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -34,6 +35,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_registration_juri"><?php echo get_option('be_notif_registration_juri'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_juri" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -53,6 +55,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_registration_selection"><?php echo get_option('be_notif_registration_selection'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_selection" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>
@@ -72,6 +75,7 @@
                     <textarea class="form-control ckeditor" id="be_notif_rated_selection"><?php echo get_option('be_notif_rated_selection'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="rated_selection" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
             </div>
         </div>
     </div>

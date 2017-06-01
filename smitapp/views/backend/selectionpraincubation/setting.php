@@ -27,14 +27,36 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width20 text-center">Tanggal<br />Publikasi</th>
+        							<th class="width10 text-center">Tahun<br />Seleksi</th>
+        							<th class="width15 text-center">Tanggal<br />Publikasi</th>
         							<th class="width25 text-center">Tanggal<br />Pendaftaran Online</th>
                                     <th class="width20 text-center">Keterangan</th>
-                                    <th class="width15 text-center">Status</th>
+                                    <th class="width10 text-center">Status</th>
         							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     				            </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
+                                    <td>
+                                        <select name="search_year" class="form-control form-filter input-sm def">
+                                        <?php
+                                            $option = array(''=>'Pilih Tahun');
+                                            $year_arr = smit_select_year(date('Y'),2030);
+                                            if( !empty($year_arr) ){
+                                                foreach($year_arr as $val){
+                                                    $option[$val] = $val;
+                                                }
+                                            }
+                                            
+                                            if( !empty($option) ){
+                                                foreach($option as $val){
+                                                    echo '<option value="'.$val.'">'.$val.'</option>';
+                                                }
+                                            }else{
+                                                echo '<option value="">Tahun Kosong</option>';
+                                            }
+                                        ?>
+                                        </select>
+                                    </td>
         							<td>
         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="selection_date_publication_min" placeholder="From" />
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="selection_date_publication_max" placeholder="To" />

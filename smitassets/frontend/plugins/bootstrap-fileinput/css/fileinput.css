@@ -325,11 +325,9 @@
 
 .file-drop-zone-title {
     color: #aaa;
-    font-size: 1.6em;
-    padding: 85px 10px;
+    font-size: 1em;
     cursor: default;
 }
-
 .file-preview .clickable,
 .clickable .file-drop-zone-title {
     cursor: pointer;

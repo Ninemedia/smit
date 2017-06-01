@@ -195,18 +195,18 @@ class Frontend extends Public_Controller {
 	 */
     function selectionpraincubation(){
         $headstyles             = smit_headstyles(array(
-            //Plugin Path
-            FE_PLUGIN_PATH . 'node-waves/waves.css',
-            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
-            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            FE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
-            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            //CSS Path
+            FE_PLUGIN_PATH     . 'node-waves/waves.css',
+            FE_PLUGIN_PATH     . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH     . 'bootstrap-select/css/bootstrap-select.css',
             
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
+            FE_PLUGIN_PATH     . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            BE_PLUGIN_PATH     . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH     . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
         
         $loadscripts            = smit_scripts(array(
@@ -216,9 +216,11 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'momentjs/moment.js',
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Jquery Fileinput Plugin
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
             FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            
             FE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             FE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             FE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
@@ -257,14 +259,15 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
             FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
-            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            FE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
-            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
             
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
+            
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            BE_PLUGIN_PATH     . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH     . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
         
         $loadscripts            = smit_scripts(array(
