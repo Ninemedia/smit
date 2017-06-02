@@ -143,6 +143,11 @@ var TableAjax = function () {
         gridTable( $("#workunit_list"), true );
     };
     
+    // Slider Lists 
+    var handleRecordsSliderList = function() {
+        gridTable( $("#slider_list"), true );
+    };
+    
     // Announcement Lists 
     var handleRecordsAnnouncementList = function() {
         gridTable( $("#announcement_list"), true );
@@ -253,6 +258,9 @@ var TableAjax = function () {
             
             //News 
             handleRecordsNewsList();
+            
+            //Slider
+            handleRecordsSliderList();
         }
     };
 

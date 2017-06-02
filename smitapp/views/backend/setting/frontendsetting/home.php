@@ -15,7 +15,6 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="card">
                             <div class="body">
-                                <?php if($is_admin): ?>
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" class="active">
@@ -34,27 +33,27 @@
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                                         <div class="table-container table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="announcement_list" data-url="<?php echo base_url('backend/announcementlistdata'); ?>">
+                                        <table class="table table-striped table-bordered table-hover" id="slider_list" data-url="<?php echo base_url(''); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5">No</th>
-                        							<th class="width15 text-center">No Pengumuman</th>
-                        							<th class="width35 text-center">Judul Pengumuman</th>
-                        							<th class="width5 text-center">File</th>
+                        							<th class="width20 text-center">Judul Slider</th>
+                        							<th class="width20 text-center">Deskripsi</th>
+                        							<th class="width10 text-center">Status</th>
                                                     <th class="width15 text-center">Tanggal Daftar</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
-                        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
+                                                    <td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_desc" /></td>
                         							<td></td>
                                                     <td>
                         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
                         							</td>
                         							<td style="text-align: center;">
-                        								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
+                        								<button class="btn bg-blue waves-effect filter-submit" id="btn_slider_list">Search</button>
                                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
                         							</td>
                         						</tr>
@@ -106,37 +105,6 @@
                                     </div>
                                 </div>
                                 
-                                <?php else: ?>
-                                <div class="table-container table-responsive bottom50">
-                                    <table class="table table-striped table-bordered table-hover" id="announcementuser_list" data-url="<?php echo base_url('announcementslist'); ?>">
-                                        <thead>
-                    						<tr role="row" class="heading bg-blue">
-                    							<th class="width5">No</th>
-                    							<th class="width15 text-center">No Pengumuman</th>
-                    							<th class="width65 text-center">Judul Pengumuman</th>
-                                                <th class="width20 text-center">Tanggal Publikasi</th>
-                                                <th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
-                					        </tr>
-                                            <tr role="row" class="filter display-hide table-filter">
-                    							<td></td>
-                    							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
-                    							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
-                                                <td>
-                    								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
-                    								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
-                    							</td>
-                    							<td style="text-align: center;">
-                    								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_announcement_list">Search</button>
-                                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
-                    							</td>
-                    						</tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Data Will Be Placed Here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <?php endif ?> 
                             </div>
                         </div>
                     </div>
