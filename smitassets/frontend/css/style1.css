@@ -7931,3 +7931,32 @@ button.filter-submit, button.filter-cancel{
 .table tr.heading{
     color: #FFFFFF;
 }
+
+.main-slide-line-height{
+    line-height: 120%;
+    margin: 15px 0;
+    font-size: 12px;
+}
+
+.separator {
+    background: #9aa9c0 none repeat scroll 0 0;
+    display: block;
+    height: 8px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+}
+.separator::before, .separator::after {
+    content: "";
+    height: 100%;
+    position: absolute;
+    width: 33.33%;
+}
+.separator::before {
+    background: #66809d none repeat scroll 0 0;
+    left: 0;
+}
+.separator::after {
+    background: #142439 none repeat scroll 0 0;
+    right: 0;
+}

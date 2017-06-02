@@ -4,6 +4,9 @@
 <!-- Bootstrap Core Js -->
 <script type="text/javascript" src="<?php echo FE_PLUGIN_PATH . 'bootstrap/js/bootstrap.js'; ?>"></script>
 
+<!-- Jquery UI Js -->
+<script type="text/javascript" src="<?php echo FE_JS_PATH . 'jquery-ui.min.js'; ?>"></script>
+
 <!-- jQuery Easing -->
 <script type="text/javascript" src="<?php echo FE_JS_PATH . 'jquery.easing.1.3.js'; ?>"></script>
 

@@ -1,3 +1,94 @@
+<!-- Main Slider - Banner Zoom In/Out -->
+<div id="gtco-sliders" class="animate-box">
+    <div id="main-slider-banner-zoom-inout">
+        <!-- LOADER -->
+        <div class="myloader"></div>
+        
+        <!-- CONTENT -->
+        <ul class="bannerscollection_zoominout_list">
+            <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+                <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
+            </li>
+            <li data-horizontalPosition="left" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText2">
+                <img src="<?php echo FE_IMG_PATH; ?>slider/slider2.jpg" alt="" width="1346" height="400" />
+            </li>
+            <li data-horizontalPosition="right" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText3">
+                <img src="<?php echo FE_IMG_PATH; ?>slider/slider3.jpg" alt="" width="1346" height="400" />
+            </li>
+            <li data-horizontalPosition="center" data-verticalPosition="bottom" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText4">
+                <img src="<?php echo FE_IMG_PATH; ?>slider/slider4.jpg" alt="" width="1346" height="400" />
+            </li>
+            <li data-horizontalPosition="center" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText5">
+                <img src="<?php echo FE_IMG_PATH; ?>slider/slider5.jpg" alt="" width="1346" height="400" />
+            </li>
+        </ul>
+        
+        <!-- TEXTS -->
+        <div id="bannerscollection_zoominout_sliderText1" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <div id="bannerscollection_zoominout_sliderText2" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <div id="bannerscollection_zoominout_sliderText3" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <div id="bannerscollection_zoominout_sliderText4" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <div id="bannerscollection_zoominout_sliderText5" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <div id="bannerscollection_zoominout_sliderText6" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END Main Slider - Banner Zoom In/Out -->
+
+<!--
 <div id="gtco-sliders" class="animate-box">
 	<div class="row">
 		<div class="col-md-12">
@@ -18,6 +109,8 @@
 		</div>
 	</div>
 </div>
+-->
+
 <!--
 <div id="gtco-features-3">
 	<div class="gtco-container">

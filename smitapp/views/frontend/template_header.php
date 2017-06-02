@@ -20,7 +20,7 @@
 	<title><?php echo $title; ?></title>
     
     <!-- Favicon -->
-    <link rel="icon" href="<?php echo FE_IMG_PATH; ?>logo/favicon.png" />
+    <link rel="icon" href="<?php echo FE_IMG_PATH; ?>logo/favicon.ico" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
@@ -43,7 +43,6 @@
 	<!-- Theme style  -->
 	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>style.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>style1.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>themes/all-themes.css" /> -->
     
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>

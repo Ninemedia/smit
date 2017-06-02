@@ -23,8 +23,8 @@
 	};
 	var offcanvasMenu = function() {
 
-		$('#page').prepend('<div id="gtco-offcanvas" />');
-		$('#page').prepend('<a href="#" class="js-gtco-nav-toggle gtco-nav-toggle gtco-nav-white"><i></i></a>');
+		$('#mobile-nav').prepend('<div id="gtco-offcanvas" />');
+		$('#mobile-nav').prepend('<a href="javascript:;" class="js-gtco-nav-toggle gtco-nav-toggle gtco-nav-white"><i></i></a>');
 		var clone1 = $('.menu-1 > ul').clone();
 		$('#gtco-offcanvas').append(clone1);
 		var clone2 = $('.menu-2 > ul').clone();
@@ -36,30 +36,30 @@
 			.removeClass('has-dropdown');
 
 		// Hover dropdown menu on mobile
-		$('.offcanvas-has-dropdown').mouseenter(function(){
+		$('.offcanvas-has-dropdown').click(function(){
 			var $this = $(this);
-
-			$this
-				.addClass('active')
-				.find('ul')
-				.slideDown(500, 'easeOutExpo');				
-		}).mouseleave(function(){
-
-			var $this = $(this);
-			$this
-				.removeClass('active')
-				.find('ul')
-				.slideUp(500, 'easeOutExpo');				
+            
+            if( $this.hasClass('active') ){
+                $this
+    				.removeClass('active')
+    				.find('ul')
+    				.slideUp(500, 'easeOutExpo');
+            }else{
+                $this
+    				.addClass('active')
+    				.find('ul')
+    				.slideDown(500, 'easeOutExpo');	
+            }			
 		});
-
 
 		$(window).resize(function(){
 
 			if ( $('body').hasClass('offcanvas') ) {
-
     			$('body').removeClass('offcanvas');
     			$('.js-gtco-nav-toggle').removeClass('active');
-				
+                $('.offcanvas-has-dropdown').removeClass('active');
+                $('ul.dropdown').hide();
+                $('#gtco-offcanvas').hide();
 	    	}
 		});
 	};
@@ -70,13 +70,15 @@
 		$('body').on('click', '.js-gtco-nav-toggle', function(event){
 			var $this = $(this);
 
-
 			if ( $('body').hasClass('overflow offcanvas') ) {
 				$('body').removeClass('overflow offcanvas');
+                $('#gtco-offcanvas').slideUp(500,'easeOutExpo');
 			} else {
 				$('body').addClass('overflow offcanvas');
+                $('#gtco-offcanvas').slideDown(500,'easeOutExpo');
 			}
 			$this.toggleClass('active');
+
 			event.preventDefault();
 
 		});
@@ -642,7 +644,7 @@
             $('html, body').animate( { scrollTop: $('body').offset().top + 600 }, 500 );
         });
     };
-	
+
 	$(function(){
 		mobileMenuOutsideClick();
 		offcanvasMenu();

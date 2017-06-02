@@ -30,6 +30,8 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Banner Slider Zoom In/Out
+            FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/bannerscollection_zoominout.css',
             
             //Css Path
             FE_CSS_PATH    . 'animate.css',
@@ -51,6 +53,9 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Banner Slider Zoom In/Out
+            FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/js/jquery.ui.touch-punch.min.js',
+            FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/js/bannerscollection_zoominout.js',
             
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
@@ -61,7 +66,8 @@ class Frontend extends Public_Controller {
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
-            'TableAjax.init();'
+            'TableAjax.init();',
+            'BannerZoomInout.init();',
         ));
         
         $data['title']          = TITLE . 'Home';

@@ -34,6 +34,7 @@ body {
   -o-transition: 0.5s;
   transition: 0.5s;
 }
+/*
 .offcanvas #page {
   overflow: hidden;
   position: absolute;
@@ -51,6 +52,7 @@ body {
   background: rgba(0, 0, 0, 0.7);
   content: "";
 }
+*/
 
 a {
   color: #1D315F;
@@ -121,6 +123,10 @@ h1, h2, h3, h4, h5, h6, figure {
   text-transform: uppercase;
   font-weight: bold;
 }
+.gtco-nav #gtco-logo a img{
+    width: 450px;
+    height: auto;
+}
 .gtco-nav #gtco-logo em {
   color: #1D315F;
 }
@@ -134,6 +140,7 @@ h1, h2, h3, h4, h5, h6, figure {
   padding: 10px 0;
   text-transform: uppercase;
   font-weight: bold;
+  display: inline-block;
 }
 .gtco-nav #gtco-titlenav em {
   color: #1D315F;
@@ -175,7 +182,6 @@ h1, h2, h3, h4, h5, h6, figure {
 
 .gtco-navbar {
   margin: 0px !important;
-  border-bottom: solid 10px #1D315F !important;
 }
 
 .navbar-header li a {
@@ -258,7 +264,7 @@ h1, h2, h3, h4, h5, h6, figure {
 
 .currentactive {
   color: white !important;
-  background-color: #1D315F !important;    
+  background-color: #2A6495 !important;    
 }
 .gtco-nav ul li a:hover, .gtco-nav ul li a:focus, .gtco-nav ul li a:active {
   color: white;
@@ -573,30 +579,136 @@ h1, h2, h3, h4, h5, h6, figure {
   display: block;
 }
 
-.gtco-social-icons {
+.gtco-social-icons,
+.gtco-login-button {
   margin: 0;
   padding: 0;
 }
-.gtco-social-icons li {
+.gtco-social-icons li,
+.gtco-login-button li {
   margin: 0;
   padding: 0;
   list-style: none;
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
 }
 .gtco-social-icons li a {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
-  color: #1D315F;
+  color: #FFFFFF;
   padding-left: 10px;
   padding-right: 10px;
 }
+.gtco-social-icons li a:hover{
+    color: #E4A000 !important;
+}
 .gtco-social-icons li a i {
   font-size: 20px;
+}
+
+.gtco-login-button{
+    text-align: right;
+}
+
+.gtco-login-button li a{
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    padding: 14px 30px;
+    cursor: pointer;
+    color: #FFFFFF !important;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.gtco-login-button li a.login{
+    background-color: #337AB7;
+}
+.gtco-login-button li a.login:hover{
+    background-color: #286090;
+}
+.gtco-login-button li a.register{
+    background-color: #5BC0DE;
+}
+.gtco-login-button li a.register:hover{
+    background-color: #31B0D5;
+}
+
+.gtco-search{
+    padding: 0 !important;
+    margin: 26px 0 0 0 !important;
+}
+.gtco-search .form-line .form-control{
+    padding: 0 !important;
+}
+.gtco-search .input-group-addon{
+    padding: 0 0 0 5px;
+}
+.gtco-search .input-group-addon .btn{
+    border-radius: 0px !important;
+    padding: 6px 10px;
+    background-color: #666;
+}
+.gtco-search .input-group-addon .btn i{
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 480px) {
+    .gtco-social-icons li a i{
+        font-size: 14px;
+    }
+    .gtco-social-icons li a{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    .gtco-nav #gtco-logo a img{
+        width: 100% !important;
+    }
+    #gtco-logo a{
+        padding: 0;
+    }
+    .gtco-login-button li a{
+        padding: 14px 10px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .gtco-nav-toggle{
+        top: -126px !important;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 400px) {
+    .gtco-nav-toggle{
+        top: -129px !important;
+    }
+}
+
+@media screen and (min-width: 401px) and (max-width: 420px) {
+    .gtco-nav-toggle{
+        top: -133px !important;
+    }
+}
+
+@media screen and (min-width: 420px) and (max-width: 480px) {
+    .gtco-nav-toggle{
+        top: -136px !important;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .gtco-nav #gtco-logo a img{
+        width: 100%;
+    }
+    #gtco-logo{
+        width: 80% !important;
+    }
+    #gtco-logo a{
+        padding: 0;
+    }
 }
 
 .gtco-contact-info {
@@ -1313,31 +1425,23 @@ form label {
   display: block;
 }
 
+#mobile-nav{
+    position: relative;
+}
+
 #gtco-offcanvas {
-  position: absolute;
-  z-index: 1901;
-  width: 270px;
-  background: black;
+  *position: absolute;
+  *z-index: 1901;
+  width: 100%;
+  background: #FFFFFF;
   top: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  padding: 45px 40px 40px 40px;
+  padding: 0;
   overflow-y: auto;
   display: none;
-  -moz-transform: translateX(270px);
-  -webkit-transform: translateX(270px);
-  -ms-transform: translateX(270px);
-  -o-transform: translateX(270px);
-  transform: translateX(270px);
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s;
-}
-@media screen and (max-width: 768px) {
-  #gtco-offcanvas {
-    display: block;
-  }
+  color: #333;
 }
 .offcanvas #gtco-offcanvas {
   -moz-transform: translateX(0px);
@@ -1347,10 +1451,15 @@ form label {
   transform: translateX(0px);
 }
 #gtco-offcanvas a {
-  color: rgba(255, 255, 255, 0.5);
+    display: block;
+  color: rgba(51, 51, 51, 1);
+  padding: 10px 15px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 #gtco-offcanvas a:hover {
   color: rgba(255, 255, 255, 0.8);
+  background-color: #254384;
 }
 #gtco-offcanvas ul {
   padding: 0;
@@ -1362,16 +1471,26 @@ form label {
   list-style: none;
 }
 #gtco-offcanvas ul li > ul {
-  padding-left: 20px;
+  padding: 0 20px;
   display: none;
+  background: #cc813b none repeat scroll 0 0;
+  color:  #FFFFFF;
 }
+#gtco-offcanvas ul li > ul a {
+    color:  #FFFFFF;
+}
+#gtco-offcanvas ul li > ul a:hover{
+    background: #cc813b none repeat scroll 0 0;
+    color: #111111;
+}
+
 #gtco-offcanvas ul li.offcanvas-has-dropdown > a {
   display: block;
   position: relative;
 }
 #gtco-offcanvas ul li.offcanvas-has-dropdown > a:after {
   position: absolute;
-  right: 0px;
+  right: 10px;
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -1384,7 +1503,6 @@ form label {
   -moz-osx-font-smoothing: grayscale;
   content: "\e921";
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.2);
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
@@ -1395,6 +1513,16 @@ form label {
   -ms-transform: rotate(-180deg);
   -o-transform: rotate(-180deg);
   transform: rotate(-180deg);
+}
+
+#gtco-offcanvas > ul > li.offcanvas-has-dropdown.active, 
+#gtco-offcanvas > ol > li.offcanvas-has-dropdown.active{
+    background-color: #254384;
+}
+
+#gtco-offcanvas > ul > li.offcanvas-has-dropdown.active > a,
+#gtco-offcanvas > ol > li.offcanvas-has-dropdown.active > a{
+    color: #FFFFFF;
 }
 
 .uppercase {
@@ -1443,8 +1571,8 @@ form label {
 }
 
 .gtco-nav-toggle {
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   text-decoration: none;
 }
@@ -1458,8 +1586,8 @@ form label {
 .gtco-nav-toggle i {
   position: relative;
   display: inline-block;
-  width: 25px;
-  height: 2px;
+  width: 35px;
+  height: 4px;
   color: #252525;
   font: bold 14px/.4 Helvetica;
   text-transform: uppercase;
@@ -1469,19 +1597,19 @@ form label {
 }
 .gtco-nav-toggle i::before, .gtco-nav-toggle i::after {
   content: '';
-  width: 25px;
-  height: 2px;
+  width: 35px;
+  height: 4px;
   background: #252525;
   position: absolute;
   left: 0;
   transition: all .2s ease-out;
 }
 .gtco-nav-toggle.gtco-nav-white > i {
-  color: #fff;
-  background: #fff;
+  color: #252525;
+  background: #252525;
 }
 .gtco-nav-toggle.gtco-nav-white > i::before, .gtco-nav-toggle.gtco-nav-white > i::after {
-  background: #fff;
+  background: #252525;
 }
 
 .gtco-nav-toggle i::before {
@@ -1524,22 +1652,46 @@ form label {
 
 .gtco-nav-toggle {
   position: absolute;
-  right: 0px;
-  top: 10px;
-  z-index: 21;
-  padding: 6px 0 0 0;
+  right: 15px;
+  top: -148px;
+  padding: 0 0 0 0;
   display: block;
   margin: 0 auto;
   display: none;
-  height: 44px;
-  width: 44px;
+  height: 35px;
+  width: 35px;
   z-index: 2001;
   border-bottom: none !important;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 990px) {
   .gtco-nav-toggle {
     display: block;
   }
+  .gtco-search{
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+    padding: 9px 9px 4px 9px !important;
+    background-color: #1D315F;
+  }
+  .gtco-search .input-group-addon{
+    padding-left: 0 !important;
+    vertical-align: top;
+  }
+  .gtco-search .input-group-addon .btn{
+    padding: 9px 20px;
+  }
+  .gtco-search .form-line .form-control{
+    padding: 0 15px !important;
+  }
+  .menu-2{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 991px) {
+    #gtco-offcanvas{
+        display:none !important;
+    }
 }
 
 /*

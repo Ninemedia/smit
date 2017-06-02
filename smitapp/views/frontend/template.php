@@ -12,45 +12,49 @@
     	<div class="gtco-loader"></div>
     	
     	<div id="page">
-            <div class="row" id="gtco-navbarheader">
+            <div id="gtco-navbarheader">
                 <div class="gtco-container">
-                    <!--
-                    <div class="col-sm-9 col-xs-12">
-                        <div class="marquee-parent">
-                            <div class="marquee-child">
-                                TES TEXT BERJALAN DIATAS  |  PENGUMUMAN SELEKSI INKUBASI TEKNOLOGI
-                            </div>
-                        </div>	
-    				</div>
-                    -->
-                    <div class="col-sm-3 col-xs-12">
-    				    <div id="gtco-socialnav">
-                            <ul class="gtco-social-icons">
-        						<li><a href="#"><i class="icon-twitter"></i></a></li>
-        						<li><a href="#"><i class="icon-facebook"></i></a></li>
-        						<li><a href="#"><i class="icon-linkedin"></i></a></li>
-        						<li><a href="#"><i class="icon-dribbble"></i></a></li>
-        					</ul>
-                        </div>	
-    				</div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        				    <div id="gtco-socialnav">
+                                <ul class="gtco-social-icons">
+            						<li><a href="#"><i class="icon-twitter"></i></a></li>
+            						<li><a href="#"><i class="icon-facebook"></i></a></li>
+            						<li><a href="#"><i class="icon-linkedin"></i></a></li>
+            						<li><a href="#"><i class="icon-dribbble"></i></a></li>
+            					</ul>
+                            </div>	
+        				</div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <ul class="gtco-login-button">
+                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li><!--
+       					     --><li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         	<nav class="gtco-nav" role="navigation">
                 <div class="gtco-navbar">
                     <div class="gtco-container">
             			<div class="row">
-            				<div class="col-sm-1 col-xs-12">
+            				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             					<div id="gtco-logo">
-                                    <a href="<?php echo base_url(); ?>"><img src="<?php echo FE_IMG_PATH; ?>logo/logo-lipi.png" alt="" /></a>
+                                    <a href="<?php echo base_url(); ?>"><img src="<?php echo FE_IMG_PATH; ?>logo/logo.png" alt="" /></a>
                                 </div>
             				</div>
-                            <div class="col-sm-6 col-xs-12">
-            					<div id="gtco-titlenav">
-                                    <a href="<?php echo base_url(); ?>">INKUBATOR TEKNOLOGI</a><br />
-                                    <a href="http://inovasi.lipi.go.id/en">PUSAT INOVASI</a><br />
-                                    <a href="http://lipi.go.id/">LEMBAGA ILMU PENGETAHUAN INDONESIA</a>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="input-group gtco-search">
+                                    <div class="form-line">
+                                        <input type="text" name="search_key" id="search_key" class="form-control" placeholder="KATA KUNCI">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <button class="btn waves-effect" type="button">
+                                            <i class="material-icons">search</i>
+                                        </button>
+                                    </span>
                                 </div>
-            				</div>
+                            </div>
             			</div>
                         <div class="row" id="menu-header">
                             <div class="col-sm-12 col-xs-12 text-center menu-2">
@@ -91,8 +95,9 @@
             			
             		</div>    
                 </div>
-        		
         	</nav>
+            <div class="separator"></div>
+            <div id="mobile-nav"></div>
             <!-- End Header -->
     
             <!-- Content -->

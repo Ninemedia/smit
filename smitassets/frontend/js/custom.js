@@ -126,4 +126,31 @@ var Guides = function () {
     };
 }();
 
+var BannerZoomInout = function () {
+    var handleBannerZoomInout = function(){ 
+        $('#main-slider-banner-zoom-inout').bannerscollection_zoominout({
+			skin: 'opportune',
+			responsive:true,
+            width100Proc:true,
+			width: 1077,
+			height: 320,
+			circleRadius:8,
+			circleLineWidth:4,
+			circleColor: "#ffffff", //849ef3
+			circleAlpha: 50,
+			behindCircleColor: "#000000",
+			behindCircleAlpha: 20,
+			xshowBottomNav:false,
+			thumbsWrapperMarginTop:30
+		});	
+    }
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleBannerZoomInout();
+        }
+    };
+}();
+
 
