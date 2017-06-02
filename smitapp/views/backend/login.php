@@ -7,7 +7,7 @@
         <title><?php echo $title; ?></title>
         
         <!-- Favicon-->
-        <link rel="icon" href="<?php echo BE_IMG_PATH . 'logo/favicon.png'; ?>" type="image/x-icon" />
+        <link rel="icon" href="<?php echo BE_IMG_PATH . 'logo/favicon.ico'; ?>" type="image/x-icon" />
     
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
@@ -50,7 +50,7 @@
         <!-- Login Box -->
         <div class="login-box">
             <div class="logo">
-                <a href="javascript:void(0);"><b>SMIT <br /> PUSINOV LIPI</b></a>
+                <a href="javascript:void(0);"><b>SISTEM INKUBASI TEKNOLOGI <br />PUSAT INOVASI LIPI</b></a>
             </div>
             <div class="card">
                 <div class="body">
