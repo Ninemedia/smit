@@ -211,7 +211,7 @@ $route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";
 $route['announcements/details/(:any)']  = "backend/announcementdatadetails/$1";
 $route['announcementslist']             = "backend/announcementuserlistdata";
 // Guide Files
-$route['panduan/berkas']                = "backend/guides";
+$route['berkas/digital']                = "backend/guides";
 // Services
 $route['layanan']                       = "backend/services";
 // News

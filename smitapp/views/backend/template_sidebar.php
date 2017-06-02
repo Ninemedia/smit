@@ -378,10 +378,10 @@
             'sub'       => false,
 	    ),
         array (
-            'title'     => 'Panduan',
-            'nav'       => 'panduan',
+            'title'     => 'Berkas Digital',
+            'nav'       => 'berkas',
             'parent'    => 'false',
-            'link'      => base_url('panduan/berkas'),
+            'link'      => base_url('berkas/digital'),
             'icon'      => 'insert_drive_file',
             'badge'     => 0,
             'sub'       => false,

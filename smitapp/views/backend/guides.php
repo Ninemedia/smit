@@ -5,7 +5,7 @@
         <!-- Start List Guide Files -->
         <div class="card">
             <div class="header">
-                <h2>Daftar Berkas Panduan</h2>
+                <h2>Daftar Berkas Digital</h2>
             </div>
             <div class="body">
                 <?php if($is_admin): ?>
@@ -13,12 +13,12 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR PANDUAN
+                            <i class="material-icons">list</i> DAFTAR BERKAS DIGITAL
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> TAMBAH PANDUAN
+                            <i class="material-icons">add_box</i> TAMBAH BERKAS DIGITAL
                         </a>
                     </li>
                 </ul>
@@ -31,7 +31,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-                                        <th class="width20 text-center">Judul Berkas</th>
+                                        <th class="width20 text-center">Judul Berkas Digital</th>
             							<th class="width35 text-center">Deskripsi</th>
                                         <th class="width5 text-center">File</th>
                                         <th class="width10 text-center">Tanggal</th>
@@ -84,7 +84,7 @@
                     		</div>
         
                             <div class="form-group">
-                                <label class="control-label">Judul Panduan <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Judul Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php 
                                         echo form_input(
@@ -92,7 +92,7 @@
                                             ( !empty($post) ? smit_isset($post['guide_title'],'') : '' ),
                                             array(
                                                 'class'=>'form-control text-uppercase',
-                                                'placeholder'=>'Masukan Judul Panduan...',
+                                                'placeholder'=>'Masukan Judul Berkas Digital...',
                                                 'required'=>'required'
                                             )
                                         ); 
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Deskripsi Panduan <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Deskripsi Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php 
                                         echo form_textarea(
@@ -108,7 +108,7 @@
                                                 'name'=>'guide_description',
                                                 'class'=>'form-control no-resize',
                                                 'rows'=>4,
-                                                'placeholder'=>'Silahkan isi deskripsi dari berkas panduan dengan maksimal 400 huruf...'
+                                                'placeholder'=>'Silahkan isi deskripsi dari berkas Berkas Digital dengan maksimal 400 huruf...'
                                             ),
                                             ( !empty($post) ? smit_isset($post['guide_description'],'') : '' )
                                         ); 
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Berkas Panduan <b style="color: red !important;">(*)</b></label>
+                                <label>Berkas Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
                             </div>
                             <button class="btn btn-sm bg-blue waves-effect" type="submit">Unggah Berkas</button>
