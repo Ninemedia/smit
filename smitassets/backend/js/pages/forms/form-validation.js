@@ -430,6 +430,64 @@ var AnnouncementValidation = function () {
     };
 }();
 
+var NewsValidation = function () {
+    var handleNewsValidation = function(){
+        $('#newsadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_title: {
+                    required: true,
+                },
+                reg_source: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_title: {
+                    required: 'Judul Berita harus di isi',
+                },
+                reg_source: {
+                    required: 'Sumber Berita harus di isi',
+                },
+                reg_desc: {
+                    required: 'Isi Berita harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_news').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleNewsValidation();
+        }
+    };
+}();
+
 var SettingValidation = function () {
     var handleSettingWorkunitValidation = function(){
         $('#workunitadd').validate({

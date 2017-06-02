@@ -403,7 +403,59 @@ if ( !function_exists('smit_generate_no_announcement') )
     }
 }
 
-
+/**
+ * Generate no news string
+ * @author  Iqbal
+ * @param   Int     $length     Random String Length
+ * @param   String  $type       Random String Type (num,charup,charlow,up,low,'')
+ * @return  String
+ */
+if ( !function_exists('smit_generate_no_news') )
+{
+    function smit_generate_no_news($length = 0, $type='') {
+        $CI =& get_instance();
+        
+        $length += 1;
+        
+        if( $type == 'num' ){
+            $characters = '0123456789';
+        }elseif( $type == 'charup' ){
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }elseif( $type == 'charlow' ){
+            $characters = 'abcdefghijklmnopqrstuvwxyz';
+        }elseif( $type == 'low' ){
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        }elseif( $type == 'up' ){
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }else{
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        }
+        
+        $month          = date('m');
+        $years          = date('Y');
+        
+        $sql            = 'SELECT value FROM smit_options WHERE name LIKE "unique_number_news" FOR UPDATE';
+        $qry            = $CI->db->query($sql);
+        $row            = $qry->row();
+        
+        $number         = intval($row->value);
+        $unique_number  = str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        $randomString   = '';
+        
+        for ($i = 1; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)] .'/NEWS/'. $unique_number .'/INATEK/' . $month .'/'. $years;
+        }
+        
+        if( $unique_number == 999 ){
+            $sql_update = 'UPDATE smit_options SET value = 0 WHERE name LIKE "unique_number_news"';
+        }else{
+            $sql_update = 'UPDATE smit_options SET value = value + 1 WHERE name LIKE "unique_number_news"';
+        }
+        
+        $CI->db->query($sql_update);
+        return $randomString;
+    }
+}
 
 /**
  * Generate unique number

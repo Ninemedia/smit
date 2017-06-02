@@ -187,6 +187,49 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
     });
 });
 
+// News Delete
+$("body").delegate( "button.newsdelete", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#workunit_list').parents('.dataTables_wrapper');
+    var msg = '';
+    
+    bootbox.confirm("Anda yakin akan menghapus data berita ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_workunit_list').trigger('click');
+                }
+            });
+        }
+    });
+});
+
 /*
 $("body").delegate( "a.tenantconfirm", "click", function( event ) {
     event.preventDefault();
@@ -298,6 +341,25 @@ var UploadFiles = function () {
         });
     };
     
+    var handleUploadNews= function(){
+        $("#news_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
     var handleUploadLogoTenant = function(){
         $("#avatar_company").fileinput({
             showUpload : false,
@@ -343,6 +405,7 @@ var UploadFiles = function () {
             handleEditUploadFiles();
             handleUploadAvatar();
             handleUploadLogoTenant();
+            handleUploadNews();
         }
     };
 }();
