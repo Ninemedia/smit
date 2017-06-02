@@ -88,8 +88,10 @@
                                     <li><a <?php echo ($active_page == 'infografis' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('infografis'); ?>">Info Grafis</a></li>
             						<li><a <?php echo ($active_page == 'berkasdigital' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('berkasdigital'); ?>">Berkas Digital</a></li>
             						<li><a <?php echo ($active_page == 'kontak' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('kontak'); ?>">Kontak</a></li>
+                                    <!--
             						<li><a <?php echo ($active_page == 'login' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('login'); ?>">Masuk</a></li>
-            					</ul>
+            					    -->
+                                </ul>
             				</div>
                         </div>
             			
