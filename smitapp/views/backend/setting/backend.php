@@ -26,6 +26,11 @@
                             <i class="material-icons">people</i> INKUBASI
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="#workunit" data-toggle="tab">
+                            <i class="material-icons">cast_connected</i> SATUAN KERJA
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -46,6 +51,9 @@
                         <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/notificationincubation'); ?>
                     </div>
                     
+                    <div role="tabpanel" class="tab-pane fade" id="workunit">
+                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/workunit'); ?>
+                    </div>
                 </div>
             </div>
         </div>

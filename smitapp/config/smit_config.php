@@ -148,7 +148,7 @@ $config['user_menu_access']         = array(
         'pengaturan',
         'pengaturan/depan',
         'pengaturan/belakang',
-        'pengaturan/satuankerja',
+        //'pengaturan/satuankerja',
     ),
     PENDAMPING                      => array(
         'beranda',
