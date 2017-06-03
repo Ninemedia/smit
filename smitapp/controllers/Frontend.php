@@ -676,9 +676,19 @@ class Frontend extends Public_Controller {
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
             die(json_encode($data));
         }
+        
+        if( empty($_FILES['reg_selection_rab']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            die(json_encode($data));
+        }
+        
+        echo '<pre>';
+        print_r($_FILES);
+        die();
 
         if( !empty( $_POST ) ){
             // -------------------------------------------------
@@ -721,6 +731,14 @@ class Frontend extends Public_Controller {
                 $this->load->library('MY_Upload', $config);
                     
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                
+                if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     $message = $this->my_upload->display_errors();
                     
                     // Set JSON data

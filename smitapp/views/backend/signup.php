@@ -133,7 +133,7 @@
                     
                         <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">DAFTAR</button>
                         <div class="m-t-25 m-b--5 align-center">
-                            Kembali ke <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" id="back-selection-btn">Menu Seleksi Pra Inkubasi</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> 
+                            Kembali ke <a href="<?php echo base_url(''); ?>" id="back-selection-btn">Beranda</a>, <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" id="back-selection-btn">Menu Seleksi Pra Inkubasi</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> 
                         </div>
                     <?php echo form_close(); ?>
                     <!-- END SIGN UP FORM -->
