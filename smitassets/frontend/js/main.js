@@ -154,9 +154,9 @@
 		
 		var owl = $('.owl-carousel-carousel');
 		owl.owlCarousel({
-			items: 3,
+			items: 6,
 			loop: true,
-			margin: 20,
+			margin: 10,
 			nav: true,
 			dots: true,
 			smartSpeed: 800,
@@ -166,23 +166,32 @@
 		      "<i class='ti-arrow-right owl-direction'></i>"
 	     	],
 	     	responsive:{
-	        0:{
-	            items:1
-	        },
-	        600:{
-	            items:2
-	        },
-	        1000:{
-	            items:3
-	        }
+    	        0:{
+    	            items:1
+    	        },
+                480:{
+    	            items:3
+    	        },
+    	        600:{
+    	            items:3
+    	        },
+                768:{
+    	            items:3
+    	        },
+                800:{
+    	            items:3
+    	        },
+    	        1000:{
+    	            items:6
+    	        }
 	    	}
 		});
         
         var owl = $('.owl-carousel-footer');
 		owl.owlCarousel({
-			items: 3,
+			items: 6,
 			loop: true,
-			margin: 20,
+			margin: 10,
 			nav: true,
 			dots: true,
 			smartSpeed: 800,
@@ -195,11 +204,23 @@
     	        0:{
     	            items:1
     	        },
-    	        600:{
+                320:{
     	            items:2
     	        },
-    	        1000:{
+                480:{
     	            items:3
+    	        },
+    	        600:{
+    	            items:4
+    	        },
+                768:{
+    	            items:4
+    	        },
+                800:{
+    	            items:4
+    	        },
+    	        1000:{
+    	            items:6
     	        }
 	    	}
 		});

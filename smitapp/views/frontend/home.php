@@ -89,29 +89,6 @@
 <!-- #END Main Slider - Banner Zoom In/Out -->
 
 <!--
-<div id="gtco-sliders" class="animate-box">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="owl-carousel owl-carousel-fullwidth">
-				<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
-    			</div>
-    			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
-    			</div>
-    			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
-    			</div>
-    			<div class="item">
-    				<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" />
-    			</div>
-			</div>
-		</div>
-	</div>
-</div>
--->
-
-<!--
 <div id="gtco-features-3">
 	<div class="gtco-container">
 		<div class="gtco-flex">
@@ -443,6 +420,15 @@
             <div class="gtco-widget">
     			<div class="owl-carousel owl-carousel-footer">
     				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant1.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant2.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant3.jpg" alt="" />
+    				</div>
+                    <div class="item">
     					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant1.jpg" alt="" />
     				</div>
     				<div class="item">
