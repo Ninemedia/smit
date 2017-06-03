@@ -64,7 +64,7 @@
                                             'contact_email',
                                             ( !empty($post) ? smit_isset($post['contact_email'],'') : '' ),
                                             array(
-                                                'class'=>'form-control text-uppercase',
+                                                'class'=>'form-control',
                                                 'placeholder'=>'Masukan Email Anda...',
                                                 'required'=>'required'
                                             )

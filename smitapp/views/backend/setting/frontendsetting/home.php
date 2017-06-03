@@ -47,7 +47,19 @@
                         							<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                                     <td></td>
-                        							<td></td>
+                        							<td>
+                                                        <select name="search_status" class="form-control form-filter input-sm">
+                        									<option value="">Pilih...</option>
+                        									<?php
+                        			                        	$status = smit_user_status();
+                        			                            if( !empty($status) ){
+                        			                                foreach($status as $key => $val){
+                        			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
+                        			                                }
+                        			                            }
+                        			                        ?>
+                        								</select>
+                                                    </td>
                                                     <td>
                         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />

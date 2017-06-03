@@ -65,6 +65,15 @@ $config['user_status']              = array(
 );
 
 /**
+ * User Status
+ */
+$config['user_status_message']      = array(
+    UNREAD                          => 'Belum Dibaca',
+    READ                            => 'Dibaca',
+    INSIDE                          => 'Dibalas'
+);
+
+/**
  * Incubation Selection Status
  */
 $config['incsel_status']            = array(
@@ -145,7 +154,7 @@ $config['user_menu_access']         = array(
         'berkas/digital',
         'pengumuman',
         'layanan',
-        'layanan/kontakumum',
+        'layanan/pesanumum',
         'layanan/komunikasi',
         'layanan/ikm',
         'pengaturan',

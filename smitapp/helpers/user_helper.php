@@ -665,6 +665,21 @@ if ( !function_exists('smit_user_status') )
 	}
 }
 
+if ( !function_exists('smit_user_status_message') ) 
+{
+    /**
+     * Get user status
+     * @author  Iqbal
+     * @param   Int         $id     (Optional)  ID of User Status
+     * @return  User Status Data
+     */
+	function smit_user_status_message($id='') {
+		$status = config_item('user_status_message');
+		if (!empty($id) && isset($status[$id])) return $status[$id];
+		return $status;
+	}
+}
+
 if ( !function_exists('smit_incubation_selection_status') ) 
 {
     /**

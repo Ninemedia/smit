@@ -148,6 +148,11 @@ var TableAjax = function () {
         gridTable( $("#slider_list"), true );
     };
     
+    // General Message Lists 
+    var handleRecordsGeneralMessageList = function() {
+        gridTable( $("#generalmessage_list"), true );
+    };
+    
     // Announcement Lists 
     var handleRecordsAnnouncementList = function() {
         gridTable( $("#announcement_list"), true );
@@ -261,6 +266,10 @@ var TableAjax = function () {
             
             //Slider
             handleRecordsSliderList();
+            
+            //Service
+            //General Message
+            handleRecordsGeneralMessageList();
         }
     };
 

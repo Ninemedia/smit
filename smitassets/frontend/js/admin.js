@@ -556,6 +556,7 @@ var App = function() {
             // Input your handle function here
             handleInit();
             handleSetting();
+            handleAddContact();
 		},
         
         // wrapper function to scroll(focus) to an element

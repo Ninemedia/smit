@@ -1507,8 +1507,8 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
             // Jquery Validation Plugin
-            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
-            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            FE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            FE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -1535,143 +1535,72 @@ class Frontend extends Public_Controller {
 	 */
 	public function contactadd()
 	{
-        auth_redirect();
-        
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         
-        $title                  = $this->input->post('reg_title');
-        $title                  = trim( smit_isset($title, "") );
-        $description            = $this->input->post('reg_desc');
-        $description            = trim( smit_isset($description, "") );
+        $contact_name           = $this->input->post('contact_name');
+        $contact_name           = trim( smit_isset($contact_name, "") );
+        $contact_email          = $this->input->post('contact_email');
+        $contact_email          = trim( smit_isset($contact_email, "") );
+        $contact_title          = $this->input->post('contact_title');
+        $contact_title          = trim( smit_isset($contact_title, "") );
+        $contact_desc           = $this->input->post('contact_desc');
+        $contact_desc           = trim( smit_isset($contact_desc, "") );
         
-        /*
-        $agree                  = $this->input->post('reg_agree');
-        $agree                  = trim( smit_isset($agree, "") );
-        */
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
-        $this->form_validation->set_rules('reg_title','Judul Pengumuman','required');
-        $this->form_validation->set_rules('reg_desc','Deskripsi','required');
-        //$this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
+        $this->form_validation->set_rules('contact_name','Nama Anda','required');
+        $this->form_validation->set_rules('contact_email','Email Anda','required');
+        $this->form_validation->set_rules('contact_title','Judul Pesan','required');
+        $this->form_validation->set_rules('contact_desc','Pesan Anda','required');
         
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
         
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. '.validation_errors().''); 
+            $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. '.validation_errors().''); 
             die(json_encode($data));
         }
-        
-        // -------------------------------------------------
-        // Check Agreement
-        // -------------------------------------------------
-        /*
-        if( $agree != 'on' ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.'); 
-            die(json_encode($data));
-        }
-        */
-        
-        // -------------------------------------------------
-        // Check File
-        // -------------------------------------------------
-        /*
-        if( empty($_FILES['selection_files']['name']) ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!'); 
-            die(json_encode($data));
-        }
-        */
         
         if( !empty( $_POST ) ){
-            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/announcement/' . $current_user->id;
-            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                
-            $config = array(
-                'upload_path'   => $upload_path,
-                'allowed_types' => "doc|docx|pdf|xls|xlsx",
-                'overwrite'     => FALSE,
-                'max_size'      => "2048000", 
+            $contact_data       = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'name'          => strtoupper( $contact_name ),
+                'email'         => $contact_email,
+                'title'         => strtoupper( $contact_title ),
+                'description'   => $contact_desc,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
             );
-            $this->upload->initialize($config);
                 
             // -------------------------------------------------
-            // Begin Transaction
+            // Save Contact Message 
             // -------------------------------------------------
-            $this->db->trans_begin();
-     
-            if( !empty($_FILES['selection_files']['name']) ){
-                if( ! $this->upload->do_upload('selection_files') ){
-                    $message = $this->upload->display_errors();
-                    
-                    // Set JSON data
-                    $data = array('message' => 'error','data' => $this->upload->display_errors()); 
-                    die(json_encode($data));
-                }
-                $upload_data    = $this->upload->data();
-                $announcement_data  = array(
-                    'uniquecode'    => smit_generate_rand_string(10,'low'),
-                    'user_id'       => $current_user->id,
-                    'username'      => strtolower($current_user->username),
-                    'name'          => $current_user->name,
-                    'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
-                    'title'         => $title,
-                    'url'           => smit_isset($upload_data['full_path'],''),
-                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
-                    'filename'      => smit_isset($upload_data['raw_name'],''),
-                    'size'          => smit_isset($upload_data['file_size'],0),
-                    'uploader'      => $current_user->id,
-                    'datecreated'   => $curdate,
-                    'datemodified'  => $curdate,
-                );        
-            }else{
-                $announcement_data  = array(
-                    'uniquecode'    => smit_generate_rand_string(10,'low'),
-                    'user_id'       => $current_user->id,
-                    'username'      => strtolower($current_user->username),
-                    'name'          => $current_user->name,
-                    'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
-                    'title'         => $title,
-                    'desc'          => $description,
-                    'uploader'      => $current_user->id,
-                    'datecreated'   => $curdate,
-                    'datemodified'  => $curdate,
-                );    
-            }
-                    
-            // -------------------------------------------------
-            // Save Announcement 
-            // -------------------------------------------------
-            $trans_save_announcement      = FALSE;
-            if( $announcement_save_id   = $this->Model_Announcement->save_data_announcement($announcement_data) ){
-                $trans_save_announcement  = TRUE;
+            $trans_save_contact         = FALSE;
+            if( $contact_save_id        = $this->Model_Service->save_data_contact_message($contact_data) ){
+                $trans_save_contact     = TRUE;
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data formulir anda'); 
                 die(json_encode($data));
             }
                     
             // -------------------------------------------------
             // Commit or Rollback Transaction
             // -------------------------------------------------
-            if( $trans_save_announcement ){
+            if( $trans_save_contact ){
                 if ($this->db->trans_status() === FALSE){
                     // Rollback Transaction
                     $this->db->trans_rollback();
                     // Set JSON data
                     $data = array(
                         'message'       => 'error',
-                        'data'          => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data transaksi database.'
+                        'data'          => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data transaksi database.'
                     ); die(json_encode($data));
                 }else{
                     // Commit Transaction
@@ -1680,16 +1609,14 @@ class Frontend extends Public_Controller {
                     $this->db->trans_complete();
                     
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran pengumuman baru berhasil!'); 
+                    $data       = array('message' => 'success', 'data' => 'Pengiriman pesan baru berhasil!'); 
                     die(json_encode($data));
-                    // Set Log Data
-                    smit_log( 'ANNOUNCEMENT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
                 }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data.'); 
+                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data.'); 
                 die(json_encode($data)); 
             } 
         }

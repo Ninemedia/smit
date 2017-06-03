@@ -221,6 +221,8 @@ $route['layanan']                       = "backend/services";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";
+// Announcements
+$route['layanan/pesanumum']             = "backend/generalmessage";
 // All
 $route['company/list']                  = "backend/listcompany";
 $route['company/detail']                = "backend/detailcompany";

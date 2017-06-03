@@ -415,10 +415,10 @@
             'badge'     => 0,
             'sub'       => array(
     			array (
-                    'title'     => 'Kontak Umum',
-                    'nav'       => 'layanan/kontakumum',
+                    'title'     => 'Pesan Umum',
+                    'nav'       => 'layanan/pesanumum',
                     'parent'    => 'layanan',
-                    'link'      => base_url('layanan/kontakumum'),
+                    'link'      => base_url('layanan/pesanumum'),
                     'icon'      => 'build',
                     'sub'       => false,
                     'badge'     => 0,
