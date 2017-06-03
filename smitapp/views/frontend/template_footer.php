@@ -5,7 +5,7 @@
             <div class="col-md-4">
 				<div class="gtco-widget">
 					<h3>Alamat</h3>
-					<ul class="gtco-footer-links">
+					<ul class="gtco-quick-contact">
 						<li><a href="#"><i class="icon-home"></i> Pusat Inovasi LIPI</a></li>
 						<li><a href="#"><i class="icon-address"></i> Jalan Raya Jakarta - Bogor KM. 47 Cibinong</a></li>
 					</ul>

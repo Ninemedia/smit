@@ -214,3 +214,67 @@ var SelectionValidation = function () {
         }
     };
 }();
+
+var ContactValidation = function () {
+    var handleContactValidation = function(){
+        $('#contactadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                contact_name: {
+                    required: true,
+                },
+                contact_email: {
+                    required: true,
+                },
+                contact_title: {
+                    required: true,
+                },
+                contact_desc: {
+                    required: true,
+                },
+            },
+            messages: {
+                contact_name: {
+                    required: 'Nama Anda harus di isi',
+                },
+                contact_email: {
+                    required: 'Email Anda harus di isi',
+                },
+                contact_title: {
+                    required: 'Judul Pesan harus di isi',
+                },
+                contact_desc: {
+                    required: 'Deskripsi Pesan harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_contact').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleContactValidation();
+        }
+    };
+}();
