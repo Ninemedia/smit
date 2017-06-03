@@ -18,17 +18,17 @@
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         				    <div id="gtco-socialnav">
                                 <ul class="gtco-social-icons">
-            						<li><a href="#"><i class="icon-twitter"></i></a></li>
-            						<li><a href="#"><i class="icon-facebook"></i></a></li>
-            						<li><a href="#"><i class="icon-linkedin"></i></a></li>
-            						<li><a href="#"><i class="icon-dribbble"></i></a></li>
+            						<li><a href="https://www.twitter.com"><i class="icon-twitter"></i></a></li>
+            						<li><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
+            						<li><a href="#"><i class="icon-instagram"></i></a></li>
+            						<li><a href="http://pusinov.lipi.go.id"><i class="icon-dribbble"></i></a></li>
             					</ul>
                             </div>	
         				</div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <ul class="gtco-login-button">
-                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li><!--
-       					     --><li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
+                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li>
+       					        <li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
                             </ul>
                         </div>
                     </div>
@@ -87,7 +87,14 @@
             						</li>
                                     <li><a <?php echo ($active_page == 'infografis' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('infografis'); ?>">Info Grafis</a></li>
             						<li><a <?php echo ($active_page == 'berkasdigital' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('berkasdigital'); ?>">Berkas Digital</a></li>
-            						<li><a <?php echo ($active_page == 'kontak' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('kontak'); ?>">Kontak</a></li>
+            						<li class="has-dropdown">
+            							<a <?php echo ($active_page2 == 'komunikasi' || $active_page2 == 'ikm' ? 'class="currentactive"' : ''); ?> href="#">Layanan</a>
+            							<ul class="dropdown">
+            								<li><a <?php echo ($active_page2 == 'komunikasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/komunikasi'); ?>">Komunikasi dan Bantuan</a></li>
+            								<li><a <?php echo ($active_page2 == 'ikm' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/ikm'); ?>">Pengukuran IKM</a></li>
+                                        </ul>
+            						</li>
+                                    <li><a <?php echo ($active_page == 'kontak' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('kontak'); ?>">Kontak</a></li>
                                     <!--
             						<li><a <?php echo ($active_page == 'login' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('login'); ?>">Masuk</a></li>
             					    -->

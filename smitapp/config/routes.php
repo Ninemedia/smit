@@ -261,7 +261,10 @@ $route['tenant/kategoritenant']         = "frontend/blogcategory";
 $route['berkasdigital']                 = "frontend/guide";
 // 7. Info Grafis
 $route['infografis']                    = "frontend/statistic";
-// 8. Contact
+// 8. Layanan
+$route['layanan/komunikasi']            = "frontend/communication";
+$route['layanan/ikm']                   = "frontend/ikm";
+// 9. Contact
 $route['kontak']                        = "frontend/contact";
 
 // All

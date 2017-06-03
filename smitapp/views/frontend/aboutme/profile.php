@@ -35,16 +35,14 @@
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="header">
-                    <h4>
-                        INKUBATOR TEKNOLOGI PUSAT INOVASI LIPI
-                    </h4>
+                    <h4>INKUBASI TEKNOLOGI PUSAT INOVASI LIPI</h4>
                 </div>
                 <div class="body">
 
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#history" data-toggle="tab">
-                                <i class="material-icons">home</i> SEJARAH INKUBATOR
+                                <i class="material-icons">home</i> SEJARAH INKUBASI
                             </a>
                         </li>
                         <li role="presentation">

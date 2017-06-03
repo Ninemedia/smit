@@ -7,7 +7,7 @@
         <title><?php echo $title; ?></title>
         
         <!-- Favicon-->
-        <link rel="icon" href="<?php echo BE_IMG_PATH . 'logo/favicon.png'; ?>" type="image/x-icon" />
+        <link rel="icon" href="<?php echo BE_IMG_PATH . 'logo/favicon.ico'; ?>" type="image/x-icon" />
     
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
@@ -47,7 +47,7 @@
         <!-- Login Box -->
         <div class="login-box">
             <div class="logo">
-                <a href="javascript:void(0);"><b>PUSINOV LIPI</b></a>
+                <a href="javascript:void(0);"><b>PENDAFTARAN INKUBASI TEKNOLOGI PUSAT INOVASI LIPI</b></a>
             </div>
             <div class="card">
                 <div class="body">
@@ -133,7 +133,7 @@
                     
                         <button class="btn btn-block btn-lg bg-blue waves-effect" type="submit">DAFTAR</button>
                         <div class="m-t-25 m-b--5 align-center">
-                            Kembali ke <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" id="back-selection-btn">Menu Seleksi Pra Inkubasi</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> 
+                            Kembali ke <a href="<?php echo base_url(''); ?>" id="back-selection-btn">Beranda</a>, <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" id="back-selection-btn">Menu Seleksi Pra Inkubasi</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" id="back-selection-btn">Menu Seleksi Inkubasi</a> 
                         </div>
                     <?php echo form_close(); ?>
                     <!-- END SIGN UP FORM -->

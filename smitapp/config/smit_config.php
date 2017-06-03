@@ -145,6 +145,9 @@ $config['user_menu_access']         = array(
         'berkas/digital',
         'pengumuman',
         'layanan',
+        'layanan/kontakumum',
+        'layanan/komunikasi',
+        'layanan/ikm',
         'pengaturan',
         'pengaturan/depan',
         'pengaturan/belakang',
@@ -164,6 +167,7 @@ $config['user_menu_access']         = array(
         'pendamping/tambah',
         'pendamping/laporan',
         'layanan',
+        'layanan/komunikasi',
     ),
     TENANT                          => array(
         'beranda',
@@ -188,6 +192,7 @@ $config['user_menu_access']         = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         'layanan',
+        'layanan/komunikasi',
     ),
     PENGUSUL                        => array(
         'beranda',
@@ -200,6 +205,7 @@ $config['user_menu_access']         = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         'layanan',
+        'layanan/komunikasi',
     ),
     PELAKSANA                        => array(
         'beranda',
@@ -222,6 +228,7 @@ $config['user_menu_access']         = array(
         'panduan/berkas',
         'pengumuman',
         'layanan',
+        'layanan/komunikasi',
     )
 );
 

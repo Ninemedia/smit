@@ -677,9 +677,19 @@ class Frontend extends Public_Controller {
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
             die(json_encode($data));
         }
+        
+        if( empty($_FILES['reg_selection_rab']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            die(json_encode($data));
+        }
+        
+        echo '<pre>';
+        print_r($_FILES);
+        die();
 
         if( !empty( $_POST ) ){
             // -------------------------------------------------
@@ -722,6 +732,14 @@ class Frontend extends Public_Controller {
                 $this->load->library('MY_Upload', $config);
                     
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                
+                if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     $message = $this->my_upload->display_errors();
                     
                     // Set JSON data
@@ -1491,10 +1509,14 @@ class Frontend extends Public_Controller {
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
+            FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
         
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'ContactValidation.init();',
+        ));
         
         $data['title']          = TITLE . 'Kontak';
         $data['headstyles']     = $headstyles;
@@ -1504,6 +1526,171 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'contact';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
+    
+    /**
+	 * Contact Add
+	 */
+	public function contactadd()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+        
+        /*
+        $agree                  = $this->input->post('reg_agree');
+        $agree                  = trim( smit_isset($agree, "") );
+        */
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Pengumuman','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi','required');
+        //$this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Check Agreement
+        // -------------------------------------------------
+        /*
+        if( $agree != 'on' ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.'); 
+            die(json_encode($data));
+        }
+        */
+        
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!'); 
+            die(json_encode($data));
+        }
+        */
+        
+        if( !empty( $_POST ) ){
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/announcement/' . $current_user->id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                
+            $config = array(
+                'upload_path'   => $upload_path,
+                'allowed_types' => "doc|docx|pdf|xls|xlsx",
+                'overwrite'     => FALSE,
+                'max_size'      => "2048000", 
+            );
+            $this->upload->initialize($config);
+                
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+     
+            if( !empty($_FILES['selection_files']['name']) ){
+                if( ! $this->upload->do_upload('selection_files') ){
+                    $message = $this->upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                $upload_data    = $this->upload->data();
+                $announcement_data  = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'user_id'       => $current_user->id,
+                    'username'      => strtolower($current_user->username),
+                    'name'          => $current_user->name,
+                    'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+                    'title'         => $title,
+                    'url'           => smit_isset($upload_data['full_path'],''),
+                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'filename'      => smit_isset($upload_data['raw_name'],''),
+                    'size'          => smit_isset($upload_data['file_size'],0),
+                    'uploader'      => $current_user->id,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );        
+            }else{
+                $announcement_data  = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'user_id'       => $current_user->id,
+                    'username'      => strtolower($current_user->username),
+                    'name'          => $current_user->name,
+                    'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+                    'title'         => $title,
+                    'desc'          => $description,
+                    'uploader'      => $current_user->id,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );    
+            }
+                    
+            // -------------------------------------------------
+            // Save Announcement 
+            // -------------------------------------------------
+            $trans_save_announcement      = FALSE;
+            if( $announcement_save_id   = $this->Model_Announcement->save_data_announcement($announcement_data) ){
+                $trans_save_announcement  = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                die(json_encode($data));
+            }
+                    
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_announcement ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran pengumuman baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'ANNOUNCEMENT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+        }
+	}
     // ---------------------------------------------------------------------------------------------
     
     /**
@@ -1541,6 +1728,81 @@ class Frontend extends Public_Controller {
         $data['scripts_init']   = $scripts_init;
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
+    
+    // ---------------------------------------------------------------------------------------------
+    // SERVICE
+    /**
+	 * Communication function.
+	 */
+    function communication(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Komunikasi dan Bantuan';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'service/communication';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+	 * IKM function.
+	 */
+    function ikm(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Pengukuran IKM';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'service/ikm';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    // ---------------------------------------------------------------------------------------------
     
 }
 

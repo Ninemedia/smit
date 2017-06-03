@@ -29,13 +29,15 @@
     </div>
 </div>
 <?php
-    $selection_year     = date('Y', strtotime($lss->selection_year_publication));
+    if(!empty($lss->selection_year_publication)){
+        $selection_year     = date('Y', strtotime($lss->selection_year_publication));    
+    }
 ?>
 <div id="gtco-content" class="gtco-section border-bottom animate-box">
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Mengenai Program Pra-Inkubasi <?php echo $selection_year; ?></h3>
+				<h3>Mengenai Program Pra-Inkubasi</h3>
 			</div>
 			<div class="col-md-12">
                 <div class="panel-body">
