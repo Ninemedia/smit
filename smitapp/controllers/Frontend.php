@@ -1728,6 +1728,81 @@ class Frontend extends Public_Controller {
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     
+    // ---------------------------------------------------------------------------------------------
+    // SERVICE
+    /**
+	 * Communication function.
+	 */
+    function communication(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Komunikasi dan Bantuan';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'service/communication';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+	 * IKM function.
+	 */
+    function ikm(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $data['title']          = TITLE . 'Pengukuran IKM';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'service/ikm';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    // ---------------------------------------------------------------------------------------------
+    
 }
 
 /* End of file Frontend.php */

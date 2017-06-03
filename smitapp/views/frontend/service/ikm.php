@@ -12,9 +12,14 @@
                             <i class="icon-home"></i> Beranda
                         </a>
                     </li>
-                    <li <?php echo ($active_page == 'infografis' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('infografis'); ?>">
-                            <i class=""></i> <strong>Info Grafis</strong>
+                    <li>
+                        <a href="<?php echo base_url(); ?>">
+                            <i class=""></i> Layanan
+                        </a>
+                    </li>
+                    <li <?php echo ($active_page == 'ikm' ? 'class="active"' : ''); ?>>
+                        <a href="<?php echo base_url('ikm'); ?>">
+                            <i class=""></i> <strong>Pengukuran IKM</strong>
                         </a>
                     </li>
                 </ol>
@@ -28,7 +33,7 @@
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Info Grafis</h3>
+				<h3>Pengukuran IKM</h3>
 			</div>
 			<div class="col-md-12">
                 <div class="panel-body">
