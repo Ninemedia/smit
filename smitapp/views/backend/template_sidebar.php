@@ -7,6 +7,14 @@
         }
     }
     
+    $badge_generalmessage   = 0;
+    if(!empty($is_admin)){
+        $generalmessage_list     = $this->Model_Service->count_generalmessage(UNREAD);
+        if($generalmessage_list > 0){
+            $badge_generalmessage = $generalmessage_list;
+        }
+    }
+    
     // Set menu array
     $menu_arr = array(
         array (
@@ -412,7 +420,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'ring_volume',
-            'badge'     => 0,
+            'badge'     => $badge_generalmessage,
             'sub'       => array(
     			array (
                     'title'     => 'Pesan Umum',
@@ -421,7 +429,7 @@
                     'link'      => base_url('layanan/pesanumum'),
                     'icon'      => 'build',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_generalmessage,
                 ),
                 array (
                     'title'     => 'Komunikasi & Bantuan',

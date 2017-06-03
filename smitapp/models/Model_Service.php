@@ -120,6 +120,13 @@ class Model_Service extends SMIT_Model{
         return $query->result();
     }
     
+    function count_generalmessage($status){
+        $this->db->where('status', $status);
+        $query = $this->db->get($this->contact_message);
+        
+        return $query->num_rows();
+    }
+    
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Guide.php */
