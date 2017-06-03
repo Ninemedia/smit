@@ -18,17 +18,18 @@
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         				    <div id="gtco-socialnav">
                                 <ul class="gtco-social-icons">
-            						<li><a href="#"><i class="icon-twitter"></i></a></li>
-            						<li><a href="#"><i class="icon-facebook"></i></a></li>
-            						<li><a href="#"><i class="icon-linkedin"></i></a></li>
-            						<li><a href="#"><i class="icon-dribbble"></i></a></li>
+            						<li><a href="https://www.twitter.com"><i class="icon-twitter"></i></a></li>
+            						<li><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
+            						<li><a href="#"><i class="icon-instagram"></i></a></li>
+                                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+            						<li><a href="http://pusinov.lipi.go.id"><i class="icon-dribbble"></i></a></li>
             					</ul>
                             </div>	
         				</div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <ul class="gtco-login-button">
-                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li><!--
-       					     --><li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
+                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li>
+       					        <li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
                             </ul>
                         </div>
                     </div>

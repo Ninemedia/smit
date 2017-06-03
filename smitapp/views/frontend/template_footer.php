@@ -18,7 +18,7 @@
 					<ul class="gtco-quick-contact">
 						<li><a href="#"><i class="icon-phone"></i> (+62) 21-8791-7216</a></li>
 						<li><a href="#"><i class="icon-phone"></i> (+62) 21-8791-7221</a></li>
-						<li><a href="#"><i class="icon-mail2"></i> info.inovasi@mail.lipi.go.id</a></li>
+						<li><a href="#"><i class="icon-mail2"></i> intek.pusinov@mail.lipi.go.id</a></li>
 					</ul>
 				</div>
 			</div>
@@ -27,10 +27,11 @@
                 <div class="gtco-widget">
                     <h3>Media Sosial</h3>
         			<ul class="gtco-social-icons pull-left">
-						<li><a href="#"><i class="icon-twitter"></i></a></li>
-						<li><a href="#"><i class="icon-facebook"></i></a></li>
+						<li><a href="https://www.twitter.com"><i class="icon-twitter"></i></a></li>
+						<li><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
+						<li><a href="#"><i class="icon-instagram"></i></a></li>
 						<li><a href="#"><i class="icon-linkedin"></i></a></li>
-						<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						<li><a href="http://pusinov.lipi.go.id"><i class="icon-dribbble"></i></a></li>
 					</ul>
                 </div>
 			</div>
