@@ -395,6 +395,7 @@
             'badge'     => 0,
             'sub'       => false,
 	    ),
+        /*
         array (
             'title'     => 'Layanan',
             'nav'       => 'layanan',
@@ -403,6 +404,44 @@
             'icon'      => 'ring_volume',
             'badge'     => 0,
             'sub'       => false,
+	    ),
+        */
+        array (
+            'title'     => 'Layanan',
+            'nav'       => 'layanan',
+            'parent'    => 'false',
+            'link'      => 'javascript:;',
+            'icon'      => 'ring_volume',
+            'badge'     => 0,
+            'sub'       => array(
+    			array (
+                    'title'     => 'Kontak Umum',
+                    'nav'       => 'layanan/kontakumum',
+                    'parent'    => 'layanan',
+                    'link'      => base_url('layanan/kontakumum'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Komunikasi & Bantuan',
+                    'nav'       => 'layanan/komunikasi',
+                    'parent'    => 'layanan',
+                    'link'      => base_url('layanan/komunikasi'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Pengukuran IKM',
+                    'nav'       => 'layanan/ikm',
+                    'parent'    => 'layanan',
+                    'link'      => base_url('layanan/ikm'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+            ),
 	    ),
         array (
             'title'     => 'Pengaturan Umum',
