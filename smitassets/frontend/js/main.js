@@ -191,7 +191,7 @@
 		owl.owlCarousel({
 			items: 6,
 			loop: true,
-			margin: 10,
+			margin: 25,
 			nav: true,
 			dots: true,
 			smartSpeed: 800,

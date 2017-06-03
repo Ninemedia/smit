@@ -7766,6 +7766,9 @@ fieldset[disabled] .form-control {
       text-align: center;
       color: #fff;
       margin-top: -5px; }
+    .login-page .login-box .logo a img{
+        width: 100%;
+    }
 
 /* Sign Up Page ================================ */
 .signup-page {

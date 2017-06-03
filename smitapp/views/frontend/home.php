@@ -347,22 +347,22 @@
             <div class="gtco-widget">
     			<div class="owl-carousel owl-carousel-footer">
     				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant1.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant2.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant3.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
                     <div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant1.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant2.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/tenant3.jpg" alt="" />
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     			</div>
 			</div>  	

@@ -50,7 +50,9 @@
         <!-- Login Box -->
         <div class="login-box">
             <div class="logo">
-                <a href="javascript:void(0);"><b>SISTEM INKUBASI TEKNOLOGI <br />PUSAT INOVASI LIPI</b></a>
+                <a href="javascript:void(0);">
+                    <img src="<?php echo BE_IMG_PATH . 'logo/logo.jpg'; ?>" />
+                </a>
             </div>
             <div class="card">
                 <div class="body">
