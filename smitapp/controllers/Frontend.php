@@ -70,7 +70,11 @@ class Frontend extends Public_Controller {
             'BannerZoomInout.init();',
         ));
         
+        $conditions         = ' WHERE status = 1';
+        $sliderdata         = $this->Model_Slider->get_all_slider('', '', $conditions);
+        
         $data['title']          = TITLE . 'Home';
+        $data['sliderdata']     = $sliderdata;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

@@ -33,20 +33,20 @@
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                                         <div class="table-container table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" id="slider_list" data-url="<?php echo base_url(''); ?>">
+                                        <table class="table table-striped table-bordered table-hover" id="slider_list" data-url="<?php echo base_url('backend/sliderlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5">No</th>
-                        							<th class="width20 text-center">Judul Slider</th>
-                        							<th class="width20 text-center">Deskripsi</th>
+                        							<th class="width25 text-center">Judul Slider</th>
+                        							<th class="width30 text-center">Gambar Slider</th>
                         							<th class="width10 text-center">Status</th>
-                                                    <th class="width15 text-center">Tanggal Daftar</th>
-                        							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                                                    <th class="width10 text-center">Tanggal Daftar</th>
+                        							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
-                                                    <td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_desc" /></td>
+                                                    <td></td>
                         							<td></td>
                                                     <td>
                         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="add">
-                                        <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementadd', 'role'=>'form' ) ); ?>
+                                        <?php echo form_open_multipart( 'backend/slideradd', array( 'id'=>'slideradd', 'role'=>'form' ) ); ?>
                                             <div id="alert" class="alert display-hide"></div>
                                             <div class="form-group form-float">
                                                 <section id="">
@@ -90,15 +90,15 @@
                                                     <div class="form-group">
                                                         <div class="alert bg-teal">
                                                             <strong>Perhatian!</strong>
-                                                            File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
+                                                            Gambar yang dapat di upload adalah dengan Ukuran Maksimal 1024 KB dan format Gambar adalah <strong>jpg/jpeg/png.</strong>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Upload Berkas</label>
-                                                            <input id="selection_files" name="selection_files" class="form-control" type="file">
+                                                            <label>Upload Slider</label>
+                                                            <input id="slider_selection_files" name="slider_selection_files" class="form-control" type="file">
                                                         </div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_add_announcement">Tambah Slider</button>
-                                                    <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
+                                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_slideradd">Tambah Slider</button>
+                                                    <button type="button" class="btn btn-danger waves-effect" id="btn_slideradd_reset">Bersihkan</button>
                                                 </section>
                                             </div>
                                         <?php echo form_close(); ?>
@@ -110,10 +110,28 @@
                     </div>
                 </div>
                 <!-- #END# Content -->
-
-                
             </div>
         </div>
     </div>
 </div>
 <!-- #END# Home Setting -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE SLIDER MODAL -->
+<div class="modal fade" id="save_slider" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Pendaftaran Slider</h4>
+			</div>
+			<div class="modal-body">
+                <p>Anda Sedang Melakukan Pendaftaran Slider. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_slider" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE SLIDER MODAL -->

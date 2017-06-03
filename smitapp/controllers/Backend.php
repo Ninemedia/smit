@@ -127,8 +127,10 @@ class Backend extends User_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
+            'UploadFiles.init();',
             'SettingValidation.init();',
             'Setting.init();',
+            'SliderValidation.init()',
         ));
 
         $data['title']          = TITLE . 'Pengaturan Frontend';
@@ -1898,6 +1900,374 @@ class Backend extends User_Controller {
         
         $this->load->view(VIEW_BACK . 'template', $data);
     }
+    
+    // ---------------------------------------------------------------------------------------------
+    // SLIDER SETTING
+    /**
+	 * Slider Add
+	 */
+	public function slideradd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+        
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Slider','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Slider','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran slider tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['slider_selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada gambar slider yang di unggah. Silahkan inputkan gambar slider!'); 
+            die(json_encode($data));
+        }
+        
+        if( !empty( $_POST ) ){
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/frontend/images/slider';
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                
+            $config = array(
+                'upload_path'   => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'     => FALSE,
+                'max_size'      => "2048000", 
+            );
+            $this->upload->initialize($config);
+
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            if( !empty($_FILES['slider_selection_files']['name']) ){
+                if( ! $this->upload->do_upload('slider_selection_files') ){
+                    $message = $this->upload->display_errors();
+                    
+                    // Set JSON data
+                    //$data = array('message' => 'error','data' => $this->upload->display_errors()); 
+                    //die(json_encode($data));
+                }
+                
+                $upload_data    = $this->upload->data();
+                $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+                
+                $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->clear();
+                 
+                $slider_data        = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'user_id'       => $current_user->id,
+                    'username'      => strtolower($current_user->username),
+                    'name'          => $current_user->name,
+                    'title'         => $title,
+                    'desc'          => $description,
+                    'url'           => smit_isset($upload_data['full_path'],''),
+                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'filename'      => smit_isset($upload_data['raw_name'],''),
+                    'size'          => smit_isset($upload_data['file_size'],0),
+                    'uploader'      => $current_user->id,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Save Slider 
+            // -------------------------------------------------
+            $trans_save_slider      = FALSE;
+            if( $slider_save_id     = $this->Model_Slider->save_data_slider($slider_data) ){
+                $trans_save_slider    = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran slider tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                die(json_encode($data));
+            }
+                    
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_slider ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran slider tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran slider baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'SLIDER_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran slider tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+        }
+	}
+    
+    /**
+	 * Slider list data function.
+	 */
+    function sliderlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $slider_list        = $this->Model_Slider->get_all_slider($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($slider_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+            
+            $i = $offset + 1;
+            foreach($slider_list as $row){
+                // Status
+                $btn_action = '<a href="'.base_url('slider/detail/'.$row->uniquecode).'" 
+                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_slider_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action .= ' ';
+                if($row->status == NONACTIVE)   { 
+                    $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == ACTIVE)  { 
+                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     .= '
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                }
+                elseif($row->status == BANNED)  { 
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == DELETED) { 
+                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                
+                $uploaded           = $row->uploader;
+                if($uploaded != 0){
+                    $file_name      = $row->filename . '.' . $row->extension;
+                    $file_url       = FE_IMG_PATH . 'slider/' . $file_name; 
+                    $slider         = $file_url;
+                    $slider         = '<img class="js-animating-object img-responsive" src="'.$slider.'" alt="'.$row->title.'" />';
+                }
+                
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    '<a href="'.base_url('slider/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    $slider,
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Slider confirm function.
+	 */
+    function sliderconfirm($action, $uniquecode){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        if ( !$uniquecode ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Uniquecode harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Slider hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $sliderdata         = $this->Model_Slider->get_slider_by_uniquecode($uniquecode);
+        if( !$sliderdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data slider tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='active' )     { $status = ACTIVE; }
+        elseif( $action=='banned' ) { $status = BANNED; }
+        elseif( $action=='delete' ) { $status = DELETED; }
+        
+        $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+        if( $this->Model_Slider->update_slider($uniquecode,$data_update) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Konfirmasi data slider berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data slider tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
+    
+    /**
+    * Slider Details function.
+    */
+    public function sliderdetails( $uniquecode='' ){
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $sliderdata             = '';
+        
+        if( !empty($uniquecode) ){
+            $sliderdata         = $this->Model_Slider->get_slider_by_uniquecode($uniquecode);
+        }
+        
+        $uploaded           = $sliderdata->uploader;
+        if($uploaded != 0){
+            $file_name      = $sliderdata->filename . '.' . $sliderdata->extension;
+            $file_url       = FE_IMG_PATH . 'slider/' . $file_name; 
+            $slider         = $file_url;
+        }
+        
+        $cfg_status     = config_item('user_status');
+        if($sliderdata->status == NONACTIVE)   { 
+            $status         = '<span class="label label-default">'.strtoupper($cfg_status[$sliderdata->status]).'</span>'; 
+        }elseif($sliderdata->status == ACTIVE)  { 
+            $status         = '<span class="label label-success">'.strtoupper($cfg_status[$sliderdata->status]).'</span>'; 
+        }elseif($sliderdata->status == BANNED)  { 
+            $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$sliderdata->status]).'</span>'; 
+        }elseif($sliderdata->status == DELETED) { 
+            $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$sliderdata->status]).'</span>'; 
+        }
+        
+        $data['title']          = TITLE . 'Detail Slider';
+        $data['slider_data']    = $sliderdata;
+        $data['slider_image']   = $slider;
+        $data['user']           = $current_user;
+        $data['status']         = $status;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'setting/frontendsetting/sliderdetail';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    
 }
 
 /* End of file backend.php */

@@ -166,4 +166,5 @@ $autoload['model'] = array(
     'Model_Announcement',
     'Model_Tenant',
     'Model_News',
+    'Model_Slider',
 );
