@@ -7,8 +7,8 @@
         <!-- CONTENT -->
         <ul class="bannerscollection_zoominout_list">
             <?php
-                $i  = 1; 
                 if(!empty($sliderdata)){
+                    $i  = 1;
                     foreach($sliderdata AS $row){
                         $uploaded           = $row->uploader;
                         if($uploaded != 0){
@@ -16,189 +16,76 @@
                             $file_url       = FE_IMG_PATH . 'slider/' . $file_name; 
                             $slider         = $file_url;
                         }
-            ?>
-                <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText<?php echo $i; ?>">
-                    <img src="<?php echo $slider; ?>" alt="" width="1346" height="400" />
-                </li>
-            <?php
+                        ?>
+                            <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText<?php echo $i; ?>">
+                                <img src="<?php echo $slider; ?>" alt="" width="1346" height="400" />
+                            </li>
+                        <?php
+                        $i++;
                     }
                 }else{
+                    ?>
+                    <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+                        <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
+                    </li>
+                    <?php
+                }
             ?>
-                <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
-                    <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
-                </li>
-            <?php } ?>
         </ul>
         
         <?php
-            $i  = 1; 
             if(!empty($sliderdata)){
+                $j  = 1;
                 foreach($sliderdata AS $row){
-        ?>
-        <!-- TEXTS -->
-        <div id="bannerscollection_zoominout_sliderText<?php echo $i; ?>" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    <?php echo $row->title; ?>
-                </a>
-                <p class="main-slide-line-height">
-                    <?php echo $row->desc; ?>
-                </p>
-            </div>
-        </div>
-        <?php
+                    ?>
+                    <!-- TEXTS -->
+                    <div id="bannerscollection_zoominout_sliderText<?php echo $j; ?>" class="bannerscollection_zoominout_texts">
+                        <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                            <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                                <?php echo $row->title; ?>
+                            </a>
+                            <p class="main-slide-line-height">
+                                <?php echo $row->desc; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <?php
+                    $j++;
                 }
-            }else{
+            }
         ?>
-        <div id="bannerscollection_zoominout_sliderText1" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
-        <?php } ?>
-        <!--
-        
-        <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
-                <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
-            </li>
-            <li data-horizontalPosition="left" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText2">
-                <img src="<?php echo FE_IMG_PATH; ?>slider/slider2.jpg" alt="" width="1346" height="400" />
-            </li>
-            <li data-horizontalPosition="right" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText3">
-                <img src="<?php echo FE_IMG_PATH; ?>slider/slider3.jpg" alt="" width="1346" height="400" />
-            </li>
-            <li data-horizontalPosition="center" data-verticalPosition="bottom" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText4">
-                <img src="<?php echo FE_IMG_PATH; ?>slider/slider4.jpg" alt="" width="1346" height="400" />
-            </li>
-            <li data-horizontalPosition="center" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText5">
-                <img src="<?php echo FE_IMG_PATH; ?>slider/slider5.jpg" alt="" width="1346" height="400" />
-            </li>
-            
-        <div id="bannerscollection_zoominout_sliderText3" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
-        <div id="bannerscollection_zoominout_sliderText4" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
-        <div id="bannerscollection_zoominout_sliderText5" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
-        <div id="bannerscollection_zoominout_sliderText6" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div-->
     </div>
 </div>
 <!-- #END Main Slider - Banner Zoom In/Out -->
 
-<!--
-<div id="gtco-features-3">
-	<div class="gtco-container">
-		<div class="gtco-flex">
-			<div class="feature feature-1 animate-box" data-animate-effect="fadeInUp">
-				<div class="feature-inner">
-					<span class="icon">
-						<i class="ti-search"></i>
-					</span>
-					<h3>Search</h3>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. </p>
-					<a href="#" class="btn btn-white btn-outline">Learn More</a>
-				</div>
-			</div>
-			<div class="feature feature-2 animate-box" data-animate-effect="fadeInUp">
-				<div class="feature-inner">
-					<span class="icon">
-						<i class="ti-announcement"></i>
-					</span>
-					<h3>Announcdement</h3>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. </p>
-					<a href="#" class="btn btn-white btn-outline">Learn More</a>
-				</div>
-			</div>
-			<div class="feature feature-3 animate-box" data-animate-effect="fadeInUp">
-				<div class="feature-inner">
-					<span class="icon">
-						<i class="ti-timer"></i>
-					</span>
-					<h3>Timer</h3>
-					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. </p>
-					<a href="#" class="btn btn-white btn-outline">Learn More</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
--->
-<!--
 <div id="gtco-content">
 	<div class="gtco-container">
 		<div class="row animate-box">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="body">
-                    <marquee>~ Pengumuman ~</marquee>
-                </div>
-            </div>
-        </div>
-	</div>
-</div>
--->
-<div id="gtco-content">
-	<div class="gtco-container">
-		<div class="row animate-box">
+        
+            <!-- News -->
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <div class="body">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
-                            <a href="#history" data-toggle="tab">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#berita" data-toggle="tab">
                                 <i class="material-icons">home</i> BERITA
                             </a>
                         </li>
-                        <li role="presentation">
-                            <a href="#structur" data-toggle="tab">
+                        <li>
+                            <a href="#blog" data-toggle="tab">
                                 <i class="material-icons">people</i> BLOG TENANT
                             </a>
                         </li>
-                        <li role="presentation">
-                            <a href="#vision" data-toggle="tab">
+                        <li>
+                            <a href="#pengumuman" data-toggle="tab">
                                 <i class="material-icons">style</i> PENGUMUMAN
                             </a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="history">
+                        <!-- Berita Tab Content -->
+                        <div class="tab-pane fade in active" id="berita">
                             <div class="media row">
                                 <div class="col-md-3">
                                     <div class="media-left">
@@ -283,7 +170,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade" id="structur">
+                        
+                        <!-- Blog Tab Content -->
+                        <div class="tab-pane fade" id="blog">
                             <div class="row">
                     			<div class="col-md-6">
                     				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
@@ -344,7 +233,8 @@
                     		</div>
                         </div>
                         
-                        <div role="tabpanel" class="tab-pane fade" id="vision">
+                        <!-- Pengumuman Tab Content -->
+                        <div class="tab-pane fade" id="pengumuman">
                             <div class="table-container table-responsive bottom50">
                                 <table class="table table-striped table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
                                     <thead>
@@ -377,6 +267,8 @@
                     
                 </div>
             </div>
+            
+            <!-- Produk -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 
             </div>

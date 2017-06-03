@@ -7932,10 +7932,11 @@ button.filter-submit, button.filter-cancel{
     color: #FFFFFF;
 }
 
-.main-slide-line-height{
-    line-height: 120%;
+.main-slide-line-height,
+.newFS p{
+    line-height: 120% !important;
     margin: 15px 0;
-    font-size: 12px;
+    font-size: 12px !important;
 }
 
 .separator {
