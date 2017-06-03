@@ -70,7 +70,8 @@ class Frontend extends Public_Controller {
             'BannerZoomInout.init();',
         ));
         
-        $sliderdata         = $this->Model_Slider->get_all_slider();
+        $conditions         = ' WHERE status = 1';
+        $sliderdata         = $this->Model_Slider->get_all_slider('', '', $conditions);
         
         $data['title']          = TITLE . 'Home';
         $data['sliderdata']     = $sliderdata;
