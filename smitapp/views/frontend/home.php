@@ -6,7 +6,64 @@
         
         <!-- CONTENT -->
         <ul class="bannerscollection_zoominout_list">
-            <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+            <?php
+                $i  = 1; 
+                if(!empty($sliderdata)){
+                    foreach($sliderdata AS $row){
+                        $uploaded           = $row->uploader;
+                        if($uploaded != 0){
+                            $file_name      = $row->filename . '.' . $row->extension;
+                            $file_url       = FE_IMG_PATH . 'slider/' . $file_name; 
+                            $slider         = $file_url;
+                        }
+            ?>
+                <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText<?php echo $i; ?>">
+                    <img src="<?php echo $slider; ?>" alt="" width="1346" height="400" />
+                </li>
+            <?php
+                    }
+                }else{
+            ?>
+                <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+                    <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
+                </li>
+            <?php } ?>
+        </ul>
+        
+        <?php
+            $i  = 1; 
+            if(!empty($sliderdata)){
+                foreach($sliderdata AS $row){
+        ?>
+        <!-- TEXTS -->
+        <div id="bannerscollection_zoominout_sliderText<?php echo $i; ?>" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    <?php echo $row->title; ?>
+                </a>
+                <p class="main-slide-line-height">
+                    <?php echo $row->desc; ?>
+                </p>
+            </div>
+        </div>
+        <?php
+                }
+            }else{
+        ?>
+        <div id="bannerscollection_zoominout_sliderText1" class="bannerscollection_zoominout_texts">
+            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
+                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
+                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
+                </a>
+                <p class="main-slide-line-height">
+                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
+                </p>
+            </div>
+        </div>
+        <?php } ?>
+        <!--
+        
+        <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
                 <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
             </li>
             <li data-horizontalPosition="left" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText2">
@@ -21,29 +78,7 @@
             <li data-horizontalPosition="center" data-verticalPosition="center" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText5">
                 <img src="<?php echo FE_IMG_PATH; ?>slider/slider5.jpg" alt="" width="1346" height="400" />
             </li>
-        </ul>
-        
-        <!-- TEXTS -->
-        <div id="bannerscollection_zoominout_sliderText1" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
-        <div id="bannerscollection_zoominout_sliderText2" class="bannerscollection_zoominout_texts">
-            <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="650" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
-                <a class="sliderutamacss" href="<?php echo base_url(); ?>">
-                    2 Abad Kebun Raya Bogor, Setia Menjadi Benteng Konservasi untuk Negeri
-                </a>
-                <p class="main-slide-line-height">
-                    Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
-                </p>
-            </div>
-        </div>
+            
         <div id="bannerscollection_zoominout_sliderText3" class="bannerscollection_zoominout_texts">
             <div class="bannerscollection_zoominout_text_line textElement_opportuneFullWidth" data-initial-left="350" data-initial-top="50" data-final-left="50" data-final-top="50" data-duration="0.5" data-fade-start="0" data-delay="0.5">
                 <a class="sliderutamacss" href="<?php echo base_url(); ?>">
@@ -83,7 +118,7 @@
                     Tak disangka yang awalnya hanya merupakan Taman Belakang dari Kantor Gubernur Hindia Belanda, kini Kebun Raya Bogor telah menjadi pusat perlindungan keanekaragaman hayati Indonesia yang menjadi benteng konservasi untuk negeri ini. Dan pada Kamis (18/5), kebun raya yang lahir pada 1817 ini genap berusia 200 tahun atau 2 abad. Keberadaannya dari waktu ke waktu senantiasa setia menjadi benteng terakhir penyelamatan flora di negeri ini.
                 </p>
             </div>
-        </div>
+        </div-->
     </div>
 </div>
 <!-- #END Main Slider - Banner Zoom In/Out -->

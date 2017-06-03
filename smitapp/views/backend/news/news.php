@@ -86,11 +86,6 @@
                                         </div>
                                     </div>
                                     <h4>Gambar Berita</h4>
-                                    <!--
-                                    <div class="details-img">
-                                        <img class="js-animating-object img-responsive" src="<?php echo BE_IMG_PATH; ?>news/noimage.jpg" alt="" style="border: solid 1px #009688 !important;" />
-                                    </div>
-                                    -->
                                     <div class="form-group">
                                         <div class="alert bg-teal">
                                             <strong>Perhatian!</strong>

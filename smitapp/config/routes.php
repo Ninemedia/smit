@@ -205,6 +205,10 @@ $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
 $route['pengaturan/satuankerja']        = "backend/workunit";
 $route['workunitconfirm/(:any)/(:num)'] = "backend/workunitconfirm/$1/$2";
+// Slider
+$route['slider/detail/(:any)']          = "backend/sliderdetails/$1";
+$route['sliderconfirm/(:any)/(:any)']   = "backend/sliderconfirm/$1/$2";
+
 // Announcements
 $route['pengumuman']                    = "backend/announcements";
 $route['pengumuman/detail/(:any)']      = "backend/announcementdetails/$1";
