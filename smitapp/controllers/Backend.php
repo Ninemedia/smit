@@ -2409,19 +2409,20 @@ class Backend extends User_Controller {
             foreach($generalmessage_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'" 
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                /*
                     <a href="'.base_url('pesanumum/hapus/'.$row->uniquecode).'" 
-                    class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
-                
+                    class="inact btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>
+                */
                 if($row->status == UNREAD )   { 
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    $btn_action     .= '<a href="'.base_url('generalmessageconfirm/active/'.$row->id).'" class="generalmessageconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == READ)  { 
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '
-                    <a href="'.($row->id>1 ? base_url('userconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
-                    <a href="'.($row->id>1 ? base_url('userconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    $btn_action     .= '
+                    <a href="'.($row->id>1 ? base_url('generalmessageconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="generalmessageconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
+                    <a href="'.($row->id>1 ? base_url('generalmessageconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="generalmessageconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 /*
                 elseif($row->status == BANNED)  { 
@@ -2455,6 +2456,51 @@ class Backend extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
         
         echo json_encode($records);
+    }
+    
+    /**
+    * General Message Details function.
+    */
+    public function generalmessagedetails( $uniquecode='' ){
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $generalmessagedata     = '';
+        
+        if( !empty($uniquecode) ){
+            $generalmessagedata   = $this->Model_Service->get_contact_message_by_uniquecode($uniquecode);
+        }
+        
+        $data['title']          = TITLE . 'Detail Pesan Umum';
+        $data['generalmessage_data']    = $generalmessagedata;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'services/generalmessagedetails';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
     }
     
 }

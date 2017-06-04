@@ -25,8 +25,8 @@
             							<th class="width15 text-center">Judul Pesan</th>
             							<th class="width15 text-center">Email</th>
             							<th class="width15 text-center">Status</th>
-                                        <th class="width15 text-center">Tanggal Daftar</th>
-            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                                        <th class="width10 text-center">Tanggal Daftar</th>
+            							<th class="width13 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -70,8 +70,8 @@
 </div>
 <!-- #END# Content -->
 
-<!-- BEGIN INFORMATION SUCCESS SAVE ANNOUNCEMENT MODAL -->
-<div class="modal fade" id="save_announcement" tabindex="-1" role="basic" aria-hidden="true">
+<!-- BEGIN INFORMATION SUCCESS SAVE GENERAL MESSAGE MODAL -->
+<div class="modal fade" id="save_generalmessage" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -79,13 +79,13 @@
 				<h4 class="modal-title">Pendaftaran Pengumuman</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Pengumuman. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Melakukan Pendaftaran Pengumuman. Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_announcement" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_generalmessage" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- END INFORMATION SUCCESS SAVE ANNOUNCEMENT MODAL -->
+<!-- END INFORMATION SUCCESS SAVE GENERAL MESSAGE MODAL -->
