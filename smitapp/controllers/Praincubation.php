@@ -436,9 +436,7 @@ class PraIncubation extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        if( !$is_admin ){
-            redirect( base_url('dashboard') );
-        }
+        $is_pengusul            = as_pengusul($current_user);
         
         if( !$uniquecode ){
             // Set JSON data
@@ -494,9 +492,10 @@ class PraIncubation extends User_Controller {
             $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE user_id = '.$user_id.'', '');    
         }
         
-        $data['title']          = TITLE . 'Detail Seleksi PraInkubasi';
+        $data['title']          = TITLE . 'Detail Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_pengusul']    = $is_pengusul;
         $data['praincubation']  = $praincubation_list;
         $data['praincubation_files']    = $praincubation_files;
         $data['headstyles']     = $headstyles;
@@ -2270,6 +2269,9 @@ class PraIncubation extends User_Controller {
                 
                 $score          = $row->score;
                 $average_score  = $row->average_score;
+                if($average_score < KKM_STEP1){
+                    $average_score   = '<style="color: red !important;">'.$average_score.'</style>';
+                }
 
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
@@ -2394,6 +2396,9 @@ class PraIncubation extends User_Controller {
                 
                 $score          = $row->scoretwo;
                 $average_score  = $row->average_scoretwo;
+                if($average_score < KKM_STEP2){
+                    $average_score   = '<style="color: red !important;">'.$average_score.'</style>';
+                }
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
                 
@@ -3079,7 +3084,7 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/1/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('seleksiprainkubasi/daftar/detail/'.$row->uniquecode).'" 
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 
                 
@@ -4101,6 +4106,19 @@ class PraIncubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($history_list as $row){
+                $rate           = $row->rate_total;
+                if( $row->step == 1){
+                    if($rate < KKM_STEP1){
+                        $rate   = '<style="color: red !important;">'.$rate.'</style>';
+                    }
+                }
+                
+                if( $row->step == 2){
+                    if($rate < KKM_STEP2){
+                        $rate   = '<strong style="color: red !important;">'.$rate.'</strong>';
+                    }
+                }
+            
                 if( !empty($is_admin)){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -4108,7 +4126,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name_jury) . '</a>',
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         $row->event_title,
-                        smit_center( $row->step ),
+                        smit_center( $rate ),
                         smit_center( $row->rate_total ),
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         '',
@@ -4120,7 +4138,7 @@ class PraIncubation extends User_Controller {
                         strtoupper($row->name),
                         $row->event_title,
                         smit_center( $row->step ),
-                        smit_center( $row->rate_total ),
+                        smit_center( $rate ),
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         '',
                     );     
@@ -4131,7 +4149,7 @@ class PraIncubation extends User_Controller {
                         strtoupper($row->name_jury),
                         $row->event_title,
                         smit_center( $row->step ),
-                        smit_center( $row->rate_total ),
+                        smit_center( $rate ),
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         '',
                     );     

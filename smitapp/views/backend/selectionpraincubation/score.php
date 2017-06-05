@@ -271,7 +271,7 @@
                                 
                                 <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
                                     <div class="table-container table-responsive table-praincubation-score">
-                                        <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('prainkubasi/jurinilaidatastep1'); ?>">
+                                        <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiprainkubasi/jurinilaidatastep1'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5">No</th>
@@ -368,7 +368,7 @@
                                 <div class="alert alert-warning bottom0">Saat ini anda sedang tidak menjadi juri pada tahap 2. Terima kasih.</div>
                             <?php else : ?>
                                 <div class="table-container table-responsive">
-                                    <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('prainkubasi/jurinilaidatastep2'); ?>">
+                                    <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/jurinilaidatastep2'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>

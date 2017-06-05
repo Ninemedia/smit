@@ -104,23 +104,12 @@ $route['seleksiprainkubasi/riwayat']                   = "praincubation/praincub
 $route['seleksiprainkubasi/riwayatdata']               = "praincubation/historylistdata";
 $route['seleksiprainkubasi/riwayatdata/(:num)']        = "praincubation/historylistdata/$1";
 $route['seleksiprainkubasi/peringkat']                 = "praincubation/ranking";
-// --------------------------------------------------------------------------
-// Menu Kegiatan Pra-Inkubasi
-$route['prainkubasi/pendampingan']              = "praincubation/accompanimentlist";
-$route['prainkubasi/pendampingan/detail/(:any)']= "praincubation/companionassignment/$1";
-$route['prainkubasi/daftarpendampingan']        = "praincubation/accompanimentlistdata";
-$route['prainkubasi/daftarditerima']            = "praincubation/praincubationacceptedlistdata";
-$route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
-$route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
-$route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
-// --------------------------------------------------------------------------
-
 // Menu Penilaian
 // Juri
-$route['prainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
-$route['prainkubasi/jurinilaidatastep1']        = "praincubation/juryscorelistdatastep1";
-$route['prainkubasi/jurinilaidatastep2']        = "praincubation/juryscorelistdatastep2";
-$route['prainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
+$route['seleksiprainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscorelistdata/$1";
+$route['seleksiprainkubasi/jurinilaidatastep1']        = "praincubation/juryscorelistdatastep1";
+$route['seleksiprainkubasi/jurinilaidatastep2']        = "praincubation/juryscorelistdatastep2";
+$route['seleksiprainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
 $route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
 $route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
@@ -132,6 +121,18 @@ $route['praincubationreportconfirm/(:any)']     = "praincubation/praincubationre
 $route['praincubationscoreact/(:any)/(:any)']   = "praincubation/praincubationscoreaction/$1/$2";
 $route['penilaianseleksi/(:any)']               = "praincubation/praincubationselectiondetails/$1";
 $route['detailseleksi/(:any)']                  = "praincubation/praincubationselectiondetails/$1";
+// --------------------------------------------------------------------------
+// Menu Kegiatan Pra-Inkubasi
+$route['prainkubasi/pendampingan']              = "praincubation/accompanimentlist";
+$route['prainkubasi/pendampingan/detail/(:any)']= "praincubation/companionassignment/$1";
+$route['prainkubasi/daftarpendampingan']        = "praincubation/accompanimentlistdata";
+$route['prainkubasi/daftarditerima']            = "praincubation/praincubationacceptedlistdata";
+$route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
+$route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
+$route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
+// --------------------------------------------------------------------------
+
+
 
 // --------------------------------------------------------------------------
 // Menu Seleksi Inkubasi

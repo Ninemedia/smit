@@ -116,6 +116,7 @@
                                         <div id="username_info" class="top30"></div>
                                         <h4>Usulan Kegiatan Inkubasi</h4>
                                         <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
+                                        <input type="hidden" class="form-control" name="reg_year" id="reg_year" value="<?php echo $selection_year; ?>" >
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                             <div class="form-line">

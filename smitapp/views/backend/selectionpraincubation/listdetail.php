@@ -4,8 +4,12 @@
         <div class="card">
             <div class="header"><h2>Detail Seleksi Pra Inkubasi</h2></div>
             <div class="body">
-                <div class="table-container table-responsive">                       
+                <div class="table-container table-responsive">
+                    <?php if( !empty($is_admin) ) : ?>                      
                     <a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
+                    <?php else : ?>
+                    <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
+                    <?php endif ?>
                     <h4><?php echo $praincubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>
@@ -22,12 +26,12 @@
                             <tr>
                                 <th style="width: 30%;">Judul Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->event_title; ?></td>
+                                <td><strong><?php echo strtoupper( $praincubation->event_title ); ?></strong></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Deskripsi Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->event_desc; ?></td>
+                                <td><p><?php echo $praincubation->event_desc; ?></p></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
@@ -46,7 +50,7 @@
                                             }
                                             echo '</ul>';
                                         }else{
-                                            echo '<strong>Tidak ada berkas panduan</strong>';
+                                            echo '<strong>Tidak ada berkas proposal yang di unggah oleh Pengusul ini</strong>';
                                         } 
                                     ?>
                                     
@@ -56,7 +60,7 @@
                             <tr>
                                 <th style="width: 30%;">Tanggal Usulan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->datecreated; ?></td>
+                                <td><?php echo date('d F Y H:i:s', strtotime($praincubation->datecreated)); ?></td>
                             </tr>
                         </tbody>
                     </table>

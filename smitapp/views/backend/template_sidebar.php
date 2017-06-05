@@ -15,6 +15,24 @@
         }
     }
     
+    $badge_score_total      = 0;
+    $badge_score1           = 0;
+    if(!empty($is_admin) || !empty($is_jury)){
+        $score_list1        = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
+        if($score_list1 > 0){
+            $badge_score1   = $score_list1;
+        }
+    }
+    $badge_score2           = 0;
+    if(!empty($is_admin) || !empty($is_jury)){
+        $score_list2        = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
+        if($score_list2 > 0){
+            $badge_score2   = $score_list2;
+        }
+    }
+    $badge_score_total      = $badge_score1 + $badge_score2;
+    
+    
     // Set menu array
     $menu_arr = array(
         array (
@@ -87,7 +105,7 @@
                     'link'      => base_url('seleksiprainkubasi/nilai'),
                     'icon'      => 'build',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_score_total,
                 ),
     			array (
                     'title'     => 'Peringkat Penilaian',
@@ -568,7 +586,7 @@
                             <i class="material-icons"><?php echo $menu->icon; ?></i>
                             <span><?php echo $menu->title; ?></span>
                             <?php if($menu->badge != 0) : ?>
-                            <span class="badge bg-blue" style="color: white;"><?php echo $menu->badge?></span>
+                            <span class="badge bg-red" style="color: white;"><?php echo $menu->badge?></span>
                             <?php endif ?>
                         </a>
                         
@@ -579,7 +597,7 @@
                                     <li <?php echo ($active_sub == $sub->nav ? 'class="active"' : ''); ?>>
                                         <a href="<?php echo $sub->link; ?>"><?php echo $sub->title; ?>
                                             <?php if($sub->badge != 0) : ?>
-                                            <span class="badge bg-blue" style="color: white;"><?php echo $sub->badge?></span>
+                                            <span class="badge bg-red" style="color: white;"><?php echo $sub->badge?></span>
                                             <?php endif ?>
                                         </a>
                                     </li>

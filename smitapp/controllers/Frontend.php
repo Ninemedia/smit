@@ -583,6 +583,8 @@ class Frontend extends Public_Controller {
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
         
+        $year                   = $this->input->post('reg_year');
+        $year                   = trim( smit_isset($year, "") );
         $username               = $this->input->post('reg_username');
         $username               = trim( smit_isset($username, "") );
         $password               = $this->input->post('reg_password');
@@ -686,10 +688,6 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
             die(json_encode($data));
         }
-        
-        echo '<pre>';
-        print_r($_FILES);
-        die();
 
         if( !empty( $_POST ) ){
             // -------------------------------------------------
@@ -699,6 +697,7 @@ class Frontend extends Public_Controller {
 
             $praincubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'year'          => $year,
                 'setting_id'    => $incset->id,
                 'user_id'       => $userdata->id,
                 'username'      => strtolower($username),
@@ -738,6 +737,29 @@ class Frontend extends Public_Controller {
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
                     die(json_encode($data));
                 }
+                $upload_data    = $this->my_upload->data();
+                if( !empty($upload_data) ){
+                    // Set File Upload Save
+                    $file = $upload_data;
+                    $praincubationselectionfiles_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'selection_id'  => $praincubation_save_id,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file['full_path'],''),
+                        'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                        'filename'      => smit_isset($file['raw_name'],''),
+                        'size'          => smit_isset($file['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
+                        continue;
+                    }
+                }
                 
                 if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     $message = $this->my_upload->display_errors();
@@ -746,53 +768,31 @@ class Frontend extends Public_Controller {
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
                     die(json_encode($data));
                 }
+                $upload_data_rab    = $this->my_upload->data();
                 
-                $upload_data    = $this->my_upload->data();
-                
-                if( !empty($upload_data) ){
-                    if( smit_isset($upload_data[0]) ){
-                        foreach($upload_data as $file){
-                            // Set File Upload Save
-                            $praincubationselectionfiles_data = array(
-                                'uniquecode'    => smit_generate_rand_string(10,'low'),
-                                'selection_id'  => $praincubation_save_id,
-                                'user_id'       => $userdata->id,
-                                'username'      => strtolower($username),
-                                'name'          => $name,
-                                'url'           => smit_isset($file['full_path'],''),
-                                'extension'     => substr(smit_isset($file['file_ext'],''),1),
-                                'filename'      => smit_isset($file['raw_name'],''),
-                                'size'          => smit_isset($file['file_size'],0),
-                                'status'        => ACTIVE,
-                                'datecreated'   => $curdate,
-                                'datemodified'  => $curdate,
-                            );
-                            if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
-                                continue;
-                            }
-                        }
-                    }else{
-                        // Set File Upload Save
-                        $file = $upload_data;
-                        $praincubationselectionfiles_data = array(
-                            'uniquecode'    => smit_generate_rand_string(10,'low'),
-                            'selection_id'  => $praincubation_save_id,
-                            'user_id'       => $userdata->id,
-                            'username'      => strtolower($username),
-                            'name'          => $name,
-                            'url'           => smit_isset($file['full_path'],''),
-                            'extension'     => substr(smit_isset($file['file_ext'],''),1),
-                            'filename'      => smit_isset($file['raw_name'],''),
-                            'size'          => smit_isset($file['file_size'],0),
-                            'status'        => ACTIVE,
-                            'datecreated'   => $curdate,
-                            'datemodified'  => $curdate,
-                        );
-                        if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
-                            continue;
-                        }
+                if( !empty($upload_data_rab) ){
+                    // Set File Upload Save
+                    $file_rab = $upload_data_rab;
+                    $praincubationselectionfilesrab_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'selection_id'  => $praincubation_save_id,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file_rab['full_path'],''),
+                        'extension'     => substr(smit_isset($file_rab['file_ext'],''),1),
+                        'filename'      => smit_isset($file_rab['raw_name'],''),
+                        'size'          => smit_isset($file_rab['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfilesrab_data) ){
+                        continue;
                     }
                 }
+                
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();

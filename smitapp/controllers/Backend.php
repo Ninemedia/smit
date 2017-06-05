@@ -26,6 +26,7 @@ class Backend extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -44,10 +45,36 @@ class Backend extends User_Controller {
         
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        $lss                    = smit_latest_praincubation_setting();
+        $phase1                 = 0;
+        $phase2                 = 0;
+        
+        if( !empty($is_jury) ){
+            $jury_phase1            = $lss->selection_juri_phase1;
+            $jury_phase1            = explode(',', $jury_phase1);
+            foreach($jury_phase1 AS $id){
+                if($id == $current_user->id){
+                    $phase1         = ACTIVE;
+                }
+            }
+            
+            $jury_phase2            = $lss->selection_juri_phase2;
+            $jury_phase2            = explode(',', $jury_phase2);
+            foreach($jury_phase2 AS $id){
+                if($id == $current_user->id){
+                    $phase2         = ACTIVE;
+                }
+            }    
+        }
 
         $data['title']          = TITLE . 'Beranda';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['phase1']         = $phase1;
+        $data['phase2']         = $phase2;
+        $data['lss']            = $lss;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

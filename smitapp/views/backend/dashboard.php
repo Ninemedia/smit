@@ -24,6 +24,19 @@
             $status = 'PELAKSANA';
         }
     }
+    
+    $step1      = ' - ';
+    $step2      = ' - ';
+    
+    if( $is_jury ){
+        if( $phase1 == ACTIVE ){
+            $step1  = ' ANDA TERPILIH ';
+        }
+        
+        if( $phase2 == ACTIVE ){
+            $step2  = ' ANDA TERPILIH ';
+        }
+    }
 ?>
 
 <!-- Widgets -->
@@ -80,7 +93,58 @@
             </div>
         </div>
     </div>
-    <?php else: ?>
+    <?php elseif( as_juri($user) ): ?>
+    <?php
+        $countuser_score1       = 0;
+        $countuser_score2       = 0;
+        $count_all_selection    = 0;
+        $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
+        $user_list2             = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
+        $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);
+        if($user_list1 > 0){
+            $countuser_score1   = $user_list1;
+        }
+        if($user_list2 > 0){
+            $countuser_score1   = $user_list2;
+        }
+        
+    ?>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box bg-orange hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">playlist_add_check</i>
+            </div>
+            <div class="content">
+                <div class="text">Jumlah Pengusul</div>
+                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $count_all_selection; ?> ORANG</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box bg-cyan hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">playlist_add_check</i>
+            </div>
+            <div class="content">
+                <div class="text">Jumlah Tahap 1</div>
+                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $countuser_score1; ?> PENGUSUL</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="info-box bg-pink hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">playlist_add_check</i>
+            </div>
+            <div class="content">
+                <div class="text">Jumlah Tahap 2</div>
+                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $countuser_score2; ?> PENGUSUL</div>
+            </div>
+        </div>
+    </div>
     <?php endif ?> 
 </div>
 <!-- #END# Widgets -->
@@ -112,6 +176,53 @@
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
                         <?php echo get_option('be_dashboard_juri'); ?>
+                        <h4>Status Juri Anda :</h4>
+                        
+                        <div class="row clearfix">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="card">
+                                    <div class="header bg-cyan">
+                                        <h2>Seleksi Pra-Inkubasi<small>Tanggal Seleksi : <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?></strong> - <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></strong></small></h2>
+                                    </div>
+                                    <div class="body">
+                                        <?php if( $phase1 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 1</strong> Seleksi Pra-Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php else : ?><br />
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 1 Tahun <?php echo $lss->selection_year_publication; ?>
+                                        <?php endif ?><br />
+                                        <?php if( $phase2 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 2</strong> Seleksi Pra-Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php else : ?><br />
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
+                                        <?php endif ?><br /><br />
+                                        
+                                        <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="card">
+                                    <div class="header bg-pink">
+                                        <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
+                                    </div>
+                                    <div class="body">
+                                        <?php if( $phase1 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 1</strong> Seleksi Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php else : ?><br />
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 1 Tahun <?php echo $lss->selection_year_publication; ?>
+                                        <?php endif ?><br />
+                                        <?php if( $phase2 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 2</strong> Seleksi Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php else : ?><br />
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
+                                        <?php endif ?><br /><br />
+                                        
+                                        <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
