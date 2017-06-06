@@ -193,12 +193,12 @@
 			loop: true,
 			margin: 25,
 			nav: true,
-			dots: true,
+			dots: false,
 			smartSpeed: 800,
 			autoHeight: true,
 			navText: [
-		      "",
-		      ""
+		      "<i class='ti-arrow-left owl-direction'></i>",
+		      "<i class='ti-arrow-right owl-direction'></i>"
 	     	],
 	     	responsive:{
     	        0:{

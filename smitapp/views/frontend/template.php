@@ -27,8 +27,8 @@
         				</div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <ul class="gtco-login-button">
-                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li>
-       					        <li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
+                                <li><a href="<?php echo base_url('login'); ?>" class="login">Masuk</a></li><!--
+                             --><li><a href="<?php echo base_url('signup'); ?>" class="register">Daftar</a></li>
                             </ul>
                         </div>
                     </div>

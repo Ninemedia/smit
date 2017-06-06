@@ -2249,22 +2249,21 @@ form label {
 }
 
 /* Owl Override Style */
-.owl-carousel .owl-controls,
-.owl-carousel-posts .owl-controls {
-  margin-top: 0;
-}
 
 .owl-carousel .owl-controls .owl-nav .owl-next,
 .owl-carousel .owl-controls .owl-nav .owl-prev,
 .owl-carousel-posts .owl-controls .owl-nav .owl-next,
 .owl-carousel-posts .owl-controls .owl-nav .owl-prev {
   top: 50%;
-  margin-top: -39px;
+  margin-top: -20px;
+  margin-left: 0px;
+  margin-right: 0px;
   z-index: 9999;
   position: absolute;
   -webkit-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
+  border-radius: 0 !important;
 }
 
 .owl-carousel-posts .owl-controls .owl-nav .owl-next,
@@ -2274,20 +2273,62 @@ form label {
 
 .owl-carousel .owl-controls .owl-nav .owl-next,
 .owl-carousel-posts .owl-controls .owl-nav .owl-next {
-  right: 20px;
+  right: 0;
 }
 .owl-carousel .owl-controls .owl-nav .owl-next:hover,
 .owl-carousel-posts .owl-controls .owl-nav .owl-next:hover {
-  margin-right: -10px;
+  margin-right: 0;
 }
 
 .owl-carousel .owl-controls .owl-nav .owl-prev,
 .owl-carousel-posts .owl-controls .owl-nav .owl-prev {
-  left: 20px;
+  left: 0;
 }
 .owl-carousel .owl-controls .owl-nav .owl-prev:hover,
 .owl-carousel-posts .owl-controls .owl-nav .owl-prev:hover {
-  margin-left: -10px;
+  margin-left: 0;
+}
+
+.owl-theme .owl-controls .owl-nav [class*="owl-"] {
+  background: rgba(37, 67, 132, 0.5) !important;
+}
+
+.owl-theme .owl-controls .owl-nav [class*="owl-"] i,
+.owl-theme .owl-controls .owl-nav [class*="owl-"] i:hover {
+  background: none !important;
+}
+
+.owl-theme .owl-controls .owl-nav [class*="owl-"]:hover, .owl-theme .owl-controls .owl-nav [class*="owl-"]:focus {
+  background: rgba(37, 67, 132, 0.8) !important;
+}
+
+.owl-theme .owl-dots .owl-dot span {
+  width: 10px;
+  height: 10px;
+  background: none;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+  border: 2px solid #17B794;
+}
+.owl-theme .owl-dots .owl-dot span:hover {
+  background: none;
+  border: 2px solid #17B794;
+}
+
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+  background: #17B794;
+  border: 2px solid transparent;
+}
+
+.owl-theme .owl-controls{
+    margin-top: 0 !important;
+}
+
+/*
+.owl-carousel .owl-controls,
+.owl-carousel-posts .owl-controls {
+  margin-top: 0;
 }
 
 .owl-carousel-posts .owl-controls .owl-nav .owl-next i,
@@ -2316,21 +2357,6 @@ form label {
   .owl-theme .owl-controls .owl-nav {
     display: none;
   }
-}
-
-.owl-theme .owl-controls .owl-nav [class*="owl-"] {
-  background: none !important;
-}
-.owl-theme .owl-controls .owl-nav [class*="owl-"] i {
-  font-size: 24px;
-  background: rgba(255, 255, 255, 0.5) !important;
-  padding: 12px;
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
-  transition: 0.5s;
-}
-.owl-theme .owl-controls .owl-nav [class*="owl-"]:hover i, .owl-theme .owl-controls .owl-nav [class*="owl-"]:focus i {
-  background: rgba(255, 255, 255, 0.8) !important;
 }
 
 .owl-theme .owl-dots {
@@ -2363,6 +2389,7 @@ form label {
   background: none;
   border: 2px solid #17B794;
 }
+*/
 
 /*# sourceMappingURL=style.css.map */
 

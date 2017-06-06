@@ -7961,3 +7961,57 @@ button.filter-submit, button.filter-cancel{
     background: #142439 none repeat scroll 0 0;
     right: 0;
 }
+
+.media{
+    margin: 0 !important;
+    padding: 20px 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.media:last-child{
+    border-bottom: none;
+}
+
+.media-left, .media > .pull-left{
+    padding-right: 0px !important;
+}
+
+.media a{
+    color: #333;
+    -webkit-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.media a:hover{
+    color: #E4A000 !important;
+}
+
+.media a.media-heading-link{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.media .media-date{
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #254384 !important;
+}
+
+.media .media-date i{
+    font-size: 14px !important;
+    position: relative;
+    top: 1px;
+    margin-right: 5px;
+}
+
+.media a img.visible-xs{
+    margin-bottom: 15px;
+}
+
+.media p{
+    margin-bottom: 0 !important;
+}

@@ -86,15 +86,49 @@
                     <div class="tab-content">
                         <!-- Berita Tab Content -->
                         <div class="tab-pane fade in active" id="berita">
+                            <?php
+                                // Get All News Data
+                                $news_data  = $this->Model_News->get_all_news();
+                            ?>
+                            <?php if( $news_data || !empty($news_data) ){ ?>
+                                <?php foreach($news_data as $key => $news){ ?>
+                                    <?php $desc = word_limiter($news->desc,30); ?>
+                                    <div class="media">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <div class="media-left">
+                                                    <a href="javascript:void(0);">
+                                                        <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" 
+                                                        src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->thumbnail.'.'.$news->extension; ?>" />
+                                                        <img class="js-animating-object img-responsive media-object visible-xs" 
+                                                        src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->filename.'.'.$news->extension; ?>" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <a href="<?php echo base_url(); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                                                <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
+                                                <?php echo $desc; ?><br />
+                                                <a href="<?php echo base_url(); ?>"><strong>Selengkapnya</strong></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php }else{ ?>
+                            
+                            <?php } ?>
+                            
+                            
+                            <!--
                             <div class="media row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 ">
                                     <div class="media-left">
                                         <a href="javascript:void(0);">
                                             <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" width="250" height="250" />
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 ">
                                     <div class="media-body">
                                         <h4 class="media-heading">Media heading</h4> 
                                         <i class="icon-bookmark"></i> 11 Feb 2017 <br />
@@ -169,6 +203,7 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
                         </div>
                         
                         <!-- Blog Tab Content -->
@@ -347,6 +382,15 @@
             <div class="gtco-widget">
     			<div class="owl-carousel owl-carousel-footer">
     				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+    				</div>
+    				<div class="item">
+    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+    				</div>
+                    <div class="item">
     					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
     				</div>
     				<div class="item">

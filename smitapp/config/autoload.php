@@ -112,7 +112,8 @@ $autoload['helper'] = array(
     'user',
     'head',
     'smit_form',
-    'download'
+    'download',
+    'text'
 );
 
 /*
