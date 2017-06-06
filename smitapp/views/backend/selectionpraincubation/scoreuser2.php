@@ -336,8 +336,10 @@
                                                 </div>
                                                 
                                                 <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
-                                                <div class="form-group">
-                                                    <textarea class="form-control ckeditor" name="nilai_juri_comment"></textarea>
+                                                <div class="input-group">
+                                                    <div class="form-line">
+                                                        <textarea name="nilai_juri_comment" id="nilai_juri_comment" cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" required></textarea>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />

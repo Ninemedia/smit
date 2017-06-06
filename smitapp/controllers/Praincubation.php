@@ -2576,9 +2576,9 @@ class PraIncubation extends User_Controller {
         $data['scripts_add']            = $scripts_add;
         
         if( $step == 1){
-            $data['main_content']           = 'praincubation/scoreuser';    
+            $data['main_content']           = 'selectionpraincubation/scoreuser';    
         }else{
-            $data['main_content']           = 'praincubation/scoreuser2';
+            $data['main_content']           = 'selectionpraincubation/scoreuser2';
         }
 
         $this->load->view(VIEW_BACK . 'template', $data);
