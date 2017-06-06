@@ -122,10 +122,10 @@
                                                 <td class="text-middle">Kelengkapan Dokumen</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20" data-plus="0"> 
+                                                    <select class="form-control rate-step1" name="nilai_dokumen" id="nilai_dokumen" data-rate="20" data-plus="0"> 
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -134,10 +134,10 @@
                                                 <td class="text-middle">Kesesuaian Target dan Biaya</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_target" data-rate="20" data-plus="0">
+                                                    <select class="form-control rate-step1" name="nilai_target" id="nilai_target" data-rate="20" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -146,10 +146,10 @@
                                                 <td class="text-middle">Adanya Perlindungan KI</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_perlingungan" data-rate="20" data-plus="0">
+                                                    <select class="form-control rate-step1" name="nilai_perlingungan" id="nilai_perlingungan" data-rate="20" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -158,10 +158,10 @@
                                                 <td class="text-middle">Penelitian Lanjutan</td>
                                                 <td class="text-middle align-center">10</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_penelitian" data-rate="10" data-plus="0">
+                                                    <select class="form-control rate-step1" name="nilai_penelitian" id="nilai_penelitian" data-rate="10" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="10">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="10">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -170,10 +170,10 @@
                                                 <td class="text-middle">Marketable</td>
                                                 <td class="text-middle align-center">30</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_market" data-rate="30" data-plus="0">
+                                                    <select class="form-control rate-step1" name="nilai_market" id="nilai_market" data-rate="30" data-plus="0">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="30">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="30">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -213,3 +213,23 @@
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE MODAL -->
+<div class="modal fade" id="save_scoreuser" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Penilaian Pengusul</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan memproses penilaian pengusul ini? Pastikan Data yang Anda masukan sudah benar!</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_scoreuser" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE MODAL -->

@@ -2461,7 +2461,6 @@ class PraIncubation extends User_Controller {
                     $name       = '<strong style="color: red !important;">'.$name.'</strong>';
                 }
                 
-                
                 $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $year ),
@@ -2524,6 +2523,9 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
@@ -2532,13 +2534,15 @@ class PraIncubation extends User_Controller {
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/forms/form-validation.js',
             BE_JS_PATH . 'pages/index.js',
         ));
         
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
+            //'ScoreUserValidation.init()',
             'ScoreSetting.init();',
-            'SliderIndikator.init()'
+            'SliderIndikator.init()',
         ));
         $scripts_add            = '';
 

@@ -1090,5 +1090,75 @@ var TenantValidation = function () {
     };
 }();
 
+var ScoreUserValidation = function () {
+    var handleScoreUserStep1Validation = function(){
+        $('#selection_score_step1').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                nilai_dokumen: {
+                    required: true,
+                },
+                nilai_target: {
+                    required: true,
+                },
+                nilai_perlingungan: {
+                    required: true,
+                },
+                nilai_penelitian: {
+                    required: true,
+                },
+                nilai_market: {
+                    required: true,
+                },
+            },
+            messages: {
+                nilai_dokumen: {
+                    required: 'Penilaian Dokumen harus di isi',
+                },
+                nilai_target: {
+                    required: 'Penilaian Target dan Biaya harus di isi',
+                },
+                nilai_perlingungan: {
+                    required: 'Penilaian Perlindungan harus di isi',
+                },
+                nilai_penelitian: {
+                    required: 'Penilaian Penelitian Lanjutan harus di isi',
+                },
+                nilai_market: {
+                    required: 'Penilaian Market harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_scoreuser').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleScoreUserStep1Validation();
+        }
+    };
+}();
+
 
 

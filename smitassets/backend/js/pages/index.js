@@ -307,6 +307,7 @@ var ScoreSetting = function () {
             App.scrollTo($('body'),0);
         });
         
+        /*
         $("body").delegate( "button.btn-rate-step1", "click", function( event ) {
             event.preventDefault();
             var div_container   = $('#alert-display');
@@ -360,6 +361,7 @@ var ScoreSetting = function () {
                 }
             });
         });
+        */
         
         // Rate Step 1 Change
         $('.rate-step1').change(function( event ){
