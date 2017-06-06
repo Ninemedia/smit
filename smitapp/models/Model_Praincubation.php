@@ -958,7 +958,7 @@ class Model_Praincubation extends SMIT_Model{
      * @return  Int of total rows user
      */
     function count_all_scoreconfirm_step1($status = 0, $statustwo = 0){
-        if ( $status != 0 )     { $this->db->where('status', $status); }
+        $this->db->where('status', $status); 
         if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
         
         $query = $this->db->get($this->praincubation_selection);
@@ -976,6 +976,22 @@ class Model_Praincubation extends SMIT_Model{
      */
     function count_all_scoreconfirm_step2($statustwo = 0){
         if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
+        
+        $query = $this->db->get($this->praincubation_selection);
+        
+        return $query->num_rows();
+    }
+    
+    /**
+     * Count All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_list($status ){
+        if ( $status == NOTCONFIRMED )  { $this->db->where('status', $status); }
         
         $query = $this->db->get($this->praincubation_selection);
         

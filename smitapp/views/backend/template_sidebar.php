@@ -1,4 +1,5 @@
 <?php
+    // List User
     $badgelist_user     = 0;
     if(!empty($is_admin)){
         $user_list          = $this->Model_User->count_user(NONACTIVE);
@@ -7,6 +8,7 @@
         }
     }
     
+    // Layanan -> Pesan Umum
     $badge_generalmessage   = 0;
     if(!empty($is_admin)){
         $generalmessage_list     = $this->Model_Service->count_generalmessage(UNREAD);
@@ -15,22 +17,40 @@
         }
     }
     
+    // Seleksi Pra-Inkubasi -> Penilaian Seleksi
     $badge_score_total      = 0;
     $badge_score1           = 0;
-    if(!empty($is_admin) || !empty($is_jury)){
-        $score_list1        = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
+    $status                 = CONFIRMED;
+    if(!empty($is_pengusul)){
+        $status             = NOTCONFIRMED;
+    }
+    
+    if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
+        $score_list1        = $this->Model_Praincubation->count_all_scoreconfirm_step1($status, NOTCONFIRMED);
         if($score_list1 > 0){
             $badge_score1   = $score_list1;
         }
     }
     $badge_score2           = 0;
-    if(!empty($is_admin) || !empty($is_jury)){
+    if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
         $score_list2        = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
         if($score_list2 > 0){
             $badge_score2   = $score_list2;
         }
     }
     $badge_score_total      = $badge_score1 + $badge_score2;
+    // Seleksi Pra-Inkubasi -> Daftar Seleksi
+    $badge_list_praincubation   = 0;
+    if(!empty($is_admin)){
+        $list_praincubation = $this->Model_Praincubation->count_all_list(NOTCONFIRMED);
+        if($list_praincubation > 0){
+            $badge_list_praincubation   = $list_praincubation;
+        }
+    }
+    
+    $total_selection_praincubation  = $badge_score_total + $badge_list_praincubation;
+    
+    //
     
     
     // Set menu array
@@ -78,7 +98,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'assignment',
-            'badge'     => 0,
+            'badge'     => $total_selection_praincubation,
             'sub'       => array(
     			array (
                     'title'     => 'Pengaturan Seleksi',
@@ -96,7 +116,7 @@
                     'link'      => base_url('seleksiprainkubasi/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_list_praincubation,
                 ),
     			array (
                     'title'     => 'Penilaian Seleksi',
