@@ -86,12 +86,8 @@
                     <div class="tab-content">
                         <!-- Berita Tab Content -->
                         <div class="tab-pane fade in active" id="berita">
-                            <?php
-                                // Get All News Data
-                                $news_data  = $this->Model_News->get_all_news();
-                            ?>
-                            <?php if( $news_data || !empty($news_data) ){ ?>
-                                <?php foreach($news_data as $key => $news){ ?>
+                            <?php if( $newsdata || !empty($newsdata) ){ ?>
+                                <?php foreach($newsdata as $key => $news){ ?>
                                     <?php $desc = word_limiter($news->desc,30); ?>
                                     <div class="media">
                                         <div class="row">
@@ -109,13 +105,13 @@
                                                 <a href="<?php echo base_url(); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
                                                 <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
                                                 <?php echo $desc; ?><br />
-                                                <a href="<?php echo base_url(); ?>"><strong>Selengkapnya</strong></a>
+                                                <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
                                             </div>
                                         </div>
                                     </div>
                                 <?php } ?>
                             <?php }else{ ?>
-                            
+                                <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
                             <?php } ?>
                             
                             

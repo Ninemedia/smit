@@ -1734,6 +1734,66 @@ class Frontend extends Public_Controller {
     }
     // ---------------------------------------------------------------------------------------------
     
+    // ---------------------------------------------------------------------------------------------
+    // NEWS function
+    /**
+    * News Details function.
+    */
+    public function newsdetails( $uniquecode='' ){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+        
+        if( !empty($uniquecode) ){
+            $newsdata           = $this->Model_News->get_news_by_uniquecode($uniquecode);
+        }
+        
+        $uploaded           = $newsdata->uploader;
+        
+        if($uploaded != 0){
+            $file_name      = $newsdata->filename . '.' . $newsdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'news/'. $newsdata->uploader . '/' . $file_name; 
+            $news           = $file_url;
+        }else{
+            $news           = BE_IMG_PATH . 'news/noimage.jpg';       
+        }
+        
+        $alldata                = $this->Model_News->get_all_news('', '', ' WHERE status = 1 AND uniquecode <> "'.$uniquecode.'"');
+        
+        $data['title']          = TITLE . 'Detail Berita';
+        $data['news_data']      = $newsdata;
+        $data['news_image']     = $news;
+        $data['alldata']        = $alldata;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'newsdetails';
+        
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    // ---------------------------------------------------------------------------------------------
+    
 }
 
 /* End of file Frontend.php */

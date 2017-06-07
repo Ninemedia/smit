@@ -219,7 +219,9 @@ $config['user_menu_access']         = array(
     PELAKSANA                        => array(
         'beranda',
         'prainkubasi',
-        'prainkubasi/nilai',
+        'prainkubasi/tambahproduk',
+        'prainkubasi/produk',
+        'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
         //'inkubasi',
         //'inkubasi/nilai',

@@ -94,6 +94,7 @@ class Model_News extends SMIT_Model{
             $conditions = str_replace("%name%",                 "name", $conditions);
             $conditions = str_replace("%description%",          "description", $conditions);
             $conditions = str_replace("%url%",                  "url", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
             $conditions = str_replace("%extension%",            "extension", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
         }
@@ -105,6 +106,7 @@ class Model_News extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "name",  $order_by);
             $order_by   = str_replace("%description%",          "description",  $order_by);
             $order_by   = str_replace("%url%",                  "url",  $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
             $order_by   = str_replace("%extension%",            "extension",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
         }
