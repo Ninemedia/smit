@@ -35,25 +35,25 @@
 			<div class="col-md-12 text-center gtco-heading">
 				<h3>Detail Berita</h3>
 			</div>
-            <div class="row clearfix">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <h4>Berita Terkait</h4>
-                    <hr />
-                    <?php if( !empty($alldata) ) : ?>
-                        <?php
-                            foreach($alldata AS $row){
-                        ?>
-                            <h4><a href="<?php echo base_url('frontendberita/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h4>
-                        <?php    
-                            }
-                        ?>
-                    <?php else :  ?>
-                        <br /><br />
-                        <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
-                    <?php endif ?>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <div class="body">
+            <div class="body">
+                <div class="row clearfix">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <h4>Berita Terkait</h4>
+                        <hr />
+                        <?php if( !empty($alldata) ) : ?>
+                            <?php
+                                foreach($alldata AS $row){
+                            ?>
+                                <h4><a href="<?php echo base_url('frontendberita/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h4>
+                            <?php    
+                                }
+                            ?>
+                        <?php else :  ?>
+                            <br /><br />
+                            <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
+                        <?php endif ?>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                         <h4><?php echo strtoupper($news_data->title); ?></h4>
                         <hr />
                         <p align="right">
