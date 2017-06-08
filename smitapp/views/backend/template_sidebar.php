@@ -50,8 +50,40 @@
     
     $total_selection_praincubation  = $badge_score_total + $badge_list_praincubation;
     
-    //
+    // -------------------------------------------------------------------------------------------------------------
+    // Seleksi Inkubasi -> Penilaian Seleksi
+    $badge_score_total_inc  = 0;
+    $badge_score_inc1       = 0;
+    $status_inc             = CONFIRMED;
+    if(!empty($is_pengusul)){
+        $status_inc         = NOTCONFIRMED;
+    }
     
+    if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
+        $score_list_inc1        = $this->Model_Incubation->count_all_scoreconfirm_step1($status_inc, NOTCONFIRMED);
+        if($score_list_inc1 > 0){
+            $badge_score_inc1   = $score_list_inc1;
+        }
+    }
+    $badge_score_inc2       = 0;
+    if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
+        $score_list_inc2    = $this->Model_Incubation->count_all_scoreconfirm_step2(CONFIRMED);
+        if($score_list_inc2 > 0){
+            $badge_score_inc2   = $score_list_inc2;
+        }
+    }
+    $badge_score_total_inc      = $badge_score_inc1 + $badge_score_inc2;
+    // Seleksi Pra-Inkubasi -> Daftar Seleksi
+    $badge_list_incubation      = 0;
+    if(!empty($is_admin)){
+        $list_incubation    = $this->Model_Incubation->count_all_list(NOTCONFIRMED);
+        if($list_incubation > 0){
+            $badge_list_incubation   = $list_incubation;
+        }
+    }
+    
+    $total_selection_incubation  = $badge_score_total_inc + $badge_list_incubation;
+    // -------------------------------------------------------------------------------------------------------------
     
     // Set menu array
     $menu_arr = array(
@@ -217,7 +249,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'assignment',
-            'badge'     => 0,
+            'badge'     => $total_selection_incubation,
             'sub'       => array(
     			array (
                     'title'     => 'Pengaturan Seleksi',
@@ -235,7 +267,7 @@
                     'link'      => base_url('seleksiinkubasi/daftar'),
                     'icon'      => 'view_list',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_list_incubation,
                 ),
     			array (
                     'title'     => 'Penilaian Seleksi',
@@ -244,7 +276,7 @@
                     'link'      => base_url('seleksiinkubasi/nilai'),
                     'icon'      => 'build',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_score_total_inc,
                 ),
     			array (
                     'title'     => 'Peringkat Penilaian',

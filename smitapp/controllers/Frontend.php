@@ -246,7 +246,6 @@ class Frontend extends Public_Controller {
         $scripts_init           = smit_scripts_init(array(
             'Guides.init();',
             'SelectionValidation.init();',
-            'Selection.init();',
         ));
         
         $lss = smit_latest_praincubation_setting();
@@ -344,6 +343,8 @@ class Frontend extends Public_Controller {
         $category               = trim( smit_isset($category, "") );
         $agree                  = $this->input->post('reg_agree');
         $agree                  = trim( smit_isset($agree, "") );
+        $year                   = $this->input->post('reg_year');
+        $year                   = trim( smit_isset($year, "") );
 
         // -------------------------------------------------
         // Check Form Validation
@@ -404,7 +405,7 @@ class Frontend extends Public_Controller {
         */
         
         // -------------------------------------------------
-        // Check Agreement
+        // Check Setting
         // -------------------------------------------------
         /*
         $incset     = smit_latest_incubation_setting();
@@ -431,6 +432,12 @@ class Frontend extends Public_Controller {
             die(json_encode($data));
         }
         
+        if( empty($_FILES['reg_selection_rab']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            die(json_encode($data));
+        }
+        
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -439,6 +446,7 @@ class Frontend extends Public_Controller {
 
             $incubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'year'          => $year,
                 //'setting_id'    => $incset->id,
                 'user_id'       => $userdata->id,
                 'username'      => strtolower($username),
@@ -478,51 +486,58 @@ class Frontend extends Public_Controller {
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
                     die(json_encode($data));
                 }
-                
                 $upload_data    = $this->my_upload->data();
-                
                 if( !empty($upload_data) ){
-                    if( smit_isset($upload_data[0]) ){
-                        foreach($upload_data as $file){
-                            // Set File Upload Save
-                            $incubationselectionfiles_data  = array(
-                                'uniquecode'    => smit_generate_rand_string(10,'low'),
-                                'selection_id'  => $incubation_save_id,
-                                'user_id'       => $userdata->id,
-                                'username'      => strtolower($username),
-                                'name'          => $name,
-                                'url'           => smit_isset($file['full_path'],''),
-                                'extension'     => substr(smit_isset($file['file_ext'],''),1),
-                                'filename'      => smit_isset($file['raw_name'],''),
-                                'size'          => smit_isset($file['file_size'],0),
-                                'status'        => ACTIVE,
-                                'datecreated'   => $curdate,
-                                'datemodified'  => $curdate,
-                            );
-                            if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
-                                continue;
-                            }
-                        }
-                    }else{
-                        // Set File Upload Save
-                        $file = $upload_data;
-                        $incubationselectionfiles_data = array(
-                            'uniquecode'    => smit_generate_rand_string(10,'low'),
-                            'selection_id'  => $praincubation_save_id,
-                            'user_id'       => $userdata->id,
-                            'username'      => strtolower($username),
-                            'name'          => $name,
-                            'url'           => smit_isset($file['full_path'],''),
-                            'extension'     => substr(smit_isset($file['file_ext'],''),1),
-                            'filename'      => smit_isset($file['raw_name'],''),
-                            'size'          => smit_isset($file['file_size'],0),
-                            'status'        => ACTIVE,
-                            'datecreated'   => $curdate,
-                            'datemodified'  => $curdate,
-                        );
-                        if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
-                            continue;
-                        }
+                    // Set File Upload Save
+                    $file = $upload_data;
+                    $incubationselectionfiles_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'selection_id'  => $incubation_save_id,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file['full_path'],''),
+                        'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                        'filename'      => smit_isset($file['raw_name'],''),
+                        'size'          => smit_isset($file['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
+                        continue;
+                    }
+                }
+                
+                if( ! $this->my_upload->do_upload('reg_selection_rab') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                $upload_data    = $this->my_upload->data();
+                if( !empty($upload_data) ){
+                    // Set File Upload Save
+                    $file = $upload_data;
+                    $incubationselectionfiles_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'selection_id'  => $incubation_save_id,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file['full_path'],''),
+                        'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                        'filename'      => smit_isset($file['raw_name'],''),
+                        'size'          => smit_isset($file['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Incubation->save_data_incubation_selection_files($incubationselectionfiles_data) ){
+                        continue;
                     }
                 }
             }else{
@@ -769,7 +784,6 @@ class Frontend extends Public_Controller {
                     die(json_encode($data));
                 }
                 $upload_data_rab    = $this->my_upload->data();
-                
                 if( !empty($upload_data_rab) ){
                     // Set File Upload Save
                     $file_rab = $upload_data_rab;

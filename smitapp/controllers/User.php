@@ -1262,6 +1262,8 @@ class User extends SMIT_Controller {
         $username               = smit_isset($username);
         $password               = $this->input->post('password');
         $password               = smit_isset($password);
+        $year                   = $this->input->post('year');
+        $year                   = smit_isset($year);
         $selection              = $this->input->post('selection');
         $selection              = smit_isset($selection);
         $message                = '';
@@ -1288,11 +1290,15 @@ class User extends SMIT_Controller {
                         $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran seleksi');
                     }else{
                         // Check if username has been registeren on selection selection
+                        $user_selection     = '';
                         if( $selection == 'praincubation' ){
-                            $user_selection = $this->Model_Praincubation->get_praincubation_by('userid',$userdata->id);
-                        }else{
+                            $user_selection = $this->Model_Praincubation->get_all_praincubation('', '', ' WHERE year = '.$year.' AND user_id = '.$userdata->id.'');
+                        }
+                        /*
+                        else{
                             $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
                         }
+                        */
 
                         if( $user_selection || !empty($user_selection) ){
                             $message    = 'error';

@@ -105,6 +105,7 @@
                                                 <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
                                             </div>
                                         </div>
+                                        <input type="hidden" class="form-control" name="reg_year" id="reg_year" value="<?php echo $selection_year; ?>" >
                                         <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="praincubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
                                         <br />
                                         <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>

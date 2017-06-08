@@ -2050,7 +2050,7 @@ class PraIncubation extends User_Controller {
                 $sum_score          = $row->scoretwo;
                 $average_score      = $row->average_scoretwo;
                 //Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
+                $workunit_type      = smit_workunit_type($row->workunit);
                 
                 $records["aaData"][] = array(
                         smit_center($i),

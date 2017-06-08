@@ -377,6 +377,7 @@
         var validateUsername = function( element ) {
             var username    = $('#reg_username').val();
             var password    = $('#reg_password').val();
+            var year        = $('#reg_year').val();
             var url         = element.data('url');
             var sel         = element.data('selection');
             var el          = $('#username_info');
@@ -390,6 +391,7 @@
                 data:   {
                     'username' : username,
                     'password' : password,
+                    'year'     : year,
                     'selection': sel,
                 },
                 url:    url,

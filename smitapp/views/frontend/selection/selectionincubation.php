@@ -42,12 +42,12 @@
                             <h4>Formulir Pendaftaran Seleksi Inkubasi</h4>
                             
                             <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
-                                <div id="alert" class="alert display-hide"></div>
                                 <div class="form-group form-float">
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
                                             <?php echo get_option('be_frontend_incubation_note'); ?>
                                         </div>
+                                        <div id="alert" class="alert display-hide"></div>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>
@@ -61,12 +61,14 @@
                                                 <input type="password" class="form-control" name="reg_password" id="reg_password" placeholder="Masukan kata sandi pengguna anda" autocomplete="off" required>
                                             </div>
                                         </div>
-                                        <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
-                                        <div id="username_info" class="top30"></div>
+                                        <input type="hidden" class="form-control" name="reg_year" id="reg_year" value="<?php echo date('Y'); ?>" >
+                                        <button class="btn btn-block bg-blue waves-effect" id="check_username" type="button" data-selection="incubation" data-url="<?php echo base_url('user/searchusername'); ?>"><strong>Cek Username</strong></button>
                                         <center><a href="<?php echo base_url('signup'); ?>" id="sign-up-btn" class="center font-bold col-cyan">Pendaftaran Pengguna</a></center>
                                     </section>
                                     
                                     <section id="detail_selection" class="display-hide top30">
+                                        <h4>Data Profil Pengguna</h4>
+                                        <div id="username_info" class="top30"></div>
                                         <h4>Usulan Kegiatan Tenant</h4>
                                         <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
@@ -133,7 +135,7 @@
 	</div>
 </div>
 
-<!-- BEGIN INFORMATION SUCCESS SAVE SELECTION MODAL -->
+<!-- BEGIN INFORMATION SUCCESS SAVE SELECTION INCUBATION MODAL -->
 <div class="modal fade" id="save_selectionincubation" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -142,7 +144,7 @@
 				<h4 class="modal-title">Pendaftaran Seleksi Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Mendaftarkan Seleksi Inkubasi. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Mendaftarkan Seleksi Inkubasi. Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
@@ -151,4 +153,4 @@
 		</div>
 	</div>
 </div>
-<!-- END INFORMATION SUCCESS SAVE SELECTION MODAL -->
+<!-- END INFORMATION SUCCESS SAVE SELECTION INCUBATION MODAL -->

@@ -440,6 +440,7 @@ class Model_Incubation extends SMIT_Model{
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
             $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
@@ -456,6 +457,7 @@ class Model_Incubation extends SMIT_Model{
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
@@ -871,6 +873,57 @@ class Model_Incubation extends SMIT_Model{
     }
     
     // ---------------------------------------------------------------------------------
+    // COUNT SCORE
+    /**
+     * Count All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_scoreconfirm_step1($status = 0, $statustwo = 0){
+        $this->db->where('status', $status); 
+        if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
+        
+        $query = $this->db->get($this->incubation_selection);
+        
+        return $query->num_rows();
+    }
+    
+    /**
+     * Count All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_scoreconfirm_step2($statustwo = 0){
+        if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
+        
+        $query = $this->db->get($this->incubation_selection);
+        
+        return $query->num_rows();
+    }
+    
+    /**
+     * Count All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_list($status ){
+        if ( $status == NOTCONFIRMED )  { $this->db->where('status', $status); }
+        
+        $query = $this->db->get($this->incubation_selection);
+        
+        return $query->num_rows();
+    }
+    // ---------------------------------------------------------------------------------
+    
 }
 /* End of file Model_Incubation.php */
 /* Location: ./application/models/Model_Iuide.php */
