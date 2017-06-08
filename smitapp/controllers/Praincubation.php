@@ -4014,14 +4014,14 @@ class PraIncubation extends User_Controller {
         $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
         
         if( !$data_selection || empty($data_selection) ){
-            redirect( base_url('prainkubasi/nilai') );
+            redirect( base_url('seleksiprainkubasi/nilai') );
         }
         $data_selection         = $data_selection[0];
             
         $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
         $data_selection_files   = $this->Model_Praincubation->get_all_praincubation_files(0, 0, $condition, '');
         if( !$data_selection_files || empty($data_selection_files) ){
-            redirect( base_url('prainkubasi/nilai') );
+            redirect( base_url('seleksiprainkubasi/nilai') );
         }
 
         $data['title']                  = TITLE . 'Penilaian Seleksi Inkubasi';

@@ -162,9 +162,9 @@ $route['seleksiinkubasi/nilai/detail/step1/(:num)'] = "incubation/admindetailsco
 $route['seleksiinkubasi/nilai/detail/step2/(:num)'] = "incubation/admindetailscorestep2/$1";
 $route['seleksiinkubasi/nilai/detail/(:num)/(:any)']= "incubation/adminscoreuser/$1/$2";
 // Juri
-$route['inkubasi/jurinilaidata/(:any)']         = "incubation/juryscorelistdata/$1";
-$route['inkubasi/jurinilaidatastep1']           = "incubation/juryscorelistdatastep1";
-$route['inkubasi/jurinilaidatastep2']           = "incubation/juryscorelistdatastep2";
+$route['seleksiinkubasi/jurinilaidata/(:any)']      = "incubation/juryscorelistdata/$1";
+$route['seleksiinkubasi/jurinilaidatastep1']        = "incubation/juryscorelistdatastep1";
+$route['seleksiinkubasi/jurinilaidatastep2']        = "incubation/juryscorelistdatastep2";
 $route['inkubasi/nilai']                        = "incubation/incubationscore";
 $route['inkubasi/nilai/(:num)/(:any)']          = "incubation/juryscoreuser/$1/$2";
 $route['inkubasi/prosesnilai/(:num)']           = "incubation/juryscoreuserprocess/$1";
