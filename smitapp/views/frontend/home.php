@@ -102,7 +102,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <a href="<?php echo base_url(); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                                                <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
                                                 <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
                                                 <?php echo $desc; ?><br />
                                                 <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
@@ -110,96 +110,12 @@
                                         </div>
                                     </div>
                                 <?php } ?>
+                                <?php if($countnews > LIMIT_DEFAULT){ ?>
+                                    <a href="<?php echo base_url('frontendberita'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
+                                <?php } ?>
                             <?php }else{ ?>
                                 <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
                             <?php } ?>
-                            
-                            
-                            <!--
-                            <div class="media row">
-                                <div class="col-md-3 ">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" width="250" height="250" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9 ">
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Media heading</h4> 
-                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                        in faucibus.<br />
-                                        <a href="">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="media row">
-                                <div class="col-md-3">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" width="250" height="250" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Media heading</h4> 
-                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                        in faucibus.<br />
-                                        <a href="">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="media row">
-                                <div class="col-md-3">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" width="250" height="250" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Media heading</h4> 
-                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                        in faucibus.<br />
-                                        <a href="">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="media row">
-                                <div class="col-md-3">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img class="js-animating-object img-responsive media-object" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" width="250" height="250" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Media heading</h4> 
-                                        <i class="icon-bookmark"></i> 11 Feb 2017 <br />
-                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                        ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-                                        in faucibus.<br />
-                                        <a href="">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
                         </div>
                         
                         <!-- Blog Tab Content -->
@@ -307,105 +223,42 @@
 	</div>
 </div>
 
-<!--
-<div id="gtco-products">
-	<div class="gtco-container">
-		<div class="row animate-box">
-			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-				<h3>Tentang Kami</h3>
-				<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-			</div>
-		</div>
-		<div class="row row-bottom-padded-md">
-			<div class="col-lg-3 col-md-3 col-sm-6">
-				<div class="fh5co-blog animate-box">
-					<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt=""></a>
-					<div class="blog-text">
-						<div class="prod-title">
-							<h3><a href="#">Profil</a></h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<p><a href="#">Learn More...</a></p>
-						</div>
-					</div> 
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6">
-				<div class="fh5co-blog animate-box">
-					<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt=""></a>
-					<div class="blog-text">
-						<div class="prod-title">
-							<h3><a href="#">Fasilitas</a></h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<p><a href="#">Learn More...</a></p>
-						</div>
-					</div> 
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6">
-				<div class="fh5co-blog animate-box">
-					<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt=""></a>
-					<div class="blog-text">
-						<div class="prod-title">
-							<h3><a href="#">Kegiatan</a></h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<p><a href="#">Learn More...</a></p>
-						</div>
-					</div> 
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-6">
-				<div class="fh5co-blog animate-box">
-					<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt=""></a>
-					<div class="blog-text">
-						<div class="prod-title">
-							<h3><a href="#">Layanan</a></h3>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<p><a href="#">Learn More...</a></p>
-						</div>
-					</div> 
-				</div>
-			</div>
-			<div class="clearfix visible-md-block"></div>
-		</div>
-	</div>
-</div>
--->
-
-
 <div id="gtco-blog">
 	<div class="gtco-container">
 		<div class="row">
-            <div class="gtco-widget">
-    			<div class="owl-carousel owl-carousel-footer">
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-                    <div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-                    <div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    				<div class="item">
-    					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-    				</div>
-    			</div>
-			</div>  	
+            <div class="col-md-12">
+                <div class="gtco-widget">
+        			<div class="owl-carousel owl-carousel-footer">
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+                        <div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+                        <div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        				<div class="item">
+        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+        				</div>
+        			</div>
+    			</div>  
+            </div>	
 		</div>
 	</div>
 </div>

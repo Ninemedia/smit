@@ -34,7 +34,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>bootstrap.css" /><!-- Bootstrap  -->
     
 	<!-- Css -->
-    <link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>font-awesome/font-awesome.min.css" />
     
     <!-- Owl Carousel  -->
 	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>owl.carousel.min.css" />

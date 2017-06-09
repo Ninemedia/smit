@@ -15,6 +15,8 @@ class Frontend extends Public_Controller {
     function __construct()
     {       
         parent::__construct();
+        $this->load->library('Ajax_pagination');
+        $this->perPage = LIMIT_DETAIL;
     }
     
     /**
@@ -71,11 +73,13 @@ class Frontend extends Public_Controller {
         ));
         
         $sliderdata             = $this->Model_Slider->get_all_slider('', '', ' WHERE status = 1');
-        $newsdata               = $this->Model_News->get_all_news('', '', ' WHERE status = 1');
+        $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
+        $countnewsdata          = $this->Model_News->count_data_news();
         
         $data['title']          = TITLE . 'Home';
         $data['sliderdata']     = $sliderdata;
         $data['newsdata']       = $newsdata;
+        $data['countnews']      = $countnewsdata;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -1750,6 +1754,89 @@ class Frontend extends Public_Controller {
     
     // ---------------------------------------------------------------------------------------------
     // NEWS function
+    
+    /**
+    * News Details function.
+    */
+    public function news(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        // Total rows count
+        $countnewsdata          = $this->Model_News->count_data_news();
+        
+        // Pagination configuration
+        $config['target']       = '#newslist';
+        $config['base_url']     = base_url('frontendberita/halaman');
+        $config['total_rows']   = $countnewsdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+        
+        $newsdata               = $this->Model_News->get_all_news($this->perPage, 0, ' WHERE status = 1');
+
+        $data['title']          = TITLE . 'Daftar Berita';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['newsdata']       = $newsdata;
+        $data['main_content']   = 'news';
+        
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+    * News Pagination function.
+    */
+    function newspagination(){
+        $page   = $this->input->post('page');
+        $page   = smit_isset($page, '');
+        
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+        
+        // Total rows count
+        $countnewsdata          = $this->Model_News->count_data_news();
+        
+        // Pagination configuration
+        $config['target']       = '#newslist';
+        $config['base_url']     = base_url('frontendberita/halaman');
+        $config['total_rows']   = $countnewsdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+        
+        $newsdata               = $this->Model_News->get_all_news($this->perPage, $offset, ' WHERE status = 1');
+        
+        //get the posts data
+        $data['newsdata']       = $newsdata;
+        
+        //load the view
+        $this->load->view(VIEW_FRONT . 'newspagination', $data);
+    }
+    
     /**
     * News Details function.
     */
@@ -1792,7 +1879,7 @@ class Frontend extends Public_Controller {
             $news           = BE_IMG_PATH . 'news/noimage.jpg';       
         }
         
-        $alldata                = $this->Model_News->get_all_news('', '', ' WHERE status = 1 AND uniquecode <> "'.$uniquecode.'"');
+        $alldata                = $this->Model_News->get_all_news(LIMIT_DETAIL, 0, ' WHERE status = 1 AND uniquecode <> "'.$uniquecode.'"');
         
         $data['title']          = TITLE . 'Detail Berita';
         $data['news_data']      = $newsdata;

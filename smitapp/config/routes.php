@@ -240,6 +240,8 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // 1.1 News
 $route['frontendberita']                = "frontend/news";
 $route['frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
+$route['frontendberita/halaman']        = "frontend/newspagination";
+$route['frontendberita/halaman/(:num)'] = "frontend/newspagination/$1";
 // 2. About Me (Profile)
 $route['profil']                        = "frontend/profile";
 $route['tentangkami/profil']            = "frontend/profile";

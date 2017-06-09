@@ -124,6 +124,20 @@ class Model_News extends SMIT_Model{
         return $query->result();
     }
     
+    /**
+     * Count data of news
+     * 
+     * @author  Iqbal
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function count_data_news(){
+        $sql = 'SELECT COUNT(id) AS total FROM ' . $this->news. '';
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return 0;
+        
+        return $query->row()->total;
+    }
+    
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Guide.php */

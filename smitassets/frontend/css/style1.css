@@ -5458,80 +5458,6 @@ fieldset[disabled] .form-control {
     color: #fff;
     opacity: 0.8; }
 
-/* Pagination & Pager ========================== */
-.pager li > a {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  border-radius: 0;
-  border: none;
-  background-color: transparent;
-  color: #222;
-  font-weight: bold; }
-
-.pager li a:focus,
-.pager li a:active {
-  background-color: transparent; }
-
-.pagination .disabled a,
-.pagination .disabled a:hover,
-.pagination .disabled a:focus,
-.pagination .disabled a:active {
-  color: #bbb; }
-
-.pagination li.active a {
-  background-color: #2196F3; }
-
-.pagination li {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  border-radius: 0; }
-  .pagination li a:focus,
-  .pagination li a:active {
-    background-color: transparent;
-    color: #555; }
-
-.pagination > li > a {
-  border: none;
-  font-weight: bold;
-  color: #555; }
-
-.pagination > li:first-child > a,
-.pagination > li:last-child > a {
-  width: auto;
-  height: 32px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  border-radius: 0; }
-  .pagination > li:first-child > a .material-icons,
-  .pagination > li:last-child > a .material-icons {
-    position: relative;
-    bottom: 2px; }
-
-.pagination-sm > li:first-child > a,
-.pagination-sm > li:last-child > a {
-  width: 28px;
-  height: 28px; }
-  .pagination-sm > li:first-child > a .material-icons,
-  .pagination-sm > li:last-child > a .material-icons {
-    position: relative;
-    top: -1px;
-    left: -6px;
-    font-size: 20px; }
-
-.pagination-lg > li:first-child > a,
-.pagination-lg > li:last-child > a {
-  width: 44px;
-  height: 44px; }
-  .pagination-lg > li:first-child > a .material-icons,
-  .pagination-lg > li:last-child > a .material-icons {
-    font-size: 30px;
-    position: relative;
-    top: -3px;
-    left: -10px; }
-
 /* Media Object ================================ */
 .media {
   margin-bottom: 25px; }
@@ -7966,14 +7892,36 @@ button.filter-submit, button.filter-cancel{
 /* =  content - media
 /*-------------------------------------------------*/
 
+.media-wrapper{
+    position: relative;
+    overflow: hidden;
+}
+
+.media-loader {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(../images/loader.gif) center no-repeat #fff;
+}
+
 .media{
-    margin: 0 !important;
-    padding: 20px 0;
+    margin: 0 0 20px 0 !important;
+    padding: 0 0 20px 0;
     border-bottom: 1px solid #EEEEEE;
+}
+
+.media:first-child{
+    padding-top: 0px !important;
 }
 
 .media:last-child{
     border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .media-left, .media > .pull-left{
@@ -8122,4 +8070,46 @@ button.filter-submit, button.filter-cancel{
     font-size: 13px;
     line-height: 18px;
     margin: 0 0 10px;
+}
+
+/*-------------------------------------------------*/
+/* =  content - news
+/*-------------------------------------------------*/
+.news-title{
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    padding-bottom: 15px;
+}
+
+.news-date{
+    font-weight: bold;
+    margin: 0;
+    padding: 20px 0 20px 0;
+    color: #3A5D98;
+}
+
+.news-date i{
+    margin-right: 5px;
+}
+
+.news-content{
+    text-align: justify;
+}
+
+.news-source{
+    font-weight: bold;
+    padding: 20px 0;
+    border-top: 1px solid #EEEEEE;
+}
+
+.news-related a:hover{
+    color: #E4A000;
+}
+
+.news-related h5{
+    font-size: 12px;
+    font-weight: normal;
+    font-family: inherit;
+    margin-bottom: 15px;
 }
