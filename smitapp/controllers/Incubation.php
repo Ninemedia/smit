@@ -2150,12 +2150,15 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
         
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
         
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
@@ -2163,7 +2166,8 @@ class Incubation extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
         
-        if( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
@@ -2179,7 +2183,7 @@ class Incubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($incubation_list as $row){
-                $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/1/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/1/'.$row->uniquecode).'" 
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -2189,16 +2193,30 @@ class Incubation extends User_Controller {
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 
                 $score          = $row->score;
-                $avarage_score  = $row->avarage_score;
-                //Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
+                $average_score  = $row->average_score;
+                $year           = $row->year;
+                $event          = $row->event_title;
+                $datecreated    = date('d F Y', strtotime($row->datecreated));
+                
+                if( $row->status == NOTCONFIRMED ){
+                    $score          = '<strong style="color : red !important; ">'.floor($score).'</strong>';
+                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
+                    $year           = '<strong style="color : red !important; ">'.$year.'</strong>';
+                    $event          = '<strong style="color : red !important; ">'.$event.'</strong>';
+                    $datecreated    = '<strong style="color : red !important; ">'.$datecreated.'</strong>';
+                }
+                
+                if( $average_score < KKM_STEP1 || $average_score < KKM_STEP2 ){
+                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
+                }
                 
                 $records["aaData"][] = array(
-                    smit_center($i),
-                    strtoupper( $row->event_title ),
-                    smit_center( floor($score) ),
-                    smit_center( floor($avarage_score) ),
-                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( $i ),
+                    smit_center( $year ),
+                    strtoupper( $event ),
+                    smit_center( $score ),
+                    smit_center( $average_score ),
+                    smit_center( $datecreated ),
                     smit_center( $status ),
                     smit_center( $btn_details ),
                 );  
