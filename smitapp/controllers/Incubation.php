@@ -2667,20 +2667,20 @@ class Incubation extends User_Controller {
         $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = 1 AND %status% <> 0';
         $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
         if( !$data_selection || empty($data_selection) ){
-            redirect( base_url('prainkubasi/nilai') );
+            redirect( base_url('seleksiinkubasi/nilai') );
         }
         $data_selection         = $data_selection[0];
         
         // Check Jury Rated Selection
-        $rated = smit_check_juri_rated($current_user->id, $data_selection->id, $step);
+        $rated = smit_check_juri_rated_incubation($current_user->id, $data_selection->id, $step);
         if( !empty($rated) ){
-            redirect( base_url('inkubasi/nilai') );
+            redirect( base_url('seleksiinkubasi/nilai') );
         }
             
         $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
         $data_selection_files   = $this->Model_Incubation->get_all_incubation_files(0, 0, $condition, '');
         if( !$data_selection_files || empty($data_selection_files) ){
-            redirect( base_url('inkubasi/nilai') );
+            redirect( base_url('seleksiinkubasi/nilai') );
         }
 
         $data['title']                  = TITLE . 'Penilaian Seleksi Inkubasi';
@@ -2697,9 +2697,9 @@ class Incubation extends User_Controller {
         $data['scripts_add']            = $scripts_add;
         
         if( $step == 1){
-            $data['main_content']           = 'incubation/scoreuser';    
+            $data['main_content']           = 'selectionincubation/scoreuser';    
         }else{
-            $data['main_content']           = 'incubation/scoreuser2';
+            $data['main_content']           = 'selectionincubation/scoreuser2';
         }
 
         $this->load->view(VIEW_BACK . 'template', $data);

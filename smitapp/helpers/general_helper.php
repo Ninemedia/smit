@@ -1753,6 +1753,29 @@ if ( !function_exists('smit_check_juri_rated') )
 	}
 }
 
+if ( !function_exists('smit_check_juri_rated_incubation') ) 
+{
+    /**
+     * Get selection files
+     * @author  Iqbal
+     * @return  Array Object selection files
+     */
+	function smit_check_juri_rated_incubation($id_user, $id_selection, $step) {
+		$CI =& get_instance();
+        
+        if ( empty($id_user) || !$id_user ) return false;
+        if ( empty($id_selection) || !$id_selection ) return false;
+        if ( empty($step) || !$step ) return false;
+        
+        $table = $step == 1 ? 'smit_incubation_selection_rate_step1' : 'smit_incubation_selection_rate_step2';
+
+        $sql = 'SELECT * FROM '.$table.' WHERE selection_id='.$id_selection.' AND jury_id='.$id_user.'';
+        $qry = $CI->db->query($sql);
+
+        return $qry->row();
+	}
+}
+
 if ( !function_exists('smit_indo_day') ) 
 {
     /**

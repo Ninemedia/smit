@@ -168,9 +168,8 @@ $route['seleksiinkubasi/nilai/detail/(:num)/(:any)']= "incubation/adminscoreuser
 $route['seleksiinkubasi/jurinilaidata/(:any)']      = "incubation/juryscorelistdata/$1";
 $route['seleksiinkubasi/jurinilaidatastep1']        = "incubation/juryscorelistdatastep1";
 $route['seleksiinkubasi/jurinilaidatastep2']        = "incubation/juryscorelistdatastep2";
-$route['inkubasi/nilai']                        = "incubation/incubationscore";
-$route['inkubasi/nilai/(:num)/(:any)']          = "incubation/juryscoreuser/$1/$2";
-$route['inkubasi/prosesnilai/(:num)']           = "incubation/juryscoreuserprocess/$1";
+$route['seleksiinkubasi/nilai/(:num)/(:any)']       = "incubation/juryscoreuser/$1/$2";
+$route['inkubasi/prosesnilai/(:num)']               = "incubation/juryscoreuserprocess/$1";
 // Menu Pengaturan
 $route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
 $route['daftarseleksiinkubasi']                 = "incubation/incubationsettinglistdata";

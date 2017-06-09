@@ -10,7 +10,7 @@
   
                     <div class="row clearfix">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bottom20">                      
-                            <a href="<?php echo base_url('inkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
+                            <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                         </div>
                     </div>
                     <div id="alert-display"></div>
@@ -124,8 +124,8 @@
                                                 <td>
                                                     <select class="form-control rate-step1" name="nilai_dokumen" data-rate="20"> 
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -136,8 +136,8 @@
                                                 <td>
                                                     <select class="form-control rate-step1" name="nilai_target" data-rate="20">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -148,8 +148,8 @@
                                                 <td>
                                                     <select class="form-control rate-step1" name="nilai_perlingungan" data-rate="20">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="20">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -160,8 +160,8 @@
                                                 <td>
                                                     <select class="form-control rate-step1" name="nilai_penelitian" data-rate="10">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="10">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="10">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -172,8 +172,8 @@
                                                 <td>
                                                     <select class="form-control rate-step1" name="nilai_market" data-rate="30">
                         	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="30">Lengkap</option>
-                                                        <option value="0">Tidak Lengkap</option>
+                                                        <option value="30">Ya</option>
+                                                        <option value="0">Tidak</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -186,8 +186,10 @@
                                         </table>
                                     </div>
                                     <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
-                                    <div class="form-group">
-                                        <textarea class="form-control ckeditor" name="nilai_juri_comment"></textarea>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <textarea name="nilai_juri_comment" id="nilai_juri_comment" cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" required></textarea>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />

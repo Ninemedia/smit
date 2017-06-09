@@ -114,7 +114,7 @@ var TableAjax = function () {
     // SERVICES
     // ------------------------------------------------------------------------- 
     // List Communication
-    var handleRecordsListIN = function() {
+    var handleRecordsListIn = function() {
         gridTable( $("#table_list_in"), true );
     };
     
