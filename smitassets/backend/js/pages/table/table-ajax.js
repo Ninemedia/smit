@@ -111,6 +111,18 @@ var TableAjax = function () {
     };
     
     // -------------------------------------------------------------------------
+    // SERVICES
+    // ------------------------------------------------------------------------- 
+    // List Communication
+    var handleRecordsListIN = function() {
+        gridTable( $("#table_list_in"), true );
+    };
+    
+    var handleRecordsListOut = function() {
+        gridTable( $("#table_list_out"), true );
+    };
+    
+    // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
     // TENANT
@@ -273,6 +285,9 @@ var TableAjax = function () {
             handleRecordsSliderList();
             
             //Service
+            //Communication
+            handleRecordsListIn();
+            handleRecordsListOut();
             //General Message
             handleRecordsGeneralMessageList();
         }

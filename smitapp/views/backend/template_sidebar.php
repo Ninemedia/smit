@@ -532,7 +532,7 @@
                     'title'     => 'Komunikasi & Bantuan',
                     'nav'       => 'layanan/komunikasi',
                     'parent'    => 'layanan',
-                    'link'      => base_url('layanan/komunikasi'),
+                    'link'      => base_url('layanan/komunikasibantuan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
                     'badge'     => 0,

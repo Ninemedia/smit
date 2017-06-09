@@ -221,7 +221,7 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 // Guide Files
 $route['berkas/digital']                = "backend/guides";
 // Services
-$route['layanan']                       = "backend/services";
+$route['layanan/komunikasibantuan']     = "backend/services";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";

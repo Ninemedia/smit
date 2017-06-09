@@ -2540,9 +2540,9 @@ class PraIncubation extends User_Controller {
         
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
-            //'ScoreUserValidation.init()',
             'ScoreSetting.init();',
             'SliderIndikator.init()',
+            'ScoreUserValidation.init()',
         ));
         $scripts_add            = '';
 
