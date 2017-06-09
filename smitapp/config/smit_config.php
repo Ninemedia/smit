@@ -117,6 +117,7 @@ $config['user_menu_access']         = array(
         // ------------------- PRA-INKUBASI
         'prainkubasi',
         'prainkubasi/tambah',
+        'prainkubasi/daftar',
         'prainkubasi/produk',
         'prainkubasi/pendampingan',
         'prainkubasi/laporan',

@@ -197,6 +197,15 @@
                     'badge'     => 0,
                 ),
                 array (
+                    'title'     => 'Daftar Pra-Inkubasri',
+                    'nav'       => 'prainkubasi/daftar',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/daftar'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
                     'title'     => 'Tambah Produk',
                     'nav'       => 'prainkubasi/tambahproduk',
                     'parent'    => 'prainkubasi',

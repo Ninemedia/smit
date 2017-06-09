@@ -58,9 +58,13 @@ var TableAjax = function () {
         gridTable( $("#adminscore_steptwo"), true );
     };
     
-    // Juri History List
+    // Juri History List Pra-Inkubasi
     var handleRecordsJuryHistoryList = function() {
         gridTable( $("#praincubationhistory_list"), true );
+    };
+    // Juri History List Inkubasi
+    var handleRecordsJuryHistoryIncubationList = function() {
+        gridTable( $("#incubationhistory_list"), true );
     };
     
     // Pra Incubation Accompaniment Lists
@@ -250,6 +254,7 @@ var TableAjax = function () {
             //Jury
             handleRecordsJuryStepOneList();
             handleRecordsJuryStepTwoList();
+            handleRecordsJuryHistoryIncubationList();
             
             //Workunit
             handleRecordsWorkunitList();
