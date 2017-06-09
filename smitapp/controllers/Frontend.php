@@ -15,7 +15,7 @@ class Frontend extends Public_Controller {
     function __construct()
     {       
         parent::__construct();
-        $this->load->library('Ajax_pagination');
+        $this->load->library('AJAX_Pagination');
         $this->perPage = LIMIT_DETAIL;
     }
     

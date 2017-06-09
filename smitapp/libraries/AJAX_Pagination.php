@@ -10,7 +10,7 @@
  * @It will helps to integrate Ajax pagination with loading image in CodeIgniter application.
  * @TutorialLink http://www.codexworld.com/ajax-pagination-in-codeigniter-framework/
  */
-class AJAX_pagination{
+class AJAX_Pagination{
 
     var $base_url        = ''; // The page we are linking to
     var $total_rows      = ''; // Total number of items (database results)
