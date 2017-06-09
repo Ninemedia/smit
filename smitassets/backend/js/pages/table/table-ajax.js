@@ -58,9 +58,13 @@ var TableAjax = function () {
         gridTable( $("#adminscore_steptwo"), true );
     };
     
-    // Juri History List
+    // Juri History List Pra-Inkubasi
     var handleRecordsJuryHistoryList = function() {
         gridTable( $("#praincubationhistory_list"), true );
+    };
+    // Juri History List Inkubasi
+    var handleRecordsJuryHistoryIncubationList = function() {
+        gridTable( $("#incubationhistory_list"), true );
     };
     
     // Pra Incubation Accompaniment Lists
@@ -104,6 +108,18 @@ var TableAjax = function () {
     // News List Admin 
     var handleRecordsNewsList = function() {
         gridTable( $("#news_list"), true );
+    };
+    
+    // -------------------------------------------------------------------------
+    // SERVICES
+    // ------------------------------------------------------------------------- 
+    // List Communication
+    var handleRecordsListIN = function() {
+        gridTable( $("#table_list_in"), true );
+    };
+    
+    var handleRecordsListOut = function() {
+        gridTable( $("#table_list_out"), true );
     };
     
     // -------------------------------------------------------------------------
@@ -250,6 +266,7 @@ var TableAjax = function () {
             //Jury
             handleRecordsJuryStepOneList();
             handleRecordsJuryStepTwoList();
+            handleRecordsJuryHistoryIncubationList();
             
             //Workunit
             handleRecordsWorkunitList();
@@ -268,6 +285,9 @@ var TableAjax = function () {
             handleRecordsSliderList();
             
             //Service
+            //Communication
+            handleRecordsListIn();
+            handleRecordsListOut();
             //General Message
             handleRecordsGeneralMessageList();
         }

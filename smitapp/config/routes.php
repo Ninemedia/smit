@@ -110,10 +110,12 @@ $route['seleksiprainkubasi/jurinilaidata/(:any)']      = "praincubation/juryscor
 $route['seleksiprainkubasi/jurinilaidatastep1']        = "praincubation/juryscorelistdatastep1";
 $route['seleksiprainkubasi/jurinilaidatastep2']        = "praincubation/juryscorelistdatastep2";
 $route['seleksiprainkubasi/nilai/(:num)/(:any)']       = "praincubation/juryscoreuser/$1/$2";
-$route['prainkubasi/prosesnilai/(:num)']        = "praincubation/juryscoreuserprocess/$1";
-$route['prainkubasi/laporan/konfirmasi']        = "praincubation/praincubationreportconfirm";
-$route['prainkubasi/laporan/konfirmasi/(:any)'] = "praincubation/praincubationreportconfirm/$1";
-$route['prainkubasi/unduh/(:any)']              = "praincubation/downloadfile/$1";
+$route['prainkubasi/prosesnilai/(:num)']                = "praincubation/juryscoreuserprocess/$1";
+$route['prainkubasi/laporan/konfirmasi']                = "praincubation/praincubationreportconfirm";
+$route['prainkubasi/laporan/konfirmasi/(:any)']         = "praincubation/praincubationreportconfirm/$1";
+$route['prainkubasi/unduh/(:any)']                      = "praincubation/downloadfile/$1";
+$route['prainkubasi/daftar']                            = "praincubation/listpraincubation";
+
 $route['praincubationconfirm']                  = "praincubation/praincubationconfirm";
 $route['praincubationconfirm/(:any)']           = "praincubation/praincubationconfirm/$1";
 $route['praincubationreportconfirm']            = "praincubation/praincubationreportconfirm";
@@ -152,6 +154,7 @@ $route['seleksiinkubasi/konfirmasistep2/(:any)']    = "incubation/incubationconf
 $route['seleksiinkubasi/riwayat']                   = "incubation/incubationhistory";
 $route['seleksiinkubasi/riwayatdata']               = "incubation/historylistdata";
 $route['seleksiinkubasi/riwayatdata/(:num)']        = "incubation/historylistdata/$1";
+$route['seleksiinkubasi/peringkat']                 = "incubation/ranking";
 
 // Menu Penilaian
 $route['seleksiinkubasi/adminnilaidata/(:any)']     = "incubation/adminscorelistdata/$1";
@@ -218,7 +221,7 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 // Guide Files
 $route['berkas/digital']                = "backend/guides";
 // Services
-$route['layanan']                       = "backend/services";
+$route['layanan/komunikasibantuan']     = "backend/services";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";

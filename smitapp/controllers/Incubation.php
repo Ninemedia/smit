@@ -3538,6 +3538,253 @@ class Incubation extends User_Controller {
     }
     
     // ---------------------------------------------------------------------------------------------
+    /**
+	 * History Incubation function.
+	 */
+	public function incubationhistory()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'IncubationList.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'selectionincubation/history';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * History List data function.
+	 */
+    function historylistdata( $id='' ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $is_jury            = as_juri($current_user);
+        $is_pengusul        = as_pengusul($current_user);
+        $is_pelaksana       = as_pelaksana($current_user);
+        $condition          = '';
+        
+        if( !empty($id) ){
+            if(!empty($is_jury)){
+                $condition          = ' WHERE jury_id = '. $current_user->id .' ';     
+            }else{
+                $condition          = ' WHERE user_id = '. $current_user->id .' '; 
+            }
+        }
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_step             = $this->input->post('search_step');
+        $s_step             = smit_isset($s_step, '');
+        $s_score            = $this->input->post('search_score');
+        $s_score            = smit_isset($s_score, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = %s%'); }
+        if( !empty($s_score) )          { $condition .= str_replace('%s%', $s_score, ' AND %score% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %dateprocess% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %dateprocess% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%step% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%score% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $history_list   = $this->Model_Incubation->get_all_incubation_history($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($history_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($history_list as $row){
+                $rate           = $row->rate_total;
+                $year           = $row->year;
+                $name_jury      = strtoupper($row->name_jury);
+                $name           = strtoupper($row->name);
+                $event          = $row->event_title;
+                $step           = $row->step;
+                $datecreated    = date('d F Y', strtotime($row->datecreated));
+                
+                if( $step == 1 || $step == 2 ){
+                    if($rate < KKM_STEP1 || $rate < KKM_STEP2){
+                        $rate           = '<strong style="color: red !important;">'.$rate.'</strong>';
+                        $year           = '<strong style="color: red !important;">'.$year.'</strong>';
+                        $name_jury      = '<strong style="color: red !important;">'.$name_jury.'</strong>';
+                        $name           = '<strong style="color: red !important;">'.$name.'</strong>';
+                        $event          = '<strong style="color: red !important;">'.$event.'</strong>';
+                        $step           = '<strong style="color: red !important;">'.$step.'</strong>';
+                        $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';    
+                    }
+                }
+            
+                if( !empty($is_admin)){
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year ),
+                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . $name_jury . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                        $event,
+                        smit_center( $step ),
+                        smit_center( $rate ),
+                        smit_center( $datecreated ),
+                        '',
+                    );     
+                }elseif( !empty($is_jury) ){
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year),
+                        strtoupper( $name ),
+                        $event,
+                        smit_center( $step ),
+                        smit_center( $rate ),
+                        smit_center( $datecreated ),
+                        '',
+                    );     
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year ),
+                        strtoupper( $name_jury ),
+                        $event,
+                        smit_center( $step ),
+                        smit_center( $rate ),
+                        smit_center( $datecreated ),
+                        '',
+                    );     
+                }
+                 
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Ranking function.
+	 */
+	public function ranking()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = '';
+
+        $data['title']          = TITLE . 'Penilaian Peringkat';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'selectionincubation/ranking';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    // ---------------------------------------------------------------------------------------------
 }
 
 /* End of file Incubation.php */

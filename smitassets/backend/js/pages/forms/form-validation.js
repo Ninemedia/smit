@@ -117,6 +117,58 @@ var GuidesValidation = function () {
     };
 }();
 
+var ServicesValidation = function () {
+    var handleCommunicationValidation = function(){
+        $('#cmm_form').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                cmm_title: {
+                    required: true,
+                },
+                cmm_description: {
+                    required: true,
+                },
+            },
+            messages: {
+                cmm_title: {
+                    required: "Judul komunikasi dan bantuan harus di isi."
+                },
+                cmm_description: {
+                    required: "Deskripsi komunikasi dan bantuan harus di isi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_cmm').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleCommunicationValidation();
+        }
+    };
+}();
+
 var ProfileValidation = function () {
     var handleProfileValidation = function(){
         $('#personal').validate({
