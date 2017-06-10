@@ -5025,6 +5025,18 @@ section.content {
 
 .input-group.input-group-lg .form-control {
   font-size: 18px; }
+  
+.input-group.error span{
+    color: #F44336;
+}
+
+.input-group.error .form-line{
+    border-bottom: 1px solid #F44336;
+}
+
+.input-group.error select{
+    border: 1px solid #F44336 !important;
+}
 
 .form-control-label {
   text-align: right; }
@@ -8460,4 +8472,14 @@ hr.line-warning{
 }
 .selection-details-table .alert{
     padding: 10px !important;
+}
+
+#selection_score_step1 span.help-block{
+    display: inline-block;
+    padding: 0;
+    margin: 5px 0;
+}
+.select-def{
+    border: 1px solid #ccc !important;
+    border-radius: 0 !important;
 }

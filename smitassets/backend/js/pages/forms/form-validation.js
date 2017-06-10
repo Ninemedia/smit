@@ -1145,7 +1145,9 @@ var TenantValidation = function () {
 var ScoreUserValidation = function () {
     var handleScoreUserStep1Validation = function(){
         $('#selection_score_step1').validate({
-            focusInvalid: true, // do not focus the last invalid input
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
                 nilai_dokumen: {
@@ -1186,17 +1188,31 @@ var ScoreUserValidation = function () {
             },
             highlight: function (element) { // hightlight error inputs
                 console.log(element);
-                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+                $(element).parents('.input-group').addClass('error'); // set error class to the control group
             },
             unhighlight: function (element) {
-                $(element).closest('.form-line').removeClass('error');
+                $(element).parents('.input-group').removeClass('error');
             },
             success: function (label) {
-                label.closest('.form-line').removeClass('error');
+                label.closest('.input-group').removeClass('error');
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
+                if (element.parent(".input-group").size() > 0) {
+                    element.parent(".input-group").append(error);
+                } else if (element.attr("data-error-container")) { 
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) { 
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) { 
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
             },
             submitHandler: function (form) {
                 $('#save_scoreuser').modal('show');

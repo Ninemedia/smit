@@ -122,11 +122,13 @@
                                                 <td class="text-middle">Kelengkapan Dokumen</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_dokumen" id="nilai_dokumen" data-rate="20" data-plus="0"> 
-                        	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Ya</option>
-                                                        <option value="0">Tidak</option>
-                                                    </select>
+                                                    <div class="input-group bottom0">
+                                                        <select class="form-control rate-step1 select-def" name="nilai_dokumen" id="nilai_dokumen" data-rate="20" data-plus="0"> 
+                            	                        	<option value="" selected="selected">Beri Nilai..</option>
+                                                            <option value="20">Ya</option>
+                                                            <option value="0">Tidak</option>
+                                                        </select>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -134,11 +136,13 @@
                                                 <td class="text-middle">Kesesuaian Target dan Biaya</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_target" id="nilai_target" data-rate="20" data-plus="0">
-                        	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Ya</option>
-                                                        <option value="0">Tidak</option>
-                                                    </select>
+                                                    <div class="input-group bottom0">
+                                                        <select class="form-control rate-step1 select-def" name="nilai_target" id="nilai_target" data-rate="20" data-plus="0">
+                            	                        	<option value="" selected="selected">Beri Nilai..</option>
+                                                            <option value="20">Ya</option>
+                                                            <option value="0">Tidak</option>
+                                                        </select>
+                                                      </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -146,11 +150,13 @@
                                                 <td class="text-middle">Adanya Perlindungan KI</td>
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_perlingungan" id="nilai_perlingungan" data-rate="20" data-plus="0">
-                        	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="20">Ya</option>
-                                                        <option value="0">Tidak</option>
-                                                    </select>
+                                                    <div class="input-group bottom0">
+                                                        <select class="form-control rate-step1 select-def" name="nilai_perlingungan" id="nilai_perlingungan" data-rate="20" data-plus="0">
+                            	                        	<option value="" selected="selected">Beri Nilai..</option>
+                                                            <option value="20">Ya</option>
+                                                            <option value="0">Tidak</option>
+                                                        </select>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -158,11 +164,13 @@
                                                 <td class="text-middle">Penelitian Lanjutan</td>
                                                 <td class="text-middle align-center">10</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_penelitian" id="nilai_penelitian" data-rate="10" data-plus="0">
-                        	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="10">Ya</option>
-                                                        <option value="0">Tidak</option>
-                                                    </select>
+                                                    <div class="input-group bottom0">
+                                                        <select class="form-control rate-step1 select-def" name="nilai_penelitian" id="nilai_penelitian" data-rate="10" data-plus="0">
+                            	                        	<option value="" selected="selected">Beri Nilai..</option>
+                                                            <option value="10">Ya</option>
+                                                            <option value="0">Tidak</option>
+                                                        </select>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -170,11 +178,13 @@
                                                 <td class="text-middle">Marketable</td>
                                                 <td class="text-middle align-center">30</td>
                                                 <td>
-                                                    <select class="form-control rate-step1" name="nilai_market" id="nilai_market" data-rate="30" data-plus="0">
-                        	                        	<option value="">Beri Nilai..</option>
-                                                        <option value="30">Ya</option>
-                                                        <option value="0">Tidak</option>
-                                                    </select>
+                                                    <div class="input-group bottom0">
+                                                        <select class="form-control rate-step1 select-def" name="nilai_market" id="nilai_market" data-rate="30" data-plus="0">
+                            	                        	<option value="" selected="selected">Beri Nilai..</option>
+                                                            <option value="30">Ya</option>
+                                                            <option value="0">Tidak</option>
+                                                        </select>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -193,7 +203,7 @@
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />
-                                        <button class="btn btn-sm btn-primary waves-effect btn-rate-step1" type="button">
+                                        <button class="btn btn-sm btn-primary waves-effect btn-rate-step1" type="submit">
                                             <i class="material-icons">done</i> Nilai
                                         </button>
                                         <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">
