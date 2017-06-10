@@ -117,7 +117,7 @@
                     </div>
                     
                 </div>
-                <?php elseif( !empty($is_jury)|| !empty($is_pengusul)) : ?>
+                <?php else : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
