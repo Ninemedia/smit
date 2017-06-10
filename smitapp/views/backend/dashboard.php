@@ -82,7 +82,6 @@
 
 <!-- Widgets -->
 <div class="row clearfix">
-    <?php if($is_admin): ?>
     <?php
         $count_all      = $this->Model_User->count_all();
         $count_all      = $count_all - 1;
@@ -94,14 +93,15 @@
         $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
         $user_list2             = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
         $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);
+        
         if($user_list1 > 0){
             $countuser_score1   = $user_list1;
         }
         if($user_list2 > 0){
             $countuser_score1   = $user_list2;
         }
-        
     ?>
+    <?php if($is_admin): ?>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
             <div class="icon">
