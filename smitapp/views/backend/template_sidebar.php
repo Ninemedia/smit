@@ -8,7 +8,9 @@
         }
     }
     
+    // Layanan
     // Layanan -> Pesan Umum
+    $total_service_badge    = 0;
     $badge_generalmessage   = 0;
     if(!empty($is_admin)){
         $generalmessage_list     = $this->Model_Service->count_generalmessage(UNREAD);
@@ -16,6 +18,20 @@
             $badge_generalmessage = $generalmessage_list;
         }
     }
+    // Layanan -> Komunikasi dan Bantuan
+    $badge_communication    = 0;
+    if(!empty($user)){
+        if($is_admin){
+            $communication_list     = $this->Model_Service->count_communicationin(UNREAD);
+        }else{
+            $communication_list     = $this->Model_Service->count_communicationin(UNREAD, $user->id);    
+        }
+        
+        if($communication_list > 0){
+            $badge_communication = $communication_list;
+        }
+    }
+    $total_service_badge    = $badge_generalmessage + $badge_communication;
     
     // Seleksi Pra-Inkubasi -> Penilaian Seleksi
     $badge_score_total      = 0;
@@ -517,7 +533,7 @@
             'parent'    => 'false',
             'link'      => 'javascript:;',
             'icon'      => 'ring_volume',
-            'badge'     => $badge_generalmessage,
+            'badge'     => $total_service_badge,
             'sub'       => array(
     			array (
                     'title'     => 'Pesan Umum',
@@ -535,7 +551,7 @@
                     'link'      => base_url('layanan/komunikasibantuan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $badge_communication,
                 ),
     			array (
                     'title'     => 'Pengukuran IKM',

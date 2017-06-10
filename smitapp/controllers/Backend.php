@@ -67,6 +67,31 @@ class Backend extends User_Controller {
                 }
             }    
         }
+        
+        $status_inc_1           = '';
+        $status_inc_2           = '';
+        $status_pra_1           = '';
+        $status_pra_2           = '';
+        $step_inc_2             = 0;
+        $step_pra_2             = 0;
+        $data_incubation        = '';
+        $data_praincubation     = '';
+        if( as_pengusul($current_user) ){
+            $data_incubation        = $this->Model_Incubation->get_all_incubation('', 0, ' WHERE user_id = '.$current_user->id.'');
+            $data_praincubation     = $this->Model_Praincubation->get_all_praincubation('', 0, ' WHERE user_id = '.$current_user->id.'');
+            
+            if( !empty($data_incubation) ){
+                $status_inc_1       = $data_incubation[0]->status;
+                $status_inc_2       = $data_incubation[0]->statustwo;
+                $step_inc_2         = $data_incubation[0]->steptwo;
+            }
+            
+            if( !empty($data_praincubation) ){
+                $status_pra_1       = $data_praincubation[0]->status;
+                $status_pra_2       = $data_praincubation[0]->statustwo;
+                $step_pra_2         = $data_praincubation[0]->steptwo;
+            }
+        }
 
         $data['title']          = TITLE . 'Beranda';
         $data['user']           = $current_user;
@@ -74,6 +99,12 @@ class Backend extends User_Controller {
         $data['is_jury']        = $is_jury;
         $data['phase1']         = $phase1;
         $data['phase2']         = $phase2;
+        $data['status_inc_1']   = $status_inc_1;
+        $data['status_inc_2']   = $status_inc_2;
+        $data['status_pra_1']   = $status_pra_1;
+        $data['status_pra_2']   = $status_pra_2;
+        $data['data_incubation']    = $data_incubation;
+        $data['data_praincubation'] = $data_praincubation;
         $data['lss']            = $lss;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1501,86 +1532,7 @@ class Backend extends User_Controller {
     
     // ---------------------------------------------------------------------------------------------
     
-    // ---------------------------------------------------------------------------------------------
-    // SERVICES
-    /**
-	 * Services function.
-	 */
-	public function services()
-	{
-        auth_redirect();
-        
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        $is_jury                = as_juri($current_user);
-        $message                = '';
-        $post                   = '';
-        $curdate                = date('Y-m-d H:i:s');
-        
-        $flashdata              = $this->session->flashdata('success');        
-        $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
-            BE_PLUGIN_PATH . 'node-waves/waves.css',
-            BE_PLUGIN_PATH . 'animate-css/animate.css',
-            // DataTable Plugin
-            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
-            // Datetime Picker Plugin
-            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            // Jquery Fileinput Plugin
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
-        ));
-        
-        $loadscripts            = smit_scripts(array(
-            // Default JS Plugin
-            BE_PLUGIN_PATH . 'node-waves/waves.js',
-            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            // DataTable Plugin
-            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
-            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
-            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            // Datetime Picker Plugin
-            BE_PLUGIN_PATH . 'momentjs/moment.js',
-            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Jquery Fileinput Plugin
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
-            // Jquery Validation Plugin
-            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
-            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
-            // Always placed at bottom
-            BE_JS_PATH . 'admin.js',
-            // Put script based on current page
-            BE_JS_PATH . 'pages/table/table-ajax.js',
-            BE_JS_PATH . 'pages/forms/form-validation.js',
-        ));
-        
-        $scripts_add            = '';
-        $scripts_init           = smit_scripts_init(array(
-            'App.init();',
-            'TableAjax.init();',
-            'ServicesValidation.init();',
-        ));
-
-        $data['title']          = TITLE . 'Komunikasi dan Bantuan';
-        $data['user']           = $current_user;
-        $data['is_admin']       = $is_admin;
-        $data['is_jury']        = $is_jury;
-        $data['headstyles']     = $headstyles;
-        $data['scripts']        = $loadscripts;
-        $data['scripts_add']    = $scripts_add;
-        $data['scripts_init']   = $scripts_init;
-        $data['message']        = $message;
-        $data['flashdata']      = $flashdata;
-        $data['post']           = $post;
-        $data['main_content']   = 'services/communication';
-        
-        $this->load->view(VIEW_BACK . 'template', $data);
-	}
-    // ---------------------------------------------------------------------------------------------
+    
     
     // ---------------------------------------------------------------------------------------------
     // NEWS
@@ -2567,6 +2519,424 @@ class Backend extends User_Controller {
         
         $this->load->view(VIEW_BACK . 'template', $data);
     }
+
+    /**
+	 * Services function.
+	 */
+	public function services()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $flashdata              = $this->session->flashdata('success');        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'ServicesValidation.init();',
+        ));
+
+        $data['title']          = TITLE . 'Komunikasi dan Bantuan';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['message']        = $message;
+        $data['flashdata']      = $flashdata;
+        $data['post']           = $post;
+        $data['main_content']   = 'services/communication';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * General Message list data function.
+	 */
+    function communicationdata( $value ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_desc             = $this->input->post('search_desc');
+        $s_desc             = smit_isset($s_desc, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_desc) )           { $condition .= str_replace('%s%', $s_email, ' AND %desc% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%desc% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        if( $is_admin ){
+            if($value == 'in'){
+                $condition  = ' WHERE to_id = 1';
+            }else{
+                $condition  = ' WHERE from_id = 1';
+            }
+        }else{
+            if($value == 'in'){
+                $condition  = ' WHERE to_id = '.$current_user->id.'';
+            }else{
+                $condition  = ' WHERE from_id = '.$current_user->id.'';
+            }
+        }
+        
+        $communication_list = $this->Model_Service->get_all_communication($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($communication_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status_message');
+            
+            $i = $offset + 1;
+            foreach($communication_list as $row){
+                // Status
+                
+                if($row->status == UNREAD )   { 
+                    $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    if( !$is_admin && $value == 'out'){
+                        $btn_action = '';
+                    }else{
+                        $btn_action     = '<a href="'.base_url('communicationconfirm/active/'.$row->id).'" class="communicationconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Balas"><i class="material-icons">reply</i></a> ';
+                    } 
+                }
+                elseif($row->status == READ)  { 
+                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     = '
+                    <a href="'.($row->id>1 ? base_url('communicationconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
+                    <a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
+                }
+                /*
+                elseif($row->status == BANNED)  { 
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == DELETED) { 
+                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; 
+                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                */
+                $btn_action .= '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'" 
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                /*
+                    <a href="'.base_url('pesanumum/hapus/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>
+                */
+                
+                $name           = $row->name;
+                $title          = $row->title;
+                $desc           = $row->desc;
+                $datecreated    = $row->datecreated;
+                if( $row->status == UNREAD ){
+                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>'; 
+                    $title      = '<strong style="color : red !important; ">'.$title.'</strong>'; 
+                    $desc       = '<strong style="color : red !important; ">'.$desc.'</strong>'; 
+                    $datecreated= '<strong style="color : red !important; ">'.date('d F Y H:i:s', strtotime($datecreated)).'</strong>'; 
+                }
+                
+                if( !empty($is_admin) ){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper( $name ),
+                        '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
+                        $desc,
+                        smit_center( $status ),
+                        smit_center( $datecreated ),
+                        smit_center( $btn_action ),  
+                    );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
+                        $desc,
+                        smit_center( $status ),
+                        smit_center( $datecreated ),
+                        smit_center( $btn_action ),   
+                    );
+                }
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+    * Communication Details function.
+    */
+    public function communicationdetails( $uniquecode='' ){
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'ServicesValidation.init();',
+        ));
+        $communicationdata      = '';
+        
+        if( !empty($uniquecode) ){
+            $communicationdata  = $this->Model_Service->get_communication_by_uniquecode($uniquecode);
+            if( $is_admin ){
+                if($communicationdata->status == UNREAD){
+                    $update_data        = $this->Model_Service->update_communication($uniquecode, array('status' => READ));    
+                }    
+            }
+        }
+        
+        $data['title']          = TITLE . 'Detail Komunikasi dan Bantuan';
+        $data['communication_data']    = $communicationdata;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'services/communicationdetails';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Communication Add
+	 */
+	public function communicationadd()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $to_id                  = 1; //Admin
+        if( $is_admin ){
+            $user_id            = $this->input->post('user_id');
+            $user_id            = trim( smit_isset($user_id, "") );
+            $to_id              = $user_id;    
+        }
+        
+        $title                  = $this->input->post('cmm_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('cmm_description');
+        $description            = trim( smit_isset($description, "") );
+        
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('cmm_title','Judul Komunikasi dan Banruan','required');
+        $this->form_validation->set_rules('cmm_description','Deskripsi Komunikasi dan Bantuan','required');
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran komunikasi dan bantuan tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+        
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            $communication_data  = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'user_id'       => $current_user->id,
+                'from_id'       => $current_user->id,
+                'to_id'         => $to_id,
+                'username'      => strtolower($current_user->username),
+                'name'          => $current_user->name,
+                'title'         => $title,
+                'desc'          => $description,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );  
+                    
+            // -------------------------------------------------
+            // Save Communication 
+            // -------------------------------------------------
+            $trans_save_communication       = FALSE;
+            if( $communication_save_id      = $this->Model_Service->save_data_communication($communication_data) ){
+                $trans_save_communication   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran komunikasi dan bantuan tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                die(json_encode($data));
+            }
+                    
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_communication ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran komunikasi dan bantuan tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran komunikasi dan bantuan baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'COMMUNICATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'title'=> $title)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+        }
+	}
     
 }
 

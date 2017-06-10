@@ -676,6 +676,61 @@ var App = function() {
         });
     };
     
+    var handleAddServices = function() {
+        // Save Communication
+        $('#do_save_cmm').click(function(e){
+            e.preventDefault();
+            processSaveCmm($('#cmm_form'));
+        });
+        
+        var processSaveCmm = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#cmm_form')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+        
+        // Reset News Form
+        $('body').on('click', '#btn_cmmadd_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#cmm_title').val('');
+            $('#cmm_description').val('');
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
     var handleAddSlider = function() {
         // Save Slider
         $('#do_save_slider').click(function(e){
@@ -824,6 +879,7 @@ var App = function() {
             handleAddWorkunit();
             handleAddNews();
             handleAddSlider();
+            handleAddServices();
 		},
         
         // wrapper function to scroll(focus) to an element

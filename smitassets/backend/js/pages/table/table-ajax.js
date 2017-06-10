@@ -115,11 +115,11 @@ var TableAjax = function () {
     // ------------------------------------------------------------------------- 
     // List Communication
     var handleRecordsListIn = function() {
-        gridTable( $("#table_list_in"), true );
+        gridTable( $("#communication_listin"), true );
     };
     
     var handleRecordsListOut = function() {
-        gridTable( $("#table_list_out"), true );
+        gridTable( $("#communication_listout"), true );
     };
     
     // -------------------------------------------------------------------------

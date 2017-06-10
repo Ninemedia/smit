@@ -221,6 +221,8 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 $route['berkas/digital']                = "backend/guides";
 // Services
 $route['layanan/komunikasibantuan']     = "backend/services";
+$route['layanan/komunikasibantuan/(:any)']  = "backend/communicationdata/$1";
+$route['komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";

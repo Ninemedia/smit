@@ -37,6 +37,47 @@
             $step2  = ' ANDA TERPILIH ';
         }
     }
+    
+    if( as_pengusul($user) ){
+        $cfg_status     = config_item('incsel_status');
+        if( !empty($data_incubation) ){
+            if($status_inc_1 == NOTCONFIRMED)    { $status_inc_1 = '<span class="label label-default">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
+            elseif($status_inc_1 == CONFIRMED)   { $status_inc_1 = '<span class="label label-success">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
+            elseif($status_inc_1 == RATED)       { $status_inc_1 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
+            elseif($status_inc_1 == ACCEPTED)    { $status_inc_1 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
+            elseif($status_inc_1 == REJECTED)    { $status_inc_1 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
+            
+            if( !empty($step_inc_2) ){
+                if($status_inc_2 == NOTCONFIRMED)    { $status_inc_2 = '<span class="label label-default">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
+                elseif($status_inc_2 == CONFIRMED)   { $status_inc_2 = '<span class="label label-success">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
+                elseif($status_inc_2 == RATED)       { $status_inc_2 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
+                elseif($status_inc_2 == ACCEPTED)    { $status_inc_2 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
+                elseif($status_inc_2 == REJECTED)    { $status_inc_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }      
+            }else{
+                $status_inc_2 = '<center> - </center>';
+            }
+                
+        }
+        
+        if( !empty($data_praincubation) ){
+            if($status_pra_1 == NOTCONFIRMED)    { $status_pra_1 = '<span class="label label-default">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
+            elseif($status_pra_1 == CONFIRMED)   { $status_pra_1 = '<span class="label label-success">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
+            elseif($status_pra_1 == RATED)       { $status_pra_1 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
+            elseif($status_pra_1 == ACCEPTED)    { $status_pra_1 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
+            elseif($status_pra_1 == REJECTED)    { $status_pra_1 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
+            
+            if( !empty($step_pra_2) ){
+                if($status_pra_2 == NOTCONFIRMED)    { $status_pra_2 = '<span class="label label-default">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
+                elseif($status_pra_2 == CONFIRMED)   { $status_pra_2 = '<span class="label label-success">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
+                elseif($status_pra_2 == RATED)       { $status_pra_2 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
+                elseif($status_pra_2 == ACCEPTED)    { $status_pra_2 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
+                elseif($status_pra_2 == REJECTED)    { $status_pra_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; } 
+            }else{
+                $status_pra_2 = '<center> - </center>';
+            }     
+        }
+        
+    }
 ?>
 
 <!-- Widgets -->
@@ -46,55 +87,7 @@
         $count_all      = $this->Model_User->count_all();
         $count_all      = $count_all - 1;
         $user_newest    = $this->Model_User->get_user_newest();
-    ?>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-pink hover-expand-effect">
-            <div class="icon">
-                <i class="material-icons">person_add</i>
-            </div>
-            <div class="content">
-                <div class="text"><strong>PENGGUNA BARU</strong></div>
-                <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
-                <div class="text"><?php echo ( $user_newest->type == 1 ? '-' : $user_newest->name ); ?></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-cyan hover-expand-effect">
-            <div class="icon">
-                <i class="material-icons">info</i>
-            </div>
-            <div class="content">
-                <div class="text"><strong>TOTAL PENGGUNA</strong></div>
-                <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
-                <div class="text"><?php echo $count_all; ?> PENGGUNA</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-light-green hover-expand-effect">
-            <div class="icon">
-                <i class="material-icons">forum</i>
-            </div>
-            <div class="content">
-                <div class="text">NEW COMMENTS</div>
-                <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-orange hover-expand-effect">
-            <div class="icon">
-                <i class="material-icons">playlist_add_check</i>
-            </div>
-            <div class="content">
-                <div class="text">NEW VISITORS</div>
-                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
-            </div>
-        </div>
-    </div>
-    <?php elseif( as_juri($user) ): ?>
-    <?php
+    
         $countuser_score1       = 0;
         $countuser_score2       = 0;
         $count_all_selection    = 0;
@@ -109,6 +102,55 @@
         }
         
     ?>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-pink hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">person_add</i>
+            </div>
+            <div class="content">
+                <div class="text"><strong>PENGGUNA BARU</strong></div>
+                <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                <div class="text"><?php echo ( $user_newest->type == 1 ? '-' : $user_newest->name ); ?></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-green hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">info</i>
+            </div>
+            <div class="content">
+                <div class="text"><strong>TOTAL PENGGUNA</strong></div>
+                <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $count_all; ?> PENGGUNA</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-orange hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">playlist_add_check</i>
+            </div>
+            <div class="content">
+                <div class="text">Jumlah Pengusul</div>
+                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $count_all_selection; ?> ORANG</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-cyan hover-expand-effect">
+            <div class="icon">
+                <i class="material-icons">playlist_add_check</i>
+            </div>
+            <div class="content">
+                <div class="text">Jumlah Tahap 1</div>
+                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text"><?php echo $countuser_score1; ?> PENGUSUL</div>
+            </div>
+        </div>
+    </div>
+    <?php elseif( as_juri($user) ): ?>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="info-box bg-orange hover-expand-effect">
             <div class="icon">
@@ -145,6 +187,8 @@
             </div>
         </div>
     </div>
+    <?php elseif( as_pengusul($user) ): ?>
+    
     <?php endif ?> 
 </div>
 <!-- #END# Widgets -->
@@ -245,6 +289,78 @@
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
                         <?php echo get_option('be_dashboard_user'); ?>
+                        <h4>Status Pengajuan Seleksi Anda : </h4>
+                        <div class="row clearfix">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="card">
+                                    <div class="header bg-cyan">
+                                        <h2>Seleksi Pra-Inkubasi<small>Tanggal Seleksi : <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?></strong> - <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></strong></small></h2>
+                                    </div>
+                                    <div class="body">
+                                        <?php if( !empty($data_incubation) ) :?>
+                                        <table class="table-container table-responsive">
+                                            <thead>
+                                                <tr row="row" class="heading bg-blue">
+                                                    <th class="width5 center">Tahun</th> 
+                                                    <th class="width20 center">Judul Usulan</th>
+                                                    <th class="width10 center">Status 1</th>
+                                                    <th class="width10 center">Status 2</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><center><?php echo $data_incubation[0]->year; ?></center></td>
+                                                    <td><?php echo $data_incubation[0]->event_title; ?></td>
+                                                    <td><?php echo $status_inc_1; ?></td>
+                                                    <td><?php echo $status_inc_2; ?></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            </tbody>
+                                        </table>
+                                        <?php else : ?>
+                                             <strong>Maaf saat ini anda sedang tidak ada pengajuan seleksi.</strong>
+                                        <?php endif ?><br />
+                                        <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="card">
+                                    <div class="header bg-pink">
+                                        <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
+                                    </div>
+                                    <div class="body">
+                                        <?php if( !empty($data_praincubation) ) :?>
+                                        <div class="table-container table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr row="row" class="heading bg-blue">
+                                                        <th class="width5 center">Tahun</th> 
+                                                        <th class="width20 center">Judul Usulan</th>
+                                                        <th class="width10 center">Status 1</th>
+                                                        <th class="width10 center">Status 2</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><center><?php echo $data_praincubation[0]->year; ?></center></td>
+                                                        <td><?php echo $data_praincubation[0]->event_title; ?></td>
+                                                        <td><?php echo $status_pra_1; ?></td>
+                                                        <td><?php echo $status_pra_2; ?></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <?php else : ?>
+                                             <strong>Maaf saat ini anda sedang tidak ada pengajuan seleksi.</strong>
+                                        <?php endif ?><br />
+                                        
+                                        <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
