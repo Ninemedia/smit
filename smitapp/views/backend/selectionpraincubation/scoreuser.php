@@ -190,7 +190,9 @@
                                             <tr>
                                                 <td class="text-middle"></td>
                                                 <td class="text-middle"><strong>Jumlah Nilai</strong></td>
-                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="nilai_total_tahap1" id="nilai_total_tahap1" value="0" /></td>
+                                                <td class="text-middle text-center">
+                                                    <input class="text-center input-mini text-darken-1" name="nilai_total_tahap1" id="nilai_total_tahap1" value="0" readonly="readonly" />
+                                                </td>
                                                 <td></td>
                                             </tr>
                                         </table>
