@@ -63,7 +63,7 @@
 		<div class="row animate-box">
         
             <!-- News -->
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="body">
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -121,7 +121,7 @@
                         <!-- Blog Tab Content -->
                         <div class="tab-pane fade" id="blog">
                             <div class="row">
-                    			<div class="col-md-6">
+                    			<div class="col-md-3">
                     				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt="" /></a>
@@ -135,7 +135,7 @@
                     					</div>
                     				</div>
                     			</div>
-                    			<div class="col-md-6">
+                    			<div class="col-md-3">
                     				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt="" /></a>
@@ -149,7 +149,7 @@
                     					</div>
                     				</div>
                     			</div>
-                    			<div class="col-md-6">
+                    			<div class="col-md-3">
                     				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt="" /></a>
@@ -163,7 +163,63 @@
                     					</div>
                     				</div>
                     			</div>
-                    			<div class="col-md-6">
+                    			<div class="col-md-3">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                                <div class="col-md-3">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                                <div class="col-md-3">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                                <div class="col-md-3">
+                    				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+                    					<div class="gtco-blog animate-box">
+                    						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
+                    						<div class="blog-text">
+                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<span class="posted_on">Sep. 15th</span>
+                    							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
+                    							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
+                    						</div> 
+                    					</div>
+                    				</div>
+                    			</div>
+                                <div class="col-md-3">
                     				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
@@ -216,9 +272,11 @@
             </div>
             
             <!-- Produk -->
+            <!--
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 
             </div>
+            -->
         </div>
 	</div>
 </div>
