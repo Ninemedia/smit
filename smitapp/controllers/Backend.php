@@ -1148,8 +1148,8 @@ class Backend extends User_Controller {
             foreach($workunit_list as $row){
                 
                 // Status
-                $btn_action = '<a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
-                //<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                $btn_action = '<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->workunit_name,
@@ -2121,8 +2121,9 @@ class Backend extends User_Controller {
                 elseif($row->status == ACTIVE)  { 
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
                     $btn_action     .= '
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a> 
                     <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 elseif($row->status == BANNED)  { 
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
@@ -2433,7 +2434,7 @@ class Backend extends User_Controller {
                 */
                 if($row->status == UNREAD )   { 
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     .= '<a href="'.base_url('generalmessageconfirm/active/'.$row->id).'" class="generalmessageconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    //$btn_action     .= '<a href="'.base_url('generalmessageconfirm/active/'.$row->id).'" class="generalmessageconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == READ)  { 
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
