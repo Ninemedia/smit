@@ -7,6 +7,7 @@ class Model_Praincubation extends SMIT_Model{
      * Initialize table
      */
     var $user                               = "smit_user";
+    var $praincubation                      = "smit_praincubation";
     var $praincubation_selection            = "smit_praincubation_selection";
     var $praincubation_selection_files      = "smit_praincubation_selection_files";
     var $praincubation_selection_set        = "smit_praincubation_selection_setting";
@@ -547,6 +548,22 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Save data of praincubation
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_praincubation($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
      * Save data of praincubation_selection
      * 
      * @author  Iqbal
@@ -791,7 +808,7 @@ class Model_Praincubation extends SMIT_Model{
         }
         
         $sql = '
-            SELECT A.*,B.rate_total, B.datemodified as dateprocess
+            SELECT A.*,B.rate_total, B.datemodified as dateprocess, B.jury_id, B.rate_total
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->praincubation_selection_rate_s1 . ' AS B
             ON B.selection_id = A.id';

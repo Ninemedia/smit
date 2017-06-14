@@ -110,9 +110,11 @@
                                         </div>
                                         <div id="collapse_nilai" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="nilai">
                                             <div class="panel-body">
-                                                <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/2'), array( 'id'=>'selection_score_step2', 'role'=>'form' ) ); ?>
+                                                <?php echo form_open_multipart( base_url('seleksiprainkubasi/prosesnilai/2'), array( 'id'=>'selection_score_step2', 'role'=>'form' ) ); ?>
                                                 <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
                                                 <div class="table-container table-responsive">
+                                                    <p>Untuk melakukan penilaian ini, geserlah panel indikator sesuai dengan nilai yang ingin di berikan.<br />
+                                                    Pastikan panel indikator penilaian telah terisi.</p>
                                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo">
                                                         <thead>
                                                             <tr class="bg-blue-grey">
@@ -307,31 +309,32 @@
                                                     </table>
                                                 </div>
                                                 <h2 class="card-inside-title text-uppercase">Innovation Readiness Level (IRL)</h2>
-                                                <p>Ceklis yang sesuai dengan kriteria</p>
+                                                <p>IRL dapat menentukan tahapan dari teknologi, maka semakin tinggi nilai IRL yang diberikan akan semakin baik. <br />
+                                                Pilihlah nilai IRL sesuai dengan posisi proposal dibawah ini : </p>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <input id="irl-1" name="irl1" type="checkbox" required>
-                                                        <label for="irl-1">Idea Prospefektif</label><br />
+                                                        <label for="irl-1">(1) Idea Prospefektif</label><br />
                                                         <input id="irl-2" name="irl2" type="checkbox" required>
-                                                        <label for="irl-2">Proposal Riset</label><br />
+                                                        <label for="irl-2">(2) Proposal Riset</label><br />
                                                         <input id="irl-3" name="irl3" type="checkbox" required>
-                                                        <label for="irl-3">Hasil Antara Lab</label><br />
+                                                        <label for="irl-3">(3) Hasil Antara Lab</label><br />
                                                         <input id="irl-4" name="irl4" type="checkbox" required>
-                                                        <label for="irl-4">Publikasi</label><br />
+                                                        <label for="irl-4">(4) Publikasi</label><br />
                                                         <input id="irl-5" name="irl5" type="checkbox" required>
-                                                        <label for="irl-5">Hasil Riset Skala Prototipe</label>
+                                                        <label for="irl-5">(5) Hasil Riset Skala Prototipe</label>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input id="irl-6" name="irl6" type="checkbox" required>
-                                                        <label for="irl-6">Paten</label><br />
+                                                        <label for="irl-6">(6) Paten</label><br />
                                                         <input id="irl-7" name="irl7" type="checkbox" required>
-                                                        <label for="irl-7">Contoh Prouk Skala Komersial</label><br />
+                                                        <label for="irl-7">(7) Contoh Produk Skala Komersial</label><br />
                                                         <input id="irl-8" name="irl8" type="checkbox" required>
-                                                        <label for="irl-8">Mitra Bisnis / Tenant</label><br />
+                                                        <label for="irl-8">(8) Mitra Bisnis / Tenant</label><br />
                                                         <input id="irl-9" name="irl9" type="checkbox" required>
-                                                        <label for="irl-9">Captive Market</label><br />
+                                                        <label for="irl-9">(9) Captive Market</label><br />
                                                         <input id="irl-10" name="irl10" type="checkbox" required>
-                                                        <label for="irl-10">Lisensi</label>
+                                                        <label for="irl-10">(10) Lisensi</label>
                                                     </div>
                                                 </div>
                                                 

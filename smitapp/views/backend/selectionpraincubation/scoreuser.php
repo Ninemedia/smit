@@ -107,7 +107,7 @@
                             </div>
                             <div id="collapse_nilai" class="panel-collapse collapse" role="tabpanel" aria-labelledby="nilai">
                                 <div class="panel-body">
-                                    <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/1'), array( 'id'=>'selection_score_step1', 'role'=>'form' ) ); ?>
+                                    <?php echo form_open_multipart( base_url('seleksiprainkubasi/prosesnilai/1'), array( 'id'=>'selection_score_step1', 'role'=>'form' ) ); ?>
                                     <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
                                     <div class="table-container table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="jury_stepone">

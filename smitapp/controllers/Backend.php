@@ -103,6 +103,7 @@ class Backend extends User_Controller {
         $data['status_inc_2']   = $status_inc_2;
         $data['status_pra_1']   = $status_pra_1;
         $data['status_pra_2']   = $status_pra_2;
+        $data['step_pra_2']     = $step_pra_2;
         $data['data_incubation']    = $data_incubation;
         $data['data_praincubation'] = $data_praincubation;
         $data['lss']            = $lss;
