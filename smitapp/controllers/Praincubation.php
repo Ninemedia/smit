@@ -3126,7 +3126,7 @@ class PraIncubation extends User_Controller {
                         'event_title'   => $data_selection->event_title,
                         'event_desc'    => $data_selection->event_desc,
                         'category'      => $data_selection->category,
-                        'status'        => NONACTIVE,
+                        'status'        => ACTIVE,
                         'datecreated'   => $curdate,
                         'datemodified'  => $curdate,
                     );
@@ -4809,10 +4809,13 @@ class PraIncubation extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
+                
                 //Workunit
-                $workunit_type  = smit_workunit_type($row->workunit);
-                $workunit       = $workunit_type->workunit_name;
+                $workunit   = '<center> - </cemter>';
+                if($row->workunit > 0){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit       = $workunit_type->workunit_name;    
+                }  
                 $year           = $row->year;
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
@@ -4981,7 +4984,7 @@ class PraIncubation extends User_Controller {
             'App.init();',
             'TableAjax.init();',
             'UploadFiles.init();',
-            'NewsValidation.init();',
+            'IncubationValidation.init();',
         ));
 
         $data['title']          = TITLE . 'Berita';
@@ -4994,6 +4997,208 @@ class PraIncubation extends User_Controller {
         $data['main_content']   = 'praincubation/addpraincubation';
         
         $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Incubation Add Function
+	 */
+	public function praincubationadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $year                   = $this->input->post('reg_year');
+        $year                   = trim( smit_isset($year, "") );
+        $name                   = $this->input->post('reg_name');
+        $name                   = trim( smit_isset($name, "") );
+        $category               = $this->input->post('reg_category');
+        $category               = trim( smit_isset($category, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_year','Tahun Kegiatan','required');
+        $this->form_validation->set_rules('reg_name','Nama Peneliti Utama','required');
+        $this->form_validation->set_rules('reg_category','Kategori Bidang','required');
+        $this->form_validation->set_rules('reg_title','Judul Kegiatan','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Kegiatan','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Kegiatan Pra-Inkubasi baru tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['reg_selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas yang di unggah. Silahkan inputkan berkas kegiatan!'); 
+            die(json_encode($data));
+        }
+        
+        if( empty($_FILES['reg_selection_rab']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada berkas yang di unggah. Silahkan inputkan berkas kegiatan!'); 
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            $praincubationselection_data = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'year'          => $year,
+                'user_id'       => $current_user->id,
+                'username'      => strtolower($current_user->username),
+                'name'          => $name,
+                'event_title'   => $event_title,
+                'event_desc'    => $description,
+                'category'      => $category,
+                'status'        => ACTIVE,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+            
+            // -------------------------------------------------
+            // Save Incubation Selection
+            // -------------------------------------------------
+            $trans_save_praincubation       = FALSE;
+            if( $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation($praincubationselection_data) ){
+                $trans_save_praincubation   = TRUE;
+                
+                // Upload Files Process
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $current_user->id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                    
+                $config = array(
+                    'upload_path'       => $upload_path,
+                    'allowed_types'     => "doc|docx|pdf|xls|xlsx",
+                    'overwrite'         => FALSE,
+                    'max_size'          => "2048000",
+                );
+                $this->load->library('MY_Upload', $config);
+                    
+                if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                $upload_data    = $this->my_upload->data();
+                if( !empty($upload_data) ){
+                    // Set File Upload Save
+                    $file = $upload_data;
+                    $praincubationselectionfiles_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'user_id'       => $current_user->id,
+                        'username'      => strtolower($current_user->username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file['full_path'],''),
+                        'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                        'filename'      => smit_isset($file['raw_name'],''),
+                        'size'          => smit_isset($file['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
+                        continue;
+                    }
+                }
+                
+                if( ! $this->my_upload->do_upload('reg_selection_rab') ){
+                    $message = $this->my_upload->display_errors();
+                    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    die(json_encode($data));
+                }
+                $upload_data_rab    = $this->my_upload->data();
+                if( !empty($upload_data_rab) ){
+                    // Set File Upload Save
+                    $file_rab = $upload_data_rab;
+                    $praincubationselectionfilesrab_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'user_id'       => $current_user->id,
+                        'username'      => strtolower($current_user->username),
+                        'name'          => $name,
+                        'url'           => smit_isset($file_rab['full_path'],''),
+                        'extension'     => substr(smit_isset($file_rab['file_ext'],''),1),
+                        'filename'      => smit_isset($file_rab['raw_name'],''),
+                        'size'          => smit_isset($file_rab['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfilesrab_data) ){
+                        continue;
+                    }
+                }
+                
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                die(json_encode($data));
+            }
+            
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_praincubation ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran pra-inkubasi baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+        }
 	}
     
     // ---------------------------------------------------------------------------------------------

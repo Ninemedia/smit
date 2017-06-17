@@ -1577,6 +1577,8 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
