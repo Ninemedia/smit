@@ -1976,8 +1976,11 @@ class Frontend extends Public_Controller {
             
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                $workunit_type  = smit_workunit_type($row->workunit);
-                $workunit       = $workunit_type->workunit_name;
+                $workunit   = '<center> - </cemter>';
+                if($row->workunit > 0){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit       = $workunit_type->workunit_name;    
+                } 
                 $year           = $row->year;
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;

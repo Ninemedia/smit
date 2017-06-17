@@ -4810,7 +4810,6 @@ class PraIncubation extends User_Controller {
                 $btn_action = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" 
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 
-                //Workunit
                 $workunit   = '<center> - </cemter>';
                 if($row->workunit > 0){
                     $workunit_type  = smit_workunit_type($row->workunit);
