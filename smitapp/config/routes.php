@@ -111,10 +111,13 @@ $route['seleksiprainkubasi/jurinilaidatastep1']         = "praincubation/jurysco
 $route['seleksiprainkubasi/jurinilaidatastep2']         = "praincubation/juryscorelistdatastep2";
 $route['seleksiprainkubasi/nilai/(:num)/(:any)']        = "praincubation/juryscoreuser/$1/$2";
 $route['seleksiprainkubasi/prosesnilai/(:num)']         = "praincubation/juryscoreuserprocess/$1";
+// Pra-Inkubasi
 $route['prainkubasi/laporan/konfirmasi']                = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)']         = "praincubation/praincubationreportconfirm/$1";
 $route['prainkubasi/unduh/(:any)']                      = "praincubation/downloadfile/$1";
 $route['prainkubasi/daftar']                            = "praincubation/listpraincubation";
+$route['prainkubasi/daftardata']                        = "praincubation/praincubationdata";
+$route['prainkubasi/daftar/detail/(:any)']              = "praincubation/praincubationdatadetails/$1";
 
 $route['praincubationconfirm']                  = "praincubation/praincubationconfirm";
 $route['praincubationconfirm/(:any)']           = "praincubation/praincubationconfirm/$1";
@@ -132,6 +135,7 @@ $route['prainkubasi/daftarditerima']            = "praincubation/praincubationac
 $route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
+$route['prainkubasi/tambah']                    = "praincubation/addpraincubation";
 // --------------------------------------------------------------------------
 
 
@@ -262,6 +266,7 @@ $route['seleksi/inkubasi']              = "frontend/selectionincubation";
 // 4. Pra-Incubation
 $route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
 $route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
+$route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']           = "frontend/listtenant";
 $route['tenant/produktenant']           = "frontend/producttenant";

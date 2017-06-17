@@ -225,6 +225,7 @@ $config['user_menu_access']         = array(
         'beranda',
         'prainkubasi',
         'prainkubasi/tambahproduk',
+        'prainkubasi/daftar',
         'prainkubasi/produk',
         'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
