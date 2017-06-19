@@ -2256,14 +2256,14 @@ class PraIncubation extends User_Controller {
                     $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';     
                 }
                 
-                if( $row->status == CONFIRMED ){
-                    $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>'; 
-                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>'; 
-                    $year       = '<strong style="color : red !important; ">'.$year.'</strong>'; 
-                    $event      = '<strong style="color : red !important; ">'.$event.'</strong>'; 
-                    $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
-                    $sum_score  = '<strong style="color : red !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';    
+                if( $i == 1 ){
+                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>'; 
+                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>'; 
+                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>'; 
+                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>'; 
+                    $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
+                    $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
+                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';    
                 }
                 
                 $records["aaData"][] = array(
@@ -2398,14 +2398,14 @@ class PraIncubation extends User_Controller {
                     $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';     
                 }
                 
-                if( $row->statustwo == CONFIRMED ){
-                    $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>'; 
-                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>'; 
-                    $year       = '<strong style="color : red !important; ">'.$year.'</strong>'; 
-                    $event      = '<strong style="color : red !important; ">'.$event.'</strong>'; 
-                    $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
-                    $sum_score  = '<strong style="color : red !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';    
+                if( $i == 1 ){
+                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>'; 
+                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>'; 
+                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>'; 
+                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>'; 
+                    $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
+                    $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
+                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';    
                 }
                 
                 $records["aaData"][] = array(
