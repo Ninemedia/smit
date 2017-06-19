@@ -4699,9 +4699,6 @@ class PraIncubation extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        if( !$is_admin ){
-            redirect( base_url('dashboard') );
-        }
         
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -4762,6 +4759,9 @@ class PraIncubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = ' WHERE companion_id > 0 ';
+        if( !$is_admin ){
+            $condition      = ' WHERE user_id = '.$current_user->id.'';    
+        }
         
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -5093,7 +5093,7 @@ class PraIncubation extends User_Controller {
             $condition      = ' WHERE user_id = '.$current_user->id.'';
         }
         
-        $order_by           = '';
+        $order_by           = 'year DESC';
         $iTotalRecords      = 0;
         
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
