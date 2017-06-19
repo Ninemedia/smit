@@ -166,11 +166,9 @@ $config['user_menu_access']         = array(
     PENDAMPING                      => array(
         'beranda',
         'prainkubasi',
-        'prainkubasi/tambah',
         'prainkubasi/pendampingan',
         'prainkubasi/laporan',
         'tenants',
-        'tenants/daftar',
         'tenants/pendampingan',
         'tenants/laporan',
         'pendamping',
@@ -241,6 +239,7 @@ $config['user_menu_access']         = array(
         'tenants/pembayaran',
         'tenants/laporan',
         */
+        'prainkubasi/pendampingan',
         'panduan',
         'panduan/berkas',
         'pengumuman',

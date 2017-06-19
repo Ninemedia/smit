@@ -102,7 +102,7 @@
     // -------------------------------------------------------------------------------------------------------------
     
     if(!empty($is_admin)){
-        $title_daftar   = 'Daftar Pra-Inkubari';
+        $title_daftar   = 'Daftar Pra-Inkubasi';
     }else{ $title_daftar   = 'Daftar Usulan'; }
     
     // Set menu array

@@ -104,6 +104,8 @@ $route['seleksiprainkubasi/riwayat']                    = "praincubation/praincu
 $route['seleksiprainkubasi/riwayatdata']                = "praincubation/historylistdata";
 $route['seleksiprainkubasi/riwayatdata/(:num)']         = "praincubation/historylistdata/$1";
 $route['seleksiprainkubasi/peringkat']                  = "praincubation/ranking";
+$route['seleksiprainkubasi/peringkatstep1']             = "praincubation/rankinglistdatastep1";
+$route['seleksiprainkubasi/peringkatstep2']             = "praincubation/rankinglistdatastep2";
 // Menu Penilaian
 // Juri
 $route['seleksiprainkubasi/jurinilaidata/(:any)']       = "praincubation/juryscorelistdata/$1";
