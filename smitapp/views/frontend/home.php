@@ -87,29 +87,33 @@
                         <!-- Berita Tab Content -->
                         <div class="tab-pane fade in active" id="berita">
                             <?php if( $newsdata || !empty($newsdata) ){ ?>
+                                <div class="row">
                                 <?php foreach($newsdata as $key => $news){ ?>
                                     <?php $desc = word_limiter($news->desc,30); ?>
-                                    <div class="media">
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                                <div class="media-left">
-                                                    <a href="javascript:void(0);">
-                                                        <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" 
-                                                        src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->thumbnail.'.'.$news->extension; ?>" />
-                                                        <img class="js-animating-object img-responsive media-object visible-xs" 
-                                                        src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->filename.'.'.$news->extension; ?>" />
-                                                    </a>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="media">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    <div class="media-left">
+                                                        <a href="javascript:void(0);">
+                                                            <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" 
+                                                            src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->thumbnail.'.'.$news->extension; ?>" />
+                                                            <img class="js-animating-object img-responsive media-object visible-xs" 
+                                                            src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->filename.'.'.$news->extension; ?>" />
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
-                                                <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
-                                                <?php echo $desc; ?><br />
-                                                <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                                                    <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
+                                                    <?php echo $desc; ?><br />
+                                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 <?php } ?>
+                                </div>
                                 <?php if($countnews > LIMIT_DEFAULT){ ?>
                                     <a href="<?php echo base_url('frontendberita'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
                                 <?php } ?>

@@ -301,7 +301,7 @@ define('MAX_SCORE',   100);
 | Limiter
 |--------------------------------------------------------------------------
 */
-define('LIMIT_DEFAULT',     5);
+define('LIMIT_DEFAULT',     10);
 define('LIMIT_DETAIL',      10);
 
 /*
