@@ -540,6 +540,88 @@ var NewsValidation = function () {
     };
 }();
 
+var IncubationValidation = function () {
+    var handleIncubtaionValidation = function(){
+        $('#praincubationadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_year: {
+                    required: true,
+                },
+                reg_name: {
+                    required: true,
+                },
+                reg_title: {
+                    required: true,
+                },
+                reg_category: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_selection_files: {
+                    required: true,
+                },
+                reg_selection_rab: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_year: {
+                    required: 'Tahun Kegiatan harus di isi',
+                },
+                reg_name: {
+                    required: 'Nama Peneliti Utama harus di isi',
+                },
+                reg_title: {
+                    required: 'Judul Berita harus di isi',
+                },
+                reg_category: {
+                    required: 'Kategori Kegiatan harus di isi',
+                },
+                reg_desc: {
+                    required: 'Deskripsi Kegiatan harus di isi',
+                },
+                reg_selection_files: {
+                    required: 'Berkas Proposal Kegiatan harus di isi',
+                },
+                reg_selection_rab: {
+                    required: 'Berkas RAB Kegiatan harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_praincubationadd').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleIncubtaionValidation();
+        }
+    };
+}();
+
 
 var SliderValidation = function () {
     var handleSliderValidation = function(){

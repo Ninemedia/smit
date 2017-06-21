@@ -460,6 +460,44 @@ var UploadFiles = function () {
         });
     };
     
+    var handleEditUploadFilesIncubation = function(){
+        $("#reg_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['doc', 'docx', 'pdf'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
+    var handleEditUploadFilesRAB = function(){
+        $("#reg_selection_rab").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['xls', 'xlsx'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
@@ -469,6 +507,8 @@ var UploadFiles = function () {
             handleUploadLogoTenant();
             handleUploadNews();
             handleUploadSlider();
+            handleEditUploadFilesIncubation();
+            handleEditUploadFilesRAB();
         }
     };
 }();

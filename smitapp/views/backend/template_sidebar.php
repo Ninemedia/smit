@@ -101,6 +101,10 @@
     $total_selection_incubation  = $badge_score_total_inc + $badge_list_incubation;
     // -------------------------------------------------------------------------------------------------------------
     
+    if(!empty($is_admin)){
+        $title_daftar   = 'Daftar Pra-Inkubasi';
+    }else{ $title_daftar   = 'Daftar Usulan'; }
+    
     // Set menu array
     $menu_arr = array(
         array (
@@ -213,7 +217,7 @@
                     'badge'     => 0,
                 ),
                 array (
-                    'title'     => 'Daftar Pra-Inkubasri',
+                    'title'     => $title_daftar,
                     'nav'       => 'prainkubasi/daftar',
                     'parent'    => 'prainkubasi',
                     'link'      => base_url('prainkubasi/daftar'),

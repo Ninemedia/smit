@@ -297,7 +297,7 @@
                                         <h2>Seleksi Pra-Inkubasi<small>Tanggal Seleksi : <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?></strong> - <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></strong></small></h2>
                                     </div>
                                     <div class="body">
-                                        <?php if( !empty($data_incubation) ) :?>
+                                        <?php if( !empty($data_praincubation) ) :?>
                                         <table class="table-container table-responsive">
                                             <thead>
                                                 <tr row="row" class="heading bg-blue">
@@ -307,10 +307,10 @@
                                                     <th class="width10 center">Status 2</th>
                                                 </tr>
                                                 <tr>
-                                                    <td><center><?php echo $data_incubation[0]->year; ?></center></td>
-                                                    <td><?php echo $data_incubation[0]->event_title; ?></td>
-                                                    <td><?php echo $status_inc_1; ?></td>
-                                                    <td><?php echo $status_inc_2; ?></td>
+                                                    <td><center><?php echo $data_praincubation[0]->year; ?></center></td>
+                                                    <td><?php echo $data_praincubation[0]->event_title; ?></td>
+                                                    <td><?php echo $status_pra_1; ?></td>
+                                                    <td><?php echo $status_pra_2; ?></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -330,7 +330,7 @@
                                         <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
                                     </div>
                                     <div class="body">
-                                        <?php if( !empty($data_praincubation) ) :?>
+                                        <?php if( !empty($data_incubation) ) :?>
                                         <div class="table-container table-responsive">
                                             <table class="table table-striped table-hover">
                                                 <thead>
@@ -341,10 +341,10 @@
                                                         <th class="width10 center">Status 2</th>
                                                     </tr>
                                                     <tr>
-                                                        <td><center><?php echo $data_praincubation[0]->year; ?></center></td>
-                                                        <td><?php echo $data_praincubation[0]->event_title; ?></td>
-                                                        <td><?php echo $status_pra_1; ?></td>
-                                                        <td><?php echo $status_pra_2; ?></td>
+                                                        <td><center><?php echo $data_incubation[0]->year; ?></center></td>
+                                                        <td><?php echo $data_incubation[0]->event_title; ?></td>
+                                                        <td><?php echo $status_inc_1; ?></td>
+                                                        <td><?php echo $status_inc_2; ?></td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

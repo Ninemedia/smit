@@ -20,7 +20,11 @@ var TableAjax = function () {
     var handleRecordsGuideList = function() {
         gridTable( $("#guide_list"), true );
     };
-    
+
+    // Pra Incubation Lists
+    var handleRecordsPraIncubationList = function() {
+        gridTable( $("#list_praincubation"), true );
+    };
     
     var gridTable = function(el, action=false, target='' ) {
         var url     = el.data('url');
@@ -82,6 +86,7 @@ var TableAjax = function () {
             initPickers();
             handleRecordsAnnouncementList();
             handleRecordsGuideList();
+            handleRecordsPraIncubationList();
         }
     };
 
