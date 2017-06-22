@@ -25,19 +25,19 @@
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/peringkatstep1'); ?>">
                                         <thead>
-                    						<tr role="row" class="heading bg-blue">
-                    							<th class="width5">No</th>
+                                						<tr role="row" class="heading bg-blue">
+                                  							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width20">Nama</th>
+                                  							<th class="width20">Nama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
-                    							<th class="width5 text-center">Total Nilai</th>
-                    							<th class="width5 text-center">Rata Nilai</th>
+                                  							<th class="width5 text-center">Total Nilai</th>
+                                  							<th class="width5 text-center">Rata Nilai</th>
                                                 <th class="width10 text-center">Tanggal Usulan</th>
-                    							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-       						                </tr>
+                                  							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+                 						                </tr>
                                             <tr role="row" class="filter display-hide table-filter">
-                    							<td></td>
+                                                <td></td>
                                                 <td>
                                                     <select name="search_year" class="form-control form-filter input-sm def">
                                                     <?php
@@ -48,7 +48,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -59,13 +59,13 @@
                                                     ?>
                                                     </select>
                                                 </td>
-                    							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
+                                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                                 <td>
                                                     <?php
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -95,7 +95,7 @@
                                     </table>
                                 </div>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/peringkatstep2'); ?>">
@@ -123,7 +123,7 @@
                                                             $option[$val] = $val;
                                                         }
                                                     }
-                                                    
+
                                                     if( !empty($option) ){
                                                         foreach($option as $val){
                                                             echo '<option value="'.$val.'">'.$val.'</option>';
@@ -140,7 +140,7 @@
                                                 	$workunit_type = smit_workunit_type();
                                                     $option = array('' => 'Pilih...');
                                                     $extra = 'name="search_workunit" class="form-control show-tick"';
-                        
+
                                                     if( !empty($workunit_type) ){
                                                         foreach($workunit_type as $val){
                                                             $option[$val->workunit_id] = $val->workunit_name;
@@ -171,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                 <?php //endif; ?>
             </div>
         </div>
