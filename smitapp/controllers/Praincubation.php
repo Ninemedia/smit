@@ -4887,8 +4887,11 @@ class PraIncubation extends User_Controller {
             $i = $offset + 1;
             foreach($praincubation_list as $row){
                 // Add Companion Button
-                $btn_add = '<a href="'.base_url('prainkubasi/pendampingan/detail/'.$row->uniquecode).'" 
-                class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
+                $btn_add    = '';
+                if($row->companion_id == 0){
+                    $btn_add = '<a href="'.base_url('prainkubasi/pendampingan/detail/'.$row->uniquecode).'" 
+                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
+                }
                 
                 // Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
