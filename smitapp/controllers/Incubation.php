@@ -1810,8 +1810,8 @@ class Incubation extends User_Controller {
             die(json_encode($data));
         }
         
-        /*
         $post_selection_year_publication        = $this->input->post('selection_year_publication');
+        /*
         $post_selection_date_publication        = $this->input->post('selection_date_publication');
         $post_selection_date_reg_start          = $this->input->post('selection_date_reg_start');
         $post_selection_date_reg_end            = $this->input->post('selection_date_reg_end');
@@ -1826,14 +1826,14 @@ class Incubation extends User_Controller {
         $post_selection_date_agreement          = $this->input->post('selection_date_agreement');
         $post_selection_imp_date_start          = $this->input->post('selection_imp_date_start');
         $post_selection_imp_date_end            = $this->input->post('selection_imp_date_end');
-        $post_selection_desc                    = $this->input->post('selection_desc');
         */
+        $post_selection_desc                    = $this->input->post('selection_desc');
         $post_selection_files                   = $this->input->post('selection_files');
         $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
         $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
         
-        /*
         $this->form_validation->set_rules('selection_year_publication','Tahun Publikasi','required');
+        /*
         $this->form_validation->set_rules('selection_date_publication','Tanggal Publikasi','required');
         $this->form_validation->set_rules('selection_date_reg_start','Tanggal Mulai Pendaftaran Online','required');
         $this->form_validation->set_rules('selection_date_reg_end','Tanggal Selesai Pendaftaran Online','required');
@@ -1873,8 +1873,8 @@ class Incubation extends User_Controller {
             
             $settingdata                = array(
                 'uniquecode'                        => $random,
-                /*
                 'selection_year_publication'        => smit_isset($post_selection_year_publication, ''),
+                /*
                 'selection_date_publication'        => smit_isset($post_selection_date_publication, ''),
                 'selection_date_reg_start'          => smit_isset($post_selection_date_reg_start, ''),
                 'selection_date_reg_end'            => smit_isset($post_selection_date_reg_end, ''),
@@ -1889,8 +1889,8 @@ class Incubation extends User_Controller {
                 'selection_date_agreement'          => smit_isset($post_selection_date_agreement, ''),
                 'selection_imp_date_start'          => smit_isset($post_selection_imp_date_start, ''),
                 'selection_imp_date_end'            => smit_isset($post_selection_imp_date_end, ''),
-                'selection_desc'                    => $post_selection_desc,
                 */
+                'selection_desc'                    => $post_selection_desc,
                 'selection_files'                   => $post_selection_files,
                 'selection_juri_phase1'             => $post_selection_juri_phase1,
                 'selection_juri_phase2'             => $post_selection_juri_phase2,
@@ -1962,14 +1962,15 @@ class Incubation extends User_Controller {
         if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
         
         if( $column == 1 )      { $order_by .= '%date_publication% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%date_reg_start% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%desc% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%status% ' . $sort; }
         
         $incubationset_list = $this->Model_Incubation->get_all_incubation_setting($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
+        
+        $juri_step1         = array();
+        $juri_step2         = array();
         
         if( !empty($incubationset_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
@@ -1979,17 +1980,35 @@ class Incubation extends User_Controller {
                 $btn_details    = '<a href="'.base_url('detilseleksiinkubasi/'.$row->uniquecode).'" 
                     class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
                 $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('tutupseleksiinkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-warning waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                '<a href="'.base_url('tutupseleksiinkubasi/'.$row->uniquecode).'" class="incubsetclose btn btn-xs btn-danger waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
                 
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
                 elseif($row->status == 0)   { $status = '<span class="label label-danger">CLOSED</span>'; }
                 
+                $selection_step1    = $row->selection_juri_phase1;
+                $selection_step1    = explode(",", $selection_step1);
+                $selection_step2    = $row->selection_juri_phase2;
+                $selection_step2    = explode(",", $selection_step2);
+                
+                foreach($selection_step1 AS $id){
+                    $userdata       = $this->Model_User->get_user_by('id', $id);
+                    $juri_step1[]   = $userdata->name;
+                }
+                
+                foreach($selection_step2 AS $id){
+                    $userdata       = $this->Model_User->get_user_by('id', $id);
+                    $juri_step2[]   = $userdata->name;
+                }
+                
                 $records["aaData"][] = array(
                     smit_center($i),
-                    smit_center( date('d F Y', strtotime($row->selection_date_publication)) ),
-                    smit_center( date('d F Y', strtotime($row->selection_date_reg_start)) . ' - ' . date('d F Y', strtotime($row->selection_date_reg_end)) ),
-                    $row->selection_desc,
+                    smit_center( date('Y', strtotime($row->selection_year_publication)) ),
+                    $juri_step1,
+                    $juri_step2,
+                    //smit_center( date('d F Y', strtotime($row->selection_date_publication)) ),
+                    //smit_center( date('d F Y', strtotime($row->selection_date_reg_start)) . ' - ' . date('d F Y', strtotime($row->selection_date_reg_end)) ),
+                    //$row->selection_desc,
                     smit_center($status),
                     smit_center($btn_details . ' ' . $btn_close),
                 );
@@ -2011,57 +2030,151 @@ class Incubation extends User_Controller {
 	 * Incubation setting details data function.
 	 */
     function incubationsettingdetails($uniquecode){
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        // Check Auth Redirect
-        $auth = auth_redirect( $this->input->is_ajax_request() );
-        if( !$auth ){
-            // Set JSON data
-            $data = array('message' => 'redirect','data' => base_url('dashboard'));
-            // JSON encode data
-            die(json_encode($data));
-        }
-          
-        $current_user   = smit_get_current_user();
-        $is_admin       = as_administrator($current_user);
-        $content        = '';
+        auth_redirect();
         
-        if( !$is_admin ){
-            // Set JSON data
-            $data = array('message' => 'redirect','data' => base_url('dashboard'));
-            // JSON encode data
-            die(json_encode($data));
-        }
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        if( !$is_admin ) redirect( base_url('dashboard') );
         
-        if( !$uniquecode ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
-            // JSON encode data
-            die(json_encode($data));
-        }
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Date Time Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
         
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Jquery Validate Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            // Jquery Step Plugin
+            BE_PLUGIN_PATH . 'jquery-steps/jquery.steps.js',
+            // Date Time Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/forms/form-wizard.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'Wizard.init();',
+            'SelectGuide.init();',
+            'IncubationSetting.init();',
+        ));
+        
+        // Get Incubation Setting Data
         $incubationsetdata      = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
-        if( !$incubationsetdata ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
+        if( !$incubationsetdata ) base_url('seleksiinkubasi/pengaturan');
+        
+        $incubationsetdata->selection_files         = explode(',', $incubationsetdata->selection_files);
+        $incubationsetdata->selection_juri_phase1   = explode(',', $incubationsetdata->selection_juri_phase1);
+        $incubationsetdata->selection_juri_phase2   = explode(',', $incubationsetdata->selection_juri_phase2);
+        
+        if( !empty($_POST) ){
+            // This is for AJAX request
+        	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+            // Check Auth Redirect
+            $auth = auth_redirect( $this->input->is_ajax_request() );
+            if( !$auth ){
+                // Set JSON data
+                $data = array('data' => base_url('dashboard'));
+                // JSON encode data
+                die(json_encode($data));
+            }
+            
+            
+            echo '<pre>';
+            print_r($_POST);
+            die();
+            
+            $post_selection_year_publication        = $this->input->post('selection_year_publication');
+            $post_selection_desc                    = $this->input->post('selection_desc');
+            $post_selection_files                   = $this->input->post('selection_files');
+            $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
+            $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
+            
+            $this->form_validation->set_rules('selection_year_publication','Tahun Publikasi','required');
+            $this->form_validation->set_rules('selection_files[]','Berkas Panduan','required');
+            $this->form_validation->set_rules('selection_juri_phase1[]','Juri Tahap 1','required');
+            $this->form_validation->set_rules('selection_juri_phase2[]','Juri Tahap 2','required');
+            
+            $this->form_validation->set_message('required', '%s harus di isi');
+            $this->form_validation->set_error_delimiters('', '');
+
+            if($this->form_validation->run() == FALSE){
+                $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir pengaturan!').'</div>');
+                // Set JSON data
+                $data = array('data' => base_url('detilseleksiinkubasi/'.$uniquecode));
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                $curdate                    = date("Y-m-d H:i:s");
+                $post_selection_files       = implode(',',$post_selection_files);
+                $post_selection_juri_phase1 = implode(',',$post_selection_juri_phase1);
+                $post_selection_juri_phase2 = implode(',',$post_selection_juri_phase2);
+                
+                $settingdata                = array(
+                    'selection_year_publication'        => smit_isset($post_selection_year_publication, ''),
+                    'selection_desc'                    => $post_selection_desc,
+                    'selection_files'                   => $post_selection_files,
+                    'selection_juri_phase1'             => $post_selection_juri_phase1,
+                    'selection_juri_phase2'             => $post_selection_juri_phase2,
+                    'datemodified'                      => $curdate,
+                );
+                
+                echo '<pre>';
+                print_r($settingdata);
+                die();
+                
+                if( $update_setting = $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $settingdata) ){
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-success">'.smit_alert('Pengaturan Seleksi Pra-Inkubasi berhasil di update').'</div>');
+                }else{
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Pengaturan Seleksi Pra-Inkubasi tidak berhasil di update').'</div>');
+                }
+                // Set JSON data
+                $data = array('data' => base_url('detilprainkubasi/'.$uniquecode));
+                // JSON encode data
+                die(json_encode($data));
+            }
         }
         
-        unset($incubationsetdata->id);
-        unset($incubationsetdata->uniquecode);
-        unset($incubationsetdata->status);
-        unset($incubationsetdata->datecreated);
-        unset($incubationsetdata->datemodified);
+        // Get All Guides Filed
+        $guide_files            = $this->Model_Guide->get_all_guides();
+        $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
 
-        $incubationsetdata->selection_files  = explode(',', $incubationsetdata->selection_files);
-        $incubationsetdata->selection_juri_phase1  = explode(',', $incubationsetdata->selection_juri_phase1);
-        $incubationsetdata->selection_juri_phase2  = explode(',', $incubationsetdata->selection_juri_phase2);
+        $data['title']          = TITLE . 'Details Pengaturan Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['guide_files']    = $guide_files;
+        $data['juri_list']      = $juri_list;
+        $data['pis_data']       = $incubationsetdata;
+        $data['main_content']   = 'selectionincubation/settingdetails';
         
-        // Set JSON data
-        $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $incubationsetdata);
-        // JSON encode data
-        die(json_encode($data));
+        $this->load->view(VIEW_BACK . 'template', $data);
     }
     
     /**
@@ -2096,7 +2209,7 @@ class Incubation extends User_Controller {
             die(json_encode($data));
         }
         
-        $incubationsetdata      = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
+        $incubationsetdata   = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
         if( !$incubationsetdata ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Data pengaturan seleksi tidak ditemukan atau belum terdaftar');
@@ -2107,7 +2220,7 @@ class Incubation extends User_Controller {
         $incubationsetupdate    = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
         if( $this->Model_Incubation->update_data_incubation_setting($incubationsetdata->id, $incubationsetupdate) ){
             // Set JSON data
-            $data = array('message' => 'success','data' => 'Data pengaturan seleksi berhasi di close');
+            $data = array('message' => 'redirect','data' => base_url('seleksiinkubasi/pengaturan'));
         }else{
             // Set JSON data
             $data = array('message' => 'error','data' => 'Terjadi kesalahan data, pengaturan seleksi tidak berhasi di close');

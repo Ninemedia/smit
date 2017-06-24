@@ -1268,7 +1268,7 @@ class PraIncubation extends User_Controller {
         
         // Get Pra-Incubation Setting Data
         $praincubationsetdata   = $this->Model_Praincubation->get_praincubation_setting_by('uniquecode',$uniquecode);
-        if( !$praincubationsetdata ) base_url('prainkubasi/pengaturan');
+        if( !$praincubationsetdata ) base_url('seleksiprainkubasi/pengaturan');
         
         $praincubationsetdata->selection_files  = explode(',', $praincubationsetdata->selection_files);
         $praincubationsetdata->selection_juri_phase1  = explode(',', $praincubationsetdata->selection_juri_phase1);
@@ -1331,7 +1331,7 @@ class PraIncubation extends User_Controller {
             if($this->form_validation->run() == FALSE){
                 $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir pengaturan!').'</div>');
                 // Set JSON data
-                $data = array('data' => base_url('detilprainkubasi/'.$uniquecode));
+                $data = array('data' => base_url('detilseleksiprainkubasi/'.$uniquecode));
                 // JSON encode data
                 die(json_encode($data));
             }else{
@@ -1379,7 +1379,7 @@ class PraIncubation extends User_Controller {
         $guide_files            = $this->Model_Guide->get_all_guides();
         $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
 
-        $data['title']          = TITLE . 'Details Pengaturan Seleksi Inkubasi';
+        $data['title']          = TITLE . 'Details Pengaturan Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
@@ -1532,7 +1532,7 @@ class PraIncubation extends User_Controller {
         $praincubationsetupdate = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
         if( $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $praincubationsetupdate) ){
             // Set JSON data
-            $data = array('message' => 'redirect','data' => base_url('prainkubasi/pengaturan'));
+            $data = array('message' => 'redirect','data' => base_url('seleksiprainkubasi/pengaturan'));
         }else{
             // Set JSON data
             $data = array('message' => 'error','data' => 'Terjadi kesalahan data, pengaturan seleksi tidak berhasi di close');
