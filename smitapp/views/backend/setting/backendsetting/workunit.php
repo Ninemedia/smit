@@ -114,11 +114,27 @@
                 				<h4 class="modal-title">Ubah Satuan Kerja</h4>
                 			</div>
                 			<div class="modal-body">
-                                <p>Anda Sedang Melakukan Pendaftaran Satuan Kerja. Pastinkan Data yang Anda masukan sudah benar!</p>
+                                <?php echo form_open_multipart( 'backend/workunitadd', array( 'id'=>'workunitadd', 'role'=>'form' ) ); ?>
+                                    <div id="alert" class="alert display-hide"></div>
+                                    <div class="form-group form-float">
+                                        <section id="">
+                                            <div class="form-group">
+                                                <label class="form-label">Nama Satuan Kerja <b style="color: red !important;">(*)</b></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                                    <div class="form-line">
+                                                        <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" placeholder="Masukan Nama Satuan Kerja" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button>
+                                        </section>
+                                    </div>
+                                <?php echo form_close(); ?>
                             </div>
                 			<div class="modal-footer">
-                                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-                				<button type="button" class="btn btn-info waves-effect" id="do_edit_workunit" data-dismiss="modal">Lanjut</button>
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+                				<button type="button" class="btn btn-primary waves-effect" id="do_edit_workunit" data-dismiss="modal">Lanjut</button>
                 			</div>
                 		</div>
                 	</div>
