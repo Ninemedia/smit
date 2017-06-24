@@ -25,7 +25,7 @@
                             
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">                           
-                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a>     
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
@@ -118,7 +118,7 @@
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
                                 <div class="table-actions-wrapper">                          
-                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>     
                         		    <!-- <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
                                 </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep2'); ?>">

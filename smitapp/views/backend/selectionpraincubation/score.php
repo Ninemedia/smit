@@ -38,7 +38,7 @@
                                         $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                     ?>   
                                     <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
-                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i></a>     
+                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>     
                                     <?php // } ?>    
                         		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep1'); ?>">

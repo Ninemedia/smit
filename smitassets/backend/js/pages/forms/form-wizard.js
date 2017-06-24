@@ -572,6 +572,7 @@ var Wizard = function () {
             handleSelectionPraIncubationWizard();
             handleDetailsSelectionPraIncubation();
             handleDetailsSelectionIncubation();
+            handleSelectionIncubationWizard();
         }
     };
 }();

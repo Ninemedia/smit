@@ -92,7 +92,9 @@
         $count_all_selection    = 0;
         $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
         $user_list2             = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
-        $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);
+        if( !empty($lss) ){
+            $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);    
+        }
         
         if($user_list1 > 0){
             $countuser_score1   = $user_list1;
@@ -225,6 +227,7 @@
                         <div class="row clearfix">
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
+                                    <?php if( !empty($lss) ) : ?>
                                     <div class="header bg-cyan">
                                         <h2>Seleksi Pra-Inkubasi<small>Tanggal Seleksi : <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?></strong> - <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></strong></small></h2>
                                     </div>
@@ -237,15 +240,19 @@
                                         <?php if( $phase2 == ACTIVE ) : ?>
                                             Anda Terpilih Menjadi Juri <strong>Tahap 2</strong> Seleksi Pra-Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
                                         <?php else : ?><br />
-                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Pra-Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
                                         <?php endif ?><br /><br />
                                         
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning bottom0">Tidak ada Seleksi Pra-Inkubasi yang dibuka saat ini</div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
+                                    <?php if( !empty($lss) ) : ?>
                                     <div class="header bg-pink">
                                         <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
                                     </div>
@@ -263,6 +270,9 @@
                                         
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning bottom0">Tidak ada Seleksi Pra-Inkubasi yang dibuka saat ini</div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

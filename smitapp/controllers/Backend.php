@@ -51,21 +51,24 @@ class Backend extends User_Controller {
         $phase2                 = 0;
         
         if( !empty($is_jury) ){
-            $jury_phase1            = $lss->selection_juri_phase1;
-            $jury_phase1            = explode(',', $jury_phase1);
-            foreach($jury_phase1 AS $id){
-                if($id == $current_user->id){
-                    $phase1         = ACTIVE;
+            if( !empty($lss) ){
+                $jury_phase1            = $lss->selection_juri_phase1;
+                $jury_phase1            = explode(',', $jury_phase1);
+                foreach($jury_phase1 AS $id){
+                    if($id == $current_user->id){
+                        $phase1         = ACTIVE;
+                    }
                 }
+                
+                $jury_phase2            = $lss->selection_juri_phase2;
+                $jury_phase2            = explode(',', $jury_phase2);
+                foreach($jury_phase2 AS $id){
+                    if($id == $current_user->id){
+                        $phase2         = ACTIVE;
+                    }
+                }      
             }
-            
-            $jury_phase2            = $lss->selection_juri_phase2;
-            $jury_phase2            = explode(',', $jury_phase2);
-            foreach($jury_phase2 AS $id){
-                if($id == $current_user->id){
-                    $phase2         = ACTIVE;
-                }
-            }    
+              
         }
         
         $status_inc_1           = '';
