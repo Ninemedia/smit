@@ -1051,7 +1051,7 @@ class Incubation extends User_Controller {
 	{
         auth_redirect();
         
-        if( !$step || !$unique ) redirect( base_url('inkubasi/nilai') );
+        if( !$step || !$unique ) redirect( base_url('seleksiinkubasi/nilai') );
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
@@ -2411,13 +2411,17 @@ class Incubation extends User_Controller {
                 $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 
-                if($row->statustwo == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
+                echo '<pre>';
+                print_r($row->statustwo);
+                die();
+                
+                if($row->statustwo == CONFIRMED)        { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 
                 $score          = $row->scoretwo;
-                $avarage_score  = $row->avarage_scoretwo;
+                $avarage_score  = $row->average_scoretwo;
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
                 
@@ -2516,13 +2520,13 @@ class Incubation extends User_Controller {
                 $btn_score          = '';
                 
                 // Check Jury Rated Selection
-                //$rated = smit_check_juri_rated($current_user->id, $row->id, ONE);
+                $rated = smit_check_juri_rated_incubation($current_user->id, $row->id, ONE);
                 
                 if( $row->status == 1 ){
-                    //if( empty($rated) ){
+                    if( empty($rated) ){
                         $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
-                    //}
+                    }
                 }
                 
                 $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
@@ -2556,6 +2560,14 @@ class Incubation extends User_Controller {
                     $name       = '<strong style="color: red !important;">'.$name.'</strong>';
                 }
                 
+                if($rated){
+                    $btn_ket    = '<i class="material-icons">assignment_turned_in</i>';
+                }else{ 
+                    $btn_ket    = '<strong style="color: red !important;"> - </strong>'; 
+                    $score      = '<strong style="color: red !important;"> - </strong>'; 
+                    $average_score  = '<strong style="color: red !important;"> - </strong>';
+                } 
+                
                 $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $year ),
@@ -2566,6 +2578,7 @@ class Incubation extends User_Controller {
                         smit_center( $average_score ),
                         smit_center( $datecreated ),
                         smit_center( $status ),
+                        smit_center( $btn_ket ),
                         smit_center( $btn_score .' '.$btn_details ),
                     );  
                 $i++;
@@ -2696,6 +2709,14 @@ class Incubation extends User_Controller {
                     $name       = '<strong style="color: red !important;">'.$name.'</strong>';
                 }
                 
+                if($rated){
+                    $btn_ket    = '<i class="material-icons">assignment_turned_in</i>';
+                }else{ 
+                    $btn_ket    = '<strong style="color: red !important;"> - </strong>'; 
+                    $score      = '<strong style="color: red !important;"> - </strong>'; 
+                    $average_score  = '<strong style="color: red !important;"> - </strong>';
+                } 
+                
                 $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $year ),
@@ -2706,6 +2727,7 @@ class Incubation extends User_Controller {
                         smit_center( $average_score ),
                         smit_center( $datecreated ),
                         smit_center( $status ),
+                        smit_center( $btn_ket ),
                         smit_center( $btn_score .' '.$btn_details ),
                     );  
                 $i++;

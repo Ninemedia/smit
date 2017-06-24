@@ -337,7 +337,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header bg-pink">
-                                        <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
+                                        <h2>Seleksi Inkubasi<small>...</small></h2>
                                     </div>
                                     <div class="body">
                                         <?php if( !empty($data_incubation) ) :?>
@@ -363,8 +363,8 @@
                                             </table>
                                         </div>
                                         <?php else : ?>
-                                             <strong>Maaf saat ini anda sedang tidak ada pengajuan seleksi.</strong>
-                                        <?php endif ?><br />
+                                             <strong>Maaf saat ini anda sedang tidak ada pengajuan seleksi.</strong><br />
+                                        <?php endif ?>
                                         
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>

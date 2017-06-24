@@ -268,7 +268,7 @@
                                     $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
                                 ?> 
                                 
-                                <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
+                                <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
                                     <div class="table-container table-responsive table-praincubation-score">
                                         <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiprainkubasi/jurinilaidatastep1'); ?>">
                                             <thead>
@@ -358,9 +358,9 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                <?php else : ?>
-                                    <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div>  
-                                <?php endif; ?>
+                                <?php //else : ?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> -->
+                                <?php //endif; ?>
                             <?php endif; ?>
                         </div>
                         
@@ -492,7 +492,7 @@
                         ?> 
                     
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one"> 
-                            <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>  
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>  
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdatastep1/'. $user->id.''); ?>">
                                         <thead>
@@ -563,13 +563,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                    		<?php else : ?>
-                                <?php if( $curdate < strtotime($lss->selection_date_adm_start) ){?>
-                                    <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> 
-                                <?php }else{ ?>
-                                    <div class="alert alert-info bottom0">Proses penilaian tahap 1 sudah selesai. Terima Kasih</div> 
-                                <?php }?>
-                            <?php endif; ?>
+                    		<?php //else : ?>
+                                <?php //if( $curdate < strtotime($lss->selection_date_adm_start) ){?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> -->
+                                <?php //}else{ ?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian tahap 1 sudah selesai. Terima Kasih</div> -->
+                                <?php //}?>
+                            <?php //endif; ?>
                         </div>
     
                         <div role="tabpanel" class="tab-pane fade" id="step_two">

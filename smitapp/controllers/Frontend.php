@@ -411,7 +411,7 @@ class Frontend extends Public_Controller {
         // -------------------------------------------------
         // Check Setting
         // -------------------------------------------------
-        /*
+        
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
             // Set JSON data
@@ -425,7 +425,6 @@ class Frontend extends Public_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        */
         
         // -------------------------------------------------
         // Check File
@@ -451,7 +450,7 @@ class Frontend extends Public_Controller {
             $incubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
-                //'setting_id'    => $incset->id,
+                'setting_id'    => $incset->id,
                 'user_id'       => $userdata->id,
                 'username'      => strtolower($username),
                 'name'          => $name,

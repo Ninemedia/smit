@@ -56,9 +56,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th style="width: 30%;">Tahun</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><?php echo $incubation->year; ?></td>
+                            </tr>
+                            <tr>
                                 <th style="width: 30%;">Tanggal Usulan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $incubation->datecreated; ?></td>
+                                <td><?php echo date('d F Y H:i:s', strtotime($incubation->datecreated)); ?></td>
                             </tr>
                         </tbody>
                     </table>
