@@ -492,6 +492,7 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_stepone').trigger('click');
+                            $('#btn_resetadmin_stepone').trigger('click');
                         }
                     });
                 }
@@ -534,6 +535,7 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_steptwo').trigger('click');
+                            $('#btn_resetadmin_steptwo').trigger('click');
                         }
                     });
                 }

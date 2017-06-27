@@ -30,7 +30,7 @@
                         ?>   
                         
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">                           
                                     <?php
@@ -118,7 +118,7 @@
                                                     <div class="bottom5">
                     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_stepone">Search</button>
                                                     </div>
-                                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_stepone">Reset</button>
                     							</td>
                     						</tr>
                                         </thead>
@@ -127,9 +127,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                    		<?php else : ?>
-                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Terima Kasih</div>  
-                            <?php endif; ?>
+                    		<?php //else : ?>
+                                <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Terima Kasih</div>  -->
+                            <?php //endif; ?>
                         </div>
                         
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
@@ -224,7 +224,7 @@
                                                 <div class="bottom5">
                 								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_steptwo">Search</button>
                                                 </div>
-                                                <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_steptwo">Reset</button>
                 							</td>
                 						</tr>
                                     </thead>

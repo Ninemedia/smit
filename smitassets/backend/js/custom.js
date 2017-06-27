@@ -622,6 +622,7 @@ var PraIncubationList = function () {
                                 });
                             }
                             $('#btn_praincubation_list').trigger('click');
+                            $('#btn_resetpraincubation_list').trigger('click');
                         }
                     });
                 }
