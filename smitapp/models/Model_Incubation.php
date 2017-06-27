@@ -475,7 +475,9 @@ class Model_Incubation extends SMIT_Model{
             SELECT A.*,B.workunit, B.name AS user_name, B.email
             FROM ' . $this->incubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.user_id';
+            ON B.id = A.user_id
+            LEFT JOIN ' . $this->user . ' AS C
+            ON C.id = A.companion_id ';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
@@ -791,6 +793,44 @@ class Model_Incubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 score.
+     */
+    function get_incubation_rate_step1_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 1 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 count.
+     */
+    function get_incubation_rate_step1_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->incubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
      * Get Pra Incubation Rate Step 1
      * 
      * @author  Iqbal
@@ -808,7 +848,7 @@ class Model_Incubation extends SMIT_Model{
         
         $this->db->order_by("datecreated", "DESC"); 
         $query      = $this->db->get($this->incubation_selection_rate_s1);        
-        return ( !empty($id) ? $query->row() : $query->result() );
+        return ( !empty($jury_id) ? $query->row() : $query->result() );
     }
     
     /**

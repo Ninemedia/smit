@@ -360,6 +360,59 @@ var ScoreSetting = function () {
                 
         });
         
+        $("body").delegate( "button#do_save_scoreuser_incubation", "click", function( event ) {
+            event.preventDefault();
+            var div_container   = $('#alert-display');
+            var url             = $('#selectionincubation_score_step1').attr('action');
+            
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data:   $('#selectionincubation_score_step1').serialize(),
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                        $('button.btn-rate-step1').hide();
+                        $('button.btn-rate-step1-reset').hide();
+                        $('#selectionincubation_score_step1 select.form-control').attr('disabled','disabled');
+                        $('#nilai_juri_comment').attr('readonly','readonly');
+                    }
+                    return false;
+                }
+            });
+                
+        });
+        
         $("body").delegate( "button.btn-rate-step1-reset", "click", function( event ) {
             $('#selection_score_step1')[0].reset();
             $('#selection_score_step1 span.help-block').hide();

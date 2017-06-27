@@ -2921,7 +2921,7 @@ class PraIncubation extends User_Controller {
             'ScoreUserValidation.init();',
         ));
         $scripts_add            = '';
-        $lss    = '';
+        $lss                    = '';
         
         // Get Pra-Incubation Selection Data
         $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = 1 AND %status% <> 0';

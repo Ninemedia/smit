@@ -1300,6 +1300,81 @@ var ScoreUserValidation = function () {
                 $('#save_scoreuser').modal('show');
             }
         });
+        
+        $('#selectionincubation_score_step1').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                nilai_dokumen: {
+                    required: true,
+                },
+                nilai_target: {
+                    required: true,
+                },
+                nilai_perlingungan: {
+                    required: true,
+                },
+                nilai_penelitian: {
+                    required: true,
+                },
+                nilai_market: {
+                    required: true,
+                },
+            },
+            messages: {
+                nilai_dokumen: {
+                    required: 'Penilaian Dokumen harus di isi',
+                },
+                nilai_target: {
+                    required: 'Penilaian Target dan Biaya harus di isi',
+                },
+                nilai_perlingungan: {
+                    required: 'Penilaian Perlindungan harus di isi',
+                },
+                nilai_penelitian: {
+                    required: 'Penilaian Penelitian Lanjutan harus di isi',
+                },
+                nilai_market: {
+                    required: 'Penilaian Market harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.input-group').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.input-group').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.input-group').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    element.parent(".input-group").append(error);
+                } else if (element.attr("data-error-container")) { 
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) { 
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) { 
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
+            },
+            submitHandler: function (form) {
+                $('#save_scoreuserincubation').modal('show');
+            }
+        });
     };
     
     return {

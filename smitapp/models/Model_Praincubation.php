@@ -217,7 +217,7 @@ class Model_Praincubation extends SMIT_Model{
         
         $this->db->order_by("datecreated", "DESC"); 
         $query      = $this->db->get($this->praincubation_selection_rate_s1);        
-        return ( !empty($id) ? $query->row() : $query->result() );
+        return ( !empty($jury_id) ? $query->row() : $query->result() );
     }
     
     /**

@@ -1762,7 +1762,7 @@ if ( !function_exists('smit_check_juri_rated_incubation') )
      * @author  Iqbal
      * @return  Array Object selection files
      */
-	function smit_check_juri_rated_incubation($id_user, $id_selection, $step) {
+	function smit_check_juri_rated_incubation($id_user, $id_selection, $step, $setting_id) {
 		$CI =& get_instance();
         
         if ( empty($id_user) || !$id_user ) return false;
@@ -1771,7 +1771,9 @@ if ( !function_exists('smit_check_juri_rated_incubation') )
         
         $table = $step == 1 ? 'smit_incubation_selection_rate_step1' : 'smit_incubation_selection_rate_step2';
 
-        $sql = 'SELECT * FROM '.$table.' WHERE selection_id='.$id_selection.' AND jury_id='.$id_user.'';
+        $sql = 'SELECT A.*, B.year, B.setting_id FROM '.$table.' AS A 
+                LEFT JOIN smit_incubation_selection AS B ON B.id = A.selection_id
+                WHERE A.selection_id='.$id_selection.' AND A.jury_id='.$id_user.' AND B.setting_id='.$setting_id.'';
         $qry = $CI->db->query($sql);
 
         return $qry->row();

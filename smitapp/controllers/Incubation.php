@@ -2507,6 +2507,7 @@ class Incubation extends User_Controller {
         elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
         
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by); 
+        $lss                = smit_latest_incubation_setting();
         
         $records            = array();
         $records["aaData"]  = array();
@@ -2520,7 +2521,7 @@ class Incubation extends User_Controller {
                 $btn_score          = '';
                 
                 // Check Jury Rated Selection
-                $rated = smit_check_juri_rated_incubation($current_user->id, $row->id, ONE);
+                $rated              = smit_check_juri_rated_incubation($current_user->id, $row->id, ONE, $lss->id);
                 
                 if( $row->status == 1 ){
                     if( empty($rated) ){
@@ -2780,6 +2781,9 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
@@ -2788,15 +2792,18 @@ class Incubation extends User_Controller {
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/forms/form-validation.js',
             BE_JS_PATH . 'pages/index.js',
         ));
         
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'ScoreSetting.init();',
-            'SliderIndikator.init()'
+            'SliderIndikator.init();',
+            'ScoreUserValidation.init();',
         ));
         $scripts_add            = '';
+        $lss                    = '';
 
         // Get Pra-Incubation Selection Data
         $condition              = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = 1 AND %status% <> 0';
@@ -2807,9 +2814,12 @@ class Incubation extends User_Controller {
         $data_selection         = $data_selection[0];
         
         // Check Jury Rated Selection
-        $rated = smit_check_juri_rated_incubation($current_user->id, $data_selection->id, $step);
-        if( !empty($rated) ){
-            redirect( base_url('seleksiinkubasi/nilai') );
+        if( !empty($lss) ){
+            $lss                = smit_latest_incubation_setting(); 
+            $rated              = smit_check_juri_rated_incubation($current_user->id, $data_selection->id, $step, $lss->id);
+            if( !empty($rated) ){
+                redirect( base_url('seleksiinkubasi/nilai') );
+            }   
         }
             
         $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
@@ -2826,6 +2836,7 @@ class Incubation extends User_Controller {
         $data['is_pelaksana']           = $is_pelaksana;
         $data['data_selection']         = $data_selection;
         $data['data_selection_files']   = $data_selection_files;
+        $data['lss']                    = $lss;
         $data['headstyles']             = $headstyles;
         $data['scripts']                = $loadscripts;
         $data['scripts_init']           = $scripts_init;
@@ -2891,8 +2902,8 @@ class Incubation extends User_Controller {
             $rate_comment   = $this->input->post('nilai_juri_comment');
             $rate_comment   = smit_isset($rate_comment, '');
             
-            // Check Pra-Incubation Selection Data
-            $data_selection     = $this->Model_Praincubation->get_praincubation($selection_id);
+            // Check Incubation Selection Data
+            $data_selection     = $this->Model_Incubation->get_incubation($selection_id);
             if( !$data_selection || empty($data_selection) ){
                 // Set JSON data
                 $data = array('message' => 'error','data' => 'Data seleksi inkubasi tidak ditemukan atau belum terdaftar');
@@ -2900,7 +2911,7 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             } 
             
-            // Check Pra-Incubation Selection User Data
+            // Check Incubation Selection User Data
             $data_selection_user = smit_get_userdata_by_id($data_selection->user_id);
             if( !$data_selection_user || empty($data_selection_user) ){
                 // Set JSON data
@@ -2909,9 +2920,9 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             } 
             
-            // Check this Pra-Incubation Selection Rate Process
+            // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
-                $rate_process       = $this->Model_Praincubation->get_praincubation_rate_step1_files($current_user->id, $data_selection->id);
+                $rate_process       = $this->Model_Incubation->get_incubation_rate_step1_files($current_user->id, $data_selection->id);
                 
                 if( $rate_process || !empty($rate_process) ){
                     // Set JSON data
@@ -2960,8 +2971,19 @@ class Incubation extends User_Controller {
                 
                 $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step1);
                 
+                // Update Pra-Incubation Score
+                $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step1_total($selection_id);
+                $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step1_count($selection_id);
+                $average_score          = round( ( $all_rate_total + $rate_total ) /  ( $all_rate_count + 1 ) );
+                
+                $data_selection_update  = array(
+                    'score'             => $all_rate_total,
+                    'average_score'     => $average_score,
+                );
+                $this->Model_Incubation->update_data_incubation($data_selection->id, $data_selection_update);
+                
                 // Set Data Rate Step 1
-                $lss                    = smit_latest_praincubation_setting();
+                $lss                    = smit_latest_incubation_setting();
                 $jury_step1             = $lss->selection_juri_phase1;
                 $jury_step1             = explode(",", $jury_step1);
                 
@@ -3648,15 +3670,31 @@ class Incubation extends User_Controller {
             
             $i = $offset + 1;
             foreach($incubation_list as $row){
+                $name               = $row->name;
+                $nilai_dokumen      = $row->nilai_dokumen;
+                $nilai_target       = $row->nilai_target;
+                $nilai_perlindungan = $row->nilai_perlindungan;
+                $nilai_penelitan    = $row->nilai_penelitian;
+                $nilai_market       = $row->nilai_market;
+                $rate_total         = $row->rate_total;
+                if($row->jury_id == $current_user->id){
+                    $name           = '<strong>'.$name.'</strong>';
+                    $nilai_dokumen  = '<strong>'.$nilai_dokumen.'</strong>';
+                    $nilai_target   = '<strong>'.$nilai_target.'</strong>';
+                    $nilai_perlindungan = '<strong>'.$nilai_perlindungan.'</strong>';
+                    $nilai_penelitan    = '<strong>'.$nilai_penelitan.'</strong>';
+                    $nilai_market   = '<strong>'.$nilai_market.'</strong>';
+                    $rate_total     = '<strong>'.$rate_total.'</strong>';
+                }
                 $records["aaData"][] = array(
                         smit_center($i),
-                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name) . '</a>',
-                        smit_center( $row->nilai_dokumen ),
-                        smit_center( $row->nilai_target ),
-                        smit_center( $row->nilai_perlindungan ),
-                        smit_center( $row->nilai_penelitian ),
-                        smit_center( $row->nilai_market ),
-                        smit_center( $row->rate_total ),
+                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($name) . '</a>',
+                        smit_center( $nilai_dokumen ),
+                        smit_center( $nilai_target ),
+                        smit_center( $nilai_perlindungan ),
+                        smit_center( $nilai_penelitan ),
+                        smit_center( $nilai_market ),
+                        smit_center( $rate_total ),
                     );  
                 $i++;
             }   
