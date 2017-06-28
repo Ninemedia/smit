@@ -3299,6 +3299,46 @@ class PraIncubation extends User_Controller {
             $rate_comment2  = $this->input->post('nilai_juri_comment');
             $rate_comment2  = smit_isset($rate_comment2, '');
             
+            $this->form_validation->set_rules('nilai_selection_id','Nilai Seleksi ID','required');
+            $this->form_validation->set_rules('klaster1_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster1_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster1_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster1_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster1_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster2_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster2_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster2_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster2_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster2_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster3_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster3_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster3_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster3_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster3_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster4_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster4_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster4_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster4_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster4_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_message('required', '%s harus di isi');
+            $this->form_validation->set_error_delimiters('', '');
+            
+            if($this->form_validation->run() == FALSE){
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir pengaturan!'),
+                );
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                
+            }
+            
             // Check Pra-Incubation Selection Data
             $data_selection     = $this->Model_Praincubation->get_praincubation($selection_id);
             if( !$data_selection || empty($data_selection) ){

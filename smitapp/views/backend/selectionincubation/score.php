@@ -197,7 +197,7 @@
                                                 <div class="bottom5">
                 								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_steptwo">Search</button>
                                                 </div>
-                                                <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_steptwo">Reset</button>
                 							</td>
                 						</tr>
                                     </thead>

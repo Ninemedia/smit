@@ -1221,7 +1221,7 @@ class Incubation extends User_Controller {
             
             $incselupdatedata    = array(
                 'score'         => $sum_score,
-                'avarage_score' => $avarage_score,
+                'average_score' => $avarage_score,
                 'status'        => $status,
                 'statustwo'     => 1,
                 'steptwo'       => 2,
@@ -1588,7 +1588,7 @@ class Incubation extends User_Controller {
                     $lss                    = smit_latest_praincubation_setting();
                     $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
                     $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
-                    if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){
+                    if( /* $curdate >= $selection_date_invitation_send && */ $curdate <= $selection_date_interview_start ){
                         $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'" 
                         class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
@@ -2920,6 +2920,10 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             } 
             
+            echo '<pre>';
+            print_r($data_selection_user);
+            die();
+            
             // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Incubation->get_incubation_rate_step1_files($current_user->id, $data_selection->id);
@@ -3007,7 +3011,7 @@ class Incubation extends User_Controller {
                     );
                     
                     if( $update_selection   = $this->Model_Incubation->update_data_incubation($data_selection->id, $status_step1) ){
-                        $this->smit_email->send_email_rated_confirmation($data_selection_user->email);
+                        $this->smit_email->send_email_rated_confirmation($data_selection_user->email, $step);
                     }
                 }
 
