@@ -4541,6 +4541,188 @@ class Incubation extends User_Controller {
         echo json_encode($records);
     }
     
+    /**
+	 * Incubation list data function.
+	 */
+    function incubationdata( ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ''; 
+        if( !$is_admin ){
+            $condition      = ' WHERE user_id = '.$current_user->id.'';
+        }
+        
+        $order_by           = 'year DESC';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+        
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+        
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+        
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        $incubation_list    = $this->Model_Incubation->get_all_incubationdata($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($incubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($incubation_list as $row){
+                // Status
+                $btn_action = '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode).'" 
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                
+                $workunit   = '<center> - </cemter>';
+                if($row->workunit > 0){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit       = $workunit_type->workunit_name;    
+                }  
+                $year           = $row->year;
+                $name           = strtoupper($row->user_name);
+                $event          = $row->event_title;
+                $datecreated    = date('d F Y', strtotime($row->datecreated));
+
+                $records["aaData"][] = array(
+                    smit_center( $i ),
+                    smit_center( $year ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    strtoupper( $workunit ),
+                    strtoupper( $event ),
+                    smit_center( $datecreated ),
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Incubation Detail list data function.
+	 */
+    public function incubationdatadetails($uniquecode)
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+        
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+        
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+        
+        $scripts_add            = '';
+        
+        // Custom
+        $condition              = '';
+        $incubation_list     = '';
+        if(!empty($uniquecode)){
+            $incubation_list        = $this->Model_Incubation->get_all_incubationdata('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $incubation_list        = $incubation_list[0];
+            $user_id                = $incubation_list->user_id;
+            $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE user_id = '.$user_id.'', '');    
+        }
+        
+        $data['title']          = TITLE . 'Detail Seleksi Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['incubation']     = $incubation_list;
+        $data['incubation_files']    = $incubation_files;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'incubation/listincubationdetails';
+        
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    
     // ---------------------------------------------------------------------------------------------
     
     

@@ -165,11 +165,16 @@
                                         </div>
                                     </div>
                                     <label for="telp_contact">Kemitraan Usaha yang Dimiliki</label>
-                                    <div class="form-group">
-                                        <textarea class="form-control ckeditor" id="tenant_mitra" name="tenant_mitra" ></textarea>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Simpan</button>
+                                        <button class="btn btn-sm btn-danger waves-effect" type="button">
+                                            <i class="material-icons">close</i> Bersihkan
+                                        </button>
                                     </div>
                                     <?php echo form_close(); ?>
                                 </div>

@@ -199,6 +199,8 @@ $route['incubationscoreact/(:any)/(:any)']      = "incubation/incubationscoreact
 $route['incubationdownloadfile/(:any)']         = "incubation/incubationdownloadfile/$1";
 $route['juryscoresetdetails/(:any)']            = "incubation/juryscoredatadetails/$1";
 $route['juryscoresetnilai/(:any)']              = "incubation/juryscoredatanilai/$1";
+$route['inkubasi/daftardata']                   = "incubation/incubationdata";
+$route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdatadetails/$1";
 
 // Tenant Page Routes
 $route['tenants/blogs']                         = "tenant/tenantblogs";

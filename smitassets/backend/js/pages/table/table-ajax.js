@@ -104,6 +104,11 @@ var TableAjax = function () {
     var handleRecordsIncubationReportSelectionList = function() {
         gridTable( $("#incubationreport_list"), true );
     };
+    
+    // Incubation Lists
+    var handleRecordsIncubationDataList = function() {
+        gridTable( $("#list_incubation"), true );
+    };
     // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
@@ -273,6 +278,7 @@ var TableAjax = function () {
             handleRecordsIncubationSelectionList2();
             handleRecordsIncubationSettingSelectionList();
             handleRecordsIncubationReportSelectionList();
+            handleRecordsIncubationDataList();
             
             //Tenant
             handleRecordsTenantList();

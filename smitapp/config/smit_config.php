@@ -130,7 +130,6 @@ $config['user_menu_access']             = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         // ------------------- KEGIATAN INKUBASI/TENANT
-        
         //'inkubasi/pendampingan',
         //'inkubasi/laporan',
         'tenants',
@@ -184,7 +183,7 @@ $config['user_menu_access']             = array(
         'tenants',
         'tenants/blogs',
         'tenants/daftar',
-        'tenants/pendaftaran',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
         'tenants/produk',
         'tenants/pembayaran',
@@ -247,7 +246,7 @@ $config['user_menu_access']             = array(
         'tenants',
         'tenants/blogs',
         'tenants/daftar',
-        'tenants/pendaftaran',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
         'tenants/produk',
         'tenants/pembayaran',
