@@ -650,6 +650,30 @@ if ( !function_exists('smit_user_type') )
 	}
 }
 
+if ( !function_exists('smit_category') ) 
+{
+    /**
+     * Get user type
+     * @author  Iqbal
+     * @param   Int         $id     (Optional)  ID of User Type
+     * @return  User Type Data
+     */
+	function smit_category($id='') {
+	   $CI =& get_instance();
+       
+	   $condition      = '';
+	   if( !empty($id) ){
+	       $condition  .= ' AND %category_id% = '.$id.' ';
+	   }
+       $order_by    = ' %category_id% DESC ';
+       
+       $category    = $CI->Model_Option->get_all_category(0, 0, $condition, $order_by);
+       if( !$category ) return false;
+       
+       return $category;
+	}
+}
+
 if ( !function_exists('smit_user_status') ) 
 {
     /**

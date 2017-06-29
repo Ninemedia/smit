@@ -541,7 +541,7 @@ var NewsValidation = function () {
 }();
 
 var IncubationValidation = function () {
-    var handleIncubtaionValidation = function(){
+    var handleIncubationValidation = function(){
         $('#praincubationadd').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
@@ -576,7 +576,7 @@ var IncubationValidation = function () {
                     required: 'Nama Peneliti Utama harus di isi',
                 },
                 reg_title: {
-                    required: 'Judul Berita harus di isi',
+                    required: 'Judul Kegiatan harus di isi',
                 },
                 reg_category: {
                     required: 'Kategori Kegiatan harus di isi',
@@ -617,7 +617,77 @@ var IncubationValidation = function () {
     return {
         //main function to initiate the module
         init: function () {
-            handleIncubtaionValidation();
+            handleIncubationValidation();
+        }
+    };
+}();
+
+var ProductValidation = function () {
+    var handleProductValidation = function(){
+        $('#productadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_title: {
+                    required: true,
+                },
+                reg_event: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_thumbnail: {
+                    required: true,
+                },
+                reg_details: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_title: {
+                    required: 'Judul Produk harus di isi',
+                },
+                reg_event: {
+                    required: 'Usulan Kegiatan harus di isi',
+                },
+                reg_desc: {
+                    required: 'Deskripsi Produk harus di isi',
+                },
+                reg_thumbnail: {
+                    required: 'Thumbnail harus di isi',
+                },
+                reg_details: {
+                    required: 'Details Gambar harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_productadd').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleProductValidation();
         }
     };
 }();
@@ -719,10 +789,48 @@ var SettingValidation = function () {
         });
     };
     
+    var handleSettingCategoryValidation = function(){
+        $('#categoryadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_category: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_category: {
+                    required: 'Nama Kategori harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_category').modal('show');
+            }
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
             handleSettingWorkunitValidation();
+            handleSettingCategoryValidation();
         }
     };
 }();

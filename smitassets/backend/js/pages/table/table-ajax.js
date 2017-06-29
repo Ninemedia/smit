@@ -163,6 +163,11 @@ var TableAjax = function () {
         gridTable( $("#workunit_list"), true );
     };
     
+    // Category Lists 
+    var handleRecordsCategoryList = function() {
+        gridTable( $("#category_list"), true );
+    };
+    
     // Slider Lists 
     var handleRecordsSliderList = function() {
         gridTable( $("#slider_list"), true );
@@ -275,6 +280,9 @@ var TableAjax = function () {
             
             //Workunit
             handleRecordsWorkunitList();
+            
+            //Category
+            handleRecordsCategoryList();
             
             //Announcement
             handleRecordsAnnouncementList();

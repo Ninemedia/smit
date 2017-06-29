@@ -2945,6 +2945,154 @@ class Backend extends User_Controller {
         }
 	}
     
+    // CATEGORY
+    // ----------------------------------------------------------------------------------------------------------------------
+    /**
+	 * Category Add
+	 */
+	public function categoryadd()
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $category               = $this->input->post('reg_category');
+        $category               = trim( smit_isset($category, "") );
+        
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_category','Nama Kategori','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori tidak berhasil. '.validation_errors().''); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+         
+        $category_data  = array(
+            'category_name' => strtoupper($category),
+        ); 
+                
+        // -------------------------------------------------
+        // Save Category 
+        // -------------------------------------------------
+        $trans_save_category        = FALSE;
+        if( $category_save_id       = $this->Model_Option->save_data_category($category_data) ){
+            $trans_save_category    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori tidak berhasil. Terjadi kesalahan data formulir anda'); 
+            die(json_encode($data));
+        }
+                
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_category ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Pendaftaran kategori tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+                
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Pendaftaran kategori baru berhasil!'); 
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori tidak berhasil. Terjadi kesalahan data.'); 
+            die(json_encode($data)); 
+        } 
+	}
+    
+    /**
+	 * Category list data function.
+	 */
+    function categorylistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_category         = $this->input->post('search_category');
+        $s_category         = smit_isset($s_category, '');
+        
+        if( !empty($s_category) )   { $condition .= str_replace('%s%', $s_category, ' AND %category_name% LIKE "%%s%%"'); }
+        if( $column == 1 )          { $order_by .= '%category_name% ' . $sort; }
+        $category_list      = $this->Model_Option->get_all_category($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($category_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            
+            $i = $offset + 1;
+            foreach($category_list as $row){
+                
+                // Status
+                $btn_action = '<a data-toggle="modal" data-target="#edit_category" class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                <a href="'.($row->category_id>1 ? base_url('categoryconfirm/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->category_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->category_name,
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }   
+        }
+        
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    // ----------------------------------------------------------------------------------------------------------------------
+    
 }
 
 /* End of file backend.php */

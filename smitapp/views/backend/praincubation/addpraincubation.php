@@ -47,15 +47,18 @@
                             <label class="form-label">Kategori Kegiatan <b style="color: red !important;">(*)</b></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                <select class="form-control" name="reg_category" id="reg_category">
-                                    <option value="">-- Pilih Kategori Bidang --</option>
-                                    <option value="pangan">PANGAN</option>
-                                    <option value="lingkungan">LINGKUNGANN</option>
-                                    <option value="material_maju">MATERIAL MAJU</option>
-                                    <option value="transportasi">TRANSPORTASI</option>
-                                    <option value="informasi_komunikasi">INFORMASI &amp; KOMUNIKASI</option>
-                                    <option value="kesehatan_farmasi">KESEHATAN &amp; FARMASI</option>
-                                    <option value="pertahanan_keamanan">PERTAHANAN &amp; KEAMANAN</option>
+                                <select class="form-control show-tick" name="reg_category" id="reg_category">
+                                	<?php
+                                		$category     = smit_category();
+                                		if( !empty($category) ){
+                                			echo '<option value="">-- Pilih Kategori Bidang --</option>';
+                                			foreach($category as $row){
+                                				echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
+                                			}
+                                		}else{
+                                			echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                		}
+                                	?>
                                 </select>
                             </div>
                         </div>
@@ -93,7 +96,7 @@
                                 <input id="reg_selection_rab" name="reg_selection_rab" class="form-control" type="file">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Berita</button>
+                        <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Pra-Inkubasi</button>
                         <button type="button" class="btn btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
                     </section>
                 </div>
@@ -110,14 +113,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Berita</h4>
+				<h4 class="modal-title">Pendaftaran Pra-Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Berita. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <p>Anda Sedang Melakukan Pendaftaran Pra-Inkubasi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_praincubationadd" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_praincubationadd" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

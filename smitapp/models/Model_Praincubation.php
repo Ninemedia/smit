@@ -15,6 +15,7 @@ class Model_Praincubation extends SMIT_Model{
     var $praincubation_selection_his        = "smit_praincubation_selection_history";
     var $praincubation_selection_rate_s1    = "smit_praincubation_selection_rate_step1";
     var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
+    var $praincubation_product              = "smit_praincubation_product";
     
     /**
      * Initialize primary field
@@ -557,6 +558,22 @@ class Model_Praincubation extends SMIT_Model{
     function save_data_praincubation($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->praincubation, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of product praincubation
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_product($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_product, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };
