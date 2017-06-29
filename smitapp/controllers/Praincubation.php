@@ -3327,6 +3327,7 @@ class PraIncubation extends User_Controller {
             $this->form_validation->set_message('required', '%s harus di isi');
             $this->form_validation->set_error_delimiters('', '');
             
+            /*
             if($this->form_validation->run() == FALSE){
                 // Set JSON data
                 $data = array(
@@ -3338,6 +3339,7 @@ class PraIncubation extends User_Controller {
             }else{
                 
             }
+            */
             
             // Check Pra-Incubation Selection Data
             $data_selection     = $this->Model_Praincubation->get_praincubation($selection_id);

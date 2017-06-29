@@ -7,6 +7,7 @@ class Model_Incubation extends SMIT_Model{
      * Initialize table
      */
     var $user                       = "smit_user";
+    var $incubation                 = "smit_incubation";
     var $incubation_selection       = "smit_incubation_selection";
     var $incubation_selection_set   = "smit_incubation_selection_setting";
     var $incubation_selection_rpt   = "smit_incubation_selection_report";
@@ -375,6 +376,45 @@ class Model_Incubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 2 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 score.
+     */
+    function get_incubation_rate_step2_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 2 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 count.
+     */
+    function get_incubation_rate_step2_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    
+    /**
      * Save data of incubation_selection
      * 
      * @author  Iqbal
@@ -443,6 +483,22 @@ class Model_Incubation extends SMIT_Model{
 			$id = $this->db->insert_id();
             return $id;
 		}
+        return false;
+    }
+    
+    /**
+     * Save data of incubation
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
         return false;
     }
     

@@ -179,7 +179,7 @@ $route['seleksiinkubasi/jurinilaidata/(:any)']      = "incubation/juryscorelistd
 $route['seleksiinkubasi/jurinilaidatastep1']        = "incubation/juryscorelistdatastep1";
 $route['seleksiinkubasi/jurinilaidatastep2']        = "incubation/juryscorelistdatastep2";
 $route['seleksiinkubasi/nilai/(:num)/(:any)']       = "incubation/juryscoreuser/$1/$2";
-$route['inkubasi/prosesnilai/(:num)']               = "incubation/juryscoreuserprocess/$1";
+$route['seleksiinkubasi/prosesnilai/(:num)']        = "incubation/juryscoreuserprocess/$1";
 // Menu Pengaturan
 $route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
 $route['daftarseleksiinkubasi']                 = "incubation/incubationsettinglistdata";

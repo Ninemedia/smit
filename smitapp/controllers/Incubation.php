@@ -1272,6 +1272,8 @@ class Incubation extends User_Controller {
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         
         $curdate            = date('Y-m-d H:i:s');
+        $desc               = '';
+        $user_desc          = array();
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -1315,6 +1317,7 @@ class Incubation extends User_Controller {
         // -------------------------------------------------
         $this->db->trans_begin();
         
+        $desc .= 'Pengumuman Hasil Seleksi Pra-Inkubasi Tahap 2<br />Berikut Daftar Pengusul<br />';
         foreach($incseldata as $row){
             
             // Total
@@ -1329,12 +1332,12 @@ class Incubation extends User_Controller {
             }
             
             if(!empty($sum_score2) && !empty($count_all_jury2)){
-                $avarage_score  = $sum_score2 / $count_all_jury2;
+                $average_score  = $sum_score2 / $count_all_jury2;
             }else{
-                $avarage_score  = 0;
+                $average_score  = 0;
             }
             
-            if( $avarage_score < KKM_STEP2 ){
+            if( $average_score < KKM_STEP2 ){
                 $status         = REJECTED;    
             }else{
                 $status         = ACCEPTED;
@@ -1342,43 +1345,97 @@ class Incubation extends User_Controller {
             
             $incselupdatedata    = array(
                 'scoretwo'          => $sum_score2,
-                'avarage_scoretwo'  => $avarage_score,
+                'average_scoretwo'  => $average_score,
                 'statustwo'         => $status,
                 'datemodified'      => $curdate,
             );    
             
             if( !$this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
                 continue;
-            }
-            
-            // History Step2
-            $random_history     = smit_generate_rand_string(10,'low');
-            $rate_history_step2 = array(
-                'uniquecode'    => $random_history,
-                'selection_id'  => $row->id,
-                'jury_id'       => $current_user->id,
-                'name_jury'     => $current_user->name,
-                'user_id'       => $row->user_id,
-                'username'      => $row->username,
-                'name'          => $row->name,
-                'event_title'   => $row->event_title,
-                'step'          => 2,
-                'rate_total'    => $avarage_score,
-                'datecreated'   => $curdate,
-                'datemodified'  => $curdate
-            );
-            $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step2);
-            
-            if( $avarage_score < KKM_STEP2 ){
-                // Status User
-                $status             = array(
-                    'type'          => PELAKSANA,
-                    'datemodified'  => $curdate
+            }else{
+                if( $average_score < KKM_STEP2 ){
+                    // Send Email Notification Not Success Step 2s
+                    $this->smit_email->send_email_selection_not_success_step2($incset, $row);
+                }else{
+                    // Update Status User
+                    $status_user        = array(
+                        'type'          => TENANT,
+                        'datemodified'  => $curdate
+                    );
+                    
+                    // Check Status User
+                    $user           = $this->Model_User->get_userdata($row->user_id);
+                    if($user->type == PELAKSANA || $user->type == TENANT){
+                        // Update Status User
+                        $status_user        = array(
+                            'type'          => PELAKSANA_TENANT,
+                            'datemodified'  => $curdate
+                        );
+                    }
+                    
+                    $update_status_user = $this->Model_User->update_data($row->user_id, $status_user);
+
+                    // Send Email Notification Selection Accepted
+                    $this->smit_email->send_email_selection_accepted($incset, $row);
+                }
+                
+                // Set User Rejected
+                $user_desc[]        = array(
+                    'name'          => $row->user_name,
+                    'title'         => $row->event_title,
+                    'status'        => $status
                 );
-                $update_status_user = $this->Model_User->update_data($row->user_id, $status);  
             }
-            
         }
+        
+        $desc .= '<div class="table-container table-responsive">';
+            $desc .= '<table class="table table-striped table-hover">';
+                $desc .= '
+                <thead>
+                    <tr role="row" class="heading bg-blue">
+                        <th class="width5">No</th>
+                        <th class="width25">Nama Pengusul</th>
+                        <th class="width55">Judul Seleksi</th>
+                        <th class="width15 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>';
+                
+                if( !empty($user_desc) ){
+                    $i=1;
+                    foreach($user_desc as $user){
+                        $desc .= '
+                        <tr>
+                            <td class="width5">'.$i.'</td>
+                            <td class="width25">'.$user['name'].'</td>
+                            <td class="width55">'.$user['title'].'</td>
+                            <td class="width15 text-center"><strong>'. ( $user['status'] == ACCEPTED ? 'DITERIMA' : 'DITOLAK' ).'</strong></td>
+                        </tr>';
+                        $i++;
+                    }
+                }else{
+                    $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Inkubasi</strong></tr>';
+                }
+                
+                $desc .= '</tbody>';
+            $desc .= '</table>';
+        $desc .= '</div>';
+        
+        // Save Announcement
+        $announcement_data  = array(
+            'uniquecode'    => smit_generate_rand_string(10,'low'),
+            'user_id'       => $current_user->id,
+            'username'      => strtolower($current_user->username),
+            'name'          => $current_user->name,
+            'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+            'title'         => 'Pengumuman Hasil Seleksi Inkubasi Tahap 2',
+            'desc'          => $desc,
+            'uploader'      => $current_user->id,
+            'status'        => 1,
+            'datecreated'   => $curdate,
+            'datemodified'  => $curdate,
+        );
+        $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
         
         // Commit Transaction
         $this->db->trans_commit();
@@ -2669,6 +2726,7 @@ class Incubation extends User_Controller {
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by); 
+        $lss                = smit_latest_incubation_setting();
         
         $records            = array();
         $records["aaData"]  = array();
@@ -2683,17 +2741,17 @@ class Incubation extends User_Controller {
                 $btn_details        = '';
                 
                 // Check Jury Rated Selection
-                $rated = smit_check_juri_rated($current_user->id, $row->selection_id, TWO);
+                $rated              = smit_check_juri_rated_incubation($current_user->id, $row->id, TWO, $lss->id);
 
                 if( $row->statustwo == CONFIRMED ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('inkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'" 
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }
                 
@@ -2969,8 +3027,8 @@ class Incubation extends User_Controller {
                 // History Step1
                 $random_history     = smit_generate_rand_string(10,'low');
                 $rate_history_step1 = array(
-                    'year'          => $data_selection->year,
                     'uniquecode'    => $random_history,
+                    'year'          => $data_selection->year,
                     'selection_id'  => $selection_id,
                     'jury_id'       => $current_user->id,
                     'name_jury'     => $current_user->name,
@@ -3109,16 +3167,67 @@ class Incubation extends User_Controller {
             $rate_comment2  = $this->input->post('nilai_juri_comment');
             $rate_comment2  = smit_isset($rate_comment2, '');
             
-            // Check Pra-Incubation Selection Data
+            $this->form_validation->set_rules('nilai_selection_id','Nilai Seleksi ID','required');
+            $this->form_validation->set_rules('klaster1_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster1_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster1_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster1_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster1_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster2_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster2_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster2_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster2_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster2_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster3_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster3_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster3_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster3_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster3_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_rules('klaster4_a_indikator','Deskripsi Kebutuhan Pengguna','required');
+            $this->form_validation->set_rules('klaster4_b_indikator','Deskripsi Sasaran Pengguna    ','required');
+            $this->form_validation->set_rules('klaster4_c_indikator','Besar Pasar','required');
+            $this->form_validation->set_rules('klaster4_d_indikator','Rencana Pemasaran','required');
+            $this->form_validation->set_rules('klaster4_e_indikator','Pertumbuhan Pasar','required');
+            
+            $this->form_validation->set_message('required', '%s harus di isi');
+            $this->form_validation->set_error_delimiters('', '');
+            
+            /*
+            if($this->form_validation->run() == FALSE){
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir pengaturan!'),
+                );
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                
+            }
+            */
+            
+            // Check Incubation Selection Data
             $data_selection     = $this->Model_Incubation->get_incubation($selection_id);
             if( !$data_selection || empty($data_selection) ){
                 // Set JSON data
                 $data = array('message' => 'error','data' => 'Data seleksi inkubasi tidak ditemukan atau belum terdaftar');
                 // JSON encode data
                 die(json_encode($data));
-            } 
+            }
             
-            // Check this Pra-Incubation Selection Rate Process
+            // Check Incubation Selection User Data
+            $data_selection_user = smit_get_userdata_by_id($data_selection->user_id);
+            if( !$data_selection_user || empty($data_selection_user) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data user seleksi inkubasi tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            }  
+            
+            // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Incubation->get_incubation_rate_step2_files($current_user->id, $data_selection->id);
                 
@@ -3146,19 +3255,20 @@ class Incubation extends User_Controller {
             $value_irl10    = 0;
             $total_irl      = 0;
             
-            if( $irl1 == 'on'){ $value_irl1 = 1; }
-            if( $irl2 == 'on'){ $value_irl2 = 1; }
-            if( $irl3 == 'on'){ $value_irl3 = 1; }
-            if( $irl4 == 'on'){ $value_irl4 = 1; }
-            if( $irl5 == 'on'){ $value_irl5 = 1; }
-            if( $irl6 == 'on'){ $value_irl6 = 1; }
-            if( $irl7 == 'on'){ $value_irl7 = 1; }
-            if( $irl8 == 'on'){ $value_irl8 = 1; }
-            if( $irl9 == 'on'){ $value_irl9 = 1; }
-            if( $irl10 == 'on'){ $value_irl10 = 1; }
+            if( $irl1 == 'on')  { $value_irl1 = 1;  $irl_data[] = 1; }
+            if( $irl2 == 'on')  { $value_irl2 = 2;  $irl_data[] = 2; }
+            if( $irl3 == 'on')  { $value_irl3 = 3;  $irl_data[] = 3; }
+            if( $irl4 == 'on')  { $value_irl4 = 4;  $irl_data[] = 4; }
+            if( $irl5 == 'on')  { $value_irl5 = 5;  $irl_data[] = 5; }
+            if( $irl6 == 'on')  { $value_irl6 = 6;  $irl_data[] = 6; }
+            if( $irl7 == 'on')  { $value_irl7 = 7;  $irl_data[] = 7; }
+            if( $irl8 == 'on')  { $value_irl8 = 8;  $irl_data[] = 8; }
+            if( $irl9 == 'on')  { $value_irl9 = 9;  $irl_data[] = 9; }
+            if( $irl10 == 'on') { $value_irl10 = 10; $irl_data[] = 10; }
             
             $total_irl  = $value_irl1 + $value_irl2 + $value_irl3 + $value_irl4 + $value_irl5 + $value_irl6 + $value_irl7 + $value_irl8 + $value_irl9 + $value_irl10;
-
+            $irl_data   = implode(',',$irl_data);
+            
             // Set Data Rate Step 2
             $rate_data_step2    = array(
                 'uniquecode'    => $random,
@@ -3185,7 +3295,8 @@ class Incubation extends User_Controller {
                 'klaster4_d'    => $klaster4_d_indikator,
                 'klaster4_e'    => $klaster4_e_indikator,
                 'rate_total'    => $rate_total2,
-                'irl'           => $total_irl,
+                'irl'           => $irl_data,
+                'irl_total'     => $total_irl,
                 'comment'       => $rate_comment2,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate
@@ -3196,6 +3307,7 @@ class Incubation extends User_Controller {
                 $random_history     = smit_generate_rand_string(10,'low');
                 $rate_history_step2 = array(
                     'uniquecode'    => $random_history,
+                    'year'          => $data_selection->year,
                     'selection_id'  => $selection_id,
                     'jury_id'       => $current_user->id,
                     'name_jury'     => $current_user->name,
@@ -3209,10 +3321,21 @@ class Incubation extends User_Controller {
                     'datemodified'  => $curdate
                 );
                 
-                $history            = $this->Model_Incubation->save_data_praincubation_history($rate_history_step2);
+                $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step2);
+                
+                // Update Pra-Incubation Score
+                $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step2_total($data_selection->id);
+                $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step2_count($data_selection->id);
+                $average_score          = round( ( $all_rate_total + $rate_total2 ) /  ( $all_rate_count + 1 ) );
+                
+                $data_selection_update  = array(
+                    'scoretwo'          => $all_rate_total,
+                    'average_scoretwo'  => $average_score,
+                );
+                $this->Model_Incubation->update_data_incubation($data_selection->id, $data_selection_update);
                 
                 // Set Data Rate Step 1
-                $lss                    = smit_latest_praincubation_setting();
+                $lss                    = smit_latest_incubation_setting();
                 $jury_step2             = $lss->selection_juri_phase2;
                 $jury_step2             = explode(",", $jury_step2);
                 
@@ -3235,7 +3358,27 @@ class Incubation extends User_Controller {
                         'statustwo' => RATED,
                     );
                     
-                    $update_selection   = $this->Model_Incubation->update_data_incubation($data_selection->id, $status_step2);
+                    if( $update_selection   = $this->Model_Incubation->update_data_incubation($data_selection->id, $status_step2) ){
+                        $this->smit_email->send_email_rated_confirmation($data_selection_user->email, $step);
+                    }
+                    
+                    $incubationselection_data = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $data_selection->year,
+                        'setting_id'    => $data_selection->setting_id,
+                        'selection_id'  => $selection_id,
+                        'user_id'       => $data_selection->user_id,
+                        'username'      => strtolower($data_selection->username),
+                        'name'          => $data_selection->name,
+                        'event_title'   => $data_selection->event_title,
+                        'event_desc'    => $data_selection->event_desc,
+                        'category'      => $data_selection->category,
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    
+                    $incubation_save_id      = $this->Model_Incubation->save_data_incubation($incubationselection_data);
                 }
                 
                 // Set JSON data

@@ -95,8 +95,8 @@ $config['incsel_report_status']     = array(
 /**
  * User Menu Access
  */
-$config['user_menu_access']         = array(
-    ADMINISTRATOR                   => array(
+$config['user_menu_access']             = array(
+    ADMINISTRATOR                       => array(
         'beranda',
         // ------------------- PENGGUNA 
         'pengguna',
@@ -164,7 +164,7 @@ $config['user_menu_access']         = array(
         'pengaturan/belakang',
         //'pengaturan/satuankerja',
     ),
-    PENDAMPING                      => array(
+    PENDAMPING                          => array(
         'beranda',
         'prainkubasi',
         'prainkubasi/pendampingan',
@@ -179,7 +179,7 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    TENANT                          => array(
+    TENANT                              => array(
         'beranda',
         'tenants',
         'tenants/blogs',
@@ -192,7 +192,7 @@ $config['user_menu_access']         = array(
         'pengumuman',
         'layanan',
     ),
-    JURI                            => array(
+    JURI                                => array(
         'beranda',
         'seleksiprainkubasi',
         'seleksiprainkubasi/nilai',
@@ -206,7 +206,7 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    PENGUSUL                        => array(
+    PENGUSUL                            => array(
         'beranda',
         'seleksiprainkubasi',
         'seleksiprainkubasi/nilai',
@@ -220,7 +220,7 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    PELAKSANA                        => array(
+    PELAKSANA                           => array(
         'beranda',
         'prainkubasi',
         'prainkubasi/daftar',
@@ -229,6 +229,29 @@ $config['user_menu_access']         = array(
         'prainkubasi/produk',
         'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
+        'panduan',
+        'panduan/berkas',
+        'pengumuman',
+        'layanan',
+        'layanan/komunikasi',
+    ),
+    PELAKSANA_TENANT                    => array(
+        'beranda',
+        'prainkubasi',
+        'prainkubasi/daftar',
+        'prainkubasi/pendampingan',
+        'prainkubasi/tambahproduk',
+        'prainkubasi/produk',
+        'prainkubasi/tambahlaporan',
+        'prainkubasi/laporan',
+        'tenants',
+        'tenants/blogs',
+        'tenants/daftar',
+        'tenants/pendaftaran',
+        'tenants/pendampingan',
+        'tenants/produk',
+        'tenants/pembayaran',
+        'tenants/laporan',
         'panduan',
         'panduan/berkas',
         'pengumuman',

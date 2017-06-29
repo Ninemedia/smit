@@ -107,7 +107,7 @@
                             </div>
                             <div id="collapse_nilai" class="panel-collapse collapse" role="tabpanel" aria-labelledby="nilai">
                                 <div class="panel-body">
-                                    <?php echo form_open_multipart( base_url('inkubasi/prosesnilai/1'), array( 'id'=>'selectionincubation_score_step1', 'role'=>'form' ) ); ?>
+                                    <?php echo form_open_multipart( base_url('seleksiinkubasi/prosesnilai/1'), array( 'id'=>'selectionincubation_score_step1', 'role'=>'form' ) ); ?>
                                     <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
                                     <div class="table-container table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="jury_stepone">
@@ -208,7 +208,7 @@
                                         <button class="btn btn-sm btn-primary waves-effect btn-rate-step1" type="submit">
                                             <i class="material-icons">done</i> Nilai
                                         </button>
-                                        <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">
+                                        <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-resetincubation" type="button">
                                             <i class="material-icons">close</i> Bersihkan
                                         </button>
                                     </div>
