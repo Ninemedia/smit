@@ -342,6 +342,26 @@ class Model_Incubation extends SMIT_Model{
      * @param   Int     $id   (Optional) Type of user, default 'all'
      * @return  Int of total rows user
      */
+    function sum_all_irl($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(irl_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
+        
+        $query  = $this->db->query($sql);
+        $row    = $query->row();
+        
+        if ( empty($row->total) ) return 0;
+        
+        return $row->total;
+    }
+    
+    /**
+     * Sum All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $id   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
     function sum_all_score2($id){
         //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
         $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
@@ -1060,6 +1080,61 @@ class Model_Incubation extends SMIT_Model{
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_incubation_scorestep2($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%dateprocess%",          "B.datemodified", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%dateprocess%",          "B.datemodified",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.name
+            FROM ' . $this->incubation_selection_rate_s2. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.jury_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
         
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 

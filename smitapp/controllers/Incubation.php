@@ -3725,6 +3725,96 @@ class Incubation extends User_Controller {
         echo json_encode($records);
     }
     
+    /**
+	 * Admin Dteail Score list Step 2 data function.
+	 */
+    function admindetailscorestep2( $id='' ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $is_jury            = as_juri($current_user);
+        $condition          = ' WHERE A.selection_id = '. $id .' ';  
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
+        
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+        
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+        
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $incubation_list    = $this->Model_Incubation->get_all_incubation_scorestep2($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($incubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+            
+            $i = $offset + 1;
+            foreach($incubation_list as $row){
+                $sum_klaster1   = $row->klaster1_a + $row->klaster1_b + $row->klaster1_c + $row->klaster1_d + $row->klaster1_e; 
+                $sum_klaster2   = $row->klaster2_a + $row->klaster2_b + $row->klaster1_c + $row->klaster2_d + $row->klaster2_e; 
+                $sum_klaster3   = $row->klaster3_a + $row->klaster3_b + $row->klaster3_c + $row->klaster3_d + $row->klaster3_e; 
+                $sum_klaster4   = $row->klaster4_a + $row->klaster4_b + $row->klaster4_c + $row->klaster4_d + $row->klaster4_e;
+                
+                $total_klaster1 = floor(($sum_klaster1 * (25/100)/5));
+                $total_klaster2 = floor(($sum_klaster2 * (40/100)/5));
+                $total_klaster3 = floor(($sum_klaster3 * (15/100)/5));
+                $total_klaster4 = floor(($sum_klaster4 * (10/100)/5));
+                $total_sum      = $total_klaster1 + $total_klaster2 + $total_klaster3 + $total_klaster4;
+                $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
+                
+                $records["aaData"][] = array(
+                        smit_center($i),
+                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name) . '</a>',
+                        smit_center( $row->klaster1_a ),
+                        smit_center( $row->klaster1_b ),
+                        smit_center( $row->klaster1_c ),
+                        smit_center( $row->klaster1_d ),
+                        smit_center( $row->klaster1_e ),
+                        '<strong>' . smit_center( floor($sum_klaster1 ) ) .'</strong>',
+                        smit_center( $row->klaster2_a ),
+                        smit_center( $row->klaster2_b ),
+                        smit_center( $row->klaster2_c ),
+                        smit_center( $row->klaster2_d ),
+                        smit_center( $row->klaster2_e ),
+                        '<strong>' . smit_center( floor($sum_klaster2 ) ) .'</strong>',
+                        smit_center( $row->klaster3_a ),
+                        smit_center( $row->klaster3_b ),
+                        smit_center( $row->klaster3_c ),
+                        smit_center( $row->klaster3_d ),
+                        smit_center( $row->klaster3_e ),
+                        '<strong>' . smit_center( floor($sum_klaster3 ) ) .'</strong>',
+                        smit_center( $row->klaster4_a ),
+                        smit_center( $row->klaster4_b ),
+                        smit_center( $row->klaster4_c ),
+                        smit_center( $row->klaster4_d ),
+                        smit_center( $row->klaster4_e ),
+                        '<strong>' . smit_center( floor($sum_klaster4) ) .'</strong>',
+                        '<strong>' . smit_center( floor($row->rate_total) ) .'</strong>',
+                        '<strong>' . smit_center( floor($row->irl_total) ) .'</strong>',
+                    );  
+                $i++;
+            }   
+        }
+        
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+        
+        echo json_encode($records);
+    }
+    
     // ---------------------------------------------------------------------------------------------
     /**
 	 * History Incubation function.
