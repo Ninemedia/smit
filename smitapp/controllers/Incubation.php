@@ -312,16 +312,30 @@ class Incubation extends User_Controller {
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 
                 //Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
+                $workunit_type  = smit_workunit_type($row->workunit);
+                $workunit       = $workunit_type->workunit_name;
+                $year           = $row->year;
+                $name           = strtoupper($row->user_name);
+                $event          = $row->event_title;
+                $datecreated    = date('d F Y', strtotime($row->datecreated));
+                
+                if( $row->status == NOTCONFIRMED ){
+                    $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
+                    $year       = '<strong style="color : red !important; ">'.$year.'</strong>';
+                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>';
+                    $event      = '<strong style="color : red !important; ">'.$event.'</strong>';
+                    $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
+                }
 
                 $records["aaData"][] = array(
-                    smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
-                    strtoupper($workunit_type->workunit_name),
-                    strtoupper($row->event_title),
-                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( $i ),
+                    smit_center( $year ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    strtoupper( $workunit ),
+                    strtoupper( $event ),
+                    smit_center( $datecreated ),
                     smit_center( $status ),
-                    smit_center($btn_action),
+                    smit_center( $btn_action ),
                 );
                 $i++;
             }   
@@ -2920,10 +2934,6 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             } 
             
-            echo '<pre>';
-            print_r($data_selection_user);
-            die();
-            
             // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Incubation->get_incubation_rate_step1_files($current_user->id, $data_selection->id);
@@ -2959,6 +2969,7 @@ class Incubation extends User_Controller {
                 // History Step1
                 $random_history     = smit_generate_rand_string(10,'low');
                 $rate_history_step1 = array(
+                    'year'          => $data_selection->year,
                     'uniquecode'    => $random_history,
                     'selection_id'  => $selection_id,
                     'jury_id'       => $current_user->id,
