@@ -165,6 +165,8 @@ $route['seleksiinkubasi/riwayat']                   = "incubation/incubationhist
 $route['seleksiinkubasi/riwayatdata']               = "incubation/historylistdata";
 $route['seleksiinkubasi/riwayatdata/(:num)']        = "incubation/historylistdata/$1";
 $route['seleksiinkubasi/peringkat']                 = "incubation/ranking";
+$route['seleksiinkubasi/peringkatstep1']            = "incubation/rankinglistdatastep1";
+$route['seleksiinkubasi/peringkatstep2']            = "incubation/rankinglistdatastep2";
 
 // Menu Penilaian
 $route['seleksiinkubasi/adminnilaidata/(:any)']     = "incubation/adminscorelistdata/$1";

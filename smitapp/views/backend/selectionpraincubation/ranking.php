@@ -25,17 +25,17 @@
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/peringkatstep1'); ?>">
                                         <thead>
-                                						<tr role="row" class="heading bg-blue">
-                                  							<th class="width5">No</th>
+                                			<tr role="row" class="heading bg-blue">
+                                  				<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                                  							<th class="width20">Nama</th>
+                                  				<th class="width20">Nama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
-                                  							<th class="width5 text-center">Total Nilai</th>
-                                  							<th class="width5 text-center">Rata Nilai</th>
+                                  				<th class="width5 text-center">Total Nilai</th>
+                                  				<th class="width5 text-center">Rata Nilai</th>
                                                 <th class="width10 text-center">Tanggal Usulan</th>
-                                  							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-                 						                </tr>
+                                  			   <th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+                                            </tr>
                                             <tr role="row" class="filter display-hide table-filter">
                                                 <td></td>
                                                 <td>
