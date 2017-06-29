@@ -1560,6 +1560,41 @@ class Model_Praincubation extends SMIT_Model{
         return $query->result();
     }
     
+    /**
+     * Get Product by Uniquecode
+     * 
+     * @author  Iqbal
+     * @param   Int     $uniquecode     (Required)  ID of slider
+     * @return  Mixed   False on invalid date parameter, otherwise data of slider(s).
+     */
+    function get_product_by_uniquecode($uniquecode=''){
+        if ( !empty($uniquecode) ) { 
+            $this->db->where('uniquecode', $uniquecode);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_product);        
+        return ( !empty($uniquecode) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Update data of product
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_product($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+    
+        if( $this->db->update($this->praincubation_product, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Praincubation.php */

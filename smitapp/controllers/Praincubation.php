@@ -5988,9 +5988,9 @@ class PraIncubation extends User_Controller {
                 elseif($row->status == ACTIVE)  { 
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
                     $btn_action     .= '
-                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a> 
-                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
-                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a> 
+                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
+                    <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 elseif($row->status == BANNED)  { 
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
@@ -6028,6 +6028,62 @@ class PraIncubation extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
         
         echo json_encode($records);
+    }
+    
+    /**
+	 * Product confirm function.
+	 */
+    function productconfirm($action, $uniquecode){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        if ( !$uniquecode ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Uniquecode harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Produk hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+        
+        $productdata         = $this->Model_Praincubation->get_product_by_uniquecode($uniquecode);
+        if( !$productdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data produk tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='active' )     { $status = ACTIVE; }
+        elseif( $action=='banned' ) { $status = BANNED; }
+        elseif( $action=='delete' ) { $status = DELETED; }
+        
+        $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+        if( $this->Model_Praincubation->update_product($uniquecode, $data_update) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Konfirmasi data produk berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data produk tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
     }
     // ---------------------------------------------------------------------------------------------
 }

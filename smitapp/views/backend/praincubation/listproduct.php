@@ -43,7 +43,7 @@
     							</td>
     							<td style="text-align: center;">
     								<button class="btn bg-blue waves-effect filter-submit" id="btn_slider_list">Search</button>
-                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_slider_listreset">Reset</button>
     							</td>
     						</tr>
                         </thead>
