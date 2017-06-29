@@ -15,7 +15,11 @@
                                 <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                 <select class="form-control show-tick" name="reg_event" id="reg_event">
                                     <?php
-        	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, '');
+                                        $conditions     = ' WHERE %user_id% = '.$user->id.'';
+                                        if( !empty($is_admin) ){
+                                            $conditions = '';        
+                                        }
+        	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, $conditions);
         	                            if( !empty($praincubation_list) ){
         	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';
         	                                foreach($praincubation_list as $row){

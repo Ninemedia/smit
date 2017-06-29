@@ -139,6 +139,7 @@ $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatas
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 $route['prainkubasi/tambah']                    = "praincubation/addpraincubation";
 $route['prainkubasi/tambahproduk']              = "praincubation/addproduct";
+$route['prainkubasi/produk']                    = "praincubation/listproduct";
 // --------------------------------------------------------------------------
 
 

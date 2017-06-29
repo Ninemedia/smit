@@ -168,6 +168,11 @@ var TableAjax = function () {
         gridTable( $("#category_list"), true );
     };
     
+    // Product Lists 
+    var handleRecordsProductList = function() {
+        gridTable( $("#producr_list"), true );
+    };
+    
     // Slider Lists 
     var handleRecordsSliderList = function() {
         gridTable( $("#slider_list"), true );
@@ -277,6 +282,9 @@ var TableAjax = function () {
             handleRecordsJuryStepOneList();
             handleRecordsJuryStepTwoList();
             handleRecordsJuryHistoryIncubationList();
+            
+            //Product
+            handleRecordsProductList();
             
             //Workunit
             handleRecordsWorkunitList();
