@@ -170,7 +170,7 @@ var TableAjax = function () {
     
     // Product Lists 
     var handleRecordsProductList = function() {
-        gridTable( $("#producr_list"), true );
+        gridTable( $("#product_list"), true );
     };
     
     // Slider Lists 

@@ -6,7 +6,7 @@
             <div class="body">
                 <!-- Content -->
                 <div class="table-container table-responsive">
-                    <table class="table table-striped table-bordered table-hover" id="producr_list" data-url="<?php echo base_url('praincubation/productlistdata'); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="product_list" data-url="<?php echo base_url('praincubation/productlistdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>

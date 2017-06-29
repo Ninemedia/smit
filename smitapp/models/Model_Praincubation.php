@@ -1520,6 +1520,7 @@ class Model_Praincubation extends SMIT_Model{
     function get_all_product($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
@@ -1532,6 +1533,7 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
