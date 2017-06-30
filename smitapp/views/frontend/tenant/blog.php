@@ -34,7 +34,6 @@
 		<div class="row animate-box">
 			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 				<h3>Blog Tenant</h3>
-				<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
 			</div>
 		</div>
 		<div class="row">
@@ -48,7 +47,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -62,7 +61,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -76,7 +75,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -90,7 +89,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -104,7 +103,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -118,7 +117,7 @@
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
@@ -145,7 +144,7 @@
                     </nav>
                 </div>
             </div>
-            
+
 		</div>
 	</div>
 </div>
