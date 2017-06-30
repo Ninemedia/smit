@@ -698,11 +698,46 @@ var Tenant = function () {
         
 	};
     
+    // --------------------------------
+    // Handle Add Tenant Change
+    // --------------------------------
+	var handleResetAddTenantChange = function() {
+        // Reset News Form
+        $('body').on('click', '#btn_addtenant', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#addtenant')[0].reset();
+            $('#avatar_company').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });    
+	};
+    
+        
+    
     return {
         //main function to initiate the module
         init: function () {
             handleUploadAvatarTenant();
             handleProvinceChange();
+            handleResetAddTenantChange();
         }
     };
 }();

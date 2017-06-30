@@ -841,6 +841,9 @@ var TenantValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
+                reg_event: {
+                    required: true,
+                },
                 up_name: {
                     required: true,
                 },
@@ -878,8 +881,14 @@ var TenantValidation = function () {
                 up_marital_status: {
                     required: true,
                 },
+                avatar_company: {
+                    required: true,
+                }
             },
             messages: {
+                reg_event: {
+                    required: 'Usulan kegiatan harus di isi',
+                },
                 up_name: {
                     required: 'Nama harus di isi',
                 },
@@ -920,6 +929,9 @@ var TenantValidation = function () {
                 up_marital_status: {
                     required: 'Status pernikahan harus di pilih',
                 },
+                avatar_company: {
+                    required: 'Logo tenant harus di pilih',
+                }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
