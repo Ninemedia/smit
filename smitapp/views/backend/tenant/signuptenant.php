@@ -1,6 +1,6 @@
-<?php 
-    $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user; 
-?> 
+<?php
+    $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user;
+?>
 
 <!-- Content -->
 <div class="row clearfix">
@@ -29,11 +29,11 @@
                         </div>
                         -->
                         <div class="col-md-12">
-                            <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
+                            <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
                             <div class="alert alert-danger text-center display-hide error-validate">
                     			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                     		</div>
-                            
+
                             <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                             <div class="form-group">
                                 <label class="form-label">Usulan Kegiatan Inkubasi<b style="color: red !important;">(*)</b></label>
@@ -43,7 +43,7 @@
                                         <?php
                                             $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                             if( !empty($is_admin) ){
-                                                $conditions = '';        
+                                                $conditions = '';
                                             }
             	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions);
             	                            if( !empty($incubation_list) ){
@@ -90,18 +90,18 @@
                                             $option = array(''=>'Pilih Tahun');
                                             $year_arr = smit_select_year(1900,2030);
                                             //$extra = 'class="form-control def" id="tenant_year"';
-                                            
+
                                             if( !empty($year_arr) ){
                                                 foreach($year_arr as $val){
                                                     $option[$val] = $val;
                                                 }
-                                            }                                        
+                                            }
                                             echo form_dropdown('tenant_year', $option, '');
                                         ?>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <label for="name_contact">Alamat Tenant<b style="color: red !important;">(*)</b></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -120,7 +120,7 @@
                                                 echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
                                             }
                                         }
-                                    ?>  
+                                    ?>
                                 </select>
                             </div>
                             <div class="input-group">
@@ -135,7 +135,7 @@
                                     <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                 </div>
                             </div>
-                            
+
                             <label for="telp_contact">Kontak</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="material-icons">phone</i></span>
@@ -169,17 +169,17 @@
                             </div>
                             <div class="form-group">
                                 <label>Logo Tenant<b style="color: red !important;">(*)</b></label>
-                                <input id="avatar_company" name="avatar_company" class="form-control" type="file" />
+                                <input id="avatar_selection_files" name="avatar_selection_files" class="form-control" type="file" />
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Simpan</button>
-                                <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenant" type="button">Bersihkan </button>
+                                <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenant_reset" type="button">Bersihkan </button>
                             </div>
                             <?php echo form_close(); ?>
                         </div>
                     </div>
                 <?php else :  ?>
-                
+
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -235,7 +235,7 @@
                                     <div class="alert alert-danger text-center display-hide error-validate">
                             			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                             		</div>
-                                    
+
                                     <label for="name_contact">Nama Tenant</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">person</i></span>
@@ -268,18 +268,18 @@
                                                     $option = array(''=>'Pilih Tahun');
                                                     $year_arr = smit_select_year(1900,2030);
                                                     //$extra = 'class="form-control def" id="tenant_year"';
-                                                    
+
                                                     if( !empty($year_arr) ){
                                                         foreach($year_arr as $val){
                                                             $option[$val] = $val;
                                                         }
-                                                    }                                        
+                                                    }
                                                     echo form_dropdown('tenant_year', $option, '');
                                                 ?>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <label for="name_contact">Alamat Tenant</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -298,7 +298,7 @@
                                                         echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
                                                     }
                                                 }
-                                            ?>  
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="input-group">
@@ -313,7 +313,7 @@
                                             <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                         </div>
                                     </div>
-                                    
+
                                     <label for="telp_contact">Kontak</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">phone</i></span>
@@ -350,7 +350,7 @@
                                     <?php echo form_close(); ?>
                                 </div>
                             </div>
-                            
+
                         <?php else : ?>
                             <?php if( $tenant->status != 0 ): ?>
                                 <div class="row clearfix">
@@ -377,14 +377,14 @@
                                                 <?php echo form_close(); ?>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-md-8">
                                         <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
                                         <div class="alert alert-danger text-center display-hide error-validate">
                                 			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                                 		</div>
-                                        
+
                                         <label for="name_contact">Nama Tenant</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">person</i></span>
@@ -417,18 +417,18 @@
                                                         $option = array(''=>'Pilih Tahun');
                                                         $year_arr = smit_select_year(1900,2030);
                                                         //$extra = 'class="form-control def" id="tenant_year"';
-                                                        
+
                                                         if( !empty($year_arr) ){
                                                             foreach($year_arr as $val){
                                                                 $option[$val] = $val;
                                                             }
-                                                        }                                        
+                                                        }
                                                         echo form_dropdown('tenant_year', $option, '');
                                                     ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <label for="name_contact">Alamat Tenant</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -447,7 +447,7 @@
                                                             echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
                                                         }
                                                     }
-                                                ?>  
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="input-group">
@@ -462,7 +462,7 @@
                                                 <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                             </div>
                                         </div>
-                                        
+
                                         <label for="telp_contact">Kontak</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">phone</i></span>
@@ -505,7 +505,7 @@
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
-                        
+
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="team">
                         <?php if( $tenant->status == 1 ) :?>
@@ -799,9 +799,9 @@
                     </div>
                     -->
                 </div>
-                
+
                 <?php endif; ?>
-                
+
             </div>
         </div>
     </div>
@@ -821,7 +821,7 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_add_tenant" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_addtenant" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
