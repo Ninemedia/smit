@@ -273,19 +273,37 @@ class Tenant extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
 
         $data['title']          = TITLE . 'Pendampingan Tenant';
         $data['user']           = $current_user;
@@ -874,12 +892,15 @@ class Tenant extends User_Controller {
         $s_phone            = smit_isset($s_phone, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-
+        
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
@@ -891,20 +912,22 @@ class Tenant extends User_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $is_admin ){
-            if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%name_teannt% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%email% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%phone% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
+        }else{
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
             elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
             elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
-        }else{
-            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%name_teannt% ' . $sort; }
-            elseif( $column == 3 )  { $order_by .= '%email% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%phone% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         }
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -937,6 +960,7 @@ class Tenant extends User_Controller {
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center( $i ),
+                        smit_center( $row->year ),
                         '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper( $row->name ) . '</a>',
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
@@ -948,6 +972,7 @@ class Tenant extends User_Controller {
                 }else{
                     $records["aaData"][] = array(
                         smit_center( $i ),
+                        smit_center( $row->year ),
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         $row->email,
@@ -1027,7 +1052,97 @@ class Tenant extends User_Controller {
         }
     }
 
+    
+    /**
+	 * Tenant Accepted list data function.
+	 */
+    function tenantacceptedlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        //$condition          = ' WHERE %statustwo% = '.ACCEPTED.' AND %companion_id% = 0 ';
+        
+        $order_by           = '';
+        $iTotalRecords      = 0;
 
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+        
+        $s_name_tenant      = $this->input->post('search_name_tenant');
+        $s_name_tenant      = smit_isset($s_name_tenant, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_user_name        = $this->input->post('search_user_name');
+        $s_user_name        = smit_isset($s_user_name, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        
+        if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name_tenant, ' AND %name_tenant% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        
+        if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
+        elseif( $column == 2)  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3)  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 4)  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 5)  { $order_by .= '%name% ' . $sort; }
+
+        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        echo '<pre>';
+        print_r($tenant_list);
+        die();
+
+        if( !empty($tenant_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+
+            $i = $offset + 1;
+            foreach($tenant_list as $row){
+                // Add Companion Button
+                $btn_add    = '';
+                if($row->companion_id == 0){
+                    $btn_add = '<a href="'.base_url('prainkubasi/pendampingan/detail/'.$row->uniquecode).'"
+                    class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
+                }
+
+                // Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->event_title),
+                    strtoupper($workunit_type->workunit_name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper($row->name),
+                    smit_center($btn_add),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
 
     // ---------------------------------------------------------------------------------------------
 }

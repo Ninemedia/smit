@@ -109,6 +109,16 @@ var TableAjax = function () {
     var handleRecordsIncubationDataList = function() {
         gridTable( $("#list_incubation"), true );
     };
+    
+    // Tenant Accompaniment Lists
+    var handleRecordsTenantAccompanimentList = function() {
+        gridTable( $("#tenantaccompaniment_list"), true );
+    };
+    
+    // Tenant Accepted Lists
+    var handleRecordsTenantAcceptedList = function() {
+        gridTable( $("#tenantacceptedselection_list"), true );
+    };
     // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
@@ -283,6 +293,8 @@ var TableAjax = function () {
             //Tenant
             handleRecordsTenantList();
             handleRecordsTenantSelectionList();
+            handleRecordsTenantAccompanimentList();
+            handleRecordsTenantAcceptedList();
             
             //Jury
             handleRecordsJuryStepOneList();

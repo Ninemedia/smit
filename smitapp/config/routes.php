@@ -213,6 +213,7 @@ $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
+$route['tenants/daftarditerima']                = "tenants/tenantacceptedlistdata";
 
 // Statistik Page Routes
 $route['statistik/pengguna']                    = "tenant/tenantblogs";

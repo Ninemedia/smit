@@ -9,6 +9,7 @@ class Model_Tenant extends SMIT_Model{
     public $user          	= 'smit_user';
     public $tenant         	= 'smit_incubation_tenant';
     public $incubation      = 'smit_incubation';
+    public $incubation_selection    = 'smit_incubation_selection';
 
     /**
      * Initialize primary field
@@ -163,16 +164,20 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.year
+            SELECT A.*, B.*
 			FROM ' . $this->tenant. ' AS A
-			LEFT JOIN ' . $this->incubation. ' AS B
-			ON B.id = A.selection_id';
-
+			LEFT JOIN ' . $this->incubation_selection . ' AS B
+            ON C.id = A.selection_id
+            ';
+        
+        /*
+            LEFT JOIN ' . $this->incubation. ' AS B
+			ON B.id = A.selection_id
+        */
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
-
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
-
+        
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return false;
 
