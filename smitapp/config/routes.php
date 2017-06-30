@@ -217,7 +217,7 @@ $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 // Statistik Page Routes
 $route['statistik/pengguna']                    = "tenant/tenantblogs";
 
-// Setting 
+// Setting
 $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
 $route['pengaturan/satuankerja']        = "backend/workunit";
@@ -254,7 +254,7 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // -------------------------------------------------------------------------
 // Frontend Page Routes
 // -------------------------------------------------------------------------
-// 1. Home 
+// 1. Home
 // 1.1 News
 $route['frontendberita']                = "frontend/news";
 $route['frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
@@ -279,6 +279,7 @@ $route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
 $route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']           = "frontend/listtenant";
+$route['tenant/daftartenantdata']       = "frontend/tenantlistdata";
 $route['tenant/produktenant']           = "frontend/producttenant";
 $route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
 $route['tenant/blogtenant']             = "frontend/blogtenant";

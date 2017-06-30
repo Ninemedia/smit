@@ -2,7 +2,7 @@
 
 /**
  * Frontend Controller.
- * 
+ *
  * @class     Frontend
  * @author    Iqbal
  * @version   1.0.0
@@ -13,12 +13,12 @@ class Frontend extends Public_Controller {
 	 * Constructor.
 	 */
     function __construct()
-    {       
+    {
         parent::__construct();
         $this->load->library('AJAX_Pagination');
         $this->perPage = LIMIT_DETAIL;
     }
-    
+
     /**
     * Index function.
     */
@@ -34,22 +34,22 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
             // Banner Slider Zoom In/Out
             FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/bannerscollection_zoominout.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            
+
             // DataTable Plugin
             FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
+
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'momentjs/moment.js',
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
@@ -58,24 +58,24 @@ class Frontend extends Public_Controller {
             // Banner Slider Zoom In/Out
             FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/js/jquery.ui.touch-punch.min.js',
             FE_PLUGIN_PATH . 'jquery-slider-zoom-inout/js/bannerscollection_zoominout.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
             FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
             'BannerZoomInout.init();',
         ));
-        
+
         $sliderdata             = $this->Model_Slider->get_all_slider('', '', ' WHERE status = 1');
         $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
         $countnewsdata          = $this->Model_News->count_data_news();
-        
+
         $data['title']          = TITLE . 'Home';
         $data['sliderdata']     = $sliderdata;
         $data['newsdata']       = $newsdata;
@@ -85,9 +85,9 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'home';
-        $this->load->view(VIEW_FRONT . 'template', $data); 
+        $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     // ABOOUT ME
     /**
@@ -98,18 +98,18 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -117,19 +117,19 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Profil';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'aboutme/profile';
-        
-        
-        
+
+
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Services function.
 	 */
@@ -138,13 +138,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -153,10 +153,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Layanan';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -165,7 +165,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'aboutme/services';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Article function.
 	 */
@@ -174,13 +174,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -189,10 +189,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Artikel';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -202,7 +202,7 @@ class Frontend extends Public_Controller {
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // INCUBATION
     /**
@@ -214,7 +214,7 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH     . 'node-waves/waves.css',
             FE_PLUGIN_PATH     . 'sweetalert/sweetalert.css',
             FE_PLUGIN_PATH     . 'bootstrap-select/css/bootstrap-select.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
@@ -223,7 +223,7 @@ class Frontend extends Public_Controller {
             BE_PLUGIN_PATH     . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH     . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -235,7 +235,7 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
             FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
-            
+
             FE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             FE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             FE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
@@ -245,15 +245,15 @@ class Frontend extends Public_Controller {
             // Put script based on current page
             FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'Guides.init();',
             'SelectionValidation.init();',
         ));
-        
+
         $lss = smit_latest_praincubation_setting();
-        
+
         $data['title']          = TITLE . 'Seleksi Pra-Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -263,7 +263,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'selection/selectionpraincubation';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Selection Inkubation function.
 	 */
@@ -273,17 +273,17 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
             FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
-            
+
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
             BE_PLUGIN_PATH     . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH     . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -303,14 +303,14 @@ class Frontend extends Public_Controller {
             // Put script based on current page
             FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'Guides.init();',
             'SelectionValidation.init();',
             'Selection.init();',
         ));
-        
+
         $data['title']          = TITLE . 'Seleksi Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -319,7 +319,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'selection/selectionincubation';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Incubation Selection Function
 	 */
@@ -327,12 +327,12 @@ class Frontend extends Public_Controller {
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $username               = $this->input->post('reg_username');
         $username               = trim( smit_isset($username, "") );
         $password               = $this->input->post('reg_password');
@@ -360,25 +360,25 @@ class Frontend extends Public_Controller {
         $this->form_validation->set_rules('reg_name','Nama Peneliti Utama','required');
         $this->form_validation->set_rules('reg_category','Kategori Bidang','required');
         $this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
-        
+
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
-        
+
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran pengguna baru tidak berhasil. '.validation_errors().''); 
+            $data = array('message' => 'error','data' => 'Pendaftaran pengguna baru tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
         if( $agree != 'on' ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.'); 
+            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check User Login
         // -------------------------------------------------
@@ -387,15 +387,15 @@ class Frontend extends Public_Controller {
         $is_admin               = as_administrator($userdata);
         if( $is_admin ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Administrator tidak perlu melakukan pendaftaran Seleksi Inkubasi.'); 
+            $data = array('message' => 'error','data' => 'Administrator tidak perlu melakukan pendaftaran Seleksi Inkubasi.');
             die(json_encode($data));
         }
         if( md5( $password ) != md5( $userdata->password ) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.'); 
+            $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check User Selection
         // -------------------------------------------------
@@ -403,15 +403,15 @@ class Frontend extends Public_Controller {
         /*
         $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
         if( $user_selection || !empty($user_selection) ){
-            $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.'); 
+            $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
             die(json_encode($data));
         }
         */
-        
+
         // -------------------------------------------------
         // Check Setting
         // -------------------------------------------------
-        
+
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
             // Set JSON data
@@ -425,22 +425,22 @@ class Frontend extends Public_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check File
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!');
             die(json_encode($data));
         }
-        
+
         if( empty($_FILES['reg_selection_rab']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!');
             die(json_encode($data));
         }
-        
+
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -469,11 +469,11 @@ class Frontend extends Public_Controller {
             $trans_save_incubation          = FALSE;
             if( $incubation_save_id         = $this->Model_Incubation->save_data_incubation_selection($incubationselection_data) ){
                 $trans_save_incubation      = TRUE;
-                
+
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -481,12 +481,12 @@ class Frontend extends Public_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-                    
+
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
                     $message = $this->my_upload->display_errors();
-                    
+
                     // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
                 $upload_data    = $this->my_upload->data();
@@ -512,12 +512,12 @@ class Frontend extends Public_Controller {
                         continue;
                     }
                 }
-                
+
                 if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     $message = $this->my_upload->display_errors();
-                    
+
                     // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
                 $upload_data    = $this->my_upload->data();
@@ -547,10 +547,10 @@ class Frontend extends Public_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran seleksi inkubasi tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                $data = array('message' => 'error','data' => 'Pendaftaran seleksi inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
-            
+
             // -------------------------------------------------
             // Commit or Rollback Transaction
             // -------------------------------------------------
@@ -568,12 +568,12 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
-                    
+
                     // Send Email Notification
                     $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-                    
+
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran seleksi inkubasi baru berhasil!'); 
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran seleksi inkubasi baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
                     smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
@@ -582,12 +582,12 @@ class Frontend extends Public_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran tidak berhasil. Terjadi kesalahan data.'); 
-                die(json_encode($data)); 
-            } 
+                $data = array('message' => 'error','data' => 'Pendaftaran tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
         }
 	}
-    
+
     /**
 	 * Incubation Selection Function
 	 */
@@ -595,12 +595,12 @@ class Frontend extends Public_Controller {
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $year                   = $this->input->post('reg_year');
         $year                   = trim( smit_isset($year, "") );
         $username               = $this->input->post('reg_username');
@@ -628,25 +628,25 @@ class Frontend extends Public_Controller {
         $this->form_validation->set_rules('reg_name','Nama Peneliti Utama','required');
         $this->form_validation->set_rules('reg_category','Kategori Bidang','required');
         $this->form_validation->set_rules('reg_agree','Setuju Pada Ketentuan','required');
-        
+
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
-        
+
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran pengguna baru tidak berhasil. '.validation_errors().''); 
+            $data = array('message' => 'error','data' => 'Pendaftaran pengguna baru tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
         if( $agree != 'on' ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.'); 
+            $data = array('message' => 'error','data' => 'Anda harus menyetujui persyaratan formulir ini.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check User Login
         // -------------------------------------------------
@@ -655,15 +655,15 @@ class Frontend extends Public_Controller {
         $is_admin               = as_administrator($userdata);
         if( $is_admin ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Administrator tidak perlu melakukan pendaftaran Seleksi Pra-Inkubasi.'); 
+            $data = array('message' => 'error','data' => 'Administrator tidak perlu melakukan pendaftaran Seleksi Pra-Inkubasi.');
             die(json_encode($data));
         }
         if( md5( $password ) != md5( $userdata->password ) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.'); 
+            $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check User Selection
         // -------------------------------------------------
@@ -671,10 +671,10 @@ class Frontend extends Public_Controller {
         $user_selection = $this->Model_Praincubation->get_praincubation_by('userid',$userdata->id);
         if( $user_selection || !empty($user_selection) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi pra-inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.'); 
+            $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi pra-inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
@@ -691,19 +691,19 @@ class Frontend extends Public_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check File
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!');
             die(json_encode($data));
         }
-        
+
         if( empty($_FILES['reg_selection_rab']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!'); 
+            $data = array('message' => 'error','data' => 'Tidak ada berkas seleksi yang di unggah. Silahkan inputkan berkas seleksi!');
             die(json_encode($data));
         }
 
@@ -735,11 +735,11 @@ class Frontend extends Public_Controller {
             $trans_save_praincubation       = FALSE;
             if( $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation_selection($praincubationselection_data) ){
                 $trans_save_praincubation   = TRUE;
-                
+
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -747,12 +747,12 @@ class Frontend extends Public_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-                    
+
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
                     $message = $this->my_upload->display_errors();
-                    
+
                     // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
                 $upload_data    = $this->my_upload->data();
@@ -778,12 +778,12 @@ class Frontend extends Public_Controller {
                         continue;
                     }
                 }
-                
+
                 if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     $message = $this->my_upload->display_errors();
-                    
+
                     // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors()); 
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
                 $upload_data_rab    = $this->my_upload->data();
@@ -809,15 +809,15 @@ class Frontend extends Public_Controller {
                         continue;
                     }
                 }
-                
+
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran seleksi pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                $data = array('message' => 'error','data' => 'Pendaftaran seleksi pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
-            
+
             // -------------------------------------------------
             // Commit or Rollback Transaction
             // -------------------------------------------------
@@ -835,12 +835,12 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
-                    
+
                     // Send Email Notification
                     $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-                    
+
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi pra-inkubasi baru berhasil!'); 
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi pra-inkubasi baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
                     smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
@@ -849,14 +849,14 @@ class Frontend extends Public_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran tidak berhasil. Terjadi kesalahan data.'); 
-                die(json_encode($data)); 
-            } 
+                $data = array('message' => 'error','data' => 'Pendaftaran tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
         }
 	}
-    
+
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // PRA-INCUBATION
     /**
@@ -872,40 +872,40 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            
+
             // DataTable Plugin
             FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
+
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'momentjs/moment.js',
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
             FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();'
         ));
-        
+
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -914,7 +914,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'praincubation/list';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Product Pra-Incubation function.
 	 */
@@ -923,13 +923,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -938,10 +938,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Produk Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -950,8 +950,8 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'praincubation/product';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
-    
+
+
     // ---------------------------------------------------------------------------------------------
     // INKUBASI / TENANT
     /**
@@ -962,13 +962,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -977,10 +977,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -989,7 +989,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/list';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Product Tenant function.
 	 */
@@ -998,13 +998,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1013,10 +1013,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Produk Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1025,7 +1025,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/product';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Facilities Tenant function.
 	 */
@@ -1034,13 +1034,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1049,10 +1049,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Fasilitas Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1061,7 +1061,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/fasilities';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Blog Tenant function.
 	 */
@@ -1070,13 +1070,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1085,10 +1085,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Blog Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1097,7 +1097,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/blog';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Kategori Blog Tenant function.
 	 */
@@ -1106,13 +1106,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1121,10 +1121,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Kategori Blog Tenant';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1134,7 +1134,7 @@ class Frontend extends Public_Controller {
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // BERKAS DIGITAL
     /**
@@ -1150,40 +1150,40 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            
+
             // DataTable Plugin
             FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
+
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'momentjs/moment.js',
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
             FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();'
         ));
-        
+
         $data['title']          = TITLE . 'Panduan';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1192,7 +1192,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'guide';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Guides list data function.
 	 */
@@ -1200,53 +1200,53 @@ class Frontend extends Public_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_desc             = $this->input->post('search_desc');
         $s_desc             = smit_isset($s_desc, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if( !empty($s_desc) )           { $condition .= str_replace('%s%', $s_desc, ' AND %description% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%description% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $guides_list        = $this->Model_Guide->get_all_guides($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($guides_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            
+
             $i = $offset + 1;
             foreach($guides_list as $row){
                 if( !empty( $row->url ) ){
-                    $btn_files  = '<a href="'.base_url('unduhberkas/'.$row->uniquecode).'" 
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh Berkas"><i class="material-icons">file_download</i></a> ';    
+                    $btn_files  = '<a href="'.base_url('unduhberkas/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh Berkas"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_files  = ' - ';
                 }
@@ -1259,19 +1259,19 @@ class Frontend extends Public_Controller {
                     '',
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Guides Download File function.
 	 */
@@ -1279,7 +1279,7 @@ class Frontend extends Public_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Guide File Data
         $guidedata  = $this->Model_Guide->get_guide_by('uniquecode',$uniquecode);
         if( !$guidedata || empty($guidedata) ){
@@ -1288,10 +1288,10 @@ class Frontend extends Public_Controller {
 
         $file_name      = $guidedata->name . '.' . $guidedata->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $guidedata->uploader . '/' . $file_name;
-        
+
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Pra Incubation Download File function.
 	 */
@@ -1299,7 +1299,7 @@ class Frontend extends Public_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Guide File Data
         $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE uniquecode = "'.$uniquecode.'"', '');
         $praincubation_files    = $praincubation_files[0];
@@ -1309,10 +1309,10 @@ class Frontend extends Public_Controller {
 
         $file_name      = $praincubation_files->filename . '.' . $praincubation_files->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->uploader . '/' . $file_name;
-        
+
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Announcement Incubation function.
 	 */
@@ -1326,40 +1326,40 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            
+
             // DataTable Plugin
             FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
+
             // Datetime Picker Plugin
             FE_PLUGIN_PATH . 'momentjs/moment.js',
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
             FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();'
         ));
-        
+
         $data['title']          = TITLE . 'Pengumuman';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1368,7 +1368,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'selection/announcement';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Announcement List Data function.
 	 */
@@ -1376,47 +1376,47 @@ class Frontend extends Public_Controller {
         $condition          = '';
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         if( !empty($condition) ){
             $condition      = substr($condition, 4);
             $condition      = ' WHERE' . $condition;
         }
-        
+
         $announcement_list  = $this->Model_Announcement->get_all_announcements($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($announcement_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $i = $offset + 1;
             foreach($announcement_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('seleksi/pengumuman/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksi/pengumuman/'.$row->uniquecode).'"
                     class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details">Details</a> ';
 
                 $records["aaData"][] = array(
@@ -1426,52 +1426,52 @@ class Frontend extends Public_Controller {
                     smit_center($btn_action),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
     * Announcement Details function.
     */
     public function announcementdetails( $uniquecode ){
         if( !$uniquecode ) redirect(base_url('seleksi/pengumuman'));
-        
+
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
-            
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
 
         $announcementdata   = $this->Model_Announcement->get_announcement_by_uniquecode($uniquecode);
         if( empty($announcementdata) || !$announcementdata ) redirect(base_url('informasi/pengumuman'));
-        
+
         $data['title']          = TITLE . 'Detail Pengumuman';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1479,10 +1479,10 @@ class Frontend extends Public_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['announ_data']    = $announcementdata;
         $data['main_content']   = 'selection/announcementdetails';
-        $this->load->view(VIEW_FRONT . 'template', $data); 
+        $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // STATISTIC
     /**
@@ -1493,13 +1493,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1508,10 +1508,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Statistik';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1521,7 +1521,7 @@ class Frontend extends Public_Controller {
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // CONTACT
     /**
@@ -1532,13 +1532,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1551,13 +1551,13 @@ class Frontend extends Public_Controller {
             // Put script based on current page
             FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'ContactValidation.init();',
         ));
-        
+
         $data['title']          = TITLE . 'Kontak';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1566,7 +1566,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'contact';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Contact Add
 	 */
@@ -1575,7 +1575,7 @@ class Frontend extends Public_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         $contact_name           = $this->input->post('contact_name');
         $contact_name           = trim( smit_isset($contact_name, "") );
         $contact_email          = $this->input->post('contact_email');
@@ -1584,7 +1584,7 @@ class Frontend extends Public_Controller {
         $contact_title          = trim( smit_isset($contact_title, "") );
         $contact_desc           = $this->input->post('contact_desc');
         $contact_desc           = trim( smit_isset($contact_desc, "") );
-        
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -1592,16 +1592,16 @@ class Frontend extends Public_Controller {
         $this->form_validation->set_rules('contact_email','Email Anda','required');
         $this->form_validation->set_rules('contact_title','Judul Pesan','required');
         $this->form_validation->set_rules('contact_desc','Pesan Anda','required');
-        
+
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
-        
+
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. '.validation_errors().''); 
+            $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
-        
+
         if( !empty( $_POST ) ){
             $contact_data       = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
@@ -1612,9 +1612,9 @@ class Frontend extends Public_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-                
+
             // -------------------------------------------------
-            // Save Contact Message 
+            // Save Contact Message
             // -------------------------------------------------
             $trans_save_contact         = FALSE;
             if( $contact_save_id        = $this->Model_Service->save_data_contact_message($contact_data) ){
@@ -1623,10 +1623,10 @@ class Frontend extends Public_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data formulir anda'); 
+                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
-                    
+
             // -------------------------------------------------
             // Commit or Rollback Transaction
             // -------------------------------------------------
@@ -1644,22 +1644,22 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
-                    
+
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pengiriman pesan baru berhasil!'); 
+                    $data       = array('message' => 'success', 'data' => 'Pengiriman pesan baru berhasil!');
                     die(json_encode($data));
                 }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data.'); 
-                die(json_encode($data)); 
-            } 
+                $data = array('message' => 'error','data' => 'Pengiriman pesan tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
         }
 	}
     // ---------------------------------------------------------------------------------------------
-    
+
     /**
 	 * Event function.
 	 */
@@ -1668,13 +1668,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1683,10 +1683,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Kegiatan';
         $data['main_content']   = 'event';
         $data['headstyles']     = $headstyles;
@@ -1695,7 +1695,7 @@ class Frontend extends Public_Controller {
         $data['scripts_init']   = $scripts_init;
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     // SERVICE
     /**
@@ -1706,13 +1706,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1721,10 +1721,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Komunikasi dan Bantuan';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1733,7 +1733,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'service/communication';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * IKM function.
 	 */
@@ -1742,13 +1742,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1757,10 +1757,10 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $data['title']          = TITLE . 'Pengukuran IKM';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1770,10 +1770,10 @@ class Frontend extends Public_Controller {
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
-    
+
     // ---------------------------------------------------------------------------------------------
     // NEWS function
-    
+
     /**
     * News Details function.
     */
@@ -1782,13 +1782,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1797,20 +1797,20 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         // Total rows count
         $countnewsdata          = $this->Model_News->count_data_news();
-        
+
         // Pagination configuration
         $config['target']       = '#newslist';
         $config['base_url']     = base_url('frontendberita/halaman');
         $config['total_rows']   = $countnewsdata;
         $config['per_page']     = $this->perPage;
         $this->ajax_pagination->initialize($config);
-        
+
         $newsdata               = $this->Model_News->get_all_news($this->perPage, 0, ' WHERE status = 1');
 
         $data['title']          = TITLE . 'Daftar Berita';
@@ -1820,42 +1820,42 @@ class Frontend extends Public_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['newsdata']       = $newsdata;
         $data['main_content']   = 'news';
-        
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
     * News Pagination function.
     */
     function newspagination(){
         $page   = $this->input->post('page');
         $page   = smit_isset($page, '');
-        
+
         if(!$page){
             $offset = 0;
         }else{
             $offset = $page;
         }
-        
+
         // Total rows count
         $countnewsdata          = $this->Model_News->count_data_news();
-        
+
         // Pagination configuration
         $config['target']       = '#newslist';
         $config['base_url']     = base_url('frontendberita/halaman');
         $config['total_rows']   = $countnewsdata;
         $config['per_page']     = $this->perPage;
         $this->ajax_pagination->initialize($config);
-        
+
         $newsdata               = $this->Model_News->get_all_news($this->perPage, $offset, ' WHERE status = 1');
-        
+
         //get the posts data
         $data['newsdata']       = $newsdata;
-        
+
         //load the view
         $this->load->view(VIEW_FRONT . 'newspagination', $data);
     }
-    
+
     /**
     * News Details function.
     */
@@ -1864,13 +1864,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-            
+
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
             FE_CSS_PATH    . 'themify-icons.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
@@ -1879,27 +1879,27 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
         $newsdata               = '';
-        
+
         if( !empty($uniquecode) ){
             $newsdata           = $this->Model_News->get_news_by_uniquecode($uniquecode);
         }
-        
+
         $uploaded           = $newsdata->uploader;
-        
+
         if($uploaded != 0){
             $file_name      = $newsdata->filename . '.' . $newsdata->extension;
-            $file_url       = BE_UPLOAD_PATH . 'news/'. $newsdata->uploader . '/' . $file_name; 
+            $file_url       = BE_UPLOAD_PATH . 'news/'. $newsdata->uploader . '/' . $file_name;
             $news           = $file_url;
         }else{
-            $news           = BE_IMG_PATH . 'news/noimage.jpg';       
+            $news           = BE_IMG_PATH . 'news/noimage.jpg';
         }
-        
+
         $alldata                = $this->Model_News->get_all_news(LIMIT_DETAIL, 0, ' WHERE status = 1 AND uniquecode <> "'.$uniquecode.'"');
-        
+
         $data['title']          = TITLE . 'Detail Berita';
         $data['news_data']      = $newsdata;
         $data['news_image']     = $news;
@@ -1909,7 +1909,7 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'newsdetails';
-        
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
@@ -1920,22 +1920,22 @@ class Frontend extends Public_Controller {
     function praincubationdata( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ''; 
-        
+        $condition          = '';
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -1944,42 +1944,42 @@ class Frontend extends Public_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($praincubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($praincubation_list as $row){
                 $workunit   = '<center> - </cemter>';
                 if($row->workunit > 0){
                     $workunit_type  = smit_workunit_type($row->workunit);
-                    $workunit       = $workunit_type->workunit_name;    
-                } 
+                    $workunit       = $workunit_type->workunit_name;
+                }
                 $year           = $row->year;
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
@@ -1995,19 +1995,131 @@ class Frontend extends Public_Controller {
                     '',
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
+
+    // Tenant
+    /**
+	 * Tenant list data function.
+	 */
+    function tenantlistdata( ){
+        //$current_user       = smit_get_current_user();
+        //$is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_event            = $this->input->post('search_event');
+        $s_event            = smit_isset($s_year, '');
+        $s_name_tenant      = $this->input->post('search_name_tenant');
+        $s_name_tenant      = smit_isset($$s_name_tenant, '');
+        $s_email            = $this->input->post('search_email');
+        $s_email            = smit_isset($s_email, '');
+        $s_phone            = $this->input->post('search_phone');
+        $s_phone            = smit_isset($s_phone, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
+        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
+        if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
+        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($tenant_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($tenant_list as $row){
+                // Status
+                $btn_confirm    = '';
+                if( $row->status == NONACTIVE ){
+                    $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
+                        class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                }
+
+                $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
+
+                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+
+                if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+
+                $records["aaData"][] = array(
+                    smit_center( $i ),
+                    strtoupper( $row->name ),
+                    strtoupper( $row->event_title ),
+                    '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                    $row->email,
+                    smit_center( $row->phone ),
+                    smit_center( $status ),
+                    '',
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+
 }
 
 /* End of file Frontend.php */
