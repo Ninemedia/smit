@@ -619,7 +619,16 @@ class Tenant extends User_Controller {
                 $upload_avatar          = $upload_data_avatar['raw_name'] . $upload_data_avatar['file_ext'];
                 $this->image_moo->load($upload_path . '/' .$upload_data_avatar['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_avatar, TRUE);
                 $this->image_moo->clear();
-                $file_avatar        = $upload_data_avatar;
+                $file_avatar            = $upload_data_avatar;
+
+                if( !empty($post_selection_id) ){
+                    $condition          = " WHERE %id% = '.$post_selection_id.'";
+                    $data_selection     = $this->Model_Incubation->get_all_incubationdata(0, 0, $condition);
+                }
+
+                echo "<pre>";
+                print_r($data_selection);
+                die();
 
                 $tenantdata         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
