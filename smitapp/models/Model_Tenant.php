@@ -163,7 +163,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*, B.event_title
+            SELECT A.*, B.event_title, B.year
 			FROM ' . $this->tenant. ' AS A
 			LEFT JOIN ' . $this->incubation. ' AS B
 			ON B.id = A.selection_id';

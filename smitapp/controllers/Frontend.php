@@ -2062,12 +2062,15 @@ class Frontend extends Public_Controller {
         $s_phone            = smit_isset($s_phone, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-
+        
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
@@ -2077,8 +2080,9 @@ class Frontend extends Public_Controller {
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-
-        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
@@ -2115,6 +2119,7 @@ class Frontend extends Public_Controller {
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
+                    smit_center( $row->year ),
                     strtoupper( $row->name ),
                     strtoupper( $row->event_title ),
                     '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
