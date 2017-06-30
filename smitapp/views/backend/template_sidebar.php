@@ -4,7 +4,7 @@
     $is_pelaksana           = as_pelaksana($user);
     $is_pendamping          = as_pendamping($user);
     $is_tenant              = as_tenant($user);
-    
+
     // List User
     $badgelist_user     = 0;
     if(!empty($is_admin)){
@@ -13,7 +13,7 @@
             $badgelist_user = $user_list;
         }
     }
-    
+
     // Layanan
     // Layanan -> Pesan Umum
     $total_service_badge    = 0;
@@ -30,15 +30,15 @@
         if($is_admin){
             $communication_list     = $this->Model_Service->count_communicationin(UNREAD);
         }else{
-            $communication_list     = $this->Model_Service->count_communicationin(UNREAD, $user->id);    
+            $communication_list     = $this->Model_Service->count_communicationin(UNREAD, $user->id);
         }
-        
+
         if($communication_list > 0){
             $badge_communication = $communication_list;
         }
     }
     $total_service_badge    = $badge_generalmessage + $badge_communication;
-    
+
     // Seleksi Pra-Inkubasi -> Penilaian Seleksi
     $badge_score_total      = 0;
     $badge_score1           = 0;
@@ -46,7 +46,7 @@
     if(!empty($is_pengusul)){
         $status             = NOTCONFIRMED;
     }
-    
+
     if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
         $score_list1        = $this->Model_Praincubation->count_all_scoreconfirm_step1($status, NOTCONFIRMED);
         if($score_list1 > 0){
@@ -69,9 +69,9 @@
             $badge_list_praincubation   = $list_praincubation;
         }
     }
-    
+
     $total_selection_praincubation  = $badge_score_total + $badge_list_praincubation;
-    
+
     // -------------------------------------------------------------------------------------------------------------
     // Seleksi Inkubasi -> Penilaian Seleksi
     $badge_score_total_inc  = 0;
@@ -80,7 +80,7 @@
     if(!empty($is_pengusul)){
         $status_inc         = NOTCONFIRMED;
     }
-    
+
     if(!empty($is_admin) || !empty($is_jury) || !empty($is_pengusul)){
         $score_list_inc1        = $this->Model_Incubation->count_all_scoreconfirm_step1($status_inc, NOTCONFIRMED);
         if($score_list_inc1 > 0){
@@ -103,14 +103,14 @@
             $badge_list_incubation   = $list_incubation;
         }
     }
-    
+
     $total_selection_incubation  = $badge_score_total_inc + $badge_list_incubation;
     // -------------------------------------------------------------------------------------------------------------
-    
+
     if(!empty($is_admin)){
         $title_daftar   = 'Daftar Pra-Inkubasi';
     }else{ $title_daftar   = 'Daftar Usulan'; }
-    
+
     // Set menu array
     $menu_arr = array(
         array (
@@ -360,19 +360,28 @@
                     'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Produk Tenant',
-                    'nav'       => 'tenants/produk',
-                    'parent'    => 'tenants',
-                    'link'      => base_url('tenants/produk'),
-                    'icon'      => 'build',
-                    'sub'       => false,
-                    'badge'     => 0,
-                ),
-    			array (
                     'title'     => 'Daftar Pendampingan',
                     'nav'       => 'tenants/pendampingan',
                     'parent'    => 'tenants',
                     'link'      => base_url('tenants/pendampingan'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
+                    'title'     => 'Tambah Produk',
+                    'nav'       => 'tenants/tambahproduk',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/tambahproduk'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+    			array (
+                    'title'     => 'Produk Tenant',
+                    'nav'       => 'tenants/produk',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/produk'),
                     'icon'      => 'build',
                     'sub'       => false,
                     'badge'     => 0,
@@ -489,7 +498,7 @@
                     'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Pengguna',  
+                    'title'     => 'Pengguna',
                     'nav'       => 'statistik/pengguna',
                     'parent'    => 'statistik',
                     'link'      => base_url('statistik/blogs'),
@@ -611,18 +620,18 @@
                 ),
             ),
 	    ),
-    ); 
+    );
     $menu_arr = json_decode(json_encode($menu_arr), FALSE);
-    
+
     // Get user array
     $user_arr       = config_item('user_menu_access');
     $user_acc       = $user_arr[$user->type];
     $user_acc       = json_decode(json_encode($user_acc), FALSE);
-    
+
     // Set Segment
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
     $active_sub     = ( $this->uri->segment(2, 0) ? $this->uri->segment(1, 0) . '/' . $this->uri->segment(2, 0) : '');
-    
+
     // Set Status
     if( $is_admin ){
         $status = 'Administrator';
@@ -639,25 +648,25 @@
             $status = 'Pelaksana';
         }
     }
-    
+
     $uploaded       = $user->uploader;
     if($uploaded != 0){
         $file_name      = $user->filename . '.' . $user->extension;
-        $file_url       = BE_AVA_PATH . $user->uploader . '/' . $file_name; 
+        $file_url       = BE_AVA_PATH . $user->uploader . '/' . $file_name;
         $avatar_side    = $file_url;
     }else{
         if($user->gender == GENDER_MALE){
             $avatar_side    = BE_IMG_PATH . 'avatar/avatar1.png';
         }else{
             $avatar_side    = BE_IMG_PATH . 'avatar/avatar3.png';
-        }    
+        }
     }
 ?>
 
 <section>
     <!-- Left Sidebar -->
     <aside id="leftsidebar" class="sidebar">
-    
+
         <!-- User Info -->
         <div class="user-info">
             <div class="image">
@@ -678,12 +687,12 @@
             </div>
         </div>
         <!-- #User Info -->
-        
+
         <!-- Menu -->
         <div class="menu">
             <ul class="list">
                 <li class="header">NAVIGASI UTAMA</li>
-                
+
                 <?php foreach($menu_arr as $menu){ ?>
                     <?php if( in_array($menu->nav, $user_acc) ){ ?>
                     <li <?php echo ($active_page == $menu->nav ? 'class="active"' : ''); ?>>
@@ -694,7 +703,7 @@
                             <span class="badge bg-red" style="color: white;"><?php echo $menu->badge?></span>
                             <?php endif ?>
                         </a>
-                        
+
                         <?php if( !empty($menu->sub) ){ ?>
                         <ul class="ml-menu">
                             <?php foreach($menu->sub as $sub){ ?>
@@ -711,13 +720,13 @@
                         </ul>
                         <?php }?>
                     </li>
-                    <?php } ?>  
-                <?php } ?> 
+                    <?php } ?>
+                <?php } ?>
             </ul>
         </div>
         <!-- #Menu -->
         <!-- <span class="badge bg-red" style="color: white;">0</span> -->
-        
+
         <!-- Footer -->
         <div class="legal">
             <div class="copyright">

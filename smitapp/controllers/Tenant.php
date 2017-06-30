@@ -890,14 +890,22 @@ class Tenant extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
-        elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
-
+        if( $is_admin ){
+            if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+        }else{
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name_teannt% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%email% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%phone% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+        }
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
@@ -926,16 +934,28 @@ class Tenant extends User_Controller {
                 elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
 
-                $records["aaData"][] = array(
-                    smit_center( $i ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper( $row->name ) . '</a>',
-                    strtoupper( $row->event_title ),
-                    '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
-                    $row->email,
-                    smit_center( $row->phone ),
-                    smit_center( $status ),
-                    smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
-                );
+                if( $is_admin ){
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper( $row->name ) . '</a>',
+                        strtoupper( $row->event_title ),
+                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                        $row->email,
+                        smit_center( $row->phone ),
+                        smit_center( $status ),
+                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                    );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        strtoupper( $row->event_title ),
+                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                        $row->email,
+                        smit_center( $row->phone ),
+                        smit_center( $status ),
+                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                    );
+                }
                 $i++;
             }
         }

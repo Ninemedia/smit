@@ -654,58 +654,6 @@ class Model_Incubation extends SMIT_Model{
             $order_by = str_replace("%datecreated%",        "datecreated", $order_by);
         }
 
-        $sql = 'SELECT * FROM ' . $this->praincubation_selection_set. '';
-
-        if( !empty($conditions) ){ $sql .= $conditions; }
-        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
-
-        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
-
-        $query = $this->db->query($sql);
-        if(!$query || !$query->num_rows()) return false;
-
-        return $query->result();
-    }
-
-    /**
-     * Retrieve all incubation setting data
-     *
-     * @author  Iqbal
-     * @param   Int     $limit              Limit of incset             default 0
-     * @param   Int     $offset             Offset ot incset            default 0
-     * @param   String  $conditions         Condition of query          default ''
-     * @param   String  $order_by           Column that make to order   default ''
-     * @return  Object  Result of pra incubation setting list
-     */
-    function get_all_praincubation_setting($limit=0, $offset=0, $conditions='', $order_by=''){
-        if( !empty($conditions) ){
-            $conditions = str_replace("%id%",               "id", $conditions);
-            $conditions = str_replace("%date_publication%", "selection_date_publication", $conditions);
-            $conditions = str_replace("%date_reg_start%",   "selection_date_reg_start", $conditions);
-            $conditions = str_replace("%date_reg_end%",     "selection_date_reg_end", $conditions);
-            $conditions = str_replace("%impdate_start%",    "selection_imp_date_start", $conditions);
-            $conditions = str_replace("%impdate_end%",      "selection_imp_date_end", $conditions);
-            $conditions = str_replace("%files%",            "selection_files", $conditions);
-            $conditions = str_replace("%juri_phase1%",      "selection_juri_phase1", $conditions);
-            $conditions = str_replace("%juri_phase2%",      "selection_juri_phase2", $conditions);
-            $conditions = str_replace("%status%",           "status", $conditions);
-            $conditions = str_replace("%datecreated%",      "datecreated", $conditions);
-        }
-
-        if( !empty($order_by) ){
-            $order_by = str_replace("%id%",                 "id", $order_by);
-            $order_by = str_replace("%date_publication%",   "selection_date_publication", $order_by);
-            $order_by = str_replace("%date_reg_start%",     "selection_date_reg_start", $order_by);
-            $order_by = str_replace("%date_reg_end%",       "selection_date_reg_end", $order_by);
-            $order_by = str_replace("%impdate_start%",      "selection_imp_date_start", $order_by);
-            $order_by = str_replace("%impdate_end%",        "selection_imp_date_end", $order_by);
-            $order_by = str_replace("%files%",              "selection_files", $order_by);
-            $order_by = str_replace("%juri_phase1%",        "selection_juri_phase1", $order_by);
-            $order_by = str_replace("%juri_phase2%",        "selection_juri_phase2", $order_by);
-            $order_by = str_replace("%status%",             "status", $order_by);
-            $order_by = str_replace("%datecreated%",        "datecreated", $order_by);
-        }
-
         $sql = 'SELECT * FROM ' . $this->incubation_selection_set. '';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
@@ -718,7 +666,6 @@ class Model_Incubation extends SMIT_Model{
 
         return $query->result();
     }
-
 
     /**
      * Retrieve all incubation report data

@@ -2,7 +2,7 @@
 
 /**
  * Incubation Controller.
- * 
+ *
  * @class     Incubation
  * @author    Iqbal
  * @version   1.0.0
@@ -13,26 +13,26 @@ class Incubation extends User_Controller {
 	 * Constructor.
 	 */
     function __construct()
-    {       
+    {
         parent::__construct();
     }
-    
+
     /**
 	 * Index function.
 	 */
 	public function index()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -41,7 +41,7 @@ class Incubation extends User_Controller {
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = '';
 
@@ -53,10 +53,10 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'incubation';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     // ---------------------------------------------------------------------------------------------
     // INCUBATION
     /**
@@ -65,13 +65,13 @@ class Incubation extends User_Controller {
 	public function incubationlist()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         if( !$is_admin ){
             redirect( base_url('dashboard') );
         }
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -81,7 +81,7 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -100,13 +100,13 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
             'IncubationList.init();',
         ));
-        
+
         $scripts_add            = '';
 
         $data['title']          = TITLE . 'Daftar Seleksi Inkubasi';
@@ -117,32 +117,32 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'selectionincubation/list';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Incubation list data function.
 	 */
     function incubationlistdatastep1( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE step = 1 '; 
-        
+        $condition          = ' WHERE step = 1 ';
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -153,49 +153,49 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 //Workunit
                 $workunit_type  = smit_workunit_type($row->workunit);
                 $workunit       = $workunit_type->workunit_name;
@@ -203,7 +203,7 @@ class Incubation extends User_Controller {
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $row->status == NOTCONFIRMED ){
                     $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
                     $year       = '<strong style="color : red !important; ">'.$year.'</strong>';
@@ -223,19 +223,19 @@ class Incubation extends User_Controller {
                     smit_center( $btn_action ),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation list data function.
 	 */
@@ -243,21 +243,21 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = ' WHERE steptwo = 2 ';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -268,49 +268,49 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('seleksiinkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 if($row->statustwo == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                
+
                 //Workunit
                 $workunit_type  = smit_workunit_type($row->workunit);
                 $workunit       = $workunit_type->workunit_name;
@@ -318,7 +318,7 @@ class Incubation extends User_Controller {
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $row->status == NOTCONFIRMED ){
                     $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
                     $year       = '<strong style="color : red !important; ">'.$year.'</strong>';
@@ -338,39 +338,39 @@ class Incubation extends User_Controller {
                     smit_center( $btn_action ),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Detail list data function.
 	 */
     public function incubationdetails($uniquecode)
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         if( !$is_admin ){
             redirect( base_url('dashboard') );
         }
-        
+
         if( !$uniquecode ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -380,7 +380,7 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -399,15 +399,15 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
             'IncubationList.init();',
         ));
-        
+
         $scripts_add                = '';
-        
+
         // Custom
         $condition                  = '';
         $incubation_list            = '';
@@ -415,9 +415,9 @@ class Incubation extends User_Controller {
             $incubation_list        = $this->Model_Incubation->get_all_incubation('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
             $incubation_list        = $incubation_list[0];
             $user_id                = $incubation_list->user_id;
-            $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE user_id = '.$user_id.'', '');    
+            $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE user_id = '.$user_id.'', '');
         }
-        
+
         $data['title']          = TITLE . 'Detail Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -428,10 +428,10 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'selectionincubation/listdetail';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Files Download File function.
 	 */
@@ -439,7 +439,7 @@ class Incubation extends User_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Guide File Data
         $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE uniquecode = "'.$uniquecode.'"', '');
         $incubation_files       = $incubation_files[0];
@@ -449,17 +449,17 @@ class Incubation extends User_Controller {
 
         $file_name      = $incubation_files->filename . '.' . $incubation_files->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $incubation_files->uploader . '/' . $file_name;
-        
+
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Incubation Confirm function.
 	 */
     function incubationconfirm($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
@@ -469,20 +469,20 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         // Check Data Incubation Selection
         $condition  = ' WHERE %status% = 0 AND %step% = 1';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
-        
+
         if( !$incseldata || empty($incseldata) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data seleksi yang belum dikonfirmasi');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Check Incubation Setting
         /*
         $incset     = smit_latest_incubation_setting();
@@ -492,7 +492,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( $incset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
@@ -505,7 +505,7 @@ class Incubation extends User_Controller {
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         foreach($incseldata as $row){
             $incselupdatedata    = array(
                 'status'        => 1,
@@ -516,7 +516,7 @@ class Incubation extends User_Controller {
             }
             $this->smit_email->send_email_selection_confirmation_step1($row);
         }
-        
+
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
@@ -526,7 +526,7 @@ class Incubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     // PENILAIAN JURI
     /**
@@ -537,27 +537,27 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = '';
-        
+
         if( !empty($jury_id) && $step == 1 ){
-            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';    
+            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';
         }elseif( !empty($jury_id) && $step == 2 ){
             $condition          = ' WHERE steptwo = '.$step.' AND A.status <> 0';
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -568,72 +568,72 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-        
-        $incubation_list = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by); 
-        
+
+        $incubation_list = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 if( $row->step == 1 && $row->steptwo == 0){
                     $btn_score          = '';
                     if( $row->status == 1 ){
-                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'"
                         class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     }
-                    
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'"
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    
+
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == REJECTED)    { $status = '<span class="label bg-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    
+
                     $score          = $row->score;
                 }else{
-                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'"
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('prainkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'"
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    
+
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                    
+
                     $score          = $row->scoretwo;
                 }
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
@@ -643,23 +643,23 @@ class Incubation extends User_Controller {
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center( $btn_score ),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
-    
-    
+
+
+
     /**
 	 * Incubation list data function.
 	 */
@@ -667,21 +667,21 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -694,22 +694,22 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_step             = $this->input->post('search_step');
         $s_step             = smit_isset($s_step, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"');
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = "%s%"'); }}
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
@@ -717,21 +717,21 @@ class Incubation extends User_Controller {
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%step% ' . $sort; }
         elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == EXAMINED)    { $status = '<span class="label bg-brown">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -739,7 +739,7 @@ class Incubation extends User_Controller {
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
                 /*
@@ -762,26 +762,26 @@ class Incubation extends User_Controller {
                     smit_center($btn_action),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Report Confirm function.
 	 */
     function incubationreportconfirm($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -790,20 +790,20 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         // Check Data Incubation Selection
         $condition  = ' WHERE %status% = 1 AND %confirmed% = 0';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $incseldata = $this->Model_Incubation->get_all_incubation_report(0,0,$condition,$order_by);
-        
+
         if( !$incseldata || empty($incseldata) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data laporan seleksi inkubasi yang belum dikonfirmasi');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Check Incubation Setting
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
@@ -812,14 +812,14 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( $incset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $juriphase2data = $incset->selection_juri_phase2;
         if( empty($juriphase2data) ){
             // Set JSON data
@@ -829,19 +829,19 @@ class Incubation extends User_Controller {
         }
 
         $curdate        = date('Y-m-d H:i:s');
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         foreach($incseldata as $row){
             $incselrepupdatedata = array(
                 'confirmed'     => 1,
                 'datemodified'  => $curdate,
             );
             $this->Model_Incubation->update_data_incubation_report($row->id, $incselrepupdatedata);
-        
+
             $incselupdatedata = array(
                 'jury_id'       => $juriphase2data,
                 'status'        => 1,
@@ -850,7 +850,7 @@ class Incubation extends User_Controller {
             );
             $this->Model_Incubation->update_data_incubation($row->selection_id, $incselupdatedata);
         }
-        
+
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
@@ -860,28 +860,28 @@ class Incubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     /**
 	 * Incubation Action function.
 	 */
     function incubationaction($action, $uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         if ( !$action ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         if ( !$uniquecode ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Parameter data Inkubasi harus dicantumkan');
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -891,18 +891,18 @@ class Incubation extends User_Controller {
             die(json_encode($data));
         };
     }
-    
+
     /**
 	 * Setting Incubation function.
 	 */
 	public function incubationsetting()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         if( !$is_admin ) redirect( base_url('dashboard') );
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -914,7 +914,7 @@ class Incubation extends User_Controller {
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -941,7 +941,7 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
@@ -950,11 +950,11 @@ class Incubation extends User_Controller {
             'SelectGuide.init();',
             'IncubationSetting.init();',
         ));
-        
+
         // Get All Guides Filed
         $guide_files            = $this->Model_Guide->get_all_guides();
         $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
-        
+
         $data['title']          = TITLE . 'Pengaturan Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -965,23 +965,23 @@ class Incubation extends User_Controller {
         $data['guide_files']    = $guide_files;
         $data['juri_list']      = $juri_list;
         $data['main_content']   = 'selectionincubation/setting';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Score Incubation function.
 	 */
 	public function incubationscore()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
         $is_pengusul            = as_pengusul($current_user);
         $is_pelaksana           = as_pelaksana($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -994,7 +994,7 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -1010,14 +1010,14 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
-            
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
@@ -1025,7 +1025,7 @@ class Incubation extends User_Controller {
             'SliderIndikator.init()'
         ));
         $scripts_add            = '';
-        
+
         $active                 = '';
         $lss                    = smit_latest_incubation_setting();
         if( !empty($lss) ){
@@ -1040,7 +1040,7 @@ class Incubation extends User_Controller {
                 }
             }
         }
-        
+
         $data['title']          = TITLE . 'Penilaian Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -1054,25 +1054,25 @@ class Incubation extends User_Controller {
         $data['lss']            = $lss;
         $data['active']         = $active;
         $data['main_content']   = 'selectionincubation/score';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Score Jury Incubation function.
 	 */
 	public function adminscoreuser($step, $unique)
 	{
         auth_redirect();
-        
+
         if( !$step || !$unique ) redirect( base_url('seleksiinkubasi/nilai') );
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
         $is_pengusul            = as_pengusul($current_user);
         $is_pelaksana           = as_pelaksana($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1083,19 +1083,19 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
-            
+
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            
+
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
@@ -1103,14 +1103,14 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
-            
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
@@ -1120,18 +1120,18 @@ class Incubation extends User_Controller {
 
         // Get Pra-Incubation Selection Data
         if( $step == 1 ){
-            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';    
+            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';
         }else{
-            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';    
+            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';
         }
-        
+
         $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
         if( !$data_selection || empty($data_selection) ){
             redirect( base_url('seleksiinkubasi/nilai') );
         }
         $data_selection         = $data_selection[0];
-            
-        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
+
+        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"';
         $data_selection_files   = $this->Model_Incubation->get_all_incubation_files(0, 0, $condition, '');
         if( !$data_selection_files || empty($data_selection_files) ){
             redirect( base_url('seleksiinkubasi/nilai') );
@@ -1149,23 +1149,23 @@ class Incubation extends User_Controller {
         $data['scripts']                = $loadscripts;
         $data['scripts_init']           = $scripts_init;
         $data['scripts_add']            = $scripts_add;
-        
+
         if( $step == 1 ){
-            $data['main_content']       = 'selectionincubation/scoredetailstep1';    
+            $data['main_content']       = 'selectionincubation/scoredetailstep1';
         }else{
-            $data['main_content']       = 'selectionincubation/scoredetailstep2';    
+            $data['main_content']       = 'selectionincubation/scoredetailstep2';
         }
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Incubation Confirm Score Step 1 function.
 	 */
     function incubationconfirmstep1($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
@@ -1175,20 +1175,20 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         // Check Data Pra Incubation Selection
         $condition  = ' WHERE %status% = 2 AND %step% = 1';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
         $order_by   = ' %id% ASC';
         $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
-        
+
         if( !$incseldata || empty($incseldata) ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dinilai oleh juri');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Check Incubation Setting
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
@@ -1197,7 +1197,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( $incset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
@@ -1209,30 +1209,30 @@ class Incubation extends User_Controller {
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         foreach($incseldata as $row){
             $sum_score      = $this->Model_Incubation->sum_all_score($row->id);
             if(empty($sum_score)){
                 $sum_score  = 0;
             }
-            
+
             $count_all_jury = $this->Model_Incubation->count_all_score($row->id);
             if(empty($count_all_jury)){
                 $count_all_jury = 0;
             }
-            
+
             if(!empty($sum_score) && !empty($count_all_jury)){
                 $avarage_score  = $sum_score / $count_all_jury;
             }else{
                 $avarage_score  = 0;
             }
-            
+
             if( $avarage_score < KKM_STEP1 ){
-                $status         = REJECTED;    
+                $status         = REJECTED;
             }else{
                 $status         = ACCEPTED;
             }
-            
+
             $incselupdatedata    = array(
                 'score'         => $sum_score,
                 'average_score' => $avarage_score,
@@ -1241,7 +1241,7 @@ class Incubation extends User_Controller {
                 'steptwo'       => 2,
                 'datemodified'  => $curdate,
             );
-            
+
             if( !$this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
                 continue;
             }else{
@@ -1253,7 +1253,7 @@ class Incubation extends User_Controller {
                 }
             }
         }
-        
+
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
@@ -1263,14 +1263,14 @@ class Incubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     /**
 	 * Incubation Confirm Score Step 2 function.
 	 */
     function incubationconfirmstep2($uniquecode=''){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $desc               = '';
         $user_desc          = array();
@@ -1282,7 +1282,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         // Check Data Pra Incubation Selection
         $condition  = ' WHERE %statustwo% = 2 AND %steptwo% = 2';
         $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
@@ -1295,7 +1295,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Check Incubation Setting
         $incset     = smit_latest_incubation_setting();
         if( !$incset || empty($incset) ){
@@ -1304,7 +1304,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( $incset->status == 0 ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
@@ -1316,40 +1316,40 @@ class Incubation extends User_Controller {
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         $desc .= 'Pengumuman Hasil Seleksi Pra-Inkubasi Tahap 2<br />Berikut Daftar Pengusul<br />';
         foreach($incseldata as $row){
-            
+
             // Total
             $sum_score2     = $this->Model_Incubation->sum_all_score2($row->id);
             if(empty($sum_score2)){
                 $sum_score2  = 0;
             }
-            
+
             $count_all_jury2= $this->Model_Incubation->count_all_score2($row->id);
             if(empty($count_all_jury2)){
                 $count_all_jury2 = 0;
             }
-            
+
             if(!empty($sum_score2) && !empty($count_all_jury2)){
                 $average_score  = $sum_score2 / $count_all_jury2;
             }else{
                 $average_score  = 0;
             }
-            
+
             if( $average_score < KKM_STEP2 ){
-                $status         = REJECTED;    
+                $status         = REJECTED;
             }else{
                 $status         = ACCEPTED;
             }
-            
+
             $incselupdatedata    = array(
                 'scoretwo'          => $sum_score2,
                 'average_scoretwo'  => $average_score,
                 'statustwo'         => $status,
                 'datemodified'      => $curdate,
-            );    
-            
+            );
+
             if( !$this->Model_Incubation->update_data_incubation($row->id, $incselupdatedata) ){
                 continue;
             }else{
@@ -1362,7 +1362,7 @@ class Incubation extends User_Controller {
                         'type'          => TENANT,
                         'datemodified'  => $curdate
                     );
-                    
+
                     // Check Status User
                     $user           = $this->Model_User->get_userdata($row->user_id);
                     if($user->type == PELAKSANA || $user->type == TENANT){
@@ -1372,13 +1372,13 @@ class Incubation extends User_Controller {
                             'datemodified'  => $curdate
                         );
                     }
-                    
+
                     $update_status_user = $this->Model_User->update_data($row->user_id, $status_user);
 
                     // Send Email Notification Selection Accepted
                     $this->smit_email->send_email_selection_accepted($incset, $row);
                 }
-                
+
                 // Set User Rejected
                 $user_desc[]        = array(
                     'name'          => $row->user_name,
@@ -1387,7 +1387,7 @@ class Incubation extends User_Controller {
                 );
             }
         }
-        
+
         $desc .= '<div class="table-container table-responsive">';
             $desc .= '<table class="table table-striped table-hover">';
                 $desc .= '
@@ -1400,7 +1400,7 @@ class Incubation extends User_Controller {
                     </tr>
                 </thead>
                 <tbody>';
-                
+
                 if( !empty($user_desc) ){
                     $i=1;
                     foreach($user_desc as $user){
@@ -1416,11 +1416,11 @@ class Incubation extends User_Controller {
                 }else{
                     $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Inkubasi</strong></tr>';
                 }
-                
+
                 $desc .= '</tbody>';
             $desc .= '</table>';
         $desc .= '</div>';
-        
+
         // Save Announcement
         $announcement_data  = array(
             'uniquecode'    => smit_generate_rand_string(10,'low'),
@@ -1436,7 +1436,7 @@ class Incubation extends User_Controller {
             'datemodified'  => $curdate,
         );
         $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
-        
+
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
@@ -1446,7 +1446,7 @@ class Incubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     /**
 	 * Admin Score list data function.
 	 */
@@ -1455,27 +1455,27 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = '';
-        
+
         if( !empty($is_admin) && $step == 1 ){
-            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';    
+            $condition          = ' WHERE step = '.$step.' AND A.status <> 0';
         }elseif( !empty($is_admin) && $step == 2 ){
             $condition          = ' WHERE steptwo = '.$step.' AND A.status <> 0';
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -1484,79 +1484,79 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 if( $row->step == 1 && $row->steptwo == 2){
-                    $btn_score      = '<a href="'.base_url('inkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_score      = '<a href="'.base_url('inkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'"
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('inkubasi/nilai2/'.$row->user_id.'/'.$row->uniquecode).'"
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    
+
                     if($row->statustwo == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                     elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                     elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 }elseif( $row->step == 1 ){
                     $btn_score          = '';
                     if( $row->status == 1 ){
-                        $btn_score      = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                         class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
                     }
-                    
-                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+
+                    $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="scoresetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
-                    
+
                     if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                     elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 }
-                
+
                 $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
                 if(empty($sum_score)){
                     $sum_score  = 0;
                 }
-                
+
                 $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
                 if(empty($count_all_jury)){
                     $count_all_jury = 0;
                 }
-                
+
                 if(!empty($sum_score) && !empty($count_all_jury)){
                     $avarage_score  = $sum_score / $count_all_jury;
                 }else{
                     $avarage_score  = 0;
                 }
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
@@ -1566,21 +1566,21 @@ class Incubation extends User_Controller {
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center($btn_score),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Admin Score list data function.
 	 */
@@ -1589,24 +1589,24 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE step = 1 AND A.status <> 0';
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -1619,38 +1619,38 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
@@ -1660,24 +1660,24 @@ class Incubation extends User_Controller {
                     $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
                     $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
                     if( /* $curdate >= $selection_date_invitation_send && */ $curdate <= $selection_date_interview_start ){
-                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'"
                         class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->status == CONFIRMED || $row->status == REJECTED || $row->status == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-               
+
                 $sum_score      = $row->score;
                 $average_score  = $row->average_score;
                 //Workunit
@@ -1687,21 +1687,21 @@ class Incubation extends User_Controller {
                 $year           = $row->year;
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $average_score < KKM_STEP1 ){
-                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';     
+                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 if( $row->status == CONFIRMED ){
-                    $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>'; 
-                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>'; 
-                    $year       = '<strong style="color : red !important; ">'.$year.'</strong>'; 
-                    $event      = '<strong style="color : red !important; ">'.$event.'</strong>'; 
+                    $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
+                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>';
+                    $year       = '<strong style="color : red !important; ">'.$year.'</strong>';
+                    $event      = '<strong style="color : red !important; ">'.$event.'</strong>';
                     $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
                     $sum_score  = '<strong style="color : red !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';    
+                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         smit_center( $year ),
@@ -1713,21 +1713,21 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_score. ' ' .$btn_details),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Admin Score list data function.
 	 */
@@ -1736,24 +1736,24 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE steptwo = 2 AND A.status <> 0';
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -1766,38 +1766,38 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
@@ -1807,28 +1807,28 @@ class Incubation extends User_Controller {
                     $selection_date_result              = strtotime($lss->selection_date_result);
                     $selection_date_proposal_start     =     strtotime($lss->selection_date_proposal_start);
                     if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
-                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'"
                         class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->statustwo == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                
+
                 $sum_score          = $row->scoretwo;
                 $average_score      = $row->average_scoretwo;
                 //Workunit
                 $workunit_type      = smit_workunit_type($row->workunit);
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         smit_center($row->year),
@@ -1840,21 +1840,21 @@ class Incubation extends User_Controller {
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center( $btn_score .' '. $btn_details),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Setting Incubation Save function.
 	 */
@@ -1870,17 +1870,17 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-          
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        
+
         if( !$is_admin ){
             // Set JSON data
             $data = array('message' => 'redirect','data' => base_url('dashboard'));
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $post_selection_year_publication        = $this->input->post('selection_year_publication');
         /*
         $post_selection_date_publication        = $this->input->post('selection_date_publication');
@@ -1902,7 +1902,7 @@ class Incubation extends User_Controller {
         $post_selection_files                   = $this->input->post('selection_files');
         $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
         $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
-        
+
         $this->form_validation->set_rules('selection_year_publication','Tahun Publikasi','required');
         /*
         $this->form_validation->set_rules('selection_date_publication','Tanggal Publikasi','required');
@@ -1923,10 +1923,10 @@ class Incubation extends User_Controller {
         $this->form_validation->set_rules('selection_files[]','Berkas Panduan','required');
         $this->form_validation->set_rules('selection_juri_phase1[]','Juri Tahap 1','required');
         $this->form_validation->set_rules('selection_juri_phase2[]','Juri Tahap 2','required');
-        
+
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
-        
+
         if($this->form_validation->run() == FALSE){
             // Set JSON data
             $data = array(
@@ -1941,7 +1941,7 @@ class Incubation extends User_Controller {
             $post_selection_files       = implode(',',$post_selection_files);
             $post_selection_juri_phase1 = implode(',',$post_selection_juri_phase1);
             $post_selection_juri_phase2 = implode(',',$post_selection_juri_phase2);
-            
+
             $settingdata                = array(
                 'uniquecode'                        => $random,
                 'selection_year_publication'        => smit_isset($post_selection_year_publication, ''),
@@ -1969,7 +1969,7 @@ class Incubation extends User_Controller {
                 'datecreated'                       => $curdate,
                 'datemodified'                      => $curdate,
             );
-            
+
             if( $save_setting   = $this->Model_Incubation->save_data_incubation_selection_setting($settingdata) ){
                 // Set JSON data
                 $data = array(
@@ -1980,14 +1980,14 @@ class Incubation extends User_Controller {
                 $data = array(
                     'message'   => 'error',
                     'data'      => smit_alert('Pengaturan Seleksi Inkubasi tidak berhasil di simpan'),
-                ); 
+                );
             }
-            
+
             // JSON encode data
             die(json_encode($data));
         }
 	}
-    
+
     /**
 	 * Incubation setting list data function.
 	 */
@@ -1995,83 +1995,83 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_date_pub_min         = $this->input->post('selection_date_publication_min');
         $s_date_pub_min         = smit_isset($s_date_pub_min, '');
         $s_date_pub_max         = $this->input->post('selection_date_publication_max');
         $s_date_pub_max         = smit_isset($s_date_pub_max, '');
-        
+
         $s_date_reg_min         = $this->input->post('search_date_reg_min');
         $s_date_reg_min         = smit_isset($s_date_reg_min, '');
         $s_date_reg_max         = $this->input->post('search_date_reg_max');
         $s_date_reg_max         = smit_isset($s_date_reg_max, '');
-        
+
         $s_desc                 = $this->input->post('search_desc');
         $s_desc                 = smit_isset($s_desc, '');
         $s_status               = $this->input->post('search_status');
         $s_status               = smit_isset($s_status, '');
-        
+
         if ( !empty($s_date_pub_min) )  { $condition .= ' AND %date_publication% >= '.strtotime($s_date_pub_min).''; }
         if ( !empty($s_date_pub_max) )  { $condition .= ' AND %date_publication% <= '.strtotime($s_date_pub_max).''; }
         if ( !empty($s_date_reg_min) )  { $condition .= ' AND %date_reg_start% >= '.strtotime($s_date_reg_min).''; }
         if ( !empty($s_date_reg_max) )  { $condition .= ' AND %date_reg_start% <= '.strtotime($s_date_reg_max).''; }
         if ( !empty($s_desc) )          { $condition .= ' AND %desc% LIKE "%'.$s_desc.'%"'; }
         if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
-        
+
         if( $column == 1 )      { $order_by .= '%date_publication% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%status% ' . $sort; }
-        
+
         $incubationset_list = $this->Model_Incubation->get_all_incubation_setting($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
-        
+
         $juri_step1         = array();
         $juri_step2         = array();
-        
+
         if( !empty($incubationset_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            
+
             $i = $offset + 1;
             foreach($incubationset_list as $row){
-                $btn_details    = '<a href="'.base_url('detilseleksiinkubasi/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('detilseleksiinkubasi/'.$row->uniquecode).'"
                     class="praincubsetdet btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details"><i class="material-icons">zoom_in</i></a> ';
-                $btn_close      = ( $row->status == 1 ? 
-                '<a href="'.base_url('tutupseleksiinkubasi/'.$row->uniquecode).'" class="incubsetclose btn btn-xs btn-danger waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' : 
+                $btn_close      = ( $row->status == 1 ?
+                '<a href="'.base_url('tutupseleksiinkubasi/'.$row->uniquecode).'" class="incubsetclose btn btn-xs btn-danger waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' :
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
-                
+
                 if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
                 elseif($row->status == 0)   { $status = '<span class="label label-danger">CLOSED</span>'; }
-                
+
                 $selection_step1    = $row->selection_juri_phase1;
                 $selection_step1    = explode(",", $selection_step1);
                 $selection_step2    = $row->selection_juri_phase2;
                 $selection_step2    = explode(",", $selection_step2);
-                
+
                 foreach($selection_step1 AS $id){
                     $userdata       = $this->Model_User->get_user_by('id', $id);
                     $juri_step1[]   = $userdata->name;
                 }
-                
+
                 foreach($selection_step2 AS $id){
                     $userdata       = $this->Model_User->get_user_by('id', $id);
                     $juri_step2[]   = $userdata->name;
                 }
-                
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     smit_center( date('Y', strtotime($row->selection_year_publication)) ),
@@ -2084,29 +2084,29 @@ class Incubation extends User_Controller {
                     smit_center($btn_details . ' ' . $btn_close),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation setting details data function.
 	 */
     function incubationsettingdetails($uniquecode){
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         if( !$is_admin ) redirect( base_url('dashboard') );
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -2118,7 +2118,7 @@ class Incubation extends User_Controller {
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -2143,7 +2143,7 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
@@ -2152,15 +2152,15 @@ class Incubation extends User_Controller {
             'SelectGuide.init();',
             'IncubationSetting.init();',
         ));
-        
+
         // Get Incubation Setting Data
         $incubationsetdata      = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
         if( !$incubationsetdata ) base_url('seleksiinkubasi/pengaturan');
-        
+
         $incubationsetdata->selection_files         = explode(',', $incubationsetdata->selection_files);
         $incubationsetdata->selection_juri_phase1   = explode(',', $incubationsetdata->selection_juri_phase1);
         $incubationsetdata->selection_juri_phase2   = explode(',', $incubationsetdata->selection_juri_phase2);
-        
+
         if( !empty($_POST) ){
             // This is for AJAX request
         	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
@@ -2172,23 +2172,23 @@ class Incubation extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }
-            
-            
+
+
             echo '<pre>';
             print_r($_POST);
             die();
-            
+
             $post_selection_year_publication        = $this->input->post('selection_year_publication');
             $post_selection_desc                    = $this->input->post('selection_desc');
             $post_selection_files                   = $this->input->post('selection_files');
             $post_selection_juri_phase1             = $this->input->post('selection_juri_phase1');
             $post_selection_juri_phase2             = $this->input->post('selection_juri_phase2');
-            
+
             $this->form_validation->set_rules('selection_year_publication','Tahun Publikasi','required');
             $this->form_validation->set_rules('selection_files[]','Berkas Panduan','required');
             $this->form_validation->set_rules('selection_juri_phase1[]','Juri Tahap 1','required');
             $this->form_validation->set_rules('selection_juri_phase2[]','Juri Tahap 2','required');
-            
+
             $this->form_validation->set_message('required', '%s harus di isi');
             $this->form_validation->set_error_delimiters('', '');
 
@@ -2203,7 +2203,7 @@ class Incubation extends User_Controller {
                 $post_selection_files       = implode(',',$post_selection_files);
                 $post_selection_juri_phase1 = implode(',',$post_selection_juri_phase1);
                 $post_selection_juri_phase2 = implode(',',$post_selection_juri_phase2);
-                
+
                 $settingdata                = array(
                     'selection_year_publication'        => smit_isset($post_selection_year_publication, ''),
                     'selection_desc'                    => $post_selection_desc,
@@ -2212,11 +2212,11 @@ class Incubation extends User_Controller {
                     'selection_juri_phase2'             => $post_selection_juri_phase2,
                     'datemodified'                      => $curdate,
                 );
-                
+
                 echo '<pre>';
                 print_r($settingdata);
                 die();
-                
+
                 if( $update_setting = $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $settingdata) ){
                     $this->session->set_flashdata('message','<div id="alert" class="alert alert-success">'.smit_alert('Pengaturan Seleksi Pra-Inkubasi berhasil di update').'</div>');
                 }else{
@@ -2228,7 +2228,7 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             }
         }
-        
+
         // Get All Guides Filed
         $guide_files            = $this->Model_Guide->get_all_guides();
         $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
@@ -2244,10 +2244,10 @@ class Incubation extends User_Controller {
         $data['juri_list']      = $juri_list;
         $data['pis_data']       = $incubationsetdata;
         $data['main_content']   = 'selectionincubation/settingdetails';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
 	 * Incubation setting close data function.
 	 */
@@ -2262,24 +2262,24 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-          
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        
+
         if( !$is_admin ){
             // Set JSON data
             $data = array('message' => 'redirect','data' => base_url('dashboard'));
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( !$uniquecode ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $incubationsetdata   = $this->Model_Incubation->get_incubation_setting_by('uniquecode',$uniquecode);
         if( !$incubationsetdata ){
             // Set JSON data
@@ -2287,7 +2287,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $incubationsetupdate    = array('status' => 0, 'datemodified' => date('Y-m-d H:i:s'));
         if( $this->Model_Incubation->update_data_incubation_setting($incubationsetdata->id, $incubationsetupdate) ){
             // Set JSON data
@@ -2299,7 +2299,7 @@ class Incubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     // PENGUSUL
     /**
@@ -2309,25 +2309,25 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         if( !empty($user_id)){
-            $condition          = ' WHERE A.user_id ='.$user_id.' ';    
+            $condition          = ' WHERE A.user_id ='.$user_id.' ';
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_title            = $this->input->post('search_title');
@@ -2336,52 +2336,52 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
-                $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/1/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/1/'.$row->uniquecode).'"
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 $score          = $row->score;
                 $average_score  = $row->average_score;
                 $year           = $row->year;
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $row->status == NOTCONFIRMED ){
                     $score          = '<strong style="color : red !important; ">'.floor($score).'</strong>';
                     $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
@@ -2389,11 +2389,11 @@ class Incubation extends User_Controller {
                     $event          = '<strong style="color : red !important; ">'.$event.'</strong>';
                     $datecreated    = '<strong style="color : red !important; ">'.$datecreated.'</strong>';
                 }
-                
+
                 if( $average_score < KKM_STEP1 || $average_score < KKM_STEP2 ){
                     $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
@@ -2403,21 +2403,21 @@ class Incubation extends User_Controller {
                     smit_center( $datecreated ),
                     smit_center( $status ),
                     smit_center( $btn_details ),
-                );  
+                );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Pengusul Score Step 2 list data function.
 	 */
@@ -2425,77 +2425,77 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         if( !empty($user_id)){
-            $condition          = ' WHERE A.user_id ='.$user_id.' ';    
+            $condition          = ' WHERE A.user_id ='.$user_id.' ';
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
-                $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                $btn_details    = '<a href="'.base_url('inkubasi/nilai/detail/2/'.$row->uniquecode).'"
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
-                
+
                 echo '<pre>';
                 print_r($row->statustwo);
                 die();
-                
+
                 if($row->statustwo == CONFIRMED)        { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                
+
                 $score          = $row->scoretwo;
                 $avarage_score  = $row->average_scoretwo;
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
-                
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     strtoupper( $row->event_title ),
@@ -2504,21 +2504,21 @@ class Incubation extends User_Controller {
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
                     smit_center( $status ),
                     smit_center( $btn_details ),
-                );  
+                );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Jury Score list data function.
 	 */
@@ -2526,22 +2526,22 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
-        
+
         $condition          = ' WHERE step = 1 AND A.status <> 0';
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -2554,68 +2554,68 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-        
-        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by); 
+
+        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
         $lss                = smit_latest_incubation_setting();
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
-                
+
                 // Check Jury Rated Selection
                 $rated              = smit_check_juri_rated_incubation($current_user->id, $row->id, ONE, $lss->id);
-                
+
                 if( $row->status == 1 ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->step.'/'.$row->uniquecode).'"
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Nilai"><i class="material-icons">done</i></a>';
                     }
                 }
-                
-                $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+
+                $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                 class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Details"><i class="material-icons">zoom_in</i></a>';
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 $score          = $row->score;
                 $average_score  = $row->average_score;
                 if($average_score < KKM_STEP1){
                     $average_score   = '<strong style="color: red !important;">'.floor($average_score).'</strong>';
                 }
-                
+
                 //Workunit
                 $workunit_type  = smit_workunit_type($row->workunit);
                 $workunit       = $workunit_type->workunit_name;
@@ -2631,15 +2631,15 @@ class Incubation extends User_Controller {
                     $datecreated= '<strong style="color: red !important;">'.$datecreated.'</strong>';
                     $name       = '<strong style="color: red !important;">'.$name.'</strong>';
                 }
-                
+
                 if($rated){
                     $btn_ket    = '<i class="material-icons">assignment_turned_in</i>';
-                }else{ 
-                    $btn_ket    = '<strong style="color: red !important;"> - </strong>'; 
-                    $score      = '<strong style="color: red !important;"> - </strong>'; 
+                }else{
+                    $btn_ket    = '<strong style="color: red !important;"> - </strong>';
+                    $score      = '<strong style="color: red !important;"> - </strong>';
                     $average_score  = '<strong style="color: red !important;"> - </strong>';
-                } 
-                
+                }
+
                 $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $year ),
@@ -2652,21 +2652,21 @@ class Incubation extends User_Controller {
                         smit_center( $status ),
                         smit_center( $btn_ket ),
                         smit_center( $btn_score .' '.$btn_details ),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Jury Score list data function.
 	 */
@@ -2675,21 +2675,21 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE steptwo = 2 AND A.status <> 0';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -2702,70 +2702,70 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-        
-        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by); 
+
+        $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
         $lss                = smit_latest_incubation_setting();
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
                 $btn_details        = '';
-                
+
                 // Check Jury Rated Selection
                 $rated              = smit_check_juri_rated_incubation($current_user->id, $row->id, TWO, $lss->id);
 
                 if( $row->statustwo == CONFIRMED ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'" 
+                        $btn_score      = '<a href="'.base_url('seleksiinkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'"
                         class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == RATED || $row->statustwo == ACCEPTED || $row->statustwo == REJECTED ){
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/2/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->statustwo == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                
+
                 $score          = $row->scoretwo;
                 $average_score  = $row->average_scoretwo;
                 if($average_score < KKM_STEP2){
                     $average_score   = '<style="color: red !important;">'.$average_score.'</style>';
                 }
-                
+
                 //Workunit
                 $workunit_type  = smit_workunit_type($row->workunit);
                 $workunit       = $workunit_type->workunit_name;
@@ -2781,15 +2781,15 @@ class Incubation extends User_Controller {
                     $datecreated= '<strong style="color: red !important;">'.$datecreated.'</strong>';
                     $name       = '<strong style="color: red !important;">'.$name.'</strong>';
                 }
-                
+
                 if($rated){
                     $btn_ket    = '<i class="material-icons">assignment_turned_in</i>';
-                }else{ 
-                    $btn_ket    = '<strong style="color: red !important;"> - </strong>'; 
-                    $score      = '<strong style="color: red !important;"> - </strong>'; 
+                }else{
+                    $btn_ket    = '<strong style="color: red !important;"> - </strong>';
+                    $score      = '<strong style="color: red !important;"> - </strong>';
                     $average_score  = '<strong style="color: red !important;"> - </strong>';
-                } 
-                
+                }
+
                 $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $year ),
@@ -2802,36 +2802,36 @@ class Incubation extends User_Controller {
                         smit_center( $status ),
                         smit_center( $btn_ket ),
                         smit_center( $btn_score .' '.$btn_details ),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Score Jury Incubation function.
 	 */
 	public function juryscoreuser($step, $unique)
 	{
         auth_redirect();
-        
+
         if( !$step || !$unique ) redirect( base_url('inkubasi/nilai') );
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
         $is_pengusul            = as_pengusul($current_user);
         $is_pelaksana           = as_pelaksana($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -2842,14 +2842,14 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
-            
+
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
@@ -2860,14 +2860,14 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
-            
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/forms/form-validation.js',
             BE_JS_PATH . 'pages/index.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'ScoreSetting.init();',
@@ -2884,17 +2884,17 @@ class Incubation extends User_Controller {
             redirect( base_url('seleksiinkubasi/nilai') );
         }
         $data_selection         = $data_selection[0];
-        
+
         // Check Jury Rated Selection
         if( !empty($lss) ){
-            $lss                = smit_latest_incubation_setting(); 
+            $lss                = smit_latest_incubation_setting();
             $rated              = smit_check_juri_rated_incubation($current_user->id, $data_selection->id, $step, $lss->id);
             if( !empty($rated) ){
                 redirect( base_url('seleksiinkubasi/nilai') );
-            }   
+            }
         }
-            
-        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"'; 
+
+        $condition              = ' WHERE %selection_id% = "'.$data_selection->id.'"';
         $data_selection_files   = $this->Model_Incubation->get_all_incubation_files(0, 0, $condition, '');
         if( !$data_selection_files || empty($data_selection_files) ){
             redirect( base_url('seleksiinkubasi/nilai') );
@@ -2913,16 +2913,16 @@ class Incubation extends User_Controller {
         $data['scripts']                = $loadscripts;
         $data['scripts_init']           = $scripts_init;
         $data['scripts_add']            = $scripts_add;
-        
+
         if( $step == 1){
-            $data['main_content']           = 'selectionincubation/scoreuser';    
+            $data['main_content']           = 'selectionincubation/scoreuser';
         }else{
             $data['main_content']           = 'selectionincubation/scoreuser2';
         }
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Score Jury Incubation function.
 	 */
@@ -2930,7 +2930,7 @@ class Incubation extends User_Controller {
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         // Check Auth Redirect
         $auth = auth_redirect( $this->input->is_ajax_request() );
         if( !$auth ){
@@ -2939,14 +2939,14 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( !$step ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter tahap data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $current_user   = smit_get_current_user();
         $is_jury        = as_juri($current_user);
         if( !$is_jury ){
@@ -2955,7 +2955,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( $step == 1 ){
             $selection_id   = $this->input->post('nilai_selection_id');
             $selection_id   = smit_isset($selection_id, '');
@@ -2973,7 +2973,7 @@ class Incubation extends User_Controller {
             $rate_total     = smit_isset($rate_total, '');
             $rate_comment   = $this->input->post('nilai_juri_comment');
             $rate_comment   = smit_isset($rate_comment, '');
-            
+
             // Check Incubation Selection Data
             $data_selection     = $this->Model_Incubation->get_incubation($selection_id);
             if( !$data_selection || empty($data_selection) ){
@@ -2981,8 +2981,8 @@ class Incubation extends User_Controller {
                 $data = array('message' => 'error','data' => 'Data seleksi inkubasi tidak ditemukan atau belum terdaftar');
                 // JSON encode data
                 die(json_encode($data));
-            } 
-            
+            }
+
             // Check Incubation Selection User Data
             $data_selection_user = smit_get_userdata_by_id($data_selection->user_id);
             if( !$data_selection_user || empty($data_selection_user) ){
@@ -2990,23 +2990,23 @@ class Incubation extends User_Controller {
                 $data = array('message' => 'error','data' => 'Data user seleksi inkubasi tidak ditemukan atau belum terdaftar');
                 // JSON encode data
                 die(json_encode($data));
-            } 
-            
+            }
+
             // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Incubation->get_incubation_rate_step1_files($current_user->id, $data_selection->id);
-                
+
                 if( $rate_process || !empty($rate_process) ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => 'Penilaian data seleksi inkubasi ini sudah anda diproses');
                     // JSON encode data
-                    die(json_encode($data));    
-                } 
+                    die(json_encode($data));
+                }
             }
-            
+
             $curdate            = date("Y-m-d H:i:s");
             $random             = smit_generate_rand_string(10,'low');
-            
+
             // Set Data Rate Step 1
             $rate_data_step1    = array(
                 'uniquecode'    => $random,
@@ -3021,8 +3021,8 @@ class Incubation extends User_Controller {
                 'comment'       => $rate_comment,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate
-            ); 
-            
+            );
+
             if( $this->Model_Incubation->save_data_incubation_selection_rate_step1($rate_data_step1) ){
                 // History Step1
                 $random_history     = smit_generate_rand_string(10,'low');
@@ -3041,30 +3041,30 @@ class Incubation extends User_Controller {
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate
                 );
-                
+
                 $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step1);
-                
+
                 // Update Pra-Incubation Score
                 $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step1_total($selection_id);
                 $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step1_count($selection_id);
                 $average_score          = round( ( $all_rate_total + $rate_total ) /  ( $all_rate_count + 1 ) );
-                
+
                 $data_selection_update  = array(
                     'score'             => $all_rate_total,
                     'average_score'     => $average_score,
                 );
                 $this->Model_Incubation->update_data_incubation($data_selection->id, $data_selection_update);
-                
+
                 // Set Data Rate Step 1
                 $lss                    = smit_latest_incubation_setting();
                 $jury_step1             = $lss->selection_juri_phase1;
                 $jury_step1             = explode(",", $jury_step1);
-                
-                $count              = 0;   
+
+                $count              = 0;
                 foreach( $jury_step1 as $id){
                     $count++;
                 }
-                
+
                 $i                  = 0;
                 foreach( $jury_step1 as $id){
                     $check_all_score_member     = $this->Model_Incubation->get_incubation_rate_step1_files($id, $data_selection->id);
@@ -3073,12 +3073,12 @@ class Incubation extends User_Controller {
                         continue;
                     }
                 }
-                
+
                 if( $i == $count ){
                     $status_step1   = array(
                         'status'    => RATED,
                     );
-                    
+
                     if( $update_selection   = $this->Model_Incubation->update_data_incubation($data_selection->id, $status_step1) ){
                         $this->smit_email->send_email_rated_confirmation($data_selection_user->email, $step);
                     }
@@ -3139,7 +3139,7 @@ class Incubation extends User_Controller {
             $klaster4_d_indikator   = smit_isset($klaster4_d_indikator, '');
             $klaster4_e_indikator   = $this->input->post('klaster4_e_indikator');
             $klaster4_e_indikator   = smit_isset($klaster4_e_indikator, '');
-            
+
             // Innovation Readiness Level
             $irl1           = $this->input->post('irl1');
             $irl1           = smit_isset($irl1, '');
@@ -3161,40 +3161,40 @@ class Incubation extends User_Controller {
             $irl9           = smit_isset($irl9, '');
             $irl10          = $this->input->post('irl10');
             $irl10          = smit_isset($irl10, '');
-            
+
             $rate_total2    = $this->input->post('total_rate');
             $rate_total2    = smit_isset($rate_total2, '');
             $rate_comment2  = $this->input->post('nilai_juri_comment');
             $rate_comment2  = smit_isset($rate_comment2, '');
-            
+
             $this->form_validation->set_rules('nilai_selection_id','Nilai Seleksi ID','required');
             $this->form_validation->set_rules('klaster1_a_indikator','Deskripsi Kebutuhan Pengguna','required');
             $this->form_validation->set_rules('klaster1_b_indikator','Deskripsi Sasaran Pengguna    ','required');
             $this->form_validation->set_rules('klaster1_c_indikator','Besar Pasar','required');
             $this->form_validation->set_rules('klaster1_d_indikator','Rencana Pemasaran','required');
             $this->form_validation->set_rules('klaster1_e_indikator','Pertumbuhan Pasar','required');
-            
+
             $this->form_validation->set_rules('klaster2_a_indikator','Deskripsi Kebutuhan Pengguna','required');
             $this->form_validation->set_rules('klaster2_b_indikator','Deskripsi Sasaran Pengguna    ','required');
             $this->form_validation->set_rules('klaster2_c_indikator','Besar Pasar','required');
             $this->form_validation->set_rules('klaster2_d_indikator','Rencana Pemasaran','required');
             $this->form_validation->set_rules('klaster2_e_indikator','Pertumbuhan Pasar','required');
-            
+
             $this->form_validation->set_rules('klaster3_a_indikator','Deskripsi Kebutuhan Pengguna','required');
             $this->form_validation->set_rules('klaster3_b_indikator','Deskripsi Sasaran Pengguna    ','required');
             $this->form_validation->set_rules('klaster3_c_indikator','Besar Pasar','required');
             $this->form_validation->set_rules('klaster3_d_indikator','Rencana Pemasaran','required');
             $this->form_validation->set_rules('klaster3_e_indikator','Pertumbuhan Pasar','required');
-            
+
             $this->form_validation->set_rules('klaster4_a_indikator','Deskripsi Kebutuhan Pengguna','required');
             $this->form_validation->set_rules('klaster4_b_indikator','Deskripsi Sasaran Pengguna    ','required');
             $this->form_validation->set_rules('klaster4_c_indikator','Besar Pasar','required');
             $this->form_validation->set_rules('klaster4_d_indikator','Rencana Pemasaran','required');
             $this->form_validation->set_rules('klaster4_e_indikator','Pertumbuhan Pasar','required');
-            
+
             $this->form_validation->set_message('required', '%s harus di isi');
             $this->form_validation->set_error_delimiters('', '');
-            
+
             /*
             if($this->form_validation->run() == FALSE){
                 // Set JSON data
@@ -3205,10 +3205,10 @@ class Incubation extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }else{
-                
+
             }
             */
-            
+
             // Check Incubation Selection Data
             $data_selection     = $this->Model_Incubation->get_incubation($selection_id);
             if( !$data_selection || empty($data_selection) ){
@@ -3217,7 +3217,7 @@ class Incubation extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }
-            
+
             // Check Incubation Selection User Data
             $data_selection_user = smit_get_userdata_by_id($data_selection->user_id);
             if( !$data_selection_user || empty($data_selection_user) ){
@@ -3225,23 +3225,23 @@ class Incubation extends User_Controller {
                 $data = array('message' => 'error','data' => 'Data user seleksi inkubasi tidak ditemukan atau belum terdaftar');
                 // JSON encode data
                 die(json_encode($data));
-            }  
-            
+            }
+
             // Check this Incubation Selection Rate Process
             if( !empty($is_jury) ){
                 $rate_process       = $this->Model_Incubation->get_incubation_rate_step2_files($current_user->id, $data_selection->id);
-                
+
                 if( $rate_process || !empty($rate_process) ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => 'Penilaian data seleksi inkubasi ini sudah anda diproses');
                     // JSON encode data
-                    die(json_encode($data));    
-                } 
+                    die(json_encode($data));
+                }
             }
-            
+
             $curdate            = date("Y-m-d H:i:s");
             $random             = smit_generate_rand_string(10,'low');
-            
+
             // Set IRL
             $value_irl1     = 0;
             $value_irl2     = 0;
@@ -3254,7 +3254,7 @@ class Incubation extends User_Controller {
             $value_irl9     = 0;
             $value_irl10    = 0;
             $total_irl      = 0;
-            
+
             if( $irl1 == 'on')  { $value_irl1 = 1;  $irl_data[] = 1; }
             if( $irl2 == 'on')  { $value_irl2 = 2;  $irl_data[] = 2; }
             if( $irl3 == 'on')  { $value_irl3 = 3;  $irl_data[] = 3; }
@@ -3265,10 +3265,10 @@ class Incubation extends User_Controller {
             if( $irl8 == 'on')  { $value_irl8 = 8;  $irl_data[] = 8; }
             if( $irl9 == 'on')  { $value_irl9 = 9;  $irl_data[] = 9; }
             if( $irl10 == 'on') { $value_irl10 = 10; $irl_data[] = 10; }
-            
+
             $total_irl  = $value_irl1 + $value_irl2 + $value_irl3 + $value_irl4 + $value_irl5 + $value_irl6 + $value_irl7 + $value_irl8 + $value_irl9 + $value_irl10;
             $irl_data   = implode(',',$irl_data);
-            
+
             // Set Data Rate Step 2
             $rate_data_step2    = array(
                 'uniquecode'    => $random,
@@ -3301,7 +3301,7 @@ class Incubation extends User_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate
             );
-            
+
             if( $this->Model_Incubation->save_data_incubation_selection_rate_step2($rate_data_step2) ){
                 // History Step1
                 $random_history     = smit_generate_rand_string(10,'low');
@@ -3320,30 +3320,30 @@ class Incubation extends User_Controller {
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate
                 );
-                
+
                 $history            = $this->Model_Incubation->save_data_incubation_history($rate_history_step2);
-                
+
                 // Update Pra-Incubation Score
                 $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step2_total($data_selection->id);
                 $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step2_count($data_selection->id);
                 $average_score          = round( ( $all_rate_total + $rate_total2 ) /  ( $all_rate_count + 1 ) );
-                
+
                 $data_selection_update  = array(
                     'scoretwo'          => $all_rate_total,
                     'average_scoretwo'  => $average_score,
                 );
                 $this->Model_Incubation->update_data_incubation($data_selection->id, $data_selection_update);
-                
+
                 // Set Data Rate Step 1
                 $lss                    = smit_latest_incubation_setting();
                 $jury_step2             = $lss->selection_juri_phase2;
                 $jury_step2             = explode(",", $jury_step2);
-                
-                $count              = 0;   
+
+                $count              = 0;
                 foreach( $jury_step2 as $id){
                     $count++;
                 }
-                
+
                 $i                  = 0;
                 foreach( $jury_step2 as $id){
                     $check_all_score_member     = $this->Model_Incubation->get_incubation_rate_step2_files($id, $data_selection->id);
@@ -3352,16 +3352,16 @@ class Incubation extends User_Controller {
                         continue;
                     }
                 }
-                
+
                 if( $i == $count ){
                     $status_step2   = array(
                         'statustwo' => RATED,
                     );
-                    
+
                     if( $update_selection   = $this->Model_Incubation->update_data_incubation($data_selection->id, $status_step2) ){
                         $this->smit_email->send_email_rated_confirmation($data_selection_user->email, $step);
                     }
-                    
+
                     $incubationselection_data = array(
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $data_selection->year,
@@ -3377,10 +3377,10 @@ class Incubation extends User_Controller {
                         'datecreated'   => $curdate,
                         'datemodified'  => $curdate,
                     );
-                    
+
                     $incubation_save_id      = $this->Model_Incubation->save_data_incubation($incubationselection_data);
                 }
-                
+
                 // Set JSON data
                 $data = array('message' => 'success','data' => 'Proses penilaian seleksi inkubasi ini berhasil');
             }else{
@@ -3389,24 +3389,24 @@ class Incubation extends User_Controller {
             }
             // JSON encode data
             die(json_encode($data));
-            
+
         }
     }
-    
+
     /**
 	 * Incubation Score Action function.
 	 */
     function incubationscoreaction($action, $uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         if ( !$action ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         if ( !$uniquecode ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Parameter data Inkubasi harus dicantumkan');
@@ -3419,7 +3419,7 @@ class Incubation extends User_Controller {
         $is_jury            = as_juri($current_user);
         $curdate            = date('Y-m-d H:i:s');
         $message            = '';
-        
+
         // Check for Jury Access
         if( !$is_jury ){
             // Set JSON data
@@ -3427,7 +3427,7 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Check Selection Data
         $selectiondata      = $this->Model_Incubation->get_incubation_by_uniquecode($uniquecode);
         if( !$selectiondata || empty($selectiondata) ){
@@ -3451,7 +3451,7 @@ class Incubation extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
                 break;
-                
+
             // CASE for Call/Reject action
             case 'call' :
             case 'reject' :
@@ -3460,7 +3460,7 @@ class Incubation extends User_Controller {
                     // Set JSON data
                     $message = $action=='call' ? 'Data seleksi sedang dalam proses pemanggilan' : 'Data seleksi ditolak';
                     $data = array('msg' => 'success','message' => $message);
-                    
+
                     if( !$this->Model_Incubation->get_incubation_report_by('selection_id',$selectiondata->id) ){
                         // Save Data Incubation Report
                         $selectionrptdata = $selectiondata;
@@ -3469,7 +3469,7 @@ class Incubation extends User_Controller {
                         $selectionrptdata->status       = $action=='call' ? REPORT_CALLED : REPORT_REJECTED;
                         $selectionrptdata->datecreated  = $curdate;
                         $selectionrptdata->datemodified = $curdate;
-                        
+
                         unset($selectionrptdata->id);
                         unset($selectionrptdata->step);
                         unset($selectionrptdata->user_name);
@@ -3493,7 +3493,7 @@ class Incubation extends User_Controller {
                 break;
         }
     }
-    
+
     /**
 	 * Incubation Selection Download File function.
 	 */
@@ -3503,28 +3503,28 @@ class Incubation extends User_Controller {
         if( !$auth ){
             die('Anda harus login terlebih dahulu untuk mendownload file ini');
         }
-        
+
         if ( !$uniquecode ){
             die('Parameter data seleksi harus dicantumkan');
         }
-        
+
         // Check Selection Data
         $selectiondata  = $this->Model_Incubation->get_incubation_by_uniquecode($uniquecode);
         if( !$selectiondata || empty($selectiondata) ){
             die('Data seleksi tidak ditemukan atau belum terdaftar');
         }
-        
+
         $file_name      = $selectiondata->filename . '.' . $selectiondata->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $selectiondata->user_id . '/' . $file_name;
-        
+
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Jury Detail Incubation data function.
 	 */
     function juryscoredatadetails($uniquecode){
-        
+
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         // Check Auth Redirect
@@ -3535,25 +3535,25 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-          
+
         $current_user   = smit_get_current_user();
         $is_jury        = as_juri($current_user);
         $content        = '';
-        
+
         if( !$is_jury ){
             // Set JSON data
             $data = array('message' => 'redirect','data' => base_url('dashboard'));
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( !$uniquecode ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $scoresetdata      = $this->Model_Incubation->get_incubation_by_uniquecode($uniquecode);
         unset($scoresetdata->id);
 
@@ -3563,18 +3563,18 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Set JSON data
         $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $scoresetdata);
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     /**
 	 * Jury Nilai Incubation data function.
 	 */
     function juryscoredatanilai($id){
-        
+
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         // Check Auth Redirect
@@ -3585,25 +3585,25 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-          
+
         $current_user   = smit_get_current_user();
         $is_jury        = as_juri($current_user);
         $content        = '';
-        
+
         if( !$is_jury ){
             // Set JSON data
             $data = array('message' => 'redirect','data' => base_url('dashboard'));
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         if( !$id ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $scoresetdata      = $this->Model_Incubation->get_incubation_by('id',$id);
         if( !$scoresetdata ){
             // Set JSON data
@@ -3611,25 +3611,25 @@ class Incubation extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         // Set JSON data
         $data = array('message' => 'success','data' => 'Data pengaturan seleksi ditemukan','details' => $scoresetdata);
         // JSON encode data
         die(json_encode($data));
     }
-    
-    
+
+
     /**
 	 * Report Incubation function.
 	 */
 	public function incubationreport()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -3639,7 +3639,7 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -3658,7 +3658,7 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
@@ -3675,10 +3675,10 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'incubation/report';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Incubation Report list data function.
 	 */
@@ -3686,21 +3686,21 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -3715,12 +3715,12 @@ class Incubation extends User_Controller {
         $s_jury             = smit_isset($s_jury, '');
         $s_extension        = $this->input->post('search_extension');
         $s_extension        = smit_isset($s_extension, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
@@ -3728,10 +3728,10 @@ class Incubation extends User_Controller {
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
         if( !empty($s_confirmed) )      { $condition .= str_replace('%s%', $s_confirmed, ' AND %confirmed% = %s%'); }
         if( !empty($s_extension) )      { $condition .= str_replace('%s%', $s_extension, ' AND %extension% LIKE "%%s%%"'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
@@ -3740,27 +3740,27 @@ class Incubation extends User_Controller {
         elseif( $column == 6 )  { $order_by .= '%extension% ' . $sort; }
         elseif( $column == 7 )  { $order_by .= '%jury% ' . $sort; }
         elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubationreport_list  = $this->Model_Incubation->get_all_incubation_report($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubationreport_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_report_status');
-            
+
             $i = $offset + 1;
             foreach($incubationreport_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('inact/details/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Details">Details</a> ';
-                
+
                 if($row->status == REPORT_CALLED)       { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REPORT_REJECTED) { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 if($row->confirmed == 0)            { $conf = '<span class="label label-default">BELUM DIKONFIRMASI</span>'; }
                 elseif($row->confirmed == 1)        { $conf = '<span class="label label-primary">DIKONFIRMASI</span>'; }
-                
+
                 //Extension
                 if($row->extension == 'pdf')        { $extension = '<span class="label label-danger">'.strtoupper($row->extension).'</span>'; }
                 elseif($row->extension == 'doc')    { $extension = '<span class="label label-primary">'.strtoupper($row->extension).'</span>'; }
@@ -3781,19 +3781,19 @@ class Incubation extends User_Controller {
                     smit_center($btn_action),
                 );
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Admin Dteail Score list Step 1 data function.
 	 */
@@ -3801,31 +3801,31 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_jury            = as_juri($current_user);
-        $condition          = ' WHERE A.selection_id = '. $id .' ';  
-        
+        $condition          = ' WHERE A.selection_id = '. $id .' ';
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation_scorestep1($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $name               = $row->name;
@@ -3853,21 +3853,21 @@ class Incubation extends User_Controller {
                         smit_center( $nilai_penelitan ),
                         smit_center( $nilai_market ),
                         smit_center( $rate_total ),
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Admin Dteail Score list Step 2 data function.
 	 */
@@ -3875,45 +3875,45 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_jury            = as_juri($current_user);
-        $condition          = ' WHERE A.selection_id = '. $id .' ';  
-        
+        $condition          = ' WHERE A.selection_id = '. $id .' ';
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation_scorestep2($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
-                $sum_klaster1   = $row->klaster1_a + $row->klaster1_b + $row->klaster1_c + $row->klaster1_d + $row->klaster1_e; 
-                $sum_klaster2   = $row->klaster2_a + $row->klaster2_b + $row->klaster1_c + $row->klaster2_d + $row->klaster2_e; 
-                $sum_klaster3   = $row->klaster3_a + $row->klaster3_b + $row->klaster3_c + $row->klaster3_d + $row->klaster3_e; 
+                $sum_klaster1   = $row->klaster1_a + $row->klaster1_b + $row->klaster1_c + $row->klaster1_d + $row->klaster1_e;
+                $sum_klaster2   = $row->klaster2_a + $row->klaster2_b + $row->klaster1_c + $row->klaster2_d + $row->klaster2_e;
+                $sum_klaster3   = $row->klaster3_a + $row->klaster3_b + $row->klaster3_c + $row->klaster3_d + $row->klaster3_e;
                 $sum_klaster4   = $row->klaster4_a + $row->klaster4_b + $row->klaster4_c + $row->klaster4_d + $row->klaster4_e;
-                
+
                 $total_klaster1 = floor(($sum_klaster1 * (25/100)/5));
                 $total_klaster2 = floor(($sum_klaster2 * (40/100)/5));
                 $total_klaster3 = floor(($sum_klaster3 * (15/100)/5));
                 $total_klaster4 = floor(($sum_klaster4 * (10/100)/5));
                 $total_sum      = $total_klaster1 + $total_klaster2 + $total_klaster3 + $total_klaster4;
                 $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name) . '</a>',
@@ -3943,21 +3943,21 @@ class Incubation extends User_Controller {
                         '<strong>' . smit_center( floor($sum_klaster4) ) .'</strong>',
                         '<strong>' . smit_center( floor($row->rate_total) ) .'</strong>',
                         '<strong>' . smit_center( floor($row->irl_total) ) .'</strong>',
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     /**
 	 * History Incubation function.
@@ -3965,11 +3965,11 @@ class Incubation extends User_Controller {
 	public function incubationhistory()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -3979,7 +3979,7 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -3998,7 +3998,7 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
@@ -4015,10 +4015,10 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'selectionincubation/history';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * History List data function.
 	 */
@@ -4029,29 +4029,29 @@ class Incubation extends User_Controller {
         $is_pengusul        = as_pengusul($current_user);
         $is_pelaksana       = as_pelaksana($current_user);
         $condition          = '';
-        
+
         if( !empty($id) ){
             if(!empty($is_jury)){
-                $condition          = ' WHERE jury_id = '. $current_user->id .' ';     
+                $condition          = ' WHERE jury_id = '. $current_user->id .' ';
             }else{
-                $condition          = ' WHERE user_id = '. $current_user->id .' '; 
+                $condition          = ' WHERE user_id = '. $current_user->id .' ';
             }
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_title            = $this->input->post('search_title');
@@ -4062,37 +4062,37 @@ class Incubation extends User_Controller {
         $s_score            = smit_isset($s_score, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = %s%'); }
         if( !empty($s_score) )          { $condition .= str_replace('%s%', $s_score, ' AND %score% = %s%'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %dateprocess% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %dateprocess% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%step% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%score% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $history_list   = $this->Model_Incubation->get_all_incubation_history($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($history_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($history_list as $row){
                 $rate           = $row->rate_total;
@@ -4102,7 +4102,7 @@ class Incubation extends User_Controller {
                 $event          = $row->event_title;
                 $step           = $row->step;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $step == 1 || $step == 2 ){
                     if($rate < KKM_STEP1 || $rate < KKM_STEP2){
                         $rate           = '<strong style="color: red !important;">'.$rate.'</strong>';
@@ -4111,10 +4111,10 @@ class Incubation extends User_Controller {
                         $name           = '<strong style="color: red !important;">'.$name.'</strong>';
                         $event          = '<strong style="color: red !important;">'.$event.'</strong>';
                         $step           = '<strong style="color: red !important;">'.$step.'</strong>';
-                        $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';    
+                        $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';
                     }
                 }
-            
+
                 if( !empty($is_admin)){
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -4126,7 +4126,7 @@ class Incubation extends User_Controller {
                         smit_center( $rate ),
                         smit_center( $datecreated ),
                         '',
-                    );     
+                    );
                 }elseif( !empty($is_jury) ){
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -4137,7 +4137,7 @@ class Incubation extends User_Controller {
                         smit_center( $rate ),
                         smit_center( $datecreated ),
                         '',
-                    );     
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -4148,36 +4148,36 @@ class Incubation extends User_Controller {
                         smit_center( $rate ),
                         smit_center( $datecreated ),
                         '',
-                    );     
+                    );
                 }
-                 
+
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Ranking function.
 	 */
 	public function ranking()
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
         $is_pengusul            = as_pengusul($current_user);
         $is_pelaksana           = as_pelaksana($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -4190,7 +4190,7 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.css',
             BE_PLUGIN_PATH . 'ion-rangeslider/css/ion.rangeSlider.skinFlat.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -4206,14 +4206,14 @@ class Incubation extends User_Controller {
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
-            
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
@@ -4221,7 +4221,7 @@ class Incubation extends User_Controller {
             'SliderIndikator.init()'
         ));
         $scripts_add            = '';
-        
+
         $active                 = '';
         $lss                    = smit_latest_incubation_setting();
         if( !empty($lss) ){
@@ -4236,7 +4236,7 @@ class Incubation extends User_Controller {
                 }
             }
         }
-        
+
         $data['title']          = TITLE . 'Penilaian Peringkat';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -4250,10 +4250,10 @@ class Incubation extends User_Controller {
         $data['lss']            = $lss;
         $data['active']         = $active;
         $data['main_content']   = 'selectionincubation/ranking';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     //----------------------------------------------------------------------------------------------
     // RANGKING
     /**
@@ -4264,24 +4264,24 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE step = 1 AND A.status = 3';
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
-        
+
         $order_by           = 'A.average_score DESC';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -4292,36 +4292,36 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_ranking($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
@@ -4331,24 +4331,24 @@ class Incubation extends User_Controller {
                     $selection_date_invitation_send   = strtotime($lss->selection_date_invitation_send);
                     $selection_date_interview_start   = strtotime($lss->selection_date_interview_start);
                     if( /* $curdate >= $selection_date_invitation_send && */ $curdate <= $selection_date_interview_start ){
-                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'"
                         class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->status == CONFIRMED || $row->status == REJECTED || $row->status == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACCEPTED)    { $status = '<span class="label bg-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-               
+
                 $sum_score      = $row->score;
                 $average_score  = $row->average_score;
                 //Workunit
@@ -4358,21 +4358,21 @@ class Incubation extends User_Controller {
                 $year           = $row->year;
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $average_score < KKM_STEP1 ){
-                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';     
+                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 if( $i == 1 ){
-                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>'; 
-                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>'; 
-                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>'; 
-                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>'; 
+                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
+                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
+                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
+                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
                     $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
                     $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';    
+                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         smit_center( $year ),
@@ -4384,21 +4384,21 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         //smit_center( $btn_score. ' ' .$btn_details),
                         '',
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Admin Ranking list data function.
 	 */
@@ -4407,24 +4407,24 @@ class Incubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
         $condition          = ' WHERE steptwo = 2 AND A.status = 3';
-        
+
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
-        
+
         $order_by           = 'A.average_scoretwo DESC';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_username         = $this->input->post('search_username');
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
@@ -4435,36 +4435,36 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_ranking($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 $btn_score          = '';
@@ -4474,23 +4474,23 @@ class Incubation extends User_Controller {
                     $selection_date_result              = strtotime($lss->selection_date_result);
                     $selection_date_proposal_start      = strtotime($lss->selection_date_proposal_start);
                     if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
-                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'" 
+                        $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'"
                         class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
                         $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
-                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'" 
+                    $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->statustwo == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
                 elseif($row->statustwo == ACCEPTED)    { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
-                
+
                 $sum_score      = $row->scoretwo;
                 $average_score  = $row->average_scoretwo;
                 //Workunit
@@ -4500,21 +4500,21 @@ class Incubation extends User_Controller {
                 $year           = $row->year;
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 if( $average_score < KKM_STEP2 ){
-                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';     
+                    $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 if( $i == 1 ){
-                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>'; 
-                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>'; 
-                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>'; 
-                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>'; 
+                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
+                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
+                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
+                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
                     $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
                     $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';    
+                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
                 }
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         smit_center( $year ),
@@ -4526,46 +4526,46 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         //smit_center( $btn_score. ' ' .$btn_details),
                         '',
-                    );  
+                    );
                 $i++;
-            }   
+            }
         }
-        
+
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation list data function.
 	 */
     function incubationdata( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ''; 
+        $condition          = '';
         if( !$is_admin ){
             $condition      = ' WHERE user_id = '.$current_user->id.'';
         }
-        
+
         $order_by           = 'year DESC';
         $iTotalRecords      = 0;
-        
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']); 
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-        
+
         $sAction            = smit_isset($_REQUEST['sAction'],'');
         $sEcho              = intval($_REQUEST['sEcho']);
         $sort               = $_REQUEST['sSortDir_0'];
         $column             = intval($_REQUEST['iSortCol_0']);
-        
+
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -4574,92 +4574,111 @@ class Incubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
-        
+
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); } 
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        
+
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
-        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
-        
+
+        if( $is_admin ){
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        }else{
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+        }
+
         $incubation_list    = $this->Model_Incubation->get_all_incubationdata($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($incubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
-            
+
             $i = $offset + 1;
             foreach($incubation_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode).'" 
+                $btn_action = '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 $workunit   = '<center> - </cemter>';
                 if($row->workunit > 0){
                     $workunit_type  = smit_workunit_type($row->workunit);
-                    $workunit       = $workunit_type->workunit_name;    
-                }  
+                    $workunit       = $workunit_type->workunit_name;
+                }
                 $year           = $row->year;
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
 
-                $records["aaData"][] = array(
-                    smit_center( $i ),
-                    smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
-                    strtoupper( $workunit ),
-                    strtoupper( $event ),
-                    smit_center( $datecreated ),
-                    smit_center( $btn_action ),
-                );
+                if( $is_admin ){
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year ),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                        strtoupper( $workunit ),
+                        strtoupper( $event ),
+                        smit_center( $datecreated ),
+                        smit_center( $btn_action ),
+                    );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year ),
+                        strtoupper( $workunit ),
+                        strtoupper( $event ),
+                        smit_center( $datecreated ),
+                        smit_center( $btn_action ),
+                    );
+                }
+
                 $i++;
-            }   
+            }
         }
-        
+
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
-        
+
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Detail list data function.
 	 */
     public function incubationdatadetails($uniquecode)
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_pengusul            = as_pengusul($current_user);
-        
+
         if( !$uniquecode ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -4669,7 +4688,7 @@ class Incubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
-        
+
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
@@ -4688,15 +4707,15 @@ class Incubation extends User_Controller {
             // Put script based on current page
             BE_JS_PATH . 'pages/table/table-ajax.js',
         ));
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
             'PraIncubationList.init();',
         ));
-        
+
         $scripts_add            = '';
-        
+
         // Custom
         $condition              = '';
         $incubation_list     = '';
@@ -4704,9 +4723,9 @@ class Incubation extends User_Controller {
             $incubation_list        = $this->Model_Incubation->get_all_incubationdata('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
             $incubation_list        = $incubation_list[0];
             $user_id                = $incubation_list->user_id;
-            $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE user_id = '.$user_id.'', '');    
+            $incubation_files       = $this->Model_Incubation->get_all_incubation_files('', '', ' WHERE user_id = '.$user_id.'', '');
         }
-        
+
         $data['title']          = TITLE . 'Detail Seleksi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -4718,14 +4737,14 @@ class Incubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'incubation/listincubationdetails';
-        
+
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
-    
+
+
     // ---------------------------------------------------------------------------------------------
-    
-    
+
+
 }
 
 /* End of file Incubation.php */

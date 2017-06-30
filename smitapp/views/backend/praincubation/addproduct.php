@@ -17,7 +17,7 @@
                                     <?php
                                         $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                         if( !empty($is_admin) ){
-                                            $conditions = '';        
+                                            $conditions = '';
                                         }
         	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, $conditions);
         	                            if( !empty($praincubation_list) ){
@@ -48,7 +48,7 @@
                                     <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize"></textarea>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <h4>Produk Pra-Inkubasi</h4>
                         <div class="form-group">
                             <div class="alert bg-teal">
@@ -74,7 +74,7 @@
                         <button type="button" class="btn btn-danger waves-effect" id="btn_productadd_reset">Bersihkan</button>
                     </section>
                 </div>
-            <?php echo form_close(); ?>
+                <?php echo form_close(); ?>
             </div>
         </div>
     </div>
