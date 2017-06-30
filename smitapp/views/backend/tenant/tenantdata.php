@@ -8,12 +8,12 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#tab_incubation" data-toggle="tab">
-                            <i class="material-icons">label</i> HASIL INKUBASI
+                            <i class="material-icons">list</i> HASIL INKUBASI
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#tab_tenant" data-toggle="tab">
-                            <i class="material-icons">label</i> DATA TENANT
+                            <i class="material-icons">list</i> DATA TENANT
                         </a>
                     </li>
                 </ul>
