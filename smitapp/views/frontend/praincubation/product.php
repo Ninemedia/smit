@@ -39,112 +39,123 @@
                 <div class="panel-body">
                     <div class="product-box">
                         <div class="row">
-                        
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                            <?php
+                                $condition          = ' WHERE %status% = 1';
+                                $product_list       = $this->Model_Praincubation->get_all_product(0, 0, $condition);
+                                
+                                foreach($product_list AS $row){
+                                    $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
+                                    $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'.$row->user_id.'/' . $file_name; 
+                                    $product        = $file_url;
+                            ?>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                        <img alt="Riset Unggulan" src="<?php echo $product; ?>" />
+                                        <a href="<?php echo base_url(); ?>"><div class="product-title"><h3><?php echo $row->title; ?></h3></div></a>
+                                        <div class="product-overlay">
+                                            <div class="product-content">
+                                                <a href="<?php echo base_url(); ?>"><h3><?php echo $row->title; ?></h3></a>
+                                                <p><?php echo $row->description; ?></p>
+                                                <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
-                                    <div class="product-overlay">
-                                        <div class="product-content">
-                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
-                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
-                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php } ?>
                             
+                            <!--
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
+                                    <img alt="Riset Unggulan" src="<?php echo FE_IMG_PATH . 'img_6.jpg'; ?>" />
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3>Scelerisque Snte Sollicitudin</h3></div></a>
+                                    <div class="product-overlay">
+                                        <div class="product-content">
+                                            <a href="<?php echo base_url(); ?>"><h3>Scelerisque Snte Sollicitudin</h3></a>
+                                            <p>Cras sit amet nibh libero, in gravida nulla, Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                                            <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
                         </div>
                     </div>
                 </div>

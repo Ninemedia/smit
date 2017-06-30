@@ -27,8 +27,8 @@
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#workunit" data-toggle="tab">
-                            <i class="material-icons">cast_connected</i> SATUAN KERJA
+                        <a href="#other" data-toggle="tab">
+                            <i class="material-icons">cast_connected</i> LAINNYA
                         </a>
                     </li>
                 </ul>
@@ -51,8 +51,8 @@
                         <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/notificationincubation'); ?>
                     </div>
                     
-                    <div role="tabpanel" class="tab-pane fade" id="workunit">
-                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/workunit'); ?>
+                    <div role="tabpanel" class="tab-pane fade" id="other">
+                        <?php $this->load->view(VIEW_BACK . 'setting/backendsetting/other'); ?>
                     </div>
                 </div>
             </div>

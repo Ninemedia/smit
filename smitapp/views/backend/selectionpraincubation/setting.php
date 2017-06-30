@@ -105,7 +105,7 @@
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);
-                                                $extra = 'class="form-control def" id="selection_year_publication"';
+                                                $extra = 'class="form-control def" id="selection_year_publication" required';
                         
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){

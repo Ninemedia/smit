@@ -543,12 +543,14 @@ class Tenant extends User_Controller {
         $is_pelaksana           = as_pelaksana($current_user);
         $id_user                = $current_user->id;
         
+        
+        $post_selection_id      = $this->input->post('reg_event');
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
         $post_tenant_year       = $this->input->post('tenant_year');
         $post_tenant_address    = $this->input->post('tenant_address');
-        $post_tenant_province   = $this->input->post('province');
-        //$post_tenant_city       = $this->input->post('regional');
+        $post_tenant_province   = $this->input->post('tenant_province');
+        $post_tenant_city       = $this->input->post('tenant_regional');
         $post_tenant_district   = $this->input->post('tenant_district');
         $post_tenant_phone      = $this->input->post('tenant_phone_contact');
         $post_tenant_legal      = $this->input->post('tenant_legal');
@@ -559,8 +561,8 @@ class Tenant extends User_Controller {
         $this->form_validation->set_rules('tenant_email','Email Tenant','required');
         $this->form_validation->set_rules('tenant_year','Tahun Berdiri Tenatn','required');
         $this->form_validation->set_rules('tenant_address','Alamat','required');
-        $this->form_validation->set_rules('province','Provinsi','required');
-        //$this->form_validation->set_rules('regional','Kota/Kabupaten','required');
+        $this->form_validation->set_rules('tenant_province','Provinsi','required');
+        $this->form_validation->set_rules('tenant_regional','Kota/Kabupaten','required');
         $this->form_validation->set_rules('tenant_district','Kecamatan/Kelurahan','required');
         $this->form_validation->set_rules('tenant_phone_contact','Telp/HP','required');
         $this->form_validation->set_rules('tenant_legal','Legal','required');
@@ -580,6 +582,11 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }else{
             $curdate            = date("Y-m-d H:i:s");
+            
+            
+        echo '<pre>';
+        print_r($_POST);
+        die();
             
             $tenantdata         = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),

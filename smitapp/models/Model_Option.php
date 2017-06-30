@@ -8,6 +8,8 @@ class Model_Option extends SMIT_Model{
      */
     var $table      = "smit_options";
     var $workunit   = "smit_workunit";
+    var $category   = "smit_category";
+    
     /**
 	* Constructor - Sets up the object properties.
 	*/
@@ -70,6 +72,56 @@ class Model_Option extends SMIT_Model{
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'workunit_id DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Save data of category
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of category
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_category($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->category, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Retrieve all category data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of user               default 0
+     * @param   Int     $offset             Offset ot user              default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of user list
+     */
+    function get_all_category($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%category_id%",          "category_id", $conditions);
+            $conditions = str_replace("%category_name%",        "category_name", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%category_id%",          "category_id", $order_by);
+            $order_by   = str_replace("%category_name%",        "category_name", $order_by);
+        }
+        
+        $sql = 'SELECT * FROM ' . $this->category. '';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'category_id DESC');
         
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 

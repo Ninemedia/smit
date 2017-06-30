@@ -2,13 +2,11 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Detail Seleksi Inkubasi</h2></div>
+            <div class="header"><h2>Detail Inkubasi</h2></div>
             <div class="body">
-                <h4><?php echo $incubation->event_title; ?></h4>
-                <div class="table-container table-responsive">
-                    <div class="table-wrapper pull-right bottom10">                        
-                        <a href="<?php echo base_url('seleksiinkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back">Kembali</a>     
-                    </div>
+                <div class="table-container table-responsive">                     
+                    <a href="<?php echo base_url('tenants/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
+                    <h4><?php echo $incubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>
                             <tr class="bg-blue-grey">
@@ -24,12 +22,12 @@
                             <tr>
                                 <th style="width: 30%;">Judul Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $incubation->event_title; ?></td>
+                                <td><strong><?php echo strtoupper( $incubation->event_title ); ?></strong></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Deskripsi Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $incubation->event_desc; ?></td>
+                                <td><p><?php echo $incubation->event_desc; ?></p></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
@@ -44,11 +42,11 @@
                                         if( !empty($incubation_files) ){
                                             echo '<ul class="bottom0" style="padding-left:10px;">';
                                             foreach($incubation_files as $file){
-                                                echo '<li>'.$file->filename.' - <a href="'.base_url('inkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                                echo '<li>'.$file->filename.' - <a href="'.base_url('prainkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                             }
                                             echo '</ul>';
                                         }else{
-                                            echo '<strong>Tidak ada berkas panduan</strong>';
+                                            echo '<strong>Tidak ada berkas proposal yang di unggah oleh Pengusul ini</strong>';
                                         } 
                                     ?>
                                     

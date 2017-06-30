@@ -360,10 +360,187 @@ var ScoreSetting = function () {
                 
         });
         
+        $("body").delegate( "button#do_save_scoreuser_praincubation2", "click", function( event ) {
+            event.preventDefault();
+            var div_container   = $('#alert-display');
+            var url             = $('#selection_score_step2').attr('action');
+            
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data:   $('#selection_score_step2').serialize(),
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                        $('button.btn-rate-step2').hide();
+                        $('button.btn-rate-step2-reset').hide();
+                        $('#selection_score_step2 select.form-control').attr('disabled','disabled');
+                        $('#nilai_juri_comment').attr('readonly','readonly');
+                    }
+                    return false;
+                }
+            });
+                
+        });
+        
+        $("body").delegate( "button#do_save_scoreuser_incubation", "click", function( event ) {
+            event.preventDefault();
+            var div_container   = $('#alert-display');
+            var url             = $('#selectionincubation_score_step1').attr('action');
+            
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data:   $('#selectionincubation_score_step1').serialize(),
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                        $('button.btn-rate-step1').hide();
+                        $('button.btn-rate-step1-reset').hide();
+                        $('#selectionincubation_score_step1 select.form-control').attr('disabled','disabled');
+                        $('#nilai_juri_comment').attr('readonly','readonly');
+                    }
+                    return false;
+                }
+            });
+                
+        });
+        
+        $("body").delegate( "button#do_save_scoreuser_incubation2", "click", function( event ) {
+            event.preventDefault();
+            var div_container   = $('#alert-display');
+            var url             = $('#selectionincubation_score_step2').attr('action');
+            
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data:   $('#selectionincubation_score_step2').serialize(),
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.message == 'redirect'){
+                        $(location).attr('href',response.data);
+                    }else if( response.message == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.data, 
+                            container: div_container, 
+                            place: 'prepend',
+                            focus: false
+                        });
+                        App.scrollTo(div_container, -90);
+                        $('button.btn-rate-step2').hide();
+                        $('button.btn-rate-step2-reset').hide();
+                        $('#selectionincubation_score_step2 select.form-control').attr('disabled','disabled');
+                        $('#nilai_juri_comment').attr('readonly','readonly');
+                    }
+                    return false;
+                }
+            });
+                
+        });
+        
         $("body").delegate( "button.btn-rate-step1-reset", "click", function( event ) {
             $('#selection_score_step1')[0].reset();
             $('#selection_score_step1 span.help-block').hide();
             $('#selection_score_step1 div.input-group').removeClass('error');
+        });
+        
+        $("body").delegate( "button.btn-rate-step2-reset", "click", function( event ) {
+            $('#selection_score_step2')[0].reset();
+            $('#selection_score_step2 span.help-block').hide();
+            $('#selection_score_step2 div.input-group').removeClass('error');
+        });
+        
+        $("body").delegate( "button.btn-rate-step1-resetincubation", "click", function( event ) {
+            $('#selectionincubation_score_step1')[0].reset();
+            $('#selectionincubation_score_step1 span.help-block').hide();
+            $('#selectionincubation_score_step1 div.input-group').removeClass('error');
+        });
+        
+        $("body").delegate( "button.btn-rate-step2-resetincubation", "click", function( event ) {
+            $('#selectionincubation_score_step2')[0].reset();
+            $('#selectionincubation_score_step2 span.help-block').hide();
+            $('#selectionincubation_score_step2 div.input-group').removeClass('error');
         });
         
         // Rate Step 1 Change
@@ -399,6 +576,7 @@ var ScoreSetting = function () {
             
         });
         
+        /*
         $("body").delegate( "button.btn-rate-step2", "click", function( event ) {
             event.preventDefault();
             var div_container   = $('#alert-display');
@@ -452,6 +630,7 @@ var ScoreSetting = function () {
                 }
             });
         });
+        */
     };
     
     var handlePraIncubationStep1List = function(){
@@ -492,6 +671,8 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_stepone').trigger('click');
+                            $('#btn_resetadmin_stepone').trigger('click');
+                            $('#btn_resetadmin_steptwo').trigger('click');
                         }
                     });
                 }
@@ -534,6 +715,7 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_steptwo').trigger('click');
+                            $('#btn_resetadmin_steptwo').trigger('click');
                         }
                     });
                 }
@@ -664,6 +846,8 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_stepone').trigger('click');
+                            $('#btn_resetadmin_stepone').trigger('click');
+                            $('#btn_resetadmin_steptwo').trigger('click');
                         }
                     });
                 }
@@ -706,6 +890,7 @@ var ScoreSetting = function () {
                                 });
                             }
                             $('#btn_admin_steptwo').trigger('click');
+                            $('#btn_resetadmin_steptwo').trigger('click');
                         }
                     });
                 }

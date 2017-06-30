@@ -7,6 +7,7 @@ class Model_Incubation extends SMIT_Model{
      * Initialize table
      */
     var $user                       = "smit_user";
+    var $incubation                 = "smit_incubation";
     var $incubation_selection       = "smit_incubation_selection";
     var $incubation_selection_set   = "smit_incubation_selection_setting";
     var $incubation_selection_rpt   = "smit_incubation_selection_report";
@@ -342,6 +343,26 @@ class Model_Incubation extends SMIT_Model{
      * @param   Int     $id   (Optional) Type of user, default 'all'
      * @return  Int of total rows user
      */
+    function sum_all_irl($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(irl_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
+        
+        $query  = $this->db->query($sql);
+        $row    = $query->row();
+        
+        if ( empty($row->total) ) return 0;
+        
+        return $row->total;
+    }
+    
+    /**
+     * Sum All Score Rows
+     * 
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $id   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
     function sum_all_score2($id){
         //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
         $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id = '.$id.' ';
@@ -353,6 +374,45 @@ class Model_Incubation extends SMIT_Model{
         
         return $row->total;
     }
+    
+    /**
+     * Get Pra Incubation Rate Step 2 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 score.
+     */
+    function get_incubation_rate_step2_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 2 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 2 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 2 count.
+     */
+    function get_incubation_rate_step2_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->incubation_selection_rate_s2.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
     
     /**
      * Save data of incubation_selection
@@ -427,6 +487,22 @@ class Model_Incubation extends SMIT_Model{
     }
     
     /**
+     * Save data of incubation
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_incubation($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
      * Retrieve all pra incubation data
      * 
      * @author  Iqbal
@@ -475,7 +551,9 @@ class Model_Incubation extends SMIT_Model{
             SELECT A.*,B.workunit, B.name AS user_name, B.email
             FROM ' . $this->incubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.user_id';
+            ON B.id = A.user_id
+            LEFT JOIN ' . $this->user . ' AS C
+            ON C.id = A.companion_id ';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
@@ -791,6 +869,44 @@ class Model_Incubation extends SMIT_Model{
     }
     
     /**
+     * Get Pra Incubation Rate Step 1 Score
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Score
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 score.
+     */
+    function get_incubation_rate_step1_total($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT SUM(rate_total) AS total FROM '.$this->incubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
+     * Get Pra Incubation Rate Step 1 Count
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Pra Incubation Rate Step 1 Count
+     * @return  Mixed   False on invalid date parameter, otherwise data of pra incubation(s) rate step 1 count.
+     */
+    function get_incubation_rate_step1_count($id){
+        if ( !$id ) return 0;
+        
+        $sql    = 'SELECT COUNT(id) AS total FROM '.$this->incubation_selection_rate_s1.' WHERE selection_id='.$id.'';
+        $qry    = $this->db->query($sql);        
+        
+        if ( !$qry ) return 0;
+        
+        $row    = $qry->row();
+        return $row->total;
+    }
+    
+    /**
      * Get Pra Incubation Rate Step 1
      * 
      * @author  Iqbal
@@ -808,7 +924,7 @@ class Model_Incubation extends SMIT_Model{
         
         $this->db->order_by("datecreated", "DESC"); 
         $query      = $this->db->get($this->incubation_selection_rate_s1);        
-        return ( !empty($id) ? $query->row() : $query->result() );
+        return ( !empty($jury_id) ? $query->row() : $query->result() );
     }
     
     /**
@@ -1024,6 +1140,182 @@ class Model_Incubation extends SMIT_Model{
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 
         $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_incubation_scorestep2($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%dateprocess%",          "B.datemodified", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%dateprocess%",          "B.datemodified",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.name
+            FROM ' . $this->incubation_selection_rate_s2. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.jury_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all pra incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_ranking($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%companion_id%",         "A.companion_id", $conditions);
+            $conditions = str_replace("%companion_name%",       "C.companion_name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%statustwo%",            "A.statustwo", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%companion_name%",       "C.companion_name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%statustwo%",            "A.statustwo",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.workunit, B.name AS user_name, B.email
+            FROM ' . $this->incubation_selection. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.user_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Retrieve all incubation data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_incubationdata($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.workunit, B.name AS user_name, B.email            
+            FROM ' . $this->incubation. ' AS A
+            LEFT JOIN ' . $this->user . ' AS B
+            ON B.id = A.user_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        
         if(!$query || !$query->num_rows()) return false;
         
         return $query->result();

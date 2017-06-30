@@ -15,6 +15,7 @@ class Model_Praincubation extends SMIT_Model{
     var $praincubation_selection_his        = "smit_praincubation_selection_history";
     var $praincubation_selection_rate_s1    = "smit_praincubation_selection_rate_step1";
     var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
+    var $praincubation_product              = "smit_praincubation_product";
     
     /**
      * Initialize primary field
@@ -217,7 +218,7 @@ class Model_Praincubation extends SMIT_Model{
         
         $this->db->order_by("datecreated", "DESC"); 
         $query      = $this->db->get($this->praincubation_selection_rate_s1);        
-        return ( !empty($id) ? $query->row() : $query->result() );
+        return ( !empty($jury_id) ? $query->row() : $query->result() );
     }
     
     /**
@@ -557,6 +558,22 @@ class Model_Praincubation extends SMIT_Model{
     function save_data_praincubation($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->praincubation, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of product praincubation
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_product($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_product, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };
@@ -1221,7 +1238,7 @@ class Model_Praincubation extends SMIT_Model{
     function get_all_praincubation_setting($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",               "id", $conditions);
-            $conditions = str_replace("%selection_year_publication%", "selection_year_publication", $conditions);
+            $conditions = str_replace("%year%",             "selection_year_publication", $conditions);
             $conditions = str_replace("%date_publication%", "selection_date_publication", $conditions);
             $conditions = str_replace("%date_reg_start%",   "selection_date_reg_start", $conditions);
             $conditions = str_replace("%date_reg_end%",     "selection_date_reg_end", $conditions);
@@ -1236,7 +1253,7 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by = str_replace("%id%",                 "id", $order_by);
-            $order_by = str_replace("%selection_year_publication%",   "selection_year_publication", $order_by);
+            $order_by = str_replace("%year%",               "selection_year_publication", $order_by);
             $order_by = str_replace("%date_publication%",   "selection_date_publication", $order_by);
             $order_by = str_replace("%date_reg_start%",     "selection_date_reg_start", $order_by);
             $order_by = str_replace("%date_reg_end%",       "selection_date_reg_end", $order_by);
@@ -1450,6 +1467,7 @@ class Model_Praincubation extends SMIT_Model{
     function get_all_praincubationdata($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
             $conditions = str_replace("%year%",                 "A.year", $conditions);
             $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
@@ -1461,6 +1479,7 @@ class Model_Praincubation extends SMIT_Model{
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
@@ -1486,6 +1505,96 @@ class Model_Praincubation extends SMIT_Model{
         if(!$query || !$query->num_rows()) return false;
         
         return $query->result();
+    }
+    
+    /**
+     * Retrieve all product data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_product($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%title%",                "A.title", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%title%",                "A.title",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.event_title          
+            FROM ' . $this->praincubation_product. ' AS A
+            LEFT JOIN ' . $this->praincubation_selection . ' AS B
+            ON B.id = A.selection_id';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Get Product by Uniquecode
+     * 
+     * @author  Iqbal
+     * @param   Int     $uniquecode     (Required)  ID of slider
+     * @return  Mixed   False on invalid date parameter, otherwise data of slider(s).
+     */
+    function get_product_by_uniquecode($uniquecode=''){
+        if ( !empty($uniquecode) ) { 
+            $this->db->where('uniquecode', $uniquecode);
+        };
+        
+        $this->db->order_by("datecreated", "DESC"); 
+        $query      = $this->db->get($this->praincubation_product);        
+        return ( !empty($uniquecode) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Update data of product
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_product($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+    
+        if( $this->db->update($this->praincubation_product, $data) ) 
+            return true;
+            
+        return false;
     }
     
     // ---------------------------------------------------------------------------------

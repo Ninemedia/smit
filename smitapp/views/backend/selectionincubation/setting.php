@@ -27,25 +27,17 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width20 text-center">Tanggal<br />Publikasi</th>
-        							<th class="width25 text-center">Tanggal<br />Pendaftaran Online</th>
-                                    <th class="width20 text-center">Keterangan</th>
-                                    <th class="width15 text-center">Status</th>
-        							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+        							<th class="width10 text-center">Tahun<br />Seleksi</th>
+                                    <th class="width15 text-center">Juri Tahap 1</th>
+                                    <th class="width15 text-center">Juri Tahap 2</th>
+                                    <th class="width10 text-center">Status</th>
+        							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     				            </tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
-        							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="selection_date_publication_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="selection_date_publication_max" placeholder="To" />
-        							</td>
-        							<td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_date_reg_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_date_reg_max" placeholder="To" />
-        							</td>
-                                    <td>
-        								<input type="text" class="form-control form-filter input-sm" name="search_desc" placeholder="Cari..." />
-        							</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
                                         <select name="search_status" class="form-control form-filter input-sm def">
     										<option value="">Select...</option>
@@ -67,6 +59,10 @@
                     </div>
                     
                     <div role="tabpanel" class="tab-pane fade" id="add">
+                        <?php $latest_selection_incubation_setting = smit_latest_incubation_setting(); ?>
+                        <?php if( !empty($latest_selection_incubation_setting) ){ ?>
+                            <div class="alert alert-warning bottom0">Pengaturan Inkubasi tidak dapat ditambahkan karena saat ini sedang dibuka Seleksi Inkubasi</div>
+                        <?php }else{ ?>
                             <div id="alert" class="alert display-hide"></div>
                             <?php echo form_open_multipart( base_url('incubationselectionsetting'), array( 'id'=>'selection_incubation_wizard', 'role'=>'form' ) ); ?>
                                 <!--
@@ -80,7 +76,7 @@
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);
-                                                $extra = 'class="form-control def" id="selection_year_publication"';
+                                                $extra = 'class="form-control def" id="selection_year_publication" required';
                         
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
@@ -234,6 +230,23 @@
                                     <div class="alert bg-grey">
                                         Silahkan pilih file yang akan ditampilah di halaman seleksi inkubasi. Bisa memilih lebih dari 1 file panduan.
                                     </div>
+                                    <h2 class="card-inside-title">Tahun Publikasi</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $extra = 'class="form-control def" id="selection_year_publication" required';
+                        
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }                                        
+                                                echo form_dropdown('selection_year_publication',$option,'',$extra);
+                                            ?>
+                                        </div>
+                                    </div>
                                     <!-- Select Guide Files -->
                                     <div class="form-group multi_select">
                                         <?php
@@ -249,6 +262,21 @@
                                         ?>
                                     </div>
                                     <!-- #END# Select Guide Files -->
+                                    <h2 class="card-inside-title">Keterangan</h2>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <?php 
+                                                echo form_textarea(
+                                                    array(
+                                                        'name'=>'selection_desc',
+                                                        'class'=>'form-control no-resize selection_desc',
+                                                        'rows'=>4,
+                                                        'placeholder'=>'Silahkan isi deskripsi dari pengaturan...'
+                                                    )
+                                                ); 
+                                            ?>
+                                        </div>
+                                    </div>
                                 </section>
             
                                 <h3>Penentuan Juri</h3>
@@ -306,10 +334,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="width35"><strong>Tahun Publikasi</strong></td><td class="width5"> : </td>
-                                            <td class="width60"><div class="selection_det_year_publication">-</div></td>
-                                        </tr>
-                                        <tr>
                                             <td><strong>Tanggal Publikasi</strong></td><td> : </td>
                                             <td><div class="selection_det_date_publication">-</div></td>
                                         </tr>
@@ -357,8 +381,12 @@
                                         -->
                                         <tr>
                                             <td colspan="3">
-                                                <div class="alert bg-grey bottom0">Berkas Panduan</div>
+                                                <div class="alert bg-grey bottom0">Tahun dan Berkas Panduan</div>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="width35"><strong>Tahun Publikasi</strong></td><td class="width5"> : </td>
+                                            <td class="width60"><div class="selection_det_year_publication">-</div></td>
                                         </tr>
                                         <tr>
                                             <td class="text-top"><strong>Berkas Panduan</strong></td><td class="text-top"> : </td>
@@ -381,7 +409,8 @@
                                 
                                     <input id="acceptTerms-2" name="acceptTerms" type="checkbox" required>
                                     <label for="acceptTerms-2">Saya setuju dengan ketentuan pengaturan seleksi.</label>
-                                </section>   
+                                </section>
+                        <?php }?>    
                     </div>
                 </div>
                 
@@ -397,10 +426,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Simpan Pengaturan Pembukaan Seleksi Inkubasi</h4>
+				<h4 class="modal-title">Simpan Pengaturan Seleksi Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Apakah Anda sudah yakin dengan data Pengaturan Pembukaan Seleksi Inkubasi?</p>
+                <p>Apakah Anda sudah yakin dengan data Pengaturan Seleksi Inkubasi?</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>

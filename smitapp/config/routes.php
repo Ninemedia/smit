@@ -138,6 +138,10 @@ $route['prainkubasi/laporan']                   = "praincubation/praincubationre
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 $route['prainkubasi/tambah']                    = "praincubation/addpraincubation";
+$route['prainkubasi/tambahproduk']              = "praincubation/addproduct";
+$route['prainkubasi/produk']                    = "praincubation/listproduct";
+$route['produk/detail/(:any)']                  = "praincubation/productdetails/$1";
+$route['produkconfirm/(:any)/(:any)']           = "praincubation/productconfirm/$1/$2";
 // --------------------------------------------------------------------------
 
 
@@ -161,6 +165,8 @@ $route['seleksiinkubasi/riwayat']                   = "incubation/incubationhist
 $route['seleksiinkubasi/riwayatdata']               = "incubation/historylistdata";
 $route['seleksiinkubasi/riwayatdata/(:num)']        = "incubation/historylistdata/$1";
 $route['seleksiinkubasi/peringkat']                 = "incubation/ranking";
+$route['seleksiinkubasi/peringkatstep1']            = "incubation/rankinglistdatastep1";
+$route['seleksiinkubasi/peringkatstep2']            = "incubation/rankinglistdatastep2";
 
 // Menu Penilaian
 $route['seleksiinkubasi/adminnilaidata/(:any)']     = "incubation/adminscorelistdata/$1";
@@ -175,7 +181,7 @@ $route['seleksiinkubasi/jurinilaidata/(:any)']      = "incubation/juryscorelistd
 $route['seleksiinkubasi/jurinilaidatastep1']        = "incubation/juryscorelistdatastep1";
 $route['seleksiinkubasi/jurinilaidatastep2']        = "incubation/juryscorelistdatastep2";
 $route['seleksiinkubasi/nilai/(:num)/(:any)']       = "incubation/juryscoreuser/$1/$2";
-$route['inkubasi/prosesnilai/(:num)']               = "incubation/juryscoreuserprocess/$1";
+$route['seleksiinkubasi/prosesnilai/(:num)']        = "incubation/juryscoreuserprocess/$1";
 // Menu Pengaturan
 $route['inkubasi/pengaturan']                   = "incubation/incubationsetting";
 $route['daftarseleksiinkubasi']                 = "incubation/incubationsettinglistdata";
@@ -193,6 +199,8 @@ $route['incubationscoreact/(:any)/(:any)']      = "incubation/incubationscoreact
 $route['incubationdownloadfile/(:any)']         = "incubation/incubationdownloadfile/$1";
 $route['juryscoresetdetails/(:any)']            = "incubation/juryscoredatadetails/$1";
 $route['juryscoresetnilai/(:any)']              = "incubation/juryscoredatanilai/$1";
+$route['inkubasi/daftardata']                   = "incubation/incubationdata";
+$route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdatadetails/$1";
 
 // Tenant Page Routes
 $route['tenants/blogs']                         = "tenant/tenantblogs";

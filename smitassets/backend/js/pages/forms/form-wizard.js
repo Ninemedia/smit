@@ -137,7 +137,6 @@ var Wizard = function () {
         formWizardValidateIncubation(form, 'details_selection_incubation');
     };
     
-    
     // Details Selection Pra Incubation Validation
     var handleDetailsSelectionPraIncubation = function(){
         var form = $('#details_selection_praincubation');
@@ -390,6 +389,72 @@ var Wizard = function () {
         });
     };
     
+    var formWizardValidateIncubation = function(form, id=''){
+        form.validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                selection_year_publication: {
+                    required: true,
+                },
+                selection_date_agreement: {
+                    required: true,
+                },
+                'selection_files[]': {
+                    required: true,
+                },
+                'selection_juri_phase1[]': {
+                    required: true,
+                },
+                'selection_juri_phase2[]': {
+                    required: true,
+                }
+            },
+            messages: {
+                selection_year_publication: {
+                    required: "Tahun Publikasi harus di isi",
+                },
+                selection_date_agreement: {
+                    required: "Tanggal penetapan &amp; penandatanganan perjanjian harus di isi",
+                },
+                'selection_files[]': {
+                    required: "Silahkan pilih berkas panduan",
+                },
+                'selection_juri_phase1[]': {
+                    required: "Silahkan pilih juri tahap 1",
+                },
+                'selection_juri_phase2[]': {
+                    required: "Silahkan pilih juri tahap 2",
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+                App.scrollTo( $('#details_selection_incubation') );
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                if( id == 'details_selection_incubation' ){
+                    $('#save_selectionincubationsettingdetails').modal('show');
+                }else{
+                    return false;
+                }
+            }
+        });
+    };
+    
     // Save Pra-Incubation Setting
     $('#do_save_selectionpraincubationsetting').click(function(e){
         e.preventDefault();
@@ -402,10 +467,16 @@ var Wizard = function () {
         processUpdateSelectionPraIncubationSetting($('#details_selection_praincubation'));
     });
     
-    // Save Pra-Incubation Setting
+    // Save Incubation Setting
     $('#do_save_selectionincubationsetting').click(function(e){
         e.preventDefault();
         processSaveSelectionIncubationSetting($('#selection_incubation_wizard'));
+    });
+    
+    // Update Pra-Incubation Setting
+    $('#do_save_selectionincubationsettingdetails').click(function(e){
+        e.preventDefault();
+        processUpdateSelectionIncubationSetting($('#details_selection_incubation'));
     });
     
     var processSaveSelectionIncubationSetting = function( form ) {
@@ -487,8 +558,8 @@ var Wizard = function () {
                 $(element).parents('.form-group').append(error);
             },
             submitHandler: function (form) {
-                if( id == 'details_selection_praincubation' ){
-                    $('#save_selectionincubationsettingdetails').modal('show');
+                if( id == 'details_selection_incubation' ){
+                    $('#save_selectionincubationsetting').modal('show');
                 }else{
                     return false;
                 }
@@ -552,6 +623,29 @@ var Wizard = function () {
 			}
 		});
     };
+    
+    var processUpdateSelectionIncubationSetting = function( form ) {
+        var url     = form.attr( 'action' );
+        var data    = new FormData(form[0]);
+        var msg     = $('#alert');
+    	
+        $.ajax({
+			type : "POST",
+			url  : url,
+			data : data,
+            cache : false,
+            contentType : false,
+            processData : false,
+            beforeSend: function(){
+                $("div.page-loader-wrapper").fadeIn();
+            },
+			success: function(response) {
+                $("div.page-loader-wrapper").fadeOut();
+                response = $.parseJSON( response );
+                $(location).attr('href',response.data);
+			}
+		});
+    };
 
     var setButtonWavesEffect = function(event) {
         $(event.currentTarget).find('[role="menu"] li a').removeClass('waves-effect');
@@ -570,6 +664,7 @@ var Wizard = function () {
         //main function to initiate the module
         init: function () {
             handleSelectionPraIncubationWizard();
+            handleSelectionIncubationWizard();
             handleDetailsSelectionPraIncubation();
             handleDetailsSelectionIncubation();
         }

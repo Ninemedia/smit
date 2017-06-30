@@ -32,9 +32,9 @@
                                     $selection_date_adm_start   = strtotime($lss->selection_date_adm_start);
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
                                     
-                                    if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
+                                    //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
                                         <a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
-                                    <?php }
+                                    <?php //}
                                 } ?>  
                     		</div>
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
@@ -107,7 +107,7 @@
                                         </td>
             							<td style="text-align: center;">
                                             <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_resetpraincubation_list">Reset</button>
             							</td>
             						</tr>
                                 </thead>

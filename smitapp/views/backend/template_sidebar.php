@@ -1,4 +1,10 @@
 <?php
+    $is_jury                = as_juri($user);
+    $is_pengusul            = as_pengusul($user);
+    $is_pelaksana           = as_pelaksana($user);
+    $is_pendamping          = as_pendamping($user);
+    $is_tenant              = as_tenant($user);
+    
     // List User
     $badgelist_user     = 0;
     if(!empty($is_admin)){
@@ -226,6 +232,15 @@
                     'badge'     => 0,
                 ),
                 array (
+                    'title'     => 'Daftar Pendampingan',
+                    'nav'       => 'prainkubasi/pendampingan',
+                    'parent'    => 'prainkubasi',
+                    'link'      => base_url('prainkubasi/pendampingan'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
+                array (
                     'title'     => 'Tambah Produk',
                     'nav'       => 'prainkubasi/tambahproduk',
                     'parent'    => 'prainkubasi',
@@ -239,15 +254,6 @@
                     'nav'       => 'prainkubasi/produk',
                     'parent'    => 'prainkubasi',
                     'link'      => base_url('prainkubasi/produk'),
-                    'icon'      => 'view_list',
-                    'sub'       => false,
-                    'badge'     => 0,
-                ),
-                array (
-                    'title'     => 'Daftar Pendampingan',
-                    'nav'       => 'prainkubasi/pendampingan',
-                    'parent'    => 'prainkubasi',
-                    'link'      => base_url('prainkubasi/pendampingan'),
                     'icon'      => 'view_list',
                     'sub'       => false,
                     'badge'     => 0,

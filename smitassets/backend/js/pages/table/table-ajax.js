@@ -104,6 +104,11 @@ var TableAjax = function () {
     var handleRecordsIncubationReportSelectionList = function() {
         gridTable( $("#incubationreport_list"), true );
     };
+    
+    // Incubation Lists
+    var handleRecordsIncubationDataList = function() {
+        gridTable( $("#list_incubation"), true );
+    };
     // -------------------------------------------------------------------------
     
     // -------------------------------------------------------------------------
@@ -161,6 +166,16 @@ var TableAjax = function () {
     // Workunit Lists 
     var handleRecordsWorkunitList = function() {
         gridTable( $("#workunit_list"), true );
+    };
+    
+    // Category Lists 
+    var handleRecordsCategoryList = function() {
+        gridTable( $("#category_list"), true );
+    };
+    
+    // Product Lists 
+    var handleRecordsProductList = function() {
+        gridTable( $("#product_list"), true );
     };
     
     // Slider Lists 
@@ -263,6 +278,7 @@ var TableAjax = function () {
             handleRecordsIncubationSelectionList2();
             handleRecordsIncubationSettingSelectionList();
             handleRecordsIncubationReportSelectionList();
+            handleRecordsIncubationDataList();
             
             //Tenant
             handleRecordsTenantList();
@@ -273,8 +289,14 @@ var TableAjax = function () {
             handleRecordsJuryStepTwoList();
             handleRecordsJuryHistoryIncubationList();
             
+            //Product
+            handleRecordsProductList();
+            
             //Workunit
             handleRecordsWorkunitList();
+            
+            //Category
+            handleRecordsCategoryList();
             
             //Announcement
             handleRecordsAnnouncementList();

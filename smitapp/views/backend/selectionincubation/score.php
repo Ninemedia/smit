@@ -25,7 +25,7 @@
                             
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">                           
-                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a>     
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
@@ -104,7 +104,7 @@
                                                     <div class="bottom5">
                     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_stepone">Search</button>
                                                     </div>
-                                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_stepone">Reset</button>
                     							</td>
                     						</tr>
                                         </thead>
@@ -118,7 +118,7 @@
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
                                 <div class="table-actions-wrapper">                          
-                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i> Konfirmasi Semua</a>     
+                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>     
                         		    <!-- <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
                                 </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep2'); ?>">
@@ -197,7 +197,7 @@
                                                 <div class="bottom5">
                 								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_steptwo">Search</button>
                                                 </div>
-                                                <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_steptwo">Reset</button>
                 							</td>
                 						</tr>
                                     </thead>
@@ -241,6 +241,7 @@
                     							<th class="width5 text-center">Rata Nilai</th>
                                                 <th class="width10 text-center">Tanggal Daftar</th>
                                                 <th class="width5 text-center">Status</th>
+                                                <th class="width5 text-center">Ket</th>
                     							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
        						                </tr>
                                             <tr role="row" class="filter display-hide table-filter">
@@ -302,6 +303,7 @@
                     			                        ?>
                     								</select>
                                                 </td>
+                                                <td></td>
                     							<td style="text-align: center;">
                                                     <div class="bottom5">
                     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
@@ -331,6 +333,7 @@
                         						<th class="width5 text-center">Rata Nilai</th>
                                                 <th class="width10 text-center">Tanggal Daftar</th>
                                                 <th class="width5 text-center">Status</th>
+                                                <th class="width5 text-center">Ket</th>
                     							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
        						                </tr>
                                             <tr role="row" class="filter display-hide table-filter">
@@ -391,6 +394,7 @@
                     			                        ?>
                     								</select>
                                                 </td>
+                                                <td></td>
                     							<td style="text-align: center;">
                                                     <div class="bottom5">
                     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
@@ -502,7 +506,15 @@
                         </div>
     
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
-                            
+                            <?php 
+                                $condition              = ' WHERE A.user_id = "'.$user->id.'" AND %statustwo% <> 0';
+                                $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
+                                $data_selection         = $data_selection[0];
+                            ?>
+                            <?php if( empty($data_selection) || !$data_selection ) : ?>
+                                <div class="alert alert-warning bottom0">Maaf, untuk saat ini pengajuan Seleksi Inkubasi anda belum memasuki tahap 2</div>
+                            <?php else :  ?>
+                                <?php if($data_selection->status == 3 && $data_selection->statustwo <> 0) : ?>    
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('incubation/pengusulscorelistdatastep2/'. $user->id.''); ?>">
                                         <thead>
@@ -571,7 +583,11 @@
                                             <!-- Data Will Be Placed Here -->
                                         </tbody>
                                     </table>
-                                </div>    
+                                </div>
+                                <?php else : ?>
+                                    <div class="alert alert-danger bottom0">Maaf anda tidak lulus pada tahap 1. Terima Kasih</div>  
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                     

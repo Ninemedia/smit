@@ -30,7 +30,7 @@
                         ?>   
                         
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">                           
                                     <?php
@@ -38,7 +38,7 @@
                                         $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                     ?>   
                                     <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
-                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep1"><i class="material-icons">done_all</i></a>     
+                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>     
                                     <?php // } ?>    
                         		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep1'); ?>">
@@ -118,7 +118,7 @@
                                                     <div class="bottom5">
                     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_stepone">Search</button>
                                                     </div>
-                                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_stepone">Reset</button>
                     							</td>
                     						</tr>
                                         </thead>
@@ -127,9 +127,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                    		<?php else : ?>
-                                <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Terima Kasih</div>  
-                            <?php endif; ?>
+                    		<?php //else : ?>
+                                <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Terima Kasih</div>  -->
+                            <?php //endif; ?>
                         </div>
                         
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
@@ -224,7 +224,7 @@
                                                 <div class="bottom5">
                 								    <button class="btn bg-blue waves-effect filter-submit" id="btn_admin_steptwo">Search</button>
                                                 </div>
-                                                <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                <button class="btn bg-red waves-effect filter-cancel" id="btn_resetadmin_steptwo">Reset</button>
                 							</td>
                 						</tr>
                                     </thead>
@@ -268,7 +268,7 @@
                                     $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
                                 ?> 
                                 
-                                <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
+                                <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
                                     <div class="table-container table-responsive table-praincubation-score">
                                         <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiprainkubasi/jurinilaidatastep1'); ?>">
                                             <thead>
@@ -358,9 +358,9 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                <?php else : ?>
-                                    <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div>  
-                                <?php endif; ?>
+                                <?php //else : ?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> -->
+                                <?php //endif; ?>
                             <?php endif; ?>
                         </div>
                         
@@ -492,7 +492,7 @@
                         ?> 
                     
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one"> 
-                            <?php if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>  
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>  
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdatastep1/'. $user->id.''); ?>">
                                         <thead>
@@ -563,13 +563,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                    		<?php else : ?>
-                                <?php if( $curdate < strtotime($lss->selection_date_adm_start) ){?>
-                                    <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> 
-                                <?php }else{ ?>
-                                    <div class="alert alert-info bottom0">Proses penilaian tahap 1 sudah selesai. Terima Kasih</div> 
-                                <?php }?>
-                            <?php endif; ?>
+                    		<?php //else : ?>
+                                <?php //if( $curdate < strtotime($lss->selection_date_adm_start) ){?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_adm_start; ?> Terima Kasih</div> -->
+                                <?php //}else{ ?>
+                                    <!-- <div class="alert alert-info bottom0">Proses penilaian tahap 1 sudah selesai. Terima Kasih</div> -->
+                                <?php //}?>
+                            <?php //endif; ?>
                         </div>
     
                         <div role="tabpanel" class="tab-pane fade" id="step_two">

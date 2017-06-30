@@ -95,8 +95,8 @@ $config['incsel_report_status']     = array(
 /**
  * User Menu Access
  */
-$config['user_menu_access']         = array(
-    ADMINISTRATOR                   => array(
+$config['user_menu_access']             = array(
+    ADMINISTRATOR                       => array(
         'beranda',
         // ------------------- PENGGUNA 
         'pengguna',
@@ -118,6 +118,7 @@ $config['user_menu_access']         = array(
         'prainkubasi',
         'prainkubasi/tambah',
         'prainkubasi/daftar',
+        'prainkubasi/tambahproduk',
         'prainkubasi/produk',
         'prainkubasi/pendampingan',
         'prainkubasi/laporan',
@@ -129,7 +130,6 @@ $config['user_menu_access']         = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         // ------------------- KEGIATAN INKUBASI/TENANT
-        
         //'inkubasi/pendampingan',
         //'inkubasi/laporan',
         'tenants',
@@ -163,7 +163,7 @@ $config['user_menu_access']         = array(
         'pengaturan/belakang',
         //'pengaturan/satuankerja',
     ),
-    PENDAMPING                      => array(
+    PENDAMPING                          => array(
         'beranda',
         'prainkubasi',
         'prainkubasi/pendampingan',
@@ -178,12 +178,12 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    TENANT                          => array(
+    TENANT                              => array(
         'beranda',
         'tenants',
         'tenants/blogs',
         'tenants/daftar',
-        'tenants/pendaftaran',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
         'tenants/produk',
         'tenants/pembayaran',
@@ -191,7 +191,7 @@ $config['user_menu_access']         = array(
         'pengumuman',
         'layanan',
     ),
-    JURI                            => array(
+    JURI                                => array(
         'beranda',
         'seleksiprainkubasi',
         'seleksiprainkubasi/nilai',
@@ -205,7 +205,7 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    PENGUSUL                        => array(
+    PENGUSUL                            => array(
         'beranda',
         'seleksiprainkubasi',
         'seleksiprainkubasi/nilai',
@@ -219,27 +219,38 @@ $config['user_menu_access']         = array(
         'layanan',
         'layanan/komunikasi',
     ),
-    PELAKSANA                        => array(
+    PELAKSANA                           => array(
         'beranda',
         'prainkubasi',
-        'prainkubasi/tambahproduk',
         'prainkubasi/daftar',
+        'prainkubasi/pendampingan',
+        'prainkubasi/tambahproduk',
         'prainkubasi/produk',
         'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
-        //'inkubasi',
-        //'inkubasi/nilai',
-        //'inkubasi/laporan',
-        /*
+        'panduan',
+        'panduan/berkas',
+        'pengumuman',
+        'layanan',
+        'layanan/komunikasi',
+    ),
+    PELAKSANA_TENANT                    => array(
+        'beranda',
+        'prainkubasi',
+        'prainkubasi/daftar',
+        'prainkubasi/pendampingan',
+        'prainkubasi/tambahproduk',
+        'prainkubasi/produk',
+        'prainkubasi/tambahlaporan',
+        'prainkubasi/laporan',
         'tenants',
         'tenants/blogs',
-        'tenants/pendaftaran',
+        'tenants/daftar',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
-        */
-        'prainkubasi/pendampingan',
         'panduan',
         'panduan/berkas',
         'pengumuman',

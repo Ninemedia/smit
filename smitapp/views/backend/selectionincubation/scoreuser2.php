@@ -9,7 +9,7 @@
                     <div class="body">
                         <div class="row">
                             <div class="col-md-12 bottom0">                      
-                                <a href="<?php echo base_url('prainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
+                                <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                             </div><br /><br /><br />
                             <div id="alert-display"></div>
                             <div class="col-md-12 bottom0">
@@ -110,7 +110,7 @@
                                         </div>
                                         <div id="collapse_nilai" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="nilai">
                                             <div class="panel-body">
-                                                <?php echo form_open_multipart( base_url('prainkubasi/prosesnilai/2'), array( 'id'=>'selection_score_step2', 'role'=>'form' ) ); ?>
+                                                <?php echo form_open_multipart( base_url('seleksiinkubasi/prosesnilai/2'), array( 'id'=>'selectionincubation_score_step2', 'role'=>'form' ) ); ?>
                                                 <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>
                                                 <div class="table-container table-responsive">
                                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo">
@@ -300,51 +300,54 @@
                                                                 </td>
                                                             </tr>  
                                                             <tr class="bg-blue-grey">
-                                                                <td colspan="2"><strong>TOTAL NILAI</strong></td>
-                                                                <td class="text-middle text-center"><input class="text-center input-mini text-darken-1" name="total_rate2" id="total_rate" value="0" /></td>
+                                                                <td class="text-middle" colspan="2"><strong>TOTAL NILAI</strong></td>
+                                                                <td class="text-middle text-center"><input style="color: #666666 !important; font-weight: bold;" class="text-center input-mini" name="total_rate2" id="total_rate2" value="0" /></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <h2 class="card-inside-title text-uppercase">Innovation Readiness Level (IRL)</h2>
-                                                <p>Ceklis yang sesuai dengan kriteria</p>
+                                                <p>IRL dapat menentukan tahapan dari teknologi, maka semakin tinggi nilai IRL yang diberikan akan semakin baik. <br />
+                                                Pilihlah nilai IRL sesuai dengan posisi proposal dibawah ini : </p>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input id="irl-1" name="irl1" type="checkbox" required>
-                                                        <label for="irl-1">Idea Prospefektif</label><br />
-                                                        <input id="irl-2" name="irl2" type="checkbox" required>
-                                                        <label for="irl-2">Proposal Riset</label><br />
-                                                        <input id="irl-3" name="irl3" type="checkbox" required>
-                                                        <label for="irl-3">Hasil Antara Lab</label><br />
-                                                        <input id="irl-4" name="irl4" type="checkbox" required>
-                                                        <label for="irl-4">Publikasi</label><br />
-                                                        <input id="irl-5" name="irl5" type="checkbox" required>
-                                                        <label for="irl-5">Hasil Riset Skala Prototipe</label>
+                                                        <input id="irl-1" name="irl1" type="checkbox">
+                                                        <label for="irl-1">(1) Idea Prospefektif</label><br />
+                                                        <input id="irl-2" name="irl2" type="checkbox">
+                                                        <label for="irl-2">(2) Proposal Riset</label><br />
+                                                        <input id="irl-3" name="irl3" type="checkbox">
+                                                        <label for="irl-3">(3) Hasil Antara Lab</label><br />
+                                                        <input id="irl-4" name="irl4" type="checkbox">
+                                                        <label for="irl-4">(4) Publikasi</label><br />
+                                                        <input id="irl-5" name="irl5" type="checkbox">
+                                                        <label for="irl-5">(5) Hasil Riset Skala Prototipe</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id="irl-6" name="irl6" type="checkbox" required>
-                                                        <label for="irl-6">Paten</label><br />
-                                                        <input id="irl-7" name="irl7" type="checkbox" required>
-                                                        <label for="irl-7">Contoh Prouk Skala Komersial</label><br />
-                                                        <input id="irl-8" name="irl8" type="checkbox" required>
-                                                        <label for="irl-8">Mitra Bisnis / Tenant</label><br />
-                                                        <input id="irl-9" name="irl9" type="checkbox" required>
-                                                        <label for="irl-9">Captive Market</label><br />
-                                                        <input id="irl-10" name="irl10" type="checkbox" required>
-                                                        <label for="irl-10">Lisensi</label>
+                                                        <input id="irl-6" name="irl6" type="checkbox">
+                                                        <label for="irl-6">(6) Paten</label><br />
+                                                        <input id="irl-7" name="irl7" type="checkbox">
+                                                        <label for="irl-7">(7) Contoh Produk Skala Komersial</label><br />
+                                                        <input id="irl-8" name="irl8" type="checkbox">
+                                                        <label for="irl-8">(8) Mitra Bisnis / Tenant</label><br />
+                                                        <input id="irl-9" name="irl9" type="checkbox">
+                                                        <label for="irl-9">(9) Captive Market</label><br />
+                                                        <input id="irl-10" name="irl10" type="checkbox">
+                                                        <label for="irl-10">(10) Lisensi</label>
                                                     </div>
                                                 </div>
                                                 
                                                 <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
-                                                <div class="form-group">
-                                                    <textarea class="form-control ckeditor" name="nilai_juri_comment"></textarea>
+                                                <div class="input-group">
+                                                    <div class="form-line">
+                                                        <textarea name="nilai_juri_comment" id="nilai_juri_comment" cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" required></textarea>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="hidden" name="nilai_selection_id" value="<?php echo $data_selection->id; ?>" />
-                                                    <button class="btn btn-sm btn-primary waves-effect btn-rate-step2" type="button">
+                                                    <button class="btn btn-sm btn-primary waves-effect btn-rate-step2" type="submit">
                                                         <i class="material-icons">done</i> Nilai
                                                     </button>
-                                                    <button class="btn btn-sm btn-danger waves-effect btn-rate-step1-reset" type="button">
+                                                    <button class="btn btn-sm btn-danger waves-effect btn-rate-step2-resetincubation" type="button">
                                                         <i class="material-icons">close</i> Bersihkan
                                                     </button>
                                                 </div>
@@ -364,3 +367,23 @@
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE MODAL -->
+<div class="modal fade" id="save_scoreuserincubation2" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Penilaian Pengusul</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan memproses penilaian pengusul ini? Pastikan Data yang Anda masukan sudah benar!</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_scoreuser_incubation2" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE MODAL -->

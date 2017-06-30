@@ -187,6 +187,50 @@ $("body").delegate( "a.sliderconfirm", "click", function( event ) {
     });
 });
 
+// Produk Confirm
+$("body").delegate( "a.produkconfirm", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#product_list').parents('.dataTables_wrapper');
+    var msg = '';
+    
+    bootbox.confirm("Anda yakin akan mengkonfirmasi produk ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_product_list').trigger('click');
+                    $('#btn_slider_listreset').trigger('click');
+                }
+            });
+        }
+    });
+});
+
 // Workunit Delete
 $("body").delegate( "a.workunitdelete", "click", function( event ) {
     event.preventDefault();
@@ -224,6 +268,49 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
                         });
                     }
                     $('#btn_workunit_list').trigger('click');
+                }
+            });
+        }
+    });
+});
+
+// Category Delete
+$("body").delegate( "a.categorydelete", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#category_list').parents('.dataTables_wrapper');
+    var msg = '';
+    
+    bootbox.confirm("Anda yakin akan menghapus data kategori ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){                    
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger', 
+                            icon: 'warning', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success', 
+                            icon: 'check', 
+                            message: response.message, 
+                            container: table_container, 
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_category_list').trigger('click');
                 }
             });
         }
@@ -498,6 +585,42 @@ var UploadFiles = function () {
         });
     };
     
+    var handleUploadProductPraincubation = function(){
+        $("#reg_thumbnail").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+        
+        $("#reg_details").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
@@ -509,6 +632,7 @@ var UploadFiles = function () {
             handleUploadSlider();
             handleEditUploadFilesIncubation();
             handleEditUploadFilesRAB();
+            handleUploadProductPraincubation();
         }
     };
 }();
@@ -574,11 +698,46 @@ var Tenant = function () {
         
 	};
     
+    // --------------------------------
+    // Handle Add Tenant Change
+    // --------------------------------
+	var handleResetAddTenantChange = function() {
+        // Reset News Form
+        $('body').on('click', '#btn_addtenant', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#addtenant')[0].reset();
+            $('#avatar_company').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });    
+	};
+    
+        
+    
     return {
         //main function to initiate the module
         init: function () {
             handleUploadAvatarTenant();
             handleProvinceChange();
+            handleResetAddTenantChange();
         }
     };
 }();
@@ -622,6 +781,7 @@ var PraIncubationList = function () {
                                 });
                             }
                             $('#btn_praincubation_list').trigger('click');
+                            $('#btn_resetpraincubation_list').trigger('click');
                         }
                     });
                 }

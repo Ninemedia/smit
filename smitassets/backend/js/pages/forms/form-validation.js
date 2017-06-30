@@ -541,7 +541,7 @@ var NewsValidation = function () {
 }();
 
 var IncubationValidation = function () {
-    var handleIncubtaionValidation = function(){
+    var handleIncubationValidation = function(){
         $('#praincubationadd').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
@@ -576,7 +576,7 @@ var IncubationValidation = function () {
                     required: 'Nama Peneliti Utama harus di isi',
                 },
                 reg_title: {
-                    required: 'Judul Berita harus di isi',
+                    required: 'Judul Kegiatan harus di isi',
                 },
                 reg_category: {
                     required: 'Kategori Kegiatan harus di isi',
@@ -617,7 +617,77 @@ var IncubationValidation = function () {
     return {
         //main function to initiate the module
         init: function () {
-            handleIncubtaionValidation();
+            handleIncubationValidation();
+        }
+    };
+}();
+
+var ProductValidation = function () {
+    var handleProductValidation = function(){
+        $('#productadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_title: {
+                    required: true,
+                },
+                reg_event: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_thumbnail: {
+                    required: true,
+                },
+                reg_details: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_title: {
+                    required: 'Judul Produk harus di isi',
+                },
+                reg_event: {
+                    required: 'Usulan Kegiatan harus di isi',
+                },
+                reg_desc: {
+                    required: 'Deskripsi Produk harus di isi',
+                },
+                reg_thumbnail: {
+                    required: 'Thumbnail harus di isi',
+                },
+                reg_details: {
+                    required: 'Details Gambar harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_productadd').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleProductValidation();
         }
     };
 }();
@@ -719,10 +789,48 @@ var SettingValidation = function () {
         });
     };
     
+    var handleSettingCategoryValidation = function(){
+        $('#categoryadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_category: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_category: {
+                    required: 'Nama Kategori harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_category').modal('show');
+            }
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
             handleSettingWorkunitValidation();
+            handleSettingCategoryValidation();
         }
     };
 }();
@@ -733,6 +841,9 @@ var TenantValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
+                reg_event: {
+                    required: true,
+                },
                 up_name: {
                     required: true,
                 },
@@ -770,8 +881,14 @@ var TenantValidation = function () {
                 up_marital_status: {
                     required: true,
                 },
+                avatar_company: {
+                    required: true,
+                }
             },
             messages: {
+                reg_event: {
+                    required: 'Usulan kegiatan harus di isi',
+                },
                 up_name: {
                     required: 'Nama harus di isi',
                 },
@@ -812,6 +929,9 @@ var TenantValidation = function () {
                 up_marital_status: {
                     required: 'Status pernikahan harus di pilih',
                 },
+                avatar_company: {
+                    required: 'Logo tenant harus di pilih',
+                }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
@@ -1300,12 +1420,444 @@ var ScoreUserValidation = function () {
                 $('#save_scoreuser').modal('show');
             }
         });
+        
+        $('#selectionincubation_score_step1').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                nilai_dokumen: {
+                    required: true,
+                },
+                nilai_target: {
+                    required: true,
+                },
+                nilai_perlingungan: {
+                    required: true,
+                },
+                nilai_penelitian: {
+                    required: true,
+                },
+                nilai_market: {
+                    required: true,
+                },
+            },
+            messages: {
+                nilai_dokumen: {
+                    required: 'Penilaian Dokumen harus di isi',
+                },
+                nilai_target: {
+                    required: 'Penilaian Target dan Biaya harus di isi',
+                },
+                nilai_perlingungan: {
+                    required: 'Penilaian Perlindungan harus di isi',
+                },
+                nilai_penelitian: {
+                    required: 'Penilaian Penelitian Lanjutan harus di isi',
+                },
+                nilai_market: {
+                    required: 'Penilaian Market harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.input-group').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.input-group').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.input-group').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    element.parent(".input-group").append(error);
+                } else if (element.attr("data-error-container")) { 
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) { 
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) { 
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
+            },
+            submitHandler: function (form) {
+                $('#save_scoreuserincubation').modal('show');
+            }
+        });
+    };
+    
+    var handleScoreUserStep2Validation = function(){
+        $('#selection_score_step2').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                klaster1_a_indikator: {
+                    required: true,
+                },
+                klaster1_b_indikator: {
+                    required: true,
+                },
+                klaster1_c_indikator: {
+                    required: true,
+                },
+                klaster1_d_indikator: {
+                    required: true,
+                },
+                klaster1_e_indikator: {
+                    required: true,
+                },
+                klaster2_a_indikator: {
+                    required: true,
+                },
+                klaster2_b_indikator: {
+                    required: true,
+                },
+                klaster2_c_indikator: {
+                    required: true,
+                },
+                klaster2_d_indikator: {
+                    required: true,
+                },
+                klaster2_e_indikator: {
+                    required: true,
+                },
+                klaster3_a_indikator: {
+                    required: true,
+                },
+                klaster3_b_indikator: {
+                    required: true,
+                },
+                klaster3_c_indikator: {
+                    required: true,
+                },
+                klaster3_d_indikator: {
+                    required: true,
+                },
+                klaster3_e_indikator: {
+                    required: true,
+                },
+                klaster4_a_indikator: {
+                    required: true,
+                },
+                klaster4_b_indikator: {
+                    required: true,
+                },
+                klaster4_c_indikator: {
+                    required: true,
+                },
+                klaster4_d_indikator: {
+                    required: true,
+                },
+                klaster4_e_indikator: {
+                    required: true,
+                },
+                
+                nilai_juri_comment: {
+                    required: true,
+                },
+            },
+            messages: {
+                klaster1_a_indikator: {
+                    required: 'Deskripsi Kebutuhan Pengguna harus di isi',
+                },
+                klaster1_b_indikator: {
+                    required: 'Deskripsi Sasaran Pengguna harus di isi',
+                },
+                klaster1_c_indikator: {
+                    required: 'Besar Pasar harus di isi',
+                },
+                klaster1_d_indikator: {
+                    required: 'Rencana Pemasaran harus di isi',
+                },
+                klaster1_e_indikator: {
+                    required: 'Pertumbuhan Pasar harus di isi',
+                },
+                
+                klaster2_a_indikator: {
+                    required: 'Deskripsi dan fungsi produk harus di isi',
+                },
+                klaster2_b_indikator: {
+                    required: 'Tingkat kesiapan harus di isi',
+                },
+                klaster2_c_indikator: {
+                    required: 'Perlindungan HKI di isi',
+                },
+                klaster2_d_indikator: {
+                    required: 'Manfaat/kegunaan dibanding produk sejenis harus di isi',
+                },
+                klaster2_e_indikator: {
+                    required: 'Derajat inovasi teknologi/tingkat kebaruan harus di isi',
+                },
+                
+                klaster3_a_indikator: {
+                    required: 'Perkiraan harga pokok penjualan harus di isi',
+                },
+                klaster3_b_indikator: {
+                    required: 'Target skenario harga jual harus di isi',
+                },
+                klaster3_c_indikator: {
+                    required: 'Proyeksi potensi pendapatan dan imbal hasil investas harus di isi',
+                },
+                klaster3_d_indikator: {
+                    required: 'Besaran permintaan Investasi yang diperlukan harus di isi',
+                },
+                klaster3_e_indikator: {
+                    required: 'Kontribusi finansial mitra harus di isi',
+                },
+                
+                klaster4_a_indikator: {
+                    required: 'Mentor teknis/ peneliti/perekayasa harus di isi',
+                },
+                klaster4_b_indikator: {
+                    required: 'Mentor bisnis/ manajemen harus di isi',
+                },
+                klaster4_c_indikator: {
+                    required: 'Manajemen mitra harus di isi',
+                },
+                klaster4_d_indikator: {
+                    required: 'Staff Mitra harus di isi',
+                },
+                klaster4_e_indikator: {
+                    required: 'Skema alih teknologi harus di isi',
+                },
+                
+                
+                nilai_juri_comment: {
+                    required: 'Komentar juri harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.input-group').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.input-group').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.input-group').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    element.parent(".input-group").append(error);
+                } else if (element.attr("data-error-container")) { 
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) { 
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) { 
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
+            },
+            submitHandler: function (form) {
+                $('#save_scoreuserpraincubation2').modal('show');
+            }
+        });
+        
+        $('#selectionincubation_score_step2').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                klaster1_a_indikator: {
+                    required: true,
+                },
+                klaster1_b_indikator: {
+                    required: true,
+                },
+                klaster1_c_indikator: {
+                    required: true,
+                },
+                klaster1_d_indikator: {
+                    required: true,
+                },
+                klaster1_e_indikator: {
+                    required: true,
+                },
+                klaster2_a_indikator: {
+                    required: true,
+                },
+                klaster2_b_indikator: {
+                    required: true,
+                },
+                klaster2_c_indikator: {
+                    required: true,
+                },
+                klaster2_d_indikator: {
+                    required: true,
+                },
+                klaster2_e_indikator: {
+                    required: true,
+                },
+                klaster3_a_indikator: {
+                    required: true,
+                },
+                klaster3_b_indikator: {
+                    required: true,
+                },
+                klaster3_c_indikator: {
+                    required: true,
+                },
+                klaster3_d_indikator: {
+                    required: true,
+                },
+                klaster3_e_indikator: {
+                    required: true,
+                },
+                klaster4_a_indikator: {
+                    required: true,
+                },
+                klaster4_b_indikator: {
+                    required: true,
+                },
+                klaster4_c_indikator: {
+                    required: true,
+                },
+                klaster4_d_indikator: {
+                    required: true,
+                },
+                klaster4_e_indikator: {
+                    required: true,
+                },
+                
+                nilai_juri_comment: {
+                    required: true,
+                },
+            },
+            messages: {
+                klaster1_a_indikator: {
+                    required: 'Deskripsi Kebutuhan Pengguna harus di isi',
+                },
+                klaster1_b_indikator: {
+                    required: 'Deskripsi Sasaran Pengguna harus di isi',
+                },
+                klaster1_c_indikator: {
+                    required: 'Besar Pasar harus di isi',
+                },
+                klaster1_d_indikator: {
+                    required: 'Rencana Pemasaran harus di isi',
+                },
+                klaster1_e_indikator: {
+                    required: 'Pertumbuhan Pasar harus di isi',
+                },
+                
+                klaster2_a_indikator: {
+                    required: 'Deskripsi dan fungsi produk harus di isi',
+                },
+                klaster2_b_indikator: {
+                    required: 'Tingkat kesiapan harus di isi',
+                },
+                klaster2_c_indikator: {
+                    required: 'Perlindungan HKI di isi',
+                },
+                klaster2_d_indikator: {
+                    required: 'Manfaat/kegunaan dibanding produk sejenis harus di isi',
+                },
+                klaster2_e_indikator: {
+                    required: 'Derajat inovasi teknologi/tingkat kebaruan harus di isi',
+                },
+                
+                klaster3_a_indikator: {
+                    required: 'Perkiraan harga pokok penjualan harus di isi',
+                },
+                klaster3_b_indikator: {
+                    required: 'Target skenario harga jual harus di isi',
+                },
+                klaster3_c_indikator: {
+                    required: 'Proyeksi potensi pendapatan dan imbal hasil investas harus di isi',
+                },
+                klaster3_d_indikator: {
+                    required: 'Besaran permintaan Investasi yang diperlukan harus di isi',
+                },
+                klaster3_e_indikator: {
+                    required: 'Kontribusi finansial mitra harus di isi',
+                },
+                
+                klaster4_a_indikator: {
+                    required: 'Mentor teknis/ peneliti/perekayasa harus di isi',
+                },
+                klaster4_b_indikator: {
+                    required: 'Mentor bisnis/ manajemen harus di isi',
+                },
+                klaster4_c_indikator: {
+                    required: 'Manajemen mitra harus di isi',
+                },
+                klaster4_d_indikator: {
+                    required: 'Staff Mitra harus di isi',
+                },
+                klaster4_e_indikator: {
+                    required: 'Skema alih teknologi harus di isi',
+                },
+                
+                
+                nilai_juri_comment: {
+                    required: 'Komentar juri harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.input-group').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.input-group').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.input-group').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.parent(".input-group").size() > 0) {
+                    element.parent(".input-group").append(error);
+                } else if (element.attr("data-error-container")) { 
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) { 
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) { 
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
+            },
+            submitHandler: function (form) {
+                $('#save_scoreuserincubation2').modal('show');
+            }
+        });
     };
     
     return {
         //main function to initiate the module
         init: function () {
             handleScoreUserStep1Validation();
+            handleScoreUserStep2Validation();
         }
     };
 }();

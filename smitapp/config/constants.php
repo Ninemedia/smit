@@ -209,10 +209,11 @@ define('LOGGED_IN_COOKIE', 'smit_logged_in_' . COOKIEHASH);
 */
 define('ADMINISTRATOR', 1);
 define('PENDAMPING',    2);
-define('TENANT',        3);
+define('TENANT',        3); // Lolos Inkubasi Seleksi
 define('JURI',          4);
 define('PENGUSUL',      5);
-define('PELAKSANA',     6);
+define('PELAKSANA',     6); // Lolos Pra-Inkubasi Seleksi
+define('PELAKSANA_TENANT', 7); // Jika User Statusnya Sebagai Pelaksana dan Tenant (Mengikuti Seleksi Inkubasi dan Pra-Inkubasi)
 
 /*
 |--------------------------------------------------------------------------
