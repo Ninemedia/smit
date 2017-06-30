@@ -1304,7 +1304,7 @@ class Model_Incubation extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*,B.workunit, B.name AS user_name, B.email
+            SELECT A.*, B.workunit, B.name AS user_name, B.email
             FROM ' . $this->incubation. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
             ON B.id = A.user_id';

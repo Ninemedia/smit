@@ -622,20 +622,17 @@ class Tenant extends User_Controller {
                 $file_avatar            = $upload_data_avatar;
 
                 if( !empty($post_selection_id) ){
-                    $condition          = " WHERE %id% = '.$post_selection_id.'";
+                    $condition          = " WHERE %id% = ".$post_selection_id."";
                     $data_selection     = $this->Model_Incubation->get_all_incubationdata(0, 0, $condition);
+                    $data_selection     = $data_selection[0];
                 }
-
-                echo "<pre>";
-                print_r($data_selection);
-                die();
 
                 $tenantdata         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'selection_id'  => trim(smit_isset($post_selection_id, '')),
-                    'user_id'       => trim(smit_isset($id_user, '')),
-                    'username'      => strtolower( trim(smit_isset($current_user->username, '')) ),
-                    'name'          => strtoupper( trim(smit_isset($current_user->name, '')) ),
+                    'user_id'       => trim(smit_isset($data_selection->user_id, '')),
+                    'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
+                    'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
                     'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                     'email'         => trim(smit_isset($post_tenant_email, '')),
                     'phone'         => trim(smit_isset($post_tenant_phone, '')),
@@ -667,7 +664,7 @@ class Tenant extends User_Controller {
                     // Rollback Transaction
                     $this->db->trans_rollback();
                     // Set JSON data
-                    $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                    $data = array('message' => 'error','data' => 'Pendaftaran tenant tidak berhasil. Terjadi kesalahan data formulir anda');
                     die(json_encode($data));
                 }
 
@@ -867,14 +864,14 @@ class Tenant extends User_Controller {
 
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
+        $s_event            = $this->input->post('search_event');
+        $s_event            = smit_isset($s_year, '');
         $s_name_tenant      = $this->input->post('search_name_tenant');
         $s_name_tenant      = smit_isset($$s_name_tenant, '');
         $s_email            = $this->input->post('search_email');
         $s_email            = smit_isset($s_email, '');
         $s_phone            = $this->input->post('search_phone');
         $s_phone            = smit_isset($s_phone, '');
-        $s_year             = $this->input->post('search_year');
-        $s_year             = smit_isset($s_year, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
 
@@ -887,17 +884,17 @@ class Tenant extends User_Controller {
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
         if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%name_teannt% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%email% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%phone% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
 
@@ -912,10 +909,17 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($tenant_list as $row){
                 // Status
+                $btn_confirm    = '';
+                if( $row->status == NONACTIVE ){
+                    $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
+                        class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                }
+
+                $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
+
                 $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
-                    class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -923,14 +927,14 @@ class Tenant extends User_Controller {
                 elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
 
                 $records["aaData"][] = array(
-                    smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper($row->name) . '</a>',
-                    strtoupper($row->name_tenant),
+                    smit_center( $i ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper( $row->name ) . '</a>',
+                    strtoupper( $row->event_title ),
+                    '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                     $row->email,
                     smit_center( $row->phone ),
-                    smit_center( $row->year ),
                     smit_center( $status ),
-                    smit_center( $btn_confirm . ' '. $btn_action ),
+                    smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
                 );
                 $i++;
             }

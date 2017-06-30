@@ -17,7 +17,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab_incubation">
@@ -45,7 +45,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -62,7 +62,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
@@ -95,20 +95,20 @@
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
             							<th class="width15">Pengguna</th>
+            							<th class="width20">Judul Usulan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
                                         <th class="width10 text-center">Email</th>
                                         <th class="width10 text-center">Telp</th>
-                                        <th class="width5 text-center">Tahun Berdiri</th>
                                         <th class="width10 text-center">Status</th>
             							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
+				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_year" /></td>
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm">
             									<option value="">Pilih...</option>
@@ -131,8 +131,8 @@
                         </div>
                     </div>
                 </div>
-            
-                
+
+
             </div>
         </div>
     </div>

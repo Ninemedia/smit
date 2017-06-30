@@ -8,6 +8,7 @@ class Model_Tenant extends SMIT_Model{
 	 */
     public $user          	= 'smit_user';
     public $tenant         	= 'smit_incubation_tenant';
+    public $incubation      = 'smit_incubation';
 
     /**
      * Initialize primary field
@@ -134,36 +135,41 @@ class Model_Tenant extends SMIT_Model{
      */
     function get_all_tenant($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
-            $conditions = str_replace("%id%",                   "id", $conditions);
-            $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
-            $conditions = str_replace("%username%",             "username", $conditions);
-            $conditions = str_replace("%name%",                 "name", $conditions);
-            $conditions = str_replace("%name_tenant%",          "name_tenant", $conditions);
-            $conditions = str_replace("%status%",               "status", $conditions);
-            $conditions = str_replace("%email%",                "email", $conditions);
-            $conditions = str_replace("%phone%",                "phone", $conditions);
-            $conditions = str_replace("%year%",                 "year", $conditions);
-            $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%name_tenant%",          "A.name_tenant", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%email%",                "A.email", $conditions);
+            $conditions = str_replace("%phone%",                "A.phone", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
         }
 
         if( !empty($order_by) ){
-            $order_by   = str_replace("%id%",                   "id", $order_by);
-            $order_by   = str_replace("%uniquecode%",           "uniquecode",  $order_by);
-            $order_by   = str_replace("%username%",             "username",  $order_by);
-            $order_by   = str_replace("%name%",                 "name",  $order_by);
-            $order_by   = str_replace("%name_tenant%",          "name_tenant",  $order_by);
-            $order_by   = str_replace("%status%",               "status",  $order_by);
-            $order_by   = str_replace("%email%",                "email",  $order_by);
-            $order_by   = str_replace("%phone%",                "phone",  $order_by);
-            $order_by   = str_replace("%year%",                 "year",  $order_by);
-            $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%name_tenant%",          "A.name_tenant",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%email%",                "A.email",  $order_by);
+            $order_by   = str_replace("%phone%",                "A.phone",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
         }
 
         $sql = '
-            SELECT * FROM ' . $this->tenant. '';
+            SELECT A.*, B.event_title
+			FROM ' . $this->tenant. ' AS A
+			LEFT JOIN ' . $this->incubation. ' AS B
+			ON B.id = A.selection_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
-        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
 
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 
