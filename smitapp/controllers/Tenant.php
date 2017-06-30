@@ -648,25 +648,54 @@ class Tenant extends User_Controller {
                     'datemodified'  => $curdate,
                 );
 
+                // -------------------------------------------------
+                // Save Tenant Selection
+                // -------------------------------------------------
+                $trans_save_tenant       = FALSE;
                 if( $save_tenant    = $this->Model_Tenant->save_data_tenant($tenantdata) ){
-                    // Set Message
-                    $msg            = ( $id_user != $current_user->id ? 'Data tenant <strong>'. $username .'</strong> sudah tersimpan.' : 'Data Tenant Anda sudah tersimpan.' );
-
-                    // Set JSON data
-                    $data = array(
-                        'message'   => 'success',
-                        'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
-                        'name'      => ( !empty($id_user) ? '' : smit_isset($post_tenant_name, '') ),
-                    );
+                    $trans_save_tenant   = TRUE;
                 }else{
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
                     // Set JSON data
-                    $data['success']    = false;
-                    $data['msg']        = 'error';
-                    $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';
+                    $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                    die(json_encode($data));
                 }
 
-                // JSON encode data
-                die(json_encode($data));
+                // -------------------------------------------------
+                // Commit or Rollback Transaction
+                // -------------------------------------------------
+                if( $trans_save_tenant ){
+                    if ($this->db->trans_status() === FALSE){
+                        // Rollback Transaction
+                        $this->db->trans_rollback();
+                        // Set JSON data
+                        $data = array(
+                            'message'       => 'error',
+                            'data'          => 'Pendaftaran tidak berhasil. Terjadi kesalahan data transaksi database.'
+                        ); die(json_encode($data));
+                    }else{
+                        // Commit Transaction
+                        $this->db->trans_commit();
+                        // Complete Transaction
+                        $this->db->trans_complete();
+
+                        // Send Email Notification
+                        //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                        // Set JSON data
+                        $data       = array('message' => 'success', 'data' => 'Pendaftaran tenant baru berhasil!');
+                        die(json_encode($data));
+                        // Set Log Data
+                        smit_log( 'TENANT_REG', 'SUCCESS', maybe_serialize(array('username'=>$current_user->username, 'upload_files'=> $upload_data_avatar)) );
+                    }
+                }else{
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => 'Pendaftaran tenant tidak berhasil. Terjadi kesalahan data.');
+                    die(json_encode($data));
+                }
             }
         }
     }

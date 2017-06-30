@@ -6,8 +6,8 @@ class Model_Tenant extends SMIT_Model{
 	/**
 	 * For SMIT_Model
 	 */
-    public $_table          = 'smit_user';
-    public $_tenant         = 'smit_incubation_tenant';
+    public $user          	= 'smit_user';
+    public $tenant         	= 'smit_incubation_tenant';
 
     /**
      * Initialize primary field
@@ -35,7 +35,7 @@ class Model_Tenant extends SMIT_Model{
      */
     function save_data_tenant($data){
         if( empty($data) ) return false;
-        if( $this->db->insert($this->_tenant, $data) ) {
+        if( $this->db->insert($this->tenant, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };
@@ -86,7 +86,7 @@ class Model_Tenant extends SMIT_Model{
             $db->where($field, $value);
         }
 
-        $query  = $db->get($this->_tenant);
+        $query  = $db->get($this->tenant);
 
         if ( !$query->num_rows() )
             return false;
@@ -111,7 +111,7 @@ class Model_Tenant extends SMIT_Model{
         $user_id = absint($user_id);
         if ( !$user_id ) return false;
 
-        $query = $this->db->get_where($this->_tenant, array('user_id' => $user_id));
+        $query = $this->db->get_where($this->tenant, array('user_id' => $user_id));
         if ( !$query->num_rows() )
             return false;
 
@@ -160,8 +160,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT *
-            FROM ' . $this->_tenant. '';
+            SELECT * FROM ' . $this->tenant. '';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
@@ -233,7 +232,7 @@ class Model_Tenant extends SMIT_Model{
         if ( is_array($id) ) $this->db->where_in('user_id', $id);
 		else $this->db->where('user_id', $id);
 
-        if( $this->db->update($this->_tenant, $data) )
+        if( $this->db->update($this->tenant, $data) )
             return true;
 
         return false;
@@ -246,7 +245,7 @@ class Model_Tenant extends SMIT_Model{
      * @return  stdClass of user newest.
      */
     function get_user_newest($limit=1){
-        $sql    = 'SELECT * FROM '.$this->_user.' WHERE status = 1 ORDER BY datecreated DESC LIMIT ' . $limit;
+        $sql    = 'SELECT * FROM '.$this->user.' WHERE status = 1 ORDER BY datecreated DESC LIMIT ' . $limit;
         $query  = $this->db->query($sql);
 
         if($limit==1){
@@ -272,7 +271,7 @@ class Model_Tenant extends SMIT_Model{
         if ( $status != 'all' ) { $this->db->where('status', $status); }
         if ( $type != 0 )   { $this->db->where('type', $type); }
 
-        $query = $this->db->get($this->_tenant);
+        $query = $this->db->get($this->tenant);
 
         return $query->num_rows();
     }
