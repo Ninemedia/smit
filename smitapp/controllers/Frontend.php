@@ -961,7 +961,12 @@ class Frontend extends Public_Controller {
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
-            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            //FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
 
             //Css Path
             FE_CSS_PATH    . 'animate.css',
@@ -972,14 +977,29 @@ class Frontend extends Public_Controller {
         $loadscripts            = smit_scripts(array(
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
-            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+
+            // DataTable Plugin
+            FE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            FE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            FE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'momentjs/moment.js',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
+            FE_JS_PATH . 'pages/tables/table-ajax.js',
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();'
+        ));
 
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['headstyles']     = $headstyles;
@@ -2014,9 +2034,7 @@ class Frontend extends Public_Controller {
 	 * Tenant list data function.
 	 */
     function tenantlistdata( ){
-        //$current_user       = smit_get_current_user();
-        //$is_admin           = as_administrator($current_user);
-        $condition          = '';
+        $condition          = ' WHERE %status% = 1';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -2065,8 +2083,7 @@ class Frontend extends Public_Controller {
         elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
-        elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -2103,7 +2120,6 @@ class Frontend extends Public_Controller {
                     '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                     $row->email,
                     smit_center( $row->phone ),
-                    smit_center( $status ),
                     '',
                 );
                 $i++;

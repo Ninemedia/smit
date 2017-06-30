@@ -52,23 +52,15 @@
                                     <th class="width10 text-center">Nama Tenant</th>
                                     <th class="width10 text-center">Email</th>
                                     <th class="width10 text-center">Telp</th>
-                                    <th class="width10 text-center">Status</th>
-                                    <th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+                                    <th class="width10 text-center">Actions<br /></th>
                                 </tr>
-                                <tr role="row" class="filter display-hide table-filter">
+                                <tr role="row" class="filter table-filter">
                                     <td></td>
                                     <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                     <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
                                     <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
                                     <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                     <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
-                                    <td>
-                                        <select name="search_status" class="form-control form-filter input-sm">
-                                            <option value="">Pilih...</option>
-                                            <option value="<?php echo ACTIVE; ?>">AKTIF</option>
-                                            <option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
-                                        </select>
-                                    </td>
                                     <td style="text-align: center;">
                                         <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_tenant_list">Search</button>
                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
