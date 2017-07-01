@@ -942,7 +942,7 @@ class Frontend extends Public_Controller {
         $scripts_add            = '';
         $scripts_init           = '';
 
-        $data['title']          = TITLE . 'Produk Tenant';
+        $data['title']          = TITLE . 'Produk Pra-Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
