@@ -51,7 +51,8 @@ $config['user_type']                = array(
     TENANT                          => 'Tenant',
     JURI                            => 'Juri',
     PENGUSUL                        => 'Pengusul',
-    PELAKSANA                       => 'Pelaksana'
+    PELAKSANA                       => 'Pelaksana',
+    PELAKSANA_TENANT                => 'Pelaksana',
 );
 
 /**
