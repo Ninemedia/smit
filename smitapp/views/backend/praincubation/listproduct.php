@@ -78,13 +78,14 @@
                                 <h4>Masukan Data Produk Pra-Inkubasi</h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Pra-Inkubasi<b style="color: red !important;">(*)</b></label>
+                                    <p>Usulan kegiatan yang sudah di ada pendamping</p>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_event" id="reg_event">
                                             <?php
-                                                $conditions     = ' WHERE %user_id% = '.$user->id.'';
+                                                $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
                                                 if( !empty($is_admin) ){
-                                                    $conditions = '';
+                                                    $conditions = ' WHERE %companion_id% > 0';
                                                 }
                 	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, $conditions);
                 	                            if( !empty($praincubation_list) ){

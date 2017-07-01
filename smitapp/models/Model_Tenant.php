@@ -161,23 +161,20 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%name_tenant%",          "B.name_tenant",  $order_by);
         }
 
         $sql = '
             SELECT A.*, B.*
 			FROM ' . $this->tenant. ' AS A
-			LEFT JOIN ' . $this->incubation_selection . ' AS B
-            ON C.id = A.selection_id
-            ';
-        
-        /*
-            LEFT JOIN ' . $this->incubation. ' AS B
-			ON B.id = A.selection_id
-        */
+			LEFT JOIN ' . $this->incubation. ' AS B
+			ON B.id = A.selection_id';
+
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
-        
+
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return false;
 
@@ -264,6 +261,76 @@ class Model_Tenant extends SMIT_Model{
         }else{
             return $query->result();
         }
+    }
+    
+    /**
+     * Retrieve all tenant data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of tenant         default 0
+     * @param   Int     $offset             Offset ot tenant        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of tenant list
+     */
+    function get_all_tenantdata($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%companion_id%",         "A.companion_id", $conditions);
+            $conditions = str_replace("%companion_name%",       "C.companion_name", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%statustwo%",            "A.statustwo", $conditions);
+            $conditions = str_replace("%url%",                  "A.url", $conditions);
+            $conditions = str_replace("%extension%",            "A.extension", $conditions);
+            $conditions = str_replace("%step%",                 "A.step", $conditions);
+            $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%companion_name%",       "C.companion_name",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%statustwo%",            "A.statustwo",  $order_by);
+            $order_by   = str_replace("%url%",                  "B.url",  $order_by);
+            $order_by   = str_replace("%extension%",            "B.extension",  $order_by);
+            $order_by   = str_replace("%step%",                 "A.step",  $order_by);
+            $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        $sql = '
+            SELECT A.*,B.workunit, B.*, C.name AS companion_name
+            FROM ' . $this->tenant. ' AS A
+            LEFT JOIN ' . $this->incubation_selection . ' AS B
+            ON B.id = A.selection_id
+            LEFT JOIN ' . $this->incubation . ' AS C
+            ON C.id = A.selection_id ';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
     }
 
     // ---------------------------------------------------------------------------------

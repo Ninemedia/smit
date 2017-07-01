@@ -1051,6 +1051,94 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
     }
+    
+    /**
+	 * Tenant Accompaniment list data function.
+	 */
+    function accompanimentlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ' WHERE companion_id > 0 ';
+        if( !$is_admin ){
+            $condition      = ' WHERE user_id = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_user_name        = $this->input->post('search_user_name');
+        $s_user_name        = smit_isset($s_user_name, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_companion_name   = $this->input->post('search_companion_name');
+        $s_companion_name   = smit_isset($s_companion_name, '');
+
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
+
+        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
+
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($praincubation_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+
+            $i = $offset + 1;
+            foreach($praincubation_list as $row){
+                //Workunit
+                $workunit_type = smit_workunit_type($row->workunit);
+
+                if( !empty($row->companion_name) ){
+                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($row->companion_name) . '</a>';
+                }else{ $companion_name = "<center> - </center>"; }
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->event_title),
+                    strtoupper($workunit_type->workunit_name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper($row->name),
+                    $companion_name,
+                    '',
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
 
     
     /**

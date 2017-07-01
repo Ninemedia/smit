@@ -26,7 +26,8 @@
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Nama Pengusul</th>
+            							<th class="width15">Pengguna</th>
+            							<th class="width15">Nama Peneliti Utama</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
                                         <th class="width10 text-center">Tanggal Usulan</th>
@@ -55,6 +56,7 @@
                                             ?>
                                             </select>
                                         </td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td>
                                             <?php

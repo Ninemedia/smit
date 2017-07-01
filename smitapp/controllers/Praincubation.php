@@ -3510,7 +3510,13 @@ class PraIncubation extends User_Controller {
                         'datemodified'  => $curdate,
                     );
 
-                    $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation($praincubationselection_data);
+                    if( $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation($praincubationselection_data) ){
+                        $update_data_files  = array(
+                            'praincubation_id'  => $praincubation_save_id,
+                        );
+                        
+                        $this->Model_Praincubation->update_data_praincubation_files($data_selection->id, $update_data_files);
+                    }
                 }
 
                 // Set JSON data
@@ -4800,9 +4806,9 @@ class PraIncubation extends User_Controller {
     function accompanimentlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE companion_id > 0 ';
+        $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
-            $condition      = ' WHERE user_id = '.$current_user->id.'';
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
         }
 
         $order_by           = '';
@@ -4842,7 +4848,7 @@ class PraIncubation extends User_Controller {
         elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
 
-        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
@@ -4853,16 +4859,21 @@ class PraIncubation extends User_Controller {
             $i = $offset + 1;
             foreach($praincubation_list as $row){
                 //Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
-
-                if( !empty($row->companion_name) ){
-                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($row->companion_name) . '</a>';
+                $workunit_type      = '<center> - </center>';
+                if( $row->workunit > 0 ){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit_type  = $workunit_type->workunit_name;    
+                }
+                
+                $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                if( !empty($companiondata) ){
+                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center> - </center>"; }
 
                 $records["aaData"][] = array(
                     smit_center($i),
                     strtoupper($row->event_title),
-                    strtoupper($workunit_type->workunit_name),
+                    strtoupper($workunit_type),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                     strtoupper($row->name),
                     $companion_name,
@@ -4888,7 +4899,7 @@ class PraIncubation extends User_Controller {
     function praincubationacceptedlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE %statustwo% = '.ACCEPTED.' AND %companion_id% = 0 ';
+        $condition          = ' WHERE %companion_id% = 0 ';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -4922,11 +4933,12 @@ class PraIncubation extends User_Controller {
         elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
-
-        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
+        
+        $order_by   .= ' %year% DESC';
+        $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-
+        
         if( !empty($praincubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
 
@@ -4940,15 +4952,19 @@ class PraIncubation extends User_Controller {
                 }
 
                 // Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
+                $workunit_type  = '<center> - </center>';
+                if( $row->workunit > 0 ){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit_type  = $workunit_type->workunit_name;
+                }
 
                 $records["aaData"][] = array(
-                    smit_center($i),
-                    strtoupper($row->event_title),
-                    strtoupper($workunit_type->workunit_name),
+                    smit_center( $i ),
+                    strtoupper( $row->event_title ),
+                    strtoupper( $workunit_type ),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
-                    strtoupper($row->name),
-                    smit_center($btn_add),
+                    strtoupper( $row->name ),
+                    smit_center( $btn_add ),
                 );
                 $i++;
             }
@@ -5025,16 +5041,18 @@ class PraIncubation extends User_Controller {
         // Custom
         $condition              = '';
         $praincubation_list     = '';
+        
         if(!empty($uniquecode)){
-            $praincubation_list     = $this->Model_Praincubation->get_all_praincubation('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
             $praincubation_list     = $praincubation_list[0];
-            $user_id                = $praincubation_list->user_id;
-            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE user_id = '.$user_id.'', '');
+            $praincubation_id       = $praincubation_list->id;
+            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE praincubation_id = '.$praincubation_id.'', '');
         }
 
         if( !empty($_POST) ){
             $companion_id           = $this->input->post('companion_id');
             $companion_id           = smit_isset($companion_id, '');
+            
             if( empty($companion_id) ){
                 $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Silahkan pilih pendamping!').'</div>');
             }else{
@@ -5047,9 +5065,11 @@ class PraIncubation extends User_Controller {
                         'companion_id'      => $companion_id,
                         'datemodified'      => $curdate
                     );
-                    if( $this->Model_Praincubation->update_data_praincubation($praincubation_list->id, $selection_update_data) ){
+                    
+                    if( $this->Model_Praincubation->update_data_praincubationdata($praincubation_list->id, $selection_update_data) ){
                         redirect( base_url('prainkubasi/pendampingan') );
                     }
+                    
                 }
             }
         }
@@ -5176,7 +5196,9 @@ class PraIncubation extends User_Controller {
 
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-
+        
+        $s_user_name        = $this->input->post('search_user');
+        $s_user_name        = smit_isset($s_user_name, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
@@ -5192,6 +5214,7 @@ class PraIncubation extends User_Controller {
         $s_date_max         = smit_isset($s_date_max, '');
 
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
@@ -5200,10 +5223,11 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
@@ -5226,14 +5250,16 @@ class PraIncubation extends User_Controller {
                     $workunit       = $workunit_type->workunit_name;
                 }
                 $year           = $row->year;
-                $name           = strtoupper($row->user_name);
+                $name_user      = strtoupper($row->user_name);
+                $name           = strtoupper($row->name);
                 $event          = $row->event_title;
-                $datecreated    = date('d F Y', strtotime($row->datecreated));
+                $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
+                    strtoupper( $name ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
                     smit_center( $datecreated ),
@@ -5471,7 +5497,12 @@ class PraIncubation extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-
+            
+            if( !empty($category) ){
+                $data_category      = $this->Model_Option->get_all_category(0, 0, ' WHERE %category_id% = '.$category.'');
+                $data_category      = $data_category[0];
+            }
+            
             $praincubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
@@ -5480,7 +5511,7 @@ class PraIncubation extends User_Controller {
                 'name'          => $name,
                 'event_title'   => $event_title,
                 'event_desc'    => $description,
-                'category'      => $category,
+                'category'      => strtolower($data_category->category_name),
                 'status'        => ACTIVE,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
@@ -5517,6 +5548,7 @@ class PraIncubation extends User_Controller {
                     // Set File Upload Save
                     $file = $upload_data;
                     $praincubationselectionfiles_data = array(
+                        'praincubation_id'  => $praincubation_save_id, 
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
                         'user_id'       => $current_user->id,
@@ -5547,6 +5579,7 @@ class PraIncubation extends User_Controller {
                     // Set File Upload Save
                     $file_rab = $upload_data_rab;
                     $praincubationselectionfilesrab_data = array(
+                        'praincubation_id'  => $praincubation_save_id, 
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
                         'user_id'       => $current_user->id,
