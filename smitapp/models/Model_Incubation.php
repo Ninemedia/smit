@@ -445,6 +445,26 @@ class Model_Incubation extends SMIT_Model{
         };
         return false;
     }
+    
+    /**
+     * Update data of incubation
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_incubation_files($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in('selection_id', $id);
+		else $this->db->where('selection_id', $id);
+    
+        if( $this->db->update($this->incubation_selection_files, $data) ) 
+            return true;
+            
+        return false;
+    }
 
     /**
      * Save data of incubation_selection_setting
@@ -810,6 +830,26 @@ class Model_Incubation extends SMIT_Model{
 		else $this->db->where($this->primary, $id);
 
         if( $this->db->update($this->incubation_selection, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Update data of incubationdata
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_incubationdata($id, $data){
+        if( empty($id) || empty($data) ) return false;
+
+        if ( is_array($id) ) $this->db->where_in($this->primary, $id);
+		else $this->db->where($this->primary, $id);
+
+        if( $this->db->update($this->incubation, $data) )
             return true;
 
         return false;
@@ -1236,6 +1276,7 @@ class Model_Incubation extends SMIT_Model{
             $conditions = str_replace("%name%",                 "A.name", $conditions);
             $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%tenant_id%",            "A.tenant_id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -1248,6 +1289,7 @@ class Model_Incubation extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%tenant_id%",            "A.tenant_id",  $order_by);
         }
 
         $sql = '

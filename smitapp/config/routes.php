@@ -144,8 +144,6 @@ $route['produk/detail/(:any)']                  = "praincubation/productdetails/
 $route['produkconfirm/(:any)/(:any)']           = "praincubation/productconfirm/$1/$2";
 // --------------------------------------------------------------------------
 
-
-
 // --------------------------------------------------------------------------
 // Menu Seleksi Inkubasi
 $route['seleksiinkubasi/pengaturan']            = "incubation/incubationsetting";
@@ -203,6 +201,7 @@ $route['inkubasi/daftardata']                   = "incubation/incubationdata";
 $route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdatadetails/$1";
 
 // Tenant Page Routes
+$route['tenants/daftarinkubasi']                = "incubation/listincubation";
 $route['tenants/blogs']                         = "tenant/tenantblogs";
 $route['tenants/daftar']                        = "tenant/tenantdata";
 $route['tenants/pendampingan']                  = "tenant/tenantaccompaniment";

@@ -777,7 +777,7 @@ var Tenant = function () {
         };
 
         // Reset News Form
-        $('body').on('click', '#btn_addtenant', function(event){
+        $('body').on('click', '#btn_addtenant_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
@@ -785,7 +785,7 @@ var Tenant = function () {
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#addtenant')[0].reset();
-            $('#avatar_company').fileinput('refresh', {
+            $('#avatar_selection_files').fileinput('refresh', {
                 showUpload : false,
                 showUploadedThumbs : false,
                 'theme': 'explorer',

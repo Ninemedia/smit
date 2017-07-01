@@ -138,6 +138,7 @@ class Model_Tenant extends SMIT_Model{
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
             $conditions = str_replace("%name_tenant%",          "A.name_tenant", $conditions);
@@ -152,6 +153,7 @@ class Model_Tenant extends SMIT_Model{
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%name_tenant%",          "A.name_tenant",  $order_by);
@@ -161,14 +163,13 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
-            $order_by   = str_replace("%name_tenant%",          "B.name_tenant",  $order_by);
         }
 
         $sql = '
-            SELECT A.*, B.*
+            SELECT A.*, B.event_title, B.year
 			FROM ' . $this->tenant. ' AS A
 			LEFT JOIN ' . $this->incubation. ' AS B
-			ON B.id = A.selection_id';
+			ON B.id = A.incubation_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

@@ -168,16 +168,23 @@ class Tenant extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
@@ -185,16 +192,33 @@ class Tenant extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
+            'Tenant.init();',
+            'UploadFiles.init();',
+            'TenantValidation.init();',
         ));
 
         $data['title']          = TITLE . 'Daftar Tenant';
@@ -647,7 +671,8 @@ class Tenant extends User_Controller {
 
                 $tenantdata         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
-                    'selection_id'  => trim(smit_isset($post_selection_id, '')),
+                    'selection_id'  => trim(smit_isset($data_selection->selection_id, '')),
+                    'incubation_id' => trim(smit_isset($post_selection_id, '')),
                     'user_id'       => trim(smit_isset($data_selection->user_id, '')),
                     'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
                     'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
@@ -678,6 +703,12 @@ class Tenant extends User_Controller {
                 $trans_save_tenant       = FALSE;
                 if( $save_tenant    = $this->Model_Tenant->save_data_tenant($tenantdata) ){
                     $trans_save_tenant   = TRUE;
+                    
+                    $update_data_incubation = array(
+                        'tenant_id'  => $save_tenant,
+                    );
+                    
+                    $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);
                 }else{
                     // Rollback Transaction
                     $this->db->trans_rollback();
@@ -865,6 +896,9 @@ class Tenant extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
+        if( !$is_admin ){
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+        }
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -929,6 +963,7 @@ class Tenant extends User_Controller {
             elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
             elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
         }
+        
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
@@ -945,10 +980,11 @@ class Tenant extends User_Controller {
                     $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
                         class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
                 }
-
-                $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
-
+                $btn_team       = '';
+                if( $row->status != NONACTIVE ){
+                    $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
+                        class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
+                }
                 $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 

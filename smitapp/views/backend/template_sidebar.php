@@ -108,8 +108,9 @@
     // -------------------------------------------------------------------------------------------------------------
 
     if(!empty($is_admin)){
-        $title_daftar   = 'Daftar Pra-Inkubasi';
-    }else{ $title_daftar   = 'Daftar Usulan'; }
+        $title_daftar   = 'Daftar Hasil Pra-Inkubasi';
+        $title_daftar_inkubasi   = 'Daftar Hasil Inkubasi';
+    }else{ $title_daftar   = 'Daftar Usulan'; $title_daftar_inkubasi   = 'Daftar Usulan'; }
 
     // Set menu array
     $menu_arr = array(
@@ -341,6 +342,15 @@
             'icon'      => 'wb_incandescent',
             'badge'     => 0,
             'sub'       => array(
+                array (
+                    'title'     => $title_daftar_inkubasi,
+                    'nav'       => 'tenants/daftarinkubasi',
+                    'parent'    => 'tenants',
+                    'link'      => base_url('tenants/daftarinkubasi'),
+                    'icon'      => 'view_list',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
                 array (
                     'title'     => 'Tambah Tenant',
                     'nav'       => 'tenants/pendaftaran',

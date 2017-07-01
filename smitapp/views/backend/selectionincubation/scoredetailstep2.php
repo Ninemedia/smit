@@ -233,7 +233,7 @@
                         </div>
                         -->
                     </div>
-                <?php elseif($is_pelaksana || $is_pengusul): ?>
+                <?php else : ?>
                     <div class="pull-right bottom25">                        
                         <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>

@@ -100,6 +100,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php if( !empty($praincubation_list) ) : ?>
                                 <div class="form-group">
                                     <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -140,6 +141,13 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary waves-effect" id="btn_productadd">Tambah Produk</button>
                                 <button type="button" class="btn btn-danger waves-effect" id="btn_productadd_reset">Bersihkan</button>
+                                
+                                <?php else : ?>
+                                    <div class="alert bg-orange">
+                                        <strong>Perhatian!</strong>
+                                        Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada usulan seleksi yang sudah di dampingi oleh pendamping. Terima Kasih.</strong>
+                                    </div>
+                                <?php endif; ?>
                             </section>
                         </div>
                         <?php echo form_close(); ?>

@@ -4,12 +4,8 @@
         <div class="card">
             <div class="header"><h2>Detail Seleksi Pra Inkubasi</h2></div>
             <div class="body">
-                <div class="table-container table-responsive">
-                    <?php if( !empty($is_admin) ) : ?>                      
+                <div class="table-container table-responsive">                 
                     <a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
-                    <?php else : ?>
-                    <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
-                    <?php endif ?>
                     <h4><?php echo $praincubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>

@@ -5,7 +5,7 @@
             <div class="header"><h2>Detail Inkubasi</h2></div>
             <div class="body">
                 <div class="table-container table-responsive">                     
-                    <a href="<?php echo base_url('tenants/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
+                    <a href="<?php echo base_url('tenants/daftarinkubasi'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
                     <h4><?php echo $incubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>
@@ -32,7 +32,7 @@
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $incubation->category; ?></td>
+                                <td><?php echo strtoupper($incubation->category); ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Berkas Kegiatan</th>
