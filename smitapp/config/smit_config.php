@@ -146,11 +146,12 @@ $config['user_menu_access']             = array(
         'berita',
         'berita/daftar',
         'berita/tambah',
-        'statistik',
-        'statistik/pengguna',
-        'statistik/prainkubasi',
-        'statistik/inkubasi',
-        'statistik/tenant',
+        // ------------------- INFO GRAFIS
+        'infografis',
+        'infografis/pengguna',
+        'infografis/prainkubasi',
+        'infografis/inkubasi',
+        
         'berkas',
         'berkas/digital',
         'pengumuman',
