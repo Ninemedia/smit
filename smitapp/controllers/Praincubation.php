@@ -4849,7 +4849,7 @@ class PraIncubation extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
-            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+            $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
         }
 
         $order_by           = '';
@@ -4882,12 +4882,20 @@ class PraIncubation extends User_Controller {
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
-
-        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
+        
+        if( $is_admin ){
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }    
+        }else{
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+        }
+        
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
@@ -4910,16 +4918,28 @@ class PraIncubation extends User_Controller {
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center> - </center>"; }
-
-                $records["aaData"][] = array(
-                    smit_center($i),
-                    strtoupper($row->event_title),
-                    strtoupper($workunit_type),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
-                    strtoupper($row->name),
-                    $companion_name,
-                    '',
-                );
+                
+                if( $is_admin ){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->event_title),
+                        strtoupper($workunit_type),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        $companion_name,
+                        '',
+                    );    
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->event_title),
+                        strtoupper($workunit_type),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        '',
+                    );    
+                }
+                
                 $i++;
             }
         }
@@ -6202,10 +6222,14 @@ class PraIncubation extends User_Controller {
     function reportdata( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
+        $is_pendamping      = as_pendamping($current_user);
         $condition          = '';
         if( !$is_admin ){
-            $condition      = ' WHERE user_id = '.$current_user->id.'';
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
         }
+        if( $is_pendamping ){
+            $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+        } 
 
         $order_by           = 'year DESC';
         $iTotalRecords      = 0;
@@ -6293,7 +6317,6 @@ class PraIncubation extends User_Controller {
                 $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
-                
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -6315,6 +6338,26 @@ class PraIncubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $btn_action ),
                     );    
+                }elseif($is_pendamping){
+                    $records["aaData"][] = array(
+                        smit_center( $i ),
+                        smit_center( $year ),
+                        strtoupper( $name ),
+                        strtoupper( $workunit ),
+                        strtoupper( $event ),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $btn_download),
+                        smit_center( $datecreated ),
+                        smit_center( $btn_action ),
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center( $i ),

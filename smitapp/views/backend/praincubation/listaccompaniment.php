@@ -129,7 +129,6 @@
                                 <th class="width20 text-center">Satuan Kerja</th>
                                 <th class="width15 text-center">Pelaksana</th>
                                 <th class="width15 text-center">Peneliti Utama</th>
-                                <th class="width15 text-center">Pendamping</th>
     							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     						</tr>
                             <tr role="row" class="filter display-hide table-filter">
@@ -151,7 +150,6 @@
                                 </td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user_name" /></td>
                                 <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_companion_name" /></td>
     							<td style="text-align: center;">
                                     <div class="bottom5">
     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_accompaniment_list">Search</button>

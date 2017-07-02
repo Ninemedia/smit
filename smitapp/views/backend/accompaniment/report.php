@@ -29,7 +29,7 @@
                         
                     </div>
                 </div>
-                <?php elseif($is_pendamping): ?>
+                <?php else : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
