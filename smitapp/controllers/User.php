@@ -635,7 +635,7 @@ class User extends SMIT_Controller {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
                     $btn_action     = '
                     <a href="'.($row->id>1 ? base_url('userconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
-                    <a href="'.($row->id>1 ? base_url('userconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    <a href="'.($row->id>1 ? base_url('userconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 elseif($row->status == BANNED)  { 
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
@@ -646,14 +646,6 @@ class User extends SMIT_Controller {
                     $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
-                /*
-                if($row->type == ADMINISTRATOR) { $type = '<span class="label label-info">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                elseif($row->type == PENDAMPING){ $type = '<span class="label label-primary">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                elseif($row->type == TENANT)    { $type = '<span class="label label-warning">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                elseif($row->type == JURI)      { $type = '<span class="label label-danger">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                elseif($row->type == PENGUSUL)  { $type = '<span class="label label-default">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                elseif($row->type == PELAKSANA) { $type = '<span class="label label-success">'.strtoupper($cfg_type[$row->type]).'</span>'; }
-                */
                 $type               = strtoupper($cfg_type[$row->type]);
                 
                 $records["aaData"][] = array(

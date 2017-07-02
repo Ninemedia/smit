@@ -858,6 +858,25 @@ if (!function_exists('as_pelaksana')){
     }
 }
 
+if (!function_exists('as_pelaksana_tenant')){
+    /**
+     * 
+     * Is current user is administrator
+     * @param Object $user
+     * @return bool
+     */
+    function as_pelaksana_tenant( $user ){
+    	if (!$user)
+    		return false;
+        
+        $CI =& get_instance();
+        $user = $CI->smit_user->user($user->id);
+    		
+    	return ( ($user->type == 7) );	
+    }
+}
+
+
 if (!function_exists('smit_get_jury')){
     /**
      * 

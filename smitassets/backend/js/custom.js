@@ -8,7 +8,7 @@ $(function () {
         setSettingListHeightAndScroll();
     });
     tableSearchFilterToggle();
-    
+
     $("body").delegate( "button.close", "click", function( event ) {
         event.preventDefault();
         $(this).parent().fadeOut();
@@ -107,7 +107,7 @@ $("body").delegate( "a.userconfirm", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#user_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan mengkonfirmasi pengguna ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -116,24 +116,24 @@ $("body").delegate( "a.userconfirm", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -150,7 +150,7 @@ $("body").delegate( "a.sliderconfirm", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#slider_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan mengkonfirmasi slider ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -159,24 +159,24 @@ $("body").delegate( "a.sliderconfirm", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -193,7 +193,7 @@ $("body").delegate( "a.produkconfirm", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#product_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan mengkonfirmasi produk ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -202,24 +202,24 @@ $("body").delegate( "a.produkconfirm", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -237,7 +237,7 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#workunit_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan menghapus data satuan kerja ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -246,24 +246,24 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -280,7 +280,7 @@ $("body").delegate( "a.categorydelete", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#category_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan menghapus data kategori ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -289,24 +289,24 @@ $("body").delegate( "a.categorydelete", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -323,7 +323,7 @@ $("body").delegate( "button.newsdelete", "click", function( event ) {
     var url = $(this).attr('href');
     var table_container = $('#workunit_list').parents('.dataTables_wrapper');
     var msg = '';
-    
+
     bootbox.confirm("Anda yakin akan menghapus data berita ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -332,24 +332,24 @@ $("body").delegate( "button.newsdelete", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -366,7 +366,7 @@ $("body").delegate( "a.tenantconfirm", "click", function( event ) {
     var url             = $(this).attr('href');
     var table_container = $('#list_tenant').parents('.dataTables_wrapper');
     var msg             = '';
-    
+
     bootbox.confirm("Anda yakin akan mengkonfirmasi tenant ini?", function(result) {
         if( result == true ){
             $.ajax({
@@ -375,24 +375,24 @@ $("body").delegate( "a.tenantconfirm", "click", function( event ) {
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
                     if( response.msg == 'error' ){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
                         App.alert({
-                            type: 'success', 
-                            icon: 'check', 
-                            message: response.message, 
-                            container: table_container, 
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }
@@ -423,7 +423,7 @@ var Guides = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -451,7 +451,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleUploadAvatar = function(){
         $("#ava_selection_files").fileinput({
             showUpload : false,
@@ -470,7 +470,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleUploadNews = function(){
         $("#news_selection_files").fileinput({
             showUpload : false,
@@ -489,7 +489,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleUploadSlider = function(){
         $("#slider_selection_files").fileinput({
             showUpload : false,
@@ -508,7 +508,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleUploadLogoTenant = function(){
         $("#avatar_company").fileinput({
             showUpload : false,
@@ -523,11 +523,11 @@ var UploadFiles = function () {
                 showUpload: false,
                 showZoom: false,
             },
-            maxFileSize: 1024,
+            maxFileSize: 2048,
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleEditUploadFiles = function(){
         $("#edit_selection_files").fileinput({
             showUpload : false,
@@ -546,7 +546,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleEditUploadFilesIncubation = function(){
         $("#reg_selection_files").fileinput({
             showUpload : false,
@@ -565,7 +565,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleEditUploadFilesRAB = function(){
         $("#reg_selection_rab").fileinput({
             showUpload : false,
@@ -584,7 +584,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleUploadProductPraincubation = function(){
         $("#reg_thumbnail").fileinput({
             showUpload : false,
@@ -602,7 +602,7 @@ var UploadFiles = function () {
             maxFileSize: 1024,
             /* uploadClass: 'btn btn-success' */
         });
-        
+
         $("#reg_details").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
@@ -620,7 +620,26 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
+    var handleUploadAvatarTenant = function(){
+        $("#avatar_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+
     return {
         //main function to initiate the module
         init: function () {
@@ -633,6 +652,7 @@ var UploadFiles = function () {
             handleEditUploadFilesIncubation();
             handleEditUploadFilesRAB();
             handleUploadProductPraincubation();
+            handleUploadAvatarTenant();
         }
     };
 }();
@@ -656,7 +676,7 @@ var Tenant = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     // --------------------------------
     // Handle Province Change
     // --------------------------------
@@ -666,7 +686,7 @@ var Tenant = function () {
             var val     = $(this).val();
             var url     = $(this).data('url');
             var el      = $('#regional-select');
-            
+
             $.ajax({
                 type:   "POST",
                 data:   {
@@ -683,35 +703,89 @@ var Tenant = function () {
                     el.empty().hide();
                     el.parent().removeClass('has-error');
                     el.parent().find('.help-block').empty().hide();
-                    
+
                     if(response.message == 'success'){
                         el.attr('disabled', false);
-                        el.html(response.data).selectpicker('refresh'); 
+                        el.html(response.data).selectpicker('refresh');
                     }else{
                         el.attr('disabled', true);
-                        el.html(response.data).selectpicker('refresh'); 
+                        el.html(response.data).selectpicker('refresh');
                     }
                 }
             });
             return false;
         });
-        
+
 	};
-    
+
     // --------------------------------
     // Handle Add Tenant Change
     // --------------------------------
 	var handleResetAddTenantChange = function() {
+        $('#do_save_addtenant').click(function(e){
+            e.preventDefault();
+            processSaveAddTenant($('#addtenant'));
+        });
+
+        var processSaveAddTenant = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#addtenant')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#avatar_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
         // Reset News Form
-        $('body').on('click', '#btn_addtenant', function(event){
+        $('body').on('click', '#btn_addtenant_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#addtenant')[0].reset();
-            $('#avatar_company').fileinput('refresh', {
+            $('#avatar_selection_files').fileinput('refresh', {
                 showUpload : false,
                 showUploadedThumbs : false,
                 'theme': 'explorer',
@@ -727,11 +801,11 @@ var Tenant = function () {
                 maxFileSize: 2048,
             });
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
-        });    
+        });
 	};
-    
-        
-    
+
+
+
     return {
         //main function to initiate the module
         init: function () {
@@ -750,7 +824,7 @@ var PraIncubationList = function () {
             var url = $(this).attr('href');
             var table_container = $('#praincubation_list').parents('.dataTables_wrapper');
             var msg = '';
-            
+
             bootbox.confirm("Anda yakin akan mengkonfirmasi semua data seleksi?", function(result) {
                 if( result == true ){
                     $.ajax({
@@ -759,24 +833,24 @@ var PraIncubationList = function () {
                         beforeSend: function (){
                             $("div.page-loader-wrapper").fadeIn();
                         },
-                        success: function( response ){                    
+                        success: function( response ){
                             $("div.page-loader-wrapper").fadeOut();
                             response = $.parseJSON(response);
-                            
+
                             if( response.msg == 'error' ){
                                 App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'danger',
+                                    icon: 'warning',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }else{
                                 App.alert({
-                                    type: 'success', 
-                                    icon: 'check', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'success',
+                                    icon: 'check',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }
@@ -788,7 +862,7 @@ var PraIncubationList = function () {
             });
         });
     };
-    
+
     var handlePraIncubationReportList = function(){
         // User Confirm
         $("body").delegate( "a.praincubationreportconfirm", "click", function( event ) {
@@ -796,7 +870,7 @@ var PraIncubationList = function () {
             var url = $(this).attr('href');
             var table_container = $('#praincubationreport_list').parents('.dataTables_wrapper');
             var msg = '';
-            
+
             bootbox.confirm("Anda yakin akan mengkonfirmasi semua data laporan pra inkubasi seleksi?", function(result) {
                 if( result == true ){
                     $.ajax({
@@ -805,16 +879,16 @@ var PraIncubationList = function () {
                         beforeSend: function (){
                             $("div.page-loader-wrapper").fadeIn();
                         },
-                        success: function( response ){                    
+                        success: function( response ){
                             $("div.page-loader-wrapper").fadeOut();
                             response = $.parseJSON(response);
-                            
+
                             if( response.msg == 'error' ){
                                 App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'danger',
+                                    icon: 'warning',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }else{
@@ -827,21 +901,21 @@ var PraIncubationList = function () {
             });
         });
     };
-    
+
     var handlePraIncubationAccompanimentList = function(){
         // Save Update Profile
         $('#listaccompaniment_tab').click(function(e){
             e.preventDefault();
             $('#btn_accompaniment_list').trigger('click');
         });
-        
+
         // Save Change Password
         $('#companionassignment_tab').click(function(e){
             e.preventDefault();
             $('#btn_acceptedselection_list').trigger('click');
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -861,7 +935,7 @@ var IncubationList = function () {
             var url = $(this).attr('href');
             var table_container = $('#incubation_list').parents('.dataTables_wrapper');
             var msg = '';
-            
+
             bootbox.confirm("Anda yakin akan mengkonfirmasi semua data seleksi?", function(result) {
                 if( result == true ){
                     $.ajax({
@@ -870,24 +944,24 @@ var IncubationList = function () {
                         beforeSend: function (){
                             $("div.page-loader-wrapper").fadeIn();
                         },
-                        success: function( response ){                    
+                        success: function( response ){
                             $("div.page-loader-wrapper").fadeOut();
                             response = $.parseJSON(response);
-                            
+
                             if( response.msg == 'error' ){
                                 App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'danger',
+                                    icon: 'warning',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }else{
                                 App.alert({
-                                    type: 'success', 
-                                    icon: 'check', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'success',
+                                    icon: 'check',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }
@@ -898,7 +972,7 @@ var IncubationList = function () {
             });
         });
     };
-    
+
     var handleIncubationReportList = function(){
         // User Confirm
         $("body").delegate( "a.incubationreportconfirm", "click", function( event ) {
@@ -906,7 +980,7 @@ var IncubationList = function () {
             var url = $(this).attr('href');
             var table_container = $('#incubationreport_list').parents('.dataTables_wrapper');
             var msg = '';
-            
+
             bootbox.confirm("Anda yakin akan mengkonfirmasi semua data laporan inkubasi seleksi?", function(result) {
                 if( result == true ){
                     $.ajax({
@@ -915,16 +989,16 @@ var IncubationList = function () {
                         beforeSend: function (){
                             $("div.page-loader-wrapper").fadeIn();
                         },
-                        success: function( response ){                    
+                        success: function( response ){
                             $("div.page-loader-wrapper").fadeOut();
                             response = $.parseJSON(response);
-                            
+
                             if( response.msg == 'error' ){
                                 App.alert({
-                                    type: 'danger', 
-                                    icon: 'warning', 
-                                    message: response.message, 
-                                    container: table_container, 
+                                    type: 'danger',
+                                    icon: 'warning',
+                                    message: response.message,
+                                    container: table_container,
                                     place: 'prepend'
                                 });
                             }else{
@@ -936,7 +1010,7 @@ var IncubationList = function () {
             });
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -951,7 +1025,7 @@ var Setting = function () {
     // Handle General Setting
     // --------------------------------
     var handleSetting = function() {
-        
+
         // Dashboard Setting
         $("body").delegate( "button.btn-dashboard-setting", "click", function( event ) {
             event.preventDefault();
@@ -959,7 +1033,7 @@ var Setting = function () {
             var type = $(this).data('type');
             var instances = 'be_dashboard_' + type;
             var value = getValue(instances);
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
@@ -968,7 +1042,7 @@ var Setting = function () {
                 success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
             });
         });
-        
+
         // Frontend Setting
         $("body").delegate( "button.btn-frontend-setting", "click", function( event ) {
             event.preventDefault();
@@ -976,7 +1050,7 @@ var Setting = function () {
             var type = $(this).data('type');
             var instances = 'be_frontend_' + type;
             var value = getValue(instances);
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
@@ -985,7 +1059,7 @@ var Setting = function () {
                 success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
             });
         });
-        
+
         // Registration Setting
         $("body").delegate( "button.btn-notif-registration", "click", function( event ) {
             event.preventDefault();
@@ -993,7 +1067,7 @@ var Setting = function () {
             var type = $(this).data('type');
             var instances = 'be_notif_' + type;
             var value = getValue(instances);
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
@@ -1002,7 +1076,7 @@ var Setting = function () {
                 success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
             });
         });
-        
+
         // Pra-Incubation Setting
         $("body").delegate( "button.btn-notif-praincubation-setting", "click", function( event ) {
             event.preventDefault();
@@ -1010,7 +1084,7 @@ var Setting = function () {
             var type = $(this).data('type');
             var instances = 'be_notif_praincubation_' + type;
             var value = getValue(instances);
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
@@ -1019,7 +1093,7 @@ var Setting = function () {
                 success: function( response ){ $("div.page-loader-wrapper").fadeOut(); }
             });
         });
-        
+
         // Incubation Setting
         $("body").delegate( "button.btn-notif-incubation-setting", "click", function( event ) {
             event.preventDefault();
@@ -1027,7 +1101,7 @@ var Setting = function () {
             var type = $(this).data('type');
             var instances = 'be_notif_incubation_' + type;
             var value = getValue(instances);
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
@@ -1038,12 +1112,12 @@ var Setting = function () {
         });
         // ---------------------------------------------------------------------
     };
-    
+
     var getValue = function(id) {
         var content = CKEDITOR.instances[id].getData();
         return content;
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1058,23 +1132,23 @@ var Charts = function() {
 	var formatDate = function( date ) {
 		return moment( date ).format( 'DD-MMM-YY' );
 	};
-	
+
 	var handleChartUser = function() {
 		var elm = 'chart-user';
 		var chart = $( '#' + elm ).find( '.data' ).text();
 
 		if ( ! chart )
 			return;
-		
+
 		chart = $.parseJSON( chart );
-		if ( ! chart.data ) 
+		if ( ! chart.data )
             return;
-		
+
 		var data = chart.data;
 		var xkey = chart.xkey;
 		var ykeys = chart.ykeys;
 		var labels = chart.labels;
-		
+
 		new Morris.Bar({
             // ID of the element in which to draw the chart.
             element: elm,
@@ -1099,7 +1173,7 @@ var Charts = function() {
             resize: true
 		});
 	};
-	
+
 	return {
 		init: function() {
 			handleChartUser();

@@ -7,31 +7,34 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#tab_incubation" data-toggle="tab">
-                            <i class="material-icons">label</i> HASIL INKUBASI
+                        <a href="#tab_tenant" data-toggle="tab">
+                            <i class="material-icons">list</i> DATA TENANT
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#tab_tenant" data-toggle="tab">
-                            <i class="material-icons">label</i> DATA TENANT
+                        <a href="#tab_add" data-toggle="tab">
+                            <i class="material-icons">list</i> TAMBAH TENANT
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="tab_incubation">
+                    <div role="tabpanel" class="tab-pane fade in active" id="tab_tenant">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_incubation" data-url="<?php echo base_url('inkubasi/daftardata'); ?>">
+                            <?php if( $is_admin ) : ?>
+                            <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Nama Pengusul</th>
-                                        <th class="width10 text-center">Satuan Kerja</th>
-                                        <th class="width20 text-center">Judul Kegiatan</th>
-                                        <th class="width10 text-center">Tanggal Usulan</th>
-            							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width15">Pengguna</th>
+            							<th class="width20">Judul Usulan</th>
+                                        <th class="width10 text-center">Nama Tenant</th>
+                                        <th class="width10 text-center">Email</th>
+                                        <th class="width10 text-center">Telp</th>
+                                        <th class="width10 text-center">Status</th>
+            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -45,7 +48,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -57,58 +60,10 @@
                                             </select>
                                         </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-                                        <td>
-                                            <?php
-                                            	$workunit_type = smit_workunit_type();
-                                                $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
-                                                if( !empty($workunit_type) ){
-                                                    foreach($workunit_type as $val){
-                                                        $option[$val->workunit_id] = $val->workunit_name;
-                                                    }
-                                                }
-                                                echo form_dropdown('workunit_type',$option,'',$extra);
-                                            ?>
-                                        </td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-                                        <td>
-            								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
-            								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
-            							</td>
-            							<td style="text-align: center;">
-                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
-            							</td>
-            						</tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Data Will Be Placed Here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade in" id="tab_tenant">
-                        <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
-                                <thead>
-            						<tr role="row" class="heading bg-blue">
-            							<th class="width5">No</th>
-            							<th class="width15">Pengguna</th>
-                                        <th class="width10 text-center">Nama Tenant</th>
-                                        <th class="width10 text-center">Email</th>
-                                        <th class="width10 text-center">Telp</th>
-                                        <th class="width5 text-center">Tahun Berdiri</th>
-                                        <th class="width10 text-center">Status</th>
-            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-            						</tr>
-                                    <tr role="row" class="filter display-hide table-filter">
-            							<td></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
+				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_year" /></td>
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm">
             									<option value="">Pilih...</option>
@@ -128,13 +83,259 @@
                                     <!-- Data Will Be Placed Here -->
                                 </tbody>
                             </table>
+                            <?php else : ?>
+                            <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
+                                <thead>
+            						<tr role="row" class="heading bg-blue">
+            							<th class="width5">No</th>
+                                        <th class="width10 text-center">Tahun</th>
+            							<th class="width20">Judul Usulan</th>
+                                        <th class="width10 text-center">Nama Tenant</th>
+                                        <th class="width10 text-center">Email</th>
+                                        <th class="width10 text-center">Telp</th>
+                                        <th class="width10 text-center">Status</th>
+            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+            						</tr>
+                                    <tr role="row" class="filter display-hide table-filter">
+            							<td></td>
+                                        <td>
+                                            <select name="search_year" class="form-control form-filter input-sm def">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }
+
+                                                if( !empty($option) ){
+                                                    foreach($option as $val){
+                                                        echo '<option value="'.$val.'">'.$val.'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">Tahun Kosong</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
+				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
+                                        <td>
+                                            <select name="search_status" class="form-control form-filter input-sm">
+            									<option value="">Pilih...</option>
+            									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
+            									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
+            								</select>
+                                        </td>
+            							<td style="text-align: center;">
+                                            <div class="bottom5">
+            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
+                                            </div>
+                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+            							</td>
+            						</tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data Will Be Placed Here -->
+                                </tbody>
+                            </table>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="tab_add">
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
+                                <div class="alert alert-danger text-center display-hide error-validate">
+                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                        		</div>
+    
+                                <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
+                                <div class="form-group">
+                                    <label class="form-label">Usulan Kegiatan Inkubasi<b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                        <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                            <?php
+                                                $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
+                                                $order_by       = ' %year% DESC';
+                                                if( !empty($is_admin) ){
+                                                    $conditions = ' WHERE %tenant_id% = 0';
+                                                }
+                	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);
+                	                            if( !empty($incubation_list) ){
+                	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';
+                	                                foreach($incubation_list as $row){
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->year).' - '.strtoupper($row->event_title).'</option>';
+                	                                }
+                	                            }else{
+                	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                	                            }
+                	                        ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label for="name_contact">Nama Tenant<b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_name','',array('class'=>'form-control tenant_name','placeholder'=>'Nama Tenant Anda','required'=>'required')); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label for="email_contact">Email Tenant<b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">email</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_input('tenant_email','',array('class'=>'form-control tenant_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="name_contact">Tahun Berdiri<b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <?php
+                                                $option = array(''=>'Pilih Tahun');
+                                                $year_arr = smit_select_year(1900,2030);
+                                                //$extra = 'class="form-control def" id="tenant_year"';
+    
+                                                if( !empty($year_arr) ){
+                                                    foreach($year_arr as $val){
+                                                        $option[$val] = $val;
+                                                    }
+                                                }
+                                                echo form_dropdown('tenant_year', $option, '');
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <label for="name_contact">Alamat Tenant<b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_address','',array('class'=>'form-control company_address','placeholder'=>'Alamat Tenant Anda','required'=>'required')); ?>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                    <select class="form-control show-tick province" name="tenant_province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
+        	                        	<?php
+                                            $province = smit_provinces();
+                                            echo '<option value="">-- Pilih Propinsi --</option>';
+                                            if( !empty($province) ){
+                                                foreach($province as $p){
+                                                    echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                    <select class="form-control show-tic province" name="tenant_regional" id="regional-select" disabled="disabled">
+                                        <option value="">-- Pilih Kota/Kabupaten --</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
+                                    </div>
+                                </div>
+    
+                                <label for="telp_contact">Kontak</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">phone</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_phone_contact','',array('class'=>'form-control tenant_phone_contact','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
+                                    </div>
+                                </div>
+                                <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya)<b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_legal','',array('class'=>'form-control tenant_legal','placeholder'=>'Nomor Legalitas Usaha Anda','required'=>'required')); ?>
+                                    </div>
+                                </div>
+                                <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)<b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">phone</i></span>
+                                    <div class="form-line">
+                                        <?php echo form_input('tenant_bussiness','',array('class'=>'form-control tenant_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
+                                    </div>
+                                </div>
+                                <label for="telp_contact">Kemitraan Usaha yang Dimiliki<b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Logo Tenant<b style="color: red !important;">(*)</b></label>
+                                    <p align="justify">
+                                        File gambar/foto yang anda unggah harus berdimensi lebih kecil dari 200 x 200 pixel. Ukuran dan format file juga harus memenuhi masing-masing batasan yaitu JPEG/JPG?PNG.
+                                    </p>
+                                    <input id="avatar_selection_files" name="avatar_selection_files" class="form-control" type="file" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Simpan</button>
+                                    <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenant_reset" type="button">Bersihkan </button>
+                                </div>
+                                <?php echo form_close(); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            
-                
+
+
             </div>
         </div>
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE TENANT MODAL -->
+<div class="modal fade" id="save_addtenant" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Data Tenant Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan menambahkan data tenant anda ?</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_addtenant" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE TENANT MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE LOGO TENANT MODAL -->
+<div class="modal fade" id="save_logotenant" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Logo Tenant Anda</h4>
+			</div>
+			<div class="modal-body">
+                <p>Apakah anda yakin akan memperbaharui logo tenant anda ?</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_logotenant" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE LOGO TENANT MODAL -->

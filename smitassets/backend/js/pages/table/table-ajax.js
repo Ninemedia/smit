@@ -41,6 +41,10 @@ var TableAjax = function () {
     var handleRecordsPraIncubationReportSelectionList = function() {
         gridTable( $("#praincubationreport_list"), true );
     };
+    var handleRecordsPraIncubationReportList = function() {
+        gridTable( $("#list_praincubationreport"), true );
+    };
+    
     
     // Admin Selection Lists Step One
     var handleRecordsAdminStepOneList = function() {
@@ -108,6 +112,16 @@ var TableAjax = function () {
     // Incubation Lists
     var handleRecordsIncubationDataList = function() {
         gridTable( $("#list_incubation"), true );
+    };
+    
+    // Tenant Accompaniment Lists
+    var handleRecordsTenantAccompanimentList = function() {
+        gridTable( $("#tenantaccompaniment_list"), true );
+    };
+    
+    // Tenant Accepted Lists
+    var handleRecordsTenantAcceptedList = function() {
+        gridTable( $("#tenantacceptedselection_list"), true );
     };
     // -------------------------------------------------------------------------
     
@@ -264,6 +278,7 @@ var TableAjax = function () {
             handleRecordsPraIncubationSelectionList2();
             handleRecordsPraIncubationSettingSelectionList();
             handleRecordsPraIncubationReportSelectionList();
+            handleRecordsPraIncubationReportList();
             handleRecordsAdminStepOneList();
             handleRecordsAdminStepTwoList();
             handleRecordsAdminScoreStepOneList();
@@ -283,6 +298,8 @@ var TableAjax = function () {
             //Tenant
             handleRecordsTenantList();
             handleRecordsTenantSelectionList();
+            handleRecordsTenantAccompanimentList();
+            handleRecordsTenantAcceptedList();
             
             //Jury
             handleRecordsJuryStepOneList();

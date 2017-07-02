@@ -156,7 +156,7 @@
                         </div>
                     </div>
                 
-                <?php elseif($is_pengusul || $is_pelaksana): ?>    
+                <?php else : ?>    
                     <div class="text-right bottom25">                        
                         <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
@@ -196,9 +196,9 @@
                                     }
                                     
                                     if(!empty($sum_score) && !empty($count_all_jury)){
-                                        $avarage_score  = $sum_score / $count_all_jury;
+                                        $average_score  = round( $sum_score / $count_all_jury );
                                     }else{
-                                        $avarage_score  = 0;
+                                        $average_score  = 0;
                                     }
                                     
                                 ?>
@@ -208,10 +208,10 @@
                                 </tr>
                                 <tr>
                                     <td colspan="7" align="right">Nilai Rata-rata</td>
-                                    <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
-                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <?php if($average_score >= KKM_STEP1 && $average_score <= MAX_SCORE) :?>
+                                    <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
                                     <?php else : ?>
-                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
+                                    <td class="text-center" style="color: red !important; font-size: 20px;"><strong><?php echo floor($average_score); ?></td>
                                     <?php endif; ?>
                                 </tr>
                             </tfoot>

@@ -72,12 +72,14 @@
                     
                     <!-- Tab Content Add Accompaniment -->
                     <div role="tabpanel" class="tab-pane fade" id="companionassignment">
+                        <p align="justify"><strong>Informasi : </strong><br />Daftar pendampingan ini adalah hasil dari seleksi pra-inkubasi yang telah dinyatakan lulus namun belum ditentukan pendamping. Maka dari itu tentukan pendamping seseuai dengan judul usulan yang ada. Terima kasih.</p>
+                
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="acceptedselection_list" data-url="<?php echo base_url('prainkubasi/daftarditerima'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center">No</th>
-            							<th class="width25">Judul Kegiatan</th>
+            							<th class="width25">Judul Usulan</th>
                                         <th class="width25 text-center">Satuan Kerja</th>
                                         <th class="width15 text-center">Pelaksana</th>
                                         <th class="width15 text-center">Peneliti Utama</th>
@@ -127,7 +129,6 @@
                                 <th class="width20 text-center">Satuan Kerja</th>
                                 <th class="width15 text-center">Pelaksana</th>
                                 <th class="width15 text-center">Peneliti Utama</th>
-                                <th class="width15 text-center">Pendamping</th>
     							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
     						</tr>
                             <tr role="row" class="filter display-hide table-filter">
@@ -149,7 +150,6 @@
                                 </td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user_name" /></td>
                                 <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_companion_name" /></td>
     							<td style="text-align: center;">
                                     <div class="bottom5">
     								    <button class="btn bg-blue waves-effect filter-submit" id="btn_accompaniment_list">Search</button>

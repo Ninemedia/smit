@@ -3,7 +3,7 @@
 /**
  * This is additional config settings
  * Please only add additional config here
- * 
+ *
  * @author	Iqbal
  */
 
@@ -51,7 +51,8 @@ $config['user_type']                = array(
     TENANT                          => 'Tenant',
     JURI                            => 'Juri',
     PENGUSUL                        => 'Pengusul',
-    PELAKSANA                       => 'Pelaksana'
+    PELAKSANA                       => 'Pelaksana',
+    PELAKSANA_TENANT                => 'Pelaksana',
 );
 
 /**
@@ -98,16 +99,11 @@ $config['incsel_report_status']     = array(
 $config['user_menu_access']             = array(
     ADMINISTRATOR                       => array(
         'beranda',
-        // ------------------- PENGGUNA 
+        // ------------------- PENGGUNA
         'pengguna',
         'pengguna/tambah',
         'pengguna/daftar',
-        /*
-        'company',
-        'company/list',
-        'company/setting',
-        */
-        // ------------------- SELEKSI PRA-INKUBASI 
+        // ------------------- SELEKSI PRA-INKUBASI
         'seleksiprainkubasi',
         'seleksiprainkubasi/pengaturan',
         'seleksiprainkubasi/daftar',
@@ -116,9 +112,9 @@ $config['user_menu_access']             = array(
         'seleksiprainkubasi/riwayat',
         // ------------------- PRA-INKUBASI
         'prainkubasi',
-        'prainkubasi/tambah',
+        //'prainkubasi/tambah',
         'prainkubasi/daftar',
-        'prainkubasi/tambahproduk',
+        //'prainkubasi/tambahproduk',
         'prainkubasi/produk',
         'prainkubasi/pendampingan',
         'prainkubasi/laporan',
@@ -133,15 +129,19 @@ $config['user_menu_access']             = array(
         //'inkubasi/pendampingan',
         //'inkubasi/laporan',
         'tenants',
-        'tenants/blogs',
+        'tenants/daftarinkubasi',
         'tenants/daftar',
-        'tenants/pendaftaran',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
+        'tenants/blogs',
+        //'tenants/tambahproduk',
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
+        // ------------------- PENDAMPINGAN
         'pendamping',
         /*'pendamping/daftar',*/
+        'pendamping/tambahnotulensi',
         'pendamping/laporan',
         'berita',
         'berita/daftar',
@@ -172,7 +172,7 @@ $config['user_menu_access']             = array(
         'tenants/pendampingan',
         'tenants/laporan',
         'pendamping',
-        'pendamping/tambah',
+        'pendamping/tambahnotulensi',
         'pendamping/laporan',
         'pengumuman',
         'layanan',
@@ -185,6 +185,7 @@ $config['user_menu_access']             = array(
         'tenants/daftar',
         //'tenants/pendaftaran',
         'tenants/pendampingan',
+        //'tenants/tambahproduk',
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
@@ -226,7 +227,7 @@ $config['user_menu_access']             = array(
         'prainkubasi/pendampingan',
         'prainkubasi/tambahproduk',
         'prainkubasi/produk',
-        'prainkubasi/tambahlaporan',
+        //'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
         'panduan',
         'panduan/berkas',
@@ -236,18 +237,30 @@ $config['user_menu_access']             = array(
     ),
     PELAKSANA_TENANT                    => array(
         'beranda',
+        'seleksiprainkubasi',
+        'seleksiprainkubasi/daftar',
+        'seleksiprainkubasi/nilai',
+        'seleksiprainkubasi/peringkat',
+        'seleksiprainkubasi/riwayat',
         'prainkubasi',
         'prainkubasi/daftar',
         'prainkubasi/pendampingan',
-        'prainkubasi/tambahproduk',
+        //'prainkubasi/tambahproduk',
         'prainkubasi/produk',
-        'prainkubasi/tambahlaporan',
+        //'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
+        'seleksiinkubasi',
+        'seleksiinkubasi/daftar',
+        'seleksiinkubasi/nilai',
+        'seleksiinkubasi/peringkat',
+        'seleksiinkubasi/riwayat',
         'tenants',
+        'tenants/daftarinkubasi',
         'tenants/blogs',
         'tenants/daftar',
-        //'tenants/pendaftaran',
+        'tenants/pendaftaran',
         'tenants/pendampingan',
+        //'tenants/tambahproduk',
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',

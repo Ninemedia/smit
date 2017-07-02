@@ -786,6 +786,7 @@ class Model_Praincubation extends SMIT_Model{
         return $query->result();
     }
     
+    
     /**
      * Retrieve all pra incubation data
      * 
@@ -1415,6 +1416,46 @@ class Model_Praincubation extends SMIT_Model{
     }
     
     /**
+     * Update data of praincubation
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of praincubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_praincubationdata($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in($this->primary, $id);
+		else $this->db->where($this->primary, $id);
+    
+        if( $this->db->update($this->praincubation, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    /**
+     * Update data of praincubation
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of praincubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_praincubation_files($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        
+        if ( is_array($id) ) $this->db->where_in('selection_id', $id);
+		else $this->db->where('selection_id', $id);
+    
+        if( $this->db->update($this->praincubation_selection_files, $data) ) 
+            return true;
+            
+        return false;
+    }
+    
+    /**
      * Update data of praincubation setting
      * 
      * @author  Iqbal
@@ -1475,6 +1516,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%name%",                 "A.name", $conditions);
             $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%companion_id%",         "A.companion_id", $conditions);
         }
         
         if( !empty($order_by) ){
@@ -1487,6 +1529,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%companion_id%",         "A.companion_id",  $order_by);
         }
         
         $sql = '

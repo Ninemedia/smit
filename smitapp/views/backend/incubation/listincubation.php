@@ -2,38 +2,38 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Daftar Pra-Inkubasi</h2></div>
+            <div class="header"><h2>Daftar Inkubasi</h2></div>
             <div class="body">
-                <?php if( $is_admin ) : ?>
+                <?php if( !empty($is_admin) ) : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR PRA-INKUBASI
+                            <i class="material-icons">list</i> DAFTAR INKUBASI
                         </a>
                     </li>
-                    
+                    <?php if( !empty($is_admin) ) : ?>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> TAMBAH PRA-INKUBASI
+                            <i class="material-icons">add_box</i> TAMBAH INKUBASI
                         </a>
                     </li>
+                    <?php endif; ?>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_praincubation" data-url="<?php echo base_url('prainkubasi/daftardata'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="list_incubation" data-url="<?php echo base_url('inkubasi/daftardata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Pengguna</th>
-            							<th class="width15">Nama Peneliti Utama</th>
-                                        <th class="width10 text-center">Satuan Kerja</th>
+            							<th class="width15">Nama Pengusul</th>
+                                        <th class="width15 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
                                         <th class="width10 text-center">Tanggal Usulan</th>
-            							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -58,7 +58,6 @@
                                             ?>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td>
                                             <?php
@@ -92,11 +91,11 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="add">
-                        <?php echo form_open_multipart( 'praincubation/praincubationadd', array( 'id'=>'praincubationadd', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'incubation/incubationadd', array( 'id'=>'incubationadd', 'role'=>'form' ) ); ?>
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">
-                                <h4>Masukan Data Pra-Inkubasi</h4>
+                                <h4>Masukan Data Inkubasi</h4>
                                 <div class="form-group">
                                     <label class="form-label">Tahun <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -167,7 +166,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h4>Berkas Kegiatan Pra-Inkubasi</h4>
+                                <h4>Berkas Kegiatan Inkubasi</h4>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>Upload Proposal Kegiatan</label>
@@ -186,26 +185,24 @@
                                         <input id="reg_selection_rab" name="reg_selection_rab" class="form-control" type="file">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Pra-Inkubasi</button>
-                                <button type="button" class="btn btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
+                                <button type="submit" class="btn btn-primary waves-effect" id="btn_incubationadd">Tambah Inkubasi</button>
+                                <button type="button" class="btn btn-danger waves-effect" id="btn_incubationadd_reset">Bersihkan</button>
                             </section>
                         </div>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
-                <?php else :  ?>
+                <?php else : ?>
                     <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="list_praincubation" data-url="<?php echo base_url('prainkubasi/daftardata'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="list_incubation" data-url="<?php echo base_url('inkubasi/daftardata'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
                                     <th class="width10 text-center">Tahun</th>
-        							<th class="width15">Pengguna</th>
-        							<th class="width15">Nama Peneliti Utama</th>
-                                    <th class="width10 text-center">Satuan Kerja</th>
+                                    <th class="width15 text-center">Satuan Kerja</th>
                                     <th class="width20 text-center">Judul Kegiatan</th>
                                     <th class="width10 text-center">Tanggal Usulan</th>
-        							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+        							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
         						</tr>
                                 <tr role="row" class="filter display-hide table-filter">
         							<td></td>
@@ -230,9 +227,7 @@
                                         ?>
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td>
-        							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-                                    <td>
+        							<td>
                                         <?php
                                         	$workunit_type = smit_workunit_type();
                                             $option = array('' => 'Pilih...');
@@ -270,19 +265,19 @@
 <!-- #END# Content -->
 
 <!-- BEGIN INFORMATION SUCCESS SAVE INCUBATION MODAL -->
-<div class="modal fade" id="save_praincubationadd" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="save_incubationadd" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Pra-Inkubasi</h4>
+				<h4 class="modal-title">Pendaftaran Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Pra-Inkubasi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <p>Anda Sedang Melakukan Pendaftaran Inkubasi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-primary waves-effect" id="do_save_praincubationadd" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_incubationadd" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

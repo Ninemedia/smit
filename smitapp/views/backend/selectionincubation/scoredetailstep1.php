@@ -156,7 +156,7 @@
                         </div>
                     </div>
                 
-                <?php elseif($is_pengusul || $is_pelaksana): ?>    
+                <?php else : ?>    
                     <div class="text-right bottom25">                        
                         <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
@@ -164,7 +164,7 @@
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                     
                     <div class="table-container table-responsive table-incubation-score">
-                        <table class="table table-striped table-bordered table-hover" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>

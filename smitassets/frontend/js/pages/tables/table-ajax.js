@@ -1,5 +1,5 @@
 var TableAjax = function () {
-    
+
     // Init Date Pickers
     var initPickers = function () {
         //Datetimepicker plugin
@@ -15,7 +15,7 @@ var TableAjax = function () {
     var handleRecordsAnnouncementList = function() {
         gridTable( $("#announcement_list"), true );
     };
-    
+
     // Guide Lists
     var handleRecordsGuideList = function() {
         gridTable( $("#guide_list"), true );
@@ -25,7 +25,12 @@ var TableAjax = function () {
     var handleRecordsPraIncubationList = function() {
         gridTable( $("#list_praincubation"), true );
     };
-    
+
+    // Tenant Lists
+    var handleRecordsTenantList = function() {
+        gridTable( $("#list_tenant"), true );
+    };
+
     var gridTable = function(el, action=false, target='' ) {
         var url     = el.data('url');
         var grid    = new Datatable();
@@ -48,23 +53,23 @@ var TableAjax = function () {
 		       ]
             }
         });
-        
+
         if( action == true ){
             gridExport( grid, '.table-export-excel' );
         }
     }
-    
+
     var gridExport = function( dataTable, selectorBtn, sAction ) {
     	// handle group actionsubmit button click
         dataTable.getTableWrapper().on('click', selectorBtn, function(e) {
             e.preventDefault();
-            
+
             if ( typeof sAction == 'undefined' )
             	sAction = 'export_excel';
-        	
+
             dataTable.addAjaxParam( "sAction", sAction );
             var table = $( selectorBtn ).closest( '.table-container' ).find( 'table' );
-            
+
             // get all typeable inputs
             $( 'textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table ).each( function() {
                 dataTable.addAjaxParam( $(this).attr("name"), $(this).val() );
@@ -74,7 +79,7 @@ var TableAjax = function () {
             $( 'input.form-filter[type="checkbox"]:checked, input.form-filter[type="radio"]:checked', table ).each( function() {
                 dataTable.addAjaxParam( $(this).attr("name"), $(this).val() );
             });
-            
+
             dataTable.getDataTable().fnDraw();
             dataTable.clearAjaxParams();
         });
@@ -87,6 +92,7 @@ var TableAjax = function () {
             handleRecordsAnnouncementList();
             handleRecordsGuideList();
             handleRecordsPraIncubationList();
+            handleRecordsTenantList();
         }
     };
 
