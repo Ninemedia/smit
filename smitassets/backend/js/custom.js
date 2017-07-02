@@ -1130,13 +1130,13 @@ var Setting = function () {
 // ---------------------------------------------------------------------------
 var Charts = function() {
 	var formatDate = function( date ) {
-		return moment( date ).format( 'DD-MMM-YY' );
+		return moment( date ).format( 'MMM YY' );
 	};
 
 	var handleChartUser = function() {
 		var elm = 'chart-user';
 		var chart = $( '#' + elm ).find( '.data' ).text();
-
+        
 		if ( ! chart )
 			return;
 
@@ -1160,16 +1160,10 @@ var Charts = function() {
             ykeys: ykeys,
             // Labels for the ykeys -- will be displayed when you hover over the chart.
             labels: labels,
-            xLabels: 'day',
+            xLabels: 'month',
             // custom options
             hideHover: 'auto',
             xLabelAngle: 30,
-            xLabelFormat: function( date ) {
-            return formatDate( date );
-            },
-            dateFormat: function( date ) {
-            return formatDate( date );
-            },
             resize: true
 		});
 	};

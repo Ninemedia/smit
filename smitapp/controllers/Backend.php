@@ -3172,19 +3172,28 @@ class Backend extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Morris Chart CSS Plugin
+            BE_PLUGIN_PATH . 'morrisjs/morris.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Moment JS Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            // Morrist Chart JS Plugin
+            BE_PLUGIN_PATH . 'raphael/raphael.min.js',
+            BE_PLUGIN_PATH . 'morrisjs/morris.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'Charts.init();'
+        ));
 
         $data['title']          = TITLE . 'Info Grafis Pengguna';
         $data['user']           = $current_user;
@@ -3194,11 +3203,50 @@ class Backend extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'infografis/user';
+        
+        $chart = array();
+        if ( $stats = $this->Model_User->stats_monthly() ) {
+            // Pivoting
+			$pivot = array();
+			foreach( $stats as $row ) {
+                if ( $row->type == 2 )      { $type = 'pendamping'; }
+                elseif ( $row->type == 3 )  { $type = 'tenant'; }
+                elseif ( $row->type == 4 )  { $type = 'juri'; }
+                elseif ( $row->type == 5 )  { $type = 'pengusul'; }
+                elseif ( $row->type == 6 )  { $type = 'pelaksana'; }
+                elseif ( $row->type == 7 )  { $type = 'pelaksana_tenant'; }
+             
+				if ( ! isset( $pivot[ $row->period ] ) )
+					$pivot[ $row->period ] = array();
+				
+				if ( ! isset( $pivot[ $row->period ][ 'total' ] ) )
+					$pivot[ $row->period ][ 'total' ] = 0;
+				
+				$pivot[ $row->period ][ 'period_name' ] = $row->period_name;
+				$pivot[ $row->period ][ 'total' ] += $row->total;
+				$pivot[ $row->period ][ $type ] = $row->total;
+			}
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
+            $chart['xkey']      = 'period';
+            $chart['ykeys']     = array( 'pendamping', 'tenant', 'juri', 'pengusul', 'pelaksana', 'pelaksana_tenant' );
+            $chart['labels']    = array( 'Pendamping', 'Tenant', 'Juri', 'Pengusul', 'Pelaksana', 'Pelaksana & Tenant' );
+            
+            foreach( $pivot as $period => $row ) {
+                // chart
+				$chart['data'][] = array(
+                    'period'            => $period,
+                    'pendamping'        => smit_isset( $row[ 'pendamping' ], 0 ),
+                    'tenant'            => smit_isset( $row[ 'tenant' ], 0 ),
+                    'juri'              => smit_isset( $row[ 'juri' ], 0 ),
+                    'pengusul'          => smit_isset( $row[ 'pengusul' ], 0 ),
+                    'pelaksana'         => smit_isset( $row[ 'pelaksana' ], 0 ),
+                    'pelaksana_tenant'  => smit_isset( $row[ 'pelaksana_tenant' ], 0 ),
+                    'total'             => $row['total']
+				);
+            }
+        }
+        
+        $data['chart']			= json_encode( $chart );
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}

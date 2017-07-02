@@ -453,10 +453,11 @@ class Model_User extends SMIT_Model{
         SELECT
 			DATE_FORMAT( datecreated, "%Y-%c") AS period,
 			DATE_FORMAT( datecreated, "%b %Y") AS period_name,
+            type,
 			COUNT(id) AS total
 		FROM '.$this->_user.'
 		WHERE type <> '.ADMINISTRATOR.'
-		GROUP BY 1
+		GROUP BY 1,3
 		ORDER BY 1 DESC';
         
 		$qry = $this->db->query( $sql );

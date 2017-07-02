@@ -4,7 +4,9 @@
         <div class="card">
             <div class="header"><h2>Info Grafis Pengguna</h2></div>
             <div class="body">
-            
+                <div id="chart-user" style="height: 300px;">
+    				<span class="data hide"><?php echo $chart; ?></span>
+    			</div>
             </div>
         </div>
     </div>
