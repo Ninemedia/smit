@@ -4362,6 +4362,14 @@ class PraIncubation extends User_Controller {
                 $i++;
             }
         }
+        
+        if( $sAction == 'export_excel' ){
+            $data_list                      = $this->Model_Praincubation->get_all_praincubation_scorestep1(0, 0, $condition, $order_by);
+            $export                         = $this->smit_excel->simpleExportScoreStep1( $data_list );
+            
+            $records["sStatus"]             = "EXPORTED"; // pass custom message(useful for getting status of group actions)
+            $records["sMessage"]            = $export; // pass custom message(useful for getting status of group actions)
+        }
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
