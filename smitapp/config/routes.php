@@ -117,6 +117,7 @@ $route['seleksiprainkubasi/prosesnilai/(:num)']         = "praincubation/jurysco
 $route['prainkubasi/laporan/konfirmasi']                = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)']         = "praincubation/praincubationreportconfirm/$1";
 $route['prainkubasi/laporan']                           = "praincubation/praincubationreport";
+$route['prainkubasi/laporandata']                       = "praincubation/reportdata";
 $route['prainkubasi/unduh/(:any)']                      = "praincubation/downloadfile/$1";
 $route['prainkubasi/daftar']                            = "praincubation/listpraincubation";
 $route['prainkubasi/daftardata']                        = "praincubation/praincubationdata";

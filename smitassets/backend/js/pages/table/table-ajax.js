@@ -41,6 +41,10 @@ var TableAjax = function () {
     var handleRecordsPraIncubationReportSelectionList = function() {
         gridTable( $("#praincubationreport_list"), true );
     };
+    var handleRecordsPraIncubationReportList = function() {
+        gridTable( $("#list_praincubationreport"), true );
+    };
+    
     
     // Admin Selection Lists Step One
     var handleRecordsAdminStepOneList = function() {
@@ -274,6 +278,7 @@ var TableAjax = function () {
             handleRecordsPraIncubationSelectionList2();
             handleRecordsPraIncubationSettingSelectionList();
             handleRecordsPraIncubationReportSelectionList();
+            handleRecordsPraIncubationReportList();
             handleRecordsAdminStepOneList();
             handleRecordsAdminStepTwoList();
             handleRecordsAdminScoreStepOneList();
