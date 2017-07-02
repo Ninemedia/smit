@@ -218,8 +218,10 @@ $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['tenants/daftarditerima']                = "tenants/tenantacceptedlistdata";
 
-// Statistik Page Routes
-$route['statistik/pengguna']                    = "tenant/tenantblogs";
+// Info Grafis Page Routes Backend
+$route['infografis/pengguna']           = "backend/infografisuser";
+$route['infografis/prainkubasi']        = "backend/infografispraincubation";
+$route['infografis/inkubasi']           = "backend/infografisincubation";
 
 // Setting
 $route['pengaturan/depan']              = "backend/settingfrontend";
