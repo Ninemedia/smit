@@ -141,6 +141,7 @@ $config['user_menu_access']             = array(
         // ------------------- PENDAMPINGAN
         'pendamping',
         /*'pendamping/daftar',*/
+        'pendamping/tambahnotulensi',
         'pendamping/laporan',
         'berita',
         'berita/daftar',

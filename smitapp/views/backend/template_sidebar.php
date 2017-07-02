@@ -453,6 +453,15 @@
                     'sub'       => false,
                 ),
                 array (
+                    'title'     => 'Tambah Notulensi',
+                    'nav'       => 'pendamping/tambahnotulensi',
+                    'parent'    => 'pendamping',
+                    'link'      => base_url('pendamping/tambahnotulensi'),
+                    'icon'      => 'view_list',
+                    'badge'     => 0,
+                    'sub'       => false,
+                ),
+                array (
                     'title'     => 'Laporan Notulensi',
                     'nav'       => 'pendamping/laporan',
                     'parent'    => 'pendamping',

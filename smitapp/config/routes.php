@@ -116,6 +116,7 @@ $route['seleksiprainkubasi/prosesnilai/(:num)']         = "praincubation/jurysco
 // Pra-Inkubasi
 $route['prainkubasi/laporan/konfirmasi']                = "praincubation/praincubationreportconfirm";
 $route['prainkubasi/laporan/konfirmasi/(:any)']         = "praincubation/praincubationreportconfirm/$1";
+$route['prainkubasi/laporan']                           = "praincubation/praincubationreport";
 $route['prainkubasi/unduh/(:any)']                      = "praincubation/downloadfile/$1";
 $route['prainkubasi/daftar']                            = "praincubation/listpraincubation";
 $route['prainkubasi/daftardata']                        = "praincubation/praincubationdata";
@@ -134,7 +135,6 @@ $route['prainkubasi/pendampingan']              = "praincubation/accompanimentli
 $route['prainkubasi/pendampingan/detail/(:any)']= "praincubation/companionassignment/$1";
 $route['prainkubasi/daftarpendampingan']        = "praincubation/accompanimentlistdata";
 $route['prainkubasi/daftarditerima']            = "praincubation/praincubationacceptedlistdata";
-$route['prainkubasi/laporan']                   = "praincubation/praincubationreport";
 $route['prainkubasi/laporan/step1']             = "praincubation/juryreportdatastep1";
 $route['prainkubasi/laporan/step2']             = "praincubation/juryreportdatastep2";
 $route['prainkubasi/tambah']                    = "praincubation/addpraincubation";
@@ -143,6 +143,9 @@ $route['prainkubasi/produk']                    = "praincubation/listproduct";
 $route['produk/detail/(:any)']                  = "praincubation/productdetails/$1";
 $route['produkconfirm/(:any)/(:any)']           = "praincubation/productconfirm/$1/$2";
 // --------------------------------------------------------------------------
+
+// Menu Pendampingan
+$route['pendamping/laporan']                    = "backend/accompanimentreport";
 
 // --------------------------------------------------------------------------
 // Menu Seleksi Inkubasi
