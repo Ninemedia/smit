@@ -1,45 +1,4 @@
 $(function () {
-    $('#form_validation').validate({
-        rules: {
-            'checkbox': {
-                required: true
-            },
-            'gender': {
-                required: true
-            }
-        },
-        highlight: function (input) {
-            $(input).parents('.form-line').addClass('error');
-        },
-        unhighlight: function (input) {
-            $(input).parents('.form-line').removeClass('error');
-        },
-        errorPlacement: function (error, element) {
-            $(element).parents('.form-group').append(error);
-        }
-    });
-
-    //Advanced Form Validation
-    $('#form_advanced_validation').validate({
-        rules: {
-            'date': {
-                customdate: true
-            },
-            'creditcard': {
-                creditcard: true
-            }
-        },
-        highlight: function (input) {
-            $(input).parents('.form-line').addClass('error');
-        },
-        unhighlight: function (input) {
-            $(input).parents('.form-line').removeClass('error');
-        },
-        errorPlacement: function (error, element) {
-            $(element).parents('.form-group').append(error);
-        }
-    });
-
     //Custom Validations ===============================================================================
     //Date
     $.validator.addMethod('customdate', function (value, element) {
@@ -1578,137 +1537,11 @@ var ScoreUserValidation = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                klaster1_a_indikator: {
-                    required: true,
-                },
-                klaster1_b_indikator: {
-                    required: true,
-                },
-                klaster1_c_indikator: {
-                    required: true,
-                },
-                klaster1_d_indikator: {
-                    required: true,
-                },
-                klaster1_e_indikator: {
-                    required: true,
-                },
-                klaster2_a_indikator: {
-                    required: true,
-                },
-                klaster2_b_indikator: {
-                    required: true,
-                },
-                klaster2_c_indikator: {
-                    required: true,
-                },
-                klaster2_d_indikator: {
-                    required: true,
-                },
-                klaster2_e_indikator: {
-                    required: true,
-                },
-                klaster3_a_indikator: {
-                    required: true,
-                },
-                klaster3_b_indikator: {
-                    required: true,
-                },
-                klaster3_c_indikator: {
-                    required: true,
-                },
-                klaster3_d_indikator: {
-                    required: true,
-                },
-                klaster3_e_indikator: {
-                    required: true,
-                },
-                klaster4_a_indikator: {
-                    required: true,
-                },
-                klaster4_b_indikator: {
-                    required: true,
-                },
-                klaster4_c_indikator: {
-                    required: true,
-                },
-                klaster4_d_indikator: {
-                    required: true,
-                },
-                klaster4_e_indikator: {
-                    required: true,
-                },
-                
                 nilai_juri_comment: {
                     required: true,
                 },
             },
             messages: {
-                klaster1_a_indikator: {
-                    required: 'Deskripsi Kebutuhan Pengguna harus di isi',
-                },
-                klaster1_b_indikator: {
-                    required: 'Deskripsi Sasaran Pengguna harus di isi',
-                },
-                klaster1_c_indikator: {
-                    required: 'Besar Pasar harus di isi',
-                },
-                klaster1_d_indikator: {
-                    required: 'Rencana Pemasaran harus di isi',
-                },
-                klaster1_e_indikator: {
-                    required: 'Pertumbuhan Pasar harus di isi',
-                },
-                
-                klaster2_a_indikator: {
-                    required: 'Deskripsi dan fungsi produk harus di isi',
-                },
-                klaster2_b_indikator: {
-                    required: 'Tingkat kesiapan harus di isi',
-                },
-                klaster2_c_indikator: {
-                    required: 'Perlindungan HKI di isi',
-                },
-                klaster2_d_indikator: {
-                    required: 'Manfaat/kegunaan dibanding produk sejenis harus di isi',
-                },
-                klaster2_e_indikator: {
-                    required: 'Derajat inovasi teknologi/tingkat kebaruan harus di isi',
-                },
-                
-                klaster3_a_indikator: {
-                    required: 'Perkiraan harga pokok penjualan harus di isi',
-                },
-                klaster3_b_indikator: {
-                    required: 'Target skenario harga jual harus di isi',
-                },
-                klaster3_c_indikator: {
-                    required: 'Proyeksi potensi pendapatan dan imbal hasil investas harus di isi',
-                },
-                klaster3_d_indikator: {
-                    required: 'Besaran permintaan Investasi yang diperlukan harus di isi',
-                },
-                klaster3_e_indikator: {
-                    required: 'Kontribusi finansial mitra harus di isi',
-                },
-                
-                klaster4_a_indikator: {
-                    required: 'Mentor teknis/ peneliti/perekayasa harus di isi',
-                },
-                klaster4_b_indikator: {
-                    required: 'Mentor bisnis/ manajemen harus di isi',
-                },
-                klaster4_c_indikator: {
-                    required: 'Manajemen mitra harus di isi',
-                },
-                klaster4_d_indikator: {
-                    required: 'Staff Mitra harus di isi',
-                },
-                klaster4_e_indikator: {
-                    required: 'Skema alih teknologi harus di isi',
-                },
-                
-                
                 nilai_juri_comment: {
                     required: 'Komentar juri harus di isi',
                 },
@@ -1755,137 +1588,17 @@ var ScoreUserValidation = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                klaster1_a_indikator: {
+                "irl" : {
                     required: true,
                 },
-                klaster1_b_indikator: {
-                    required: true,
-                },
-                klaster1_c_indikator: {
-                    required: true,
-                },
-                klaster1_d_indikator: {
-                    required: true,
-                },
-                klaster1_e_indikator: {
-                    required: true,
-                },
-                klaster2_a_indikator: {
-                    required: true,
-                },
-                klaster2_b_indikator: {
-                    required: true,
-                },
-                klaster2_c_indikator: {
-                    required: true,
-                },
-                klaster2_d_indikator: {
-                    required: true,
-                },
-                klaster2_e_indikator: {
-                    required: true,
-                },
-                klaster3_a_indikator: {
-                    required: true,
-                },
-                klaster3_b_indikator: {
-                    required: true,
-                },
-                klaster3_c_indikator: {
-                    required: true,
-                },
-                klaster3_d_indikator: {
-                    required: true,
-                },
-                klaster3_e_indikator: {
-                    required: true,
-                },
-                klaster4_a_indikator: {
-                    required: true,
-                },
-                klaster4_b_indikator: {
-                    required: true,
-                },
-                klaster4_c_indikator: {
-                    required: true,
-                },
-                klaster4_d_indikator: {
-                    required: true,
-                },
-                klaster4_e_indikator: {
-                    required: true,
-                },
-                
                 nilai_juri_comment: {
                     required: true,
                 },
             },
             messages: {
-                klaster1_a_indikator: {
-                    required: 'Deskripsi Kebutuhan Pengguna harus di isi',
+                "irl" : {
+                    required: 'IRL harus di isi',
                 },
-                klaster1_b_indikator: {
-                    required: 'Deskripsi Sasaran Pengguna harus di isi',
-                },
-                klaster1_c_indikator: {
-                    required: 'Besar Pasar harus di isi',
-                },
-                klaster1_d_indikator: {
-                    required: 'Rencana Pemasaran harus di isi',
-                },
-                klaster1_e_indikator: {
-                    required: 'Pertumbuhan Pasar harus di isi',
-                },
-                
-                klaster2_a_indikator: {
-                    required: 'Deskripsi dan fungsi produk harus di isi',
-                },
-                klaster2_b_indikator: {
-                    required: 'Tingkat kesiapan harus di isi',
-                },
-                klaster2_c_indikator: {
-                    required: 'Perlindungan HKI di isi',
-                },
-                klaster2_d_indikator: {
-                    required: 'Manfaat/kegunaan dibanding produk sejenis harus di isi',
-                },
-                klaster2_e_indikator: {
-                    required: 'Derajat inovasi teknologi/tingkat kebaruan harus di isi',
-                },
-                
-                klaster3_a_indikator: {
-                    required: 'Perkiraan harga pokok penjualan harus di isi',
-                },
-                klaster3_b_indikator: {
-                    required: 'Target skenario harga jual harus di isi',
-                },
-                klaster3_c_indikator: {
-                    required: 'Proyeksi potensi pendapatan dan imbal hasil investas harus di isi',
-                },
-                klaster3_d_indikator: {
-                    required: 'Besaran permintaan Investasi yang diperlukan harus di isi',
-                },
-                klaster3_e_indikator: {
-                    required: 'Kontribusi finansial mitra harus di isi',
-                },
-                
-                klaster4_a_indikator: {
-                    required: 'Mentor teknis/ peneliti/perekayasa harus di isi',
-                },
-                klaster4_b_indikator: {
-                    required: 'Mentor bisnis/ manajemen harus di isi',
-                },
-                klaster4_c_indikator: {
-                    required: 'Manajemen mitra harus di isi',
-                },
-                klaster4_d_indikator: {
-                    required: 'Staff Mitra harus di isi',
-                },
-                klaster4_e_indikator: {
-                    required: 'Skema alih teknologi harus di isi',
-                },
-                
-                
                 nilai_juri_comment: {
                     required: 'Komentar juri harus di isi',
                 },

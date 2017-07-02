@@ -1140,10 +1140,23 @@ var SliderIndikator = function () {
         el2.prop('value', total_rate.toFixed(2));
     };
     
+    handleIRLCheck = function(){
+        $("input.irl").click(function() {
+            if ($(this).is(":checked")) {
+                var group = "input:checkbox[name='" + $(this).attr("name") + "']";
+                $(group).prop("checked", false);
+                $(this).prop("checked", true);
+            } else {
+                $(this).prop("checked", false);
+            }
+        });
+    }
+    
     return {
         //main function to initiate the module
         init: function () {
             handleSliderIndikator();
+            handleIRLCheck();
         }
     };
 }();
