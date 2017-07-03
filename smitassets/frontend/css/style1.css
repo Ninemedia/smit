@@ -4087,11 +4087,14 @@ section.content {
 
 /* Nav Tabs ==================================== */
 .nav-tabs {
-  border-bottom: 2px solid #eee; }
+  border-bottom: 2px solid #eee;
+  text-align: center; }
   .nav-tabs > li {
     position: relative;
     top: 3px;
-    left: -2px; }
+    left: -2px; 
+    display: inline-block; 
+    float: none; }
     .nav-tabs > li > a {
       border: none !important;
       color: #999 !important;
