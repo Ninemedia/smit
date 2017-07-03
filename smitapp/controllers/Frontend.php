@@ -1780,8 +1780,11 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        $ikm_list               = $this->Model_Service->get_all_ikmlist();
 
         $data['title']          = TITLE . 'Pengukuran IKM';
+        $data['ikm_list']       = $ikm_list;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

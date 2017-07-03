@@ -41,63 +41,40 @@
                         <h3 class="bottom0">SURVEI PENGGUNAAN SISTEM INKUBASI TEKNOLOGI PUSAT INOVASI LIPI</h3>
                     </div>
                     <div class="body">
-                        <?php echo form_open_multipart( 'praincubation/praincubationadd', array( 'id'=>'praincubationadd', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'frontend/ikmadddata', array( 'id'=>'ikmadddata', 'role'=>'form' ) ); ?>
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <h4>Isian data Pengukuran IKM</h4>
+                            <?php if( !empty($ikm_list) ) : ?>
+                            <?php
+                                $i  = 1; 
+                                foreach($ikm_list AS $row){
+                            ?>
                             <div class="form-group">
-                                <label class="form-label">Apakah layanan sistem yang diberikan oleh Pusat Inovasi LIPI bidang Inkubasi Teknologi sudah sesuai dengan keinginan saudara? <b style="color: red !important;">(*)</b></label>
+                                <input type="hidden" name="ikm_id_<?php echo $i; ?>'" id="ikm_id" value="<?php echo $row->id; ?>" />
+                                <input type="hidden" name="ikm_uniquecode_<?php echo $i; ?>" id="ikm_uniquecode" value="<?php echo $row->uniquecode; ?>" />
+                                <label class="form-label"><?php echo $i; ?>. <?php echo $row->question; ?>? <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input id="irl-1" name="irl1" type="radio">
-                                            <label for="irl-1">Sangat Stuju</label><br />
-                                            <input id="irl-2" name="irl2" type="radio">
-                                            <label for="irl-2">Setuju</label><br />
-                                            <input id="irl-3" name="irl3" type="radio">
-                                            <label for="irl-3">Tidak Setuju</label><br />
-                                            <input id="irl-4" name="irl4" type="radio">
-                                            <label for="irl-4">Sangat Tidak Setuju</label><br />
+                                            <input id="sangat_setuju_<?php echo $i; ?>" name="sangat_setuju_<?php echo $i; ?>" type="radio">
+                                            <label for="sangat_setuju_<?php echo $i; ?>">Sangat Stuju</label><br />
+                                            <input id="setuju_<?php echo $i; ?>" name="setuju_<?php echo $i; ?>" type="radio">
+                                            <label for="setuju_<?php echo $i; ?>">Setuju</label><br />
+                                            <input id="tidak_setuju_<?php echo $i; ?>" name="tidak_setuju_<?php echo $i; ?>" type="radio">
+                                            <label for="tidak_setuju_<?php echo $i; ?>">Tidak Setuju</label><br />
+                                            <input id="sangat_tidaksetuju_<?php echo $i; ?>" name="sangat_tidaksetuju_<?php echo $i; ?>" type="radio">
+                                            <label for="sangat_tidaksetuju_<?php echo $i; ?>">Sangat Tidak Setuju</label><br />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php $i++; } ?>
+                            <?php endif; ?>
                             <div class="form-group">
-                                <label class="form-label">Apakah mekanisme penganggaran sistem yang diberikan oleh Pusat Inovasi LIPI bidang Inkubasi Teknologi sudah sesuai dengan proses penganggaran danpertanggungjawaban di dalam lembaga saudara ? <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input id="irl-1" name="irl1" type="radio">
-                                            <label for="irl-1">Sangat Stuju</label><br />
-                                            <input id="irl-2" name="irl2" type="radio">
-                                            <label for="irl-2">Setuju</label><br />
-                                            <input id="irl-3" name="irl3" type="radio">
-                                            <label for="irl-3">Tidak Setuju</label><br />
-                                            <input id="irl-4" name="irl4" type="radio">
-                                            <label for="irl-4">Sangat Tidak Setuju</label><br />
-                                        </div>
-                                    </div>
-                                </div>
+                                <button type="submit" class="btn btn-small btn-primary waves-effect" id="btn_ikmadddata">Submit</button>
+                                <button type="button" class="btn btn-small btn-danger waves-effect" id="btn_ikmadddata_reset">Bersihkan</button>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Apakah proses curah pendapat (brainstorming) pada proses sistem yang diberikan oleh Pusat Inovasi LIPI bidang Inkubasi Teknologi sudah sesuai dengan keinginan saudara ? <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input id="irl-1" name="irl1" type="radio">
-                                            <label for="irl-1">Sangat Stuju</label><br />
-                                            <input id="irl-2" name="irl2" type="radio">
-                                            <label for="irl-2">Setuju</label><br />
-                                            <input id="irl-3" name="irl3" type="radio">
-                                            <label for="irl-3">Tidak Setuju</label><br />
-                                            <input id="irl-4" name="irl4" type="radio">
-                                            <label for="irl-4">Sangat Tidak Setuju</label><br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-small btn-primary waves-effect" id="btn_praincubationadd">Submit</button>
-                            <button type="button" class="btn btn-small btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
                         </div>
                         <?php echo form_close(); ?>
                     </div>
