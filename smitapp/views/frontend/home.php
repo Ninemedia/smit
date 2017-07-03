@@ -130,7 +130,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -144,7 +144,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -158,7 +158,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -172,7 +172,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -186,7 +186,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -200,7 +200,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -214,7 +214,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -228,7 +228,7 @@
                     					<div class="gtco-blog animate-box">
                     						<a href="#"><img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
                     						<div class="blog-text">
-                    							<h3><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h3>
+                    							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
                     							<span class="posted_on">Sep. 15th</span>
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
