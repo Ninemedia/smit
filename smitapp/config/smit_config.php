@@ -161,6 +161,7 @@ $config['user_menu_access']             = array(
         'infografis/pengguna',
         'infografis/prainkubasi',
         'infografis/inkubasi',
+        'infografis/ikm',
 
         'berkas',
         'berkas/digital',

@@ -3383,6 +3383,52 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * Info Grafis IKM function.
+	 */
+	public function infografisikm()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+
+        $data['title']          = TITLE . 'Info Grafis IKM';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'infografis/ikm';
+
+		// Log for dashboard
+		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
+			$this->session->set_userdata( 'log_dashboard', true );
+		}
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
     // ----------------------------------------------------------------------------------------------------------------------
     // PENGUKURAN ikm
     // ----------------------------------------------------------------------------------------------------------------------

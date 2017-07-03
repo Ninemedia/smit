@@ -225,6 +225,7 @@ $route['layanan/pengukuranikm']         = "backend/ikm";
 $route['infografis/pengguna']           = "backend/infografisuser";
 $route['infografis/prainkubasi']        = "backend/infografispraincubation";
 $route['infografis/inkubasi']           = "backend/infografisincubation";
+$route['infografis/ikm']                = "backend/infografisincubation";
 
 // Setting
 $route['pengaturan/depan']              = "backend/settingfrontend";

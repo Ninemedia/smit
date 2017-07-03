@@ -507,6 +507,15 @@
                     'sub'       => false,
                     'badge'     => 0,
                 ),
+    			array (
+                    'title'     => 'Pengukuran IKM',
+                    'nav'       => 'infografis/ikm',
+                    'parent'    => 'infografis',
+                    'link'      => base_url('infografis/ikm'),
+                    'icon'      => 'build',
+                    'sub'       => false,
+                    'badge'     => 0,
+                ),
             ),
 	    ),
         array (
