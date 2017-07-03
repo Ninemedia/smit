@@ -218,6 +218,9 @@ $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['tenants/daftarditerima']                = "tenants/tenantacceptedlistdata";
 
+// Pengukuran ikm
+$route['layanan/pengukuranikm']         = "backend/ikm";
+
 // Info Grafis Page Routes Backend
 $route['infografis/pengguna']           = "backend/infografisuser";
 $route['infografis/prainkubasi']        = "backend/infografispraincubation";

@@ -575,9 +575,9 @@
                 ),
     			array (
                     'title'     => 'Pengukuran IKM',
-                    'nav'       => 'layanan/ikm',
+                    'nav'       => 'layanan/pengukuranikm',
                     'parent'    => 'layanan',
-                    'link'      => base_url('layanan/ikm'),
+                    'link'      => base_url('layanan/pengukuranikm'),
                     'icon'      => 'build',
                     'sub'       => false,
                     'badge'     => 0,

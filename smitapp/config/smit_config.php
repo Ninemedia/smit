@@ -151,14 +151,14 @@ $config['user_menu_access']             = array(
         'infografis/pengguna',
         'infografis/prainkubasi',
         'infografis/inkubasi',
-        
+
         'berkas',
         'berkas/digital',
         'pengumuman',
         'layanan',
         'layanan/pesanumum',
         'layanan/komunikasi',
-        'layanan/ikm',
+        'layanan/pengukuranikm',
         'pengaturan',
         'pengaturan/depan',
         'pengaturan/belakang',
