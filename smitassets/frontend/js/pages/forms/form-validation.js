@@ -278,3 +278,55 @@ var ContactValidation = function () {
         }
     };
 }();
+
+var IKMValidation = function () {
+    var handleIKMValidation = function(){
+        $('#ikmadddata').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            <?php 
+                $ikm_list               = $this->Model_Service->get_all_ikmlist();
+                $i  = 1; 
+                foreach($ikm_list AS $row){  
+            ?>
+            rules: {
+                answer_<?php echo $i; ?>: {
+                    required: true,
+                },
+            },
+            messages: {
+                answer_<?php echo $i; ?>: {
+                    required: 'Nama Anda harus di isi',
+                },
+            },
+            <?php $i++; } ?>
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_contact').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleIKMValidation();
+        }
+    };
+}();

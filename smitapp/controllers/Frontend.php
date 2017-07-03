@@ -1773,13 +1773,18 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            
+            FE_JS_PATH . 'pages/forms/form-validation.js',
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'IKM.init();',
+            'IKMValidation.init();',
+        ));
         
         $ikm_list               = $this->Model_Service->get_all_ikmlist();
 
@@ -1792,6 +1797,101 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'service/ikm';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
+    
+    /**
+	 * IKM Add
+	 */
+	public function ikmadddata()
+	{
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $ikm_list               = $this->Model_Service->get_all_ikmlist();
+        
+        $i  = 1; 
+        foreach($ikm_list AS $row){
+            $ikm_id             = $this->input->post('ikm_id_'.$i.'');
+            $ikm_id             = trim( smit_isset($ikm_id, "") );
+            $ikm_uniquecode     = $this->input->post('ikm_uniquecode_'.$i.'');
+            $ikm_uniquecode     = trim( smit_isset($ikm_uniquecode, "") );
+            $ikm_answer         = $this->input->post('answer_'.$i.'');
+            $ikm_answer         = smit_isset($ikm_answer, 0);
+            
+            // -------------------------------------------------
+            // Check Form Validation
+            // -------------------------------------------------
+            /*
+            $this->form_validation->set_rules('answer_'.$i.'','Pertanyaan','required');
+            $this->form_validation->set_message('required', '%s harus di isi');
+            $this->form_validation->set_error_delimiters('', '');
+            
+            if( $this->form_validation->run() == FALSE){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. '.validation_errors().'');
+                die(json_encode($data));
+            }
+            */
+            
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            $ikm_data  = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'ikm_id'        => $ikm_id,
+                'answer'        => $ikm_answer,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+            // -------------------------------------------------
+            // Save IKM
+            // -------------------------------------------------
+            if( $ikm_save_id       = $this->Model_Service->save_data_ikm($ikm_data) ){
+                $trans_save_ikm    = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+            
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+            }
+            
+            $i++;
+        }
+        
+        $trans_save_ikm    = TRUE;
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_ikm ){
+            // Complete Transaction
+            $this->db->trans_complete();
+
+            // Set JSON data
+            $data       = array('message' => 'success', 'data' => 'Pendaftaran Pengukuran IKM baru berhasil!');
+            die(json_encode($data));
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
     // ---------------------------------------------------------------------------------------------
 
     // ---------------------------------------------------------------------------------------------

@@ -153,4 +153,31 @@ var BannerZoomInout = function () {
     };
 }();
 
+var IKM = function () {
+    handleIKMCheck = function(){
+        <?php 
+            $ikm_list               = $this->Model_Service->get_all_ikmlist();
+            $i  = 1; 
+            foreach($ikm_list AS $row){  
+        ?>
+        $("input.answer_<?php echo $i; ?>").click(function() {
+            if ($(this).is(":checked")) {
+                var group = "input:radio[name='" + $(this).attr("name") + "']";
+                $(group).prop("checked", false);
+                $(this).prop("checked", true);
+            } else {
+                $(this).prop("checked", false);
+            }
+        });
+        <?php $i++; } ?>
+    }
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleIKMCheck();
+        }
+    };
+}();
+
 

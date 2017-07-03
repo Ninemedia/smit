@@ -7,6 +7,11 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
+                        <a href="#list_score" data-toggle="tab">
+                            <i class="material-icons">list</i> DAFTAR NILAI IKM
+                        </a>
+                    </li>
+                    <li role="presentation">
                         <a href="#list" data-toggle="tab">
                             <i class="material-icons">list</i> DAFTAR IKM
                         </a>
@@ -20,7 +25,35 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="list">
+                    <div role="tabpanel" class="tab-pane fade in active" id="list_score">
+                        <div class="table-container table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="list_ikmscore" data-url="<?php echo base_url('backend/ikmscorelistdata'); ?>">
+                                <thead>
+            						<tr role="row" class="heading bg-blue">
+            							<th class="width5">No</th>
+            							<th class="width50 text-center">Pertanyaan</th>
+            							<th class="width20 text-center">Jawaban</th>
+                                        <th class="width5 text-center">Total</th>
+            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+       						        </tr>
+                                    <tr role="row" class="filter display-hide table-filter">
+            							<td></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
+                                        <td></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_total" /></td>
+            							<td style="text-align: center;">
+            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
+            							</td>
+            						</tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data Will Be Placed Here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="list">
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="list_ikm" data-url="<?php echo base_url('backend/ikmlistdata'); ?>">
                                 <thead>
