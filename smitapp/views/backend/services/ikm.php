@@ -26,31 +26,103 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list_score">
-                        <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_ikmscore" data-url="<?php echo base_url('backend/ikmscorelistdata'); ?>">
-                                <thead>
-            						<tr role="row" class="heading bg-blue">
-            							<th class="width5">No</th>
-            							<th class="width50 text-center">Pertanyaan</th>
-            							<th class="width20 text-center">Jawaban</th>
-                                        <th class="width5 text-center">Total</th>
-            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
-       						        </tr>
-                                    <tr role="row" class="filter display-hide table-filter">
-            							<td></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
-                                        <td></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_total" /></td>
-            							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
-            							</td>
-            						</tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Data Will Be Placed Here -->
-                                </tbody>
-                            </table>
+                        <div class="panel-group" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-col-blue">
+                                <div class="panel-heading" role="tab" id="heading_total">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" href="#collapse_total" aria-expanded="true" aria-controls="collapse_total">
+                                            <i class="material-icons">format_align_justify</i> Total Pengukuran IKM
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse_total" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_total">
+                                    <div class="panel-body">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">done_all</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Sangat Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($sangat_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">done</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">clear</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Tidak Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($tidak_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">new_releases</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Sangat Tdk Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($sangat_tidak_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-col-blue">
+                                <div class="panel-heading" role="tab" id="heading_detail">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" href="#collapse_detail" aria-expanded="true" aria-controls="collapse_detail">
+                                            <i class="material-icons">format_align_justify</i> Detail Pengukuran IKM
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse_detail" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_detail">
+                                    <div class="panel-body">
+                                        <div class="table-container table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="list_ikmscore" data-url="<?php echo base_url('backend/ikmscorelistdata'); ?>">
+                                                <thead>
+                            						<tr role="row" class="heading bg-blue">
+                            							<th class="width5">No</th>
+                            							<th class="width50 text-center">Pertanyaan</th>
+                            							<th class="width20 text-center">Jawaban</th>
+                                                        <th class="width5 text-center">Total</th>
+                            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                       						        </tr>
+                                                    <tr role="row" class="filter display-hide table-filter">
+                            							<td></td>
+                            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
+                                                        <td></td>
+                                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_total" /></td>
+                            							<td style="text-align: center;">
+                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
+                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
+                            							</td>
+                            						</tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Data Will Be Placed Here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="list">

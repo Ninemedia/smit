@@ -3448,12 +3448,21 @@ class Backend extends User_Controller {
             'TableAjax.init();',
             'ServicesValidation.init();',
         ));
-
+        
+        $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
+        $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
+        $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
+        $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
+        
         $data['title']          = TITLE . 'Pengukuran IKM';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
         $data['is_pengusul']    = $is_pengusul;
+        $data['sangat_setuju']  = $sangat_setuju;
+        $data['setuju']         = $setuju;
+        $data['tidak_setuju']   = $tidak_setuju;
+        $data['sangat_tidak_setuju']    = $sangat_tidak_setuju;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
