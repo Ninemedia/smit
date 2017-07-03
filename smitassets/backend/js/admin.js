@@ -676,6 +676,62 @@ var App = function() {
         });
     };
     
+    var handleAddIKM = function() {
+        // Save IKM
+        $('#do_save_ikmadd').click(function(e){
+            e.preventDefault();
+            processSaveAddIKM($('#ikmadd'));
+        });
+        
+        var processSaveAddIKM = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#ikmadd')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_list_ikm').trigger('click');
+                        $('#btn_list_ikmreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+        
+        // Reset News Form
+        $('body').on('click', '#btn_ikmadd_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#reg_question').val('');
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
     var handleAddPraincubation = function() {
         // Save Praincubation
         $('#do_save_praincubationadd').click(function(e){
@@ -1292,6 +1348,7 @@ var App = function() {
             handleAddPraincubation();
             handleAddProductPraincubation();
             handleAddIncubation();
+            handleAddIKM();
 		},
         
         // wrapper function to scroll(focus) to an element

@@ -3465,6 +3465,183 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * IKM Add
+	 */
+	public function ikm_listadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $question               = $this->input->post('reg_question');
+        $question               = trim( smit_isset($question, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_question','Pertanyaan','required');
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            $ikm_data  = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'question'      => $question,
+                'status'        => ACTIVE,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+            
+            // -------------------------------------------------
+            // Save IKM
+            // -------------------------------------------------
+            $trans_save_ikm        = FALSE;
+            if( $ikm_save_id       = $this->Model_Service->save_data_ikm_list($ikm_data) ){
+                $trans_save_ikm    = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_ikm ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran Pengukuran IKM baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'IKMLIST_REG', 'SUCCESS', maybe_serialize(array('username'=>$current_user->username, 'question'=> smit_isset($question,''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+    
+    /**
+	 * IKM list data function.
+	 */
+    function ikmlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_question         = $this->input->post('search_question');
+        $s_question         = smit_isset($s_question, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_question) )       { $condition .= str_replace('%s%', $s_question, ' AND %question% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )      { $order_by .= '%question% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $ikm_list           = $this->Model_Service->get_all_ikmlist($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($ikm_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($ikm_list as $row){
+                $btn_edit       = '<a href="'.base_url('ikmlist/ubah/'.$row->uniquecode).'"
+                    class="ikmedit btn btn-xs btn-warning waves-effect tooltips bottom5" id="btn_ikm_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                    
+                $btn_action     = '<a href="'.base_url('ikmlist/hapus/'.$row->uniquecode).'"
+                    class="ikm btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+                
+                // Status
+                if($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == ACTIVE)  { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == BANNED)  { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == DELETED) { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->question,
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_edit . ' ' . $btn_action ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
     // ----------------------------------------------------------------------------------------------------------------------
 
 }

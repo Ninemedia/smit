@@ -22,22 +22,18 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_ikm" data-url="<?php echo base_url('layanan/komunikasibantuan/in'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="list_ikm" data-url="<?php echo base_url('backend/ikmlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-            							<th class="width20 text-center">Nama Pengirim</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width15 text-center">Deskripsi</th>
+            							<th class="width55 text-center">Pertanyaan</th>
             							<th class="width15 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
-            							<th class="width13 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
             							<td>
                                             <select name="search_status" class="form-control form-filter input-sm">
             									<option value="">Pilih...</option>
@@ -56,8 +52,8 @@
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -68,9 +64,25 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="add">
-
+                        <?php echo form_open_multipart( 'backend/ikm_listadd', array( 'id'=>'ikmadd', 'role'=>'form' ) ); ?>
+                            <div id="alert" class="alert display-hide"></div>
+                            <div class="form-group form-float">
+                                <h4>Pengaturan Pertanyaan IKM</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Pertanyaan <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <textarea name="reg_question" id="reg_question" cols="30" rows="3" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_ikmadd">Tambah Pertanyaan</button>
+                                    <button type="button" class="btn btn-danger waves-effect" id="btn_ikmadd_reset">Bersihkan</button>
+                                </div>
+                            </div>
+                        <?php echo form_close(); ?>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -78,22 +90,22 @@
 </div>
 <!-- #END# Content -->
 
-<!-- BEGIN INFORMATION SUCCESS SAVE COMMUNICATION MODAL -->
-<div class="modal fade" id="save_cmm" tabindex="-1" role="basic" aria-hidden="true">
+<!-- BEGIN INFORMATION SUCCESS SAVE IKM MODAL -->
+<div class="modal fade" id="save_ikmadd" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Komunikasi dan Bantuan</h4>
+				<h4 class="modal-title">Pendaftaran Pertanyaan Index Kepuasan Masyarakat</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Komunikasi dan Bantuan. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <p>Anda Sedang Melakukan Pendaftaran Index Kepuasan Masyarakat. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_cmm" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_ikmadd" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- END INFORMATION SUCCESS SAVE COMMUNICATION MODAL -->
+<!-- END INFORMATION SUCCESS SAVE IKM MODAL -->

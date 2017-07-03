@@ -8,6 +8,7 @@ class Model_Service extends SMIT_Model{
      */
     var $contact_message    = "smit_contact";
     var $communication      = "smit_communication";
+    var $ikm_list           = "smit_ikm_list";
     
     /**
      * Initialize primary field
@@ -228,6 +229,60 @@ class Model_Service extends SMIT_Model{
             return true;
             
         return false;
+    }
+    
+    /**
+     * Save data of ikm
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of ikm
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_ikm_list($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->ikm_list, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Retrieve all ikm data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of user               default 0
+     * @param   Int     $offset             Offset ot user              default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of user list
+     */
+    function get_all_ikmlist($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%question%",             "question", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
+            $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%question%",             "question",  $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+        }
+        
+        $sql = 'SELECT * FROM ' . $this->ikm_list . '';
+    
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
     }
     
     // ---------------------------------------------------------------------------------

@@ -120,10 +120,48 @@ var ServicesValidation = function () {
         });
     };
     
+    var handleIKMValidation = function(){
+        $('#ikmadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_question: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_question: {
+                    required: "Pertanyaan harus di isi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_ikmadd').modal('show');
+            }
+        });
+    };
+    
     return {
         //main function to initiate the module
         init: function () {
             handleCommunicationValidation();
+            handleIKMValidation();
         }
     };
 }();
@@ -1648,6 +1686,5 @@ var ScoreUserValidation = function () {
         }
     };
 }();
-
 
 
