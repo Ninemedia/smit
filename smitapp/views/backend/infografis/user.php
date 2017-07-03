@@ -7,12 +7,12 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#year" data-toggle="tab">
+                        <a href="#monthly" data-toggle="tab">
                             <i class="material-icons">donut_small</i> BULANAN
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#month" data-toggle="tab">
+                        <a href="#yearly" data-toggle="tab">
                             <i class="material-icons">donut_small</i> TAHUNAN
                         </a>
                     </li>
@@ -20,20 +20,18 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="year">
-                        <div id="chart-user" style="height: 300px;">
+                    <div role="tabpanel" class="tab-pane fade in active" id="monthly">
+                        <div id="chart-user-month" style="height: 300px;">
             				<span class="data hide"><?php echo $chart; ?></span>
             			</div>
                     </div><s></s>
 
-                    <div role="tabpanel" class="tab-pane fade" id="month">
-                        <div id="chart-user" style="height: 300px;">
-            				<span class="data hide"><?php echo $chart; ?></span>
+                    <div role="tabpanel" class="tab-pane fade" id="yearly">
+                        <div id="chart-user-year" style="height: 300px;">
+            				<span class="data hide"><?php echo $chart_year; ?></span>
             			</div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

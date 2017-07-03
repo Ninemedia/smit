@@ -1134,9 +1134,9 @@ var Charts = function() {
 	};
 
 	var handleChartUser = function() {
-		var elm = 'chart-user';
+		var elm = 'chart-user-month';
 		var chart = $( '#' + elm ).find( '.data' ).text();
-        
+
 		if ( ! chart )
 			return;
 
@@ -1168,9 +1168,45 @@ var Charts = function() {
 		});
 	};
 
+    var handleChartUserYear = function() {
+		var elm = 'chart-user-year';
+		var chart = $( '#' + elm ).find( '.data' ).text();
+
+		if ( ! chart )
+			return;
+
+		chart = $.parseJSON( chart );
+		if ( ! chart.data )
+            return;
+
+		var data = chart.data;
+		var xkey = chart.xkey;
+		var ykeys = chart.ykeys;
+		var labels = chart.labels;
+
+		new Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: elm,
+            // Chart data records -- each entry in this array corresponds to a point on the chart.
+            data: data,
+            // The name of the data record attribute that contains x-values.
+            xkey: xkey,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ykeys,
+            // Labels for the ykeys -- will be displayed when you hover over the chart.
+            labels: labels,
+            xLabels: 'year',
+            // custom options
+            hideHover: 'auto',
+            xLabelAngle: 30,
+            resize: true
+		});
+	};
+
 	return {
 		init: function() {
 			handleChartUser();
+            handleChartUserYear();
 		}
 	};
 }();
