@@ -1804,7 +1804,7 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
-            'IKM.init();',
+            //'IKM.init();',
             'IKMValidation.init();',
         ));
 

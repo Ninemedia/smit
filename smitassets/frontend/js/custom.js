@@ -153,16 +153,14 @@ var BannerZoomInout = function () {
     };
 }();
 
+/*
 var IKM = function () {
     handleIKMCheck = function(){
-        
-        /*
+
             $ikm_list               = $this->Model_Service->get_all_ikmlist();
             $i  = 1; 
             foreach($ikm_list AS $row){  
-        */
-        
-        /*
+
         $("input.answer_").click(function() {
             if ($(this).is(":checked")) {
                 var group = "input:radio[name='" + $(this).attr("name") + "']";
@@ -172,8 +170,8 @@ var IKM = function () {
                 $(this).prop("checked", false);
             }
         });
-        */
-        //$i++; }
+
+        $i++; }
     }
     
     return {
@@ -183,5 +181,6 @@ var IKM = function () {
         }
     };
 }();
+*/
 
 
