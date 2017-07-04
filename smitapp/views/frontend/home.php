@@ -3,7 +3,7 @@
     <div id="main-slider-banner-zoom-inout">
         <!-- LOADER -->
         <div class="myloader"></div>
-        
+
         <!-- CONTENT -->
         <ul class="bannerscollection_zoominout_list">
             <?php
@@ -13,7 +13,7 @@
                         $uploaded           = $row->uploader;
                         if($uploaded != 0){
                             $file_name      = $row->filename . '.' . $row->extension;
-                            $file_url       = FE_IMG_PATH . 'slider/' . $file_name; 
+                            $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
                             $slider         = $file_url;
                         }
                         ?>
@@ -32,7 +32,7 @@
                 }
             ?>
         </ul>
-        
+
         <?php
             if(!empty($sliderdata)){
                 $j  = 1;
@@ -61,7 +61,7 @@
 <div id="gtco-content">
 	<div class="gtco-container">
 		<div class="row animate-box">
-        
+
             <!-- News -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="body">
@@ -96,9 +96,9 @@
                                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                                     <div class="media-left">
                                                         <a href="javascript:void(0);">
-                                                            <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" 
+                                                            <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm"
                                                             src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->thumbnail.'.'.$news->extension; ?>" />
-                                                            <img class="js-animating-object img-responsive media-object visible-xs" 
+                                                            <img class="js-animating-object img-responsive media-object visible-xs"
                                                             src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->filename.'.'.$news->extension; ?>" />
                                                         </a>
                                                     </div>
@@ -121,7 +121,7 @@
                                 <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
                             <?php } ?>
                         </div>
-                        
+
                         <!-- Blog Tab Content -->
                         <div class="tab-pane fade" id="blog">
                             <div class="row">
@@ -135,7 +135,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -149,7 +149,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -163,7 +163,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -177,7 +177,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -191,7 +191,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -205,7 +205,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -219,7 +219,7 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
@@ -233,13 +233,13 @@
                     							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
                     							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-                    						</div> 
+                    						</div>
                     					</div>
                     				</div>
                     			</div>
                     		</div>
                         </div>
-                        
+
                         <!-- Pengumuman Tab Content -->
                         <div class="tab-pane fade" id="pengumuman">
                             <div class="table-container table-responsive bottom50">
@@ -271,14 +271,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <!-- Produk -->
             <!--
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                
+
             </div>
             -->
         </div>
@@ -319,8 +319,8 @@
         					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
         				</div>
         			</div>
-    			</div>  
-            </div>	
+    			</div>
+            </div>
 		</div>
 	</div>
 </div>

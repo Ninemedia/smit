@@ -110,7 +110,7 @@ var SelectionValidation = function () {
                     required: 'Data File Rencana Anggaran Kegiatan harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -132,7 +132,7 @@ var SelectionValidation = function () {
             }
         });
     };
-    
+
     var handleSelectionValidationPraIncubaion = function(){
         $('#selectionpraincubation').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -183,7 +183,7 @@ var SelectionValidation = function () {
                     required: 'Data File Rencana Anggaran Kegiatan harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -205,7 +205,7 @@ var SelectionValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -248,7 +248,7 @@ var ContactValidation = function () {
                     required: 'Deskripsi Pesan harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -270,7 +270,7 @@ var ContactValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -284,23 +284,18 @@ var IKMValidation = function () {
         $('#ikmadddata').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
-            <?php 
-                $ikm_list               = $this->Model_Service->get_all_ikmlist();
-                $i  = 1; 
-                foreach($ikm_list AS $row){  
-            ?>
             rules: {
-                answer_<?php echo $i; ?>: {
+                ikm_email: {
                     required: true,
                 },
             },
             messages: {
-                answer_<?php echo $i; ?>: {
+                ikm_email: {
                     required: 'Nama Anda harus di isi',
                 },
             },
-            <?php $i++; } ?>
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -318,11 +313,11 @@ var IKMValidation = function () {
                 $(element).parents('.input-group').append(error);
             },
             submitHandler: function (form) {
-                $('#save_contact').modal('show');
+                $('#save_ikmadddata').modal('show');
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
