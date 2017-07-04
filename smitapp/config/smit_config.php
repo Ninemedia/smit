@@ -66,13 +66,23 @@ $config['user_status']              = array(
 );
 
 /**
- * IKM Status Status
+ * IKM Status
  */
 $config['ikm_status']              = array(
     SANGAT_SETUJU                   => 'Sangat Setuju',
     SETUJU                          => 'Setuju',
     TIDAK_SETUJU                    => 'Tidak Setuju',
     SANGAT_TIDAK_SETUJU             => 'Sangat Tidak Setuju',
+);
+
+/**
+ * IKM Nilai
+ */
+$config['ikm_nilai']              = array(
+    SANGAT_SETUJU                   => 100,
+    SETUJU                          => 75,
+    TIDAK_SETUJU                    => 50,
+    SANGAT_TIDAK_SETUJU             => 25,
 );
 
 /**

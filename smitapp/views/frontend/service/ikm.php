@@ -81,6 +81,14 @@
                             <?php $i++; } ?>
                             <?php endif; ?>
                             <div class="form-group">
+                                <label class="form-label">Kritik dan Saran <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <textarea name="ikm_comment" id="ikm_comment" cols="30" rows="3" class="form-control" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-small btn-primary waves-effect" id="btn_ikmadddata">Submit</button>
                                 <button type="button" class="btn btn-small btn-danger waves-effect" id="btn_ikmadddata_reset">Bersihkan</button>
                             </div>

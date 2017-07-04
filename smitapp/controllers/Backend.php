@@ -3398,21 +3398,30 @@ class Backend extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Morris Chart CSS Plugin
+            BE_PLUGIN_PATH . 'morrisjs/morris.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Moment JS Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            // Morrist Chart JS Plugin
+            BE_PLUGIN_PATH . 'raphael/raphael.min.js',
+            BE_PLUGIN_PATH . 'morrisjs/morris.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'Charts.init();'
+        ));
 
-        $data['title']          = TITLE . 'Info Grafis IKM';
+        $data['title']          = TITLE . 'Info Grafis Pengguna';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
@@ -3421,10 +3430,62 @@ class Backend extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'infografis/ikm';
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
+        $chart = array();
+
+        $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
+        $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
+        $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
+        $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
+        $total          = $this->Model_Service->count_all_answer();
+
+        $dataset[]      = array(
+            'sangat_setuju'         => $sangat_setuju,
+            'setuju'                => $setuju,
+            'tidak_setuju'          => $tidak_setuju,
+            'sangat_tidak_setuju'   => $sangat_tidak_setuju,
+            'total'                 => $total
+        );
+
+        if ( $stats = $this->Model_Service->stats_yearly() ) {
+            // Pivoting
+			$pivot = array();
+
+			foreach( $stats as $row ) {
+                if ( $row->answer == 1 )      { $type = 'sangat_setuju'; }
+                elseif ( $row->answer == 2 )  { $type = 'setuju'; }
+                elseif ( $row->answer == 3 )  { $type = 'tidak_setuju'; }
+                elseif ( $row->answer == 4 )  { $type = 'sangat_tidak_setuju'; }
+
+				if ( ! isset( $pivot[ $row->period ] ) )
+					$pivot[ $row->period ] = array();
+
+				if ( ! isset( $pivot[ $row->period ][ 'total' ] ) )
+					$pivot[ $row->period ][ 'total' ] = 0;
+
+				//$pivot[ $row->period ][ 'period_name' ] = $row->period_name;
+				$pivot[ $row->period ][ 'total' ] += $row->total;
+				$pivot[ $row->period ][ $type ] = $row->total;
+			}
+
+            $chart['xkey']      = 'period';
+            $chart['ykeys']     = array( 'sangat_setuju', 'setuju', 'tidak_setuju', 'sangat_tidak_setuju');
+            $chart['labels']    = array( 'Sangat Setuju', 'Setuju', 'Tidak Setuju', 'Sangat Tidak Setuju');
+
+            foreach( $pivot as $period => $row ) {
+
+                // chart
+				$chart['data'][] = array(
+                    'period'                => $period,
+                    'sangat_setuju'         => smit_isset( $row[ 'sangat_setuju' ], 0 ),
+                    'setuju'                => smit_isset( $row[ 'setuju' ], 0 ),
+                    'tidak_setuju'          => smit_isset( $row[ 'tidak_setuju' ], 0 ),
+                    'sangat_tidak_setuju'   => smit_isset( $row[ 'sangat_tidak_setuju' ], 0 ),
+                    'total'                 => $row['total']
+				);
+            }
+        }
+
+        $data['chart']			= json_encode( $chart );
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -3734,7 +3795,7 @@ class Backend extends User_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )      { $order_by .= '%email% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $ikm_list           = $this->Model_Service->get_all_ikmdata($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -3755,6 +3816,7 @@ class Backend extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->email,
+                    $row->comment,
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     '',
                 );
@@ -3841,6 +3903,8 @@ class Backend extends User_Controller {
         if( !empty($dataset) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('ikm_status');
+            $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+            $penimbang      = number_format(1/$total_ikmlist, 3);
 
             $i = $offset + 1;
             foreach($dataset as $row){
@@ -3866,17 +3930,41 @@ class Backend extends User_Controller {
                 $score  .= '</tr>';
                 $score  .= '</table>';
 
-                /*
-                $score  = '<span>'.strtoupper($cfg_status[SANGAT_SETUJU]).' : '.$row['sangat_setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[SETUJU]).' : '.$row['setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[TIDAK_SETUJU]).' : '.$row['tidak_setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[SANGAT_TIDAK_SETUJU]).' : '.$row['sangat_tidak_setuju'].'</span>';
-                */
+                $nilai          = $this->Model_Service->sum_all_answer($row['ikm_id']);
+                $total_unsur    = $this->Model_Service->count_all_answer($row['ikm_id']);
+                $nilai_rata     = $nilai / $total_unsur;
+                $rata_penimbang = $nilai_rata * $penimbang;
+                $ikm            = $nilai_rata * $rata_penimbang;
+                $ikm            = floor($ikm);
+
+                $mutu           = ' - ';
+                $kenerja        = ' - ';
+                if($ikm <= 1750){
+                    $mutu       = 'D';
+                    $kinerja    = 'Tidak Baik';
+                }elseif($ikm > 1750 && $ikm <= 2500){
+                    $mutu       = 'C';
+                    $kinerja    = 'Kurang Baik';
+                }elseif($ikm > 2500 && $ikm <= 3250){
+                    $mutu       = 'B';
+                    $kinerja    = 'Baik';
+                }elseif($ikm > 3250 && $ikm <= 400){
+                    $mutu       = 'A';
+                    $kinerja    = 'Sangat Baik';
+                }
+
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row['question'],
                     $score,
                     smit_center( $row['total'] ),
+                    smit_center( $nilai ),
+                    smit_center( number_format($nilai_rata, 1) ),
+                    smit_center( number_format($rata_penimbang, 1) ),
+                    smit_center( number_format($ikm) ),
+                    smit_center( $mutu ),
+                    smit_center( $kinerja ),
                     '',
                 );
                 $i++;

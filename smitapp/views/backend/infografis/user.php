@@ -24,7 +24,7 @@
                         <div id="chart-user-month" style="height: 300px;">
             				<span class="data hide"><?php echo $chart; ?></span>
             			</div>
-                    </div><s></s>
+                    </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="yearly">
                         <div id="chart-user-year" style="height: 300px;">

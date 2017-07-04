@@ -406,14 +406,73 @@ class Model_Service extends SMIT_Model{
      * @param   Int     $type   (Optional) Type of user, default 'all'
      * @return  Int of total rows user
      */
-    function count_all_answer($ikm_id=0, $answer=0){
-        if ( $ikm_id != 0 ) { $this->db->where('ikm_id', $ikm_id); }
-        if ( $answer != 0 )   { $this->db->where('answer', $answer); }
+    function count_all_answer($ikm_id=0, $answer=0, $year=0){
+        if ( $ikm_id != 0 )     { $this->db->where('ikm_id', $ikm_id); }
+        if ( $answer != 0 )     { $this->db->where('answer', $answer); }
+        if ( $year != 0 )       { $this->db->where('datecreated', $year); }
 
         $query = $this->db->get($this->ikm);
 
         return $query->num_rows();
     }
+
+    /**
+     * Count All IKM List Rows
+     *
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_ikmlist(){
+        $query = $this->db->get($this->ikm_list);
+
+        return $query->num_rows();
+    }
+
+    /**
+     * Sum All Score Rows
+     *
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $id   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function sum_all_answer($id){
+        //if ( $id != 0 )   { $this->db->where('selection_id', $id); }
+        $sql    = 'SELECT SUM(nilai) AS nilai_data FROM '.$this->ikm.' WHERE ikm_id = '.$id.' ';
+
+        $query  = $this->db->query($sql);
+        $row    = $query->row();
+
+        if ( empty($row->nilai_data) ) return 0;
+
+        return $row->nilai_data;
+    }
+
+    /**
+	 * Stats yearly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_yearly() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y") AS period,
+            answer,
+			COUNT(answer) AS total
+		FROM '.$this->ikm.'
+		GROUP BY 1,2
+		ORDER BY 1 DESC';
+
+		$qry = $this->db->query( $sql );
+
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
 
     // ---------------------------------------------------------------------------------
 }

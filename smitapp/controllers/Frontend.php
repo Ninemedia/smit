@@ -1831,11 +1831,14 @@ class Frontend extends Public_Controller {
 
         $ikm_email              = $this->input->post('ikm_email');
         $ikm_email              = trim( smit_isset($ikm_email, "") );
+        $ikm_comment            = $this->input->post('ikm_comment');
+        $ikm_comment            = trim( smit_isset($ikm_comment, "") );
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('ikm_email','Email Anda','required');
+        $this->form_validation->set_rules('ikm_comment','Kritik dan Saran Anda','required');
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
 
@@ -1861,6 +1864,7 @@ class Frontend extends Public_Controller {
             $ikm_data  = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'email'         => $ikm_email,
+                'comment'       => $ikm_comment,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
@@ -1870,6 +1874,7 @@ class Frontend extends Public_Controller {
 
         $ikm_list               = $this->Model_Service->get_all_ikmlist();
         $i  = 1;
+        $cfg_nilai              = config_item('ikm_nilai');
         foreach($ikm_list AS $row){
             $ikm_id             = $this->input->post('ikm_id_'.$i.'');
             $ikm_id             = trim( smit_isset($ikm_id, "") );
@@ -1892,6 +1897,7 @@ class Frontend extends Public_Controller {
                 die(json_encode($data));
             }
             */
+            $ikm_nilai  = $cfg_nilai[$ikm_answer];
 
             // -------------------------------------------------
             // Begin Transaction
@@ -1902,6 +1908,7 @@ class Frontend extends Public_Controller {
                 'ikm_id'        => $ikm_id,
                 'ikmdata_id'    => $ikmdata_save_id,
                 'answer'        => $ikm_answer,
+                'nilai'         => $ikm_nilai,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
