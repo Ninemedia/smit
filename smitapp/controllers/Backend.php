@@ -3383,7 +3383,7 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Info Grafis IKM function.
 	 */
@@ -3428,7 +3428,7 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     // ----------------------------------------------------------------------------------------------------------------------
     // PENGUKURAN ikm
     // ----------------------------------------------------------------------------------------------------------------------
@@ -3494,12 +3494,12 @@ class Backend extends User_Controller {
             'TableAjax.init();',
             'ServicesValidation.init();',
         ));
-        
+
         $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
         $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
         $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
         $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
-        
+
         $data['title']          = TITLE . 'Pengukuran IKM';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -3520,7 +3520,7 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * IKM Add
 	 */
@@ -3563,7 +3563,7 @@ class Backend extends User_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-            
+
             // -------------------------------------------------
             // Save IKM
             // -------------------------------------------------
@@ -3611,7 +3611,7 @@ class Backend extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * IKM list data function.
 	 */
@@ -3667,16 +3667,16 @@ class Backend extends User_Controller {
             foreach($ikm_list as $row){
                 $btn_edit       = '<a href="'.base_url('ikmlist/ubah/'.$row->uniquecode).'"
                     class="ikmedit btn btn-xs btn-warning waves-effect tooltips bottom5" id="btn_ikm_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                    
+
                 $btn_action     = '<a href="'.base_url('ikmlist/hapus/'.$row->uniquecode).'"
                     class="ikm btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
-                
+
                 // Status
                 if($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACTIVE)  { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == BANNED)  { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED) { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->question,
@@ -3697,7 +3697,81 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
+    /**
+	 * IKM Data list data function.
+	 */
+    function ikmdatalistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_email            = $this->input->post('search_email');
+        $s_email            = smit_isset($s_question, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %$email% LIKE "%%s%%"'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )      { $order_by .= '%email% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $ikm_list           = $this->Model_Service->get_all_ikmdata($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($ikm_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($ikm_list as $row){
+                $btn_edit       = '<a href="'.base_url('ikmlist/ubah/'.$row->uniquecode).'"
+                    class="ikmedit btn btn-xs btn-warning waves-effect tooltips bottom5" id="btn_ikm_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+
+                $btn_action     = '<a href="'.base_url('ikmlist/hapus/'.$row->uniquecode).'"
+                    class="ikm btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->email,
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    '',
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+
     /**
 	 * IKM Score list data function.
 	 */
@@ -3744,7 +3818,7 @@ class Backend extends User_Controller {
         $ikmscore_list      = $this->Model_Service->get_all_ikmscorelist($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         $ikm_list           = $this->Model_Service->get_all_ikmlist($limit, $offset, $condition, $order_by);
         foreach($ikm_list AS $row){
             $sangat_setuju  = $this->Model_Service->count_all_answer($row->id, SANGAT_SETUJU);
@@ -3752,7 +3826,7 @@ class Backend extends User_Controller {
             $tidak_setuju   = $this->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
             $sangat_tidak_setuju    = $this->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
             $total          = $this->Model_Service->count_all_answer($row->id);
-            
+
             $dataset[]      = array(
                 'ikm_id'                => $row->id,
                 'question'              => $row->question,
@@ -3774,24 +3848,24 @@ class Backend extends User_Controller {
                 $score  .= '<tr>';
                 $score  .= '<th class="width15">'.strtoupper($cfg_status[SANGAT_SETUJU]).'</th>';
                 $score  .= '<td class="width5 text-center">'.$row['sangat_setuju'].'</td>';
-                
+
                 $score  .= '</tr>';
                 $score  .= '<tr>';
                 $score  .= '<th class="width15">'.strtoupper($cfg_status[SETUJU]).'</th>';
                 $score  .= '<td class="width5 text-center">'.$row['setuju'].'</td>';
                 $score  .= '</tr>';
-                
+
                 $score  .= '<tr>';
                 $score  .= '<th class="width15">'.strtoupper($cfg_status[TIDAK_SETUJU]).'</th>';
                 $score  .= '<td class="width5 text-center">'.$row['tidak_setuju'].'</td>';
                 $score  .= '</tr>';
-                
+
                 $score  .= '<tr>';
                 $score  .= '<th class="width15">'.strtoupper($cfg_status[SANGAT_TIDAK_SETUJU]).'</th>';
                 $score  .= '<td class="width5 text-center">'.$row['sangat_tidak_setuju'].'</td>';
                 $score  .= '</tr>';
                 $score  .= '</table>';
-                
+
                 /*
                 $score  = '<span>'.strtoupper($cfg_status[SANGAT_SETUJU]).' : '.$row['sangat_setuju'].'</span></br>';
                 $score  .= '<span>'.strtoupper($cfg_status[SETUJU]).' : '.$row['setuju'].'</span></br>';

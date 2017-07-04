@@ -132,9 +132,13 @@ var TableAjax = function () {
     var handleRecordsIKMList = function() {
         gridTable( $("#list_ikm"), true );
     };
-    
+
     var handleRecordsIKMScoreList = function() {
         gridTable( $("#list_ikmscore"), true );
+    };
+
+    var handleRecordsIKMDataList = function() {
+        gridTable( $("#list_ikmdata"), true );
     };
 
     // -------------------------------------------------------------------------
@@ -337,10 +341,11 @@ var TableAjax = function () {
             //IKM
             handleRecordsIKMList();
             handleRecordsIKMScoreList();
-            
+            handleRecordsIKMDataList();
+
             //News
             handleRecordsNewsList();
-            
+
 
             //Slider
             handleRecordsSliderList();
