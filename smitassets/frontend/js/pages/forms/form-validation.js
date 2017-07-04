@@ -288,13 +288,19 @@ var IKMValidation = function () {
                 ikm_email: {
                     required: true,
                 },
+                ikm_comment: {
+                    required: true,
+                },
             },
             messages: {
                 ikm_email: {
                     required: 'Nama Anda harus di isi',
                 },
+                ikm_comment: {
+                    required: 'Kritik dan Saran harus di isi',
+                },
             },
-            
+
             invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },

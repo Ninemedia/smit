@@ -1831,11 +1831,14 @@ class Frontend extends Public_Controller {
 
         $ikm_email              = $this->input->post('ikm_email');
         $ikm_email              = trim( smit_isset($ikm_email, "") );
+        $ikm_comment            = $this->input->post('ikm_comment');
+        $ikm_comment            = trim( smit_isset($ikm_comment, "") );
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('ikm_email','Email Anda','required');
+        $this->form_validation->set_rules('ikm_comment','Kritik dan Saran Anda','required');
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
 
@@ -1861,6 +1864,7 @@ class Frontend extends Public_Controller {
             $ikm_data  = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'email'         => $ikm_email,
+                'comment'       => $ikm_comment,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );

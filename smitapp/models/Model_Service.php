@@ -406,14 +406,39 @@ class Model_Service extends SMIT_Model{
      * @param   Int     $type   (Optional) Type of user, default 'all'
      * @return  Int of total rows user
      */
-    function count_all_answer($ikm_id=0, $answer=0){
-        if ( $ikm_id != 0 ) { $this->db->where('ikm_id', $ikm_id); }
-        if ( $answer != 0 )   { $this->db->where('answer', $answer); }
+    function count_all_answer($ikm_id=0, $answer=0, $year=0){
+        if ( $ikm_id != 0 )     { $this->db->where('ikm_id', $ikm_id); }
+        if ( $answer != 0 )     { $this->db->where('answer', $answer); }
+        if ( $year != 0 )       { $this->db->where('datecreated', $year); }
 
         $query = $this->db->get($this->ikm);
 
         return $query->num_rows();
     }
+
+    /**
+	 * Stats yearly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_yearly() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y") AS period,
+            answer,
+			COUNT(answer) AS total
+		FROM '.$this->ikm.'
+		GROUP BY 1,2
+		ORDER BY 1 DESC';
+
+		$qry = $this->db->query( $sql );
+
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
 
     // ---------------------------------------------------------------------------------
 }
