@@ -1784,8 +1784,6 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // CKEditor Plugin
-            FE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             FE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',

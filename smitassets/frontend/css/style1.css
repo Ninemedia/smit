@@ -3599,18 +3599,26 @@ section.content {
   background-color: #ffffff; }
 
 [type="radio"]:not(:checked) + label {
-  padding-left: 26px;
+  padding-left: 14px;
   height: 25px;
   line-height: 25px;
   font-size: 13px;
-  font-weight: normal; }
+  font-weight: normal; 
+  vertical-align: middle; 
+  cursor: pointer; 
+  position: relative; 
+  bottom: 1px; }
 
 [type="radio"]:checked + label {
-  padding-left: 26px;
+  padding-left: 14px;
   height: 25px;
   line-height: 25px;
   font-size: 13px;
-  font-weight: normal; }
+  font-weight: normal; 
+  vertical-align: middle; 
+  cursor: pointer; 
+  position: relative; 
+  bottom: 1px; }
 
 [type="radio"].radio-col-red:checked + label:after {
   background-color: #F44336;

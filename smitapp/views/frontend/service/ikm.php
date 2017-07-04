@@ -66,13 +66,13 @@
                                 <div class="input-group">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input id="answer_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SANGAT_SETUJU; ?>" type="radio">
+                                            <input id="sangat_setuju_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SANGAT_SETUJU; ?>" type="radio">
                                             <label for="sangat_setuju_<?php echo $i; ?>">Sangat Setuju</label><br />
-                                            <input id="answer_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SETUJU; ?>" type="radio">
+                                            <input id="setuju_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SETUJU; ?>" type="radio">
                                             <label for="setuju_<?php echo $i; ?>">Setuju</label><br />
-                                            <input id="answer_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo TIDAK_SETUJU; ?>" type="radio">
+                                            <input id="tidak_setuju_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo TIDAK_SETUJU; ?>" type="radio">
                                             <label for="tidak_setuju_<?php echo $i; ?>">Tidak Setuju</label><br />
-                                            <input id="answer_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SANGAT_TIDAK_SETUJU; ?>" type="radio">
+                                            <input id="sangat_tidaksetuju_<?php echo $i; ?>" name="answer_<?php echo $i; ?>" value="<?php echo SANGAT_TIDAK_SETUJU; ?>" type="radio">
                                             <label for="sangat_tidaksetuju_<?php echo $i; ?>">Sangat Tidak Setuju</label><br />
                                         </div>
                                     </div>
