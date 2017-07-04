@@ -1762,7 +1762,13 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
-
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
             //Css Path
             FE_CSS_PATH    . 'animate.css',
             FE_CSS_PATH    . 'icomoon.css',
@@ -1773,11 +1779,27 @@ class Frontend extends Public_Controller {
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
-            
-            FE_JS_PATH . 'pages/forms/form-validation.js',
+            // Datetime Picker Plugin
+            FE_PLUGIN_PATH . 'momentjs/moment.js',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            FE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            FE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            FE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            FE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            FE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            FE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
+            FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_add            = '';
@@ -1785,7 +1807,7 @@ class Frontend extends Public_Controller {
             'IKM.init();',
             'IKMValidation.init();',
         ));
-        
+
         $ikm_list               = $this->Model_Service->get_all_ikmlist();
 
         $data['title']          = TITLE . 'Pengukuran IKM';
@@ -1797,7 +1819,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'service/ikm';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * IKM Add
 	 */
@@ -1806,10 +1828,48 @@ class Frontend extends Public_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
+        $ikm_email              = $this->input->post('ikm_email');
+        $ikm_email              = trim( smit_isset($ikm_email, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('ikm_email','Email Anda','required');
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        if( !empty($ikm_email) ){
+            // -------------------------------------------------
+            // Check Email
+            // -------------------------------------------------
+            $condition      = str_replace('%s%', $ikm_email, ' WHERE %email% LIKE "%%s%%"');
+            $ikmdata        = $this->Model_Service->get_all_ikmdata(0, 0, $condition);
+
+            if( !empty($ikmdata) ){
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Anda sudah melakukan pengukuran IKM. Terima Kasih!');
+                die(json_encode($data));
+            }
+
+            $ikm_data  = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'email'         => $ikm_email,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+
+            $ikmdata_save_id    = $this->Model_Service->save_data_ikmdata($ikm_data);
+        }
+
         $ikm_list               = $this->Model_Service->get_all_ikmlist();
-        
-        $i  = 1; 
+        $i  = 1;
         foreach($ikm_list AS $row){
             $ikm_id             = $this->input->post('ikm_id_'.$i.'');
             $ikm_id             = trim( smit_isset($ikm_id, "") );
@@ -1817,7 +1877,7 @@ class Frontend extends Public_Controller {
             $ikm_uniquecode     = trim( smit_isset($ikm_uniquecode, "") );
             $ikm_answer         = $this->input->post('answer_'.$i.'');
             $ikm_answer         = smit_isset($ikm_answer, 0);
-            
+
             // -------------------------------------------------
             // Check Form Validation
             // -------------------------------------------------
@@ -1825,14 +1885,14 @@ class Frontend extends Public_Controller {
             $this->form_validation->set_rules('answer_'.$i.'','Pertanyaan','required');
             $this->form_validation->set_message('required', '%s harus di isi');
             $this->form_validation->set_error_delimiters('', '');
-            
+
             if( $this->form_validation->run() == FALSE){
                 // Set JSON data
                 $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. '.validation_errors().'');
                 die(json_encode($data));
             }
             */
-            
+
             // -------------------------------------------------
             // Begin Transaction
             // -------------------------------------------------
@@ -1840,6 +1900,7 @@ class Frontend extends Public_Controller {
             $ikm_data  = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'ikm_id'        => $ikm_id,
+                'ikmdata_id'    => $ikmdata_save_id,
                 'answer'        => $ikm_answer,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
@@ -1856,7 +1917,7 @@ class Frontend extends Public_Controller {
                 $data = array('message' => 'error','data' => 'Pendaftaran Pengukuran IKM tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
-            
+
             if ($this->db->trans_status() === FALSE){
                 // Rollback Transaction
                 $this->db->trans_rollback();
@@ -1869,10 +1930,10 @@ class Frontend extends Public_Controller {
                 // Commit Transaction
                 $this->db->trans_commit();
             }
-            
+
             $i++;
         }
-        
+
         $trans_save_ikm    = TRUE;
         // -------------------------------------------------
         // Commit or Rollback Transaction
@@ -2172,7 +2233,7 @@ class Frontend extends Public_Controller {
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
@@ -2183,7 +2244,7 @@ class Frontend extends Public_Controller {
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }

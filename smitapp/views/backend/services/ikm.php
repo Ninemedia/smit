@@ -123,6 +123,46 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="panel panel-col-blue">
+                                <div class="panel-heading" role="tab" id="heading_data">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" href="#collapse_data" aria-expanded="true" aria-controls="collapse_data">
+                                            <i class="material-icons">format_align_justify</i> Data Pengukuran IKM
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse_data" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_data">
+                                    <div class="panel-body">
+                                        <div class="table-container table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="list_ikmdata" data-url="<?php echo base_url('backend/ikmdatalistdata'); ?>">
+                                                <thead>
+                            						<tr role="row" class="heading bg-blue">
+                            							<th class="width5">No</th>
+                            							<th class="width50 text-center">Email</th>
+                                                        <th class="width15 text-center">Tanggal</th>
+                            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                       						        </tr>
+                                                    <tr role="row" class="filter display-hide table-filter">
+                            							<td></td>
+                            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
+                                                        <td>
+                            								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
+                            								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
+                            							</td>
+                                                        <td style="text-align: center;">
+                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
+                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
+                            							</td>
+                            						</tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Data Will Be Placed Here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="list">
