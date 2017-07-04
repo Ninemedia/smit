@@ -3903,6 +3903,8 @@ class Backend extends User_Controller {
         if( !empty($dataset) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('ikm_status');
+            $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+            $penimbang      = number_format(1/$total_ikmlist, 3);
 
             $i = $offset + 1;
             foreach($dataset as $row){
@@ -3928,17 +3930,41 @@ class Backend extends User_Controller {
                 $score  .= '</tr>';
                 $score  .= '</table>';
 
-                /*
-                $score  = '<span>'.strtoupper($cfg_status[SANGAT_SETUJU]).' : '.$row['sangat_setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[SETUJU]).' : '.$row['setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[TIDAK_SETUJU]).' : '.$row['tidak_setuju'].'</span></br>';
-                $score  .= '<span>'.strtoupper($cfg_status[SANGAT_TIDAK_SETUJU]).' : '.$row['sangat_tidak_setuju'].'</span>';
-                */
+                $nilai          = $this->Model_Service->sum_all_answer($row['ikm_id']);
+                $total_unsur    = $this->Model_Service->count_all_answer($row['ikm_id']);
+                $nilai_rata     = $nilai / $total_unsur;
+                $rata_penimbang = $nilai_rata * $penimbang;
+                $ikm            = $nilai_rata * $rata_penimbang;
+                $ikm            = floor($ikm);
+
+                $mutu           = ' - ';
+                $kenerja        = ' - ';
+                if($ikm <= 1750){
+                    $mutu       = 'D';
+                    $kinerja    = 'Tidak Baik';
+                }elseif($ikm > 1750 && $ikm <= 2500){
+                    $mutu       = 'C';
+                    $kinerja    = 'Kurang Baik';
+                }elseif($ikm > 2500 && $ikm <= 3250){
+                    $mutu       = 'B';
+                    $kinerja    = 'Baik';
+                }elseif($ikm > 3250 && $ikm <= 400){
+                    $mutu       = 'A';
+                    $kinerja    = 'Sangat Baik';
+                }
+
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row['question'],
                     $score,
                     smit_center( $row['total'] ),
+                    smit_center( $nilai ),
+                    smit_center( number_format($nilai_rata, 1) ),
+                    smit_center( number_format($rata_penimbang, 1) ),
+                    smit_center( number_format($ikm) ),
+                    smit_center( $mutu ),
+                    smit_center( $kinerja ),
                     '',
                 );
                 $i++;

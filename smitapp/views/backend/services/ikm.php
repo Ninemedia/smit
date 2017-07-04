@@ -99,14 +99,26 @@
                                                 <thead>
                             						<tr role="row" class="heading bg-blue">
                             							<th class="width5">No</th>
-                            							<th class="width50 text-center">Pertanyaan</th>
+                            							<th class="width30 text-center">Pertanyaan</th>
                             							<th class="width20 text-center">Jawaban</th>
                                                         <th class="width5 text-center">Total</th>
-                            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                                                        <th class="width5 text-center">Nilai</th>
+                                                        <th class="width5 text-center">Rata Nilai</th>
+                                                        <th class="width5 text-center">Rata Penimbang</th>
+                                                        <th class="width5 text-center">IKM</th>
+                                                        <th class="width5 text-center">Mutu</th>
+                                                        <th class="width5 text-center">Kinerja</th>
+                            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                        						        </tr>
                                                     <tr role="row" class="filter display-hide table-filter">
                             							<td></td>
                             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td></td>
                                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_total" /></td>
                             							<td style="text-align: center;">

@@ -1874,6 +1874,7 @@ class Frontend extends Public_Controller {
 
         $ikm_list               = $this->Model_Service->get_all_ikmlist();
         $i  = 1;
+        $cfg_nilai              = config_item('ikm_nilai');
         foreach($ikm_list AS $row){
             $ikm_id             = $this->input->post('ikm_id_'.$i.'');
             $ikm_id             = trim( smit_isset($ikm_id, "") );
@@ -1896,6 +1897,7 @@ class Frontend extends Public_Controller {
                 die(json_encode($data));
             }
             */
+            $ikm_nilai  = $cfg_nilai[$ikm_answer];
 
             // -------------------------------------------------
             // Begin Transaction
@@ -1906,6 +1908,7 @@ class Frontend extends Public_Controller {
                 'ikm_id'        => $ikm_id,
                 'ikmdata_id'    => $ikmdata_save_id,
                 'answer'        => $ikm_answer,
+                'nilai'         => $ikm_nilai,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
