@@ -45,6 +45,15 @@
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <h4>Isian data Pengukuran IKM</h4>
+                            <div class="form-group">
+                                <label class="form-label">Email Anda <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">email</i></span>
+                                    <div class="form-line">
+                                        <input type="text" name="ikm_email" id="ikm_email" class="form-control" placeholder="Masukan Email Anda" required>
+                                    </div>
+                                </div>
+                            </div>
                             <?php if( !empty($ikm_list) ) : ?>
                             <?php
                                 $i  = 1; 
