@@ -155,12 +155,15 @@ var BannerZoomInout = function () {
 
 var IKM = function () {
     handleIKMCheck = function(){
-        <?php 
+        
+        /*
             $ikm_list               = $this->Model_Service->get_all_ikmlist();
             $i  = 1; 
             foreach($ikm_list AS $row){  
-        ?>
-        $("input.answer_<?php echo $i; ?>").click(function() {
+        */
+        
+        /*
+        $("input.answer_").click(function() {
             if ($(this).is(":checked")) {
                 var group = "input:radio[name='" + $(this).attr("name") + "']";
                 $(group).prop("checked", false);
@@ -169,7 +172,8 @@ var IKM = function () {
                 $(this).prop("checked", false);
             }
         });
-        <?php $i++; } ?>
+        */
+        //$i++; }
     }
     
     return {
