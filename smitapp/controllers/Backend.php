@@ -3430,8 +3430,8 @@ class Backend extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'infografis/ikm';
 
+        // Chart Yearly
         $chart = array();
-
         $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
         $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
         $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
@@ -3484,8 +3484,53 @@ class Backend extends User_Controller {
 				);
             }
         }
-
         $data['chart']			= json_encode( $chart );
+
+        // Chart Per question
+        $chart_question     = array();
+        if ( $stats = $this->Model_Service->stats_question() ) {
+            // Pivoting
+			$pivot = array();
+            echo '<pre>';
+            print_r($stats);
+            die();
+            
+			foreach( $stats as $row ) {
+
+
+                if ( $row->answer == 1 )      { $type = 'sangat_setuju'; }
+                elseif ( $row->answer == 2 )  { $type = 'setuju'; }
+                elseif ( $row->answer == 3 )  { $type = 'tidak_setuju'; }
+                elseif ( $row->answer == 4 )  { $type = 'sangat_tidak_setuju'; }
+
+				if ( ! isset( $pivot[ $row->period ] ) )
+					$pivot[ $row->period ] = array();
+
+				if ( ! isset( $pivot[ $row->period ][ 'total' ] ) )
+					$pivot[ $row->period ][ 'total' ] = 0;
+
+				//$pivot[ $row->period ][ 'period_name' ] = $row->period_name;
+				$pivot[ $row->period ][ 'total' ] += $row->total;
+				$pivot[ $row->period ][ $type ] = $row->total;
+			}
+
+            $chart['xkey']      = 'period';
+            $chart['ykeys']     = array( 'sangat_setuju', 'setuju', 'tidak_setuju', 'sangat_tidak_setuju');
+            $chart['labels']    = array( 'Sangat Setuju', 'Setuju', 'Tidak Setuju', 'Sangat Tidak Setuju');
+
+            foreach( $pivot as $period => $row ) {
+
+                // chart
+				$chart['data'][] = array(
+                    'period'                => $period,
+                    'sangat_setuju'         => smit_isset( $row[ 'sangat_setuju' ], 0 ),
+                    'setuju'                => smit_isset( $row[ 'setuju' ], 0 ),
+                    'tidak_setuju'          => smit_isset( $row[ 'tidak_setuju' ], 0 ),
+                    'sangat_tidak_setuju'   => smit_isset( $row[ 'sangat_tidak_setuju' ], 0 ),
+                    'total'                 => $row['total']
+				);
+            }
+        }
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}

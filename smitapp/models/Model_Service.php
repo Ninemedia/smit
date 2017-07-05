@@ -474,6 +474,30 @@ class Model_Service extends SMIT_Model{
 		return $qry->result();
 	}
 
+    /**
+	 * Stats question
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_question() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y") AS period,
+            ikm_id,
+			COUNT(ikm_id) AS total
+		FROM '.$this->ikm.'
+		GROUP BY 1,2
+		ORDER BY 1 DESC';
+
+		$qry = $this->db->query( $sql );
+
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
+
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Guide.php */
