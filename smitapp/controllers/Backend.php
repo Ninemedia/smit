@@ -3561,6 +3561,30 @@ class Backend extends User_Controller {
         $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
         $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
 
+        $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+        $penimbang      = number_format(1/$total_ikmlist, 3);
+        $penimbang_full = ($penimbang * 100) * 100;
+
+        $ikm            = smit_get_total_ikm();
+        $ikm            = $ikm/$total_ikmlist;
+        $ikm            = floor($ikm);
+
+        $mutu           = ' - ';
+        $kenerja        = ' - ';
+        if($ikm <= floor($penimbang_full*45/100)){
+            $mutu       = 'D';
+            $kinerja    = 'Tidak Baik';
+        }elseif($ikm > floor($penimbang_full*45/100) && $ikm <= floor($penimbang_full*65/100)){
+            $mutu       = 'C';
+            $kinerja    = 'Kurang Baik';
+        }elseif($ikm > floor($penimbang_full*65/100) && $ikm <= floor($penimbang_full*85/100)){
+            $mutu       = 'B';
+            $kinerja    = 'Baik';
+        }elseif($ikm > floor($penimbang_full*85/100) && $ikm <= $penimbang_full){
+            $mutu       = 'A';
+            $kinerja    = 'Sangat Baik';
+        }
+
         $data['title']          = TITLE . 'Pengukuran IKM';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
@@ -3570,6 +3594,10 @@ class Backend extends User_Controller {
         $data['setuju']         = $setuju;
         $data['tidak_setuju']   = $tidak_setuju;
         $data['sangat_tidak_setuju']    = $sangat_tidak_setuju;
+        $data['ikm']            = $ikm;
+        $data['mutu']           = $mutu;
+        $data['kinerja']        = $kinerja;
+
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -3932,27 +3960,27 @@ class Backend extends User_Controller {
 
                 $nilai          = $this->Model_Service->sum_all_answer($row['ikm_id']);
                 $total_unsur    = $this->Model_Service->count_all_answer($row['ikm_id']);
-                $nilai_rata     = $nilai / $total_unsur;
-                $rata_penimbang = $nilai_rata * $penimbang;
+                $nilai_rata     = number_format($nilai / $total_unsur, 1);
+                $rata_penimbang = number_format($nilai_rata * $penimbang, 1);
                 $ikm            = $nilai_rata * $rata_penimbang;
                 $ikm            = floor($ikm);
 
                 $mutu           = ' - ';
                 $kenerja        = ' - ';
-                if($ikm <= 1750){
+                $penimbang_full = ($penimbang * 100) * 100;
+                if($ikm <= floor($penimbang_full*45/100)){
                     $mutu       = 'D';
                     $kinerja    = 'Tidak Baik';
-                }elseif($ikm > 1750 && $ikm <= 2500){
+                }elseif($ikm > floor($penimbang_full*45/100) && $ikm <= floor($penimbang_full*65/100)){
                     $mutu       = 'C';
                     $kinerja    = 'Kurang Baik';
-                }elseif($ikm > 2500 && $ikm <= 3250){
+                }elseif($ikm > floor($penimbang_full*65/100) && $ikm <= floor($penimbang_full*85/100)){
                     $mutu       = 'B';
                     $kinerja    = 'Baik';
-                }elseif($ikm > 3250 && $ikm <= 400){
+                }elseif($ikm > floor($penimbang_full*85/100) && $ikm <= $penimbang_full){
                     $mutu       = 'A';
                     $kinerja    = 'Sangat Baik';
                 }
-
 
                 $records["aaData"][] = array(
                     smit_center($i),

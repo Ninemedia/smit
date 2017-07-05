@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /*
- * Global error variable 
+ * Global error variable
  */
 $error_msg = array();
 
@@ -13,7 +13,7 @@ $error_msg = array();
  */
 if ( !function_exists('absint') )
 {
-    function absint( $number ) 
+    function absint( $number )
     {
         return abs( intval( $number ) );
     }
@@ -27,14 +27,14 @@ if ( !function_exists('absint') )
  */
 if ( !function_exists('maybe_serialize') )
 {
-    function maybe_serialize( $data ) 
+    function maybe_serialize( $data )
     {
         if ( is_array( $data ) || is_object( $data ) )
             return serialize( $data );
-    
+
         if ( is_serialized( $data ) )
             return serialize( $data );
-    
+
         return $data;
     }
 }
@@ -48,7 +48,7 @@ if ( !function_exists('maybe_serialize') )
  */
 if ( !function_exists('maybe_unserialize') )
 {
-    function maybe_unserialize( $original ) 
+    function maybe_unserialize( $original )
     {
         if ( is_serialized( $original ) ) // don't attempt to unserialize data that wasn't serialized going in
             return @unserialize( $original );
@@ -68,7 +68,7 @@ if ( !function_exists('maybe_unserialize') )
  */
 if ( !function_exists('is_serialized') )
 {
-    function is_serialized( $data ) 
+    function is_serialized( $data )
     {
         // if it isn't a string, it isn't serialized
         if ( ! is_string( $data ) )
@@ -131,11 +131,11 @@ if ( !function_exists('get_date') )
     function get_date($date='')
     {
         if(!$date) return false;
-        
+
         $day    = date('d', strtotime($date));
         $month  = date('M', strtotime($date));
         $year   = date('y', strtotime($date));
-        
+
         return '<span class="h2">' . $day . '</span><span>' . $month . ' ' . $year . '</span>';
     }
 }
@@ -150,10 +150,10 @@ if ( !function_exists('get_time') )
     function get_time($date='')
     {
         if(!$date) return false;
-        
+
         $time   = date('h:i', strtotime($date));
         $format = date('A', strtotime($date));
-        
+
         return $time . ' ' . $format;
     }
 }
@@ -182,21 +182,21 @@ if ( !function_exists('add_option') )
     function add_option($option, $value = '')
     {
         $CI =& get_instance();
-        
+
         $option = trim($option);
         if ( empty($option) ) return false;
-        
+
         $value  = maybe_serialize( $value );
-    
+
         $data   = array(
             'name'  => $option,
             'value' => $value,
         );
-        
+
         $result = $CI->Model_Option->add_option($data);
-    
+
         if ( $result ) return true;
-    
+
         return false;
     }
 }
@@ -227,10 +227,10 @@ if ( !function_exists('get_option') )
         $CI->db->select('value');
         $CI->db->where('name', $option);
         $CI->db->limit(1);
-        
+
         $query  = $CI->db->get('smit_options');
         $row    = $query->row();
-        
+
         if ( is_object( $row ) ) {
             $value[$option] = $row->value;
         }
@@ -259,34 +259,34 @@ if ( !function_exists('update_option') )
     function update_option( $option, $newvalue )
     {
         $CI =& get_instance();
-    
+
         $option = trim($option);
         if ( empty($option) ) return false;
-    
+
         if ( is_object($newvalue) )
             $newvalue = clone $newvalue;
-    
+
         $newvalue   = sanitize_option( $option, $newvalue );
         $oldvalue   = get_option( $option );
 
         // If the new and old values are the same, no need to update.
         if ( $newvalue === $oldvalue )
             return false;
-    
+
         if ( false == $oldvalue )
             return add_option( $option, $newvalue );
-    
+
         $_newvalue  = $newvalue;
         $newvalue   = maybe_serialize( $newvalue );
-    
+
         $data       = array('value' => $newvalue);
         $CI->db->where('name', $option);
-    
+
         $result     = $CI->db->update('smit_options', $data);
-    
+
         if ( $result )
             return true;
-    
+
         return false;
     }
 }
@@ -294,11 +294,11 @@ if ( !function_exists('update_option') )
 /**
  * Retrieve last total rows found in database
  * Useful when we use limit database function
- * 
+ *
  * Ref: http://stackoverflow.com/questions/2439829/how-to-count-all-rows-when-using-select-with-limit-in-mysql-query
- * 
+ *
  * Please be careful when calls this function, make sure that the query executed before is the right one.
- * 
+ *
  * @author  Iqbal
  * @return  Integer
  */
@@ -306,13 +306,13 @@ if ( !function_exists('smit_get_last_found_rows') )
 {
     function smit_get_last_found_rows(){
         $CI =& get_instance();
-        
+
         $total_row  = 0;
         $query      = $CI->db->query('SELECT FOUND_ROWS() AS total_rows');
-                    
+
         if($query && $query->num_rows())
             $total_row = $query->row()->total_rows;
-        
+
         return $total_row;
     }
 }
@@ -340,7 +340,7 @@ if ( !function_exists('smit_generate_rand_string') )
         }else{
             $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         }
-        
+
         $randomString   = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
@@ -360,9 +360,9 @@ if ( !function_exists('smit_generate_no_announcement') )
 {
     function smit_generate_no_announcement($length = 0, $type='') {
         $CI =& get_instance();
-        
+
         $length += 1;
-        
+
         if( $type == 'num' ){
             $characters = '0123456789';
         }elseif( $type == 'charup' ){
@@ -376,28 +376,28 @@ if ( !function_exists('smit_generate_no_announcement') )
         }else{
             $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         }
-        
+
         $month          = date('m');
         $years          = date('Y');
-        
+
         $sql            = 'SELECT value FROM smit_options WHERE name LIKE "unique_number" FOR UPDATE';
         $qry            = $CI->db->query($sql);
         $row            = $qry->row();
-        
+
         $number         = intval($row->value);
         $unique_number  = str_pad($number + 1, 3, '0', STR_PAD_LEFT);
         $randomString   = '';
-        
+
         for ($i = 1; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)] .'/AN/'. $unique_number .'/INATEK/' . $month .'/'. $years;
         }
-        
+
         if( $unique_number == 999 ){
             $sql_update = 'UPDATE smit_options SET value = 0 WHERE name LIKE "unique_number"';
         }else{
             $sql_update = 'UPDATE smit_options SET value = value + 1 WHERE name LIKE "unique_number"';
         }
-        
+
         $CI->db->query($sql_update);
         return $randomString;
     }
@@ -414,9 +414,9 @@ if ( !function_exists('smit_generate_no_news') )
 {
     function smit_generate_no_news($length = 0, $type='') {
         $CI =& get_instance();
-        
+
         $length += 1;
-        
+
         if( $type == 'num' ){
             $characters = '0123456789';
         }elseif( $type == 'charup' ){
@@ -430,28 +430,28 @@ if ( !function_exists('smit_generate_no_news') )
         }else{
             $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         }
-        
+
         $month          = date('m');
         $years          = date('Y');
-        
+
         $sql            = 'SELECT value FROM smit_options WHERE name LIKE "unique_number_news" FOR UPDATE';
         $qry            = $CI->db->query($sql);
         $row            = $qry->row();
-        
+
         $number         = intval($row->value);
         $unique_number  = str_pad($number + 1, 3, '0', STR_PAD_LEFT);
         $randomString   = '';
-        
+
         for ($i = 1; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)] .'/NEWS/'. $unique_number .'/INATEK/' . $month .'/'. $years;
         }
-        
+
         if( $unique_number == 999 ){
             $sql_update = 'UPDATE smit_options SET value = 0 WHERE name LIKE "unique_number_news"';
         }else{
             $sql_update = 'UPDATE smit_options SET value = value + 1 WHERE name LIKE "unique_number_news"';
         }
-        
+
         $CI->db->query($sql_update);
         return $randomString;
     }
@@ -466,20 +466,20 @@ if ( !function_exists('smit_generate_unique') )
 {
     function smit_generate_unique(){
         $CI =& get_instance();
-        
+
         $sql            = 'SELECT value FROM smit_options WHERE name LIKE "unique_number" FOR UPDATE';
         $qry            = $CI->db->query($sql);
         $row            = $qry->row();
-        
-        $number         = intval($row->value);        
+
+        $number         = intval($row->value);
         $unique_number  = str_pad($number + 1, 3, '0', STR_PAD_LEFT);
-        
+
         if( $unique_number == 999 ){
             $sql_update = 'UPDATE smit_options SET value = 0 WHERE name LIKE "unique_number"';
         }else{
             $sql_update = 'UPDATE smit_options SET value = value + 1 WHERE name LIKE "unique_number"';
         }
-        
+
         $CI->db->query($sql_update);
         return $unique_number;
     }
@@ -487,7 +487,7 @@ if ( !function_exists('smit_generate_unique') )
 
 /**
  * Write any event to log table.
- * 
+ *
  * @author Iqbal
  * @param  string  $log_name        Log name
  * @param  string  $log_status      Log status
@@ -503,17 +503,17 @@ if ( !function_exists('smit_log') )
     	{
     		return false;
     	}
-    	
+
     	$time  = date('Y-m-d H:i:s');
     	$ci    =& get_instance();
-        
+
         $param = array($log_name, $time, $log_status, $log_desc);
-        
+
     	$ci->db->query(
     		"INSERT INTO smit_log(log_name,log_time,log_status,log_desc)" .
     		"VALUES(?, ?, ?, ?)", $param
     	);
-    	
+
     	return true;
     }
 }
@@ -533,41 +533,41 @@ if ( !function_exists('sanitize_option') )
     function sanitize_option($option='', $value='')
     {
     	$option = trim($option);
-    	
+
     	if (empty($option))
     	{
     		return '';
     	}
-    	
+
     	if (is_string($value))
     	{
     		$value = trim($value);
     	}
-    	
+
     	switch ($option)
     	{
     		case 'admin_email':
     			$value = sanitize_email($value);
-    			
+
     			if (!is_email($value))
     			{
     				// Resets option to stored value in the case of failed sanitization
     				$value = get_option($option);
     			}
-    			
+
     			break;
-    			
+
     		case 'new_admin_email':
     			$value = sanitize_email($value);
-    			
+
     			if (!is_email($value))
     			{
     				// Resets option to stored value in the case of failed sanitization
     				$value = get_option($option);
     			}
-    			
+
     			break;
-    			
+
     		case 'thumbnail_size_w':
     		case 'thumbnail_size_h':
     		case 'medium_size_w':
@@ -579,7 +579,7 @@ if ( !function_exists('sanitize_option') )
     		case 'start_of_week':
     			$value = absint($value);
     			break;
-    
+
     		case 'date_format':
     		case 'time_format':
     		case 'mailserver_url':
@@ -591,28 +591,28 @@ if ( !function_exists('sanitize_option') )
     			// calls stripslashes then addslashes
     			$value = stripslashes($value);
     			break;
-    
+
     		case 'gmt_offset':
     			// strips slashes
     			$value = preg_replace('/[^0-9:.-]/', '', $value);
     			break;
-    
+
     		case 'timezone_string':
     			$allowed_zones = timezone_identifiers_list();
-    			
+
     			if (! in_array($value, $allowed_zones) && !empty($value))
     			{
     				// Resets option to stored value in the case of failed sanitization
     				$value = get_option( $option );
     			}
-    			
+
     			break;
-    
+
     		default :
     			$value = $value;
     			break;
     	}
-    
+
     	return $value;
     }
 }
@@ -632,16 +632,16 @@ if ( !function_exists('sanitize_email') )
     	{
     		return '';
     	}
-    
+
     	// Test for an @ character after the first position
     	if (strpos($email, '@', 1) === false)
     	{
     		return '';
     	}
-    
+
     	// Split out the local and domain parts
     	list($local, $domain) = explode('@', $email, 2);
-    
+
     	// LOCAL PART
     	// Test for invalid characters
     	$local = preg_replace('/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local);
@@ -649,7 +649,7 @@ if ( !function_exists('sanitize_email') )
     	{
     		return '';
     	}
-    
+
     	// DOMAIN PART
     	// Test for sequences of periods
     	$domain = preg_replace('/\.{2,}/', '', $domain);
@@ -657,54 +657,54 @@ if ( !function_exists('sanitize_email') )
     	{
     		return '';
     	}
-    
+
     	// Test for leading and trailing periods and whitespace
     	$domain = trim($domain, " \t\n\r\0\x0B.");
     	if ('' === $domain)
     	{
     		return '';
     	}
-    
+
     	// Split the domain into subs
     	$subs = explode('.', $domain);
-    
+
     	// Assume the domain will have at least two subs
     	if (2 > count($subs))
     	{
     		return '';
     	}
-    
+
     	// Create an array that will contain valid subs
     	$new_subs = array();
-    
+
     	// Loop through each sub
     	foreach ($subs as $sub)
     	{
     		// Test for leading and trailing hyphens
     		$sub = trim($sub, " \t\n\r\0\x0B-");
-    		
+
     		// Test for invalid characters
     		$sub = preg_replace('/[^a-z0-9-]+/i', '', $sub);
-    
+
     		// If there's anything left, add it to the valid subs
     		if ('' !== $sub)
     		{
     			$new_subs[] = $sub;
     		}
     	}
-    	
+
     	// If there aren't 2 or more valid subs
     	if (2 > count($new_subs))
     	{
     		return '';
     	}
-    	
+
     	// Join valid subs into the new domain
     	$domain = join('.', $new_subs);
-    	
+
     	// Put the email back together
     	$email = $local . '@' . $domain;
-    	
+
     	// Congratulations your email made it!
     	return $email;
     }
@@ -724,35 +724,35 @@ if ( !function_exists('sanitize_email') )
  */
 if ( !function_exists('sanitize_user') )
 {
-    function sanitize_user($username='', $strict=false) 
+    function sanitize_user($username='', $strict=false)
     {
     	$username = trim($username);
-    	
+
     	if (empty($username))
     	{
     		return '';
     	}
-    	
+
     	$username = strip_tags($username);
     	$username = remove_accents($username);
-    	
+
     	// Kill octets
     	$username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
-    	
+
     	// Kill entities
     	$username = preg_replace('/&.+?;/', '', $username);
-    
+
     	// If strict, reduce to ASCII for max portability.
     	if ($strict)
     	{
     		$username = preg_replace('|[^a-z0-9 _\-@]|i', '', $username);
     	}
-    	
+
     	$username = trim($username);
-    	
+
     	// Consolidate contiguous whitespace
     	$username = preg_replace('|\s+|', ' ', $username);
-    
+
     	return $username;
     }
 }
@@ -772,7 +772,7 @@ if ( !function_exists('remove_accents') )
     	if ( !preg_match('/[\x80-\xff]/', $string) ) {
     		return $string;
     	}
-    	
+
     	if ( seems_utf8($string) ) {
     		$chars = array(
     			// Decompositions for Latin-1 Supplement
@@ -948,7 +948,7 @@ if ( !function_exists('remove_accents') )
     			// grave accent
     			chr(199).chr(155) => 'U', chr(199).chr(156) => 'u',
     			);
-    
+
     		$string = strtr($string, $chars);
     	}
     	else
@@ -964,15 +964,15 @@ if ( !function_exists('remove_accents') )
     			.chr(236).chr(237).chr(238).chr(239).chr(241).chr(242).chr(243)
     			.chr(244).chr(245).chr(246).chr(248).chr(249).chr(250).chr(251)
     			.chr(252).chr(253).chr(255);
-    
+
     		$chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
-    
+
     		$string = strtr($string, $chars['in'], $chars['out']);
     		$double_chars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
     		$double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
     		$string = str_replace($double_chars['in'], $double_chars['out'], $string);
     	}
-    
+
     	return $string;
     }
 }
@@ -989,17 +989,17 @@ if ( !function_exists('get_full_current_url') )
             $_SERVER['HTTPS'] = 'on';
             $_SERVER['SERVER_PORT'] = '443';
         }
-    	 
+
     	$pageURL = 'http';
      	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-     	
+
      	$pageURL .= "://";
      	if ($_SERVER["SERVER_PORT"] != "80") {
       		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
      	} else {
       		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
      	}
-     	
+
      	return $pageURL;
     }
 }
@@ -1016,7 +1016,7 @@ if ( !function_exists('is_ssl') ){
             $_SERVER['HTTPS'] = 'on';
             $_SERVER['SERVER_PORT'] = '443';
         }
-        
+
         if ( isset($_SERVER['HTTPS']) ) {
             if ( 'on' == strtolower($_SERVER['HTTPS']) )
                 return true;
@@ -1068,17 +1068,17 @@ if ( !function_exists('auth_redirect') )
     	if ( $user_id = smit_validate_auth_cookie('', 'logged_in') ) {
     		return TRUE;  // The cookie is good so we're done
     	}
-        
+
         // clear cookie to prevent redirection loops
         smit_clear_auth_cookie();
-        
+
         if( $ajax_request ) return false;
-    
+
     	$login_url = base_url('login');
-    
+
     	redirect($login_url);
     	exit();
-    
+
     }
 }
 
@@ -1090,17 +1090,17 @@ if ( !function_exists('auth_redirect') )
  * @param string $mime_type (Optional)  File mime type
  * @return none
  */
- 
+
 if ( !function_exists('output_file') )
-{ 
+{
     function output_file($file, $name, $mime_type='')
     {
         //Check the file premission
         if(!is_readable($file)) die('File not found or inaccessible!');
-        
+
         $size       = filesize($file);
         $name       = rawurldecode($name);
-        
+
         /* Figure out the MIME type | Check in array */
         $known_mime_types=array(
             "pdf"   => "application/pdf",
@@ -1118,7 +1118,7 @@ if ( !function_exists('output_file') )
             "jpg"   => "image/jpg",
             "php"   => "text/plain"
         );
- 
+
         if($mime_type==''){
             $file_extension     = strtolower(substr(strrchr($file,"."),1));
             if(array_key_exists($file_extension, $known_mime_types)){
@@ -1127,39 +1127,39 @@ if ( !function_exists('output_file') )
                 $mime_type      = "application/force-download";
             };
         };
- 
+
         //turn off output buffering to decrease cpu usage
-        @ob_end_clean(); 
-        
+        @ob_end_clean();
+
         // required for IE, otherwise Content-Disposition may be ignored
         if(ini_get('zlib.output_compression')) ini_set('zlib.output_compression', 'Off');
-        
+
         header('Content-Type: ' . $mime_type);
         header('Content-Disposition: attachment; filename="'.$name.'"');
         header("Content-Transfer-Encoding: binary");
         header('Accept-Ranges: bytes');
-        
-        /* The three lines below basically make the 
+
+        /* The three lines below basically make the
         download non-cacheable */
         header("Cache-control: private");
         header('Pragma: private');
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
- 
+
         // multipart-download and download resuming support
         if(isset($_SERVER['HTTP_RANGE']))
         {
             list($a, $range)            = explode("=",$_SERVER['HTTP_RANGE'],2);
             list($range)                = explode(",",$range,2);
             list($range, $range_end)    = explode("-", $range);
-            
+
             $range = intval($range);
-            
+
             if(!$range_end) {
                 $range_end  = $size-1;
             } else {
                 $range_end  = intval($range_end);
             }
-            
+
             /*
             ------------------------------------------------------------------------------------------------------
             //This application is developed by www.webinfopedia.com
@@ -1174,7 +1174,7 @@ if ( !function_exists('output_file') )
             $new_length     = $size;
             header("Content-Length: ".$size);
         }
- 
+
         /* Will output the file itself */
         $chunksize  = 1*(1024*1024); //you may want to change this
         $bytes_send = 0;
@@ -1182,7 +1182,7 @@ if ( !function_exists('output_file') )
         {
             if(isset($_SERVER['HTTP_RANGE']))
                 fseek($file, $range);
-        
+
                 while(!feof($file) && (!connection_aborted()) && ($bytes_send<$new_length))
                 {
                     $buffer = fread($file, $chunksize);
@@ -1195,7 +1195,7 @@ if ( !function_exists('output_file') )
             //If no permissiion
             die('Error - can not open file.');
         }
-        
+
         //die
         die();
     }
@@ -1219,7 +1219,7 @@ if ( !function_exists('is_development') )
  */
 if ( !function_exists('smit_center') )
 {
-    function smit_center($str) 
+    function smit_center($str)
     {
         return '<center>' . $str . '</center>';
     }
@@ -1231,7 +1231,7 @@ if ( !function_exists('smit_center') )
  */
 if ( !function_exists('smit_right') )
 {
-    function smit_right($str) 
+    function smit_right($str)
     {
         return '<span class="pull-right">' . $str . '</span>';
     }
@@ -1243,7 +1243,7 @@ if ( !function_exists('smit_right') )
  */
 if ( !function_exists('smit_strong') )
 {
-    function smit_strong($str) 
+    function smit_strong($str)
     {
         return '<strong>' . $str . '</strong>';
     }
@@ -1255,7 +1255,7 @@ if ( !function_exists('smit_strong') )
  */
 if ( !function_exists('smit_italic') )
 {
-    function smit_italic($str) 
+    function smit_italic($str)
     {
         return '<i>' . $str . '</i>';
     }
@@ -1267,7 +1267,7 @@ if ( !function_exists('smit_italic') )
  */
 if ( !function_exists('smit_number') )
 {
-    function smit_number($number, $decimals = 2, $dec_point = "." , $thousands_sep = ",") 
+    function smit_number($number, $decimals = 2, $dec_point = "." , $thousands_sep = ",")
     {
         return number_format($number, $decimals, $dec_point, $thousands_sep);
     }
@@ -1279,10 +1279,10 @@ if ( !function_exists('smit_number') )
  */
 if ( !function_exists('smit_accounting') )
 {
-    function smit_accounting($amount, $currency = '', $justified=false) 
+    function smit_accounting($amount, $currency = '', $justified=false)
     {
-    	if ($justified) 
-            return '<div style="text-align: left;"><div style="display: inline-block; float: right; margin-left: 1px;">' . 
+    	if ($justified)
+            return '<div style="text-align: left;"><div style="display: inline-block; float: right; margin-left: 1px;">' .
                 smit_number($amount,0,',','.') . '</div>' . $currency . '</div>';
         return trim( $currency . ' '. smit_number($amount,0,',','.') );
     }
@@ -1309,17 +1309,17 @@ if ( !function_exists('smit_flush') )
  * @param none.
  * @return ip address
  */
-if ( !function_exists('smit_get_current_ip') ) 
+if ( !function_exists('smit_get_current_ip') )
 {
     function smit_get_current_ip()
     {
         $unique_ip = trim( getenv( 'HTTP_X_FORWARDED_FOR' ) );
-    
+
         if ( ! preg_match("/^((1?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(1?\d{1,2}|2[0-4]\d|25[0-5])$/", $unique_ip ) ) {
         	if ( ! empty( $_SERVER['REMOTE_ADDR'] ) )
             	$unique_ip = $_SERVER['REMOTE_ADDR'];
         }
-    
+
         return $unique_ip;
     }
 }
@@ -1328,14 +1328,14 @@ if ( !function_exists('smit_get_current_ip') )
  * Validation for input captcha
  * @author  Iqbal
  */
-if ( !function_exists('smit_validate_captcha') ) 
+if ( !function_exists('smit_validate_captcha') )
 {
     function smit_validate_captcha( $captcha_response = '' ) {
     	$CI =& get_instance();
-    	
+
     	if ( empty( $captcha_response ) )
     		$captcha_response = $CI->input->post( 'g-recaptcha-response' );
-    	
+
     	$CI->load->helper( 'curl_helper' );
     	return smit_curl_post( config_item( 'captcha_verify_url' ), array(
     		'secret' => config_item( 'captcha_secret_key' ),
@@ -1353,17 +1353,17 @@ if ( !function_exists('smit_assume') )
 {
     function smit_assume( $user_id ) {
     	$CI =& get_instance();
-    	
+
     	if ( ! $current_user = smit_get_current_user() )
     		return;
-    	
+
     	if ( ! $user = smit_get_userdata_by_id( $user_id ) )
     		return;
-    	
+
     	$CI->session->set_userdata( 'assuming', $current_user->id );
-    	
+
     	smit_set_auth_cookie( $user->id );
-    	
+
     	redirect( 'dashboard' );
     }
 }
@@ -1372,20 +1372,20 @@ if ( !function_exists('smit_assume') )
  * Revert from assuming
  * @author  Iqbal
  */
-if ( !function_exists('smit_revert') ) 
+if ( !function_exists('smit_revert') )
 {
     function smit_revert() {
     	$CI =& get_instance();
-    	
+
     	smit_clear_auth_cookie();
-    	
+
     	if ( $id = smit_is_assuming() ) {
     		$CI->session->unset_userdata( 'assuming' );
-    	  
+
     		smit_set_auth_cookie( $id, false, '' );
     		redirect( 'user/lists' );
     	}
-    	
+
     	redirect();
     }
 }
@@ -1407,7 +1407,7 @@ if ( !function_exists('smit_is_assuming') )
  * @author  Iqbal
  * @return  Alert element
  */
-if ( !function_exists('smit_alert') ) 
+if ( !function_exists('smit_alert') )
 {
 	function smit_alert($str)
     {
@@ -1418,7 +1418,7 @@ if ( !function_exists('smit_alert') )
 /**
  * Set debug mode
  */
-if ( !function_exists('smit_debug') ) 
+if ( !function_exists('smit_debug') )
 {
     function smit_debug( $debug = true ) {
     	$CI =& get_instance();
@@ -1429,7 +1429,7 @@ if ( !function_exists('smit_debug') )
 /**
  * Check debug mode
  */
-if ( !function_exists('smit_is_debug') ) 
+if ( !function_exists('smit_is_debug') )
 {
     function smit_is_debug() {
     	$CI =& get_instance();
@@ -1441,13 +1441,13 @@ if ( !function_exists('smit_notification_template') )
 {
     /**
      * Get notification template
-     * 
+     *
      * @since 1.0.0
      * @access public
-     * 
+     *
      * @param string $message
-     * @return array 
-     * 
+     * @return array
+     *
      * @author Iqbal
      */
     function smit_notification_template( $message='' ) {
@@ -1532,13 +1532,13 @@ if ( !function_exists('smit_notification_template') )
                 </tr>
             </tbody>
         </table>';
-        
+
         $template           = $template_open . $template_body . $template_footer . $template_close;
         return $template;
     }
 }
 
-if ( !function_exists('smit_cities') ) 
+if ( !function_exists('smit_cities') )
 {
     /**
      * Get city data
@@ -1548,12 +1548,12 @@ if ( !function_exists('smit_cities') )
      */
 	function smit_cities($id='') {
         $CI =& get_instance();
-        $cities = $CI->Model_Address->get_cities($id); 
+        $cities = $CI->Model_Address->get_cities($id);
 		return $cities;
 	}
 }
 
-if ( !function_exists('smit_cities_by_provinces') ) 
+if ( !function_exists('smit_cities_by_provinces') )
 {
     /**
      * Get city by province data
@@ -1563,14 +1563,14 @@ if ( !function_exists('smit_cities_by_provinces') )
      */
 	function smit_cities_by_provinces($province_id) {
         if ( !$province_id ) return false;
-        
+
         $CI =& get_instance();
-        $cities = $CI->Model_Address->get_cities_by_province($province_id); 
+        $cities = $CI->Model_Address->get_cities_by_province($province_id);
 		return $cities;
 	}
 }
 
-if ( !function_exists('smit_provinces') ) 
+if ( !function_exists('smit_provinces') )
 {
     /**
      * Get province data
@@ -1580,13 +1580,13 @@ if ( !function_exists('smit_provinces') )
      */
 	function smit_provinces($id='') {
         $CI =& get_instance();
-        $provinces = $CI->Model_Address->get_provinces($id); 
+        $provinces = $CI->Model_Address->get_provinces($id);
 		return $provinces;
 	}
 }
 
 
-if ( !function_exists('smit_workunit_type') ) 
+if ( !function_exists('smit_workunit_type') )
 {
     /**
      * Get workunit type
@@ -1596,12 +1596,12 @@ if ( !function_exists('smit_workunit_type') )
      */
 	function smit_workunit_type($id='') {
 		$CI =& get_instance();
-        $workunit   = $CI->Model_User->get_workunit($id); 
+        $workunit   = $CI->Model_User->get_workunit($id);
 		return $workunit;
 	}
 }
 
-if ( !function_exists('smit_workunit_type_by_id') ) 
+if ( !function_exists('smit_workunit_type_by_id') )
 {
     /**
      * Get workunit type by ID
@@ -1611,12 +1611,12 @@ if ( !function_exists('smit_workunit_type_by_id') )
      */
 	function smit_workunit_type_by_id($id='') {
 		$CI =& get_instance();
-        $workunit   = $CI->Model_User->get_workunit_by_id($id); 
+        $workunit   = $CI->Model_User->get_workunit_by_id($id);
 		return $workunit;
 	}
 }
 
-if ( !function_exists('smit_latest_praincubation') ) 
+if ( !function_exists('smit_latest_praincubation') )
 {
     /**
      * Get latest pra incubation
@@ -1629,14 +1629,14 @@ if ( !function_exists('smit_latest_praincubation') )
         $condition  = ' WHERE %jury% = 1';
         $condition .= !empty($step) || $step > 0 ? ' AND %step% = '.$step.'' : '';
         $order_by   = ' %id% DESC';
-        $ls         = $CI->Model_Praincubation->get_all_praincubation(1,0,$condition,$order_by); 
+        $ls         = $CI->Model_Praincubation->get_all_praincubation(1,0,$condition,$order_by);
 
         if( !$ls || empty($ls) ) return false;
 		return $ls[0];
 	}
 }
 
-if ( !function_exists('smit_latest_incubation') ) 
+if ( !function_exists('smit_latest_incubation') )
 {
     /**
      * Get latest incubation
@@ -1649,14 +1649,14 @@ if ( !function_exists('smit_latest_incubation') )
         $condition  = ' WHERE %jury% = 1';
         $condition .= !empty($step) || $step > 0 ? ' AND %step% = '.$step.'' : '';
         $order_by   = ' %id% DESC';
-        $ls         = $CI->Model_Incubation->get_all_incubation(1,0,$condition,$order_by); 
+        $ls         = $CI->Model_Incubation->get_all_incubation(1,0,$condition,$order_by);
 
         if( !$ls || empty($ls) ) return false;
 		return $ls[0];
 	}
 }
 
-if ( !function_exists('smit_latest_praincubation_setting') ) 
+if ( !function_exists('smit_latest_praincubation_setting') )
 {
     /**
      * Get latest pra-incubation setting
@@ -1667,14 +1667,14 @@ if ( !function_exists('smit_latest_praincubation_setting') )
 		$CI =& get_instance();
         $condition  = ' WHERE %status% = 1';
         $order_by   = ' %datecreated% DESC';
-        $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by); 
+        $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by);
 
         if( !$lss || empty($lss) ) return false;
 		return $lss[0];
 	}
 }
 
-if ( !function_exists('smit_latest_incubation_setting') ) 
+if ( !function_exists('smit_latest_incubation_setting') )
 {
     /**
      * Get latest incubation setting
@@ -1685,14 +1685,14 @@ if ( !function_exists('smit_latest_incubation_setting') )
 		$CI =& get_instance();
         $condition  = ' WHERE %status% = 1';
         $order_by   = ' %datecreated% DESC';
-        $lss        = $CI->Model_Incubation->get_all_incubation_setting(1,0,$condition,$order_by); 
+        $lss        = $CI->Model_Incubation->get_all_incubation_setting(1,0,$condition,$order_by);
 
         if( !$lss || empty($lss) ) return false;
 		return $lss[0];
 	}
 }
 
-if ( !function_exists('smit_select_year') ) 
+if ( !function_exists('smit_select_year') )
 {
     /**
      * Get select year option
@@ -1701,10 +1701,10 @@ if ( !function_exists('smit_select_year') )
      */
 	function smit_select_year($earliest_year, $latest_year) {
 		$CI =& get_instance();
-        
+
         if ( empty($earliest_year) || !$earliest_year ) return false;
         if ( empty($latest_year) || !$latest_year ) return false;
-        
+
         $year_arr = array();
         foreach ( range( $earliest_year, $latest_year ) as $i ) {
             $year_arr[] = $i;
@@ -1713,7 +1713,7 @@ if ( !function_exists('smit_select_year') )
 	}
 }
 
-if ( !function_exists('smit_get_selection_files') ) 
+if ( !function_exists('smit_get_selection_files') )
 {
     /**
      * Get selection files
@@ -1722,15 +1722,15 @@ if ( !function_exists('smit_get_selection_files') )
      */
 	function smit_get_selection_files($ids) {
 		$CI =& get_instance();
-        
+
         if ( empty($ids) || !$ids ) return false;
-        
+
         $guides = $CI->Model_Guide->get_guide($ids);
         return $guides;
 	}
 }
 
-if ( !function_exists('smit_check_juri_rated') ) 
+if ( !function_exists('smit_check_juri_rated') )
 {
     /**
      * Get selection files
@@ -1739,14 +1739,14 @@ if ( !function_exists('smit_check_juri_rated') )
      */
 	function smit_check_juri_rated($id_user, $id_selection, $step, $setting_id) {
 		$CI =& get_instance();
-        
+
         if ( empty($id_user) || !$id_user ) return false;
         if ( empty($id_selection) || !$id_selection ) return false;
         if ( empty($step) || !$step ) return false;
-        
+
         $table = $step == 1 ? 'smit_praincubation_selection_rate_step1' : 'smit_praincubation_selection_rate_step2';
 
-        $sql = 'SELECT A.*, B.year, B.setting_id FROM '.$table.' AS A 
+        $sql = 'SELECT A.*, B.year, B.setting_id FROM '.$table.' AS A
                 LEFT JOIN smit_praincubation_selection AS B ON B.id = A.selection_id
                 WHERE A.selection_id='.$id_selection.' AND A.jury_id='.$id_user.' AND B.setting_id='.$setting_id.'';
         $qry = $CI->db->query($sql);
@@ -1755,7 +1755,7 @@ if ( !function_exists('smit_check_juri_rated') )
 	}
 }
 
-if ( !function_exists('smit_check_juri_rated_incubation') ) 
+if ( !function_exists('smit_check_juri_rated_incubation') )
 {
     /**
      * Get selection files
@@ -1764,14 +1764,14 @@ if ( !function_exists('smit_check_juri_rated_incubation') )
      */
 	function smit_check_juri_rated_incubation($id_user, $id_selection, $step, $setting_id) {
 		$CI =& get_instance();
-        
+
         if ( empty($id_user) || !$id_user ) return false;
         if ( empty($id_selection) || !$id_selection ) return false;
         if ( empty($step) || !$step ) return false;
-        
+
         $table = $step == 1 ? 'smit_incubation_selection_rate_step1' : 'smit_incubation_selection_rate_step2';
 
-        $sql = 'SELECT A.*, B.year, B.setting_id FROM '.$table.' AS A 
+        $sql = 'SELECT A.*, B.year, B.setting_id FROM '.$table.' AS A
                 LEFT JOIN smit_incubation_selection AS B ON B.id = A.selection_id
                 WHERE A.selection_id='.$id_selection.' AND A.jury_id='.$id_user.' AND B.setting_id='.$setting_id.'';
         $qry = $CI->db->query($sql);
@@ -1780,7 +1780,57 @@ if ( !function_exists('smit_check_juri_rated_incubation') )
 	}
 }
 
-if ( !function_exists('smit_indo_day') ) 
+if ( !function_exists('smit_get_total_ikm') ){
+    /**
+     * Retrieve the current user object.
+     *
+     * @return ikm
+     */
+    function smit_get_total_ikm()
+    {
+        $CI =& get_instance();
+
+        $ikm_list           = $CI->Model_Service->get_all_ikmlist(0, 0, '');
+        foreach($ikm_list AS $row){
+            $sangat_setuju  = $CI->Model_Service->count_all_answer($row->id, SANGAT_SETUJU);
+            $setuju         = $CI->Model_Service->count_all_answer($row->id, SETUJU);
+            $tidak_setuju   = $CI->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
+            $sangat_tidak_setuju    = $CI->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
+            $total          = $CI->Model_Service->count_all_answer($row->id);
+
+            $dataset[]      = array(
+                'ikm_id'                => $row->id,
+                'question'              => $row->question,
+                'sangat_setuju'         => $sangat_setuju,
+                'setuju'                => $setuju,
+                'tidak_setuju'          => $tidak_setuju,
+                'sangat_tidak_setuju'   => $sangat_tidak_setuju,
+                'total'                 => $total
+            );
+        }
+
+        if( !empty($dataset) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('ikm_status');
+            $total_ikmlist  = $CI->Model_Service->count_all_ikmlist();
+            $penimbang      = number_format(1/$total_ikmlist, 3);
+            $total_ikm      = 0;
+            foreach($dataset as $row){
+                $nilai          = $CI->Model_Service->sum_all_answer($row['ikm_id']);
+                $total_unsur    = $CI->Model_Service->count_all_answer($row['ikm_id']);
+                $nilai_rata     = $nilai / $total_unsur;
+                $rata_penimbang = $nilai_rata * $penimbang;
+                $ikm            = $nilai_rata * $rata_penimbang;
+                $ikm            = floor($ikm);
+                $total_ikm      += $ikm;
+            }
+        }
+
+    	return $total_ikm;
+    }
+}
+
+if ( !function_exists('smit_indo_day') )
 {
     /**
      * Get indo day
@@ -1789,7 +1839,7 @@ if ( !function_exists('smit_indo_day') )
      */
 	function smit_indo_day($day) {
         if ( empty($day) || !$day ) return false;
- 
+
         $day_arr = array(
             'Sun'   => 'Minggu',
             'Mon'   => 'Senin',
@@ -1799,12 +1849,12 @@ if ( !function_exists('smit_indo_day') )
             'Fri'   => 'Jumat',
             'Sat'   => 'Sabtu',
         );
-       
+
         return $day_arr[$day];
 	}
 }
 
-if ( !function_exists('smit_indo_month') ) 
+if ( !function_exists('smit_indo_month') )
 {
     /**
      * Get indo month
@@ -1813,7 +1863,7 @@ if ( !function_exists('smit_indo_month') )
      */
 	function smit_indo_month($month) {
         if ( empty($month) || !$month ) return false;
-        
+
         $month_arr = array(
             'January'       => 'Januari',
             'February'      => 'Februari',
@@ -1828,7 +1878,7 @@ if ( !function_exists('smit_indo_month') )
             'November'      => 'Nopember',
             'December'      => 'Desember',
         );
-       
+
         return $month_arr[$month];
 	}
 }
