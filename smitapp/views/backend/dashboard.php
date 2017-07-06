@@ -205,6 +205,94 @@
                 <p>Status Anda saat ini <strong><?php echo $status; ?></strong></p>
             </div>
             
+            <?php if( $is_admin ): ?>
+                <div class="body">
+                    <div class="panel-group" role="tablist" aria-multiselectable="true">        
+                        <div class="panel panel-col-blue">
+                            <div class="panel-heading" role="tab" id="heading_total">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" href="#collapse_total" aria-expanded="true" aria-controls="collapse_total">
+                                        <i class="material-icons">format_align_justify</i> Total Pengukuran IKM
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_total" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_total">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                                            <div class="table-container table-responsive">
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                						<tr role="row" class="heading bg-blue">
+                                                            <th class="width35 text-center">Total Score IKM</th>
+                                                            <th class="width30 text-center">Mutu</th>
+                                                            <th class="width35 text-center">Kinerja</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="font-size: 28px !important; "><strong><?php echo smit_center($ikm); ?></strong></td>
+                                                            <td style="font-size: 28px !important; "><strong><?php echo smit_center($mutu); ?></strong></td>
+                                                            <td style="font-size: 28px !important; "><strong><?php echo smit_center($kinerja); ?></strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">done_all</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Sangat Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($sangat_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">done</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">clear</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Tidak Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($tidak_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box bg-blue hover-expand-effect">
+                                                <div class="icon">
+                                                    <i class="material-icons">new_releases</i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="text">Sangat Tdk Setuju</div>
+                                                    <div class="number count-to" data-from="0" data-to="125" data-speed="1000" data-fresh-interval="20"><?php echo smit_center($sangat_tidak_setuju); ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
+            
             <?php if( as_pendamping($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pendamping'); ?>

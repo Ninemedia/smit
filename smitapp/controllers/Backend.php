@@ -95,11 +95,57 @@ class Backend extends User_Controller {
                 $step_pra_2         = $data_praincubation[0]->steptwo;
             }
         }
+        
+        // IKM data Admin
+        $sangat_setuju      = 0;
+        $setuju             = 0;
+        $tidak_setuju       = 0;
+        $sangat_tidak_setuju= 0;
+        $mutu               = ' - ';
+        $kenerja            = ' - ';
+        if( !empty($is_admin) ){
+            $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
+            $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
+            $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
+            $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
+    
+            $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+            $penimbang      = number_format(1/$total_ikmlist, 3);
+            $penimbang_full = ($penimbang * 100) * 100;
+    
+            $ikm            = smit_get_total_ikm();
+            $ikm            = $ikm/$total_ikmlist;
+            $ikm            = floor($ikm);
+            
+            if($ikm <= floor($penimbang_full*45/100)){
+                $mutu       = 'D';
+                $kinerja    = 'Tidak Baik';
+            }elseif($ikm > floor($penimbang_full*45/100) && $ikm <= floor($penimbang_full*65/100)){
+                $mutu       = 'C';
+                $kinerja    = 'Kurang Baik';
+            }elseif($ikm > floor($penimbang_full*65/100) && $ikm <= floor($penimbang_full*85/100)){
+                $mutu       = 'B';
+                $kinerja    = 'Baik';
+            }elseif($ikm > floor($penimbang_full*85/100) && $ikm <= $penimbang_full){
+                $mutu       = 'A';
+                $kinerja    = 'Sangat Baik';
+            }
+        }
 
         $data['title']          = TITLE . 'Beranda';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
+        
+        //Data IKM
+        $data['sangat_setuju']  = $sangat_setuju;
+        $data['setuju']         = $setuju;
+        $data['tidak_setuju']   = $tidak_setuju;
+        $data['sangat_tidak_setuju']    = $sangat_tidak_setuju;
+        $data['ikm']            = $ikm;
+        $data['mutu']           = $mutu;
+        $data['kinerja']        = $kinerja;
+        
         $data['phase1']         = $phase1;
         $data['phase2']         = $phase2;
         $data['status_inc_1']   = $status_inc_1;
