@@ -47,7 +47,9 @@
         <!-- Login Box -->
         <div class="login-box">
             <div class="logo">
-                <a href="javascript:void(0);"><b>PENDAFTARAN INKUBASI TEKNOLOGI PUSAT INOVASI LIPI</b></a>
+                <a href="javascript:void(0);">
+                    <img src="<?php echo BE_IMG_PATH . 'logo/logo.jpg'; ?>" />
+                </a>
             </div>
             <div class="card">
                 <div class="body">
@@ -127,7 +129,7 @@
                                 <?php echo form_input('phone','',array('class'=>'form-control mobile-phone-number','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
                             </div>
                         </div>
-                        <div class="input-group smit-captcha-box-signup-user">
+                        <div class="input-group smit-captcha-box-signup">
                 			<div class="g-recaptcha smit-captcha-signup-user" data-smit-site-key="<?php echo config_item( 'captcha_site_key' ); ?>"></div>
                 		</div>
                     
@@ -149,7 +151,13 @@
         <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap/js/bootstrap.js'; ?>"></script>
         
         <!-- Additional/Plugins JS -->
-        <?php echo $scripts; ?>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'node-waves/waves.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'momentjs/moment.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js'; ?>"></script>
     
         <!-- Custom Js -->
         <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>
@@ -160,6 +168,11 @@
         <!-- Init JavaScript -->
         <?php echo $scripts_init; ?>
         <script type="text/javascript">
+            jQuery(document).ready(function() {
+                Login.init();
+                SignUp.init();
+            });
+            
             function onloadCallback() {
     			Login.loadCaptcha();
                 SignUp.loadCaptcha();
