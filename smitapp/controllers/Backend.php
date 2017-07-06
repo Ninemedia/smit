@@ -3490,39 +3490,45 @@ class Backend extends User_Controller {
         $chart_question     = array();
         if ( $stats = $this->Model_Service->stats_question() ) {
             // Pivoting
-			$pivot = array();
+			$pivot      = array();
+            $keys       = array();
+            $labels     = array();
+            $data_row   = array();
+            $i          = 1;
 			foreach( $stats as $row ) {
                 if ( ! isset( $pivot[ $row['period'] ] ) )
 					$pivot[ $row['period'] ] = array();
 
 				if ( ! isset( $pivot[ $row['period'] ][ 'ikm' ] ) )
-					$pivot[ $row['period'] ][ 'ikm' ] = 0;
+					$pivot[ $row['period'] ][ 'total_ikm' ] = 0;
 
-				$pivot[ $row['period'] ][ 'judul_pertanyaan' ] = $row['title'];
-				$pivot[ $row['period'] ][ 'ikm' ] += $row['ikm'];
-				$pivot[ $row['period'] ][ $row['title'] ] = $row['ikm'];
+                $data_row[]   = array(
+                    'judul_'.$i => $row['title'],
+                    'ikm_'.$i   => $row['ikm']
+                );
+                $pivot[ $row['period'] ]     = $data_row;
+
+                $keys[]      = 'judul_'.$i;
+                $labels[]    = $row['title'];
+                $i++;
 			}
 
             $chart_question['xkey']      = 'period';
-            $chart_question['ykeys']     = array( 'judul_pertanyaan', 'ikm');
-            $chart_question['labels']    = array( 'Judul Pertanyaan', 'IKM');
+            $chart_question['ykeys']     = $keys;
+            $chart_question['labels']    = $labels;
 
+            $i = 1;
+            $j = 1;
+            $dataset    = array();
             foreach( $pivot as $period => $row ) {
-                // chart
-				$chart_question['data'][] = array(
-                    'period'            => $period,
-                    'judul_pertanyaan'  => $row[ 'judul_pertanyaan' ],
-                    'ikm'               => smit_isset( $row[ 'ikm' ], 0 )
-				);
-                
-                echo '<pre>';
-                print_r($chart_question);
+
+                $dataset['period']          = $period;
+                foreach ($row as $value) {
+                    $dataset['judul_'.$j]   = smit_isset( $value[ 'ikm_'.$j ], 0 );
+                    $j++;
+                }
+                $chart_question['data'][] = $dataset;
             }
-            
-            die();
-            echo '<pre>';
-            print_r($chart_question);
-            die();
         }
         $data['chart_question']			= json_encode( $chart_question );
 
@@ -3661,7 +3667,7 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         $title                  = $this->input->post('reg_title');
         $title                  = trim( smit_isset($title, "") );
         $question               = $this->input->post('reg_question');
