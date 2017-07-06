@@ -3491,46 +3491,40 @@ class Backend extends User_Controller {
         if ( $stats = $this->Model_Service->stats_question() ) {
             // Pivoting
 			$pivot = array();
-            echo '<pre>';
-            print_r($stats);
-            die();
-            
 			foreach( $stats as $row ) {
+                if ( ! isset( $pivot[ $row['period'] ] ) )
+					$pivot[ $row['period'] ] = array();
 
+				if ( ! isset( $pivot[ $row['period'] ][ 'ikm' ] ) )
+					$pivot[ $row['period'] ][ 'ikm' ] = 0;
 
-                if ( $row->answer == 1 )      { $type = 'sangat_setuju'; }
-                elseif ( $row->answer == 2 )  { $type = 'setuju'; }
-                elseif ( $row->answer == 3 )  { $type = 'tidak_setuju'; }
-                elseif ( $row->answer == 4 )  { $type = 'sangat_tidak_setuju'; }
-
-				if ( ! isset( $pivot[ $row->period ] ) )
-					$pivot[ $row->period ] = array();
-
-				if ( ! isset( $pivot[ $row->period ][ 'total' ] ) )
-					$pivot[ $row->period ][ 'total' ] = 0;
-
-				//$pivot[ $row->period ][ 'period_name' ] = $row->period_name;
-				$pivot[ $row->period ][ 'total' ] += $row->total;
-				$pivot[ $row->period ][ $type ] = $row->total;
+				$pivot[ $row['period'] ][ 'judul_pertanyaan' ] = $row['title'];
+				$pivot[ $row['period'] ][ 'ikm' ] += $row['ikm'];
+				$pivot[ $row['period'] ][ $row['title'] ] = $row['ikm'];
 			}
 
-            $chart['xkey']      = 'period';
-            $chart['ykeys']     = array( 'sangat_setuju', 'setuju', 'tidak_setuju', 'sangat_tidak_setuju');
-            $chart['labels']    = array( 'Sangat Setuju', 'Setuju', 'Tidak Setuju', 'Sangat Tidak Setuju');
+            $chart_question['xkey']      = 'period';
+            $chart_question['ykeys']     = array( 'judul_pertanyaan', 'ikm');
+            $chart_question['labels']    = array( 'Judul Pertanyaan', 'IKM');
 
             foreach( $pivot as $period => $row ) {
-
                 // chart
-				$chart['data'][] = array(
-                    'period'                => $period,
-                    'sangat_setuju'         => smit_isset( $row[ 'sangat_setuju' ], 0 ),
-                    'setuju'                => smit_isset( $row[ 'setuju' ], 0 ),
-                    'tidak_setuju'          => smit_isset( $row[ 'tidak_setuju' ], 0 ),
-                    'sangat_tidak_setuju'   => smit_isset( $row[ 'sangat_tidak_setuju' ], 0 ),
-                    'total'                 => $row['total']
+				$chart_question['data'][] = array(
+                    'period'            => $period,
+                    'judul_pertanyaan'  => $row[ 'judul_pertanyaan' ],
+                    'ikm'               => smit_isset( $row[ 'ikm' ], 0 )
 				);
+                
+                echo '<pre>';
+                print_r($chart_question);
             }
+            
+            die();
+            echo '<pre>';
+            print_r($chart_question);
+            die();
         }
+        $data['chart_question']			= json_encode( $chart_question );
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -3667,13 +3661,16 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-
+        
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
         $question               = $this->input->post('reg_question');
         $question               = trim( smit_isset($question, "") );
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Pertanyaan','required');
         $this->form_validation->set_rules('reg_question','Pertanyaan','required');
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -3692,6 +3689,7 @@ class Backend extends User_Controller {
 
             $ikm_data  = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'title'         => $title,
                 'question'      => $question,
                 'status'        => ACTIVE,
                 'datecreated'   => $curdate,
@@ -3768,6 +3766,8 @@ class Backend extends User_Controller {
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
 
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
         $s_question         = $this->input->post('search_question');
         $s_question         = smit_isset($s_question, '');
         $s_status           = $this->input->post('search_status');
@@ -3779,6 +3779,7 @@ class Backend extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if( !empty($s_question) )       { $condition .= str_replace('%s%', $s_question, ' AND %question% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
 
@@ -3786,8 +3787,9 @@ class Backend extends User_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )      { $order_by .= '%question% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $ikm_list           = $this->Model_Service->get_all_ikmlist($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -3813,6 +3815,7 @@ class Backend extends User_Controller {
 
                 $records["aaData"][] = array(
                     smit_center($i),
+                    $row->title,
                     $row->question,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),

@@ -28,7 +28,9 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="yearly">
-                        
+                        <div id="chart-question" style="height: 300px;">
+                            <span class="data hide"><?php echo $chart_question; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>

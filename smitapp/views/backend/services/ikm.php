@@ -209,13 +209,15 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-            							<th class="width55 text-center">Pertanyaan</th>
+            							<th class="width15 text-center">Judul Pertanyaan</th>
+            							<th class="width40 text-center">Pertanyaan</th>
             							<th class="width15 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
             							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_totle" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
             							<td>
                                             <select name="search_status" class="form-control form-filter input-sm">
@@ -252,6 +254,15 @@
                             <div class="form-group form-float">
                                 <h4>Pengaturan Pertanyaan IKM</h4>
                                 <div class="form-group">
+                                    <label class="form-label">Judul Pertanyaan <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                        <div class="form-line">
+                                            <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Pertanyaan" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Pertanyaan <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <div class="form-line">
@@ -259,10 +270,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_ikmadd">Tambah Pertanyaan</button>
-                                    <button type="button" class="btn btn-danger waves-effect" id="btn_ikmadd_reset">Bersihkan</button>
-                                </div>
+                                <button type="submit" class="btn btn-primary waves-effect" id="btn_ikmadd">Tambah Pertanyaan</button>
+                                <button type="button" class="btn btn-danger waves-effect" id="btn_ikmadd_reset">Bersihkan</button>
                             </div>
                         <?php echo form_close(); ?>
                     </div>

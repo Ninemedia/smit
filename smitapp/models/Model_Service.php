@@ -294,6 +294,7 @@ class Model_Service extends SMIT_Model{
     function get_all_ikmlist($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%title%",                "title", $conditions);
             $conditions = str_replace("%question%",             "question", $conditions);
             $conditions = str_replace("%status%",               "status", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
@@ -301,6 +302,7 @@ class Model_Service extends SMIT_Model{
 
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%title%",                "title",  $order_by);
             $order_by   = str_replace("%question%",             "question",  $order_by);
             $order_by   = str_replace("%status%",               "status",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
@@ -483,19 +485,63 @@ class Model_Service extends SMIT_Model{
 	function stats_question() {
 		$sql = '
         SELECT
-			DATE_FORMAT( datecreated, "%Y") AS period,
-            ikm_id,
-			COUNT(ikm_id) AS total
-		FROM '.$this->ikm.'
+			DATE_FORMAT( A.datecreated, "%Y") AS period,
+            A.ikm_id, B.title,
+			COUNT(A.ikm_id) AS total
+		FROM '.$this->ikm.' AS A
+        LEFT JOIN '.$this->ikm_list.' AS B 
+        ON B.id = A.ikm_id
 		GROUP BY 1,2
 		ORDER BY 1 DESC';
 
-		$qry = $this->db->query( $sql );
-
-		if ( ! $qry || ! $qry->num_rows() )
+		$qry            = $this->db->query( $sql );
+        $data           = $qry->result();
+        if ( ! $qry || ! $qry->num_rows() )
 			return false;
+        
+        $dataset        = array();
+        $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+        $penimbang      = number_format(1/$total_ikmlist, 3);
+        $total_ikm      = 0;
+        foreach($data as $row){
+            $nilai          = $this->Model_Service->sum_all_answer($row->ikm_id);
+            $total_unsur    = $this->Model_Service->count_all_answer($row->ikm_id);
+            $nilai_rata     = $nilai / $total_unsur;
+            $rata_penimbang = $nilai_rata * $penimbang;
+            $ikm            = $nilai_rata * $rata_penimbang;
+            $ikm            = floor($ikm);
+            //$total_ikm      += $ikm;
+            
+            $mutu           = ' - ';
+            $kenerja        = ' - ';
+            $penimbang_full = ($penimbang * 100) * 100;
+            if($ikm <= floor($penimbang_full*45/100)){
+                $mutu       = 'D';
+                $kinerja    = 'Tidak Baik';
+            }elseif($ikm > floor($penimbang_full*45/100) && $ikm <= floor($penimbang_full*65/100)){
+                $mutu       = 'C';
+                $kinerja    = 'Kurang Baik';
+            }elseif($ikm > floor($penimbang_full*65/100) && $ikm <= floor($penimbang_full*85/100)){
+                $mutu       = 'B';
+                $kinerja    = 'Baik';
+            }elseif($ikm > floor($penimbang_full*85/100) && $ikm <= $penimbang_full){
+                $mutu       = 'A';
+                $kinerja    = 'Sangat Baik';
+            }
+                
+            
+            $dataset[]      = array(
+                'period'    => $row->period,
+                'ikm_id'    => $row->ikm_id,
+                'title'     => $row->title,
+                'total'     => $row->total,
+                'ikm'       => $ikm,
+                'mutu'      => $mutu,
+                'kinerja'   => $kinerja,
+            );
+        }
 
-		return $qry->result();
+		return $dataset;
 	}
 
     // ---------------------------------------------------------------------------------

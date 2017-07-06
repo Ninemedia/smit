@@ -1830,56 +1830,6 @@ if ( !function_exists('smit_get_total_ikm') ){
     }
 }
 
-if ( !function_exists('smit_get_question_data') ){
-    /**
-     * Retrieve the current user object.
-     *
-     * @return ikm
-     */
-    function smit_get_question_data()
-    {
-        $CI =& get_instance();
-
-        $ikm_list           = $CI->Model_Service->get_all_ikmlist(0, 0, '');
-        foreach($ikm_list AS $row){
-            $sangat_setuju  = $CI->Model_Service->count_all_answer($row->id, SANGAT_SETUJU);
-            $setuju         = $CI->Model_Service->count_all_answer($row->id, SETUJU);
-            $tidak_setuju   = $CI->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
-            $sangat_tidak_setuju    = $CI->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
-            $total          = $CI->Model_Service->count_all_answer($row->id);
-
-            $dataset[]      = array(
-                'ikm_id'                => $row->id,
-                'question'              => $row->question,
-                'sangat_setuju'         => $sangat_setuju,
-                'setuju'                => $setuju,
-                'tidak_setuju'          => $tidak_setuju,
-                'sangat_tidak_setuju'   => $sangat_tidak_setuju,
-                'total'                 => $total
-            );
-        }
-
-        if( !empty($dataset) ){
-            $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('ikm_status');
-            $total_ikmlist  = $CI->Model_Service->count_all_ikmlist();
-            $penimbang      = number_format(1/$total_ikmlist, 3);
-            $total_ikm      = 0;
-            foreach($dataset as $row){
-                $nilai          = $CI->Model_Service->sum_all_answer($row['ikm_id']);
-                $total_unsur    = $CI->Model_Service->count_all_answer($row['ikm_id']);
-                $nilai_rata     = $nilai / $total_unsur;
-                $rata_penimbang = $nilai_rata * $penimbang;
-                $ikm            = $nilai_rata * $rata_penimbang;
-                $ikm            = floor($ikm);
-                $total_ikm      += $ikm;
-            }
-        }
-
-    	return $total_ikm;
-    }
-}
-
 if ( !function_exists('smit_indo_day') )
 {
     /**

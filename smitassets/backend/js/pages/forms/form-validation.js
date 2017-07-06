@@ -125,11 +125,17 @@ var ServicesValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
+                reg_title: {
+                    required: true,
+                },
                 reg_question: {
                     required: true,
                 },
             },
             messages: {
+                reg_title: {
+                    required: "Judul Pertanyaan harus di isi."
+                },
                 reg_question: {
                     required: "Pertanyaan harus di isi."
                 },
