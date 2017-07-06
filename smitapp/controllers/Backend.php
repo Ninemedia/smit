@@ -1717,6 +1717,7 @@ class Backend extends User_Controller {
                     'thumbnail'     => smit_isset($thumbnail,''),
                     'size'          => smit_isset($upload_data['file_size'],0),
                     'uploader'      => $current_user->id,
+                    'status'        => ACTIVE,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
@@ -1731,6 +1732,7 @@ class Backend extends User_Controller {
                     'source'        => $source,
                     'desc'          => $description,
                     'uploader'      => $current_user->id,
+                    'status'        => ACTIVE,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
@@ -1794,7 +1796,6 @@ class Backend extends User_Controller {
 
         $order_by           = '';
         $iTotalRecords      = 0;
-
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
 
@@ -1818,7 +1819,7 @@ class Backend extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
-        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_announcement% LIKE "%%s%%"'); }
+        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_news% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if( !empty($s_source) )         { $condition .= str_replace('%s%', $s_source, ' AND %source% LIKE "%%s%%"'); }
 
@@ -1840,11 +1841,13 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($news_list as $row){
-                // Status
+                // Button
                 $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'"
-                    class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
-                    <a href="'.base_url('berita/hapus/'.$row->uniquecode).'"
+                    class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                
+                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'"
                     class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -1852,7 +1855,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action ),
+                    smit_center( $btn_action .' '. $btn_delete ),
                 );
                 $i++;
             }
