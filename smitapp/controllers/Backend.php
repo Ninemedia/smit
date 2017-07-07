@@ -102,7 +102,9 @@ class Backend extends User_Controller {
         $tidak_setuju       = 0;
         $sangat_tidak_setuju= 0;
         $mutu               = ' - ';
-        $kenerja            = ' - ';
+        $kinerja            = ' - ';
+        $ikm                = '';
+
         if( !empty($is_admin) ){
             $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
             $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
