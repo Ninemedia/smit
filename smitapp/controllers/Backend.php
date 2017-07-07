@@ -108,7 +108,9 @@ class Backend extends User_Controller {
         $tidak_setuju       = 0;
         $sangat_tidak_setuju= 0;
         $mutu               = ' - ';
-        $kenerja            = ' - ';
+        $kinerja            = ' - ';
+        $ikm                = '';
+        
         if( !empty($is_admin) ){
             $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
             $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
@@ -1899,7 +1901,7 @@ class Backend extends User_Controller {
                 $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
-                    smit_center($i),s
+                    smit_center($i),
                     $row->no_news,
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
