@@ -93,7 +93,6 @@
                     			                        	$status = smit_incubation_selection_status();
                     			                            if( !empty($status) ){
                     			                                foreach($status as $key => $val){
-                                                                    if($key==RATED || $key==ACCEPTED) continue;
                     			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
                     			                                }
                     			                            }
@@ -184,7 +183,7 @@
                                                 <select name="search_status" class="form-control form-filter input-sm">
                 									<option value="">Pilih...</option>
                 									<?php
-                			                        	$status = smit_user_status();
+                			                        	$status = smit_incubation_selection_status_steptwo();
                 			                            if( !empty($status) ){
                 			                                foreach($status as $key => $val){
                 			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
@@ -296,7 +295,6 @@
                     			                        	$status = smit_incubation_selection_status();
                     			                            if( !empty($status) ){
                     			                                foreach($status as $key => $val){
-                                                                    if($key==RATED || $key==ACCEPTED) continue;
                     			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
                     			                                }
                     			                            }
@@ -385,7 +383,7 @@
                                                     <select name="search_status" class="form-control form-filter input-sm">
                     									<option value="">Pilih...</option>
                     									<?php
-                    			                        	$status = smit_user_status();
+                    			                        	$status = smit_incubation_selection_status_steptwo();
                     			                            if( !empty($status) ){
                     			                                foreach($status as $key => $val){
                     			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
@@ -483,7 +481,6 @@
                 			                        	$status = smit_incubation_selection_status();
                 			                            if( !empty($status) ){
                 			                                foreach($status as $key => $val){
-                                                                if($key==RATED || $key==ACCEPTED) continue;
                 			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
                 			                                }
                 			                            }
@@ -562,7 +559,7 @@
                                                     <select name="search_status" class="form-control form-filter input-sm">
                     									<option value="">Pilih...</option>
                     									<?php
-                    			                        	$status = smit_user_status();
+                    			                        	$status = smit_incubation_selection_status_steptwo();
                     			                            if( !empty($status) ){
                     			                                foreach($status as $key => $val){
                     			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';

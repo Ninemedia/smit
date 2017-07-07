@@ -1266,7 +1266,7 @@ class Frontend extends Public_Controller {
             foreach($guides_list as $row){
                 if( !empty( $row->url ) ){
                     $btn_files  = '<a href="'.base_url('unduhberkas/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh Berkas"><i class="material-icons">file_download</i></a> ';
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_files  = ' - ';
                 }

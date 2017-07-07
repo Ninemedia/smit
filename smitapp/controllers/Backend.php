@@ -101,11 +101,57 @@ class Backend extends User_Controller {
                 $step_pra_2         = $data_praincubation[0]->steptwo;
             }
         }
+        
+        // IKM data Admin
+        $sangat_setuju      = 0;
+        $setuju             = 0;
+        $tidak_setuju       = 0;
+        $sangat_tidak_setuju= 0;
+        $mutu               = ' - ';
+        $kenerja            = ' - ';
+        if( !empty($is_admin) ){
+            $sangat_setuju  = $this->Model_Service->count_all_answer(0, SANGAT_SETUJU);
+            $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
+            $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
+            $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
+    
+            $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
+            $penimbang      = number_format(1/$total_ikmlist, 3);
+            $penimbang_full = ($penimbang * 100) * 100;
+    
+            $ikm            = smit_get_total_ikm();
+            $ikm            = $ikm/$total_ikmlist;
+            $ikm            = floor($ikm);
+            
+            if($ikm <= floor($penimbang_full*45/100)){
+                $mutu       = 'D';
+                $kinerja    = 'Tidak Baik';
+            }elseif($ikm > floor($penimbang_full*45/100) && $ikm <= floor($penimbang_full*65/100)){
+                $mutu       = 'C';
+                $kinerja    = 'Kurang Baik';
+            }elseif($ikm > floor($penimbang_full*65/100) && $ikm <= floor($penimbang_full*85/100)){
+                $mutu       = 'B';
+                $kinerja    = 'Baik';
+            }elseif($ikm > floor($penimbang_full*85/100) && $ikm <= $penimbang_full){
+                $mutu       = 'A';
+                $kinerja    = 'Sangat Baik';
+            }
+        }
 
         $data['title']          = TITLE . 'Beranda';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
+        
+        //Data IKM
+        $data['sangat_setuju']  = $sangat_setuju;
+        $data['setuju']         = $setuju;
+        $data['tidak_setuju']   = $tidak_setuju;
+        $data['sangat_tidak_setuju']    = $sangat_tidak_setuju;
+        $data['ikm']            = $ikm;
+        $data['mutu']           = $mutu;
+        $data['kinerja']        = $kinerja;
+        
         $data['phase1']         = $phase1;
         $data['phase2']         = $phase2;
         $data['status_inc_1']   = $status_inc_1;
@@ -1723,6 +1769,7 @@ class Backend extends User_Controller {
                     'thumbnail'     => smit_isset($thumbnail,''),
                     'size'          => smit_isset($upload_data['file_size'],0),
                     'uploader'      => $current_user->id,
+                    'status'        => ACTIVE,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
@@ -1737,6 +1784,7 @@ class Backend extends User_Controller {
                     'source'        => $source,
                     'desc'          => $description,
                     'uploader'      => $current_user->id,
+                    'status'        => ACTIVE,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
@@ -1800,7 +1848,6 @@ class Backend extends User_Controller {
 
         $order_by           = '';
         $iTotalRecords      = 0;
-
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
 
@@ -1824,7 +1871,7 @@ class Backend extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
-        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_announcement% LIKE "%%s%%"'); }
+        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_news% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
         if( !empty($s_source) )         { $condition .= str_replace('%s%', $s_source, ' AND %source% LIKE "%%s%%"'); }
 
@@ -1846,11 +1893,13 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($news_list as $row){
-                // Status
+                // Button
                 $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'"
-                    class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
-                    <a href="'.base_url('berita/hapus/'.$row->uniquecode).'"
+                    class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                
+                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'"
                     class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -1858,7 +1907,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action ),
+                    smit_center( $btn_action .' '. $btn_delete ),
                 );
                 $i++;
             }

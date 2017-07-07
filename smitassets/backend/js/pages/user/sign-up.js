@@ -435,21 +435,16 @@ var SignUp = function () {
 	};
     
     var showCaptchaUser = function() {
-		if ( $( '.smit-captcha-box-signup-user' ).is( ':visible' ) )
-			return grecaptcha.reset();
+        // here we render the captcha
+		var container = $( '.smit-captcha-signup-user' )[0];
+		var parameters = {
+			"sitekey": $( container ).data( 'smit-site-key' )
+		};
 		
-		$( '.smit-captcha-box-signup-user' ).show( 'fast', function(){
-			// here we render the captcha
-			var container = $( '.smit-captcha-signup-user' )[0];
-			var parameters = {
-				"sitekey": $( container ).data( 'smit-site-key' )
-			};
-			
-			widgetCaptcha = grecaptcha.render(
-				container,
-				parameters
-			);
-		});
+		widgetCaptcha = grecaptcha.render(
+			container,
+			parameters
+		);
 	};
     
     var getCaptchaResponse = function() {

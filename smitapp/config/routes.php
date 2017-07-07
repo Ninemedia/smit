@@ -250,6 +250,8 @@ $route['komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";
+$route['berita/beritalistdata']         = "backend/newslistdata";
+
 // Announcements
 $route['layanan/pesanumum']             = "backend/generalmessage";
 $route['pesanumum/detail/(:any)']       = "backend/generalmessagedetails/$1";

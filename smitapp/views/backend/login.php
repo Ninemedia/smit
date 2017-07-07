@@ -17,10 +17,7 @@
         <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap/css/bootstrap.css'; ?>" rel="stylesheet" />
         
         <!-- Additional/Plugins CSS -->
-        <link href="<?php echo BE_PLUGIN_PATH . 'node-waves/waves.css'; ?>" rel="stylesheet" />
-        <link href="<?php echo BE_PLUGIN_PATH . 'animate-css/animate.css'; ?>" rel="stylesheet" />
-        <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css'; ?>" rel="stylesheet" />
-        <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css'; ?>" rel="stylesheet" />
+        <?php echo $headstyles; ?>
     
         <!-- Custom CSS -->
         <link href="<?php echo BE_CSS_PATH . 'style.css'; ?>" rel="stylesheet" />

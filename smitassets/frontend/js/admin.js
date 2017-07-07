@@ -525,6 +525,7 @@ var App = function() {
             $('#contact_email').val('');
             $('#contact_title').val('');
             $('#contact_desc').val('');
+            $('#contactadd')[0].reset();
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };

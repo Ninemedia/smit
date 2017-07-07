@@ -719,6 +719,21 @@ if ( !function_exists('smit_incubation_selection_status') )
 	}
 }
 
+if ( !function_exists('smit_incubation_selection_status_steptwo') ) 
+{
+    /**
+     * Get incubation selection status
+     * @author  Iqbal
+     * @param   Int         $id     (Optional)  ID of Incubation Selection
+     * @return  Incubation Selection Status Data
+     */
+	function smit_incubation_selection_status_steptwo($id='') {
+		$status = config_item('incsel_status_steptwo');
+		if (!empty($id) && isset($status[$id])) return $status[$id];
+		return $status;
+	}
+}
+
 if ( !function_exists('smit_incubation_selection_report_status') ) 
 {
     /**

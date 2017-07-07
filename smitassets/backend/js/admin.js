@@ -641,6 +641,8 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
+                        $('#btn_news_listreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
     			}
     		});
