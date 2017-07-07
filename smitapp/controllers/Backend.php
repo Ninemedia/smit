@@ -95,7 +95,7 @@ class Backend extends User_Controller {
                 $step_pra_2         = $data_praincubation[0]->steptwo;
             }
         }
-        
+
         // IKM data Admin
         $sangat_setuju      = 0;
         $setuju             = 0;
@@ -108,15 +108,15 @@ class Backend extends User_Controller {
             $setuju         = $this->Model_Service->count_all_answer(0, SETUJU);
             $tidak_setuju   = $this->Model_Service->count_all_answer(0, TIDAK_SETUJU);
             $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
-    
+
             $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
             $penimbang      = number_format(1/$total_ikmlist, 3);
             $penimbang_full = ($penimbang * 100) * 100;
-    
+
             $ikm            = smit_get_total_ikm();
             $ikm            = $ikm/$total_ikmlist;
             $ikm            = floor($ikm);
-            
+
             if($ikm <= floor($penimbang_full*45/100)){
                 $mutu       = 'D';
                 $kinerja    = 'Tidak Baik';
@@ -136,7 +136,7 @@ class Backend extends User_Controller {
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
-        
+
         //Data IKM
         $data['sangat_setuju']  = $sangat_setuju;
         $data['setuju']         = $setuju;
@@ -145,7 +145,7 @@ class Backend extends User_Controller {
         $data['ikm']            = $ikm;
         $data['mutu']           = $mutu;
         $data['kinerja']        = $kinerja;
-        
+
         $data['phase1']         = $phase1;
         $data['phase2']         = $phase2;
         $data['status_inc_1']   = $status_inc_1;
@@ -1842,6 +1842,7 @@ class Backend extends User_Controller {
 
         $order_by           = '';
         $iTotalRecords      = 0;
+
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
 
@@ -1888,12 +1889,8 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($news_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'"
-                    class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                
-                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'"
-                    class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
-
+                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
                     smit_center($i),
