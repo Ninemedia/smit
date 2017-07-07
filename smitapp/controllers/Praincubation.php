@@ -425,7 +425,7 @@ class PraIncubation extends User_Controller {
 
         if( !empty($praincubation_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('incsel_status');
+            $cfg_status     = config_item('incsel_status_steptwo');
 
             $i = $offset + 1;
             foreach($praincubation_list as $row){

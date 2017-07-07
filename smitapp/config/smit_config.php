@@ -97,7 +97,17 @@ $config['user_status_message']      = array(
 /**
  * Incubation Selection Status
  */
+// Tahap 1
 $config['incsel_status']            = array(
+    NOTCONFIRMED                    => 'Belum Dikonfirmasi',
+    CONFIRMED                       => 'Dikonfirmasi',
+    RATED                           => 'Dinilai',
+    ACCEPTED                        => 'Masuk Tahap 2',
+    REJECTED                        => 'Berkas Ditolak',
+);
+
+// Tahap 2
+$config['incsel_status_steptwo']    = array(
     NOTCONFIRMED                    => 'Belum Dikonfirmasi',
     CONFIRMED                       => 'Dikonfirmasi',
     RATED                           => 'Dinilai',
