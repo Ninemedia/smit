@@ -25,6 +25,12 @@ class Backend extends User_Controller {
         auth_redirect();
 
         $current_user           = smit_get_current_user();
+        
+        echo "<pre>";
+        print_r($current_user);
+        die();
+        
+        
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
 
