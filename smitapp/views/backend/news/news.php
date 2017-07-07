@@ -22,7 +22,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('backend/beritalistdata'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('newslistdata'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
@@ -42,7 +42,9 @@
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
         							</td>
         							<td style="text-align: center;">
-        								<button class="btn bg-blue waves-effect filter-submit" id="btn_news_list">Search</button>
+                                        <div class="bottom5">
+        								    <button class="btn bg-blue waves-effect filter-submit" id="btn_news_list">Search</button>
+                                        </div>
                                         <button class="btn bg-red waves-effect filter-cancel" id="btn_news_listreset">Reset</button>
         							</td>
         						</tr>

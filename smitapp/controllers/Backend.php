@@ -26,9 +26,9 @@ class Backend extends User_Controller {
 
         $current_user           = smit_get_current_user();
         
-        echo "<pre>";
-        print_r($current_user);
-        die();
+        //echo "<pre>";
+        //print_r($current_user);
+        //die();
         
         
         $is_admin               = as_administrator($current_user);
@@ -1845,8 +1845,8 @@ class Backend extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-
         $order_by           = '';
+        
         $iTotalRecords      = 0;
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
         $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
@@ -1884,12 +1884,12 @@ class Backend extends User_Controller {
         elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $news_list          = $this->Model_News->get_all_news($limit, $offset, $condition, $order_by);
+
         $records            = array();
         $records["aaData"]  = array();
 
         if( !empty($news_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('user_status');
 
             $i = $offset + 1;
             foreach($news_list as $row){
