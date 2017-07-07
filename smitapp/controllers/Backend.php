@@ -25,12 +25,12 @@ class Backend extends User_Controller {
         auth_redirect();
 
         $current_user           = smit_get_current_user();
-        
+
         //echo "<pre>";
         //print_r($current_user);
         //die();
-        
-        
+
+
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
 
@@ -1846,7 +1846,7 @@ class Backend extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $condition          = '';
         $order_by           = '';
-        
+
         $iTotalRecords      = 0;
 
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
@@ -1899,7 +1899,7 @@ class Backend extends User_Controller {
                 $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
-                    smit_center($i),s
+                    smit_center($i),
                     $row->no_news,
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
