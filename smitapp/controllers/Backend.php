@@ -1893,7 +1893,7 @@ class Backend extends User_Controller {
                 $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
-                    smit_center($i),
+                    smit_center($i),s
                     $row->no_news,
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
