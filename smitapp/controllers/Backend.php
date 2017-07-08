@@ -877,7 +877,7 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($announcement_list as $row){
-                // Status
+                // Button
                 $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"
                     class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
                     <a href="'.base_url('pengumuman/hapus/'.$row->uniquecode).'"
@@ -893,7 +893,7 @@ class Backend extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->no_announcement,
-                    '<a href="'.base_url('upload/pengumuman/'.$row->uniquecode).'">' . $row->title . '</a>',
+                    '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
                     smit_center( $btn_files ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
@@ -1540,13 +1540,20 @@ class Backend extends User_Controller {
                 }else{
                     $btn_files  = ' - ';
                 }
+                
+                // Button
+                $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
+                    <a href="'.base_url('pengumuman/hapus/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
                     smit_center( date('d F Y', strtotime($row->datecreated)) ),
-                    '',
+                    smit_center( $btn_action ),
                 );
                 $i++;
             }
