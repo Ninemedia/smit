@@ -3152,9 +3152,9 @@ class Backend extends User_Controller {
     // PENDAMPINGAN
     // ----------------------------------------------------------------------------------------------------------------------
     /**
-	 * Report Pra Incubation function.
+	 * Notulensi Pra-Incubation function.
 	 */
-	public function accompanimentreport()
+     public function accompanimentpraincubation()
 	{
         auth_redirect();
 
@@ -3205,7 +3205,63 @@ class Backend extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['main_content']   = 'accompaniment/report';
+        $data['main_content']   = 'accompaniment/praincubation';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+	public function accompanimentincubation()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_jury                = as_juri($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Notulensi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'accompaniment/incubation';
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}

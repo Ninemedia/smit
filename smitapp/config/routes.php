@@ -146,7 +146,8 @@ $route['produkconfirm/(:any)/(:any)']           = "praincubation/productconfirm/
 // --------------------------------------------------------------------------
 
 // Menu Pendampingan
-$route['pendamping/laporan']                    = "backend/accompanimentreport";
+$route['pendamping/notulensiprainkubasi']       = "backend/accompanimentpraincubation";
+$route['pendamping/notulensiinkubasi']          = "backend/accompanimentincubation";
 
 // --------------------------------------------------------------------------
 // Menu Seleksi Inkubasi

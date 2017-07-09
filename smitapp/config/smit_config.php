@@ -171,8 +171,9 @@ $config['user_menu_access']             = array(
         // ------------------- PENDAMPINGAN
         'pendamping',
         /*'pendamping/daftar',*/
-        'pendamping/tambahnotulensi',
-        'pendamping/laporan',
+        'pendamping/notulensiprainkubasi',
+        'pendamping/notulensiinkubasi',
+        // ------------------- BERITA
         'berita',
         'berita/daftar',
         'berita/tambah',
@@ -204,8 +205,8 @@ $config['user_menu_access']             = array(
         'tenants/pendampingan',
         'tenants/laporan',
         'pendamping',
-        'pendamping/tambahnotulensi',
-        'pendamping/laporan',
+        'pendamping/notulensiprainkubasi',
+        'pendamping/notulensiinkubasi',
         'pengumuman',
         'layanan',
         'layanan/komunikasi',
