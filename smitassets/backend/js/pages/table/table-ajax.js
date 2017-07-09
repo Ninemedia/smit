@@ -160,6 +160,18 @@ var TableAjax = function () {
     var handleRecordsListOut = function() {
         gridTable( $("#communication_listout"), true );
     };
+    
+    // -------------------------------------------------------------------------
+    // PENDAMPINGAN
+    // -------------------------------------------------------------------------
+    // List Notulensi Pra-Inkubasi
+    var handleRecordsListNotulensiPraincubation = function() {
+        gridTable( $("#list_notulensipraincubation"), true );
+    };
+    // List Notulensi Inkubasi
+    var handleRecordsListNotulensiIncubation = function() {
+        gridTable( $("#list_notulensiincubation"), true );
+    };
 
     // -------------------------------------------------------------------------
 
@@ -175,9 +187,7 @@ var TableAjax = function () {
     var handleRecordsTenantSelectionList = function() {
         gridTable( $("#tenant_list"), true );
     };
-
-    // -------------------------------------------------------------------------
-
+    
     // Tenant Selection Lists
     var handleRecordsGuidesList = function() {
         gridTable( $("#guide_list"), true );
@@ -345,8 +355,11 @@ var TableAjax = function () {
 
             //News
             handleRecordsNewsList();
-
-
+            
+            //Pendampingan
+            handleRecordsListNotulensiPraincubation();
+            handleRecordsListNotulensiIncubation();
+            
             //Slider
             handleRecordsSliderList();
 
