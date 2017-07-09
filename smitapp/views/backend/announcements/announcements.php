@@ -105,10 +105,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="alert bg-teal">
+                                                        <p align="justify">
                                                             <strong>Perhatian!</strong>
                                                             File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
-                                                        </div>
+                                                        </p>
                                                         <div class="form-group">
                                                             <label>Upload Berkas</label>
                                                             <input id="edit_selection_files" name="edit_selection_files" class="form-control" type="file">
@@ -157,10 +157,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="alert bg-teal">
+                                        <p align="justify">
                                             <strong>Perhatian!</strong>
                                             File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
-                                        </div>
+                                        </p>
                                         <div class="form-group">
                                             <label>Upload Berkas</label>
                                             <input id="selection_files" name="selection_files" class="form-control" type="file">

@@ -100,10 +100,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="alert bg-teal">
+                                                        <p align="justify">
                                                             <strong>Perhatian!</strong>
                                                             Gambar yang dapat di upload adalah dengan Ukuran Maksimal 1024 KB dan format Gambar adalah <strong>jpg/jpeg/png.</strong>
-                                                        </div>
+                                                        </p>
                                                         <div class="form-group">
                                                             <label>Upload Slider</label>
                                                             <input id="slider_selection_files" name="slider_selection_files" class="form-control" type="file">

@@ -62,10 +62,10 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( '', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
-                            <div class="alert alert-info">
+                            <p align="justify">
                                 <strong>Perhatian!</strong>
                                 File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
-                            </div>
+                            </p>
                             
                             <div class="alert alert-danger error-validate <?php echo empty($message) ? 'display-hide' : ''; ?>">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
