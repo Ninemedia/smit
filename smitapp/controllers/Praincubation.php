@@ -1471,6 +1471,7 @@ class PraIncubation extends User_Controller {
         $s_status               = smit_isset($s_status, '');
         $s_year                 = $this->input->post('search_year');
         $s_year                 = smit_isset($s_year, '');
+        $s_year                 = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         if ( !empty($s_date_pub_min) )  { $condition .= ' AND %date_publication% >= '.strtotime($s_date_pub_min).''; }
         if ( !empty($s_date_pub_max) )  { $condition .= ' AND %date_publication% <= '.strtotime($s_date_pub_max).''; }
@@ -1478,13 +1479,18 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_reg_max) )  { $condition .= ' AND %date_reg_start% <= '.strtotime($s_date_reg_max).''; }
         if ( !empty($s_desc) )          { $condition .= ' AND %desc% LIKE "%'.$s_desc.'%"'; }
         if ( !empty($s_status) )        { $condition .= ' AND %status% = '.$s_status.''; }
-        if ( !empty($s_year) )          { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if ( !empty($s_year) )          { $condition .= str_replace('%s%', $s_year, ' AND %year% = %s%'); }
 
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%date_publication% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%date_reg_start% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%desc% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+        
+        if( !empty($condition) ){
+            $condition      = substr($condition, 4);
+            $condition      = 'WHERE' . $condition;
+        }
 
         $praincubationset_list = $this->Model_Praincubation->get_all_praincubation_setting($limit, $offset, $condition, $order_by);
 

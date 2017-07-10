@@ -1267,7 +1267,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by = str_replace("%datecreated%",        "datecreated", $order_by);
         }
 
-        $sql = 'SELECT * FROM ' . $this->praincubation_selection_set. '';
+        $sql = 'SELECT * FROM ' . $this->praincubation_selection_set. ' ';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
