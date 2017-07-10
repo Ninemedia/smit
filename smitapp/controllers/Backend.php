@@ -3215,6 +3215,7 @@ class Backend extends User_Controller {
             'App.init();',
             'TableAjax.init();',
             'UploadFiles.init();',
+            'NotesValidation.init();',
         ));
 
         $data['title']          = TITLE . 'Laporan Notulensi';

@@ -78,7 +78,7 @@
                                 <h4>Masukan Data Produk Pra-Inkubasi</h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Pra-Inkubasi<b style="color: red !important;">(*)</b></label>
-                                    <p>Usulan kegiatan yang sudah di ada pendamping</p>
+                                    <p>Usulan kegiatan yang sudah ada pendamping</p>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_event" id="reg_event">

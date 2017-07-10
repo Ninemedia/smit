@@ -1693,4 +1693,68 @@ var ScoreUserValidation = function () {
     };
 }();
 
+var NotesValidation = function () {
+    var handleNotesValidation = function(){
+        $('#notesadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_event: {
+                    required: true,
+                },
+                reg_title: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_selection_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_title: {
+                    required: 'Judul Produk harus di isi',
+                },
+                reg_event: {
+                    required: 'Usulan Kegiatan harus di isi',
+                },
+                reg_desc: {
+                    required: 'Deskripsi Produk harus di isi',
+                },
+                reg_selection_files: {
+                    required: 'Berkas Notulensi harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit   
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_notesadd').modal('show');
+            }
+        });
+    };
+    
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleNotesValidation();
+        }
+    };
+}();
+
 

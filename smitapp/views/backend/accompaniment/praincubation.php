@@ -93,102 +93,64 @@
                     </div>
                     
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <?php echo form_open_multipart( 'praincubation/praincubationadd', array( 'id'=>'praincubationadd', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'backend/notesadd', array( 'id'=>'notesadd', 'role'=>'form' ) ); ?>
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">
-                                <h4>Masukan Data Pra-Inkubasi</h4>
+                                <h4>Masukan Data Notulensi Pra-Inkubasi</h4>
                                 <div class="form-group">
-                                    <label class="form-label">Tahun <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">date_range</i></span>
-                                        <select class="form-control" name="reg_year" id="reg_year">
-                                        <?php
-                                            $option = array(''=>'Pilih Tahun');
-                                            $year_arr = smit_select_year(1999,2030);
-                                            if( !empty($year_arr) ){
-                                                foreach($year_arr as $val){
-                                                    $option[$val] = $val;
-                                                }
-                                            }
-
-                                            if( !empty($option) ){
-                                                foreach($option as $val){
-                                                    echo '<option value="'.$val.'">'.$val.'</option>';
-                                                }
-                                            }else{
-                                                echo '<option value="">Tahun Kosong</option>';
-                                            }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Nama Peneliti Utama <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                        <div class="form-line">
-                                            <input type="text" name="reg_name" id="reg_name" class="form-control" placeholder="Masukan Nama Peneliti Utama" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Kategori Kegiatan <b style="color: red !important;">(*)</b></label>
+                                    <label class="form-label">Usulan Kegiatan Pra-Inkubasi<b style="color: red !important;">(*)</b></label>
+                                    <p>Usulan kegiatan yang sudah ada pendamping</p>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="reg_category" id="reg_category">
-                                        	<?php
-                                        		$category     = smit_category();
-                                        		if( !empty($category) ){
-                                        			echo '<option value="">-- Pilih Kategori Bidang --</option>';
-                                        			foreach($category as $row){
-                                        				echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
-                                        			}
-                                        		}else{
-                                        			echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                                        		}
-                                        	?>
+                                        <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                            <?php
+                                                $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
+                                                if( !empty($is_admin) ){
+                                                    $conditions = ' WHERE %companion_id% > 0';
+                                                }
+                	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, $conditions);
+                	                            if( !empty($praincubation_list) ){
+                	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';
+                	                                foreach($praincubation_list as $row){
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->event_title).'</option>';
+                	                                }
+                	                            }else{
+                	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                	                            }
+                	                        ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
+                                    <label class="form-label">Judul Notulensi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                         <div class="form-line">
-                                            <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Kegiatan" required>
+                                            <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Notulensi" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Deskripsi Kegiatan <b style="color: red !important;">(*)</b></label>
+                                    <label class="form-label">Deskripsi Notulensi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <div class="form-line">
                                             <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <h4>Berkas Kegiatan Pra-Inkubasi</h4>
+                                <h4>Berkas Notulensi Pra-Inkubasi</h4>
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <label>Upload Proposal Kegiatan</label>
+                                        <label>Upload Proposal Notulensi</label>
                                         <p>
                                             File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>DOCX/DOC/PDF.</strong>
                                         </p>
                                         <input id="reg_selection_files" name="reg_selection_files" class="form-control" type="file">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Upload Rencana Anggaran Biaya</label>
-                                        <p>
-                                            File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>XLXS/XLX.</strong>
-                                        </p>
-                                        <input id="reg_selection_rab" name="reg_selection_rab" class="form-control" type="file">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Pra-Inkubasi</button>
-                                <button type="button" class="btn btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
+                                <button type="submit" class="btn btn-primary waves-effect" id="btn_notesadd">Tambah Pra-Inkubasi</button>
+                                <button type="button" class="btn btn-danger waves-effect" id="btn_notesadd_reset">Bersihkan</button>
                             </section>
                         </div>
                         <?php echo form_close(); ?>
@@ -226,22 +188,22 @@
 </div>
 <!-- #END# Content -->
 
-<!-- BEGIN INFORMATION SUCCESS SAVE INCUBATION MODAL -->
-<div class="modal fade" id="save_praincubationadd" tabindex="-1" role="basic" aria-hidden="true">
+<!-- BEGIN INFORMATION SUCCESS SAVE NOTES MODAL -->
+<div class="modal fade" id="save_notes" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pendaftaran Pra-Inkubasi</h4>
+				<h4 class="modal-title">Pendaftaran Notulensi Pra-Inkubasi</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Pra-Inkubasi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <p>Anda Sedang Melakukan Pendaftaran Notulensi Pra-Inkubasi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-primary waves-effect" id="do_save_praincubationadd" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_notes" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- END INFORMATION SUCCESS SAVE INCUBATION MODAL -->
+<!-- END INFORMATION SUCCESS SAVE NOTES MODAL -->
