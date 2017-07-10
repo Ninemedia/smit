@@ -15,7 +15,23 @@
                     <textarea class="form-control ckeditor" id="be_notif_registration_user"><?php echo get_option('be_notif_registration_user'); ?></textarea>
                 </div>
                 <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_user" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
-                <button class="btn btn-info waves-effect btn-notif-praincubation-setting" type="button" data-type="confirm" data-url="<?php echo base_url(''); ?>">Lihat Surat</button>
+                <button class="btn btn-info waves-effect" type="button" data-toggle="modal" data-target="#view_notif_registration_user">Lihat Surat</button>
+            </div>
+        </div>
+        <!-- Modal View -->
+        <div class="modal fade" id="view_notif_registration_user" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Format Email Notifikasi Pendaftaran Anggota</h4>
+                    </div>
+                    <div class="modal-body">
+                        <?php echo smit_notification_template(get_option('be_notif_registration_user')); ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link bg-light-blue waves-effect" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
