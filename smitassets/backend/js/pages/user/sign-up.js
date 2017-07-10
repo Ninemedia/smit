@@ -16,7 +16,6 @@ var SignUp = function () {
                     required: true,
                     email: true,
                 },
-                /*
                 password: {
                     minlength: 6,
                     required: true,
@@ -26,7 +25,6 @@ var SignUp = function () {
                     required: true,
                     equalTo : "#password"
                 },
-                */
                 name: {
                     required: true,
                 },
@@ -50,7 +48,6 @@ var SignUp = function () {
                     required: 'Email harus di isi',
                     email: 'Masukkan alamat email Anda yang benar',
                 },
-                /*
                 password: {
                     required: 'Password harus di isi',
                     minlength: 'Minimal 6 karakter',
@@ -60,7 +57,6 @@ var SignUp = function () {
                     minlength: 'Minimal 6 karakter',
                     equalTo : "Konfirmasi password tidak sesuai dengan password yang diinputkan"
                 },
-                */
                 name: {
                     required: 'Nama harus di isi',
                 },
