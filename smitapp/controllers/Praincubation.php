@@ -186,7 +186,7 @@ class PraIncubation extends User_Controller {
 
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                // Status
+                // Button
                 $btn_action = '<a href="'.base_url('seleksiprainkubasi/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
@@ -4910,7 +4910,6 @@ class PraIncubation extends User_Controller {
             elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
         }
         
-
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
         $records            = array();
@@ -4933,6 +4932,11 @@ class PraIncubation extends User_Controller {
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center> - </center>"; }
                 
+                // Button
+                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+
+                
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -4941,7 +4945,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
                         $companion_name,
-                        '',
+                        smit_center( $btn_detail ),
                     );    
                 }else{
                     $records["aaData"][] = array(
@@ -4950,7 +4954,7 @@ class PraIncubation extends User_Controller {
                         strtoupper($workunit_type),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
-                        '',
+                        smit_center( $btn_detail ),
                     );    
                 }
                 
@@ -5364,6 +5368,7 @@ class PraIncubation extends User_Controller {
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_pengusul            = as_pengusul($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         if( !$uniquecode ){
             // Set JSON data
@@ -5423,6 +5428,7 @@ class PraIncubation extends User_Controller {
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_pengusul']    = $is_pengusul;
+        $data['is_pendamping']  = $is_pendamping;
         $data['praincubation']  = $praincubation_list;
         $data['praincubation_files']    = $praincubation_files;
         $data['headstyles']     = $headstyles;

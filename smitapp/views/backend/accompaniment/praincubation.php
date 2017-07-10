@@ -4,7 +4,6 @@
         <div class="card">
             <div class="header"><h2>Notulensi Pra-Inkubasi</h2></div>
             <div class="body">
-                <?php if($is_admin): ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -23,65 +22,44 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_notulensipraincubation" data-url="<?php echo base_url(); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="list_notespraincubation" data-url="<?php echo base_url('backend/noteslistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-                                        <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Pengguna</th>
-            							<th class="width15">Nama Peneliti Utama</th>
-                                        <th class="width10 text-center">Satuan Kerja</th>
-                                        <th class="width20 text-center">Judul Kegiatan</th>
-                                        <th class="width10 text-center">Tanggal Usulan</th>
-            							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-            						</tr>
+                                        <th class="width15 text-center">Nama</th>
+            							<th class="width20 text-center">Judul Usulan</th>
+            							<th class="width20 text-center">Judul Notulensi</th>
+            							<th class="width5 text-center">Berkas</th>
+            							<th class="width10 text-center">Status</th>
+                                        <th class="width10 text-center">Tanggal</th>
+            							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+        					        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
-                                        <td>
-                                            <select name="search_year" class="form-control form-filter input-sm def">
-                                            <?php
-                                                $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
-                                                if( !empty($year_arr) ){
-                                                    foreach($year_arr as $val){
-                                                        $option[$val] = $val;
-                                                    }
-                                                }
-
-                                                if( !empty($option) ){
-                                                    foreach($option as $val){
-                                                        echo '<option value="'.$val.'">'.$val.'</option>';
-                                                    }
-                                                }else{
-                                                    echo '<option value="">Tahun Kosong</option>';
-                                                }
-                                            ?>
-                                            </select>
+                                        <td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_name" /></td>
+                                        <td></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
+                                        <td></td>
+            							<td>
+                                            <select name="search_status" class="form-control form-filter input-sm">
+            									<option value="">Pilih...</option>
+            									<?php
+            			                        	$status = smit_user_status();
+            			                            if( !empty($status) ){
+            			                                foreach($status as $key => $val){
+            			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
+            			                                }
+            			                            }
+            			                        ?>
+            								</select>
                                         </td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-                                        <td>
-                                            <?php
-                                            	$workunit_type = smit_workunit_type();
-                                                $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
-
-                                                if( !empty($workunit_type) ){
-                                                    foreach($workunit_type as $val){
-                                                        $option[$val->workunit_id] = $val->workunit_name;
-                                                    }
-                                                }
-                                                echo form_dropdown('workunit_type',$option,'',$extra);
-                                            ?>
-                                        </td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
             							<td style="text-align: center;">
-                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+            								<button class="btn bg-blue waves-effect filter-submit" id="btn_slider_list">Search</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_slider_listreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -105,7 +83,7 @@
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_event" id="reg_event">
                                             <?php
-                                                $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
+                                                $conditions     = ' WHERE %companion_id% = '.$user->id.'';
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
                                                 }
@@ -149,39 +127,13 @@
                                         <input id="reg_selection_files" name="reg_selection_files" class="form-control" type="file">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary waves-effect" id="btn_notesadd">Tambah Pra-Inkubasi</button>
+                                <button type="submit" class="btn btn-primary waves-effect" id="btn_notesadd">Tambah Notulensi</button>
                                 <button type="button" class="btn btn-danger waves-effect" id="btn_notesadd_reset">Bersihkan</button>
                             </section>
                         </div>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
-                <?php else : ?>
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#list" data-toggle="tab">
-                            <i class="material-icons">list</i> NOTULENSI PRA-INKUBASI
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> TAMBAH
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="list">
-                        
-                    </div>
-                    
-                    <div role="tabpanel" class="tab-pane fade" id="add">
-                        
-                    </div>
-                </div>
-                <?php endif ?> 
             </div>
         </div>
     </div>
@@ -189,7 +141,7 @@
 <!-- #END# Content -->
 
 <!-- BEGIN INFORMATION SUCCESS SAVE NOTES MODAL -->
-<div class="modal fade" id="save_notes" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="save_notesadd" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -201,7 +153,7 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-primary waves-effect" id="do_save_notes" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_notesadd" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

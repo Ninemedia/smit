@@ -4,8 +4,12 @@
         <div class="card">
             <div class="header"><h2>Detail Pra Inkubasi</h2></div>
             <div class="body">
-                <div class="table-container table-responsive">                     
-                    <a href="<?php echo base_url('prainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>     
+                <div class="table-container table-responsive">
+                    <?php if( !empty($is_pendamping) ) : ?>                     
+                    <a href="<?php echo base_url('prainkubasi/pendampingan'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>
+                    <?php else : ?>
+                    <a href="<?php echo base_url('prainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>
+                    <?php endif; ?>          
                     <h4><?php echo $praincubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>
@@ -32,7 +36,7 @@
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->category; ?></td>
+                                <td><?php echo strtoupper( $praincubation->category ); ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Berkas Kegiatan</th>

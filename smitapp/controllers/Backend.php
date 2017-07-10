@@ -3231,6 +3231,306 @@ class Backend extends User_Controller {
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
     
+    /**
+	 * Notes Pra-Inkubasi Add Function
+	 */
+	public function notesadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_event','Usulan Kegiatan','required');
+        $this->form_validation->set_rules('reg_title','Judul Notulensi','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Notulensi','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Notulensi Pra-Inkubasi baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['reg_selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Berkas botulensi yang di unggah. Silahkan inputkan Berkas botulensi!');
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $current_user->id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types'     => "doc|docx|pdf",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            
+            $this->load->library('MY_Upload', $config);
+
+            if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                $message = $this->my_upload->display_errors();
+
+                // Set JSON data
+                $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                die(json_encode($data));
+            }
+            
+            $upload_data_files      = $this->my_upload->data();
+            $file                   = $upload_data_files;
+
+            $status     = NONACTIVE;
+            if( !empty($is_admin) ){
+                $status = ACTIVE;
+            }
+
+            $notes_data         = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'praincubation_id'  => $event,
+                'user_id'       => $current_user->id,
+                'username'      => strtolower($current_user->username),
+                'name'          => strtoupper($current_user->name),
+                'title'         => $title,
+                'description'   => $description,
+                'url'           => smit_isset($file['full_path'],''),
+                'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                'filename'      => smit_isset($file['raw_name'],''),
+                'size'          => smit_isset($file['file_size'],0),
+                'status'        => $status,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+            
+            // -------------------------------------------------
+            // Save Notes Pra-Incubation Selection
+            // -------------------------------------------------
+            $trans_save_notes           = FALSE;
+            if( $notes_save_id      = $this->Model_Praincubation->save_data_notes($notes_data) ){
+                $trans_save_notes   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_notes ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran notulensi pra-inkubasi baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'NOTESPRA_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data_files)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+    
+    /**
+	 * Notes list data function.
+	 */
+    function noteslistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        if( !$is_admin ){
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $notes_list         = $this->Model_Praincubation->get_all_notes($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($notes_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($notes_list as $row){
+                // Status
+                $btn_action = '<a href="'.base_url('notulensi/detail/'.$row->uniquecode).'"
+                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action .= ' ';
+                
+                if( !$is_admin ){
+                    if($row->status == NONACTIVE)   {
+                        $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    }
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('notes/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                    }
+                }
+                
+                if( !empty($is_admin) ){
+                    if($row->status == NONACTIVE)   {
+                        $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    }
+                    
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    }
+                }
+
+                elseif($row->status == BANNED)  {
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == DELETED) {
+                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                
+                if( !empty( $row->url ) ){
+                    $btn_files  = '<a href="'.base_url('unduh/notulensiprainkubasi/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
+                }else{
+                    $btn_files  = ' - ';
+                }
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->name),
+                    '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode_praincubation).'">' . strtoupper($row->event_title) . '</a>',
+                    '<a href="'.base_url('notulensi/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    smit_center( $btn_files ),
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Notes Download File function.
+	 */
+    function notespraincubationdownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Notes File Data
+        $notesdata      = $this->Model_Praincubation->get_notes_by_uniquecode($uniquecode);
+        if( !$notesdata || empty($notesdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $notesdata->filename . '.' . $notesdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $notesdata->user_id . '/' . $file_name;
+        
+        force_download($file_name, $file_url);
+    }
+    
 	public function accompanimentincubation()
 	{
         auth_redirect();

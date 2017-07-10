@@ -166,7 +166,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List Notulensi Pra-Inkubasi
     var handleRecordsListNotulensiPraincubation = function() {
-        gridTable( $("#list_notulensipraincubation"), true );
+        gridTable( $("#list_notespraincubation"), true );
     };
     // List Notulensi Inkubasi
     var handleRecordsListNotulensiIncubation = function() {
