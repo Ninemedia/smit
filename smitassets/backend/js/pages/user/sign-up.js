@@ -162,6 +162,9 @@ var SignUp = function () {
             weekStart: 1,
             time: false
         });
+        
+        //Selectpicker
+        $('.show-tick').selectpicker();
     };
     
     var handleSaveProfile = function() {
