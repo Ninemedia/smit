@@ -162,20 +162,13 @@
         <!-- Custom Js -->
         <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>
         <script type="text/javascript" src="<?php echo BE_JS_PATH . 'admin.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo BE_JS_PATH . 'pages/user/login.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo BE_JS_PATH . 'pages/user/sign-up.js'; ?>"></script>
         
         <!-- Init JavaScript -->
         <?php echo $scripts_init; ?>
         <script type="text/javascript">
-            jQuery(document).ready(function() {
-                Login.init();
-                SignUp.init();
-            });
-            
             function onloadCallback() {
-    			Login.loadCaptcha();
-                SignUp.loadCaptcha();
+                SignUp.loadCaptchaUser();
     		}
     	</script>
     </body>

@@ -106,7 +106,6 @@ class User extends SMIT_Controller {
         
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
-            'Login.init();',
             'SignUp.init();',
         ));
         
@@ -118,7 +117,6 @@ class User extends SMIT_Controller {
         $data['scripts_init']   = $scripts_init;
         
         $this->load->view(VIEW_BACK . 'signup', $data);
-        
     }
     
     /**
