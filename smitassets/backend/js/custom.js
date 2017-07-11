@@ -1152,75 +1152,90 @@ var Charts = function() {
 		return moment( date ).format( 'MMM YY' );
 	};
 
-	var handleChartUser = function() {
-		var elm = 'chart-user-month';
-		var chart = $( '#' + elm ).find( '.data' ).text();
+    var handleChartTab = function() {
+        // Chart Month Init
+        var elmMonth = 'chart-user-month';
+		var chartMonthData = $( '#' + elmMonth ).find( '.data' ).text();
 
-		if ( ! chart )
+		if ( ! chartMonthData )
 			return;
 
-		chart = $.parseJSON( chart );
-		if ( ! chart.data )
+		chartMonthData = $.parseJSON( chartMonthData );
+		if ( ! chartMonthData.data )
             return;
 
-		var data = chart.data;
-		var xkey = chart.xkey;
-		var ykeys = chart.ykeys;
-		var labels = chart.labels;
+		var dataM = chartMonthData.data;
+		var xkeyM = chartMonthData.xkey;
+		var ykeysM = chartMonthData.ykeys;
+		var labelsM = chartMonthData.labels;
 
-		new Morris.Bar({
+		var chartMonth = Morris.Bar({
             // ID of the element in which to draw the chart.
-            element: elm,
+            element: elmMonth,
             // Chart data records -- each entry in this array corresponds to a point on the chart.
-            data: data,
+            data: dataM,
             // The name of the data record attribute that contains x-values.
-            xkey: xkey,
+            xkey: xkeyM,
             // A list of names of data record attributes that contain y-values.
-            ykeys: ykeys,
+            ykeys: ykeysM,
             // Labels for the ykeys -- will be displayed when you hover over the chart.
-            labels: labels,
+            labels: labelsM,
             xLabels: 'month',
             // custom options
             hideHover: 'auto',
-            xLabelAngle: 30,
+            xLabelAngle: 0,
             resize: true
 		});
-	};
+        
+        // Chart Year Init
+        var elmYear = 'chart-user-year';
+		var chartYearData = $( '#' + elmYear ).find( '.data-year' ).text();
 
-    var handleChartUserYear = function() {
-		var elm = 'chart-user-year';
-		var chart = $( '#' + elm ).find( '.data' ).text();
-
-		if ( ! chart )
+		if ( ! chartYearData )
 			return;
 
-		chart = $.parseJSON( chart );
-		if ( ! chart.data )
+		chartYearData = $.parseJSON( chartYearData );
+		if ( ! chartYearData.data )
             return;
 
-		var data = chart.data;
-		var xkey = chart.xkey;
-		var ykeys = chart.ykeys;
-		var labels = chart.labels;
+		var dataY = chartYearData.data;
+		var xkeyY = chartYearData.xkey;
+		var ykeysY = chartYearData.ykeys;
+		var labelsY = chartYearData.labels;
 
-		new Morris.Bar({
+		var chartYear = Morris.Bar({
             // ID of the element in which to draw the chart.
-            element: elm,
+            element: elmYear,
             // Chart data records -- each entry in this array corresponds to a point on the chart.
-            data: data,
+            data: dataY,
             // The name of the data record attribute that contains x-values.
-            xkey: xkey,
+            xkey: xkeyY,
             // A list of names of data record attributes that contain y-values.
-            ykeys: ykeys,
+            ykeys: ykeysY,
             // Labels for the ykeys -- will be displayed when you hover over the chart.
-            labels: labels,
+            labels: labelsY,
             xLabels: 'year',
             // custom options
             hideHover: 'auto',
-            xLabelAngle: 30,
+            xLabelAngle: 0,
             resize: true
 		});
-	};
+        
+        $('a.tab_chart').on('shown.bs.tab', function(e) {
+            var target = $(e.target).attr("href") // activated tab
+            
+            switch (target) {
+                case "#monthly":
+                    chartMonth.redraw();
+                    $(window).trigger('resize');
+                    break;
+                case "#yearly":
+                    chartYear.redraw();
+                    $(window).trigger('resize');
+                    break;
+            }
+        });
+    };
 
     var handleChartIKM = function() {
 		var elm = 'chart-ikm';
@@ -1252,7 +1267,7 @@ var Charts = function() {
             xLabels: 'year',
             // custom options
             hideHover: 'auto',
-            xLabelAngle: 30,
+            xLabelAngle: 0,
             resize: true
 		});
 	};
@@ -1287,17 +1302,17 @@ var Charts = function() {
             xLabels: 'year',
             // custom options
             hideHover: 'auto',
-            xLabelAngle: 30,
+            xLabelAngle: 0,
             resize: true
 		});
 	};
 
 	return {
 		init: function() {
-			handleChartUser();
-            handleChartUserYear();
+            handleChartTab();
             handleChartIKM();
             handleChartQuestion();
+            
 		}
 	};
 }();

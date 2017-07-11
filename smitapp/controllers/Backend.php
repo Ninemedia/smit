@@ -3696,10 +3696,10 @@ class Backend extends User_Controller {
         }
 
         $chart_year = array();
-        if ( $stats = $this->Model_User->stats_yearly() ) {
+        if ( $stats_yearly = $this->Model_User->stats_yearly() ) {
             // Pivoting
-			$pivot = array();
-			foreach( $stats as $row ) {
+			$pivot_yearly = array();
+			foreach( $stats_yearly as $row ) {
                 if ( $row->type == 2 )      { $type = 'pendamping'; }
                 elseif ( $row->type == 3 )  { $type = 'tenant'; }
                 elseif ( $row->type == 4 )  { $type = 'juri'; }
@@ -3707,22 +3707,21 @@ class Backend extends User_Controller {
                 elseif ( $row->type == 6 )  { $type = 'pelaksana'; }
                 elseif ( $row->type == 7 )  { $type = 'pelaksana_tenant'; }
 
-				if ( ! isset( $pivot[ $row->period ] ) )
-					$pivot[ $row->period ] = array();
+				if ( ! isset( $pivot_yearly[ $row->period ] ) )
+					$pivot_yearly[ $row->period ] = array();
 
-				if ( ! isset( $pivot[ $row->period ][ 'total' ] ) )
-					$pivot[ $row->period ][ 'total' ] = 0;
+				if ( ! isset( $pivot_yearly[ $row->period ][ 'total' ] ) )
+					$pivot_yearly[ $row->period ][ 'total' ] = 0;
 
-				//$pivot[ $row->period ][ 'period_name' ] = $row->period_name;
-				$pivot[ $row->period ][ 'total' ] += $row->total;
-				$pivot[ $row->period ][ $type ] = $row->total;
+				$pivot_yearly[ $row->period ][ 'total' ] += $row->total;
+				$pivot_yearly[ $row->period ][ $type ] = $row->total;
 			}
 
             $chart_year['xkey']      = 'period';
             $chart_year['ykeys']     = array( 'pendamping', 'tenant', 'juri', 'pengusul', 'pelaksana', 'pelaksana_tenant' );
             $chart_year['labels']    = array( 'Pendamping', 'Tenant', 'Juri', 'Pengusul', 'Pelaksana', 'Pelaksana & Tenant' );
 
-            foreach( $pivot as $period => $row ) {
+            foreach( $pivot_yearly as $period => $row ) {
                 // chart
 				$chart_year['data'][] = array(
                     'period'            => $period,
