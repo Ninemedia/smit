@@ -1466,6 +1466,9 @@ if ( !function_exists('smit_notification_template') )
             </div>
             <div dir="ltr" style="padding:24px 32px 24px 32px;background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea">
                 '.( empty($message) ? 'This notification has empty message' : $message).'
+                <div style="text-align:right;">
+                    <img style="width:280px;" src="'. BE_IMG_PATH . 'sign.jpg" />
+                </div>
             </div>
         </div>
         <table role="presentation" style="width: 100%; border-collapse: collapse;">
