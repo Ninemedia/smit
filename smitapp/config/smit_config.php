@@ -66,6 +66,16 @@ $config['user_status']              = array(
 );
 
 /**
+ * Status
+ */
+$config['files_status']             = array(
+    NONACTIVE                       => 'Belum Diterima',
+    ACTIVE                          => 'Diterima',
+    BANNED                          => 'Banned',
+    DELETED                         => 'Dihapus',
+);
+
+/**
  * IKM Status
  */
 $config['ikm_status']              = array(

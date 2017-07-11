@@ -3436,7 +3436,7 @@ class Backend extends User_Controller {
 
         if( !empty($notes_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('user_status');
+            $cfg_status     = config_item('files_status');
 
             $i = $offset + 1;
             foreach($notes_list as $row){
