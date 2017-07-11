@@ -1520,7 +1520,7 @@ if ( !function_exists('smit_notification_template') )
             </tbody>
         </table>';
         $template_footer    = '
-        <table dir="ltr" role="presentation" style="padding:14px 10px 0 10px;width:100%;">
+        <table dir="ltr" role="presentation" style="padding:14px 10px 0 10px;width:100%;margin-top:10px;">
             <tbody>
                 <tr>
                     <td style="width:50%;font-size:11px;font-family:Roboto,Arial,Helvetica,sans-serif;color:#646464;line-height:20px;min-height:40px;vertical-align:middle">

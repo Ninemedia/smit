@@ -411,6 +411,23 @@ class Backend extends User_Controller {
             update_option('be_frontend_function', $value);
         }
     }
+    
+    /**
+	 * View Mail Template function.
+	 */
+    function viewmailtemplate()
+    {
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');  
+        // Set POST field
+        $content    = $this->input->post('content');
+        $content    = smit_isset($content, ''); 
+        // Get Opt Mail Content
+        $mail       = get_option($content);
+        if( !$mail ) $mail = '';
+        // Return Mail Content
+        die( smit_notification_template($mail) );
+    }
 
     // ---------------------------------------------------------------------------------------------
     // COMPANY

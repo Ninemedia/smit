@@ -1,8 +1,26 @@
+<!-- Modal View -->
+<div id="modal-view-url" data-url="<?php echo base_url('lihatsurat'); ?>"></div>
+<div class="modal fade" id="view_mail_template" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Format Email Notifikasi Pendaftaran Anggota</h4>
+            </div>
+            <div class="modal-body" id="view-mail-content">
+                <!-- Content will be placed here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Pengaturan Frontend</h2></div>
+            <div class="header"><h2>Pengaturan Backend</h2></div>
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">

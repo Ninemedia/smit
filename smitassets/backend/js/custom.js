@@ -1111,6 +1111,25 @@ var Setting = function () {
             });
         });
         // ---------------------------------------------------------------------
+        
+        // View Email Template
+        $("body").delegate( "button.btn-view-mail", "click", function( event ) {
+            var url         = $('#modal-view-url').data('url');
+            var content     = $(this).data('content');
+            var el          = $('#view-mail-content');
+            
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                data: { 'content' : content },
+                beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
+                success: function( response ){ 
+                    $("div.page-loader-wrapper").fadeOut(); 
+                    el.empty().html(response).show();
+                    $('#view_mail_template').modal('show');
+                }
+            });
+        });
     };
 
     var getValue = function(id) {
