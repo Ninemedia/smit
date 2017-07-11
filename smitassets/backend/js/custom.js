@@ -66,8 +66,8 @@ function activateNotificationAndTasksScroll() {
 // Table Search Filter Toggle
 function tableSearchFilterToggle() {
     $("body").delegate( "button.table-search", "click", function( event ) {
-        event.preventDefault();
-        $('tr.table-filter').toggle();
+        event.preventDefault();        
+        $(this).parent().parent().parent().find('tr.table-filter').toggle();
     });
 }
 

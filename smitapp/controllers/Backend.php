@@ -1217,8 +1217,8 @@ class Backend extends User_Controller {
             foreach($workunit_list as $row){
 
                 // Status
-                $btn_action = '<a data-toggle="modal" data-target="#edit_workunit" class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                $btn_action = '<a class="workunitedit btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="right" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->workunit_name,
@@ -3143,8 +3143,8 @@ class Backend extends User_Controller {
             foreach($category_list as $row){
 
                 // Status
-                $btn_action = '<a data-toggle="modal" data-target="#edit_category" class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($row->category_id>1 ? base_url('categoryconfirm/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus" '.($row->category_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                $btn_action = '<a class="categoryedit btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                <a href="'.($row->category_id>1 ? base_url('categoryconfirm/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="right" title="Hapus" '.($row->category_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->category_name,

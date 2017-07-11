@@ -35,11 +35,11 @@
                                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                                         <div class="table-container table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="workunit_list" data-url="<?php echo base_url('backend/workunitlistdata'); ?>">
-                                            <thead>
+                                            <thead data-test="Test Parent">
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5 text-center">No</th>
-                        							<th class="width50 text-center">Nama Satuan Kerja</th>
-                        							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                        							<th class="width75 text-center">Nama Satuan Kerja</th>
+                        							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
@@ -182,8 +182,8 @@
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5 text-center">No</th>
-                        							<th class="width50 text-center">Nama Kategori</th>
-                        							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+                        							<th class="width75 text-center">Nama Kategori</th>
+                        							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
