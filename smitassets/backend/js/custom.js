@@ -1152,7 +1152,7 @@ var Charts = function() {
 		return moment( date ).format( 'MMM YY' );
 	};
 
-    var handleChartTab = function() {
+    var handleChartTabUser = function() {
         // Chart Month Init
         var elmMonth = 'chart-user-month';
 		var chartMonthData = $( '#' + elmMonth ).find( '.data' ).text();
@@ -1221,7 +1221,7 @@ var Charts = function() {
             resize: true
 		});
         
-        $('a.tab_chart').on('shown.bs.tab', function(e) {
+        $('a.tab_chart_user').on('shown.bs.tab', function(e) {
             var target = $(e.target).attr("href") // activated tab
             
             switch (target) {
@@ -1236,83 +1236,96 @@ var Charts = function() {
             }
         });
     };
-
-    var handleChartIKM = function() {
-		var elm = 'chart-ikm';
-		var chart = $( '#' + elm ).find( '.data' ).text();
-
-		if ( ! chart )
-			return;
-
-		chart = $.parseJSON( chart );
-		if ( ! chart.data )
-            return;
-
-		var data = chart.data;
-		var xkey = chart.xkey;
-		var ykeys = chart.ykeys;
-		var labels = chart.labels;
-
-		new Morris.Bar({
-            // ID of the element in which to draw the chart.
-            element: elm,
-            // Chart data records -- each entry in this array corresponds to a point on the chart.
-            data: data,
-            // The name of the data record attribute that contains x-values.
-            xkey: xkey,
-            // A list of names of data record attributes that contain y-values.
-            ykeys: ykeys,
-            // Labels for the ykeys -- will be displayed when you hover over the chart.
-            labels: labels,
-            xLabels: 'year',
-            // custom options
-            hideHover: 'auto',
-            xLabelAngle: 0,
-            resize: true
-		});
-	};
     
-    var handleChartQuestion = function() {
-		var elm = 'chart-question';
-		var chart = $( '#' + elm ).find( '.data' ).text();
+    var handleChartTabIKM = function() {
+        // Chart IKM Init
+        var elmIKM = 'chart-ikm';
+		var chartIKMData = $( '#' + elmIKM ).find( '.data' ).text();
 
-		if ( ! chart )
+		if ( ! chartIKMData )
 			return;
 
-		chart = $.parseJSON( chart );
-		if ( ! chart.data )
+		chartIKMData = $.parseJSON( chartIKMData );
+		if ( ! chartIKMData.data )
             return;
 
-		var data = chart.data;
-		var xkey = chart.xkey;
-		var ykeys = chart.ykeys;
-		var labels = chart.labels;
+		var dataI = chartIKMData.data;
+		var xkeyI = chartIKMData.xkey;
+		var ykeysI = chartIKMData.ykeys;
+		var labelsI = chartIKMData.labels;
 
-		new Morris.Bar({
+		var chartIKM = Morris.Bar({
             // ID of the element in which to draw the chart.
-            element: elm,
+            element: elmIKM,
             // Chart data records -- each entry in this array corresponds to a point on the chart.
-            data: data,
+            data: dataI,
             // The name of the data record attribute that contains x-values.
-            xkey: xkey,
+            xkey: xkeyI,
             // A list of names of data record attributes that contain y-values.
-            ykeys: ykeys,
+            ykeys: ykeysI,
             // Labels for the ykeys -- will be displayed when you hover over the chart.
-            labels: labels,
+            labels: labelsI,
             xLabels: 'year',
             // custom options
             hideHover: 'auto',
             xLabelAngle: 0,
             resize: true
 		});
-	};
+        
+        // Chart Question Init
+        var elmQuest = 'chart-question';
+		var chartQuestData = $( '#' + elmQuest ).find( '.data-year' ).text();
+
+		if ( ! chartQuestData )
+			return;
+
+		chartQuestData = $.parseJSON( chartQuestData );
+		if ( ! chartQuestData.data )
+            return;
+
+		var dataQ = chartQuestData.data;
+		var xkeyQ = chartQuestData.xkey;
+		var ykeysQ = chartQuestData.ykeys;
+		var labelsQ = chartQuestData.labels;
+
+		var chartQuestion = Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: elmQuest,
+            // Chart data records -- each entry in this array corresponds to a point on the chart.
+            data: dataQ,
+            // The name of the data record attribute that contains x-values.
+            xkey: xkeyQ,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ykeysQ,
+            // Labels for the ykeys -- will be displayed when you hover over the chart.
+            labels: labelsQ,
+            xLabels: 'year',
+            // custom options
+            hideHover: 'auto',
+            xLabelAngle: 0,
+            resize: true
+		});
+        
+        $('a.tab_chart_ikm').on('shown.bs.tab', function(e) {
+            var target = $(e.target).attr("href") // activated tab
+            
+            switch (target) {
+                case "#monthly":
+                    chartIKM.redraw();
+                    $(window).trigger('resize');
+                    break;
+                case "#yearly":
+                    chartQuestion.redraw();
+                    $(window).trigger('resize');
+                    break;
+            }
+        });
+    };
 
 	return {
 		init: function() {
-            handleChartTab();
-            handleChartIKM();
-            handleChartQuestion();
-            
+            handleChartTabUser();
+            handleChartTabIKM();
 		}
 	};
 }();

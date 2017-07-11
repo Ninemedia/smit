@@ -8,12 +8,12 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#monthly" data-toggle="tab">
+                        <a href="#monthly" data-toggle="tab" class="tab_chart_ikm">
                             <i class="material-icons">donut_small</i> TAHUNAN
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#yearly" data-toggle="tab">
+                        <a href="#yearly" data-toggle="tab" class="tab_chart_ikm">
                             <i class="material-icons">donut_small</i> PER PERTANYAAN
                         </a>
                     </li>
@@ -29,7 +29,7 @@
 
                     <div role="tabpanel" class="tab-pane fade" id="yearly">
                         <div id="chart-question" style="height: 300px;">
-                            <span class="data hide"><?php echo $chart_question; ?></span>
+                            <span class="data-year hide"><?php echo $chart_question; ?></span>
                         </div>
                     </div>
                 </div>
