@@ -9,9 +9,18 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <!-- Call Search -->
-                <!--
-                <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
-                -->
+                <li>
+                    <div class="user-helper-dropdown">
+                        <div class="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <?php echo $user->name; ?> <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="<?php echo base_url('pengguna/profil'); ?>"><i class="material-icons">person</i>Profil</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="<?php echo base_url('logout'); ?>"><i class="material-icons">input</i>Keluar</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <!-- #END# Call Search -->
                 
                 <!-- Notification List -->

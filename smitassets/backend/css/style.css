@@ -8483,3 +8483,34 @@ hr.line-warning{
     border: 1px solid #ccc !important;
     border-radius: 0 !important;
 }
+
+.navbar-right li .user-helper-dropdown{
+    position: relative;
+    top: 22px;
+    color: #FFFFFF;
+}
+
+.navbar-right li .user-helper-dropdown .profile-dropdown{
+    display: inline-block;
+    cursor: pointer;
+}
+
+.navbar-right li .user-helper-dropdown i{
+    color: #FFFFFF;
+    line-height: 12px;
+    position: relative;
+    top:7px;
+}
+
+.navbar-right li .user-helper-dropdown .dropdown-menu{
+    right: -5px !important;
+    top: 48px;
+    float: none;
+    margin-top: 0 !important;
+}
+
+.navbar-right li .user-helper-dropdown .dropdown-menu li i{
+    color: #666 !important;
+    position: relative;
+    top: 5px !important;
+}

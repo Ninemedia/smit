@@ -686,6 +686,7 @@
                 <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $user->name; ?></div>
                 <div class="email"><?php echo $user->email; ?></div>
                 <div class="email"><?php echo $status; ?></div>
+                <!--
                 <div class="btn-group user-helper-dropdown">
                     <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                     <ul class="dropdown-menu pull-right">
@@ -694,6 +695,7 @@
                         <li><a href="<?php echo base_url('logout'); ?>"><i class="material-icons">input</i>Keluar</a></li>
                     </ul>
                 </div>
+                -->
             </div>
         </div>
         <!-- #User Info -->

@@ -4,13 +4,11 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="btn btn-info waves-effect pull-right" data-dismiss="modal"><i class="material-icons">close</i></button>
                 <h4 class="modal-title">Format Email Notifikasi Pendaftaran Anggota</h4>
             </div>
             <div class="modal-body" id="view-mail-content">
                 <!-- Content will be placed here -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>
