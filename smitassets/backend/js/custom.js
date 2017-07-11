@@ -231,6 +231,21 @@ $("body").delegate( "a.produkconfirm", "click", function( event ) {
     });
 });
 
+// Workunit Edit
+$("body").delegate( "a.workunitedit", "click", function( event ) {
+    event.preventDefault();
+    
+    var id      = $(this).data('id');
+    var name    = $(this).data('name');
+    var el_id   = $('#reg_id_workunit');
+    var el_name = $('#reg_workunit');
+    
+    el_id.val(id);
+    el_name.val(name);
+
+    $('#edit_workunit').modal('show');
+});
+
 // Workunit Delete
 $("body").delegate( "a.workunitdelete", "click", function( event ) {
     event.preventDefault();
@@ -272,6 +287,21 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
             });
         }
     });
+});
+
+// Category Edit
+$("body").delegate( "a.categoryedit", "click", function( event ) {
+    event.preventDefault();
+    
+    var id      = $(this).data('id');
+    var name    = $(this).data('name');
+    var el_id   = $('#reg_id_category');
+    var el_name = $('#reg_category');
+    
+    el_id.val(id);
+    el_name.val(name);
+
+    $('#edit_category').modal('show');
 });
 
 // Category Delete
