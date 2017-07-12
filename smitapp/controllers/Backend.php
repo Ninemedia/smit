@@ -3233,7 +3233,7 @@ class Backend extends User_Controller {
             foreach($category_list as $row){
 
                 // Status
-                $btn_action = '<a class="categoryedit btn btn-xs btn-success waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
+                $btn_action = '<a class="categoryedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
                 <a href="'.($row->category_id>1 ? base_url('categoryconfirm/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus" '.($row->category_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
                     smit_center($i),

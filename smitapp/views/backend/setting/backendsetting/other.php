@@ -64,11 +64,11 @@
 				<h4 class="modal-title">Pendaftaran Kategori</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Kategori. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Melakukan Pendaftaran Kategori. Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_category" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_category" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button>
+                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button> -->
                         </section>
                     </div>
                 <?php echo form_close(); ?>
