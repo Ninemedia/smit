@@ -7590,7 +7590,7 @@ fieldset[disabled] .form-control {
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
         overflow: hidden;
-        font-size: 12px;
+        font-size: 11px;
         max-width: 200px;
         color: #fff; }
       .sidebar .user-info .info-container .user-helper-dropdown {

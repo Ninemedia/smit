@@ -3561,7 +3561,7 @@ class Backend extends User_Controller {
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                         $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
                 
