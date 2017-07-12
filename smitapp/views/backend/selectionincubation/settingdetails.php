@@ -111,8 +111,8 @@
                 </div>
                 <!-- #END# Juri Tahap 2 -->
                 
-                <a href="<?php echo base_url('seleksiinkubasi/pengaturan'); ?>" class="btn btn-warning m-t-15 waves-effect" type="button">Kembali</a>
-                <button class="btn btn-primary m-t-15 waves-effect" type="submit">Update Pengaturan</button>
+                <a href="<?php echo base_url('seleksiinkubasi/pengaturan'); ?>" class="btn btn-sm btn-default waves-effect" type="button"><i class="material-icons">arrow_back</i> Kembali</a>
+                <button class="btn btn-medium btn-warning waves-effect" type="submit"><i class="material-icons">edit</i> Ubah Pengaturan</button>
                 <?php echo form_close(); ?>
 
             </div>

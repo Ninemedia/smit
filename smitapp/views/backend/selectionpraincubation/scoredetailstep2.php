@@ -8,7 +8,7 @@
             <div class="body">
                 <?php if($is_admin): ?>
                     <div class="pull-right bottom25">                        
-                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />

@@ -6,9 +6,9 @@
             <div class="body">
                 <div class="table-container table-responsive">
                     <?php if( !empty($is_pendamping) ) : ?>                     
-                    <a href="<?php echo base_url('prainkubasi/pendampingan'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>
+                    <a href="<?php echo base_url('prainkubasi/pendampingan'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>
                     <?php else : ?>
-                    <a href="<?php echo base_url('prainkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom25">Kembali</a>
+                    <a href="<?php echo base_url('prainkubasi/daftar'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>
                     <?php endif; ?>          
                     <h4><?php echo $praincubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">

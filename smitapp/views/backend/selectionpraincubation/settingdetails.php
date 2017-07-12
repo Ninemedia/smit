@@ -2,7 +2,9 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Details Pengaturan Seleksi Pra-Inkubasi</h2></div>
+            <div class="header">
+                <h2>Details Pengaturan Seleksi Pra-Inkubasi</h2>
+            </div>
             <div class="body">
             
                 <?php echo form_open_multipart( base_url('detilprainkubasi/'.$pis_data->uniquecode), array( 'id'=>'details_selection_praincubation', 'role'=>'form' ) ); ?>
@@ -244,8 +246,8 @@
                 </div>
                 <!-- #END# Juri Tahap 2 -->
                 
-                <a href="<?php echo base_url('seleksiprainkubasi/pengaturan'); ?>" class="btn btn-warning m-t-15 waves-effect" type="button">Kembali</a>
-                <button class="btn btn-primary m-t-15 waves-effect" type="submit">Update Pengaturan</button>
+                <a href="<?php echo base_url('seleksiprainkubasi/pengaturan'); ?>" class="btn btn-sm btn-default waves-effect" type="button"><i class="material-icons">arrow_back</i> Kembali</a>
+                <button class="btn btn-medium btn-warning waves-effect" type="submit"><i class="material-icons">edit</i> Ubah Pengaturan</button>
                 <?php echo form_close(); ?>
 
             </div>

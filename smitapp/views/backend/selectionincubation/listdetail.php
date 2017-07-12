@@ -4,11 +4,9 @@
         <div class="card">
             <div class="header"><h2>Detail Seleksi Inkubasi</h2></div>
             <div class="body">
-                <h4><?php echo $incubation->event_title; ?></h4>
                 <div class="table-container table-responsive">
-                    <div class="table-wrapper pull-right bottom10">                        
-                        <a href="<?php echo base_url('seleksiinkubasi/daftar'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
-                    </div>
+                    <a href="<?php echo base_url('seleksiinkubasi/daftar'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>     
+                    <h4><?php echo $incubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>
                             <tr class="bg-blue-grey">

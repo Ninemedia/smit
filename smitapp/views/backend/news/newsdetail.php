@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="header">
-                <a href="<?php echo base_url('berita'); ?>" class="btn btn-sm btn-success waves-effect back pull-right bottom20">
+                <a href="<?php echo base_url('berita'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom20">
                     <i class="material-icons">arrow_back</i> Kembali
                 </a>
                 <h2><?php echo strtoupper($news_data->title); ?></h2>
