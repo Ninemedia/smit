@@ -75,7 +75,7 @@ class Frontend extends Public_Controller {
         $sliderdata             = $this->Model_Slider->get_all_slider('', '', ' WHERE status = 1');
         $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
         $countnewsdata          = $this->Model_News->count_data_news();
-
+        
         $data['title']          = TITLE . 'Home';
         $data['sliderdata']     = $sliderdata;
         $data['newsdata']       = $newsdata;
@@ -977,8 +977,27 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        $productdata            = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
+            $product        = $file_url;
+        }else{
+            $product        = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+        
+        $alldata                = $this->Model_Praincubation->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
 
         $data['title']          = TITLE . 'Detail Produk Pra-Inkubasi';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product;
+        $data['alldata']        = $alldata;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

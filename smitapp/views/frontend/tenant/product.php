@@ -20,7 +20,7 @@
                     </li>
                     <li <?php echo ($active_page2 == 'produk' ? 'class="active"' : ''); ?>>
                         <a href="<?php echo base_url('tenant/produktenant'); ?>">
-                            <i class=""></i> <strong>Produk Tenant</strong>
+                            <i class=""></i> <strong>Produk Inkubasi / Tenant</strong>
                         </a>
                     </li>
                 </ol>
@@ -33,39 +33,50 @@
 	<div class="gtco-container">
 		<div class="row">
 			<div class="col-md-12 text-center gtco-heading">
-				<h3>Produk Tenant</h3>
+				<h3>Produk Inkubasi / Tenant</h3>
 			</div>
-			<div class="col-md-12">
-                <div class="panel-body">
-                    <div class="product-box">
-                        <div class="row">
-                            <?php
-                                $condition          = ' WHERE %status% = 1';
-                                $product_list       = $this->Model_Praincubation->get_all_product(0, 0, $condition);
-                                
-                                foreach($product_list AS $row){
-                                    $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
-                                    $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'.$row->user_id.'/' . $file_name; 
-                                    $product        = $file_url;
-                            ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
-                                        <img alt="Riset Unggulan" src="<?php echo $product; ?>" />
-                                        <a href="<?php echo base_url(); ?>"><div class="product-title"><h3><?php echo $row->title; ?></h3></div></a>
-                                        <div class="product-overlay">
-                                            <div class="product-content">
-                                                <a href="<?php echo base_url(); ?>"><h3><?php echo $row->title; ?></h3></a>
-                                                <p><?php echo $row->description; ?></p>
-                                                <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
-                                            </div>
-                                        </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <h4 class="news-title">Inkubasi / Tenant</h4>
+                <?php if( $newsdata || !empty($newsdata) ){ ?>
+                <div class="row">
+                <?php foreach($newsdata as $key => $news){ ?>
+                    <?php $desc = word_limiter($news->desc,30); ?>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="media">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm"
+                                            src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->thumbnail.'.'.$news->extension; ?>" />
+                                            <img class="js-animating-object img-responsive media-object visible-xs"
+                                            src="<?php echo BE_UPLOAD_PATH . 'news/'.$news->uploader.'/'.$news->filename.'.'.$news->extension; ?>" />
+                                        </a>
                                     </div>
                                 </div>
-                            <?php } ?>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                                    <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
+                                    <?php echo $desc; ?><br />
+                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                <?php } ?>
                 </div>
+                <?php if($countnews > LIMIT_DEFAULT){ ?>
+                    <a href="<?php echo base_url('frontendberita'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
+                <?php } ?>
+            <?php }else{ ?>
+                <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
+            <?php } ?>
             </div>
+            
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
+                <h4 class="news-title">Produk Tenant Lainnya</h4>
+            </div>
+ 
 		</div>
 	</div>
 </div>
