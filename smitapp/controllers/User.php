@@ -253,7 +253,7 @@ class User extends SMIT_Controller {
     /**
 	 * Forget Function
 	 */
-	function forget() {
+	function forgot() {
 		if ( is_user_logged_in() ){ redirect( 'beranda' ); }
 		
 		if ( ! $forget = $this->session->userdata( 'forget' ) )

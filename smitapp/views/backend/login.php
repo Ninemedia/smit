@@ -101,7 +101,7 @@
                     <!-- END LOGIN FORM -->
                     
                     <!-- BEGIN FORGOT PASSWORD FORM -->
-                    <?php echo form_open( base_url('forgot'), array( 'id'=>'forgot-password-form', 'role'=>'form', 'class'=>'display-hide' ) ); ?>
+                    <?php echo form_open( base_url('lupapassword'), array( 'id'=>'forgot-password-form', 'role'=>'form', 'class'=>'display-hide' ) ); ?>
                         <div class="msg">
                             Masukkan alamat email Anda yang telah digunakan untuk registrasi. Kami akan mengirimkan email
                             berisikan username dan kata sandi baru Anda.

@@ -427,8 +427,14 @@ class Backend extends User_Controller {
         // Get Opt Mail Content
         $mail       = get_option($content);
         if( !$mail ) $mail = '';
+        
         // Return Mail Content
-        die( smit_notification_template($mail) );
+        if( $content == "be_notif_forgot_password" ){
+            $template   = smit_notification_template_clear($mail);
+        }else{
+            $template   = smit_notification_template($mail);
+        }
+        die( $template );
     }
 
     // ---------------------------------------------------------------------------------------------
