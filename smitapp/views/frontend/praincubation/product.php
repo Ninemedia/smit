@@ -62,7 +62,7 @@
                                     <div class="product-overlay">
                                         <div class="product-content">
                                             <a href="<?php echo base_url(); ?>"><h3><?php echo $row->title; ?></h3></a>
-                                            <p><?php echo word_limiter($row->description,30); ?></p>
+                                            <p><?php echo word_limiter($row->description,25); ?></p>
                                             <a class="btn btn-primary" href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>">Detail</a>
                                         </div>
                                     </div>
