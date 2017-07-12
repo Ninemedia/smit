@@ -232,10 +232,10 @@
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( 'backend/communicationadd', array( 'id'=>'cmm_form', 'role'=>'form' ) ); ?>
                             <div id="alert" class="alert display-hide"></div>
-                            <div class="alert alert-info">
+                            <p align="justify">
                                 <strong>Perhatian!</strong>
                                 Pesan ini otomatis ditujukan untuk Administrator
-                            </div>
+                            </p>
         
                             <div class="form-group">
                                 <label class="control-label">Judul Komunikasi <b style="color: red !important;">(*)</b></label>

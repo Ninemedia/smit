@@ -120,20 +120,20 @@
                                 </div>
                                 <h4>Produk Pra-Inkubasi</h4>
                                 <div class="form-group">
-                                    <div class="alert bg-teal">
+                                    <p align="justify">
                                         <strong>Perhatian!</strong>
                                         File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
-                                    </div>
+                                    </p>
                                     <div class="form-group">
                                         <label>Thumbnail Produk</label>
                                         <input id="reg_thumbnail" name="reg_thumbnail" class="form-control" type="file">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="alert bg-teal">
+                                    <p align="justify">
                                         <strong>Perhatian!</strong>
                                         File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
-                                    </div>
+                                    </p>
                                     <div class="form-group">
                                         <label>Detail Gambar Produk</label>
                                         <input id="reg_details" name="reg_details" class="form-control" type="file">
