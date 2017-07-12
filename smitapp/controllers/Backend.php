@@ -2005,8 +2005,9 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($news_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="news btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
+                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_edit   = '<a href="'.base_url('berita/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -2014,7 +2015,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action .' '. $btn_delete ),
+                    smit_center( $btn_action .' '. $btn_edit .' '. $btn_delete ),
                 );
                 $i++;
             }

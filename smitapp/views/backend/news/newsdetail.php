@@ -14,7 +14,7 @@
                     Berita Nomor : <?php echo $news_data->no_news; ?>  Tentang <?php echo strtoupper($news_data->title); ?> Pada Pusat Inovasi LIPI
                 </p>
                 <div class="details-img">
-                    <img class="js-animating-object img-responsive" src="<?php echo $news_image; ?>" alt="" style="border: solid 2px #009688 !important;" />
+                    <img class="js-animating-object img-responsive" src="<?php echo $news_image; ?>" alt=""/>
                 </div><br />
                 <p align="justify">
                     <?php echo $news_data->desc; ?><br />
