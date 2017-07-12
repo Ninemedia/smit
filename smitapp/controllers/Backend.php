@@ -1453,7 +1453,7 @@ class Backend extends User_Controller {
 
         if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
             // Set JSON data
-            $data = array('msg' => 'success','message' => 'data satuan kerja berhasil dihapus.');
+            $data = array('msg' => 'success','message' => 'Data satuan kerja berhasil dihapus.');
             // JSON encode data
             die(json_encode($data));
         }else{
@@ -3548,9 +3548,11 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($notes_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('notulensi/detail/'.$row->uniquecode).'"
-                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                $btn_action .= ' ';
+                /*
+                $btn_action = '<a href="'.base_url('notulensiprainkubasi/detail/'.$row->uniquecode).'"
+                    class="notespradetail btn btn-xs btn-primary waves-effect tooltips" id="btn_notespra_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                */
+                $btn_action = ' ';
                 
                 if( !$is_admin ){
                     if($row->status == NONACTIVE)   {
@@ -3559,32 +3561,30 @@ class Backend extends User_Controller {
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                         $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notes/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
                 
                 if( !empty($is_admin) ){
                     if($row->status == NONACTIVE)   {
                         $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                        $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespradelete btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                     }
                     
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                         $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                     }
                 }
-
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
                 if( !empty( $row->url ) ){
@@ -3598,7 +3598,7 @@ class Backend extends User_Controller {
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode_praincubation).'">' . strtoupper($row->event_title) . '</a>',
-                    '<a href="'.base_url('notulensi/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    '<a href="'.base_url('notulensiprainkubasi/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     smit_center( $btn_files ),
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
@@ -3616,6 +3616,77 @@ class Backend extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Notes confirm function.
+	 */
+    function notesconfirm($action, $uniquecode){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        if ( !$uniquecode ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Uniquecode harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi Notulensi hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $notesdata          = $this->Model_Praincubation->get_notes_by_uniquecode($uniquecode);
+        if( !$notesdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data notulensi pra-inkubasi tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='active' )     { $status = ACTIVE; }
+        elseif( $action=='banned' ) { $status = BANNED; }
+        elseif( $action=='delete' ) { $status = DELETED; }
+        
+        if( $status == DELETED ){
+            if( $this->Model_Praincubation->delete_notes($uniquecode) ){
+                // Set JSON data
+                $data = array('msg' => 'success','message' => 'Data notulensi pra-inkubasi berhasil dihapus.');
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Data notulensi pra-inkubasi gagal dihapus.');
+                // JSON encode data
+                die(json_encode($data));
+            } 
+        }else{
+            $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+            if( $this->Model_Praincubation->update_notes($uniquecode, $data_update) ){
+                // Set JSON data
+                $data = array('msg' => 'success','message' => 'Konfirmasi data notulensi pra-inkubasi berhasil dilakukan.');
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Konfirmasi data notulensi pra-inkubasi tidak berhasil dilakukan.');
+                // JSON encode data
+                die(json_encode($data));
+            }    
+        }
+        
     }
     
     /**

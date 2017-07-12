@@ -231,6 +231,95 @@ $("body").delegate( "a.produkconfirm", "click", function( event ) {
     });
 });
 
+// Notulensi Pra-Incubation Confirm
+$("body").delegate( "a.notespraconfirm", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#list_notespraincubation').parents('.dataTables_wrapper');
+    var msg = '';
+
+    bootbox.confirm("Anda yakin akan mengkonfirmasi notulensi pra-inkubasi ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_notespra_list').trigger('click');
+                    $('#btn_notespra_listreset').trigger('click');
+                }
+            });
+        }
+    });
+});
+
+// Notulensi Pra-Incubation Confirm
+$("body").delegate( "a.notespradelete", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#list_notespraincubation').parents('.dataTables_wrapper');
+    var msg = '';
+
+    bootbox.confirm("Anda yakin akan menghapus notulensi pra-inkubasi ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_notespra_list').trigger('click');
+                    $('#btn_notespra_listreset').trigger('click');
+                }
+            });
+        }
+    });
+});
+
 // Workunit Edit
 $("body").delegate( "a.workunitedit", "click", function( event ) {
     event.preventDefault();
