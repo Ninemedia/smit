@@ -2290,8 +2290,8 @@ class Backend extends User_Controller {
                 elseif($row->status == ACTIVE)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a>
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a>
+                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-default tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
                     <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 elseif($row->status == BANNED)  {
