@@ -133,7 +133,7 @@
                                     <label class="form-label">Deskripsi Produk <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <div class="form-line">
-                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize"></textarea>
+                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize ckeditor"></textarea>
                                         </div>
                                     </div>
                                 </div>
