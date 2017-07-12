@@ -27,7 +27,7 @@
 				<h4 class="modal-title">Ubah Satuan Kerja</h4>
 			</div>
 			<div class="modal-body">
-                <?php echo form_open_multipart( 'backend/workunitadd', array( 'id'=>'workunitadd', 'role'=>'form' ) ); ?>
+                <?php echo form_open_multipart( 'backend/workunitedit', array( 'id'=>'workunitedit', 'role'=>'form' ) ); ?>
                     <div id="alert" class="alert display-hide"></div>
                     <div class="form-group form-float">
                         <section id="">
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button>
+                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
                         </section>
                     </div>
                 <?php echo form_close(); ?>
