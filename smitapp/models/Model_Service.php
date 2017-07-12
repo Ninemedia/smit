@@ -130,6 +130,24 @@ class Model_Service extends SMIT_Model{
 
         return $query->num_rows();
     }
+    
+     /**
+     * Update data of general message
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_message($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->contact_message, $data) )
+            return true;
+
+        return false;
+    }
 
     // ---------------------------------------------------------------------------------
     /**

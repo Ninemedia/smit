@@ -16,6 +16,10 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
+                        <p align="justify" class="bottom35">
+                            <strong>Informasi ! </strong> Pesan ini hanya dapat di terima tanpa adanya timbal balik untuk dibalas. Dapat dipahami pesan masukan ini bisa menjadi acuan untuk meningkatkan sistem di kemudian hari. Terima Kasih.
+                        </p>
+                        <div id="alert" class="alert display-hide"></div>
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="generalmessage_list" data-url="<?php echo base_url('backend/generalmessagelistdata'); ?>">
                                 <thead>
@@ -51,8 +55,8 @@
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_message">Search</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_messagereset">Reset</button>
             							</td>
             						</tr>
                                 </thead>

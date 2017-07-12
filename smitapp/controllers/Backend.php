@@ -1411,7 +1411,7 @@ class Backend extends User_Controller {
 	}
 
     /**
-	 * Workunit Delete function.
+	 * Workunit Confirm / Delete function.
 	 */
     function workunitconfirm($action, $id){
         // This is for AJAX request
@@ -2593,31 +2593,16 @@ class Backend extends User_Controller {
             foreach($generalmessage_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'"
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                /*
-                    <a href="'.base_url('pesanumum/hapus/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>
-                */
+                    class="messagedetails btn btn-xs btn-primary waves-effect tooltips" id="btn_message_detail" data-placement="left" title="Baca"><i class="material-icons">zoom_in</i></a> ';
+
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    //$btn_action     .= '<a href="'.base_url('generalmessageconfirm/active/'.$row->id).'" class="generalmessageconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == READ)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '
-                    <a href="'.($row->id>1 ? base_url('generalmessageconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="generalmessageconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
-                    <a href="'.($row->id>1 ? base_url('generalmessageconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="generalmessageconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    <a href="'.($is_admin ? base_url('pesanumum/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="generalmessagedelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted"><i class="material-icons">clear</i></a>';
                 }
-                /*
-                elseif($row->status == BANNED)  {
-                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                elseif($row->status == DELETED) {
-                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                */
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -2668,10 +2653,15 @@ class Backend extends User_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
         $generalmessagedata     = '';
-
         if( !empty($uniquecode) ){
             $generalmessagedata   = $this->Model_Service->get_contact_message_by_uniquecode($uniquecode);
+            if( $is_admin ){
+                if($generalmessagedata->status == UNREAD){
+                    $update_data        = $this->Model_Service->update_message($uniquecode, array('status' => READ));
+                }
+            }
         }
 
         $data['title']          = TITLE . 'Detail Pesan Umum';
@@ -2685,6 +2675,57 @@ class Backend extends User_Controller {
         $data['main_content']   = 'services/generalmessagedetails';
 
         $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Message Delete function.
+	 */
+    function generalmessagedelete($action, $id){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        if ( !$id ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'ID Pesan harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus pesan  hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $workunitdata       = smit_get_workunitdata_by_id($id);
+        if( !$workunitdata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data pesan tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Data pesan berhasil dihapus.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus data pesan tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
     }
 
     /**
@@ -2973,8 +3014,8 @@ class Backend extends User_Controller {
             'TableAjax.init();',
             'ServicesValidation.init();',
         ));
+        
         $communicationdata      = '';
-
         if( !empty($uniquecode) ){
             $communicationdata  = $this->Model_Service->get_communication_by_uniquecode($uniquecode);
             if( $is_admin ){

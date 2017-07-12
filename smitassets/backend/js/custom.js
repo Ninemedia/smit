@@ -479,6 +479,51 @@ $("body").delegate( "button.newsdelete", "click", function( event ) {
     });
 });
 
+// General Message Confirm
+$("body").delegate( "a.generalmessagedelete", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#generalmessage_list').parents('.dataTables_wrapper');
+    var msg = '';
+
+    bootbox.confirm("Anda yakin akan menghapus pesan ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+                    
+
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_list_message').trigger('click');
+                    $('#btn_list_messagereset').trigger('click');
+                }
+            });
+        }
+    });
+});
+
 /*
 $("body").delegate( "a.tenantconfirm", "click", function( event ) {
     event.preventDefault();
