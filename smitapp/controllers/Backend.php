@@ -3251,6 +3251,93 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+	 * Category Edit
+	 */
+	public function categoryedit()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $category_id            = $this->input->post('reg_id_category');
+        $category               = $this->input->post('reg_category');
+        $category               = trim( smit_isset($category, "") );
+ 
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_id_category','ID Katgeori','required');
+        $this->form_validation->set_rules('reg_category','Nama Kategori','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah kategori tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $category_data  = array(
+            'category_name'     => $category,
+        );
+        
+        // -------------------------------------------------
+        // Edit Category
+        // -------------------------------------------------
+        $trans_edit_category        = FALSE;
+        if( $category_edit_id       = $this->Model_Option->update_category($category_id, $category_data) ){
+            $trans_edit_category    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah satuan kerja tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_edit_category ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Ubah kategori tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Ubah kategori baru berhasil!');
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah kategori tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
 
 
     // ----------------------------------------------------------------------------------------------------------------------

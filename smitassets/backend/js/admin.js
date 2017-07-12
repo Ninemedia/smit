@@ -1365,6 +1365,8 @@ var App = function() {
                         
                         $('#categoryadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_category_list').trigger('click');
+                        $('#btn_category_listreset').trigger('click');
                     }
     			}
     		});
@@ -1379,8 +1381,53 @@ var App = function() {
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_category').val('');
+            $('#categoryadd')[0].reset();
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
+    };
+    
+    var handleEditCategory = function() {
+        // Edit Category
+        $('#do_edit_category').click(function(e){
+            e.preventDefault();
+            processEditCategory($('#categoryedit'));
+        });
+        
+        var processEditCategory = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#categoryedit')[0].reset();
+                        $('#btn_category_list').trigger('click');
+                        $('#btn_category_listreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
     };
     
     var handleAddNotes = function() {
@@ -1491,6 +1538,7 @@ var App = function() {
             
             // Edit 
             handleEditWorkunit();
+            handleEditCategory();
 		},
         
         // wrapper function to scroll(focus) to an element

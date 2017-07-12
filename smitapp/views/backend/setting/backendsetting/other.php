@@ -82,23 +82,21 @@
 				<h4 class="modal-title">Ubah Kategori</h4>
 			</div>
 			<div class="modal-body">
-                <?php echo form_open_multipart( 'backend/categoryadd', array( 'id'=>'categoryadd', 'role'=>'form' ) ); ?>
-                    <div id="alert" class="alert display-hide"></div>
-                    <div class="form-group form-float">
-                        <section id="">
-                            <div class="form-group">
-                                <label class="form-label">Nama Kategori <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                                    <div class="form-line">
-                                        <input type="hidden" name="reg_id_category" id="reg_id_category" value="" />
-                                        <input type="text" name="reg_category" id="reg_category" class="form-control" placeholder="Masukan Nama Kategori" required>
-                                    </div>
-                                </div>
+                <?php echo form_open_multipart( 'backend/categoryedit', array( 'id'=>'categoryedit', 'role'=>'form' ) ); ?>
+                <div id="alert" class="alert display-hide"></div>
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        <label class="form-label">Nama Kategori <b style="color: red !important;">(*)</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                            <div class="form-line">
+                                <input type="hidden" name="reg_id_category" id="reg_id_category" value="" />
+                                <input type="text" name="reg_category" id="reg_category" class="form-control" placeholder="Masukan Nama Kategori" required>
                             </div>
-                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button> -->
-                        </section>
+                        </div>
                     </div>
+                    <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button> -->
+                </div>
                 <?php echo form_close(); ?>
             </div>
 			<div class="modal-footer">
@@ -246,7 +244,7 @@
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_category" /></td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_category_list">Search</button>
-                                                        <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                        <button class="btn bg-red waves-effect filter-cancel" id="btn_category_listreset">Reset</button>
                         							</td>
                         						</tr>
                                             </thead>
