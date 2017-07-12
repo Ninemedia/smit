@@ -6,7 +6,7 @@
             <a href="javascript:void(0);" class="bars"></a>
             <a class="navbar-brand" href="<?php echo base_url('beranda'); ?>">
                 <img src="<?php echo BE_IMG_PATH . 'logo/logo-image.jpg'; ?>" />
-                <?php echo strtoupper(COMPANY_NAME); ?>
+                <!-- <?php echo strtoupper(COMPANY_NAME); ?> --> SISTEM INKUBASI TEKNOLOGI PUSAT INOVASI LIPI
             </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">

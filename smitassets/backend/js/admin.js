@@ -1255,7 +1255,7 @@ var App = function() {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
                     
-                    if(response.message == 'error'){
+                    if(response.msg == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
@@ -1265,6 +1265,7 @@ var App = function() {
                         $('#workunitadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_workunit_list').trigger('click');
     			}
     		});
         };
@@ -1278,8 +1279,51 @@ var App = function() {
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_workunit').val('');
-            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+            $('#workunitadd')[0].reset();
+            $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
         });
+    };
+    
+    var handleEditWorkunit = function() {
+        // Save Workunit
+        $('#do_edit_workunit').click(function(e){
+            e.preventDefault();
+            processEditWorkunit($('#workunitedit'));
+        });
+        
+        var processEditWorkunit = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#workunitedit')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
     };
     
     var handleAddCategory = function() {
@@ -1428,6 +1472,7 @@ var App = function() {
     return {
 		init: function() {
             // Input your handle function here
+            // Add
             handleInit();
             handleAddAnnouncement();
             handleAddWorkunit();
@@ -1440,6 +1485,9 @@ var App = function() {
             handleAddIncubation();
             handleAddIKM();
             handleAddNotes();
+            
+            // Edit 
+            handleEditWorkunit
 		},
         
         // wrapper function to scroll(focus) to an element

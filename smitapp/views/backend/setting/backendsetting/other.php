@@ -7,11 +7,11 @@
 				<h4 class="modal-title">Pendaftaran Satuan Kerja</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Satuan Kerja. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Melakukan Pendaftaran Satuan Kerja. Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_workunit" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_workunit" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
@@ -27,7 +27,7 @@
 				<h4 class="modal-title">Ubah Satuan Kerja</h4>
 			</div>
 			<div class="modal-body">
-                <?php echo form_open_multipart( 'backend/workunitadd', array( 'id'=>'workunitadd', 'role'=>'form' ) ); ?>
+                <?php echo form_open_multipart( 'backend/workunitedit', array( 'id'=>'workunitedit', 'role'=>'form' ) ); ?>
                     <div id="alert" class="alert display-hide"></div>
                     <div class="form-group form-float">
                         <section id="">
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button>
+                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
                         </section>
                     </div>
                 <?php echo form_close(); ?>
@@ -64,11 +64,11 @@
 				<h4 class="modal-title">Pendaftaran Kategori</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pendaftaran Kategori. Pastinkan Data yang Anda masukan sudah benar!</p>
+                <p>Anda Sedang Melakukan Pendaftaran Kategori. Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_category" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_category" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button>
+                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button> -->
                         </section>
                     </div>
                 <?php echo form_close(); ?>
