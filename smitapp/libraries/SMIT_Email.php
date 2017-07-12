@@ -93,21 +93,21 @@ class SMIT_Email
 	}
     
     /**
-	 * Send email reset password function.
+	 * Send email forgot password function.
 	 *
      * @param string    $id_user    (Required)  ID User
-     * @param string    $password   (Required)  Password that reset
+     * @param string    $password   (Required)  Password that forgot
 	 * @return Mixed
 	 */
-	function send_email_reset_password( $id_user, $password ) {
+	function send_email_forgot_password( $id_user, $password ) {
 		if ( ! $user = smit_get_userdata_by_id( $id_user ) )
 			return false;
         
-        $message    = trim( get_option('email_format_cpassword') );
-        $message    = str_replace("%username%",     $user->username, $message);
-        $message    = str_replace("%password%",     $password, $message);
+        $message    = trim( get_option('be_notif_forgot_password') );
+        $message    = str_replace("{%username%}",     $user->username, $message);
+        $message    = str_replace("{%password%}",     $password, $message);
         
-        $html_message           = smit_notification_template($message);
+        $html_message           = smit_notification_template_clear($message);
         
         $mail_message			= new stdClass();
         $mail_message->plain	= $message;

@@ -284,7 +284,7 @@ class User extends SMIT_Controller {
 			smit_log( 'RESETTING_SUCCESS', $username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => smit_get_userdata_by_id( $user->id ) ) ) );
         	$this->session->set_userdata( 'forget', ++$forget );
             // Send Email Confirmation
-            $this->smit_email->send_email_reset_password( $user->id, $rand );
+            $this->smit_email->send_email_forgot_password( $user->id, $rand );
 			// redirect success
 			redirect( 'login?forget[success]=1' );
         }
