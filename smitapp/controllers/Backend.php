@@ -986,7 +986,7 @@ class Backend extends User_Controller {
                     smit_center($i),
                     $row->no_announcement,
                     '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
-                    smit_center( $row->datecreated ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
                     smit_center($btn_action),
                 );
                 $i++;

@@ -188,9 +188,9 @@
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
-    							<th class="width15 text-center">No Pengumuman</th>
+    							<th class="width20 text-center">No Pengumuman</th>
     							<th class="width65 text-center">Judul Pengumuman</th>
-                                <th class="width20 text-center">Tanggal Publikasi</th>
+                                <th class="width15 text-center">Tanggal Publikasi</th>
                                 <th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
 					        </tr>
                             <tr role="row" class="filter display-hide table-filter">
