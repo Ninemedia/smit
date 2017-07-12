@@ -40,16 +40,10 @@
                 <div class="panel-body">
                     <div class="product-box">
                         <div class="row">
-                            
                             <?php
                                 $condition          = ' WHERE %status% = 1';
-                                if( !empty($category_id) ){
-                                    $condition      = ' WHERE %status% = 1 AND %category_id% = '.$category_id.'';
-                                }
                                 $product_list       = $this->Model_Praincubation->get_all_product(0, 0, $condition);
-                            ?>
-                            <?php if( !empty($product_list) ) : ?>
-                            <?php
+                                
                                 foreach($product_list AS $row){
                                     $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
                                     $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'.$row->user_id.'/' . $file_name; 
@@ -69,9 +63,6 @@
                                 </div>
                             </div>
                             <?php } ?>
-                            <?php else : ?>
-                                <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -83,7 +74,7 @@
                         <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                     <?php } ?>
                 <?php else :  ?>
-                    <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
+                    <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
                 <?php endif ?>
             </div>
 		</div>

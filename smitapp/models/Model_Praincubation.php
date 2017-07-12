@@ -1588,6 +1588,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%description%",          "A.description", $conditions);
             $conditions = str_replace("%status%",               "A.status", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%category_id%",          "A.category_id", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
         }
 
@@ -1601,6 +1602,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%description%",          "A.description",  $order_by);
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%category_id%",          "A.category_id",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
         }
 
