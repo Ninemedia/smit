@@ -110,7 +110,7 @@
                                                 if( !empty($category_product) ){
                                                     echo '<option value="">-- Pilih Kategori Produk --</option>';
                                                     foreach($category_product as $row){
-                                                        echo '<option value="'.$row->category_name.'">'.strtoupper($row->category_name).'</option>';
+                                                        echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
                                                     }
                                                 }else{
                                                     echo '<option value="">-- Tidak Ada Pilihan --</option>';

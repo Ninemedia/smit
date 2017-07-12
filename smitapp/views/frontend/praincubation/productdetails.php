@@ -73,7 +73,7 @@
                         <h4 class="news-title">Kategori Lainnya</h4>
                         <?php if( !empty($allcategorydata) ) : ?>
                             <?php foreach($allcategorydata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_name.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>

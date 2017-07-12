@@ -5823,7 +5823,7 @@ class PraIncubation extends User_Controller {
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
         $category               = $this->input->post('reg_category');
-        $category            =   trim( smit_isset($category, "") );
+        $category               = trim( smit_isset($category, "") );
 
         // -------------------------------------------------
         // Check Form Validation
@@ -5906,27 +5906,38 @@ class PraIncubation extends User_Controller {
             if( !empty($is_admin) ){
                 $status = ACTIVE;
             }
+            
+            // Get Category ID
+            $categorydata           = $this->Model_Option->get_categoryproductdata($category);
+            if( ! $categorydata ){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data kategori tidak ditemukan atau belum terdaftar');
+                die(json_encode($data));
+            }
 
             $product_data           = array(
-                'uniquecode'    => smit_generate_rand_string(10,'low'),
-                'selection_id'  => $event,
-                'user_id'       => $current_user->id,
-                'username'      => strtolower($current_user->username),
-                'name'          => strtoupper($current_user->name),
-                'title'         => $event_title,
-                'description'   => $description,
-                'category_product'   => strtoupper( $category ),
-                'url'           => smit_isset($file_details['full_path'],''),
-                'extension'     => substr(smit_isset($file_details['file_ext'],''),1),
-                'filename'      => smit_isset($file_details['raw_name'],''),
-                'size'          => smit_isset($file_details['file_size'],0),
+                'uniquecode'        => smit_generate_rand_string(10,'low'),
+                'selection_id'      => $event,
+                'user_id'           => $current_user->id,
+                'username'          => strtolower($current_user->username),
+                'name'              => strtoupper($current_user->name),
+                'title'             => $event_title,
+                'description'       => $description,
+                'category_id'       => $categorydata->category_id,
+                'category_product'  => strtoupper( $categorydata->category_name ),
+                'url'               => smit_isset($file_details['full_path'],''),
+                'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                'filename'          => smit_isset($file_details['raw_name'],''),
+                'size'              => smit_isset($file_details['file_size'],0),
                 'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
                 'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
                 'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
                 'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
-                'status'        => $status,
-                'datecreated'   => $curdate,
-                'datemodified'  => $curdate,
+                'status'            => $status,
+                'datecreated'       => $curdate,
+                'datemodified'      => $curdate,
             );
 
             // -------------------------------------------------

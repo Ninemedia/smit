@@ -52,11 +52,11 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="product-post triggerAnimation animated" data-animate="fadeInLeft">
                                     <img alt="Riset Unggulan" src="<?php echo $product; ?>" />
-                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3><?php echo $row->title; ?></h3></div></a>
+                                    <a href="<?php echo base_url(); ?>"><div class="product-title"><h3><?php echo word_limiter($row->title,2) ; ?></h3></div></a>
                                     <div class="product-overlay">
                                         <div class="product-content">
                                             <a href="<?php echo base_url(); ?>"><h3><?php echo $row->title; ?></h3></a>
-                                            <p><?php echo $row->description; ?></p>
+                                            <p><?php echo word_limiter($row->description,30); ?></p>
                                             <a class="btn btn-primary" href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>">Detail</a>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                 <h4 class="news-title">Kategori Lainnya</h4>
                 <?php if( !empty($allcategorydata) ) : ?>
                     <?php foreach($allcategorydata AS $row){ ?>
-                        <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_name.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                        <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                     <?php } ?>
                 <?php else :  ?>
                     <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>

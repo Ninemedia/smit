@@ -8037,6 +8037,7 @@ button.filter-submit, button.filter-cancel{
     left: 0;
     top: 0;
     padding: 15px;
+    width: 100%;
 }
 
 .product-post:hover .product-overlay {
@@ -8110,7 +8111,8 @@ button.filter-submit, button.filter-cancel{
 
 .news-source{
     font-weight: bold;
-    padding: 20px 0;
+    padding: 10px 0;
+    margin-top: 20px;
     border-top: 1px solid #EEEEEE;
 }
 
@@ -8119,7 +8121,7 @@ button.filter-submit, button.filter-cancel{
 }
 
 .news-related h5{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     font-family: inherit;
     margin-bottom: 15px;
