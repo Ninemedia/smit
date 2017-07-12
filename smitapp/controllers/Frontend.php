@@ -918,7 +918,7 @@ class Frontend extends Public_Controller {
     /**
 	 * Product Pra-Incubation function.
 	 */
-    function productpraincubation(){
+    function productpraincubation( $id='' ){
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -943,10 +943,14 @@ class Frontend extends Public_Controller {
         $scripts_init           = '';
         
         $allcategorydata        = $this->Model_Option->get_all_category_product();
+        if( !empty($id) ){
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+        }
 
         $data['title']          = TITLE . 'Produk Pra-Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['allcategorydata']= $allcategorydata;
+        $data['category_id']    = $id;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
@@ -1013,7 +1017,6 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'praincubation/productdetails';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-
 
     // ---------------------------------------------------------------------------------------------
     // INKUBASI / TENANT
