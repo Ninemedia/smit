@@ -28,22 +28,20 @@
 			</div>
 			<div class="modal-body">
                 <?php echo form_open_multipart( 'backend/workunitedit', array( 'id'=>'workunitedit', 'role'=>'form' ) ); ?>
-                    <div id="alert" class="alert display-hide"></div>
-                    <div class="form-group form-float">
-                        <section id="">
-                            <div class="form-group">
-                                <label class="form-label">Nama Satuan Kerja <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                                    <div class="form-line">
-                                        <input type="hidden" name="reg_id_workunit" id="reg_id_workunit" value="" />
-                                        <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" placeholder="Masukan Nama Satuan Kerja" required>
-                                    </div>
-                                </div>
+                <div id="alert" class="alert display-hide"></div>
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        <label class="form-label">Nama Satuan Kerja <b style="color: red !important;">(*)</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                            <div class="form-line">
+                                <input type="hidden" name="reg_id_workunit" id="reg_id_workunit" value="" />
+                                <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" required>
                             </div>
-                            <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
-                        </section>
+                        </div>
                     </div>
+                    <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
+                </div>
                 <?php echo form_close(); ?>
             </div>
 			<div class="modal-footer">
@@ -160,7 +158,7 @@
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_workunit" /></td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_workunit_list">Search</button>
-                                                        <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                        <button class="btn bg-red waves-effect filter-cancel" id="btn_workunit_listreset">Reset</button>
                         							</td>
                         						</tr>
                                             </thead>

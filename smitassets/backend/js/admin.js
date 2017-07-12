@@ -1266,6 +1266,7 @@ var App = function() {
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
                     $('#btn_workunit_list').trigger('click');
+                    $('#btn_workunit_listreset').trigger('click');
     			}
     		});
         };
@@ -1285,7 +1286,7 @@ var App = function() {
     };
     
     var handleEditWorkunit = function() {
-        // Save Workunit
+        // Edit Workunit
         $('#do_edit_workunit').click(function(e){
             e.preventDefault();
             processEditWorkunit($('#workunitedit'));
@@ -1319,6 +1320,8 @@ var App = function() {
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
                         
                         $('#workunitedit')[0].reset();
+                        $('#btn_workunit_list').trigger('click');
+                        $('#btn_workunit_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
     			}
@@ -1487,7 +1490,7 @@ var App = function() {
             handleAddNotes();
             
             // Edit 
-            handleEditWorkunit
+            handleEditWorkunit();
 		},
         
         // wrapper function to scroll(focus) to an element

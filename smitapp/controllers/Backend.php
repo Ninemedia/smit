@@ -1337,17 +1337,14 @@ class Backend extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         
-        $workunit_id            = $this->input->post('reg_workunit_id');
+        $workunit_id            = $this->input->post('reg_id_workunit');
         $workunit               = $this->input->post('reg_workunit');
         $workunit               = trim( smit_isset($workunit, "") );
-        
-        echo '<pre>';
-        print_r($_POST);
-        die();
-        
+ 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
+        $this->form_validation->set_rules('reg_id_workunit','ID Satuan Kerja','required');
         $this->form_validation->set_rules('reg_workunit','Nama Satuan Kerja','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
@@ -1355,7 +1352,7 @@ class Backend extends User_Controller {
 
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. '.validation_errors().'');
+            $data = array('message' => 'error','data' => 'Ubah satuan kerja tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
 
@@ -1369,30 +1366,30 @@ class Backend extends User_Controller {
         );
 
         // -------------------------------------------------
-        // Save Workunit
+        // Edit Workunit
         // -------------------------------------------------
-        $trans_save_workunit        = FALSE;
-        if( $workunit_save_id       = $this->Model_Option->save_data_workunit($workunit_data) ){
-            $trans_save_workunit    = TRUE;
+        $trans_edit_workunit        = FALSE;
+        if( $workunit_edit_id       = $this->Model_Option->update_workunit($workunit_id, $workunit_data) ){
+            $trans_edit_workunit    = TRUE;
         }else{
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data formulir anda');
+            $data = array('message' => 'error','data' => 'Ubah satuan kerja tidak berhasil. Terjadi kesalahan data formulir anda');
             die(json_encode($data));
         }
 
         // -------------------------------------------------
         // Commit or Rollback Transaction
         // -------------------------------------------------
-        if( $trans_save_workunit ){
+        if( $trans_edit_workunit ){
             if ($this->db->trans_status() === FALSE){
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
                 $data = array(
                     'message'       => 'error',
-                    'data'          => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    'data'          => 'Ubah satuan kerja tidak berhasil. Terjadi kesalahan data transaksi database.'
                 ); die(json_encode($data));
             }else{
                 // Commit Transaction
@@ -1401,14 +1398,14 @@ class Backend extends User_Controller {
                 $this->db->trans_complete();
 
                 // Set JSON data
-                $data       = array('message' => 'success', 'data' => 'Pendaftaran satuan kerja baru berhasil!');
+                $data       = array('message' => 'success', 'data' => 'Ubah satuan kerja baru berhasil!');
                 die(json_encode($data));
             }
         }else{
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran satuan kerja tidak berhasil. Terjadi kesalahan data.');
+            $data = array('message' => 'error','data' => 'Ubah satuan kerja tidak berhasil. Terjadi kesalahan data.');
             die(json_encode($data));
         }
 	}

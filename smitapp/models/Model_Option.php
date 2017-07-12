@@ -187,6 +187,25 @@ class Model_Option extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+     * Update Workunit by ID
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_workunit($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        $this->db->where('workunit_id', $id);
+
+        if( $this->db->update($this->workunit, $data) )
+            return true;
+
+        return false;
+    }
+    
 }
 /* End of file SModel_Option.php */
 /* Location: ./application/models/Model_Option.php */
