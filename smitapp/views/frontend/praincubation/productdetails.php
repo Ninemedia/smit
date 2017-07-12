@@ -46,17 +46,18 @@
                     <img class="js-animating-object img-responsive" src="<?php echo $product_image; ?>" alt="" />
                 </div>
                 <p class="news-date">
-                    <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>
+                    <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-user"></i> Posting By : <?php echo $productdata->name; ?>
                 </p>
                 <div class="news-content">
                     <?php echo $productdata->description; ?>
                 </div>
                 <div class="news-source">
-                    Sumber : 
+                    Sumber / Kegiatan : <?php echo strtoupper( $selectiondata->event_title ); ?>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
-                <h4 class="news-title">Produk Lainnya</h4>
+                <h4 class="news-title">Judul Produk Lainnya</h4>
                 <?php if( !empty($alldata) ) : ?>
                     <?php foreach($alldata AS $row){ ?>
                         <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>

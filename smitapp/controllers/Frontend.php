@@ -988,6 +988,8 @@ class Frontend extends Public_Controller {
             $file_name      = $productdata->filename . '.' . $productdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
             $product        = $file_url;
+            $selection      = $this->Model_Praincubation->get_all_praincubation(0, 0, ' WHERE %id% = "'.$productdata->selection_id.'"');
+            $selection      = $selection[0];
         }else{
             $product        = BE_IMG_PATH . 'news/noimage.jpg';
         }
@@ -998,6 +1000,7 @@ class Frontend extends Public_Controller {
         $data['productdata']    = $productdata;
         $data['product_image']  = $product;
         $data['alldata']        = $alldata;
+        $data['selectiondata']  = $selection;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
