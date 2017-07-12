@@ -3268,10 +3268,9 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($category_list as $row){
-
-                // Status
+                // Button
                 $btn_action = '<a class="categoryedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($row->category_id>1 ? base_url('categoryconfirm/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus" '.($row->category_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                <a href="'.($is_admin ? base_url('categorydelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->category_name,
@@ -3377,7 +3376,57 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
 	}
+    
+    /**
+	 * Category Delete function.
+	 */
+    function categorydelete($action, $id){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        if ( !$id ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'ID kategori harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus kategori  hanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $categorydata       = $this->Model_Option->get_categorydata($id);
+        if( !$categorydata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data kategori tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        if( $this->Model_Option->delete_category($categorydata->category_id) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Data kategori berhasil dihapus.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus data kategori tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
 
     // ----------------------------------------------------------------------------------------------------------------------
     // PENDAMPINGAN
@@ -4796,6 +4845,292 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    // Category Produk
+    // ----------------------------------------------------------------------------------------------------------------------
+    /**
+	 * Category Product Add
+	 */
+	public function categoryproductadd()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $category               = $this->input->post('reg_category');
+        $category               = trim( smit_isset($category, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_category','Nama Kategori','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori produk tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $category_data  = array(
+            'category_name' => strtoupper($category),
+        );
+
+        // -------------------------------------------------
+        // Save Category
+        // -------------------------------------------------
+        $trans_save_category        = FALSE;
+        if( $category_save_id       = $this->Model_Option->save_data_category_product($category_data) ){
+            $trans_save_category    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori produk tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_category ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Pendaftaran kategori produk tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Pendaftaran kategori produk baru berhasil!');
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran kategori produk tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
+    
+    /**
+	 * Category Product list data function.
+	 */
+    function categoryproductlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_category         = $this->input->post('search_category');
+        $s_category         = smit_isset($s_category, '');
+
+        if( !empty($s_category) )   { $condition .= str_replace('%s%', $s_category, ' AND %category_name% LIKE "%%s%%"'); }
+        if( $column == 1 )          { $order_by .= '%category_name% ' . $sort; }
+        $category_list      = $this->Model_Option->get_all_category_product($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($category_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+
+            $i = $offset + 1;
+            foreach($category_list as $row){
+
+                // Status
+                $btn_action = '<a class="categoryproductedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
+                <a href="'.($is_admin ? base_url('categoryproductdelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categoryproductdelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->category_name,
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Category Product Edit
+	 */
+	public function categoryproductedit()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        $category_id            = $this->input->post('reg_id_categoryproduct');
+        $category               = $this->input->post('reg_categoryproduct');
+        $category               = trim( smit_isset($category, "") );
+ 
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_id_categoryproduct','ID Kategori Produk','required');
+        $this->form_validation->set_rules('reg_categoryproduct','Nama Kategori Produk','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah kategori produk tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $category_data  = array(
+            'category_name'     => $category,
+        );
+        
+        // -------------------------------------------------
+        // Edit Category Product
+        // -------------------------------------------------
+        $trans_edit_category        = FALSE;
+        if( $category_edit_id       = $this->Model_Option->update_categoryproduct($category_id, $category_data) ){
+            $trans_edit_category    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah kategori produk tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_edit_category ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Ubah kategori produk tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Ubah kategori produk baru berhasil!');
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah kategori produk tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
+    
+    /**
+	 * Category Product Delete function.
+	 */
+    function categoryproductdelete($action, $id){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+
+        if ( !$action ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        if ( !$id ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'ID kategori produk harus dicantumkan');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus kategori produkhanya bisa dilakukan oleh Administrator');
+            // JSON encode data
+            die(json_encode($data));
+        };
+
+        $categorydata       = $this->Model_Option->get_categoryproductdata($id);
+        if( !$categorydata ){
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Data kategori produk tidak ditemukan atau belum terdaftar');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        if( $this->Model_Option->delete_categoryproduct($categorydata->category_id) ){
+            // Set JSON data
+            $data = array('msg' => 'success','message' => 'Data kategori produk berhasil dihapus.');
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('msg' => 'error','message' => 'Hapus data kategori produk tidak berhasil dilakukan.');
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
+    
     // ----------------------------------------------------------------------------------------------------------------------
 
 }

@@ -235,6 +235,8 @@ $route['pengaturan/depan']              = "backend/settingfrontend";
 $route['pengaturan/belakang']           = "backend/settingbackend";
 $route['pengaturan/satuankerja']        = "backend/workunit";
 $route['workunitconfirm/(:any)/(:num)'] = "backend/workunitconfirm/$1/$2";
+$route['categorydelete/(:any)/(:num)']  = "backend/categorydelete/$1/$2";
+$route['categoryproductdelete/(:any)/(:num)']  = "backend/categoryproductdelete/$1/$2";
 $route['lihatsurat']                    = "backend/viewmailtemplate";
 
 // Slider

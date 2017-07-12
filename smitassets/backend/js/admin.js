@@ -1430,6 +1430,107 @@ var App = function() {
         };
     };
     
+    var handleAddCategoryProduct = function() {
+        // Save Category
+        $('#do_save_categoryproduct').click(function(e){
+            e.preventDefault();
+            processSaveCategoryProduct($('#categoryproductadd'));
+        });
+        
+        var processSaveCategoryProduct = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#categoryproductadd')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_category_productlist').trigger('click');
+                        $('#btn_category_productlistreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+        
+        // Reset Category Form
+        $('body').on('click', '#btn_category_productreset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#reg_category').val('');
+            $('#categoryproductadd')[0].reset();
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
+    var handleEditCategoryProduct = function() {
+        // Edit Category Product
+        $('#do_edit_categoryproduct').click(function(e){
+            e.preventDefault();
+            processEditCategoryProduct($('#categoryproductedit'));
+        });
+        
+        var processEditCategoryProduct = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#categoryproductedit')[0].reset();
+                        $('#btn_category_productlist').trigger('click');
+                        $('#btn_category_productlistreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+    };
+    
     var handleAddNotes = function() {
         // Save Notes
         $('#do_save_notesadd').click(function(e){
@@ -1527,6 +1628,7 @@ var App = function() {
             handleAddAnnouncement();
             handleAddWorkunit();
             handleAddCategory();
+            handleAddCategoryProduct();
             handleAddNews();
             handleAddSlider();
             handleAddServices();
@@ -1539,6 +1641,7 @@ var App = function() {
             // Edit 
             handleEditWorkunit();
             handleEditCategory();
+            handleEditCategoryProduct();
 		},
         
         // wrapper function to scroll(focus) to an element

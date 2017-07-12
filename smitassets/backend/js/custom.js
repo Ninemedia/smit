@@ -430,6 +430,66 @@ $("body").delegate( "a.categorydelete", "click", function( event ) {
                         });
                     }
                     $('#btn_category_list').trigger('click');
+                    $('#btn_category_listreset').trigger('click');
+                }
+            });
+        }
+    });
+});
+
+// Category Product Edit
+$("body").delegate( "a.categoryproductedit", "click", function( event ) {
+    event.preventDefault();
+    
+    var id      = $(this).data('id');
+    var name    = $(this).data('name');
+    var el_id   = $('#reg_id_categoryproduct');
+    var el_name = $('#reg_categoryproduct');
+    
+    el_id.val(id);
+    el_name.val(name);
+
+    $('#edit_categoryproduct').modal('show');
+});
+
+// Category Product Delete
+$("body").delegate( "a.categoryproductdelete", "click", function( event ) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var table_container = $('#category_productlist').parents('.dataTables_wrapper');
+    var msg = '';
+
+    bootbox.confirm("Anda yakin akan menghapus data kategori produk ini?", function(result) {
+        if( result == true ){
+            $.ajax({
+                type:   "POST",
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
+
+                    if( response.msg == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend'
+                        });
+                    }
+                    $('#btn_category_productlist').trigger('click');
+                    $('#btn_category_productlistreset').trigger('click');
                 }
             });
         }

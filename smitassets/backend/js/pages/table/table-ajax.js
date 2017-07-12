@@ -212,6 +212,11 @@ var TableAjax = function () {
     var handleRecordsCategoryList = function() {
         gridTable( $("#category_list"), true );
     };
+    
+    // Category Product Lists
+    var handleRecordsCategoryProductList = function() {
+        gridTable( $("#category_productlist"), true );
+    };
 
     // Product Lists
     var handleRecordsProductList = function() {
@@ -367,8 +372,12 @@ var TableAjax = function () {
             //Communication
             handleRecordsListIn();
             handleRecordsListOut();
+            
             //General Message
             handleRecordsGeneralMessageList();
+            
+            //Category Product
+            handleRecordsCategoryProductList();
         }
     };
 

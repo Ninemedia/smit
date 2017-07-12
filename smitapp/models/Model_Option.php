@@ -9,6 +9,7 @@ class Model_Option extends SMIT_Model{
     var $table      = "smit_options";
     var $workunit   = "smit_workunit";
     var $category   = "smit_category";
+    var $category_product   = "smit_category_product";
     
     /**
 	* Constructor - Sets up the object properties.
@@ -150,6 +151,49 @@ class Model_Option extends SMIT_Model{
     }
     
     /**
+     * Delete Category 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_category($id){
+        if( empty($id) )
+            return false;
+
+        $this->db->where('category_id', $id);
+        if( $this->db->delete($this->category) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Get category data by category ID
+     * 
+     * @author  Iqbal
+     * @param   Integer $user_id  (Required)  User ID
+     * @return  Mixed   False on failed process, otherwise object of user.
+     */
+    function get_categorydata($category_id){
+        if ( !is_numeric($category_id) ) return false;
+
+        $category_id = absint($category_id);
+        if ( !$category_id ) return false;
+        
+        $query = $this->db->get_where($this->category, array('category_id' => $category_id));
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $category = $row;
+        }
+        
+        return $category;
+    }
+    
+    // -----------------------------------------------------------------------------------------------------------
+    
+    /**
      * Save data of workunit
      * 
      * @author  Iqbal
@@ -219,6 +263,117 @@ class Model_Option extends SMIT_Model{
         $this->db->where('workunit_id', $id);
 
         if( $this->db->update($this->workunit, $data) )
+            return true;
+
+        return false;
+    }
+    
+    // Category Product
+    // --------------------------------------------------------------------------------------------------
+    /**
+     * Retrieve all category data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of user               default 0
+     * @param   Int     $offset             Offset ot user              default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of user list
+     */
+    function get_all_category_product($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%category_id%",          "category_id", $conditions);
+            $conditions = str_replace("%category_name%",        "category_name", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%category_id%",          "category_id", $order_by);
+            $order_by   = str_replace("%category_name%",        "category_name", $order_by);
+        }
+        
+        $sql = 'SELECT * FROM ' . $this->category_product. '';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'category_id DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
+        return $query->result();
+    }
+    
+    /**
+     * Save data of category product
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of category
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_category_product($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->category_product, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Update Category by ID
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_categoryproduct($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        $this->db->where('category_id', $id);
+
+        if( $this->db->update($this->category_product, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Get category data by category ID
+     * 
+     * @author  Iqbal
+     * @param   Integer $user_id  (Required)  User ID
+     * @return  Mixed   False on failed process, otherwise object of user.
+     */
+    function get_categoryproductdata($category_id){
+        if ( !is_numeric($category_id) ) return false;
+
+        $category_id = absint($category_id);
+        if ( !$category_id ) return false;
+        
+        $query = $this->db->get_where($this->category_product, array('category_id' => $category_id));
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $category = $row;
+        }
+        
+        return $category;
+    }
+    
+    /**
+     * Delete Category 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_categoryproduct($id){
+        if( empty($id) )
+            return false;
+
+        $this->db->where('category_id', $id);
+        if( $this->db->delete($this->category_product) )
             return true;
 
         return false;
