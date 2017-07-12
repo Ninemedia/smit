@@ -143,6 +143,7 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list">
+                                        <div id="alert" class="alert display-hide"></div>
                                         <div class="table-container table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="workunit_list" data-url="<?php echo base_url('backend/workunitlistdata'); ?>">
                                             <thead>
@@ -231,6 +232,7 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list_category">
+                                        <div id="alert" class="alert display-hide"></div>
                                         <div class="table-container table-responsive">
                                         <table class="table table-striped table-bordered table-hover" id="category_list" data-url="<?php echo base_url('backend/categorylistdata'); ?>">
                                             <thead>
