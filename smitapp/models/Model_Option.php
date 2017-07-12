@@ -363,6 +363,23 @@ class Model_Option extends SMIT_Model{
     }
     
     /**
+     * Get Category
+     *
+     * @param   Int     $id     (Required)  ID of Category
+     * @return  Mixed   False on invalid date parameter, otherwise data of Category(s).
+     */
+    function get_categoryproduct($id=''){
+        if ( !empty($id) ) {
+            $id = absint($id);
+            $this->db->where('category_id', $id);
+        };
+
+        $this->db->order_by("category_id", "ASC");
+        $query      = $this->db->get($this->category_product );
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
      * Delete Category 
      *
      * @param   Int     $id     (Required)  PIN Posting ID

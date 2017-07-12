@@ -1604,6 +1604,21 @@ if ( !function_exists('smit_workunit_type') )
 	}
 }
 
+if ( !function_exists('smit_category_product') )
+{
+    /**
+     * Get workunit type
+     * @author  Rifal
+     * @param   Int         $id     (Optional)  ID of User Type
+     * @return  User Type Data
+     */
+	function smit_category_product($id='') {
+		$CI =& get_instance();
+        $category_product   = $CI->Model_Option->get_categoryproduct($id);
+		return $category_product;
+	}
+}
+
 if ( !function_exists('smit_workunit_type_by_id') )
 {
     /**

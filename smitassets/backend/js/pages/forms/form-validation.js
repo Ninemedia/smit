@@ -720,6 +720,9 @@ var ProductValidation = function () {
                 reg_details: {
                     required: true,
                 },
+                reg_category: {
+                    required: true,
+                },
             },
             messages: {
                 reg_title: {
@@ -736,6 +739,9 @@ var ProductValidation = function () {
                 },
                 reg_details: {
                     required: 'Details Gambar harus di isi',
+                },
+                reg_category: {
+                    required: 'Kategori Produk harus di isi',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   

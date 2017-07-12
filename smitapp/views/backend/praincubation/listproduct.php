@@ -100,6 +100,25 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label">Kategori Produk Pra-Inkubasi<b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">category</i></span>
+                                        <select class="form-control show-tick" name="reg_category" id="reg_category">
+                                            <?php
+                                                $category_product   = smit_category_product();
+                                                if( !empty($category_product) ){
+                                                    echo '<option value="">-- Pilih Kategori Produk --</option>';
+                                                    foreach($category_product as $row){
+                                                        echo '<option value="'.$row->category_name.'">'.strtoupper($row->category_name).'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                }
+                	                        ?>
+                                        </select>
+                                    </div>
+                                </div>
                                 <?php if( !empty($praincubation_list) ) : ?>
                                 <div class="form-group">
                                     <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>

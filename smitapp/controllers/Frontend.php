@@ -941,9 +941,12 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        $allcategorydata        = $this->Model_Option->get_all_category_product();
 
         $data['title']          = TITLE . 'Produk Pra-Inkubasi';
         $data['headstyles']     = $headstyles;
+        $data['allcategorydata']= $allcategorydata;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
@@ -995,11 +998,13 @@ class Frontend extends Public_Controller {
         }
         
         $alldata                = $this->Model_Praincubation->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
+        $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
 
         $data['title']          = TITLE . 'Detail Produk Pra-Inkubasi';
         $data['productdata']    = $productdata;
         $data['product_image']  = $product;
         $data['alldata']        = $alldata;
+        $data['allcategorydata']= $allcategorydata;
         $data['selectiondata']  = $selection;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;

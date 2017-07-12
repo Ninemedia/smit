@@ -47,7 +47,8 @@
                 </div>
                 <p class="news-date">
                     <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="fa fa-user"></i> Posting By : <?php echo $productdata->name; ?>
+                    <i class="fa fa-user"></i> Posting By : <?php echo $productdata->name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-tasks"></i> Kategori : <a href=""><?php echo $productdata->category_product; ?></a>
                 </p>
                 <div class="news-content">
                     <?php echo $productdata->description; ?>
@@ -57,14 +58,28 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
-                <h4 class="news-title">Judul Produk Lainnya</h4>
-                <?php if( !empty($alldata) ) : ?>
-                    <?php foreach($alldata AS $row){ ?>
-                        <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
-                    <?php } ?>
-                <?php else :  ?>
-                    <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
-                <?php endif ?>
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom30 news-related">
+                        <h4 class="news-title">Judul Produk Lainnya</h4>
+                        <?php if( !empty($alldata) ) : ?>
+                            <?php foreach($alldata AS $row){ ?>
+                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                            <?php } ?>
+                        <?php else :  ?>
+                            <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
+                        <?php endif ?>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom30 news-related">
+                        <h4 class="news-title">Kategori Lainnya</h4>
+                        <?php if( !empty($allcategorydata) ) : ?>
+                            <?php foreach($allcategorydata AS $row){ ?>
+                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_name.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                            <?php } ?>
+                        <?php else :  ?>
+                            <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
+                        <?php endif ?>
+                    </div>
+                </div>
             </div>
             
 		</div>

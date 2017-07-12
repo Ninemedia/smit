@@ -5822,6 +5822,8 @@ class PraIncubation extends User_Controller {
         $event_title            = trim( smit_isset($event_title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
+        $category               = $this->input->post('reg_category');
+        $category            =   trim( smit_isset($category, "") );
 
         // -------------------------------------------------
         // Check Form Validation
@@ -5829,6 +5831,7 @@ class PraIncubation extends User_Controller {
         $this->form_validation->set_rules('reg_event','Kategori Bidang','required');
         $this->form_validation->set_rules('reg_title','Judul Kegiatan','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi Kegiatan','required');
+        $this->form_validation->set_rules('reg_category','Kategori Produk','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -5912,6 +5915,7 @@ class PraIncubation extends User_Controller {
                 'name'          => strtoupper($current_user->name),
                 'title'         => $event_title,
                 'description'   => $description,
+                'category_product'   => strtoupper( $category ),
                 'url'           => smit_isset($file_details['full_path'],''),
                 'extension'     => substr(smit_isset($file_details['file_ext'],''),1),
                 'filename'      => smit_isset($file_details['raw_name'],''),
