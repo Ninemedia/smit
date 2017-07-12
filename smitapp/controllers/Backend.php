@@ -2843,20 +2843,20 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($communication_list as $row){
                 // Status
-
+                $btn_action = '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'"
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     if( !$is_admin && $value == 'out'){
-                        $btn_action = '';
+                        $btn_action .= '';
                     }else{
-                        $btn_action     = '<a href="'.base_url('communicationconfirm/active/'.$row->id).'" class="communicationconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Balas"><i class="material-icons">reply</i></a> ';
+                        $btn_action .= '<a href="'.base_url('communicationconfirm/active/'.$row->id).'" class="communicationconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Balas"><i class="material-icons">reply</i></a> ';
                     }
                 }
                 elseif($row->status == READ)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     = '
-                    <a href="'.($row->id>1 ? base_url('communicationconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
-                    <a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
+                    $btn_action     .= '<a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
                 }
                 /*
                 elseif($row->status == BANNED)  {
@@ -2868,8 +2868,6 @@ class Backend extends User_Controller {
                     $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 */
-                $btn_action .= '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'"
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 /*
                     <a href="'.base_url('pesanumum/hapus/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>
