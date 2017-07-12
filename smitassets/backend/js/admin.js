@@ -1255,7 +1255,7 @@ var App = function() {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
                     
-                    if(response.message == 'error'){
+                    if(response.msg == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
@@ -1265,6 +1265,7 @@ var App = function() {
                         $('#workunitadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_workunit_list').trigger('click');
     			}
     		});
         };
@@ -1278,7 +1279,8 @@ var App = function() {
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_workunit').val('');
-            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+            $('#workunitadd')[0].reset();
+            $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
         });
     };
     
