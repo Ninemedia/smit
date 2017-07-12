@@ -56,7 +56,7 @@
                                             <div class="product-content">
                                                 <a href="<?php echo base_url(); ?>"><h3><?php echo $row->title; ?></h3></a>
                                                 <p><?php echo $row->description; ?></p>
-                                                <a class="btn btn-primary" href="<?php echo base_url(); ?>">Detail</a>
+                                                <a class="btn btn-primary" href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>">Detail</a>
                                             </div>
                                         </div>
                                     </div>

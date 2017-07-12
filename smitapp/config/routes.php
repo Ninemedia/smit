@@ -294,6 +294,7 @@ $route['seleksi/inkubasi']              = "frontend/selectionincubation";
 // 4. Pra-Incubation
 $route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
 $route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
+$route['prainkubasi/produkprainkubasi/detail/(:any)'] = "frontend/productpraincubationdetail/$1";
 $route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']           = "frontend/listtenant";
