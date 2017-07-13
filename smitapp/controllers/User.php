@@ -479,6 +479,8 @@ class User extends SMIT_Controller {
                 if( $is_admin ){
                     if( $user_type == JURI ){
                         $this->smit_email->send_email_registration_juri($email, $username, $password_global);
+                    }else{
+                        
                     }
                 }
                 

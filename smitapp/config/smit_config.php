@@ -52,7 +52,7 @@ $config['user_type']                = array(
     JURI                            => 'Juri',
     PENGUSUL                        => 'Pengusul',
     PELAKSANA                       => 'Pelaksana',
-    PELAKSANA_TENANT                => 'Pelaksana',
+    PELAKSANA_TENANT                => 'Pelaksana &amp; Tenant',
 );
 
 /**
