@@ -62,7 +62,8 @@
                         
                         <!-- Data Pengguna -->
                         <h2 class="card-inside-title">Data Akun</h2>
-                        <input type="hidden" name="user_type" id="reg_member_password" class="form-control" value="<?php echo PENGUSUL; ?>" />
+                        <input type="hidden" name="user_type" id="user_type" value="<?php echo PENGUSUL; ?>" />
+                        <input type="hidden" name="access" id="access" value="signup" />
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">person</i></span>
                             <div class="form-line">
@@ -158,6 +159,7 @@
         <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'momentjs/moment.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo BE_PLUGIN_PATH . 'bootbox/bootbox.min.js'; ?>"></script>
     
         <!-- Custom Js -->
         <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>

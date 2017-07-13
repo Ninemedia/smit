@@ -304,10 +304,9 @@ class User extends SMIT_Controller {
 	function registration() {
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        
+
+        $access                 = $this->input->post('access');
+        $access                 = trim( smit_isset($access, '') );
         $user_type              = $this->input->post('user_type');
         $user_type              = trim( smit_isset($user_type, 0) );
         $username               = $this->input->post('username');
@@ -422,14 +421,14 @@ class User extends SMIT_Controller {
         $phone                  = str_replace(' ','',$phone);
         $data_user              = array(
             'username'          => $username,
-            'password'          => $is_admin ? $password_global : $password,
+            'password'          => $access=='admin' ? $password_global : $password,
             'name'              => strtoupper($name),
             'email'             => $email,
             'type'              => $user_type,
             'phone'             => $phone,
             'gender'            => $gender,
             'workunit'          => $workunit,
-            'status'            => $is_admin ? 1 : 0,
+            'status'            => $access=='admin' ? 1 : 0,
             'datecreated'       => $datetime,
             'datemodified'      => $datetime,
         );
@@ -476,7 +475,7 @@ class User extends SMIT_Controller {
                 // Complete Transaction
                 $this->db->trans_complete();
                 // Send Email Confirmation if Post User by Administrator
-                if( $is_admin ){
+                if( $access=='admin' ){
                     if( $user_type == JURI ){
                         $this->smit_email->send_email_registration_juri($email, $username, $password_global);
                     }elseif( $user_type == PENGUSUL ){

@@ -30,6 +30,7 @@
                     </div>
                     <input type="hidden" name="password" value="<?php echo PASSWORD_GLOBAL; ?>" />
                     <input type="hidden" name="password_confirm" value="<?php echo PASSWORD_GLOBAL; ?>" />
+                    <input type="hidden" name="access" value="admin" />
                     <div class="input-group">
                         <span class="input-group-addon"><i class="material-icons">person</i></span>
                         <div class="form-line">
