@@ -376,6 +376,8 @@ class Backend extends User_Controller {
             update_option('be_notif_incubation_accepted', $value);
         }elseif( $field == 'be_notif_registration_selection' ){
             update_option('be_notif_registration_selection', $value);
+        }elseif( $field == 'be_notif_registration_pengusul' ){
+            update_option('be_notif_registration_pengusul', $value);
         }elseif( $field == 'be_notif_registration_user' ){
             update_option('be_notif_registration_user', $value);
         }elseif( $field == 'be_notif_registration_juri' ){

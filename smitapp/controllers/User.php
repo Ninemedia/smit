@@ -475,12 +475,14 @@ class User extends SMIT_Controller {
                 $this->db->trans_commit();
                 // Complete Transaction
                 $this->db->trans_complete();
-                // Send Email Confirmation
+                // Send Email Confirmation if Post User by Administrator
                 if( $is_admin ){
                     if( $user_type == JURI ){
                         $this->smit_email->send_email_registration_juri($email, $username, $password_global);
+                    }elseif( $user_type == PENGUSUL ){
+                        $this->smit_email->send_email_registration_pengusul($email, $username);
                     }else{
-                        
+                        $this->smit_email->send_email_registration_user($email, $username);
                     }
                 }
                 
