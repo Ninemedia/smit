@@ -23,7 +23,11 @@ var SignUp = function () {
                 password_confirm: {
                     minlength: 6,
                     required: true,
-                    equalTo : "#password"
+                    equalTo : function(element) {
+                        if( $('#password').length ){
+                            return "#password";
+                        }
+                    }
                 },
                 name: {
                     required: true,
@@ -97,30 +101,34 @@ var SignUp = function () {
         	var data = $( form ).serialize(); // convert form to array
             var msg = $('.alert');
         	
-            $.ajax({
-    			type : "POST",
-    			url  : url,
-    			data : data,
-                beforeSend: function(){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-    			success: function(response) {
-                    $("div.page-loader-wrapper").fadeOut();
-                    response = $.parseJSON( response );
-                    
-                    if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
-                    }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
-                        $('#sign-up-form')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
-                        $(".selectpicker, .show-tick").val('').selectpicker('render');
-                    }
-    			}
-    		});
+            bootbox.confirm("Anda yakin data user sudah benar?", function(result) {
+                if( result == true ){
+                    $.ajax({
+            			type : "POST",
+            			url  : url,
+            			data : data,
+                        beforeSend: function(){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+            			success: function(response) {
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON( response );
+                            
+                            if(response.message == 'error'){
+                                msg.html(response.data.msg);
+                                msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                            }else{
+                                msg.html(response.data.msgsuccess);
+                                msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                                
+                                $('#sign-up-form')[0].reset();
+                                $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+                                $(".selectpicker, .show-tick").val('').selectpicker('render');
+                            }
+            			}
+            		});
+                }
+            });
         };
         
         $('[name="user_type"]').change(function(){
@@ -179,30 +187,34 @@ var SignUp = function () {
         	var data = $( form ).serialize(); // convert form to array
             var msg = $('.alert');
         	
-            $.ajax({
-    			type : "POST",
-    			url  : url,
-    			data : data,
-                beforeSend: function(){
-                    $("div.page-loader-wrapper").fadeIn();
-                    $('#save_profile').modal('hide');
-                },
-    			success: function(response) {
-                    $("div.page-loader-wrapper").fadeOut();
-                    response = $.parseJSON( response );
-                    
-                    if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
-                    }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
-                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
-                        $(".selectpicker, .show-tick").val('').selectpicker('render');
-                    }
-    			}
-    		});
+            bootbox.confirm("Anda yakin data user sudah benar?", function(result) {
+                if( result == true ){
+                    $.ajax({
+            			type : "POST",
+            			url  : url,
+            			data : data,
+                        beforeSend: function(){
+                            $("div.page-loader-wrapper").fadeIn();
+                            $('#save_profile').modal('hide');
+                        },
+            			success: function(response) {
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON( response );
+                            
+                            if(response.message == 'error'){
+                                msg.html(response.data.msg);
+                                msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                            }else{
+                                msg.html(response.data.msgsuccess);
+                                msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                                
+                                $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+                                $(".selectpicker, .show-tick").val('').selectpicker('render');
+                            }
+            			}
+            		});
+                }
+            });
         };
         
         //Mobile Phone Number

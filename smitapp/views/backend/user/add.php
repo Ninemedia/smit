@@ -36,20 +36,6 @@
                             <?php echo form_input('username','',array('class'=>'form-control','placeholder'=>'Username','required'=>'required','autocomplete'=>'off')); ?>
                         </div>
                     </div>
-                    <!--
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                        <div class="form-line">
-                            <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                        <div class="form-line">
-                            <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Password','required'=>'required','minlength'=>'6')); ?>
-                        </div>
-                    </div>
-                    -->
                     <!-- Data Pribadi -->
                     <h2 class="card-inside-title top35">Data Pribadi</h2>
                     <div class="input-group">
