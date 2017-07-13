@@ -119,7 +119,7 @@ class SMIT_Email
     /**
 	 * Send email registration pengusul function.
 	 *
-     * @param string    $to             (Required)  Email Destionation
+     * @param string    $to             (Required)  Email Destination
      * @param string    $username       (Required)  Username of Pengusul
 	 * @return Mixed
 	 */
@@ -142,7 +142,7 @@ class SMIT_Email
     /**
 	 * Send email registration user function.
 	 *
-     * @param string    $to             (Required)  Email Destionation
+     * @param string    $to             (Required)  Email Destination
      * @param string    $username       (Required)  Username of user
 	 * @return Mixed
 	 */
@@ -165,7 +165,7 @@ class SMIT_Email
     /**
 	 * Send email registration juri function.
 	 *
-     * @param string    $to             (Required)  Email Destionation
+     * @param string    $to             (Required)  Email Destination
      * @param string    $username       (Required)  Username of user
      * @param string    $password       (Required)  Password of user
 	 * @return Mixed
@@ -186,6 +186,33 @@ class SMIT_Email
         $mail_message->html		= $html_message;
 		
 		return $this->send( $to, 'Konfirmasi Pendaftaran Juri', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
+    
+    /**
+	 * Send email registration for admin function.
+	 *
+     * @param string    $to             (Required)  Email Destination
+     * @param string    $from           (Required)  Email Sender
+     * @param string    $username       (Required)  Username of user
+     * @param string    $name           (Required)  Name of user
+	 * @return Mixed
+	 */
+	function send_email_registration_for_admin( $to, $from, $username, $name ) {
+        if ( !$to ) return false;
+        if ( !$from ) return false;
+        if ( !$username ) return false;
+        if ( !$name ) return false;
+        
+        $message    = trim( get_option('be_notif_registration_for_admin') );
+        $message    = str_replace("{%username%}", $username, $message);
+        
+        $html_message           = smit_notification_template_clear($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $to, 'Konfirmasi Pendaftaran User', $mail_message, $from, $name );
 	}
     
     /**

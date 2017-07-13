@@ -484,6 +484,16 @@ class User extends SMIT_Controller {
                     }else{
                         $this->smit_email->send_email_registration_user($email, $username);
                     }
+                }else{
+                    // Send Notification to All Administrator
+                    $condition  = ' WHERE %type% = '.ADMINISTRATOR.'';
+                    $order_by   = '';
+                    if( $all_admin  = $this->Model_User->get_all_user(0,0,$condition,$order_by) ){
+                        foreach( $all_admin as $row ){
+                            $admin_email    = $row->email;
+                            $this->smit_email->send_email_registration_for_admin($admin_email, $email, $username, strtoupper($name));
+                        }
+                    }
                 }
                 
                 // Set JSON data
