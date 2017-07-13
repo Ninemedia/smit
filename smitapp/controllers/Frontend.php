@@ -595,6 +595,13 @@ class Frontend extends Public_Controller {
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        // Set JSON data
+        $data       = array(
+            'message' => 'success', 
+            'data' => smit_alert('Pendaftaran seleksi pra-inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!') 
+        );
+        die(json_encode($data));
 
         $message                = '';
         $post                   = '';
@@ -838,12 +845,13 @@ class Frontend extends Public_Controller {
 
                     // Send Email Notification
                     $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-
-                    // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran selesi pra-inkubasi baru berhasil!');
-                    die(json_encode($data));
+                    
                     // Set Log Data
                     smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran seleksi pra-inkubasi baru berhasil!');
+                    die(json_encode($data));
                 }
             }else{
                 // Rollback Transaction
