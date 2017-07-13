@@ -6191,6 +6191,61 @@ class PraIncubation extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+    * Product Details function.
+    */
+    public function productdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
+            $product_image  = $file_url;
+        }else{
+            $product_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Produk Detail';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/productdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
 
     /**
 	 * Product confirm function.
