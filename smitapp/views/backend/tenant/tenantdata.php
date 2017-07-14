@@ -4,6 +4,7 @@
         <div class="card">
             <div class="header"><h2>Daftar Inkubasi / Tenant</h2></div>
             <div class="body">
+                <?php if( !empty($is_admin) ) : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -22,7 +23,6 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab_tenant">
                         <div class="table-container table-responsive">
-                            <?php if( $is_admin ) : ?>
                             <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
@@ -83,66 +83,6 @@
                                     <!-- Data Will Be Placed Here -->
                                 </tbody>
                             </table>
-                            <?php else : ?>
-                            <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
-                                <thead>
-            						<tr role="row" class="heading bg-blue">
-            							<th class="width5">No</th>
-                                        <th class="width10 text-center">Tahun</th>
-            							<th class="width20">Judul Usulan</th>
-                                        <th class="width10 text-center">Nama Tenant</th>
-                                        <th class="width10 text-center">Email</th>
-                                        <th class="width10 text-center">Telp</th>
-                                        <th class="width10 text-center">Status</th>
-            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
-            						</tr>
-                                    <tr role="row" class="filter display-hide table-filter">
-            							<td></td>
-                                        <td>
-                                            <select name="search_year" class="form-control form-filter input-sm def">
-                                            <?php
-                                                $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
-                                                if( !empty($year_arr) ){
-                                                    foreach($year_arr as $val){
-                                                        $option[$val] = $val;
-                                                    }
-                                                }
-
-                                                if( !empty($option) ){
-                                                    foreach($option as $val){
-                                                        echo '<option value="'.$val.'">'.$val.'</option>';
-                                                    }
-                                                }else{
-                                                    echo '<option value="">Tahun Kosong</option>';
-                                                }
-                                            ?>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
-                                        <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
-            									<option value="">Pilih...</option>
-            									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
-            									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
-            								</select>
-                                        </td>
-            							<td style="text-align: center;">
-                                            <div class="bottom5">
-            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
-                                            </div>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
-            							</td>
-            						</tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Data Will Be Placed Here -->
-                                </tbody>
-                            </table>
-                            <?php endif; ?>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="tab_add">
@@ -292,6 +232,69 @@
                         </div>
                     </div>
                 </div>
+                
+                <?php else : ?>
+                <div class="table-container table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
+                        <thead>
+    						<tr role="row" class="heading bg-blue">
+    							<th class="width5">No</th>
+                                <th class="width10 text-center">Tahun</th>
+    							<th class="width20">Judul Usulan</th>
+                                <th class="width10 text-center">Nama Tenant</th>
+                                <th class="width10 text-center">Email</th>
+                                <th class="width10 text-center">Telp</th>
+                                <th class="width10 text-center">Status</th>
+    							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+    						</tr>
+                            <tr role="row" class="filter display-hide table-filter">
+    							<td></td>
+                                <td>
+                                    <select name="search_year" class="form-control form-filter input-sm def">
+                                    <?php
+                                        $option = array(''=>'Pilih Tahun');
+                                        $year_arr = smit_select_year(date('Y'),2030);
+                                        if( !empty($year_arr) ){
+                                            foreach($year_arr as $val){
+                                                $option[$val] = $val;
+                                            }
+                                        }
+
+                                        if( !empty($option) ){
+                                            foreach($option as $val){
+                                                echo '<option value="'.$val.'">'.$val.'</option>';
+                                            }
+                                        }else{
+                                            echo '<option value="">Tahun Kosong</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
+                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
+		                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
+                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
+                                <td>
+                                    <select name="search_status" class="form-control form-filter input-sm">
+    									<option value="">Pilih...</option>
+    									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
+    									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
+    								</select>
+                                </td>
+    							<td style="text-align: center;">
+                                    <div class="bottom5">
+    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
+                                    </div>
+                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+    							</td>
+    						</tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data Will Be Placed Here -->
+                        </tbody>
+                    </table>
+                </div>
+                <?php endif; ?>
 
 
             </div>
