@@ -1511,7 +1511,7 @@ class Frontend extends Public_Controller {
             foreach($announcement_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('seleksi/pengumuman/'.$row->uniquecode).'"
-                    class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Details">Details</a> ';
+                    class="announcementdetails btn btn-sm btn-primary waves-effect tooltips" data-placement="left">Detail</a> ';
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -1877,6 +1877,7 @@ class Frontend extends Public_Controller {
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             //'IKM.init();',
+            'App.init();',
             'IKMValidation.init();',
         ));
 

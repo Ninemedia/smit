@@ -27,12 +27,6 @@
 <div id="gtco-content" class="gtco-section border-bottom animate-box">
 	<div class="gtco-container">
         <div class="row animate-box">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related" >
-                <h4 class="news-title">Link Terkait</h4>
-                <h5><a href="<?php echo base_url('tenant/blogtenant'); ?>">BLOG TENANT</a></h5>  
-                <h5><a href="<?php echo base_url('seleksi/pengumuman'); ?>">PENGUMUMAN</a></h5>  
-            </div>
-            
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" id="newslist">
                 <h4 class="news-title">DAFTAR BERITA</h4>
                 
@@ -67,6 +61,11 @@
                 <?php }else{ ?>
                     <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
                 <?php } ?>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related" >
+                <h4 class="news-title">Link Terkait</h4>
+                <h5><a href="<?php echo base_url('tenant/blogtenant'); ?>">BLOG TENANT</a></h5>  
+                <h5><a href="<?php echo base_url('seleksi/pengumuman'); ?>">PENGUMUMAN</a></h5>  
             </div>
         </div>
 	</div>

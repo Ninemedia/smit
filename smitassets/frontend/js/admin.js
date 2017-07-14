@@ -530,6 +530,62 @@ var App = function() {
         });
     };
     
+    var handleAddIKM = function() {
+        // Save IKM Data
+        $('#do_save_ikmadddata').click(function(e){
+            e.preventDefault();
+            processSaveIKMData($('#ikmadddata'));
+        });
+        
+        var processSaveIKMData = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#ikmadddata')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+        
+        // Reset IKM Data Form
+        $('body').on('click', '#btn_ikmadddata_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#ikm_email').val('');
+            $('#ikm_comment').val('');
+            $('#ikmadddata')[0].reset();
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
     // --------------------------------
     // Handle General Setting
     // --------------------------------
@@ -558,6 +614,7 @@ var App = function() {
             handleInit();
             handleSetting();
             handleAddContact();
+            handleAddIKM();
 		},
         
         // wrapper function to scroll(focus) to an element
