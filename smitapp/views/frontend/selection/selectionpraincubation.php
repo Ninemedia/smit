@@ -195,8 +195,8 @@
                 <p>Anda Sedang Mendaftarkan Seleksi Pra-Inkubasi. Pastinkan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_selectionpraincubation" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_selectionpraincubation" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

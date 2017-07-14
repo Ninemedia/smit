@@ -19,7 +19,7 @@
 	                            if( !empty($user_type) ){
 	                                echo '<option value="">-- Pilih Tipe Pengguna --</option>';
 	                                foreach($user_type as $key => $val){
-                                        if( $key != ADMINISTRATOR )
+                                        if( $key != PENGUSUL )
 	                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
 	                                }
 	                            }else{
@@ -87,7 +87,7 @@
                     <div class="input-group">
             			<div class="g-recaptcha smit-captcha-signup-admin" data-smit-site-key="<?php echo config_item( 'captcha_site_key' ); ?>"></div>
             		</div>
-                    
+
                     <button class="btn btn-lg btn-primary waves-effect" type="submit">Tambah Pengguna</button>
                     <button class="btn btn-lg btn-danger waves-effect" id="btn-reset-useradd" type="button">Bersihkan</button>
                 <?php echo form_close(); ?>

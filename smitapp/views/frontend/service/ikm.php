@@ -113,8 +113,8 @@
                 <p>Anda Sedang Melakukan Pengukuran Index Kepuasan Masyarakat. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_save_ikmadddata" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_ikmadddata" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
