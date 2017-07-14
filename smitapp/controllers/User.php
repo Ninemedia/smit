@@ -871,6 +871,8 @@ class User extends SMIT_Controller {
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Multi-Select Plugin
+            BE_PLUGIN_PATH . 'multi-select/css/multi-select.css',
         ));
         
         $loadscripts            = smit_scripts(array(
@@ -892,6 +894,8 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Multi-Select Plugin
+            BE_PLUGIN_PATH . 'multi-select/js/jquery.multi-select.js',
             
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
@@ -909,10 +913,11 @@ class User extends SMIT_Controller {
             'ProfileValidation.init();',
         ));
         
-        $uploaded       = $current_user->uploader;
+        $the_user       = !empty( $user_data ) && $user_data->type != ADMINISTRATOR ? $user_data : $current_user;
+        $uploaded       = $the_user->uploader;
         if($uploaded != 0){
-            $file_name      = $current_user->filename . '.' . $current_user->extension;
-            $file_url       = BE_AVA_PATH . $current_user->uploader . '/' . $file_name; 
+            $file_name      = $the_user->filename . '.' . $the_user->extension;
+            $file_url       = BE_AVA_PATH . $the_user->uploader . '/' . $file_name; 
             $avatar         = $file_url;
         }else{
             if($current_user->gender == GENDER_MALE){
@@ -920,6 +925,23 @@ class User extends SMIT_Controller {
             }else{
                 $avatar     = BE_IMG_PATH . 'avatar/avatar3.png';
             }    
+        }
+        
+        if( $_POST ){
+            $user_role_id       = $this->input->post('user_role_id');
+            $user_role_id       = trim( smit_isset($user_role_id, 0) );
+            $user_role_selected = $this->input->post('user_role_select');
+            $user_role_selected = smit_isset($user_role_selected, "");
+            
+            if( !empty($user_role_selected) ){
+                $curdate        = date('Y-m-d H:i:s');
+                $user_role_selected = implode(',', $user_role_selected);
+                
+                $data_update    = array('role' => $user_role_selected, 'datemodified' => $curdate);
+                $this->Model_User->update_data($user_role_id, $data_update);
+                
+                redirect( base_url('pengguna/profil' . ( $current_user->id == $user_role_id ? '' : '/'.$user_role_id )), 'refresh' );
+            }
         }
         
         $data['title']          = TITLE . 'Profil Pengguna';

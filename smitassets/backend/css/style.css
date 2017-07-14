@@ -8542,3 +8542,12 @@ hr.line-warning{
     border-radius: 0 !important;
     border: 2px solid #FFFFFF;
 }
+
+.profile-role .bootstrap-tagsinput{
+    padding: 10px 0;
+}
+
+.profile-role .bootstrap-tagsinput .label{
+    font-size: 100%;
+    padding: 5px;
+}

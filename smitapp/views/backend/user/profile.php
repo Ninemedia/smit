@@ -1,6 +1,6 @@
 <?php 
     $the_user       = !empty( $user_other ) && $user_other->type != ADMINISTRATOR ? $user_other : $user; 
-    $status         = $user->type;
+    $status         = $the_user->type;
     if($status == ADMINISTRATOR){
         $status     = 'ADMINISTRATOR';
     }elseif($status == PENGUSUL){
@@ -27,24 +27,34 @@
                     <div class="col-md-12">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="accountdata" class="active">
+                            <li class="active">
                                 <a href="#account" data-toggle="tab">
                                     <i class="material-icons">home</i> AKUN
                                 </a>
                             </li>
-                            <li role="presentation">
+                            <li>
                                 <a href="#info" data-toggle="tab">
                                     <i class="material-icons">home</i> INFORMASI PRIBADI
                                 </a>
                             </li>
-                            <li role="presentation">
+                            <li>
                                 <a href="#job" data-toggle="tab">
                                     <i class="material-icons">style</i> INFORMASI PEKERJAAN
                                 </a>
                             </li>
-                            <li role="presentation">
+                            <li>
                                 <a href="#change_password" data-toggle="tab">
                                     <i class="material-icons">style</i> GANTI PASSWORD
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#change_password" data-toggle="tab">
+                                    <i class="material-icons">style</i> GANTI PASSWORD
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#user_role" data-toggle="tab">
+                                    <i class="material-icons">account_box</i> ROLE
                                 </a>
                             </li>
                         </ul>
@@ -74,29 +84,6 @@
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
-                                
-                                <!-- About Me Box -->
-                                <!--
-                                <div class="box box-primary">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">About Me</h3>
-                                    </div>
-                                    <div class="box-body">
-                                        <strong>ALAMAT</strong>
-                                        <p class="text-muted">
-                                            <?php 
-                                                echo $the_user->address;
-                                                echo !empty( $the_user->district ) ? br() . $the_user->district : ''; 
-                                            ?>
-                                        </p>
-                                        
-                                        <strong>HP/TELP</strong>
-                                        <p class="text-muted">
-                                            <?php echo $the_user->phone; ?>
-                                        </p>
-                                    </div>
-                                </div>
-                                -->
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="info">
                                 <?php echo form_open( 'user/personalinfo', array( 'id'=>'personal', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
@@ -230,7 +217,7 @@
                                             <option value="1" <?php echo $user_marital == 1 ? 'selected="selected"' : '' ?>>MENIKAH</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
 
                                 <?php echo form_close(); ?>
                             </div>
@@ -271,7 +258,7 @@
                                             echo form_dropdown('workunit_type',$option,'',$extra);
             	                        ?>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -322,7 +309,61 @@
                                                 <?php echo form_password('cnew_pass','',array('class'=>'form-control','placeholder'=>'Ulangi Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($member_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                        <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <?php echo form_close(); ?>
+                                <?php } ?>
+                            </div>
+                            
+                            <div role="tabpanel" class="tab-pane fade" id="user_role">
+                                <div class="alert bg-teal">
+                                    Silahkan klik salah satu role dibawah ini untuk login sebagai role yang dipilih!<br />
+                                    <h4 class="top15 bottom5"><strong>Perhatian!</strong></h4>
+                                    Role yang dipilih akan menjadi default role ketika Anda login.
+                                </div>
+                                
+                                <label class="form-label">Role <?php echo ( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ); ?> saat ini</label>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                    <?php
+                                        $cfg_usertype   = config_item('user_type');
+                                        $current_roles  = $the_user->role;
+                                        $current_roles  = maybe_unserialize($current_roles);
+                                        if( !empty($current_roles) ){
+                                            $roles      = explode(',',$current_roles);
+                                            foreach($roles as $key => $type){
+                                                if( $type == ADMINISTRATOR )        { $roletxt = 'Administrator'; $bg = 'bg-blue'; }
+                                                elseif( $type == PENDAMPING )       { $roletxt = 'Pendamping'; $bg = 'bg-green'; }
+                                                elseif( $type == TENANT )           { $roletxt = 'Tenant'; $bg = 'bg-purple'; }
+                                                elseif( $type == JURI )             { $roletxt = 'Juri'; $bg = 'bg-orange'; }
+                                                elseif( $type == PENGUSUL )         { $roletxt = 'Pengusul'; $bg = 'bg-red'; }
+                                                elseif( $type == PELAKSANA )        { $roletxt = 'Pelaksana'; $bg = 'bg-teal'; }
+                                                elseif( $type == PELAKSANA_TENANT ) { $roletxt = 'Pelaksana &amp; Tenant'; $bg = 'bg-deep-orange'; }
+                                                
+                                                echo '<button class="btn '.$bg.' btn-role waves-effect top10 bottom20" type="button" data-role="'.$type.'">'.$roletxt.'</button> ';
+                                            }
+                                        }else{
+                                            echo '<div class="alert alert-warning top10">'.( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ).' tidak memiliki role</div>';
+                                        }
+                                    ?>
+                                    </div>
+                                </div>
+
+                                <?php if( $user->type == ADMINISTRATOR ){ ?>
+                                    <?php echo form_open_multipart( 'pengguna/profil', array( 'id'=>'userrolesetting', 'role'=>'form' ) ); ?>
+                                        <label class="form-label">Ubah Role <?php echo ( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ); ?></label>
+                                        <input type="hidden" name="user_role_id" value="<?php echo $the_user->id; ?>" />
+                                        <select id="user_role_select" name="user_role_select[]" class="ms" multiple="multiple">
+                                            <?php
+                                                if( !empty($current_roles) ){
+                                                    $roles = explode(',',$current_roles);
+                                                }
+                                            
+                                                foreach($cfg_usertype as $key => $usertype){
+                                                    echo '<option value="'.$key.'" '.( in_array($key,$roles) ? 'selected="selected"' : '' ).'>'.$usertype.'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary btn-block bg-blue waves-effect top30">Ubah Role</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>

@@ -110,6 +110,31 @@ class Debug extends Public_Controller {
             */
         }
 	}
+    
+    /**
+	 * Update User Basic Type
+	 */
+	public function basictype() {
+        set_time_limit( 0 );
+		$this->benchmark->mark('started');
+        echo "<pre>";
+        
+        $users  = $this->Model_User->get_all();
+        if( $users ){
+            foreach( $users as $user ){
+                $type   = $user->type;
+                $role   = implode(',',array($type));
+                
+                $data_update = array('role' => $role);
+                $this->Model_User->update_data($user->id, $data_update);
+            }
+        }
+        
+        $this->benchmark->mark('ended');
+		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
+
+        echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
+	}
 }
 
 /* End of file Debug.php */

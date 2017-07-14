@@ -173,6 +173,9 @@ var ServicesValidation = function () {
 }();
 
 var ProfileValidation = function () {
+    //Multi-select
+    $('#user_role_select').multiSelect();
+    
     var handleProfileValidation = function(){
         $('#personal').validate({
             focusInvalid: true, // do not focus the last invalid input
