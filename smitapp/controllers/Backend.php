@@ -2692,18 +2692,11 @@ class Backend extends User_Controller {
     /**
 	 * Message Delete function.
 	 */
-    function generalmessagedelete($action, $id){
+    function generalmessagedelete($uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
-        if ( !$action ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
-        };
-
-        if ( !$id ){
+        if ( !$uniquecode ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'ID Pesan harus dicantumkan');
             // JSON encode data
@@ -2719,15 +2712,17 @@ class Backend extends User_Controller {
             die(json_encode($data));
         };
 
-        $workunitdata       = smit_get_workunitdata_by_id($id);
-        if( !$workunitdata ){
+        $generalmessage_list  = $this->Model_Service->get_all_contact_message(1, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+        $generalmessage_list  = $generalmessage_list[0];
+
+        if( !$generalmessage_list ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'Data pesan tidak ditemukan atau belum terdaftar');
             // JSON encode data
             die(json_encode($data));
         }
 
-        if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
+        if( $this->Model_Service->delete_message($generalmessage_list->id) ){
             // Set JSON data
             $data = array('msg' => 'success','message' => 'Data pesan berhasil dihapus.');
             // JSON encode data

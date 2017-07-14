@@ -148,6 +148,23 @@ class Model_Service extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+     * Delete Message 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_message($id){
+        if( empty($id) )
+            return false;
+
+        $this->db->where('id', $id);
+        if( $this->db->delete($this->contact_message) )
+            return true;
+
+        return false;
+    }
 
     // ---------------------------------------------------------------------------------
     /**
