@@ -315,6 +315,7 @@ $route['infografis']                    = "frontend/statistic";
 // 8. Layanan
 $route['layanan/komunikasi']            = "frontend/communication";
 $route['layanan/ikm']                   = "frontend/ikm";
+$route['layanan/frontendberita']        = "frontend/news";
 // 9. Contact
 $route['kontak']                        = "frontend/contact";
 
