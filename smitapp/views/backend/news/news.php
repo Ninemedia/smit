@@ -17,7 +17,7 @@
                         </a>
                     </li>
                 </ul>
-            
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
@@ -104,7 +104,7 @@
                             </div>
                         <?php echo form_close(); ?>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
