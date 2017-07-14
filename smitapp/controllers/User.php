@@ -960,6 +960,49 @@ class User extends SMIT_Controller {
     }
     
     /**
+	 * Change User Role function.
+	 */
+    function userrole()
+    {
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $user_role              = $this->input->post('user_role');
+        $user_role              = smit_isset($user_role, 0);
+        $user_roletxt           = $this->input->post('user_roletxt');
+        $user_roletxt           = smit_isset($user_roletxt, '');
+        
+        $current_user           = smit_get_current_user();
+        $current_roles          = $current_user->role;
+        if( empty($current_roles) ){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role untuk dipilih!');
+            die(json_encode($data));
+        }
+        
+        $current_roles      = explode(',', $current_roles);
+        if( !in_array($user_role, $current_roles) ){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role sebagai '.$user_roletxt.'!');
+            die(json_encode($data));
+        }
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $data_update        = array('type' => $user_role, 'datemodified' => $curdate);
+        if( $this->Model_User->update_data($current_user->id, $data_update) ){
+            smit_set_auth_cookie( $current_user->id );
+            
+            // Set JSON data
+            $data = array('status' => 'success','message' => base_url('beranda'));
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan pada sistem, login sebagai '.$user_roletxt.' tidak dapat diproses!');
+            die(json_encode($data));
+        }
+    }
+    
+    /**
 	 * Profile Personal Info Update function.
 	 */
     function personalinfo()

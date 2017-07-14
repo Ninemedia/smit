@@ -315,11 +315,13 @@
                             </div>
                             
                             <div role="tabpanel" class="tab-pane fade" id="user_role">
+                                <?php if( $the_user->id == $user->id ){ ?>
                                 <div class="alert bg-teal">
                                     Silahkan klik salah satu role dibawah ini untuk login sebagai role yang dipilih!<br />
                                     <h4 class="top15 bottom5"><strong>Perhatian!</strong></h4>
                                     Role yang dipilih akan menjadi default role ketika Anda login.
                                 </div>
+                                <?php } ?>
                                 
                                 <label class="form-label">Role <?php echo ( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ); ?> saat ini</label>
                                 <div class="input-group">
@@ -339,7 +341,8 @@
                                                 elseif( $type == PELAKSANA )        { $roletxt = 'Pelaksana'; $bg = 'bg-teal'; }
                                                 elseif( $type == PELAKSANA_TENANT ) { $roletxt = 'Pelaksana &amp; Tenant'; $bg = 'bg-deep-orange'; }
                                                 
-                                                echo '<button class="btn '.$bg.' btn-role waves-effect top10 bottom20" type="button" data-role="'.$type.'">'.$roletxt.'</button> ';
+                                                echo '<button class="btn '.$bg.' btn-role waves-effect top10 bottom20" type="button" data-role="'.$type.'" 
+                                                '.( $the_user->id != $user->id ? 'disabled="disabled"' : "" ).' data-url="'.base_url('gantirole').'">'.$roletxt.'</button> ';
                                             }
                                         }else{
                                             echo '<div class="alert alert-warning top10">'.( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ).' tidak memiliki role</div>';
