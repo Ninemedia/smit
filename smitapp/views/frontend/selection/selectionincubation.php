@@ -43,11 +43,11 @@
                             
                             <?php echo form_open_multipart( 'frontend/incubationselection', array( 'id'=>'selectionincubation', 'role'=>'form' ) ); ?>
                                 <div class="form-group form-float">
+                                    <div id="alert" class="alert display-hide"></div>
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
                                             <?php echo get_option('be_frontend_incubation_note'); ?>
                                         </div>
-                                        <div id="alert" class="alert display-hide"></div>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>

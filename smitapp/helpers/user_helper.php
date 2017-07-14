@@ -259,7 +259,8 @@ if ( !function_exists('smit_clear_auth_cookie') ){
         
         if ( !$id_user ){
         	if ($id = smit_isset($_COOKIE['logged_in_'.md5('nonssl')], false, true)){
-                if (smit_isset($CI->session->userdata('user_logged_in')) != "") $logged = true;
+                $sess_user_login = $CI->session->userdata('user_logged_in');
+                if (smit_isset($sess_user_login,'') != "") $logged = true;
         	}
         }else{
             $logged = true;

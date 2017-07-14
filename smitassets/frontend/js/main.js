@@ -438,7 +438,7 @@
         var processSaveSelectionIncubation = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var msg     = $('#alert');
         	
             $.ajax({
     			type : "POST",
@@ -459,10 +459,9 @@
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast');
                         
                         $('#selectionincubation')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $(".selectpicker, .show-tick").val('').selectpicker('render');
                         $('#selection_files').fileinput('refresh', {
                             showUpload : false,
@@ -496,6 +495,9 @@
                         });
                         $('#username_info').hide();
                         $('#detail_selection').hide();
+                        $('#account_selection').show();
+                        
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 300 }, 500 );
                     }
     			}
     		});
