@@ -95,7 +95,24 @@
     
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <div class="form-group">
-                                    <label class="form-label">Usulan Kegiatan Inkubasi<b style="color: red !important;">(*)</b></label>
+                                    <input name="tenant_data" type="radio" id="user_registered" class="radio-col-blue" value="user_registered" checked />
+                                    <label for="user_registered">Pengguna Terdaftar</label>
+                                    <input name="tenant_data" type="radio" id="tenant_old" class="radio-col-blue" value="tenant_old" />
+                                    <label for="tenant_old">Tenant Lama</label>
+                                    
+                                    <div id="tenant_username_form" class="top15 display-hide">
+                                        <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Nama Pengguna Tenant','required'=>'required')); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_event" id="reg_event">
@@ -118,7 +135,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label for="name_contact">Nama Tenant<b style="color: red !important;">(*)</b></label>
+                                <label for="name_contact">Nama Tenant <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
                                     <div class="form-line">
@@ -127,7 +144,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <label for="email_contact">Email Tenant<b style="color: red !important;">(*)</b></label>
+                                        <label for="email_contact">Email Tenant <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">email</i></span>
                                             <div class="form-line">
@@ -136,7 +153,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-5">
-                                        <label for="name_contact">Tahun Berdiri<b style="color: red !important;">(*)</b></label>
+                                        <label for="name_contact">Tahun Berdiri <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
@@ -154,7 +171,7 @@
                                     </div>
                                 </div>
     
-                                <label for="name_contact">Alamat Tenant<b style="color: red !important;">(*)</b></label>
+                                <label for="name_contact">Alamat Tenant <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
                                     <div class="form-line">
@@ -195,21 +212,21 @@
                                         <?php echo form_input('tenant_phone_contact','',array('class'=>'form-control tenant_phone_contact','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
                                     </div>
                                 </div>
-                                <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya)<b style="color: red !important;">(*)</b></label>
+                                <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya) <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">person</i></span>
                                     <div class="form-line">
                                         <?php echo form_input('tenant_legal','',array('class'=>'form-control tenant_legal','placeholder'=>'Nomor Legalitas Usaha Anda','required'=>'required')); ?>
                                     </div>
                                 </div>
-                                <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)<b style="color: red !important;">(*)</b></label>
+                                <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian) <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
                                     <div class="form-line">
                                         <?php echo form_input('tenant_bussiness','',array('class'=>'form-control tenant_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
                                     </div>
                                 </div>
-                                <label for="telp_contact">Kemitraan Usaha yang Dimiliki<b style="color: red !important;">(*)</b></label>
+                                <label for="telp_contact">Kemitraan Usaha yang Dimiliki <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <div class="form-line">
                                         <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
@@ -217,7 +234,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label>Logo Tenant<b style="color: red !important;">(*)</b></label>
+                                    <label>Logo Tenant <b style="color: red !important;">(*)</b></label>
                                     <p align="justify">
                                         File gambar/foto yang anda unggah harus berdimensi lebih kecil dari 200 x 200 pixel. Ukuran dan format file juga harus memenuhi masing-masing batasan yaitu JPEG/JPG?PNG.
                                     </p>

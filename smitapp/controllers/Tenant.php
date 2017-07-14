@@ -203,6 +203,8 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Input Mask Plugin
+            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
