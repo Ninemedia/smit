@@ -899,6 +899,25 @@ var Tenant = function () {
             maxFileSize: 2048,
             /* uploadClass: 'btn btn-success' */
         });
+        
+        //Mobile Phone Number
+        $('.tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
+        
+        $('input:radio[name="tenant_data"]').change(function(){
+            var el  = $('div#tenant_username_form');
+            var elu = $('input:text[name="tenant_username"]');
+            var val = $(this).val();
+            
+            if(val == 'user_registered'){
+                el.hide();
+                elu.val('');
+            }else if( val == 'tenant_old' ){
+                el.fadeIn();
+            }else{
+                el.hide();
+                elu.val('');
+            }
+        });
     };
 
     // --------------------------------
