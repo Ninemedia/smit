@@ -90,6 +90,8 @@ var Datatable = function () {
                                     if (res.sStatus == 'EXPORTED'){
                                         document.location.href =(res.sMessage);
                                         setTimeout(function () { URL.revokeObjectURL(res.sMessage); }, 100);
+                                    }else if( res.sStatus == 'ERROR' ){
+                                        App.alert({type: 'danger', icon: 'warning', message: res.sMessage, container: tableWrapper, place: 'prepend'});
                                     }else{
                                         App.alert({type: (res.sStatus == 'OK' ? 'success' : 'danger'), icon: (res.sStatus == 'OK' ? 'check' : 'warning'), message: res.sMessage, container: tableWrapper, place: 'prepend'});
                                     }
@@ -101,7 +103,6 @@ var Datatable = function () {
                                 }
                                 if ($('.group-checkable', table).size() === 1) {
                                     $('.group-checkable', table).attr("checked", false);
-                                    $.uniform.update($('.group-checkable', table));
                                 }
                                 if (tableOptions.onSuccess) {
                                     tableOptions.onSuccess.call(the);
@@ -134,7 +135,6 @@ var Datatable = function () {
                             tableInitialized = true; // set table initialized
                             table.show(); // display table
                         }
-                        App.initUniform($('input[type="checkbox"]', table));  // reinitialize uniform checkboxes on each table reload
                         countSelectedRecords(); // reset selected records indicator
                     }
                 }
@@ -169,9 +169,21 @@ var Datatable = function () {
                 $(set).each(function () {
                     $(this).attr("checked", checked);
                 });
-                $.uniform.update(set);
                 countSelectedRecords();
             });
+            // handle 
+            $( '#select_all' ).change( function() {
+        		$( '.cbuserlist:enabled' ).prop( 'checked', $(this).is(':checked') );
+                countSelectedRecords();
+                
+                if ( $(this).is(':checked') ){
+                    $('select.table-group-action-input').removeAttr('disabled');
+                    $('button.table-group-action-submit').removeAttr('disabled');
+                }else{
+                    $('select.table-group-action-input').attr('disabled','disabled');
+                    $('button.table-group-action-submit').attr('disabled','disabled');
+                }
+        	});
             
             // handle pagination event add params on table
             table.on( 'page.dt', function () {
@@ -188,6 +200,16 @@ var Datatable = function () {
             // handle row's checkbox click
             table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function(){
                 countSelectedRecords();
+                
+                var selectedRows = $('tbody > tr > td:nth-child(1) input[type="checkbox"]:checked', table).size();
+                if( selectedRows > 0 ){
+                    $('select.table-group-action-input').removeAttr('disabled');
+                    $('button.table-group-action-submit').removeAttr('disabled');
+                }else{
+                    $('select.table-group-action-input').attr('disabled','disabled');
+                    $('button.table-group-action-submit').attr('disabled','disabled');
+                }
+                
             });
 
             // handle filter submit button click

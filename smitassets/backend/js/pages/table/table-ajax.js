@@ -13,7 +13,50 @@ var TableAjax = function () {
 
     // Users Lists
     var handleRecordsUserList = function() {
-        gridTable( $("#user_list"), true );
+        //gridTable( $("#user_list"), true, [ -1, 1, 0 ] );
+        
+        var url     = $("#user_list").data('url');
+        var grid    = new Datatable();
+
+        grid.init({
+            src: $("#user_list"),
+            onSuccess: function(grid) {},
+            onError: function(grid) {},
+            dataTable: {
+                "aLengthMenu": [
+                    [10, 20, 50, 100, -1],
+                    [10, 20, 50, 100, "All"]                        // change per page values here
+                ],
+                "iDisplayLength": 10,                               // default record count per page
+                "bServerSide": true,                                // server side processing
+                "sAjaxSource": url,                                 // ajax source
+                "aoColumnDefs": [
+		          { 'bSortable': false, 'aTargets': [ -1, 1, 0 ] }
+		       ]
+            }
+        });
+        
+        // handle group actionsubmit button click
+        grid.getTableWrapper().on('click', '.table-group-action-submit', function(e){
+            e.preventDefault();
+            var action = $(".table-group-action-input", grid.getTableWrapper());
+            if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
+                grid.addAjaxParam("sAction", "group_action");
+                grid.addAjaxParam("sGroupActionName", action.val());
+                var records = grid.getSelectedRows();
+                for (var i in records) {
+                    grid.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                }
+                grid.getDataTable().fnDraw();
+                grid.clearAjaxParams();
+            } else if (action.val() == "") {
+                App.alert({type: 'danger', icon: 'warning', message: 'Silahkan pilih proses', container: grid.getTableWrapper(), place: 'prepend'});
+            } else if (grid.getSelectedRowsCount() === 0) {
+                App.alert({type: 'danger', icon: 'warning', message: 'Tidak ada data terpilih untuk di proses', container: grid.getTableWrapper(), place: 'prepend'});
+            }
+            
+            $('#btn_list_user').trigger('click');
+        });
     };
 
     // -------------------------------------------------------------------------
@@ -259,7 +302,7 @@ var TableAjax = function () {
                 ],
                 "iDisplayLength": 10,                               // default record count per page
                 "bServerSide": true,                                // server side processing
-                "sAjaxSource": url,       // ajax source
+                "sAjaxSource": url,                                 // ajax source
                 "aoColumnDefs": [
 		          { 'bSortable': false, 'aTargets': tgt }
 		       ]

@@ -1792,6 +1792,89 @@ class Backend extends User_Controller {
 	}
 
     /**
+	 * News list data function.
+	 */
+    function newslistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_no_news          = $this->input->post('search_no_news');
+        $s_no_news          = smit_isset($s_no_news, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_source           = $this->input->post('search_source');
+        $s_source           = smit_isset($s_source, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_news% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_source) )         { $condition .= str_replace('%s%', $s_source, ' AND %source% LIKE "%%s%%"'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )      { $order_by .= '%no_news% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%source% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $news_list          = $this->Model_News->get_all_news($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($news_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($news_list as $row){
+                // Button
+                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_edit   = '<a href="'.base_url('berita/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->no_news,
+                    '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    $row->source,
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action .' '. $btn_edit .' '. $btn_delete ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
 	 * News Add
 	 */
 	public function newsadd()
@@ -1956,89 +2039,6 @@ class Backend extends User_Controller {
             }
         }
 	}
-
-    /**
-	 * News list data function.
-	 */
-    function newslistdata(){
-        $current_user       = smit_get_current_user();
-        $is_admin           = as_administrator($current_user);
-        $condition          = '';
-
-        $order_by           = '';
-        $iTotalRecords      = 0;
-
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
-        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-
-        $sAction            = smit_isset($_REQUEST['sAction'],'');
-        $sEcho              = intval($_REQUEST['sEcho']);
-        $sort               = $_REQUEST['sSortDir_0'];
-        $column             = intval($_REQUEST['iSortCol_0']);
-
-        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
-        $offset             = $iDisplayStart;
-
-        $s_no_news          = $this->input->post('search_no_news');
-        $s_no_news          = smit_isset($s_no_news, '');
-        $s_title            = $this->input->post('search_title');
-        $s_title            = smit_isset($s_title, '');
-        $s_source           = $this->input->post('search_source');
-        $s_source           = smit_isset($s_source, '');
-
-        $s_date_min         = $this->input->post('search_datecreated_min');
-        $s_date_min         = smit_isset($s_date_min, '');
-        $s_date_max         = $this->input->post('search_datecreated_max');
-        $s_date_max         = smit_isset($s_date_max, '');
-
-        if( !empty($s_no_news) )        { $condition .= str_replace('%s%', $s_no_news, ' AND %no_news% LIKE "%%s%%"'); }
-        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
-        if( !empty($s_source) )         { $condition .= str_replace('%s%', $s_source, ' AND %source% LIKE "%%s%%"'); }
-
-        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
-        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-
-        if( $column == 1 )      { $order_by .= '%no_news% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%source% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
-
-        $news_list          = $this->Model_News->get_all_news($limit, $offset, $condition, $order_by);
-        $records            = array();
-        $records["aaData"]  = array();
-
-        if( !empty($news_list) ){
-            $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('user_status');
-
-            $i = $offset + 1;
-            foreach($news_list as $row){
-                // Button
-                $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                $btn_edit   = '<a href="'.base_url('berita/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
-
-                $records["aaData"][] = array(
-                    smit_center($i),
-                    $row->no_news,
-                    '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
-                    $row->source,
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action .' '. $btn_edit .' '. $btn_delete ),
-                );
-                $i++;
-            }
-        }
-
-        $end                = $iDisplayStart + $iDisplayLength;
-        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-
-        $records["sEcho"]                   = $sEcho;
-        $records["iTotalRecords"]           = $iTotalRecords;
-        $records["iTotalDisplayRecords"]    = $iTotalRecords;
-
-        echo json_encode($records);
-    }
 
     /**
     * News Details function.

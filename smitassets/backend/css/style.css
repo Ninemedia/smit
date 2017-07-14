@@ -8533,3 +8533,12 @@ hr.line-warning{
     position: relative;
     top: 5px !important;
 }
+
+.table > thead > tr > th > label{
+    margin-top: 13px;
+}
+
+.table > thead > tr > th > .filled-in[type="checkbox"]:not(:checked) + label::after {
+    border-radius: 0 !important;
+    border: 2px solid #FFFFFF;
+}

@@ -456,22 +456,6 @@ var App = function() {
         }
     }
     
-    // Handles custom checkboxes & radios using jQuery Uniform plugin
-    var handleUniform = function () {
-        if (!jQuery().uniform) {
-            return;
-        }
-        var test = $("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)");
-        if (test.size() > 0) {
-            test.each(function () {
-                if ($(this).parents(".checker").size() == 0) {
-                    $(this).show();
-                    $(this).uniform();
-                }
-            });
-        }
-    };
-    
     var handleAddAnnouncement = function() {
         // Save Announcement
         $('body').on('click', '#btn_addannouncement_reset', function(event){
@@ -1717,25 +1701,6 @@ var App = function() {
                     $('#' + id).remove();
                 }, options.closeInSeconds * 1000);
             }
-        },
-        
-        // initializes uniform elements
-        initUniform: function (els) {
-            if (els) {
-                jQuery(els).each(function () {
-                    if ($(this).parents(".checker").size() == 0) {
-                        $(this).show();
-                        $(this).uniform();
-                    }
-                });
-            } else {
-                handleUniform();
-            }
-        },
-
-        //wrapper function to update/sync jquery uniform checkbox & radios
-        updateUniform: function (els) {
-            $.uniform.update(els); // update the uniform checkbox & radios UI after the actual input control state changed
         },
 	};
 }();

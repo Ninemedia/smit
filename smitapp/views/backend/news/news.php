@@ -4,6 +4,7 @@
         <div class="card">
             <div class="header"><h2>Berita</h2></div>
             <div class="body">
+
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -22,37 +23,37 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('newslistdata'); ?>">
-                            <thead>
-        						<tr role="row" class="heading bg-blue">
-        							<th class="width5">No</th>
-        							<th class="width15 text-center">No Berita</th>
-        							<th class="width20 text-center">Judul Berita</th>
-        							<th class="width20 text-center">Sumber Berita</th>
-                                    <th class="width10 text-center">Tanggal Daftar</th>
-        							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
-   						        </tr>
-                                <tr role="row" class="filter display-hide table-filter">
-        							<td></td>
-        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_news" /></td>
-        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
-        							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_source" /></td>
-                                    <td>
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
-        								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
-        							</td>
-        							<td style="text-align: center;">
-                                        <div class="bottom5">
-        								    <button class="btn bg-blue waves-effect filter-submit" id="btn_news_list">Search</button>
-                                        </div>
-                                        <button class="btn bg-red waves-effect filter-cancel" id="btn_news_listreset">Reset</button>
-        							</td>
-        						</tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data Will Be Placed Here -->
-                            </tbody>
-                        </table>
+                            <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('newslistdata'); ?>">
+                                <thead>
+            						<tr role="row" class="heading bg-blue">
+            							<th class="width5">No</th>
+            							<th class="width15 text-center">No Berita</th>
+            							<th class="width20 text-center">Judul Berita</th>
+            							<th class="width20 text-center">Sumber Berita</th>
+                                        <th class="width10 text-center">Tanggal Daftar</th>
+            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+       						        </tr>
+                                    <tr role="row" class="filter display-hide table-filter">
+            							<td></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_news" /></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_source" /></td>
+                                        <td>
+            								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
+            								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
+            							</td>
+            							<td style="text-align: center;">
+                                            <div class="bottom5">
+            								    <button class="btn bg-blue waves-effect filter-submit" id="btn_news_list">Search</button>
+                                            </div>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_news_listreset">Reset</button>
+            							</td>
+            						</tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data Will Be Placed Here -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
@@ -105,6 +106,7 @@
                         <?php echo form_close(); ?>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

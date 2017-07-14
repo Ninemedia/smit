@@ -543,7 +543,7 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
             // DataTable Plugin
-            BE_PLUGIN_PATH . 'datatables/dataTables.bootstrap.css',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
         ));
@@ -647,28 +647,32 @@ class User extends SMIT_Controller {
             
             $i = $offset + 1;
             foreach($user_list as $row){
+                $btn_action         = '<a href="'.base_url('pengguna/profil/'.$row->id).'" class="btn btn-xs btn-primary tooltips waves-effect" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                
                 if($row->status == NONACTIVE)   { 
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    //$btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == ACTIVE)  { 
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '
-                    <a href="'.($row->id>1 ? base_url('userconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
-                    <a href="'.($row->id>1 ? base_url('userconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    //$btn_action     = '
+                    //<a href="'.($row->id>1 ? base_url('userconfirm/banned/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Banned" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a> 
+                    //<a href="'.($row->id>1 ? base_url('userconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="userconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 }
                 elseif($row->status == BANNED)  { 
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    //$btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == DELETED) { 
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; 
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    //$btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
                 $type               = strtoupper($cfg_type[$row->type]);
                 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cbuserlist filled-in chk-col-blue" id="cbuserlist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cbuserlist'.$row->id.'"></label>'),
                     smit_center($i),
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     $row->name,
@@ -684,6 +688,15 @@ class User extends SMIT_Controller {
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
         
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $userlist               = $_REQUEST['userlist'];
+            
+            $proses                 = $this->useraction($sGroupActionName, $userlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
+        
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
@@ -691,6 +704,77 @@ class User extends SMIT_Controller {
         echo json_encode($records);
     }
 
+    // ------------------------------------------------------------------------------------------------
+    
+    /**
+	 * User action function.
+	 */
+    function useraction($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            $userdata           = smit_get_userdata_by_id($id);
+            if( !$userdata ){
+                continue;
+            }
+            $userstatus         = $userdata->status;
+            if( $action == 'confirm' && $userstatus == ACTIVE ){
+                continue;
+            }elseif( $action == 'banned' && $userstatus == DELETED ){
+                continue;
+            }
+            
+            $data_update = array('status'=>$status,'datemodified'=>$curdate);
+            if( $this->Model_User->update_data($id,$data_update) ){
+                // Send Email Confirmation
+                $this->smit_email->send_email_registration_user($userdata->email, $userdata->username);
+                $response = array(
+                    'status'    => 'OK',
+                    'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna berhasil dilakukan',
+                );
+                return $response;
+            }else{
+                $response = array(
+                    'status'    => 'ERROR',
+                    'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna tidak berhasil dilakukan',
+                );
+                return $response;
+            }
+        }
+    }
+    
     // ------------------------------------------------------------------------------------------------
     
     // ------------------------------------------------------------------------------------------------
