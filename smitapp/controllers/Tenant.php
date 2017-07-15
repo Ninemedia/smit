@@ -294,6 +294,7 @@ class Tenant extends User_Controller {
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -334,6 +335,7 @@ class Tenant extends User_Controller {
         $data['title']          = TITLE . 'Pendampingan Tenant';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_pendamping']  = $is_pendamping;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -354,9 +356,15 @@ class Tenant extends User_Controller {
     function accompanimentlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
+        $is_pendamping      = as_pendamping($current_user);
+        
         $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
-            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+            if( !empty($is_pendamping) ){
+                $condition          = ' WHERE %companion_id% = '.$current_user->id.'';
+            }else{
+                $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+            }
         }
 
         $order_by           = '';
@@ -418,7 +426,7 @@ class Tenant extends User_Controller {
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
-                if( $is_admin ){
+                if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
@@ -427,6 +435,14 @@ class Tenant extends User_Controller {
                         strtoupper($companion_name),
                         smit_center( $btn_detail ),
                     );    
+                }elseif( !empty($is_pendamping) ){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->name_tenant),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        smit_center( $btn_detail ),
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center($i),
