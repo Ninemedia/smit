@@ -75,22 +75,62 @@ class Tenant extends User_Controller {
         $is_admin               = as_administrator($current_user);
 
         $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
+            // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'TenantValidation.init();',
+        ));
 
         $data['title']          = TITLE . 'Blog Tenant';
         $data['user']           = $current_user;
@@ -294,6 +334,7 @@ class Tenant extends User_Controller {
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -334,6 +375,7 @@ class Tenant extends User_Controller {
         $data['title']          = TITLE . 'Pendampingan Tenant';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_pendamping']  = $is_pendamping;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -354,9 +396,15 @@ class Tenant extends User_Controller {
     function accompanimentlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
+        $is_pendamping      = as_pendamping($current_user);
+        
         $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
-            $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+            if( !empty($is_pendamping) ){
+                $condition          = ' WHERE %companion_id% = '.$current_user->id.'';
+            }else{
+                $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+            }
         }
 
         $order_by           = '';
@@ -412,29 +460,36 @@ class Tenant extends User_Controller {
                 $companiondata      = $this->Model_User->get_userdata($row->companion_id);
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                }else{ $companion_name = "<center> - </center>"; }
+                }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
                 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
-                
-                if( $is_admin ){
+                if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
-                        $companion_name,
+                        strtoupper($companion_name),
                         smit_center( $btn_detail ),
                     );    
+                }elseif( !empty($is_pendamping) ){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->name_tenant),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        smit_center( $btn_detail ),
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
-                        strtoupper($workunit_type),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
+                        strtoupper($companion_name),
                         smit_center( $btn_detail ),
                     );    
                 }
@@ -1768,12 +1823,14 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($product_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('produk/detail/'.$row->uniquecode).'"
+                $btn_action = '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'"
                     class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_action .= ' ';
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    if( !empty($is_admin) ){
+                        $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    }
                 }
                 if( !$is_admin ){
                     if($row->status == ACTIVE)  {
@@ -1809,7 +1866,7 @@ class Tenant extends User_Controller {
                     smit_center($i),
                     strtoupper($row->name),
                     strtoupper($row->event_title),
-                    '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
@@ -1827,6 +1884,61 @@ class Tenant extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+    * Product Details function.
+    */
+    public function productdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
+            $product_image  = $file_url;
+        }else{
+            $product_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Produk Detail';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/productdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
     }
 
     // ---------------------------------------------------------------------------------------------

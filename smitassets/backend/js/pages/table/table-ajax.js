@@ -174,7 +174,15 @@ var TableAjax = function () {
     };
 
     // -------------------------------------------------------------------------
-
+    
+    // -------------------------------------------------------------------------
+    // TENANT BLOGS
+    // -------------------------------------------------------------------------
+    // Blogs Tenant List
+    var handleRecordsBlogTenant = function() {
+        gridTable( $("#blogtenant_list"), false );
+    };
+    
     // -------------------------------------------------------------------------
     // TENANT
     // -------------------------------------------------------------------------
@@ -361,6 +369,7 @@ var TableAjax = function () {
             handleRecordsTenantSelectionList();
             handleRecordsTenantAccompanimentList();
             handleRecordsTenantAcceptedList();
+            handleRecordsBlogTenant();
 
             //Jury
             handleRecordsJuryStepOneList();
