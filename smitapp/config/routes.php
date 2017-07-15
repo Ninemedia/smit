@@ -298,13 +298,15 @@ $route['seleksi/inkubasi']              = "frontend/selectionincubation";
 // 4. Pra-Incubation
 $route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
 $route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
-$route['prainkubasi/produkprainkubasi/detail/(:any)'] = "frontend/productpraincubationdetail/$1";
+$route['prainkubasi/produkprainkubasi/detail/(:any)']   = "frontend/productpraincubationdetail/$1";
 $route['prainkubasi/produkprainkubasi/kategori/(:any)'] = "frontend/productpraincubation/$1";
 $route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']           = "frontend/listtenant";
 $route['tenant/daftartenantdata']       = "frontend/tenantlistdata";
 $route['tenant/produktenant']           = "frontend/producttenant";
+$route['tenant/produktenant/detail/(:any)']     = "frontend/producttenantdetail/$1";
+$route['tenant/produktenant/kategori/(:any)']   = "frontend/producttenant/$1";
 $route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
 $route['tenant/blogtenant']             = "frontend/blogtenant";
 /*
