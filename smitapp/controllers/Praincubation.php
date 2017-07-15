@@ -5829,8 +5829,8 @@ class PraIncubation extends User_Controller {
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_event','Kategori Bidang','required');
-        $this->form_validation->set_rules('reg_title','Judul Kegiatan','required');
-        $this->form_validation->set_rules('reg_desc','Deskripsi Kegiatan','required');
+        $this->form_validation->set_rules('reg_title','Judul Produk','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Produk','required');
         $this->form_validation->set_rules('reg_category','Kategori Produk','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');

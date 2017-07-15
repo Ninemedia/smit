@@ -1117,8 +1117,27 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        // Total rows count
+        $counttenantdata        = $this->Model_Tenant->count_data_product_tenant();
 
+        // Pagination configuration
+        $config['target']       = '#productlist';
+        $config['base_url']     = base_url('tenant/produktenant');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+
+        $tenantdata             = $this->Model_Tenant->get_all_product($this->perPage, 0, ' WHERE %status% = 1');
+        $allcategorydata        = $this->Model_Option->get_all_category_product();
+        if( !empty($id) ){
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+        }
+        
         $data['title']          = TITLE . 'Produk Tenant';
+        $data['productdata']    = $tenantdata;
+        $data['countproduct']   = $counttenantdata;
+        $data['allcategorydaya']= $allcategorydata;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
