@@ -2,11 +2,11 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Detail Seleksi Pra Inkubasi</h2></div>
+            <div class="header"><h2>Detail Inkubasi / Tenant</h2></div>
             <div class="body">
                 <div class="table-container table-responsive">
-                    <a href="<?php echo base_url('prainkubasi/pendampingan'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>
-                    <h4><?php echo $praincubation->event_title; ?></h4>
+                    <a href="<?php echo base_url('tenants/pendampingan'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>
+                    <h4><?php echo $tenant->event_title; ?></h4>
                     <table class="table table-striped table-hover" style="margin-bottom: 50px !important;">
                         <thead>
                             <tr class="bg-blue-grey">
@@ -15,48 +15,29 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th style="width: 30%;">Nama Pengusul</th>
+                                <th style="width: 30%;">Nama Tenant</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->name; ?></td>
+                                <td><?php echo $tenant->name; ?></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Judul Kegiatan</th>
+                                <th style="width: 30%;">Judul Usulan Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->event_title; ?></td>
+                                <td><?php echo $tenant->event_title; ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Deskripsi Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->event_desc; ?></td>
+                                <td><?php echo $tenant->event_desc; ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->category; ?></td>
-                            </tr>
-                            <tr>
-                                <th style="width: 30%;">Berkas Kegiatan</th>
-                                <td style="width: 1%;"> : </td>
-                                <td>
-                                    <?php
-                                        if( !empty($praincubation_files) ){
-                                            echo '<ul class="bottom0" style="padding-left:10px;">';
-                                            foreach($praincubation_files as $file){
-                                                echo '<li>'.$file->filename.' - <a href="'.base_url('prainkubasi/unduh/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
-                                            }
-                                            echo '</ul>';
-                                        }else{
-                                            echo '<strong>Tidak ada berkas panduan</strong>';
-                                        } 
-                                    ?>
-                                    
-                                    
-                                </td>
+                                <td><?php echo strtoupper($tenant->category); ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Tanggal Usulan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo date('d F Y H:i:s', strtotime($praincubation->datecreated)); ?></td>
+                                <td><?php echo date('d F Y H:i:s', strtotime($tenant->datecreated)); ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;" class="text-middle">Status</th>

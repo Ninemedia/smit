@@ -24,12 +24,11 @@
                     <!-- Tab Content List Accompaniment -->
                     <div role="tabpanel" class="tab-pane fade in active" id="listaccompaniment">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="tenantaccompaniment_list" data-url="<?php echo base_url('prainkubasi/daftarpendampingan'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="tenantaccompaniment_list" data-url="<?php echo base_url('tenants/daftarpendampingan'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center">No</th>
-            							<th class="width20">Judul Kegiatan</th>
-                                        <th class="width20 text-center">Satuan Kerja</th>
+            							<th class="width20">Nama Tenant</th>
                                         <th class="width15 text-center">Pelaksana</th>
                                         <th class="width15 text-center">Peneliti Utama</th>
                                         <th class="width15 text-center">Pendamping</th>
@@ -38,21 +37,7 @@
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-                                        <td>
-                                            <?php
-                                            	$workunit_type = smit_workunit_type();
-                                                $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
-                                                if( !empty($workunit_type) ){
-                                                    foreach($workunit_type as $val){
-                                                        $option[$val->workunit_id] = $val->workunit_name;
-                                                    }
-                                                }
-                                                echo form_dropdown('workunit_type',$option,'',$extra);
-                                            ?>
-                                        </td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user_name" /></td>
+            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_tenant_name" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_companion_name" /></td>
             							<td style="text-align: center;">
@@ -73,13 +58,12 @@
                     <!-- Tab Content Add Accompaniment -->
                     <div role="tabpanel" class="tab-pane fade" id="companionassignment">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="tenantacceptedselection_list" data-url="<?php echo base_url('tenants/daftarditerima'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="tenantacceptedselection_list" data-url="<?php echo base_url('tenant/tenantacceptedlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center">No</th>
             							<th class="width15 text-center">Nama Tenant</th>
             							<th class="width15">Judul Kegiatan</th>
-                                        <th class="width20 text-center">Satuan Kerja</th>
                                         <th class="width15 text-center">Pelaksana</th>
                                         <th class="width15 text-center">Peneliti Utama</th>
             							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
@@ -88,20 +72,6 @@
             							<td></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-                                        <td>
-                                            <?php
-                                            	$workunit_type = smit_workunit_type();
-                                                $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
-                                                if( !empty($workunit_type) ){
-                                                    foreach($workunit_type as $val){
-                                                        $option[$val->workunit_id] = $val->workunit_name;
-                                                    }
-                                                }
-                                                echo form_dropdown('workunit_type',$option,'',$extra);
-                                            ?>
-                                        </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user_name" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
             							<td style="text-align: center;">
