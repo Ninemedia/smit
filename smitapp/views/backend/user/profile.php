@@ -70,10 +70,10 @@
                                         <p class="text-muted text-center"><?php echo $status; ?></p>
                                         <?php echo form_open_multipart( 'user/accountsetting', array( 'id'=>'accountsetting', 'role'=>'form' ) ); ?>
                                             <div class="form-group">
-                                                <div class="alert bg-teal">
+                                                <p align="justify">
                                                     <strong>Perhatian!</strong>
                                                     File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
-                                                </div>
+                                                </p>
                                                 <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
                                                 <div class="form-group">
                                                     <label>Unggah Avatar</label>
@@ -217,7 +217,7 @@
                                             <option value="1" <?php echo $user_marital == 1 ? 'selected="selected"' : '' ?>>MENIKAH</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
 
                                 <?php echo form_close(); ?>
                             </div>
@@ -258,7 +258,7 @@
                                             echo form_dropdown('workunit_type',$option,'',$extra);
             	                        ?>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -309,7 +309,7 @@
                                                 <?php echo form_password('cnew_pass','',array('class'=>'form-control','placeholder'=>'Ulangi Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                        <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
@@ -366,7 +366,7 @@
                                                 }
                                             ?>
                                         </select>
-                                        <button type="submit" class="btn btn-primary btn-block bg-blue waves-effect top30">Ubah Role</button>
+                                        <button type="submit" class="btn btn-warning btn-block bg-blue waves-effect top30">Ubah Role</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
