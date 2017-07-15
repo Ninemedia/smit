@@ -90,10 +90,10 @@
                                     </div>
                                     <h4>Gambar Berita</h4>
                                     <div class="form-group">
-                                        <div class="alert bg-teal">
+                                        <p align="justify">
                                             <strong>Perhatian!</strong>
                                             File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
-                                        </div>
+                                        </p>
                                         <div class="form-group">
                                             <label>Upload Foto Berita</label>
                                             <input id="news_selection_files" name="news_selection_files" class="form-control" type="file">

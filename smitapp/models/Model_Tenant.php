@@ -376,6 +376,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%category_id%",          "A.category_id", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+            $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -390,10 +391,11 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%category_id%",          "A.category_id",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.event_title
+            SELECT A.*,B.event_title, B.companion_id
             FROM ' . $this->incubation_product. ' AS A
             LEFT JOIN ' . $this->incubation . ' AS B
             ON B.tenant_id = A.tenant_id';
