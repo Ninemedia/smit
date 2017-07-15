@@ -956,127 +956,7 @@ var SettingValidation = function () {
     };
 }();
 
-var TenantValidation = function () {
-    var handleTenantAddValidation = function(){
-        $('#addtenant').validate({
-            focusInvalid: true, // do not focus the last invalid input
-            ignore: "",
-            rules: {
-                reg_event: {
-                    required: true,
-                },
-                up_name: {
-                    required: true,
-                },
-                up_email: {
-                    required: true,
-                    email: true,
-                },
-                up_phone: {
-                    required: true,
-                },
-                up_address: {
-                    required: true,
-                },
-                up_province: {
-                    required: true,
-                },
-                up_regional: {
-                    required: true,
-                },
-                up_district: {
-                    required: true,
-                },
-                up_gender: {
-                    required: true,
-                },
-                up_birthplace: {
-                    required: true,
-                },
-                up_birthdate: {
-                    required: true,
-                },
-                up_religion: {
-                    required: true,
-                },
-                up_marital_status: {
-                    required: true,
-                },
-                avatar_selection_files: {
-                    required: true,
-                }
-            },
-            messages: {
-                reg_event: {
-                    required: 'Usulan kegiatan harus di isi',
-                },
-                up_name: {
-                    required: 'Nama harus di isi',
-                },
-                up_email: {
-                    required: 'Email harus di isi',
-                    email: 'Masukkan alamat email Anda yang benar',
-                },
-                up_phone: {
-                    required: 'Nomor Telp/HP harus di isi',
-                },
-                up_address: {
-                    required: 'Alamat harus di isi',
-                },
-                up_province: {
-                    required: 'Provinsi harus di isi',
-                },
-                up_regional: {
-                    required: 'Kota/Kabupaten harus di isi',
-                },
-                up_district: {
-                    required: 'Kecamatan/Kelurahan harus di isi',
-                },
-                up_address: {
-                    required: 'Alamat harus di isi',
-                },
-                up_gender: {
-                    required: 'Jenis Kelamin harus di pilih',
-                },
-                up_birthplace: {
-                    required: 'Tempat lahir harus di pilih',
-                },
-                up_birthdate: {
-                    required: 'Tanggal lahir harus di pilih',
-                },
-                up_regional: {
-                    required: 'Agama harus di pilih',
-                },
-                up_marital_status: {
-                    required: 'Status pernikahan harus di pilih',
-                },
-                avatar_selection_files: {
-                    required: 'Logo tenant harus di pilih',
-                }
-            },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
-                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
-            },
-            highlight: function (element) { // hightlight error inputs
-                console.log(element);
-                $(element).parents('.form-line').addClass('error'); // set error class to the control group
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-line').removeClass('error');
-            },
-            success: function (label) {
-                label.closest('.form-line').removeClass('error');
-                label.remove();
-            },
-            errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
-            },
-            submitHandler: function (form) {
-                $('#save_profile').modal('show');
-            }
-        });
-    };
-    
+var AccountValidation = function () {
     var handleAccountValidation = function(){
         $('#accountsetting').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1263,8 +1143,14 @@ var TenantValidation = function () {
                 tenant_mitra: {
                     required: true,
                 },
+                tenant_event_id: {
+                    required: true,
+                },
             },
             messages: {
+                tenant_event_id: {
+                    required: 'Usulan Kegiatan harus di isi',
+                },
                 tenant_name: {
                     required: 'Nama Tenant harus di isi',
                 },

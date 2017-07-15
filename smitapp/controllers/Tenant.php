@@ -588,7 +588,8 @@ class Tenant extends User_Controller {
         $id_user                = $current_user->id;
         $curdate                = date("Y-m-d H:i:s");
 
-        $post_selection_id      = $this->input->post('reg_event');
+        $post_username          = $this->input->post('tenant_username');
+        $post_selection_id      = $this->input->post('tenant_event_id');
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
         $post_tenant_year       = $this->input->post('tenant_year');
@@ -600,7 +601,8 @@ class Tenant extends User_Controller {
         $post_tenant_legal      = $this->input->post('tenant_legal');
         $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
-
+        
+        $this->form_validation->set_rules('tenant_event_id','Usulan Kegiatan','required');
         $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
         $this->form_validation->set_rules('tenant_email','Email Tenant','required');
         $this->form_validation->set_rules('tenant_year','Tahun Berdiri Tenatn','required');
@@ -664,11 +666,16 @@ class Tenant extends User_Controller {
                 $this->image_moo->load($upload_path . '/' .$upload_data_avatar['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_avatar, TRUE);
                 $this->image_moo->clear();
                 $file_avatar            = $upload_data_avatar;
-
+                
+                // Check Selection Data
                 if( !empty($post_selection_id) ){
                     $condition          = " WHERE %id% = ".$post_selection_id."";
                     $data_selection     = $this->Model_Incubation->get_all_incubationdata(0, 0, $condition);
                     $data_selection     = $data_selection[0];
+                }
+                
+                if( !empty($post_username) ){
+                    
                 }
 
                 $tenantdata         = array(

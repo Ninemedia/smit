@@ -92,7 +92,8 @@
                                 <div class="alert alert-danger text-center display-hide error-validate">
                         			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                         		</div>
-    
+                                
+                                <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang telah terdaftar dengan mengklik option <strong>Tenant Lama</strong> dan mengisikan username yang digunakan untuk Tenant Terdaftar melakukan login. Pastikan Usulan kegiatan sesuai dengan Tenant yang akan di daftarkan oleh Admin. Terima Kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <div class="form-group">
                                     <input name="tenant_data" type="radio" id="user_registered" class="radio-col-blue" value="user_registered" checked />
@@ -101,11 +102,11 @@
                                     <label for="tenant_old">Tenant Lama</label>
                                     
                                     <div id="tenant_username_form" class="top15 display-hide">
-                                        <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
+                                        <label class="form-label">Username Pengguna Tenant <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">person</i></span>
                                             <div class="form-line">
-                                                <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Nama Pengguna Tenant','required'=>'required')); ?>
+                                                <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Username Pengguna Tenant')); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +116,7 @@
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                        <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id">
                                             <?php
                                                 $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
                                                 $order_by       = ' %year% DESC';
