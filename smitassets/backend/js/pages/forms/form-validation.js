@@ -173,6 +173,53 @@ var ServicesValidation = function () {
 }();
 
 var ProfileValidation = function () {
+    var handleProfileRole = function(){
+        //Multi-select
+        $('#user_role_select').multiSelect();
+        
+        //Button User Role Click
+        $("body").delegate( "button.btn-role", "click", function( event ) {
+            event.preventDefault();
+            
+            var role        = $(this).data('role');
+            var roletxt     = $(this).text();
+            var url         = $(this).data('url');
+            var container   = $('div#user_role'); 
+            
+            bootbox.confirm("Anda yakin akan login sebagai "+roletxt+"?", function(result) {
+                if( result == true ){
+                    $.ajax({
+                        type:   "POST",
+                        url:    url,
+                        data:   { 
+                            'user_role'     : role,
+                            'user_roletxt'  : roletxt
+                        },
+                        beforeSend: function (){
+                            $("div.page-loader-wrapper").fadeIn();
+                        },
+                        success: function( response ){
+                            $("div.page-loader-wrapper").fadeOut();
+                            response = $.parseJSON(response);
+                            
+                            if( response.status == 'error' ){
+                                App.alert({
+                                    type: 'danger',
+                                    icon: 'warning',
+                                    message: response.message,
+                                    container: container,
+                                    place: 'prepend'
+                                });
+                            }else{
+                                $(location).attr('href',response.message);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    };
+
     var handleProfileValidation = function(){
         $('#personal').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -423,6 +470,7 @@ var ProfileValidation = function () {
             handleAccountValidation();
             handleJobValidation();
             handleChangePasswordValidation();
+            handleProfileRole();
         }
     };
 }();

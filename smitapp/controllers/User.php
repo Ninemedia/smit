@@ -871,6 +871,8 @@ class User extends SMIT_Controller {
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Multi-Select Plugin
+            BE_PLUGIN_PATH . 'multi-select/css/multi-select.css',
         ));
         
         $loadscripts            = smit_scripts(array(
@@ -892,6 +894,8 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Multi-Select Plugin
+            BE_PLUGIN_PATH . 'multi-select/js/jquery.multi-select.js',
             
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
@@ -909,10 +913,11 @@ class User extends SMIT_Controller {
             'ProfileValidation.init();',
         ));
         
-        $uploaded       = $current_user->uploader;
+        $the_user       = !empty( $user_data ) && $user_data->type != ADMINISTRATOR ? $user_data : $current_user;
+        $uploaded       = $the_user->uploader;
         if($uploaded != 0){
-            $file_name      = $current_user->filename . '.' . $current_user->extension;
-            $file_url       = BE_AVA_PATH . $current_user->uploader . '/' . $file_name; 
+            $file_name      = $the_user->filename . '.' . $the_user->extension;
+            $file_url       = BE_AVA_PATH . $the_user->uploader . '/' . $file_name; 
             $avatar         = $file_url;
         }else{
             if($current_user->gender == GENDER_MALE){
@@ -920,6 +925,23 @@ class User extends SMIT_Controller {
             }else{
                 $avatar     = BE_IMG_PATH . 'avatar/avatar3.png';
             }    
+        }
+        
+        if( $_POST ){
+            $user_role_id       = $this->input->post('user_role_id');
+            $user_role_id       = trim( smit_isset($user_role_id, 0) );
+            $user_role_selected = $this->input->post('user_role_select');
+            $user_role_selected = smit_isset($user_role_selected, "");
+            
+            if( !empty($user_role_selected) ){
+                $curdate        = date('Y-m-d H:i:s');
+                $user_role_selected = implode(',', $user_role_selected);
+                
+                $data_update    = array('role' => $user_role_selected, 'datemodified' => $curdate);
+                $this->Model_User->update_data($user_role_id, $data_update);
+                
+                redirect( base_url('pengguna/profil' . ( $current_user->id == $user_role_id ? '' : '/'.$user_role_id )), 'refresh' );
+            }
         }
         
         $data['title']          = TITLE . 'Profil Pengguna';
@@ -935,6 +957,49 @@ class User extends SMIT_Controller {
         $data['main_content']   = 'user/profile';
         
         $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Change User Role function.
+	 */
+    function userrole()
+    {
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $user_role              = $this->input->post('user_role');
+        $user_role              = smit_isset($user_role, 0);
+        $user_roletxt           = $this->input->post('user_roletxt');
+        $user_roletxt           = smit_isset($user_roletxt, '');
+        
+        $current_user           = smit_get_current_user();
+        $current_roles          = $current_user->role;
+        if( empty($current_roles) ){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role untuk dipilih!');
+            die(json_encode($data));
+        }
+        
+        $current_roles      = explode(',', $current_roles);
+        if( !in_array($user_role, $current_roles) ){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role sebagai '.$user_roletxt.'!');
+            die(json_encode($data));
+        }
+        
+        $curdate            = date('Y-m-d H:i:s');
+        $data_update        = array('type' => $user_role, 'datemodified' => $curdate);
+        if( $this->Model_User->update_data($current_user->id, $data_update) ){
+            smit_set_auth_cookie( $current_user->id );
+            
+            // Set JSON data
+            $data = array('status' => 'success','message' => base_url('beranda'));
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Terjadi kesalahan pada sistem, login sebagai '.$user_roletxt.' tidak dapat diproses!');
+            die(json_encode($data));
+        }
     }
     
     /**

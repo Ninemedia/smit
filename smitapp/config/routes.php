@@ -69,6 +69,7 @@ $route['pengguna/profil/(:num)']        = "user/userprofile/$1";
 $route['userlistdata']                  = "user/userlistdata";
 $route['userconfirm/(:any)/(:num)']     = "user/userconfirm/$1/$2";
 $route['signup']                        = "user/signup";
+$route['gantirole']                     = "user/userrole";
 // -------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------
