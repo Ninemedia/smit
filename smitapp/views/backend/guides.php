@@ -62,11 +62,6 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( '', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
-                            <p align="justify">
-                                <strong>Perhatian!</strong>
-                                File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
-                            </p>
-                            
                             <div class="alert alert-danger error-validate <?php echo empty($message) ? 'display-hide' : ''; ?>">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
                                 <?php if( !empty($message) ){ ?>
@@ -115,6 +110,10 @@
                                     ?>
                                 </div>
                             </div>
+                            <p align="justify">
+                                <strong>Perhatian!</strong>
+                                File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
+                            </p>
                             <div class="form-group">
                                 <label>Berkas Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
