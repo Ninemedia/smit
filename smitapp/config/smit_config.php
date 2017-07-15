@@ -301,7 +301,7 @@ $config['user_menu_access']             = array(
         'tenants/daftarinkubasi',
         'tenants/blogs',
         'tenants/daftar',
-        'tenants/pendaftaran',
+        //'tenants/pendaftaran',
         'tenants/pendampingan',
         //'tenants/tambahproduk',
         'tenants/produk',

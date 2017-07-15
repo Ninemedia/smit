@@ -587,8 +587,11 @@ class Tenant extends User_Controller {
         $is_pelaksana           = as_pelaksana($current_user);
         $id_user                = $current_user->id;
         $curdate                = date("Y-m-d H:i:s");
-
-        $post_username          = $this->input->post('tenant_username');
+        
+        if( !empty($is_admin) ){
+            $post_username          = $this->input->post('tenant_username');    
+        }
+        
         $post_selection_id      = $this->input->post('tenant_event_id');
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
@@ -601,6 +604,10 @@ class Tenant extends User_Controller {
         $post_tenant_legal      = $this->input->post('tenant_legal');
         $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
+        
+        if( !empty($is_admin) ){
+            $this->form_validation->set_rules('tenant_username','Username Tenant','required');  
+        }
         
         $this->form_validation->set_rules('tenant_event_id','Usulan Kegiatan','required');
         $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
@@ -674,17 +681,91 @@ class Tenant extends User_Controller {
                     $data_selection     = $data_selection[0];
                 }
                 
-                if( !empty($post_username) ){
+                if( !empty($is_admin) ){
+                    // -------------------------------------------------
+                    // Check Username
+                    // -------------------------------------------------
+                    $check_username     = smit_check_username($post_username);
+                    if( $check_username == 'invalid' ){
+                        // Set JSON data
+                        $data = array(
+                            'message'   => 'error',
+                            'data'      => array(
+                                'field' => '',
+                                'msg'   => 'Username tidak sesuai dengan kriteria.',
+                            )
+                        ); die(json_encode($data));
+                    }elseif( $check_username == 'notavailable' ){
+                        // Set JSON data
+                        $data = array(
+                            'message'   => 'error',
+                            'data'      => array(
+                                'field' => '',
+                                'msg'   => 'Username ini sudah terdaftar. Silahkan masukkan username lain.',
+                            )
+                        ); die(json_encode($data));
+                    }
                     
+                    $datetime               = date( 'Y-m-d H:i:s' );
+            		$username				= strtolower( $post_username );
+                    $password_global        = get_option('global_password');
+                    $phone                  = str_replace(' ','',$post_tenant_phone);
+                    $data_user              = array(
+                        'username'          => $username,
+                        'password'          => $password_global,
+                        'name'              => strtoupper($post_tenant_name),
+                        'email'             => $post_tenant_email,
+                        'type'              => TENANT,
+                        'type_basic'        => TENANT,
+                        'role'              => TENANT,
+                        'phone'             => $phone,
+                        'status'            => 1,
+                        'datecreated'       => $datetime,
+                        'datemodified'      => $datetime,
+                    );
+                    
+                    $user_save_id           = $this->Model_User->save_data($data_user);
+                    $tenantdata1             = array(
+                        'user_id'       => trim(smit_isset($user_save_id, '')),
+                        'username'      => strtolower( trim(smit_isset($username, '')) ),
+                        'name'          => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
+                    );
+                    
+                    $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);
+                }else{
+                    $tenantdata1             = array(
+                        'user_id'       => trim(smit_isset($data_selection->user_id, '')),
+                        'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
+                        'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
+                    );
+                    
+                    if($data_selection->user_id != 1){ // Tidak Admin
+                        $dataUser       = smit_get_userdata_by_id($data_selection->user_id);
+                        $current_roles  = $dataUser->role;
+                        
+                        if( empty($current_roles) ){
+                            // Set JSON data
+                            $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role untuk dipilih!');
+                            die(json_encode($data));
+                        }
+                        
+                        $current_roles      = explode(',', $current_roles);
+                        if( !in_array(TENANT, $current_roles) ){
+                            $curdate            = date('Y-m-d H:i:s');
+                            $arrTenant[]        = TENANT;
+                            $arrData            = array_merge($current_roles, $arrTenant);
+                            $role               = implode(',', $arrData);
+                            
+                            $data_update        = array('role' => $role, 'datemodified' => $curdate);
+                            $update_data        = $this->Model_User->update_data($data_selection->user_id, $data_update);  
+                        }
+                    }
                 }
-
-                $tenantdata         = array(
+                
+                $tenantdata2         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'selection_id'  => trim(smit_isset($data_selection->selection_id, '')),
                     'incubation_id' => trim(smit_isset($post_selection_id, '')),
-                    'user_id'       => trim(smit_isset($data_selection->user_id, '')),
-                    'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
-                    'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
                     'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                     'email'         => trim(smit_isset($post_tenant_email, '')),
                     'phone'         => trim(smit_isset($post_tenant_phone, '')),
@@ -701,10 +782,12 @@ class Tenant extends User_Controller {
                     'filename'      => smit_isset($file_avatar['raw_name'],''),
                     'size'          => smit_isset($file_avatar['file_size'],0),
                     'uploader'      => trim(smit_isset($id_user, '')),
-                    'status'        => NONACTIVE,
+                    'status'        => $is_admin ? 1 : 0,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
+                
+                $tenantdata         = array_merge($tenantdata1, $tenantdata2);
 
                 // -------------------------------------------------
                 // Save Tenant Selection
@@ -958,7 +1041,7 @@ class Tenant extends User_Controller {
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%name_teannt% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%name_tenant% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%email% ' . $sort; }
             elseif( $column == 6 )  { $order_by .= '%phone% ' . $sort; }
             elseif( $column == 7 )  { $order_by .= '%status% ' . $sort; }
@@ -966,7 +1049,7 @@ class Tenant extends User_Controller {
         }else{
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name_tenant% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
             elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
@@ -983,12 +1066,15 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($tenant_list as $row){
-                // Status
+                // Button & Status
                 $btn_confirm    = '';
-                if( $row->status == NONACTIVE ){
-                    $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
-                        class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                if( !empty($is_admin) ){
+                    if( $row->status == NONACTIVE ){
+                        $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
+                            class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                    }    
                 }
+                
                 $btn_team       = '';
                 if( $row->status != NONACTIVE ){
                     $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
@@ -1006,7 +1092,7 @@ class Tenant extends User_Controller {
                     $records["aaData"][] = array(
                         smit_center( $i ),
                         smit_center( $row->year ),
-                        '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . strtoupper( $row->name ) . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         $row->email,
