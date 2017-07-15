@@ -34,14 +34,21 @@
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
                                     
                                     //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
-                                        <a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>     
+                                        <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>-->
+                                        <span></span>
+                						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+                							<option value="">Select...</option>
+                							<option value="confirm">Konfirmasi</option>
+                						</select>
+                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>     
                                     <?php //}
                                 } ?>  
                     		</div>
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-            							<th class="width5">No</th>
+                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+            							<th class="width5 text-center">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
@@ -52,6 +59,7 @@
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td></td>
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
@@ -107,7 +115,9 @@
             								</select>
                                         </td>
             							<td style="text-align: center;">
-                                            <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
+                                            <div class="bottom5">
+                                                <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
+                                            </div>
                                             <button class="btn bg-red waves-effect filter-cancel" id="btn_resetpraincubation_list">Reset</button>
             							</td>
             						</tr>
@@ -123,7 +133,7 @@
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list2" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-            							<th class="width5">No</th>
+            							<th class="width5 text-center">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width15">Nama Pengguna</th>
                                         <th class="width10 text-center">Satuan Kerja</th>

@@ -173,7 +173,7 @@ var Datatable = function () {
             });
             // handle 
             $( '#select_all' ).change( function() {
-        		$( '.cbuserlist:enabled' ).prop( 'checked', $(this).is(':checked') );
+        		$( '.cblist:enabled' ).prop( 'checked', $(this).is(':checked') );
                 countSelectedRecords();
                 
                 if ( $(this).is(':checked') ){
@@ -240,7 +240,7 @@ var Datatable = function () {
                 });
                 $('input.form-filter[type="checkbox"]', table).each(function(){
                     $(this).attr("checked", false);
-                });               
+                });           
                 the.addAjaxParam("sAction", tableOptions.filterCancelAction);
                 dataTable.fnDraw();
                 the.clearAjaxParams();

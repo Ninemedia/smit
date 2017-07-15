@@ -671,8 +671,8 @@ class User extends SMIT_Controller {
                 $type               = strtoupper($cfg_type[$row->type]);
                 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cbuserlist filled-in chk-col-blue" id="cbuserlist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cbuserlist'.$row->id.'"></label>'),
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     $row->name,
@@ -749,30 +749,26 @@ class User extends SMIT_Controller {
             if( !$userdata ){
                 continue;
             }
+            
             $userstatus         = $userdata->status;
             if( $action == 'confirm' && $userstatus == ACTIVE ){
                 continue;
             }elseif( $action == 'banned' && $userstatus == DELETED ){
                 continue;
             }
-            
+
             $data_update = array('status'=>$status,'datemodified'=>$curdate);
             if( $this->Model_User->update_data($id,$data_update) ){
                 // Send Email Confirmation
                 $this->smit_email->send_email_registration_user($userdata->email, $userdata->username);
-                $response = array(
-                    'status'    => 'OK',
-                    'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna berhasil dilakukan',
-                );
-                return $response;
-            }else{
-                $response = array(
-                    'status'    => 'ERROR',
-                    'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna tidak berhasil dilakukan',
-                );
-                return $response;
             }
         }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna selesai di proses',
+        );
+        return $response;
     }
     
     // ------------------------------------------------------------------------------------------------

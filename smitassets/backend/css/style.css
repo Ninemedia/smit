@@ -2512,7 +2512,7 @@ section.content {
   .btn:not(.btn-link):not(.btn-circle):hover {
     outline: none; }
   .btn:not(.btn-link):not(.btn-circle) i {
-    font-size: 20px;
+    font-size: 16px;
     position: relative;
     top: 3px; }
 
@@ -3435,7 +3435,7 @@ section.content {
 
 /* Checkbox & Radio ============================ */
 [type="checkbox"] + label {
-  padding-left: 26px;
+  padding-left: 20px;
   height: 25px;
   line-height: 21px;
   font-size: 13px;
@@ -7685,7 +7685,7 @@ fieldset[disabled] .form-control {
         .sidebar .menu .list .ml-menu span {
           font-weight: normal;
           font-size: 14px;
-          margin: 3px 0 1px 6px; }
+          margin: 0px 0 1px 6px; }
         .sidebar .menu .list .ml-menu li a {
           padding-left: 55px;
           padding-top: 7px;
@@ -8550,4 +8550,8 @@ hr.line-warning{
 .profile-role .bootstrap-tagsinput .label{
     font-size: 100%;
     padding: 5px;
+}
+
+.table-scrollable{
+    margin-bottom: 25px;
 }
