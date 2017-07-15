@@ -14,18 +14,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">
-                            <i class=""></i> Pra-Inkubasi
+                        <a href="<?php echo base_url('tenant/produktenant'); ?>">
+                            <i class=""></i> Tenant
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">
-                            <i class=""></i> Produk Pra-Inkubasi
+                        <a href="<?php echo base_url('tenant/produktenant'); ?>">
+                            <i class=""></i> Produk Tenant
                         </a>
                     </li>
                     <li <?php echo ($active_page2 == 'produk' ? 'class="active"' : ''); ?>>
-                        <a href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">
-                            <i class=""></i> <strong>Detail Produk Pra-Inkubasi</strong>
+                        <a href="<?php echo base_url('tenant/produktenant'); ?>">
+                            <i class=""></i> <strong>Detail Produk Tenant</strong>
                         </a>
                     </li>
                 </ol>
@@ -38,7 +38,7 @@
 	<div class="gtco-container">
 		<div class="row">
             <div class="col-md-12 text-center gtco-heading">
-				<h3>Detail Produk Pra-Inkubasi</h3>
+				<h3>Detail Produk Tenant</h3>
 			</div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="news-title"><?php echo $productdata->title; ?></h4>
@@ -52,9 +52,6 @@
                 </p>
                 <div class="news-content">
                     <?php echo $productdata->description; ?>
-                </div>
-                <div class="news-source">
-                    Sumber / Kegiatan : <?php echo strtoupper( $selectiondata->event_title ); ?>
                 </div>
                 <div id="disqus_thread"></div>
                 <script>
@@ -81,7 +78,7 @@
                         <h4 class="news-title">Judul Produk Lainnya</h4>
                         <?php if( !empty($alldata) ) : ?>
                             <?php foreach($alldata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                                <h5><a href="<?php echo base_url('tenant/produktenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada produk lain yang di publikasi. Terima Kasih.</div>
@@ -91,7 +88,7 @@
                         <h4 class="news-title">Kategori Lainnya</h4>
                         <?php if( !empty($allcategorydata) ) : ?>
                             <?php foreach($allcategorydata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                                <h5><a href="<?php echo base_url('tenant/produktenant/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada kategori produk lain yang di publikasi. Terima Kasih.</div>

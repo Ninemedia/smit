@@ -1094,7 +1094,7 @@ class Frontend extends Public_Controller {
     /**
 	 * Product Tenant function.
 	 */
-    function producttenant(){
+    function producttenant( $id='' ){
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1117,8 +1117,28 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        
+        // Total rows count
+        $counttenantdata        = $this->Model_Tenant->count_data_product_tenant();
 
+        // Pagination configuration
+        $config['target']       = '#productlist';
+        $config['base_url']     = base_url('tenant/produktenant');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+
+        $tenantdata             = $this->Model_Tenant->get_all_product($this->perPage, 0, ' WHERE %status% = 1');
+        $allcategorydata        = $this->Model_Option->get_all_category_product();
+        if( !empty($id) ){
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+        }
+        
         $data['title']          = TITLE . 'Produk Tenant';
+        $data['productdata']    = $tenantdata;
+        $data['countproduct']   = $counttenantdata;
+        $data['allcategorydaya']= $allcategorydata;
+        $data['category_id']    = $id;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -1126,6 +1146,65 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/product';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
+    
+    /**
+	 * Product Tenant Detail function.
+	 */
+    function producttenantdetail( $uniquecode = '' ){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        
+        $productdata            = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
+            $product        = $file_url;
+        }else{
+            $product        = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+        
+        $alldata                = $this->Model_Tenant->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
+        $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
+
+        $data['title']          = TITLE . 'Detail Produk Tenant';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product;
+        $data['alldata']        = $alldata;
+        $data['allcategorydata']= $allcategorydata;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/productdetails';
+        
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
 
     /**
 	 * Facilities Tenant function.

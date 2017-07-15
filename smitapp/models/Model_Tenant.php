@@ -10,6 +10,7 @@ class Model_Tenant extends SMIT_Model{
     public $tenant         	= 'smit_incubation_tenant';
     public $incubation      = 'smit_incubation';
     public $incubation_selection    = 'smit_incubation_selection';
+    public $incubation_product      = 'smit_incubation_product';
 
     /**
      * Initialize primary field
@@ -148,6 +149,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%year%",                 "A.year", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+            $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -163,10 +165,11 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.year
+            SELECT A.*, B.event_title, B.year, B.companion_id, B.name AS user_name, B.event_desc, B.category
 			FROM ' . $this->tenant. ' AS A
 			LEFT JOIN ' . $this->incubation. ' AS B
 			ON B.id = A.incubation_id';
@@ -196,6 +199,22 @@ class Model_Tenant extends SMIT_Model{
         $this->before_create    = array( 'encode_password(password_pin)' );
 
         if( $id = $this->insert($data) ) {
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of product praincubation
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_product($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_product, $data) ) {
+            $id = $this->db->insert_id();
             return $id;
         };
         return false;
@@ -333,6 +352,63 @@ class Model_Tenant extends SMIT_Model{
         
         return $query->result();
     }
+    
+    /**
+     * Retrieve all product data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_product($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%title%",                "A.title", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%category_id%",          "A.category_id", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%title%",                "A.title",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%category_id%",          "A.category_id",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*,B.event_title
+            FROM ' . $this->incubation_product. ' AS A
+            LEFT JOIN ' . $this->incubation . ' AS B
+            ON B.tenant_id = A.tenant_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
 
     // ---------------------------------------------------------------------------------
     // General Function
@@ -353,6 +429,20 @@ class Model_Tenant extends SMIT_Model{
         $query = $this->db->get($this->tenant);
 
         return $query->num_rows();
+    }
+    
+    /**
+     * Count data of product tenant
+     * 
+     * @author  Iqbal
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function count_data_product_tenant(){
+        $sql = 'SELECT COUNT(id) AS total FROM ' . $this->incubation_product. '';
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return 0;
+        
+        return $query->row()->total;
     }
 
     // ---------------------------------------------------------------------------------

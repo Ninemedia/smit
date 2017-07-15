@@ -213,6 +213,8 @@ $route['tenants/daftarinkubasi']                = "incubation/listincubation";
 $route['tenants/blogs']                         = "tenant/tenantblogs";
 $route['tenants/daftar']                        = "tenant/tenantdata";
 $route['tenants/pendampingan']                  = "tenant/tenantaccompaniment";
+$route['tenants/pendampingan/detail/(:any)']    = "tenant/companionassignment/$1";
+$route['tenants/daftarpendampingan']            = "tenant/accompanimentlistdata";
 $route['tenants/produk']                        = "tenant/tenantproduct";
 $route['tenants/pembayaran']                    = "tenant/tenantpayment";
 $route['tenants/laporan']                       = "tenant/tenantreport";
@@ -220,7 +222,6 @@ $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
-$route['tenants/daftarditerima']                = "tenants/tenantacceptedlistdata";
 
 // Pengukuran ikm
 $route['layanan/pengukuranikm']         = "backend/ikm";
@@ -297,13 +298,15 @@ $route['seleksi/inkubasi']              = "frontend/selectionincubation";
 // 4. Pra-Incubation
 $route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
 $route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
-$route['prainkubasi/produkprainkubasi/detail/(:any)'] = "frontend/productpraincubationdetail/$1";
+$route['prainkubasi/produkprainkubasi/detail/(:any)']   = "frontend/productpraincubationdetail/$1";
 $route['prainkubasi/produkprainkubasi/kategori/(:any)'] = "frontend/productpraincubation/$1";
 $route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']           = "frontend/listtenant";
 $route['tenant/daftartenantdata']       = "frontend/tenantlistdata";
 $route['tenant/produktenant']           = "frontend/producttenant";
+$route['tenant/produktenant/detail/(:any)']     = "frontend/producttenantdetail/$1";
+$route['tenant/produktenant/kategori/(:any)']   = "frontend/producttenant/$1";
 $route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
 $route['tenant/blogtenant']             = "frontend/blogtenant";
 /*

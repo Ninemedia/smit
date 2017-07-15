@@ -347,6 +347,111 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * Pra Incubation Accompaniment list data function.
+	 */
+    function accompanimentlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = ' WHERE %companion_id% > 0 ';
+        if( !$is_admin ){
+            $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_tenant_name      = $this->input->post('search_tenant_name');
+        $s_tenant_name      = smit_isset($s_tenant_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_companion_name   = $this->input->post('search_companion_name');
+        $s_companion_name   = smit_isset($s_companion_name, '');
+
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_tenant_name) )    { $condition .= str_replace('%s%', $s_tenant_name, ' AND %tenant_name% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
+        
+        if( $is_admin ){
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%companion_name% ' . $sort; }    
+        }else{
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
+        }
+        
+        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($tenant_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+
+            $i = $offset + 1;
+            foreach($tenant_list as $row){
+                
+                $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                if( !empty($companiondata) ){
+                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
+                }else{ $companion_name = "<center> - </center>"; }
+                
+                // Button
+                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+
+                
+                if( $is_admin ){
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->name_tenant),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        $companion_name,
+                        smit_center( $btn_detail ),
+                    );    
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->name_tenant),
+                        strtoupper($workunit_type),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->name),
+                        smit_center( $btn_detail ),
+                    );    
+                }
+                
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
 
     /**
 	 * Product Tenant function.
@@ -359,22 +464,61 @@ class Tenant extends User_Controller {
         $is_admin               = as_administrator($current_user);
 
         $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
+            // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ProductValidation.init();',
+        ));
 
         $data['title']          = TITLE . 'Produk Tenant';
         $data['user']           = $current_user;
@@ -1184,102 +1328,13 @@ class Tenant extends User_Controller {
     }
     
     /**
-	 * Tenant Accompaniment list data function.
-	 */
-    function accompanimentlistdata(){
-        $current_user       = smit_get_current_user();
-        $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE companion_id > 0 ';
-        if( !$is_admin ){
-            $condition      = ' WHERE user_id = '.$current_user->id.'';
-        }
-
-        $order_by           = '';
-        $iTotalRecords      = 0;
-
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
-        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-
-        $sAction            = smit_isset($_REQUEST['sAction'],'');
-        $sEcho              = intval($_REQUEST['sEcho']);
-        $sort               = $_REQUEST['sSortDir_0'];
-        $column             = intval($_REQUEST['iSortCol_0']);
-
-        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
-        $offset             = $iDisplayStart;
-
-        $s_title            = $this->input->post('search_title');
-        $s_title            = smit_isset($s_title, '');
-        $s_workunit         = $this->input->post('search_workunit');
-        $s_workunit         = smit_isset($s_workunit, '');
-        $s_user_name        = $this->input->post('search_user_name');
-        $s_user_name        = smit_isset($s_user_name, '');
-        $s_name             = $this->input->post('search_name');
-        $s_name             = smit_isset($s_name, '');
-        $s_companion_name   = $this->input->post('search_companion_name');
-        $s_companion_name   = smit_isset($s_companion_name, '');
-
-        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
-        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
-        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
-
-        if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
-
-        $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);
-
-        $records            = array();
-        $records["aaData"]  = array();
-
-        if( !empty($praincubation_list) ){
-            $iTotalRecords  = smit_get_last_found_rows();
-
-            $i = $offset + 1;
-            foreach($praincubation_list as $row){
-                //Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
-
-                if( !empty($row->companion_name) ){
-                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($row->companion_name) . '</a>';
-                }else{ $companion_name = "<center> - </center>"; }
-
-                $records["aaData"][] = array(
-                    smit_center($i),
-                    strtoupper($row->event_title),
-                    strtoupper($workunit_type->workunit_name),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
-                    strtoupper($row->name),
-                    $companion_name,
-                    '',
-                );
-                $i++;
-            }
-        }
-
-        $end                = $iDisplayStart + $iDisplayLength;
-        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-
-        $records["sEcho"]                   = $sEcho;
-        $records["iTotalRecords"]           = $iTotalRecords;
-        $records["iTotalDisplayRecords"]    = $iTotalRecords;
-
-        echo json_encode($records);
-    }
-
-    
-    /**
 	 * Tenant Accepted list data function.
 	 */
     function tenantacceptedlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        //$condition          = ' WHERE %statustwo% = '.ACCEPTED.' AND %companion_id% = 0 ';
+        $condition          = ' WHERE %status% = '.ACTIVE.'';
         
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -1299,8 +1354,6 @@ class Tenant extends User_Controller {
         $s_name_tenant      = smit_isset($s_name_tenant, '');
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
-        $s_workunit         = $this->input->post('search_workunit');
-        $s_workunit         = smit_isset($s_workunit, '');
         $s_user_name        = $this->input->post('search_user_name');
         $s_user_name        = smit_isset($s_user_name, '');
         $s_name             = $this->input->post('search_name');
@@ -1308,23 +1361,17 @@ class Tenant extends User_Controller {
         
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name_tenant, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         
         if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
         elseif( $column == 2)  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 3)  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 4)  { $order_by .= '%user_name% ' . $sort; }
-        elseif( $column == 5)  { $order_by .= '%name% ' . $sort; }
-
+        elseif( $column == 3)  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 4)  { $order_by .= '%name% ' . $sort; }
+        
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
-        echo '<pre>';
-        print_r($tenant_list);
-        die();
 
         if( !empty($tenant_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
@@ -1334,20 +1381,439 @@ class Tenant extends User_Controller {
                 // Add Companion Button
                 $btn_add    = '';
                 if($row->companion_id == 0){
-                    $btn_add = '<a href="'.base_url('prainkubasi/pendampingan/detail/'.$row->uniquecode).'"
+                    $btn_add = '<a href="'.base_url('tenants/pendampingan/detail/'.$row->uniquecode).'"
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
                 }
 
-                // Workunit
-                $workunit_type = smit_workunit_type($row->workunit);
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->name_tenant),
+                    strtoupper($row->event_title),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->username) . '</a>',
+                    strtoupper($row->user_name),
+                    smit_center($btn_add),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Tenant Detail list data function.
+	 */
+    public function companionassignment($uniquecode)
+	{
+        auth_redirect();
+
+        $curdate                = date('Y-m-d H:i:s');
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        if( !$is_admin ){
+            redirect( base_url('dashboard') );
+        }
+
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+
+        $scripts_add            = '';
+
+        // Custom
+        $condition              = '';
+        $tenant_list            = '';
+        
+        if(!empty($uniquecode)){
+            $tenant_list        = $this->Model_Tenant->get_all_tenant('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $tenant_list        = $tenant_list[0];
+            $tenant_id          = $tenant_list->id;
+        }
+        
+        if( !empty($_POST) ){
+            $companion_id           = $this->input->post('companion_id');
+            $companion_id           = smit_isset($companion_id, '');
+            
+            if( empty($companion_id) ){
+                $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Silahkan pilih pendamping!').'</div>');
+            }else{
+                // Check Companion Data
+                $comppanion_data        = smit_get_userdata_by_id($companion_id);
+                if( !$comppanion_data || empty($comppanion_data) ){
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Data pendamping tidak ditemukan atau belum terdaftar').'</div>');
+                }else{
+                    $tenant_update_data     = array(
+                        'companion_id'      => $companion_id,
+                        'datemodified'      => $curdate
+                    );
+                    
+                    if( $this->Model_Incubation->update_data_incubationdata($tenant_list->incubation_id, $tenant_update_data) ){
+                        redirect( base_url('tenants/pendampingan') );
+                    }
+                    
+                }
+            }
+        }
+
+        $data['title']              = TITLE . 'Detail Tenant Diterima';
+        $data['user']               = $current_user;
+        $data['is_admin']           = $is_admin;
+        $data['tenant']             = $tenant_list;
+        $data['headstyles']         = $headstyles;
+        $data['scripts']            = $loadscripts;
+        $data['scripts_add']        = $scripts_add;
+        $data['scripts_init']       = $scripts_init;
+        $data['main_content']       = 'tenant/accepteddetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Product Tenant Add Function
+	 */
+	public function producttenantadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+        $category               = $this->input->post('reg_category');
+        $category               = trim( smit_isset($category, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_event','Kategori Bidang','required');
+        $this->form_validation->set_rules('reg_title','Judul Produk','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi produk','required');
+        $this->form_validation->set_rules('reg_category','Kategori Produk','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran produk tenant baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        
+        $tenant_id      = $event;
+        $tenantdata     = $this->Model_Tenant->get_all_tenant(0,0, ' WHERE %id% = '.$tenant_id.'');
+        $tenantdata     = $tenantdata[0];
+        $userdata       = smit_get_userdata_by_id($tenantdata->user_id);
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantproduct/' . $userdata->id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+
+            if( ! $this->my_upload->do_upload('reg_thumbnail') ){
+                $message = $this->my_upload->display_errors();
+
+                // Set JSON data
+                $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                die(json_encode($data));
+            }
+            $upload_data_thumbnail  = $this->my_upload->data();
+            $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
+            $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
+            $this->image_moo->clear();
+
+            if( ! $this->my_upload->do_upload('reg_details') ){
+                $message = $this->my_upload->display_errors();
+
+                // Set JSON data
+                $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                die(json_encode($data));
+            }
+            $upload_data_details    = $this->my_upload->data();
+            $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+            $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+            $this->image_moo->clear();
+
+            $file_thumbnail         = $upload_data_thumbnail;
+            $file_details           = $upload_data_details;
+
+            $status     = NONACTIVE;
+            if( !empty($is_admin) ){
+                $status = ACTIVE;
+            }
+            
+            // Get Category ID
+            $categorydata           = $this->Model_Option->get_categoryproductdata($category);
+            if( ! $categorydata ){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Data kategori tidak ditemukan atau belum terdaftar');
+                die(json_encode($data));
+            }
+
+            $product_data           = array(
+                'uniquecode'        => smit_generate_rand_string(10,'low'),
+                'tenant_id'         => $tenant_id,
+                'user_id'           => $userdata->id,
+                'username'          => strtolower($userdata->username),
+                'name'              => strtoupper($userdata->name),
+                'title'             => $event_title,
+                'description'       => $description,
+                'category_id'       => $categorydata->category_id,
+                'category_product'  => strtoupper( $categorydata->category_name ),
+                'url'               => smit_isset($file_details['full_path'],''),
+                'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                'filename'          => smit_isset($file_details['raw_name'],''),
+                'size'              => smit_isset($file_details['file_size'],0),
+                'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                'status'            => $status,
+                'datecreated'       => $curdate,
+                'datemodified'      => $curdate,
+            );
+
+            // -------------------------------------------------
+            // Save Tenant Product Selection
+            // -------------------------------------------------
+            $trans_save_product       = FALSE;
+            if( $product_save_id      = $this->Model_Tenant->save_data_product($product_data) ){
+                $trans_save_product   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran product tenant tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_product ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran product tenant baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'PRODUCTTENANT_REG', 'SUCCESS', maybe_serialize(array('username'=>$userdata->username)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran product tenant tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+    
+    /**
+	 * Product Tenant list data function.
+	 */
+    function producttenantlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        if( !$is_admin ){
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $product_list       = $this->Model_Tenant->get_all_product($limit, $offset, $condition, $order_by);
+
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($product_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($product_list as $row){
+                // Status
+                $btn_action = '<a href="'.base_url('produk/detail/'.$row->uniquecode).'"
+                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action .= ' ';
+                if($row->status == NONACTIVE)   {
+                    $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                if( !$is_admin ){
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                    }
+                }
+                if( !empty($is_admin) ){
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    }
+                }
+
+                elseif($row->status == BANNED)  {
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == DELETED) {
+                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+
+                $file_name      = $row->filename . '.' . $row->extension;
+                $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'.$row->user_id.'/' . $file_name;
+                $product        = $file_url;
+                $product        = '<img class="js-animating-object img-responsive" src="'.$product.'" alt="'.$row->title.'" />';
 
                 $records["aaData"][] = array(
                     smit_center($i),
-                    strtoupper($row->event_title),
-                    strtoupper($workunit_type->workunit_name),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                     strtoupper($row->name),
-                    smit_center($btn_add),
+                    strtoupper($row->event_title),
+                    '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    $product,
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action ),
                 );
                 $i++;
             }

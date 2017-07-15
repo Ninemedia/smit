@@ -88,6 +88,15 @@
                     <div role="tabpanel" class="tab-pane fade in" id="tab_add">
                         <div class="row clearfix">
                             <div class="col-md-12">
+                                <?php 
+                                    $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
+                                    $order_by       = ' %year% DESC';
+                                    if( !empty($is_admin) ){
+                                        $conditions = ' WHERE %tenant_id% = 0 AND %user_id% = 1';
+                                    }
+    	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);
+                                ?>
+                                <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
                                 <div class="alert alert-danger text-center display-hide error-validate">
                         			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
@@ -258,6 +267,11 @@
                                     <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenant_reset" type="button">Bersihkan </button>
                                 </div>
                                 <?php echo form_close(); ?>
+                                <?php else : ?>
+                                <div class="alert alert-info">
+                                    <strong>Informasi!</strong> Untuk saat ini tidak ada usulan kegiatan. Terima Kasih.
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -345,6 +359,15 @@
                     <div role="tabpanel" class="tab-pane fade in" id="tab_add">
                         <div class="row clearfix">
                             <div class="col-md-12">
+                                <?php 
+                                    $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
+                                    $order_by       = ' %year% DESC';
+                                    if( !empty($is_admin) ){
+                                        $conditions = ' WHERE %tenant_id% = 0 AND %user_id% = 1';
+                                    }
+    	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);
+                                ?>
+                                <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenantuser', 'role'=>'form' ) ); ?>
                                 <div class="alert alert-danger text-center display-hide error-validate">
                         			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
@@ -485,6 +508,11 @@
                                     <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenantuser_reset" type="button">Bersihkan </button>
                                 </div>
                                 <?php echo form_close(); ?>
+                                <?php else : ?>
+                                <div class="alert alert-info">
+                                    <strong>Informasi!</strong> Untuk saat ini tidak ada usulan kegiatan. Terima Kasih.
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

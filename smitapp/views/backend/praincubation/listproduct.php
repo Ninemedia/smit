@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Daftar Produk</h2></div>
+            <div class="header"><h2>Daftar Produk Pra-Inkubasi</h2></div>
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -162,7 +162,7 @@
                                 <button type="button" class="btn btn-danger waves-effect" id="btn_productadd_reset">Bersihkan</button>
                                 
                                 <?php else : ?>
-                                    <div class="alert bg-orange">
+                                    <div class="alert bg-info">
                                         <strong>Perhatian!</strong>
                                         Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada usulan seleksi yang sudah di dampingi oleh pendamping. Terima Kasih.</strong>
                                     </div>
