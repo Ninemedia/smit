@@ -6,8 +6,7 @@
             <div class="body">
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">
-						<span>
-						</span>
+						<span></span>
 						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
 							<option value="">Select...</option>
 							<option value="confirm">Konfirmasi</option>

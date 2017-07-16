@@ -13,50 +13,7 @@ var TableAjax = function () {
 
     // Users Lists
     var handleRecordsUserList = function() {
-        //gridTable( $("#user_list"), true, [ -1, 1, 0 ] );
-        
-        var url     = $("#user_list").data('url');
-        var grid    = new Datatable();
-
-        grid.init({
-            src: $("#user_list"),
-            onSuccess: function(grid) {},
-            onError: function(grid) {},
-            dataTable: {
-                "aLengthMenu": [
-                    [10, 20, 50, 100, -1],
-                    [10, 20, 50, 100, "All"]                        // change per page values here
-                ],
-                "iDisplayLength": 10,                               // default record count per page
-                "bServerSide": true,                                // server side processing
-                "sAjaxSource": url,                                 // ajax source
-                "aoColumnDefs": [
-		          { 'bSortable': false, 'aTargets': [ -1, 1, 0 ] }
-		       ]
-            }
-        });
-        
-        // handle group actionsubmit button click
-        grid.getTableWrapper().on('click', '.table-group-action-submit', function(e){
-            e.preventDefault();
-            var action = $(".table-group-action-input", grid.getTableWrapper());
-            if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
-                grid.addAjaxParam("sAction", "group_action");
-                grid.addAjaxParam("sGroupActionName", action.val());
-                var records = grid.getSelectedRows();
-                for (var i in records) {
-                    grid.addAjaxParam(records[i]["name"], records[i]["value"]);    
-                }
-                grid.getDataTable().fnDraw();
-                grid.clearAjaxParams();
-            } else if (action.val() == "") {
-                App.alert({type: 'danger', icon: 'warning', message: 'Silahkan pilih proses', container: grid.getTableWrapper(), place: 'prepend'});
-            } else if (grid.getSelectedRowsCount() === 0) {
-                App.alert({type: 'danger', icon: 'warning', message: 'Tidak ada data terpilih untuk di proses', container: grid.getTableWrapper(), place: 'prepend'});
-            }
-            
-            $('#btn_list_user').trigger('click');
-        });
+        gridTable( $("#user_list"), true, [ -1, 1, 0 ], true, $('#btn_list_user') );
     };
 
     // -------------------------------------------------------------------------
@@ -64,7 +21,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Pra Incubation Selection Lists
     var handleRecordsPraIncubationSelectionList = function() {
-        gridTable( $("#praincubation_list"), true );
+        gridTable( $("#praincubation_list"), true, [ -1, 1, 0 ], true, $('#btn_praincubation_list') );
     };
 
     var handleRecordsPraIncubationSelectionList2 = function() {
@@ -294,7 +251,7 @@ var TableAjax = function () {
         gridTable( $("#announcementuser_list"), true );
     };
 
-    var gridTable = function(el, action=false, target='' ) {
+    var gridTable = function(el, action=false, target='', process=false, listbtn='' ) {
         var url     = el.data('url');
         var grid    = new Datatable();
         var tgt     = ( target!="" ? target : [ -1, 0 ] );
@@ -319,6 +276,10 @@ var TableAjax = function () {
 
         if( action == true ){
             gridExport( grid, '.table-export-excel' );
+        }
+        
+        if( process == true ){
+            gridProcess( grid, listbtn );
         }
     }
 
@@ -345,6 +306,32 @@ var TableAjax = function () {
 
             dataTable.getDataTable().fnDraw();
             dataTable.clearAjaxParams();
+        });
+    };
+    
+    var gridProcess = function( dataTable, selectorBtn ){
+        // handle group actionsubmit button click
+        dataTable.getTableWrapper().on('click', '.table-group-action-submit', function(e){
+            e.preventDefault();
+            
+            var action = $(".table-group-action-input", dataTable.getTableWrapper());
+            if (action.val() != "" && dataTable.getSelectedRowsCount() > 0) {
+                dataTable.addAjaxParam("sAction", "group_action");
+                dataTable.addAjaxParam("sGroupActionName", action.val());
+                var records = dataTable.getSelectedRows();
+                for (var i in records) {
+                    dataTable.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                }
+                dataTable.getDataTable().fnDraw();
+                dataTable.clearAjaxParams();
+            } else if (action.val() == "") {
+                App.alert({type: 'danger', icon: 'warning', message: 'Silahkan pilih proses', container: dataTable.getTableWrapper(), place: 'prepend'});
+            } else if (dataTable.getSelectedRowsCount() === 0) {
+                App.alert({type: 'danger', icon: 'warning', message: 'Tidak ada data terpilih untuk di proses', container: dataTable.getTableWrapper(), place: 'prepend'});
+            }
+            
+            selectorBtn.trigger('click');
+            $('#select_all').prop('checked', false);
         });
     };
 

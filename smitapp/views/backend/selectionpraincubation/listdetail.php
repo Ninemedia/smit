@@ -5,7 +5,7 @@
             <div class="header"><h2>Detail Seleksi Pra Inkubasi</h2></div>
             <div class="body">
                 <div class="table-container table-responsive">                 
-                    <a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>     
+                    <a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>" class="btn btn-sm btn-primary waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>     
                     <h4><?php echo $praincubation->event_title; ?></h4>
                     <table class="table table-striped table-hover" id="">
                         <thead>

@@ -254,6 +254,7 @@ class PraIncubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -322,6 +323,8 @@ class PraIncubation extends User_Controller {
                 
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
+                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status > 0 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
@@ -349,6 +352,15 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $selectionlist          = $_REQUEST['selectionlist'];
+            
+            $proses                 = $this->praincubationaction($sGroupActionName, $selectionlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -389,6 +401,7 @@ class PraIncubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -1017,32 +1030,42 @@ class PraIncubation extends User_Controller {
     /**
 	 * Pra Incubation Action function.
 	 */
-    function praincubationaction($action, $uniquecode){
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-
+    function praincubationaction($action, $data){
+        $response = array();
+        
         if ( !$action ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
         };
-
-        if ( !$uniquecode ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Parameter data Inkubasi harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
         };
 
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi Pengguna hanya bisa dilakukan oleh Administrator');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
         };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            
+        }
     }
 
     /**
