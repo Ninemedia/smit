@@ -123,8 +123,8 @@
                                                     </div>
                                                     -->
                                                     
-                                                    <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
-                                                    <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
+                                                    <button type="submit" class="btn btn-sm btn-warning waves-effect">Perbaharui Pengumuman</button>
+                                                    <button type="button" class="btn btn-sm btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
                                                 </section>
                                             </div>
                                         <?php echo form_close(); ?>
