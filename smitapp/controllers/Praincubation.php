@@ -1030,32 +1030,42 @@ class PraIncubation extends User_Controller {
     /**
 	 * Pra Incubation Action function.
 	 */
-    function praincubationaction($action, $uniquecode){
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-
+    function praincubationaction($action, $data){
+        $response = array();
+        
         if ( !$action ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
         };
-
-        if ( !$uniquecode ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Parameter data Inkubasi harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
         };
 
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi Pengguna hanya bisa dilakukan oleh Administrator');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
         };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            
+        }
     }
 
     /**

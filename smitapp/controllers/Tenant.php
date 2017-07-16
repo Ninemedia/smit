@@ -115,6 +115,8 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Input Mask Plugin
+            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
 
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',

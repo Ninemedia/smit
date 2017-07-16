@@ -64,69 +64,67 @@
                                     <div class="col-md-12">
                                         <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementadd', 'role'=>'form' ) ); ?>
                                             <div id="alert" class="alert display-hide"></div>
-                                            <div class="form-group form-float">
-                                                <section id="">
-                                                    <h4>Pengaturan Pengumuman</h4>
-                                                    <div class="form-group">
-                                                        <label class="form-label">Judul Pengumuman <b style="color: red !important;">(*)</b></label>
-                                                        <input name="reg_uniquecode" id="reg_uniquecode" type="hidden" />
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                                                            <div class="form-line">
-                                                                <input type="text" name="reg_title" id="reg_title" class="form-control text-uppercase" required>
-                                                            </div>
-                                                        </div>
+
+                                            <h4>Pengaturan Pengumuman</h4>
+                                            <div class="form-group">
+                                                <label class="form-label">Judul Pengumuman <b style="color: red !important;">(*)</b></label>
+                                                <input name="reg_uniquecode" id="reg_uniquecode" type="hidden" />
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                                    <div class="form-line">
+                                                        <input type="text" name="reg_title" id="reg_title" class="form-control text-uppercase" required>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="form-label">Nomor Pengumuman </label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="material-icons">dialpad</i></span>
-                                                            <div class="form-line">
-                                                                <input type="text" name="reg_no_announcement" id="reg_no_announcement" class="form-control" disabled="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="form-label">Deskripsi <b style="color: red !important;">(*)</b></label>
-                                                        <div class="input-group">
-                                                            <div class="form-line">
-                                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor" required></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                        <label class="form-label">URL </label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="material-icons">language</i></span>
-                                                            <div class="form-line">
-                                                                <input type="text" name="reg_url" id="reg_url" class="form-control" placeholder="Tidak ada file" disabled="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <p align="justify">
-                                                            <strong>Perhatian!</strong>
-                                                            File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
-                                                        </p>
-                                                        <div class="form-group">
-                                                            <label>Upload Berkas</label>
-                                                            <input id="edit_selection_files" name="edit_selection_files" class="form-control" type="file">
-                                                        </div>
-                                                    </div>
-                                                    <!--
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
-                                                            <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
-                                                        </div>
-                                                    </div>
-                                                    -->
-                                                    
-                                                    <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
-                                                    <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
-                                                </section>
+                                                </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Nomor Pengumuman </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="material-icons">dialpad</i></span>
+                                                    <div class="form-line">
+                                                        <input type="text" name="reg_no_announcement" id="reg_no_announcement" class="form-control" disabled="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Deskripsi <b style="color: red !important;">(*)</b></label>
+                                                <div class="input-group">
+                                                    <div class="form-line">
+                                                        <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">URL </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="material-icons">language</i></span>
+                                                    <div class="form-line">
+                                                        <input type="text" name="reg_url" id="reg_url" class="form-control" placeholder="Tidak ada file" disabled="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <p align="justify">
+                                                    <strong>Perhatian!</strong>
+                                                    File yang dapat di upload adalah dengan Ukuran Maksimal 2 MB dan format File adalah <strong>doc/docx/pdf/xls/xlsx.</strong>
+                                                </p>
+                                                <div class="form-group">
+                                                    <label>Upload Berkas</label>
+                                                    <input id="edit_selection_files" name="edit_selection_files" class="form-control" type="file">
+                                                </div>
+                                            </div>
+                                            <!--
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
+                                                    <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
+                                                </div>
+                                            </div>
+                                            -->
+                                            
+                                            <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
+                                            <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
+                                                
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
