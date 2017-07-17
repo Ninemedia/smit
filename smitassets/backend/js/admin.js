@@ -662,6 +662,95 @@ var App = function() {
         });
     };
     
+    var handleAddPaymentTenant = function() {
+        // Save Payement
+        $('#do_save_payment').click(function(e){
+            e.preventDefault();
+            processSavePayment($('#paymentadd'));
+        });
+        
+        var processSavePayment = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        
+                        $('#paymentadd')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#news_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 1024,
+                        });
+                        $('#btn_payment_list').trigger('click');
+                        $('#btn_payment_listreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+        
+        // Reset News Form
+        $('body').on('click', '#btn_payment_listreset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+            
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#paymentadd')[0].reset();
+            $('#reg_event').val('');
+            $('#reg_desc').val('');
+            $('#news_selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 1024,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
     var handleAddIKM = function() {
         // Save IKM
         $('#do_save_ikmadd').click(function(e){
@@ -1739,6 +1828,7 @@ var App = function() {
             handleAddIKM();
             handleAddNotes();
             handleAddProductTenant();
+            handleAddPaymentTenant();
             
             // Edit 
             handleEditWorkunit();

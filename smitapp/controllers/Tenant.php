@@ -605,22 +605,62 @@ class Tenant extends User_Controller {
         $is_admin               = as_administrator($current_user);
 
         $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
+            // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'PaymentValidation.init();',
+        ));
 
         $data['title']          = TITLE . 'Pembayaran Tenant';
         $data['user']           = $current_user;
@@ -637,6 +677,163 @@ class Tenant extends User_Controller {
 		}
 
         $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Payment Add
+	 */
+	public function paymentadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $tenant_id              = $this->input->post('reg_event');
+        $tenant_id              = trim( smit_isset($tenant_id, "") );
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_event','Nama Tenant','required');
+        $this->form_validation->set_rules('reg_title','Judul Pembayaran','required');
+        $this->form_validation->set_rules('reg_desc','Keterangan','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pembayaran tenant tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['news_selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada bukti pembayaran yang di unggah. Silahkan inputkan bukti pembayaran!');
+            die(json_encode($data));
+        }
+        
+        $tenantdata     = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %id% = '.$tenant_id.'');
+        $tenantdata     = $tenantdata[0];
+
+        if( !empty( $_POST ) ){
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantpayment/' . $tenantdata->user_id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+
+            $config = array(
+                'upload_path'   => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'     => FALSE,
+                'max_size'      => "2048000",
+            );
+            $this->upload->initialize($config);
+
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            if( !empty($_FILES['news_selection_files']['name']) ){
+                if( ! $this->upload->do_upload('news_selection_files') ){
+                    $message = $this->upload->display_errors();
+
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->upload->display_errors());
+                    die(json_encode($data));
+                }
+
+                $upload_data    = $this->upload->data();
+                $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+
+                //$this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(500,500)->save($upload_path. '/' .$upload_file, TRUE);
+                //$this->image_moo->clear();
+                
+                $status         = NONACTIVE;
+                if( $is_admin ){
+                    $status     = ACTIVE;
+                }
+
+                $payment_data       = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'invoice'       => smit_generate_invoice(1, 'num'),
+                    'tenant_id'     => $tenant_id,
+                    'user_id'       => $current_user->id,
+                    'username'      => strtolower($current_user->username),
+                    'name'          => $current_user->name,
+                    'title'         => $title,
+                    'desc'          => $description,
+                    'url'           => smit_isset($upload_data['full_path'],''),
+                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'filename'      => smit_isset($upload_data['raw_name'],''),
+                    'size'          => smit_isset($upload_data['file_size'],0),
+                    'uploader'      => $current_user->id,
+                    'status'        => $status,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );
+                
+                echo '<pre>';
+                print_r($payment_data);
+                die();
+            }
+
+            // -------------------------------------------------
+            // Save Payment
+            // -------------------------------------------------
+            $trans_save_payment        = FALSE;
+            if( $news_save_id       = $this->Model_News->save_data_news($news_data) ){
+                $trans_save_news    = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $payment_data ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran berita baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'NEWS_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
 	}
 
     /**

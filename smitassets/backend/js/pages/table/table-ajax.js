@@ -140,6 +140,14 @@ var TableAjax = function () {
     var handleRecordsIKMDataList = function() {
         gridTable( $("#list_ikmdata"), true );
     };
+    
+    // -------------------------------------------------------------------------
+    // PAYMENT
+    // -------------------------------------------------------------------------
+    // Payment List Admin
+    var handleRecordsPaymentTenantList = function() {
+        gridTable( $("#payment_list"), false );
+    };
 
     // -------------------------------------------------------------------------
     // NEWS
@@ -417,6 +425,9 @@ var TableAjax = function () {
             
             //Category Product
             handleRecordsCategoryProductList();
+            
+            //Payment
+            handleRecordsPaymentTenantList();
         }
     };
 

@@ -458,6 +458,63 @@ if ( !function_exists('smit_generate_no_news') )
 }
 
 /**
+ * Generate no news string
+ * @author  Iqbal
+ * @param   Int     $length     Random String Length
+ * @param   String  $type       Random String Type (num,charup,charlow,up,low,'')
+ * @return  String
+ */
+if ( !function_exists('smit_generate_invoice') )
+{
+    function smit_generate_invoice($length = 0, $type='') {
+        $CI =& get_instance();
+
+        $length += 1;
+
+        if( $type == 'num' ){
+            $characters = '0123456789';
+        }elseif( $type == 'charup' ){
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }elseif( $type == 'charlow' ){
+            $characters = 'abcdefghijklmnopqrstuvwxyz';
+        }elseif( $type == 'low' ){
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        }elseif( $type == 'up' ){
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }else{
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        }
+
+        $month          = date('m');
+        $years          = date('Y');
+        $days           = date('d');
+
+        $sql            = 'SELECT value FROM smit_options WHERE name LIKE "unique_number" FOR UPDATE';
+        $qry            = $CI->db->query($sql);
+        $row            = $qry->row();
+
+        $number         = intval($row->value);
+        $unique_number  = str_pad($number + 1, 5, '0', STR_PAD_LEFT);
+        $randomString   = '';
+
+        for ($i = 1; $i < $length; $i++) {
+            $randomString .= $years.''.$month.''.$days.''.$characters[rand(0, strlen($characters) - 1)].''.$unique_number;
+        }
+
+        if( $unique_number == 999 ){
+            $sql_update = 'UPDATE smit_options SET value = 0 WHERE name LIKE "unique_number"';
+        }else{
+            $sql_update = 'UPDATE smit_options SET value = value + 1 WHERE name LIKE "unique_number"';
+        }
+
+        $CI->db->query($sql_update);
+        return $randomString;
+    }
+}
+
+
+
+/**
  * Generate unique number
  * @author  Iqbal
  * @return  String
