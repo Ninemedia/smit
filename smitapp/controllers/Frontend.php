@@ -1245,7 +1245,7 @@ class Frontend extends Public_Controller {
     /**
 	 * Blog Tenant function.
 	 */
-    function blogtenant(){
+    function blogtenant( $id='' ){
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1268,8 +1268,27 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
+        // Total rows count
+        $counttenantdata        = $this->Model_Tenant->count_data_blog_tenant();
+        
+        // Pagination configuration
+        $config['target']       = '#blogtenantlist';
+        $config['base_url']     = base_url('tenant/blogtenant');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
 
+        $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPage, 0, ' WHERE %status% = 1');
+        $allcategorydata        = $this->Model_Option->get_all_category_product();
+        if( !empty($id) ){
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+        }
+        
         $data['title']          = TITLE . 'Blog Tenant';
+        $data['blogdata']       = $tenantdata;
+        $data['countblog']      = $counttenantdata;
+        $data['allcategorydaya']= $allcategorydata;
+        $data['category_id']    = $id;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

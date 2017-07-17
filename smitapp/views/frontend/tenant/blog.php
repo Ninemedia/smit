@@ -35,144 +35,54 @@
 			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 				<h3>Blog Tenant</h3>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_1.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_2.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_3.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_4.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_5.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_6.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-            <div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_5.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
-					<div class="gtco-blog animate-box">
-						<a href="#"><img src="<?php echo FE_IMG_PATH; ?>img_6.jpg" alt="" /></a>
-						<div class="blog-text">
-							<h4><a href="#">45 Minimal Worksspace Rooms for Web Savvys</a></h4>
-							<span class="posted_on">Sep. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<a href="#" class="btn btn-primary waves-effect">Learn More</a>
-						</div>
-					</div>
-				</div>
-			</div>
-            <div class="col-md-12">
-                <div class="body">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="disabled">
-                                <a href="javascript:void(0);">
-                                    <i class="material-icons">chevron_left</i>
-                                </a>
-                            </li>
-                            <li class="active"><a href="javascript:void(0);">1</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect">2</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect">3</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect">4</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect">5</a></li>
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="material-icons">chevron_right</i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <h4 class="news-title">Produk Terbaru</h4>
+                <div class="panel-body">
+                    <div class="row">
+                        <?php
+                            $condition          = ' WHERE %status% = 1';
+                            if( !empty($category_id) ){
+                                $condition      = ' WHERE %status% = 1 AND %category_id% = '.$category_id.'';
+                            }
+                            $blog_list          = $this->Model_Tenant->get_all_blogtenant(0, 0, $condition);
+                        ?>
+                        <?php if( !empty($blog_list) ) : ?>
+                        <?php
+                            foreach($blogdata AS $row){
+                                $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
+                                $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name; 
+                                $blog           = $file_url;
+                        ?>
+            			<div class="col-md-6 col-sm-12">
+            				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
+            					<div class="gtco-blog animate-box">
+            						<a href="#"><img src="<?php echo $blog; ?>" alt="" /></a>
+            						<div class="blog-text">
+            							<h4><a href="<?php echo base_url(); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
+            							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
+            							<p><?php echo word_limiter($row->description,25); ?></p>
+            							<a href="<?php echo base_url(); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
+            						</div>
+            					</div>
+            				</div>
+            			</div>
+                        <?php } ?>
+                        <?php else : ?>
+                            <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
+                <h4 class="news-title">Kategori Lainnya</h4>
+                <?php if( !empty($allcategorydata) ) : ?>
+                    <?php foreach($allcategorydata AS $row){ ?>
+                        <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                    <?php } ?>
+                <?php else :  ?>
+                    <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
+                <?php endif ?>
+            </div>
 		</div>
 	</div>
 </div>

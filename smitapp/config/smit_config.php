@@ -234,6 +234,7 @@ $config['user_menu_access']             = array(
         'tenants/laporan',
         'pengumuman',
         'layanan',
+        'layanan/komunikasi',
     ),
     JURI                                => array(
         'beranda',

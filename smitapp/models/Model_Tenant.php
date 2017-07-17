@@ -488,6 +488,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%status%",               "A.status", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%product_title%",        "B.title", $conditions);
+            $conditions = str_replace("%category_id%",          "B.category_id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -501,10 +502,11 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%status%",               "A.status",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%product_title%",        "B.title",  $order_by);
+            $order_by   = str_replace("%category_id%",          "B.category_id",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.title AS product_title
+            SELECT A.*,B.title AS product_title, B.category_id
             FROM ' . $this->incubation_blog. ' AS A
             LEFT JOIN ' . $this->incubation_product . ' AS B
             ON B.id = A.product_id';
@@ -519,6 +521,20 @@ class Model_Tenant extends SMIT_Model{
         if(!$query || !$query->num_rows()) return false;
 
         return $query->result();
+    }
+    
+    /**
+     * Count data of blog tenant
+     * 
+     * @author  Iqbal
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function count_data_blog_tenant(){
+        $sql = 'SELECT COUNT(id) AS total FROM ' . $this->incubation_blog. '';
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return 0;
+        
+        return $query->row()->total;
     }
 
     // ---------------------------------------------------------------------------------
