@@ -11,6 +11,7 @@ class Model_Tenant extends SMIT_Model{
     public $incubation      = 'smit_incubation';
     public $incubation_selection    = 'smit_incubation_selection';
     public $incubation_product      = 'smit_incubation_product';
+    public $incubation_blog         = 'smit_incubation_blog';
 
     /**
      * Initialize primary field
@@ -150,6 +151,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
             $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
+            $conditions = str_replace("%product_id%",           "B.id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -166,10 +168,11 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
             $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
+            $order_by   = str_replace("%product_id%",           "B.id",  $order_by);
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.year, B.companion_id, B.name AS user_name, B.event_desc, B.category
+            SELECT A.*, B.event_title, B.year, B.companion_id, B.name AS user_name, B.event_desc, B.category, B.id AS product_id
 			FROM ' . $this->tenant. ' AS A
 			LEFT JOIN ' . $this->incubation. ' AS B
 			ON B.id = A.incubation_id';
@@ -445,6 +448,77 @@ class Model_Tenant extends SMIT_Model{
         if(!$query || !$query->num_rows()) return 0;
         
         return $query->row()->total;
+    }
+    
+    /**
+     * Save data of blog tenant
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_blogtenant($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_blog, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Retrieve all blog tenant data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_blogtenant($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%title%",                "A.title", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%product_title%",        "B.title", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%title%",                "A.title",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%product_title%",        "B.title",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*,B.title AS product_title
+            FROM ' . $this->incubation_blog. ' AS A
+            LEFT JOIN ' . $this->incubation_product . ' AS B
+            ON B.id = A.product_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
     }
 
     // ---------------------------------------------------------------------------------

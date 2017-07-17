@@ -1613,7 +1613,10 @@ var TenantValidation = function () {
                 reg_desc: {
                     required: true,
                 },
-                news_selection_files: {
+                reg_thumbnail: {
+                    required: true,
+                },
+                reg_details: {
                     required: true,
                 },
             },
@@ -1627,8 +1630,11 @@ var TenantValidation = function () {
                 reg_desc: {
                     required: 'Email harus di isi',
                 },
-                news_selection_files: {
-                    required: 'Pilih tahun berdirinya tenant anda',
+                reg_thumbnail: {
+                    required: 'Thumbnail harus di isi',
+                },
+                reg_details: {
+                    required: 'Gambar harus di isi',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit   
