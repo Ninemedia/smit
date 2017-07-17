@@ -889,7 +889,7 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($payment_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit   = '<a href="'.base_url('pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                 $btn_delete = '<a href="'.base_url('pembayaran/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
                 
@@ -901,7 +901,7 @@ class Tenant extends User_Controller {
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     if( !empty($is_admin) ){
-                        $btn_action     .= '<a href="'.base_url('pembayaranconfirm/active/'.$row->uniquecode).'" class="pembayaranconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                        $btn_action     .= '<a href="'.base_url('pembayaranconfirm/active/'.$row->uniquecode).'" class="pembayaranconfirm btn btn-xs btn-success tooltips waves-effect bottom5" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                     }
                 }
                 if( !$is_admin ){

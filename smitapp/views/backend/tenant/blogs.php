@@ -4,7 +4,6 @@
         <div class="card">
             <div class="header"><h2>Blog Tenant</h2></div>
             <div class="body">
-            <?php if($is_admin): ?>    
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -155,10 +154,6 @@
                         <?php echo form_close(); ?>    
                     </div>
                 </div>
-            <?php else: ?>
-            
-            
-            <?php endif ?>
             </div>
         </div>
     </div>
