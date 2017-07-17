@@ -15,6 +15,7 @@ class Model_Incubation extends SMIT_Model{
     var $incubation_selection_his        = "smit_incubation_selection_history";
     var $incubation_selection_rate_s1    = "smit_incubation_selection_rate_step1";
     var $incubation_selection_rate_s2    = "smit_incubation_selection_rate_step2";
+    var $incubation_payment         = "smit_incubation_payment";
 
     /**
      * Initialize primary field
@@ -1307,6 +1308,71 @@ class Model_Incubation extends SMIT_Model{
 
         if(!$query || !$query->num_rows()) return false;
 
+        return $query->result();
+    }
+    
+    
+    /**
+     * Save data of payment incubation tenant
+     * 
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of news
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_payment($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_payment, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Retrieve all payment data
+     * 
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of user               default 0
+     * @param   Int     $offset             Offset ot user              default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of user list
+     */
+    function get_all_payment($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%invoice%",              "invoice", $conditions);
+            $conditions = str_replace("%title%",                "title", $conditions);
+            $conditions = str_replace("%name%",                 "name", $conditions);
+            $conditions = str_replace("%desc%",                 "desc", $conditions);
+            $conditions = str_replace("%url%",                  "url", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
+            $conditions = str_replace("%extension%",            "extension", $conditions);
+            $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+        }
+        
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "id", $order_by);
+            $order_by   = str_replace("%no_news%",              "no_news",  $order_by);
+            $order_by   = str_replace("%title%",                "title",  $order_by);
+            $order_by   = str_replace("%name%",                 "name",  $order_by);
+            $order_by   = str_replace("%desc%",                 "desc",  $order_by);
+            $order_by   = str_replace("%url%",                  "url",  $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
+            $order_by   = str_replace("%extension%",            "extension",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+        }
+        
+        $sql = 'SELECT * FROM ' . $this->incubation_payment. '';
+        
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+        
         return $query->result();
     }
     // ---------------------------------------------------------------------------------

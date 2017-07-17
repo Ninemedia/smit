@@ -768,37 +768,33 @@ class Tenant extends User_Controller {
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'invoice'       => smit_generate_invoice(1, 'num'),
                     'tenant_id'     => $tenant_id,
-                    'user_id'       => $current_user->id,
-                    'username'      => strtolower($current_user->username),
-                    'name'          => $current_user->name,
+                    'user_id'       => $tenantdata->user_id,
+                    'username'      => strtolower($tenantdata->username),
+                    'name'          => $tenantdata->name,
                     'title'         => $title,
                     'desc'          => $description,
                     'url'           => smit_isset($upload_data['full_path'],''),
                     'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
                     'filename'      => smit_isset($upload_data['raw_name'],''),
                     'size'          => smit_isset($upload_data['file_size'],0),
-                    'uploader'      => $current_user->id,
+                    'uploader'      => $tenantdata->id,
                     'status'        => $status,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
-                
-                echo '<pre>';
-                print_r($payment_data);
-                die();
             }
 
             // -------------------------------------------------
             // Save Payment
             // -------------------------------------------------
             $trans_save_payment        = FALSE;
-            if( $news_save_id       = $this->Model_News->save_data_news($news_data) ){
-                $trans_save_news    = TRUE;
+            if( $payment_save_id       = $this->Model_Incubation->save_data_payment($payment_data) ){
+                $trans_save_payment    = TRUE;
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data formulir anda');
+                $data = array('message' => 'error','data' => 'Pembayaran tenant tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
 
@@ -812,7 +808,7 @@ class Tenant extends User_Controller {
                     // Set JSON data
                     $data = array(
                         'message'       => 'error',
-                        'data'          => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data transaksi database.'
+                        'data'          => 'Pembayaran tenant tidak berhasil. Terjadi kesalahan data transaksi database.'
                     ); die(json_encode($data));
                 }else{
                     // Commit Transaction
@@ -821,20 +817,126 @@ class Tenant extends User_Controller {
                     $this->db->trans_complete();
 
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran berita baru berhasil!');
+                    $data       = array('message' => 'success', 'data' => 'Pembayaran tenant baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
-                    smit_log( 'NEWS_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                    smit_log( 'PAYEMENT_REG', 'SUCCESS', maybe_serialize(array('username'=>$tenantdata->username, 'url'=> smit_isset($upload_data['full_path'],''))) );
                 }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran berita tidak berhasil. Terjadi kesalahan data.');
+                $data = array('message' => 'error','data' => 'Pembayaran tenant tidak berhasil. Terjadi kesalahan data.');
                 die(json_encode($data));
             }
         }
 	}
+    
+    /**
+	 * Tenant Payment list data function.
+	 */
+    function paymentlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_invoice          = $this->input->post('search_invoice');
+        $s_invoice          = smit_isset($s_invoice, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_invoice) )        { $condition .= str_replace('%s%', $s_invoice, ' AND %invoice% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )      { $order_by .= '%invoice% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $payment_list       = $this->Model_Incubation->get_all_payment($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($payment_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($payment_list as $row){
+                // Button
+                $btn_action = '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_edit   = '<a href="'.base_url('pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_delete = '<a href="'.base_url('pembayaran/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
+                
+                $file_name      = $row->filename . '.' . $row->extension;
+                $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'.$row->user_id.'/' . $file_name;
+                $image          = $file_url;
+                $image          = '<img class="js-animating-object img-responsive" src="'.$image.'" alt="'.$row->title.'" />';
+                
+                if($row->status == NONACTIVE)   {
+                    $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    if( !empty($is_admin) ){
+                        $btn_action     .= '<a href="'.base_url('pembayaranconfirm/active/'.$row->uniquecode).'" class="pembayaranconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    }
+                }
+                if( !$is_admin ){
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    }
+                }
+                if( !empty($is_admin) ){
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    }
+                }
+                
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    $row->invoice,
+                    '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    $image,
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action .' '. $btn_edit .' '. $btn_delete ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
 
     /**
 	 * Report Tenant function.
