@@ -75,10 +75,10 @@ class Frontend extends Public_Controller {
         $sliderdata             = $this->Model_Slider->get_all_slider('', '', ' WHERE status = 1');
         $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
         $countnewsdata          = $this->Model_News->count_data_news();
-        
+
         // Total rows count
         $counttenantdata        = $this->Model_Tenant->count_data_blog_tenant();
-        
+
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
         $config['base_url']     = base_url('tenant/blogtenant');
@@ -343,11 +343,11 @@ class Frontend extends Public_Controller {
 	{
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         // Set JSON data
         $data       = array(
-            'message' => 'success', 
-            'data' => smit_alert('Pendaftaran seleksi inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!') 
+            'message' => 'success',
+            'data' => smit_alert('Pendaftaran seleksi inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!')
         );
         die(json_encode($data));
 
@@ -594,14 +594,14 @@ class Frontend extends Public_Controller {
 
                     // Send Email Notification
                     $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-                    
+
                     // Set Log Data
                     smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
 
                     // Set JSON data
                     $data       = array(
-                        'message' => 'success', 
-                        'data' => smit_alert('Pendaftaran seleksi inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!') 
+                        'message' => 'success',
+                        'data' => smit_alert('Pendaftaran seleksi inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!')
                     );
                     die(json_encode($data));
                 }
@@ -865,14 +865,14 @@ class Frontend extends Public_Controller {
 
                     // Send Email Notification
                     $this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-                    
+
                     // Set Log Data
                     smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
 
                     // Set JSON data
                     $data       = array(
-                        'message' => 'success', 
-                        'data' => smit_alert('Pendaftaran seleksi pra-inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!') 
+                        'message' => 'success',
+                        'data' => smit_alert('Pendaftaran seleksi pra-inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!')
                     );
                     die(json_encode($data));
                 }
@@ -972,10 +972,10 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
-            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
         }
 
         $data['title']          = TITLE . 'Produk Pra-Inkubasi';
@@ -988,7 +988,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'praincubation/product';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Product Pra-Incubation function.
 	 */
@@ -1015,13 +1015,13 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $productdata            = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $productdata        = $productdata[0];
         }
-        
+
         if($productdata){
             $file_name      = $productdata->filename . '.' . $productdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
@@ -1031,7 +1031,7 @@ class Frontend extends Public_Controller {
         }else{
             $product        = BE_IMG_PATH . 'news/noimage.jpg';
         }
-        
+
         $alldata                = $this->Model_Praincubation->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
         $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
 
@@ -1133,7 +1133,7 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         // Total rows count
         $counttenantdata        = $this->Model_Tenant->count_data_product_tenant();
 
@@ -1147,9 +1147,9 @@ class Frontend extends Public_Controller {
         $tenantdata             = $this->Model_Tenant->get_all_product($this->perPage, 0, ' WHERE %status% = 1');
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
-            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
         }
-        
+
         $data['title']          = TITLE . 'Produk Tenant';
         $data['productdata']    = $tenantdata;
         $data['countproduct']   = $counttenantdata;
@@ -1162,7 +1162,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/product';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
 	 * Product Tenant Detail function.
 	 */
@@ -1189,13 +1189,13 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $productdata            = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $productdata        = $productdata[0];
         }
-        
+
         if($productdata){
             $file_name      = $productdata->filename . '.' . $productdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
@@ -1203,7 +1203,7 @@ class Frontend extends Public_Controller {
         }else{
             $product        = BE_IMG_PATH . 'news/noimage.jpg';
         }
-        
+
         $alldata                = $this->Model_Tenant->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
         $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
 
@@ -1217,10 +1217,9 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/productdetails';
-        
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
 
     /**
 	 * Facilities Tenant function.
@@ -1286,7 +1285,7 @@ class Frontend extends Public_Controller {
         $scripts_init           = '';
         // Total rows count
         $counttenantdata        = $this->Model_Tenant->count_data_blog_tenant();
-        
+
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
         $config['base_url']     = base_url('tenant/blogtenant');
@@ -1297,9 +1296,9 @@ class Frontend extends Public_Controller {
         $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPage, 0, ' WHERE %status% = 1');
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
-            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');    
+            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
         }
-        
+
         $data['title']          = TITLE . 'Blog Tenant';
         $data['blogdata']       = $tenantdata;
         $data['countblog']      = $counttenantdata;
@@ -1310,6 +1309,68 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/blog';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+
+    /**
+	 * Blog Tenant Detail function.
+	 */
+    function blogtenantdetail( $uniquecode = '' ){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+
+        $blogdata               = '';
+        if( !empty($uniquecode) ){
+            $blogdata        = $this->Model_Tenant->get_all_blog(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $blogdata        = $blogdata[0];
+        }
+
+        echo '<pre>';
+        print_r($blogdata);
+        die();
+
+        if($blogdata){
+            $file_name      = $blogdata->filename . '.' . $blogdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $blogdata->user_id . '/' . $file_name;
+            $image_blog     = $file_url;
+        }else{
+            $image_blog     = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $alldata                = $this->Model_Tenant->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
+        $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
+
+        $data['title']          = TITLE . 'Detail Blog Tenant';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product;
+        $data['alldata']        = $alldata;
+        $data['allcategorydata']= $allcategorydata;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/blogdetails';
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
 

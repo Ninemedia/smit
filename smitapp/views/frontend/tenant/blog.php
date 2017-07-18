@@ -50,7 +50,7 @@
                         <?php
                             foreach($blogdata AS $row){
                                 $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
-                                $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name; 
+                                $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                                 $blog           = $file_url;
                         ?>
             			<div class="col-md-6 col-sm-12">
@@ -58,10 +58,10 @@
             					<div class="gtco-blog animate-box">
             						<a href="#"><img src="<?php echo $blog; ?>" alt="" /></a>
             						<div class="blog-text">
-            							<h4><a href="<?php echo base_url(); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
+            							<h4><a href="<?php echo base_url('frontend/blogtenantdetail/'.<?php echo $row->uniquecode; ?>.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
             							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
             							<p><?php echo word_limiter($row->description,25); ?></p>
-            							<a href="<?php echo base_url(); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
+            							<a href="<?php echo $row->uniquecode; ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
             						</div>
             					</div>
             				</div>
