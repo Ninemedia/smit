@@ -78,7 +78,7 @@
                         <h4 class="news-title">Judul Blog Lainnya</h4>
                         <?php if( !empty($alldata) ) : ?>
                             <?php foreach($alldata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('frontend/blogtenantdetail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                                <h5><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada produk lain yang di publikasi. Terima Kasih.</div>
@@ -88,7 +88,7 @@
                         <h4 class="news-title">Kategori Lainnya</h4>
                         <?php if( !empty($allcategorydata) ) : ?>
                             <?php foreach($allcategorydata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('frontend/blogtenantdetail/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                                <h5><a href="<?php echo base_url('tenant/blogtenant/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada kategori produk lain yang di publikasi. Terima Kasih.</div>

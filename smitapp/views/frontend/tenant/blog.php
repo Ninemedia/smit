@@ -35,7 +35,7 @@
 			<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 				<h3>Blog Tenant</h3>
 			</div>
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="news-title">Blog Tenant Terbaru</h4>
                 <div class="panel-body">
                     <div class="row">
@@ -48,40 +48,30 @@
                         ?>
                         <?php if( !empty($blog_list) ) : ?>
                         <?php
-                            foreach($blogdata AS $row){
+                            foreach($blog_list AS $row){
                                 $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
                                 $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                                 $blog           = $file_url;
                         ?>
-            			<div class="col-md-6 col-sm-12">
+            			<div class="col-md-4 col-sm-12">
             				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
             					<div class="gtco-blog animate-box">
             						<a href="#"><img src="<?php echo $blog; ?>" alt="" /></a>
             						<div class="blog-text">
-            							<h4><a href="<?php echo base_url('frontend/blogtenantdetail/'.$row->uniquecode.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
+            							<h4><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
             							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
             							<p><?php echo word_limiter($row->description,25); ?></p>
-            							<a href="<?php echo base_url('frontend/blogtenantdetail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
+            							<a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
             						</div>
             					</div>
             				</div>
             			</div>
                         <?php } ?>
                         <?php else : ?>
-                            <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
+                            <div class="alert alert-info">Saat ini sedang tidak ada blog tenant yang di publikasi. Terima Kasih.</div>
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
-                <h4 class="news-title">Kategori Lainnya</h4>
-                <?php if( !empty($allcategorydata) ) : ?>
-                    <?php foreach($allcategorydata AS $row){ ?>
-                        <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
-                    <?php } ?>
-                <?php else :  ?>
-                    <div class="alert alert-info">Saat ini sedang tidak ada blog tenant yang di publikasi. Terima Kasih.</div>
-                <?php endif ?>
             </div>
 		</div>
 	</div>

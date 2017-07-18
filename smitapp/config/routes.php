@@ -310,6 +310,8 @@ $route['tenant/produktenant/detail/(:any)']     = "frontend/producttenantdetail/
 $route['tenant/produktenant/kategori/(:any)']   = "frontend/producttenant/$1";
 $route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
 $route['tenant/blogtenant']             = "frontend/blogtenant";
+$route['tenant/blogtenant/detail/(:any)']       = "frontend/blogtenantdetail/$1";
+$route['tenant/blogtenant/kategori/(:any)']     = "frontend/blogtenant/$1";
 /*
 $route['tenant/kategoritenant']         = "frontend/blogcategory";
 */

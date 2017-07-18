@@ -1302,7 +1302,7 @@ class Frontend extends Public_Controller {
         $data['title']          = TITLE . 'Blog Tenant';
         $data['blogdata']       = $tenantdata;
         $data['countblog']      = $counttenantdata;
-        $data['allcategorydaya']= $allcategorydata;
+        $data['allcategorydata']= $allcategorydata;
         $data['category_id']    = $id;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
