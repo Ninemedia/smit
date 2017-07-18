@@ -1341,7 +1341,7 @@ class Frontend extends Public_Controller {
 
         $blogdata               = '';
         if( !empty($uniquecode) ){
-            $blogdata        = $this->Model_Tenant->get_all_blog(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $blogdata        = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $blogdata        = $blogdata[0];
         }
 
