@@ -43,7 +43,7 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="news-title"><?php echo $blogdata->title; ?></h4>
                 <div class="details-img">
-                    <img class="js-animating-object img-responsive" src="<?php echo $product_image; ?>" alt="" />
+                    <img class="js-animating-object img-responsive" src="<?php echo $blog_image; ?>" alt="" />
                 </div>
                 <p class="news-date">
                     <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($blogdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,10 +75,10 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom30 news-related">
-                        <h4 class="news-title">Judul Produk Lainnya</h4>
+                        <h4 class="news-title">Judul Blog Lainnya</h4>
                         <?php if( !empty($alldata) ) : ?>
                             <?php foreach($alldata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('tenant/produktenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                                <h5><a href="<?php echo base_url('frontend/blogtenantdetail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada produk lain yang di publikasi. Terima Kasih.</div>
@@ -88,7 +88,7 @@
                         <h4 class="news-title">Kategori Lainnya</h4>
                         <?php if( !empty($allcategorydata) ) : ?>
                             <?php foreach($allcategorydata AS $row){ ?>
-                                <h5><a href="<?php echo base_url('tenant/produktenant/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
+                                <h5><a href="<?php echo base_url('frontend/blogtenantdetail/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                             <?php } ?>
                         <?php else :  ?>
                             <div class="alert alert-info">Saat ini sedang tidak ada kategori produk lain yang di publikasi. Terima Kasih.</div>

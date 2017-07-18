@@ -206,7 +206,7 @@ class Model_Tenant extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Save data of product praincubation
      *
@@ -285,10 +285,10 @@ class Model_Tenant extends SMIT_Model{
             return $query->result();
         }
     }
-    
+
     /**
      * Retrieve all tenant data
-     * 
+     *
      * @author  Iqbal
      * @param   Int     $limit              Limit of tenant         default 0
      * @param   Int     $offset             Offset ot tenant        default 0
@@ -316,7 +316,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
         }
-        
+
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
@@ -335,7 +335,7 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
         }
-        
+
         $sql = '
             SELECT A.*,B.workunit, B.*, C.name AS companion_name
             FROM ' . $this->tenant. ' AS A
@@ -343,19 +343,19 @@ class Model_Tenant extends SMIT_Model{
             ON B.id = A.selection_id
             LEFT JOIN ' . $this->incubation . ' AS C
             ON C.id = A.selection_id ';
-        
+
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
-        
+
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 
         $query = $this->db->query($sql);
-        
+
         if(!$query || !$query->num_rows()) return false;
-        
+
         return $query->result();
     }
-    
+
     /**
      * Retrieve all product data
      *
@@ -435,10 +435,10 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->num_rows();
     }
-    
+
     /**
      * Count data of product tenant
-     * 
+     *
      * @author  Iqbal
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
@@ -446,10 +446,10 @@ class Model_Tenant extends SMIT_Model{
         $sql = 'SELECT COUNT(id) AS total FROM ' . $this->incubation_product. '';
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return 0;
-        
+
         return $query->row()->total;
     }
-    
+
     /**
      * Save data of blog tenant
      *
@@ -465,7 +465,7 @@ class Model_Tenant extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Retrieve all blog tenant data
      *
@@ -489,6 +489,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%product_title%",        "B.title", $conditions);
             $conditions = str_replace("%category_id%",          "B.category_id", $conditions);
+            $conditions = str_replace("%category_product%",     "B.category_product", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -503,10 +504,11 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%product_title%",        "B.title",  $order_by);
             $order_by   = str_replace("%category_id%",          "B.category_id",  $order_by);
+            $order_by   = str_replace("%category_product%",     "B.category_product",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.title AS product_title, B.category_id
+            SELECT A.*,B.title AS product_title, B.category_id, B.category_product
             FROM ' . $this->incubation_blog. ' AS A
             LEFT JOIN ' . $this->incubation_product . ' AS B
             ON B.id = A.product_id';
@@ -522,10 +524,10 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
      * Count data of blog tenant
-     * 
+     *
      * @author  Iqbal
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
@@ -533,7 +535,7 @@ class Model_Tenant extends SMIT_Model{
         $sql = 'SELECT COUNT(id) AS total FROM ' . $this->incubation_blog. '';
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return 0;
-        
+
         return $query->row()->total;
     }
 

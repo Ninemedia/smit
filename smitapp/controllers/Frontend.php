@@ -1346,10 +1346,6 @@ class Frontend extends Public_Controller {
             $blogdata        = $blogdata[0];
         }
 
-        echo '<pre>';
-        print_r($blogdata);
-        die();
-
         if($blogdata){
             $file_name      = $blogdata->filename . '.' . $blogdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $blogdata->user_id . '/' . $file_name;
@@ -1358,12 +1354,12 @@ class Frontend extends Public_Controller {
             $image_blog     = BE_IMG_PATH . 'news/noimage.jpg';
         }
 
-        $alldata                = $this->Model_Tenant->get_all_product(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
-        $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$productdata->category_product.'"');
+        $alldata                = $this->Model_Tenant->get_all_blogtenant(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
+        $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$blogdata->category_product.'"');
 
         $data['title']          = TITLE . 'Detail Blog Tenant';
-        $data['productdata']    = $productdata;
-        $data['product_image']  = $product;
+        $data['blogdata']       = $blogdata;
+        $data['blog_image']     = $image_blog;
         $data['alldata']        = $alldata;
         $data['allcategorydata']= $allcategorydata;
         $data['headstyles']     = $headstyles;
