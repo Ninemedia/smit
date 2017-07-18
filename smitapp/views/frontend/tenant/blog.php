@@ -61,7 +61,7 @@
             							<h4><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
             							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
             							<p><?php echo word_limiter($row->description,25); ?></p>
-            							<a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
+            							<a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Detail</a>
             						</div>
             					</div>
             				</div>

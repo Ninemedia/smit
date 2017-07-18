@@ -147,10 +147,10 @@
                                 					<div class="gtco-blog animate-box">
                                 						<a href="#"><img src="<?php echo $blog; ?>" alt="" /></a>
                                 						<div class="blog-text">
-                                							<h4><a href="<?php echo base_url(); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
+                                							<h4><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
                                 							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
                                 							<p><?php echo word_limiter($row->description,25); ?></p>
-                                							<a href="<?php echo base_url(); ?>" class="btn btn-primary waves-effect">Selengkapnya</a>
+                                							<a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Detail</a>
                                 						</div>
                                 					</div>
                                 				</div>
