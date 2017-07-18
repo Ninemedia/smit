@@ -28,7 +28,7 @@
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
                                         <th class="width15 text-center">Nama</th>
-            							<th class="width20 text-center">Judul Usulan</th>
+            							<th class="width20 text-center">Nama Tenant</th>
             							<th class="width20 text-center">Judul Notulensi</th>
             							<th class="width5 text-center">Berkas</th>
             							<th class="width10 text-center">Status</th>
@@ -180,7 +180,7 @@
 <!-- #END# Content -->
 
 <!-- BEGIN INFORMATION SUCCESS SAVE NOTES MODAL -->
-<div class="modal fade" id="save_noteincubationsadd" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="save_noteincubationadd" tabindex="-1" role="basic" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -192,7 +192,7 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-primary waves-effect" id="do_save_noteincubationsadd" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_noteincubationadd" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

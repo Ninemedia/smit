@@ -1964,13 +1964,13 @@ var NotesValidation = function () {
             },
             messages: {
                 reg_title: {
-                    required: 'Judul Produk harus di isi',
+                    required: 'Judul Notulensi harus di isi',
                 },
                 reg_event: {
                     required: 'Usulan Kegiatan harus di isi',
                 },
                 reg_desc: {
-                    required: 'Deskripsi Produk harus di isi',
+                    required: 'Deskripsi Notulensi harus di isi',
                 },
                 reg_selection_files: {
                     required: 'Berkas Notulensi harus di isi',
@@ -2022,13 +2022,13 @@ var NotesValidation = function () {
             },
             messages: {
                 reg_title: {
-                    required: 'Judul Produk harus di isi',
+                    required: 'Judul Notulensi harus di isi',
                 },
                 reg_event: {
                     required: 'Usulan Kegiatan harus di isi',
                 },
                 reg_desc: {
-                    required: 'Deskripsi Produk harus di isi',
+                    required: 'Deskripsi Notulensi harus di isi',
                 },
                 reg_selection_files: {
                     required: 'Berkas Notulensi harus di isi',
@@ -2055,7 +2055,7 @@ var NotesValidation = function () {
                 $(element).parents('.input-group').append(error);
             },
             submitHandler: function (form) {
-                $('#save_noteincubationsadd').modal('show');
+                $('#save_noteincubationadd').modal('show');
             }
         });
     };

@@ -3906,18 +3906,23 @@ class Backend extends User_Controller {
 
         $event                  = $this->input->post('reg_event');
         $event                  = trim( smit_isset($event, "") );
+        $companion_id           = $this->input->post('companion_id');
+        $companion_id           = trim( smit_isset($companion_id, "") );
         $title                  = $this->input->post('reg_title');
         $title                  = trim( smit_isset($title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
 
-        echo '<pre>';
-        print_r($_POST);
-        die();
+        if( empty($companion_id) ){
+            $companion_id       = $current_user->id;
+        }
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
+        if( !empty($companion_id) ){
+            $this->form_validation->set_rules('companion_id','Nama Pendamping','required');
+        }
         $this->form_validation->set_rules('reg_event','Usulan Kegiatan','required');
         $this->form_validation->set_rules('reg_title','Judul Notulensi','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi Notulensi','required');
@@ -3927,7 +3932,7 @@ class Backend extends User_Controller {
 
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Pendaftaran Notulensi Pra-Inkubasi baru tidak berhasil. '.validation_errors().'');
+            $data = array('message' => 'error','data' => 'Pendaftaran Notulensi Inkubasi/Tenant baru tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
 
@@ -3936,10 +3941,11 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Berkas botulensi yang di unggah. Silahkan inputkan Berkas botulensi!');
+            $data = array('message' => 'error','data' => 'Berkas notulensi yang di unggah. Silahkan inputkan Berkas notulensi!');
             die(json_encode($data));
         }
 
+        $userdata   = $this->Model_User->get_user_by('id', $companion_id);
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -3947,7 +3953,7 @@ class Backend extends User_Controller {
             $this->db->trans_begin();
 
             // Upload Files Process
-            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $current_user->id;
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/incubation/' . $userdata->id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
 
             $config = array(
@@ -3977,10 +3983,10 @@ class Backend extends User_Controller {
 
             $notes_data         = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
-                'praincubation_id'  => $event,
-                'user_id'       => $current_user->id,
-                'username'      => strtolower($current_user->username),
-                'name'          => strtoupper($current_user->name),
+                'tenant_id'     => $event,
+                'user_id'       => $userdata->id,
+                'username'      => strtolower($userdata->username),
+                'name'          => strtoupper($userdata->name),
                 'title'         => $title,
                 'description'   => $description,
                 'url'           => smit_isset($file['full_path'],''),
@@ -3993,16 +3999,16 @@ class Backend extends User_Controller {
             );
 
             // -------------------------------------------------
-            // Save Notes Pra-Incubation Selection
+            // Save Notes Incubation Selection
             // -------------------------------------------------
             $trans_save_notes           = FALSE;
-            if( $notes_save_id      = $this->Model_Praincubation->save_data_notes($notes_data) ){
+            if( $notes_save_id      = $this->Model_Incubation->save_data_notes($notes_data) ){
                 $trans_save_notes   = TRUE;
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                $data = array('message' => 'error','data' => 'Pendaftaran product inkubasi/tenant tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
 
@@ -4016,7 +4022,7 @@ class Backend extends User_Controller {
                     // Set JSON data
                     $data = array(
                         'message'       => 'error',
-                        'data'          => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data transaksi database.'
+                        'data'          => 'Pendaftaran notulensi inkubasi/tenant tidak berhasil. Terjadi kesalahan data transaksi database.'
                     ); die(json_encode($data));
                 }else{
                     // Commit Transaction
@@ -4028,16 +4034,16 @@ class Backend extends User_Controller {
                     //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
 
                     // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Pendaftaran notulensi pra-inkubasi baru berhasil!');
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran notulensi inkubasi/tenant baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
-                    smit_log( 'NOTESPRA_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data_files)) );
+                    smit_log( 'NOTESINC_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data_files)) );
                 }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data.');
+                $data = array('message' => 'error','data' => 'Pendaftaran notulensi inkubasi/tenant tidak berhasil. Terjadi kesalahan data.');
                 die(json_encode($data));
             }
         }
