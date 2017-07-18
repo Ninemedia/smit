@@ -1309,6 +1309,7 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/blog';
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
 
