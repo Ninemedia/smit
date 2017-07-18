@@ -3913,16 +3913,10 @@ class Backend extends User_Controller {
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
 
-        if( empty($companion_id) ){
-            $companion_id       = $current_user->id;
-        }
-
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
-        if( !empty($companion_id) ){
-            $this->form_validation->set_rules('companion_id','Nama Pendamping','required');
-        }
+        $this->form_validation->set_rules('companion_id','Nama Pendamping','required');
         $this->form_validation->set_rules('reg_event','Usulan Kegiatan','required');
         $this->form_validation->set_rules('reg_title','Judul Notulensi','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi Notulensi','required');
