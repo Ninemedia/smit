@@ -3538,13 +3538,19 @@ class Backend extends User_Controller {
         $title                  = trim( smit_isset($title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
-
+        $companion_id           = $this->input->post('companion_id');
+        $companion_id           = trim( smit_isset($companion_id, "") );
+        
+        if( empty($companion_id) ){
+            $companion_id       = $current_user->id;  
+        }
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_event','Usulan Kegiatan','required');
         $this->form_validation->set_rules('reg_title','Judul Notulensi','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi Notulensi','required');
+        $this->form_validation->set_rules('companion_id','Nama Pendamping','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -3560,10 +3566,11 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
-            $data = array('message' => 'error','data' => 'Berkas botulensi yang di unggah. Silahkan inputkan Berkas botulensi!');
+            $data = array('message' => 'error','data' => 'Berkas notulensi yang di unggah. Silahkan inputkan Berkas notulensi!');
             die(json_encode($data));
         }
-
+        
+        $userdata       = $this->Model_User->get_user_by('id', $companion_id); 
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -3571,7 +3578,7 @@ class Backend extends User_Controller {
             $this->db->trans_begin();
 
             // Upload Files Process
-            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $current_user->id;
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/praincubation/' . $userdata->id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
 
             $config = array(
@@ -3602,9 +3609,9 @@ class Backend extends User_Controller {
             $notes_data         = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'praincubation_id'  => $event,
-                'user_id'       => $current_user->id,
-                'username'      => strtolower($current_user->username),
-                'name'          => strtoupper($current_user->name),
+                'user_id'       => $userdata->id,
+                'username'      => strtolower($userdata->username),
+                'name'          => strtoupper($userdata->name),
                 'title'         => $title,
                 'description'   => $description,
                 'url'           => smit_isset($file['full_path'],''),
@@ -3617,7 +3624,7 @@ class Backend extends User_Controller {
             );
 
             // -------------------------------------------------
-            // Save Notes Pra-Incubation Selection
+            // Save Notes Pra-Incubation
             // -------------------------------------------------
             $trans_save_notes           = FALSE;
             if( $notes_save_id      = $this->Model_Praincubation->save_data_notes($notes_data) ){
@@ -3626,7 +3633,7 @@ class Backend extends User_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                $data = array('message' => 'error','data' => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
                 die(json_encode($data));
             }
 

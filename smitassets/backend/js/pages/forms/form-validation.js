@@ -1961,6 +1961,9 @@ var NotesValidation = function () {
                 reg_selection_files: {
                     required: true,
                 },
+                companion_id: {
+                    required: true,
+                },
             },
             messages: {
                 reg_title: {
@@ -1974,6 +1977,9 @@ var NotesValidation = function () {
                 },
                 reg_selection_files: {
                     required: 'Berkas Notulensi harus di isi',
+                },
+                companion_id: {
+                    required: 'Nama Pendamping harus di isi',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
