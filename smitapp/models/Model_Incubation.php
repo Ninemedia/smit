@@ -17,6 +17,7 @@ class Model_Incubation extends SMIT_Model{
     var $incubation_selection_rate_s2    = "smit_incubation_selection_rate_step2";
     var $incubation_payment         = "smit_incubation_payment";
     var $incubation_notes           = "smit_incubation_notes";
+    var $incubation_tenant          = "smit_incubation_tenant";
 
     /**
      * Initialize primary field
@@ -1394,6 +1395,78 @@ class Model_Incubation extends SMIT_Model{
             return $id;
         };
         return false;
+    }
+    
+    /**
+     * Get Notes by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $uniquecode     (Required)  ID of slider
+     * @return  Mixed   False on invalid date parameter, otherwise data of slider(s).
+     */
+    function get_notes_by_uniquecode($uniquecode=''){
+        if ( !empty($uniquecode) ) {
+            $this->db->where('uniquecode', $uniquecode);
+        };
+
+        $this->db->order_by("datecreated", "DESC");
+        $query      = $this->db->get($this->incubation_notes);
+        return ( !empty($uniquecode) ? $query->row() : $query->result() );
+    }
+    
+    /**
+     * Retrieve all notes data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_notes($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%title%",                "A.title", $conditions);
+            $conditions = str_replace("%description%",          "A.description", $conditions);
+            $conditions = str_replace("%status%",               "A.status", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%name_tenant%",          "B.name_tenant", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%title%",                "A.title",  $order_by);
+            $order_by   = str_replace("%description%",          "A.description",  $order_by);
+            $order_by   = str_replace("%status%",               "A.status",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%name_tenant%",          "B.name_tenant",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*,B.name_tenant, B.uniquecode AS uniquecode_incubation
+            FROM ' . $this->incubation_notes . ' AS A
+            LEFT JOIN ' . $this->incubation_tenant . ' AS B
+            ON B.id = A.tenant_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
     }
     // ---------------------------------------------------------------------------------
 

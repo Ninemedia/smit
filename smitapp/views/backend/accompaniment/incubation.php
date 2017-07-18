@@ -23,7 +23,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_notespraincubation" data-url="<?php echo base_url('backend/noteslistdata'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="list_notesincubation" data-url="<?php echo base_url('backend/notesincubationlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
@@ -172,7 +172,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="list_notespraincubation" data-url="<?php echo base_url('backend/noteslistdata'); ?>">
+                            <table class="table table-striped table-bordered table-hover" id="list_notesincubation" data-url="<?php echo base_url('backend/notesincubationlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>

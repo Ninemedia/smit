@@ -178,7 +178,7 @@ var TableAjax = function () {
     };
     // List Notulensi Inkubasi
     var handleRecordsListNotulensiIncubation = function() {
-        gridTable( $("#list_notulensiincubation"), true );
+        gridTable( $("#list_notesincubation"), true );
     };
 
     // -------------------------------------------------------------------------

@@ -3892,7 +3892,7 @@ class Backend extends User_Controller {
         }
 
         $file_name      = $notesdata->filename . '.' . $notesdata->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $notesdata->user_id . '/' . $file_name;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/praincubation/' . $notesdata->user_id . '/' . $file_name;
 
         force_download($file_name, $file_url);
     }
@@ -4050,7 +4050,6 @@ class Backend extends User_Controller {
         }
 	}
 
-
 	public function accompanimentincubation()
 	{
         auth_redirect();
@@ -4127,6 +4126,158 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * Notes list data function.
+	 */
+    function notesincubationlistdata(){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        if( !$is_admin ){
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%title% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $notes_list         = $this->Model_Incubation->get_all_notes($limit, $offset, $condition, $order_by);
+        
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($notes_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('files_status');
+
+            $i = $offset + 1;
+            foreach($notes_list as $row){
+                // Status
+                /*
+                $btn_action = '<a href="'.base_url('notulensiprainkubasi/detail/'.$row->uniquecode).'"
+                    class="notespradetail btn btn-xs btn-primary waves-effect tooltips" id="btn_notespra_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                */
+                $btn_action = ' ';
+
+                if( !$is_admin ){
+                    if($row->status == NONACTIVE)   {
+                        $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    }
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
+                    }
+                }
+
+                if( !empty($is_admin) ){
+                    if($row->status == NONACTIVE)   {
+                        $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespradelete btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                    }
+
+                    if($row->status == ACTIVE)  {
+                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                        $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    }
+                }
+                elseif($row->status == BANNED)  {
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+                elseif($row->status == DELETED) {
+                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
+                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
+                }
+
+                if( !empty( $row->url ) ){
+                    $btn_files  = '<a href="'.base_url('unduh/notulensiprainkubasi/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
+                }else{
+                    $btn_files  = ' - ';
+                }
+
+                $records["aaData"][] = array(
+                    smit_center($i),
+                    strtoupper($row->name),
+                    '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode_incubation).'">' . strtoupper($row->name_tenant) . '</a>',
+                    '<a href="'.base_url('notulensiinkubasi/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    smit_center( $btn_files ),
+                    smit_center( $status ),
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    smit_center( $btn_action ),
+                );
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Notes Download File function.
+	 */
+    function notesincubationdownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Notes File Data
+        $notesdata      = $this->Model_Incubation->get_notes_by_uniquecode($uniquecode);
+        if( !$notesdata || empty($notesdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $notesdata->filename . '.' . $notesdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/incubation/' . $notesdata->user_id . '/' . $file_name;
+
+        force_download($file_name, $file_url);
+    }
 
     // ----------------------------------------------------------------------------------------------------------------------
     // INFO GRAFIS
