@@ -76,7 +76,23 @@ class Frontend extends Public_Controller {
         $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
         $countnewsdata          = $this->Model_News->count_data_news();
         
+        // Total rows count
+        $counttenantdata        = $this->Model_Tenant->count_data_blog_tenant();
+        
+        // Pagination configuration
+        $config['target']       = '#blogtenantlist';
+        $config['base_url']     = base_url('tenant/blogtenant');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+
+        $blogtenantdata         = $this->Model_Tenant->get_all_blogtenant($this->perPage, 0, ' WHERE %status% = 1');
+        $tenantdata             = $this->Model_Tenant->get_all_tenant($this->perPage, 0, ' WHERE %status% = 1');
+
         $data['title']          = TITLE . 'Home';
+        $data['blogdata']       = $blogtenantdata;
+        $data['tenantdata']     = $tenantdata;
+        $data['countblog']      = $counttenantdata;
         $data['sliderdata']     = $sliderdata;
         $data['newsdata']       = $newsdata;
         $data['countnews']      = $countnewsdata;

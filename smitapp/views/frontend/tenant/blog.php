@@ -36,7 +36,7 @@
 				<h3>Blog Tenant</h3>
 			</div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                <h4 class="news-title">Produk Terbaru</h4>
+                <h4 class="news-title">Blog Tenant Terbaru</h4>
                 <div class="panel-body">
                     <div class="row">
                         <?php
@@ -80,7 +80,7 @@
                         <h5><a href="<?php echo base_url('prainkubasi/produkprainkubasi/kategori/'.$row->category_id.''); ?>"><?php echo strtoupper($row->category_name); ?></a></h5>
                     <?php } ?>
                 <?php else :  ?>
-                    <div class="alert alert-info">Saat ini sedang tidak ada produk yang di publikasi. Terima Kasih.</div>
+                    <div class="alert alert-info">Saat ini sedang tidak ada blog tenant yang di publikasi. Terima Kasih.</div>
                 <?php endif ?>
             </div>
 		</div>
