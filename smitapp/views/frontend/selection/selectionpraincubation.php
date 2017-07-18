@@ -75,6 +75,78 @@
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
                                             <?php echo get_option('be_frontend_praincubation_note'); ?>
+                                            Tanggal Penting : 
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample"> Lihat Lengkap </a>
+                                            <div id="collapseExample" class="collapse" aria-expanded="true" style="">
+                                                <div class="well">
+                                                    <div class="card">
+                                                        <div class="body">
+                                                            <div class="body table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="bg bg-blue">
+                                                                        <tr>
+                                                                            <th><center>No</center></th>
+                                                                            <th><center>Kegiatan</center></th>
+                                                                            <th></th>
+                                                                            <th><center>Tanggal Pelaksanaan</center></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="row">1</th>
+                                                                            <td><strong>Publikasi</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_publication)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">2</th>
+                                                                            <td><strong>Pendaftaran Online</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_reg_start)); ?> - <?php echo date('d F Y H:i:s', strtotime($lss->selection_date_reg_end)); ?></td>
+                                                                        </tr>
+                                                                         <tr>
+                                                                            <th scope="row">3</th>
+                                                                            <td><strong>Sleksi Administrasi & Subtansi Awal</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?> - <?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">4</th>
+                                                                            <td><strong>Undangan Presentasi Dikirim</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_invitation_send)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">5</th>
+                                                                            <td><strong>Seleksi Presentasi & Wawancara</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_interview_start)); ?> - <?php echo date('d F Y H:i:s', strtotime($lss->selection_date_interview_end)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">6</th>
+                                                                            <td><strong>Proposal & Anggaran</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_proposal_start)); ?> - <?php echo date('d F Y H:i:s', strtotime($lss->selection_date_proposal_end)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">7</th>
+                                                                            <td><strong>Pengumuman Hasil Seleksi</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_agreement)); ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">8</th>
+                                                                            <td><strong>Pelaksanaan Kegiatan</strong></td>
+                                                                            <td><center>:</center></td>
+                                                                            <td><?php echo date('d F Y H:i:s', strtotime($lss->selection_imp_date_start)); ?> - <?php echo date('d F Y H:i:s', strtotime($lss->selection_imp_date_end)); ?></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
                                         <?php

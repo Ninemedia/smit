@@ -19,7 +19,7 @@
 	                            if( !empty($user_type) ){
 	                                echo '<option value="">-- Pilih Tipe Pengguna --</option>';
 	                                foreach($user_type as $key => $val){
-                                        if( $key != PENGUSUL )
+                                        if( $key != PENGUSUL && $key != TENANT )
 	                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
 	                                }
 	                            }else{

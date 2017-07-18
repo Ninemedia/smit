@@ -44,17 +44,12 @@
                             </li>
                             <li>
                                 <a href="#change_password" data-toggle="tab">
-                                    <i class="material-icons">style</i> GANTI PASSWORD
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#change_password" data-toggle="tab">
-                                    <i class="material-icons">style</i> GANTI PASSWORD
+                                    <i class="material-icons">style</i> UBAH KATA SANDI
                                 </a>
                             </li>
                             <li>
                                 <a href="#user_role" data-toggle="tab">
-                                    <i class="material-icons">account_box</i> ROLE
+                                    <i class="material-icons">account_box</i> UBAH TIPE PENGGUNA
                                 </a>
                             </li>
                         </ul>
@@ -323,7 +318,7 @@
                                 </div>
                                 <?php } ?>
                                 
-                                <label class="form-label">Role <?php echo ( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ); ?> saat ini</label>
+                                <label class="form-label">Tipe <?php echo ( !empty($user_other) ? 'Pengguna '.strtoupper($user_other->name) : 'Anda' ); ?> saat ini adalah : </label>
                                 <div class="input-group">
                                     <div class="form-line">
                                     <?php
@@ -366,7 +361,7 @@
                                                 }
                                             ?>
                                         </select>
-                                        <button type="submit" class="btn btn-warning btn-block bg-blue waves-effect top30">Ubah Role</button>
+                                        <button type="submit" class="btn btn-warning btn-block bg-blue waves-effect top30">Ubah Tipe Pengguna</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
