@@ -102,6 +102,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label">Nama Pendamping<b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                        <?php
+                                            $option = array(''=>'Pilih Pendamping');
+                                            $companion_arr = smit_companion_list();
+                                            $extra = 'class="form-control show-tick" id="companion_id"';
+
+                                            if( $companion_arr || !empty($companion_arr) ){
+                                                foreach($companion_arr as $val){
+                                                    $option[$val->id] = $val->name;
+                                                }
+                                            }
+                                            echo form_dropdown('companion_id',$option,'',$extra);
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Judul Notulensi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">subject</i></span>
