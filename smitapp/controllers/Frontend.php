@@ -227,17 +227,17 @@ class Frontend extends Public_Controller {
     function selectionpraincubation(){
         $headstyles             = smit_headstyles(array(
             //CSS Path
-            FE_PLUGIN_PATH     . 'node-waves/waves.css',
-            FE_PLUGIN_PATH     . 'sweetalert/sweetalert.css',
-            FE_PLUGIN_PATH     . 'bootstrap-select/css/bootstrap-select.css',
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
 
             //Css Path
-            FE_CSS_PATH    . 'animate.css',
-            FE_CSS_PATH    . 'icomoon.css',
-            FE_CSS_PATH    . 'themify-icons.css',
-            FE_PLUGIN_PATH     . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-            BE_PLUGIN_PATH     . 'bootstrap-fileinput/css/fileinput.css',
-            BE_PLUGIN_PATH     . 'bootstrap-fileinput/themes/explorer/theme.css',
+            FE_CSS_PATH . 'animate.css',
+            FE_CSS_PATH . 'icomoon.css',
+            FE_CSS_PATH . 'themify-icons.css',
+            FE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
         ));
 
         $loadscripts            = smit_scripts(array(

@@ -7840,6 +7840,10 @@ select.form-control{
     font-size: 17px !important;
 }
 
+.file-input .btn:not(.btn-link):not(.btn-circle) i.glyphicon {
+    font-size: 15px !important;
+}
+
 .file-input .file-caption-main{
     margin-bottom: 0 !important;
 }

@@ -1033,6 +1033,7 @@ class PraIncubation extends User_Controller {
     function praincubationaction($action, $data){
         $response = array();
         
+        // Check Action
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -1041,6 +1042,7 @@ class PraIncubation extends User_Controller {
             return $response;
         };
         
+        // Check Data
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -1049,6 +1051,7 @@ class PraIncubation extends User_Controller {
             return $response;
         };
 
+        // Check Admin Priviledges
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -1059,13 +1062,63 @@ class PraIncubation extends User_Controller {
             return $response;
         };
         
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
+        }
+
+        if( $praincset->status == 0 ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
+        }
+        
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
         $data = (object) $data;
         foreach( $data as $key => $id ){
+            // Check Data Pra Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+            if( !$praincseldata || empty($praincseldata) ){
+                continue;
+            }
+            $praincseldata  = $praincseldata[0];
             
+            $praincselupdatedata    = array(
+                'status'        => $status,
+                'datemodified'  => $curdate,
+            );
+            if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
+                continue;
+            }
+            $this->smit_email->send_email_selection_confirmation_step1($praincseldata);
         }
+        
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data seleksi selesai di proses',
+        );
+        return $response;
     }
 
     /**

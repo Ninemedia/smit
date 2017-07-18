@@ -31,7 +31,8 @@
     <?php echo $headstyles; ?>
     
     <!-- Bootstrap Core Css -->
-	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>bootstrap.css" /><!-- Bootstrap  -->
+	<link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo FE_PLUGIN_PATH . 'bootstrap/css/bootstrap.css'; ?>"  />
     
 	<!-- Css -->
     <link rel="stylesheet" type="text/css" href="<?php echo FE_CSS_PATH; ?>font-awesome/font-awesome.min.css" />

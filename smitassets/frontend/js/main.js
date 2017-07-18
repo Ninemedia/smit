@@ -410,6 +410,7 @@
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast');
                         $(el).hide();
                         $(eldet).hide();
+                        $('html, body').animate( { scrollTop: $('#selectionpraincubation').offset().top - 100 }, 500 );
                     }else if(response.message == "success"){
                         msg.html(response.info);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast');
@@ -633,6 +634,7 @@
             
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
+            $('.input-group').find('label.error').hide();
             $('#reg_event_title').val('');
             $('#reg_desc').val('');
             $('#reg_name').val('');
@@ -668,6 +670,7 @@
                 },
                 maxFileSize: 2048,
             });
+            $('#reg_agree').prop('checked', false);
             $('html, body').animate( { scrollTop: $('body').offset().top + 600 }, 500 );
         });
     };
