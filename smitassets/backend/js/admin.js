@@ -42,7 +42,7 @@ $.AdminBSB.options = {
 
 /* Left Sidebar - Function =================================================================================================
 *  You can manage the left sidebar menu options
-*  
+*
 */
 $.AdminBSB.leftSideBar = {
     activate: function () {
@@ -152,7 +152,7 @@ $.AdminBSB.leftSideBar = {
 
 /* Right Sidebar - Function ================================================================================================
 *  You can manage the right sidebar menu options
-*  
+*
 */
 $.AdminBSB.rightSideBar = {
     activate: function () {
@@ -184,7 +184,7 @@ $.AdminBSB.rightSideBar = {
 
 /* Searchbar - Function ================================================================================================
 *  You can manage the search bar
-*  
+*
 */
 var $searchBar = $('.search-bar');
 $.AdminBSB.search = {
@@ -221,7 +221,7 @@ $.AdminBSB.search = {
 
 /* Navbar - Function =======================================================================================================
 *  You can manage the navbar
-*  
+*
 */
 $.AdminBSB.navbar = {
     activate: function () {
@@ -251,7 +251,7 @@ $.AdminBSB.navbar = {
 
 /* Input - Function ========================================================================================================
 *  You can manage the inputs(also textareas) with name of class 'form-control'
-*  
+*
 */
 $.AdminBSB.input = {
     activate: function () {
@@ -281,7 +281,7 @@ $.AdminBSB.input = {
 
 /* Form - Select - Function ================================================================================================
 *  You can manage the 'select' of form elements
-*  
+*
 */
 $.AdminBSB.select = {
     activate: function () {
@@ -292,7 +292,7 @@ $.AdminBSB.select = {
 
 /* DropdownMenu - Function =================================================================================================
 *  You can manage the dropdown menu
-*  
+*
 */
 
 $.AdminBSB.dropdownMenu = {
@@ -370,7 +370,7 @@ $.AdminBSB.dropdownMenu = {
 
 /* Browser - Function ======================================================================================================
 *  You can manage browser
-*  
+*
 */
 var edge = 'Microsoft Edge';
 var ie10 = 'Internet Explorer 10';
@@ -449,13 +449,13 @@ $(function () {
 // ---------------------------------------------------------------------------
 var App = function() {
     var isRTL = false;
-    
+
     var handleInit = function () {
         if ($('body').css('direction') === 'rtl') {
             isRTL = true;
         }
     }
-    
+
     var handleAddAnnouncement = function() {
         // Save Announcement
         $('body').on('click', '#btn_addannouncement_reset', function(event){
@@ -463,25 +463,25 @@ var App = function() {
             var url = $(this).attr('href');
             var table_container = $('#announcementuser_list').parents('.dataTables_wrapper');
             var el = $('#save_announcement');
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
                 beforeSend: function (){
                     $("div.page-loader-wrapper").fadeIn();
                 },
-                success: function( response ){                    
+                success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response    = $.parseJSON(response);
-                            
+
                     if( response.message == 'redirect'){
                         $(location).attr('href',response.data);
                     }else if( response.message == 'error'){
                         App.alert({
-                            type: 'danger', 
-                            icon: 'warning', 
-                            message: response.data, 
-                            container: table_container, 
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.data,
+                            container: table_container,
                             place: 'prepend'
                         });
                     }else{
@@ -489,23 +489,23 @@ var App = function() {
                     }
                 }
             });
-        }); 
-        
+        });
+
         $('#do_save_announcement').click(function(e){
             e.preventDefault();
             processSaveAnnouncement($('#announcementadd'));
         });
-        
+
         var processSaveAnnouncement = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -515,14 +515,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#announcementadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#selection_files').fileinput('refresh', {
@@ -544,13 +544,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset Announcement Form
         $('body').on('click', '#btn_addannouncement_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
@@ -573,24 +573,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddNews = function() {
         // Save News
         $('#do_save_news').click(function(e){
             e.preventDefault();
             processSaveNews($('#newsadd'));
         });
-        
+
         var processSaveNews = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -600,14 +600,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#newsadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#news_selection_files').fileinput('refresh', {
@@ -631,13 +631,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_newsadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
@@ -661,24 +661,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddPaymentTenant = function() {
         // Save Payement
         $('#do_save_payment').click(function(e){
             e.preventDefault();
             processSavePayment($('#paymentadd'));
         });
-        
+
         var processSavePayment = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -688,14 +688,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#paymentadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#news_selection_files').fileinput('refresh', {
@@ -720,13 +720,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_payment_listreset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#paymentadd')[0].reset();
@@ -750,24 +750,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddBlogTenant = function() {
         // Save Blog Tenant
         $('#do_save_addtenantblog').click(function(e){
             e.preventDefault();
             processSaveBlog($('#addblogtenant'));
         });
-        
+
         var processSaveBlog = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -777,14 +777,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#addblogtenant')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
@@ -824,13 +824,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_payment_listreset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#addblogtenant')[0].reset();
@@ -867,24 +867,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddIKM = function() {
         // Save IKM
         $('#do_save_ikmadd').click(function(e){
             e.preventDefault();
             processSaveAddIKM($('#ikmadd'));
         });
-        
+
         var processSaveAddIKM = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -894,14 +894,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#ikmadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#btn_list_ikm').trigger('click');
@@ -910,37 +910,37 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_ikmadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_question').val('');
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddPraincubation = function() {
         // Save Praincubation
         $('#do_save_praincubationadd').click(function(e){
             e.preventDefault();
             processSavePraincubationAdd($('#praincubationadd'));
         });
-        
+
         var processSavePraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -950,14 +950,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#praincubationadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
@@ -994,13 +994,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_praincubationadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
@@ -1042,24 +1042,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddProductTenant = function() {
         // Save Praincubation
         $('#do_save_producttenantadd').click(function(e){
             e.preventDefault();
             processSaveProductTenantAdd($('#producttenantadd'));
         });
-        
+
         var processSaveProductTenantAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1069,14 +1069,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#producttenantadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
@@ -1113,13 +1113,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_producttenantadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#producttenantadd')[0].reset();
@@ -1159,24 +1159,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddProductPraincubation = function() {
         // Save Praincubation
         $('#do_save_productadd').click(function(e){
             e.preventDefault();
             processSaveProductPraincubationAdd($('#productadd'));
         });
-        
+
         var processSaveProductPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1186,14 +1186,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#productadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
@@ -1230,13 +1230,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_productadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_event').val('');
@@ -1275,24 +1275,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddIncubation = function() {
         // Save Incubation
         $('#do_save_incubationadd').click(function(e){
             e.preventDefault();
             processSaveIncubationAdd($('#incubationadd'));
         });
-        
+
         var processSaveIncubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1302,14 +1302,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#incubationadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
@@ -1346,13 +1346,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_incubationadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
@@ -1394,24 +1394,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddServices = function() {
         // Save Communication
         $('#do_save_cmm').click(function(e){
             e.preventDefault();
             processSaveCmm($('#cmm_form'));
         });
-        
+
         var processSaveCmm = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1421,27 +1421,27 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#cmm_form')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_cmmadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#cmm_title').val('');
@@ -1449,24 +1449,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddSlider = function() {
         // Save Slider
         $('#do_save_slider').click(function(e){
             e.preventDefault();
             processSaveSlider($('#slideradd'));
         });
-        
+
         var processSaveSlider = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1476,14 +1476,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#slideradd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#slider_selection_files').fileinput('refresh', {
@@ -1505,13 +1505,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset Slider Form
         $('body').on('click', '#btn_slideradd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
@@ -1534,24 +1534,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddWorkunit = function() {
         // Save Workunit
         $('#do_save_workunit').click(function(e){
             e.preventDefault();
             processSaveWorkunit($('#workunitadd'));
         });
-        
+
         var processSaveWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1561,14 +1561,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.msg == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#workunitadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
@@ -1577,13 +1577,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset Workunit Form
         $('body').on('click', '#btn_workunit_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_workunit').val('');
@@ -1591,24 +1591,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
         });
     };
-    
+
     var handleEditWorkunit = function() {
         // Edit Workunit
         $('#do_edit_workunit').click(function(e){
             e.preventDefault();
             processEditWorkunit($('#workunitedit'));
         });
-        
+
         var processEditWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1618,14 +1618,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#workunitedit')[0].reset();
                         $('#btn_workunit_list').trigger('click');
                         $('#btn_workunit_listreset').trigger('click');
@@ -1635,24 +1635,24 @@ var App = function() {
     		});
         };
     };
-    
+
     var handleAddCategory = function() {
         // Save Category
         $('#do_save_category').click(function(e){
             e.preventDefault();
             processSaveCategory($('#categoryadd'));
         });
-        
+
         var processSaveCategory = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1662,14 +1662,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#categoryadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#btn_category_list').trigger('click');
@@ -1678,13 +1678,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset Category Form
         $('body').on('click', '#btn_category_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_category').val('');
@@ -1692,24 +1692,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleEditCategory = function() {
         // Edit Category
         $('#do_edit_category').click(function(e){
             e.preventDefault();
             processEditCategory($('#categoryedit'));
         });
-        
+
         var processEditCategory = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1719,14 +1719,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#categoryedit')[0].reset();
                         $('#btn_category_list').trigger('click');
                         $('#btn_category_listreset').trigger('click');
@@ -1736,24 +1736,24 @@ var App = function() {
     		});
         };
     };
-    
+
     var handleAddCategoryProduct = function() {
         // Save Category
         $('#do_save_categoryproduct').click(function(e){
             e.preventDefault();
             processSaveCategoryProduct($('#categoryproductadd'));
         });
-        
+
         var processSaveCategoryProduct = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1763,14 +1763,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#categoryproductadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#btn_category_productlist').trigger('click');
@@ -1779,13 +1779,13 @@ var App = function() {
     			}
     		});
         };
-        
+
         // Reset Category Form
         $('body').on('click', '#btn_category_productreset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
             $('#reg_category').val('');
@@ -1793,24 +1793,24 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleEditCategoryProduct = function() {
         // Edit Category Product
         $('#do_edit_categoryproduct').click(function(e){
             e.preventDefault();
             processEditCategoryProduct($('#categoryproductedit'));
         });
-        
+
         var processEditCategoryProduct = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1820,14 +1820,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#categoryproductedit')[0].reset();
                         $('#btn_category_productlist').trigger('click');
                         $('#btn_category_productlistreset').trigger('click');
@@ -1837,24 +1837,24 @@ var App = function() {
     		});
         };
     };
-    
+
     var handleAddNotes = function() {
         // Save Notes
         $('#do_save_notesadd').click(function(e){
             e.preventDefault();
             processSaveNotesAdd($('#notesadd'));
         });
-        
+
         var processSaveNotesAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1864,14 +1864,14 @@ var App = function() {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#notesadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
@@ -1889,19 +1889,22 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
+                        $('#btn_notesreset_list').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
     			}
     		});
         };
-        
+
         // Reset News Form
         $('body').on('click', '#btn_notesadd_reset', function(event){
 			event.preventDefault();
             var frm         = $(this).data('form');
             var msg         = $('#alert');
-            
+
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
+            $('#notesadd')[0].reset();
             $('#reg_title').val('');
             $('#reg_name').val('');
             $('#reg_desc').val('');
@@ -1925,8 +1928,98 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
-    
+
+    var handleAddNotesIncubation = function() {
+        // Save Notes
+        $('#do_save_noteincubationadd').click(function(e){
+            e.preventDefault();
+            processSaveNotesIncubationAdd($('#notesincubationadd'));
+        });
+
+        var processSaveNotesIncubationAdd = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#notesincubationadd')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#reg_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['doo', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#btn_notesinc_listreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_noteincubationadd_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#notesincubationadd')[0].reset();
+            $('#reg_title').val('');
+            $('#reg_name').val('');
+            $('#reg_desc').val('');
+            $('#notesadd')[0].reset();
+            $('#reg_selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#btn_notesinc_listreset').trigger('click');
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+
     return {
 		init: function() {
             // Input your handle function here
@@ -1947,21 +2040,22 @@ var App = function() {
             handleAddProductTenant();
             handleAddPaymentTenant();
             handleAddBlogTenant();
-            
-            // Edit 
+            handleAddNotesIncubation();
+
+            // Edit
             handleEditWorkunit();
             handleEditCategory();
             handleEditCategoryProduct();
 		},
-        
+
         // wrapper function to scroll(focus) to an element
         scrollTo: function (el, offeset) {
             var pos = (el && el.size() > 0) ? el.offset().top : 0;
 
             if (el) {
                 if ($('body').hasClass('hold-transition')) {
-                    pos = pos - $('.header').height(); 
-                }            
+                    pos = pos - $('.header').height();
+                }
                 pos = pos + (offeset ? offeset : -1 * el.height());
             }
 
@@ -1974,21 +2068,21 @@ var App = function() {
         scrollTop: function () {
             scrollTo();
         },
-        
+
         // check RTL mode
         isRTL: function () {
             return isRTL;
         },
-        
+
         getUniqueID: function(prefix) {
             return 'prefix_' + Math.floor(Math.random() * (new Date()).getTime());
         },
-        
+
         alert: function(options) {
 
             options = $.extend(true, {
                 container: "", // alerts parent container(by default placed after the page breadcrumbs)
-                place: "append", // append or prepent in container 
+                place: "append", // append or prepent in container
                 type: 'success',  // alert's type
                 message: "",  // alert's message
                 close: true, // make alert closable
@@ -2000,8 +2094,8 @@ var App = function() {
 
             var id = App.getUniqueID("app_alert");
 
-            var html = '<div id="'+id+'" class="app-alerts alert alert-'+options.type+' fade in">' + 
-            	(options.close ? '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>' : '' ) + 
+            var html = '<div id="'+id+'" class="app-alerts alert alert-'+options.type+' fade in">' +
+            	(options.close ? '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>' : '' ) +
         		(options.icon != "" ? '' : '') + options.message+'</div>';
 
             if (options.reset) {

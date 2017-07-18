@@ -69,9 +69,9 @@
                             </table>
                         </div>
                     </div>
-                    
+
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <?php echo form_open_multipart( 'backend/notesadd', array( 'id'=>'notesadd', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'backend/notespraincubationadd', array( 'id'=>'notesadd', 'role'=>'form' ) ); ?>
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">

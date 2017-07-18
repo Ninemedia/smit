@@ -45,7 +45,7 @@ var GuidesValidation = function () {
                     required: "Berkas harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -67,7 +67,7 @@ var GuidesValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -97,7 +97,7 @@ var ServicesValidation = function () {
                     required: "Deskripsi komunikasi dan bantuan harus di isi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -119,7 +119,7 @@ var ServicesValidation = function () {
             }
         });
     };
-    
+
     var handleIKMValidation = function(){
         $('#ikmadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -140,7 +140,7 @@ var ServicesValidation = function () {
                     required: "Pertanyaan harus di isi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -162,7 +162,7 @@ var ServicesValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -176,22 +176,22 @@ var ProfileValidation = function () {
     var handleProfileRole = function(){
         //Multi-select
         $('#user_role_select').multiSelect();
-        
+
         //Button User Role Click
         $("body").delegate( "button.btn-role", "click", function( event ) {
             event.preventDefault();
-            
+
             var role        = $(this).data('role');
             var roletxt     = $(this).text();
             var url         = $(this).data('url');
-            var container   = $('div#user_role'); 
-            
+            var container   = $('div#user_role');
+
             bootbox.confirm("Anda yakin akan login sebagai "+roletxt+"?", function(result) {
                 if( result == true ){
                     $.ajax({
                         type:   "POST",
                         url:    url,
-                        data:   { 
+                        data:   {
                             'user_role'     : role,
                             'user_roletxt'  : roletxt
                         },
@@ -201,7 +201,7 @@ var ProfileValidation = function () {
                         success: function( response ){
                             $("div.page-loader-wrapper").fadeOut();
                             response = $.parseJSON(response);
-                            
+
                             if( response.status == 'error' ){
                                 App.alert({
                                     type: 'danger',
@@ -305,7 +305,7 @@ var ProfileValidation = function () {
                     required: 'Status pernikahan harus di pilih',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -327,7 +327,7 @@ var ProfileValidation = function () {
             }
         });
     };
-    
+
     var handleAccountValidation = function(){
         $('#accountsetting').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -342,7 +342,7 @@ var ProfileValidation = function () {
                     required: "Berkas harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -364,7 +364,7 @@ var ProfileValidation = function () {
             }
         });
     };
-    
+
     var handleJobValidation = function(){
         $('#jobupdate').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -391,7 +391,7 @@ var ProfileValidation = function () {
                     required: 'Satuan kerja anda harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -413,7 +413,7 @@ var ProfileValidation = function () {
             }
         });
     };
-    
+
     var handleChangePasswordValidation = function(){
         $('#changepassword').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -440,7 +440,7 @@ var ProfileValidation = function () {
                     required: "Ulangi kata sandi baru harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -462,7 +462,7 @@ var ProfileValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -502,7 +502,7 @@ var AnnouncementValidation = function () {
                     required: 'Anda harus setuju atas pengisian formulir ini',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -524,7 +524,7 @@ var AnnouncementValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -560,7 +560,7 @@ var NewsValidation = function () {
                     required: 'Isi Berita harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -582,7 +582,7 @@ var NewsValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -624,7 +624,7 @@ var PaymentValidation = function () {
                     required: 'Bukti Pemabayaran harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -646,7 +646,7 @@ var PaymentValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -706,7 +706,7 @@ var IncubationValidation = function () {
                     required: 'Berkas RAB Kegiatan harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -728,7 +728,7 @@ var IncubationValidation = function () {
             }
         });
     };
-    
+
     var handleIncubationValidation = function(){
         $('#incubationadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -779,7 +779,7 @@ var IncubationValidation = function () {
                     required: 'Berkas RAB Kegiatan harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -801,7 +801,7 @@ var IncubationValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -856,7 +856,7 @@ var ProductValidation = function () {
                     required: 'Kategori Produk harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -878,7 +878,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     var handleTenantProductValidation = function(){
         $('#producttenantadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -923,7 +923,7 @@ var ProductValidation = function () {
                     required: 'Kategori Produk harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -945,7 +945,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -983,7 +983,7 @@ var SliderValidation = function () {
                     required: 'Gambar Slider di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1005,7 +1005,7 @@ var SliderValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1029,7 +1029,7 @@ var SettingValidation = function () {
                     required: 'Nama Satuan Kerja harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1051,7 +1051,7 @@ var SettingValidation = function () {
             }
         });
     };
-    
+
     var handleSettingCategoryValidation = function(){
         $('#categoryadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1066,7 +1066,7 @@ var SettingValidation = function () {
                     required: 'Nama Kategori harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1088,7 +1088,7 @@ var SettingValidation = function () {
             }
         });
     };
-    
+
     var handleSettingCategoryProductValidation = function(){
         $('#categoryproductadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1103,7 +1103,7 @@ var SettingValidation = function () {
                     required: 'Nama Kategori Produk harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1125,7 +1125,7 @@ var SettingValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1151,7 +1151,7 @@ var AccountValidation = function () {
                     required: "Berkas harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1173,7 +1173,7 @@ var AccountValidation = function () {
             }
         });
     };
-    
+
     var handleJobValidation = function(){
         $('#jobupdate').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1200,7 +1200,7 @@ var AccountValidation = function () {
                     required: 'Satuan kerja anda harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1222,7 +1222,7 @@ var AccountValidation = function () {
             }
         });
     };
-    
+
     var handleChangePasswordValidation = function(){
         $('#changepassword').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1249,7 +1249,7 @@ var AccountValidation = function () {
                     required: "Ulangi kata sandi baru harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1271,7 +1271,7 @@ var AccountValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1372,7 +1372,7 @@ var TenantValidation = function () {
                     required: 'Kemitraan harus di pilih',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1393,11 +1393,11 @@ var TenantValidation = function () {
                 $('#save_addtenant').modal('show');
             }
         });
-        
+
         //Mobile Phone Number
         $('#tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
     };
-    
+
     var handleAddTenantUserValidation = function(){
         $('#addtenantuser').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1480,7 +1480,7 @@ var TenantValidation = function () {
                     required: 'Kemitraan harus di pilih',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1501,11 +1501,11 @@ var TenantValidation = function () {
                 $('#save_addtenantuser').modal('show');
             }
         });
-        
+
         //Mobile Phone Number
         $('#tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
     };
-    
+
     var handleLogoTenantValidation = function(){
         $('#logotenant').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1520,7 +1520,7 @@ var TenantValidation = function () {
                     required: "Berkas harus diisi."
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1541,23 +1541,23 @@ var TenantValidation = function () {
                 $('#save_logotenant').modal('show');
             }
         });
-        
+
         // Save Logo Tenant
         $('#do_save_logotenant').click(function(e){
             e.preventDefault();
             processSaveLogoTenant($('#logotenant'));
         });
-        
+
         var processSaveLogoTenant = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
             var msg     = $('.alert');
-        	
+
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-                
+
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -1568,14 +1568,14 @@ var TenantValidation = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if(response.message == 'error'){
                         msg.html(response.data.msg);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.data.msgsuccess);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#logotenant')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#avatar_company').fileinput('refresh', {
@@ -1598,7 +1598,7 @@ var TenantValidation = function () {
     		});
         };
     };
-    
+
     var handleAddBlogTenantValidation = function(){
         $('#addblogtenant').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1637,7 +1637,7 @@ var TenantValidation = function () {
                     required: 'Gambar harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1659,7 +1659,7 @@ var TenantValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1712,7 +1712,7 @@ var ScoreUserValidation = function () {
                     required: 'Penilaian Market harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1729,15 +1729,15 @@ var ScoreUserValidation = function () {
             errorPlacement: function (error, element) {
                 if (element.parent(".input-group").size() > 0) {
                     element.parent(".input-group").append(error);
-                } else if (element.attr("data-error-container")) { 
+                } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));
-                } else if (element.parents('.radio-list').size() > 0) { 
+                } else if (element.parents('.radio-list').size() > 0) {
                     error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-                } else if (element.parents('.radio-inline').size() > 0) { 
+                } else if (element.parents('.radio-inline').size() > 0) {
                     error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
                 } else if (element.parents('.checkbox-list').size() > 0) {
                     error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                } else if (element.parents('.checkbox-inline').size() > 0) {
                     error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
                 } else {
                     error.insertAfter(element); // for other inputs, just perform default behavior
@@ -1747,7 +1747,7 @@ var ScoreUserValidation = function () {
                 $('#save_scoreuser').modal('show');
             }
         });
-        
+
         $('#selectionincubation_score_step1').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
@@ -1787,7 +1787,7 @@ var ScoreUserValidation = function () {
                     required: 'Penilaian Market harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1804,15 +1804,15 @@ var ScoreUserValidation = function () {
             errorPlacement: function (error, element) {
                 if (element.parent(".input-group").size() > 0) {
                     element.parent(".input-group").append(error);
-                } else if (element.attr("data-error-container")) { 
+                } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));
-                } else if (element.parents('.radio-list').size() > 0) { 
+                } else if (element.parents('.radio-list').size() > 0) {
                     error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-                } else if (element.parents('.radio-inline').size() > 0) { 
+                } else if (element.parents('.radio-inline').size() > 0) {
                     error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
                 } else if (element.parents('.checkbox-list').size() > 0) {
                     error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                } else if (element.parents('.checkbox-inline').size() > 0) {
                     error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
                 } else {
                     error.insertAfter(element); // for other inputs, just perform default behavior
@@ -1823,7 +1823,7 @@ var ScoreUserValidation = function () {
             }
         });
     };
-    
+
     var handleScoreUserStep2Validation = function(){
         $('#selection_score_step2').validate({
             errorElement: 'span', //default input error message container
@@ -1840,7 +1840,7 @@ var ScoreUserValidation = function () {
                     required: 'Komentar juri harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1857,15 +1857,15 @@ var ScoreUserValidation = function () {
             errorPlacement: function (error, element) {
                 if (element.parent(".input-group").size() > 0) {
                     element.parent(".input-group").append(error);
-                } else if (element.attr("data-error-container")) { 
+                } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));
-                } else if (element.parents('.radio-list').size() > 0) { 
+                } else if (element.parents('.radio-list').size() > 0) {
                     error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-                } else if (element.parents('.radio-inline').size() > 0) { 
+                } else if (element.parents('.radio-inline').size() > 0) {
                     error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
                 } else if (element.parents('.checkbox-list').size() > 0) {
                     error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                } else if (element.parents('.checkbox-inline').size() > 0) {
                     error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
                 } else {
                     error.insertAfter(element); // for other inputs, just perform default behavior
@@ -1875,7 +1875,7 @@ var ScoreUserValidation = function () {
                 $('#save_scoreuserpraincubation2').modal('show');
             }
         });
-        
+
         $('#selectionincubation_score_step2').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
@@ -1897,7 +1897,7 @@ var ScoreUserValidation = function () {
                     required: 'Komentar juri harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1914,15 +1914,15 @@ var ScoreUserValidation = function () {
             errorPlacement: function (error, element) {
                 if (element.parent(".input-group").size() > 0) {
                     element.parent(".input-group").append(error);
-                } else if (element.attr("data-error-container")) { 
+                } else if (element.attr("data-error-container")) {
                     error.appendTo(element.attr("data-error-container"));
-                } else if (element.parents('.radio-list').size() > 0) { 
+                } else if (element.parents('.radio-list').size() > 0) {
                     error.appendTo(element.parents('.radio-list').attr("data-error-container"));
-                } else if (element.parents('.radio-inline').size() > 0) { 
+                } else if (element.parents('.radio-inline').size() > 0) {
                     error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
                 } else if (element.parents('.checkbox-list').size() > 0) {
                     error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
-                } else if (element.parents('.checkbox-inline').size() > 0) { 
+                } else if (element.parents('.checkbox-inline').size() > 0) {
                     error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
                 } else {
                     error.insertAfter(element); // for other inputs, just perform default behavior
@@ -1933,7 +1933,7 @@ var ScoreUserValidation = function () {
             }
         });
     };
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1976,7 +1976,7 @@ var NotesValidation = function () {
                     required: 'Berkas Notulensi harus di isi',
                 },
             },
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
@@ -1998,13 +1998,67 @@ var NotesValidation = function () {
             }
         });
     };
-    
+
+    var handleNotesIncubationValidation = function(){
+        $('#notesincubationadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_event: {
+                    required: true,
+                },
+                reg_title: {
+                    required: true,
+                },
+                reg_desc: {
+                    required: true,
+                },
+                reg_selection_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_title: {
+                    required: 'Judul Produk harus di isi',
+                },
+                reg_event: {
+                    required: 'Usulan Kegiatan harus di isi',
+                },
+                reg_desc: {
+                    required: 'Deskripsi Produk harus di isi',
+                },
+                reg_selection_files: {
+                    required: 'Berkas Notulensi harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_noteincubationsadd').modal('show');
+            }
+        });
+    };
+
     return {
         //main function to initiate the module
         init: function () {
             handleNotesValidation();
+            handleNotesIncubationValidation();
         }
     };
 }();
-
-

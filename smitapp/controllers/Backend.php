@@ -417,21 +417,21 @@ class Backend extends User_Controller {
             update_option('be_frontend_function', $value);
         }
     }
-    
+
     /**
 	 * View Mail Template function.
 	 */
     function viewmailtemplate()
     {
         // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');  
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
         // Set POST field
         $content    = $this->input->post('content');
-        $content    = smit_isset($content, ''); 
+        $content    = smit_isset($content, '');
         // Get Opt Mail Content
         $mail       = get_option($content);
         if( !$mail ) $mail = '';
-        
+
         // Return Mail Content
         if( $content == "be_notif_forgot_password" ){
             $template   = smit_notification_template_clear($mail);
@@ -1334,7 +1334,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
 	}
-    
+
     /**
 	 * Workunit Edit
 	 */
@@ -1348,11 +1348,11 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         $workunit_id            = $this->input->post('reg_id_workunit');
         $workunit               = $this->input->post('reg_workunit');
         $workunit               = trim( smit_isset($workunit, "") );
- 
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -1656,7 +1656,7 @@ class Backend extends User_Controller {
                 }else{
                     $btn_files  = ' - ';
                 }
-                
+
                 // Button
                 $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"
                     class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
@@ -1873,7 +1873,7 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * News Add
 	 */
@@ -2665,7 +2665,7 @@ class Backend extends User_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $generalmessagedata     = '';
         if( !empty($uniquecode) ){
             $generalmessagedata   = $this->Model_Service->get_contact_message_by_uniquecode($uniquecode);
@@ -2688,7 +2688,7 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
 	 * Message Delete function.
 	 */
@@ -2893,7 +2893,7 @@ class Backend extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'"
                     class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     if( !$is_admin && $value == 'out'){
@@ -3021,7 +3021,7 @@ class Backend extends User_Controller {
             'TableAjax.init();',
             'ServicesValidation.init();',
         ));
-        
+
         $communicationdata      = '';
         if( !empty($uniquecode) ){
             $communicationdata  = $this->Model_Service->get_communication_by_uniquecode($uniquecode);
@@ -3296,7 +3296,7 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Category Edit
 	 */
@@ -3310,11 +3310,11 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         $category_id            = $this->input->post('reg_id_category');
         $category               = $this->input->post('reg_category');
         $category               = trim( smit_isset($category, "") );
- 
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -3338,7 +3338,7 @@ class Backend extends User_Controller {
         $category_data  = array(
             'category_name'     => $category,
         );
-        
+
         // -------------------------------------------------
         // Edit Category
         // -------------------------------------------------
@@ -3383,7 +3383,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
 	}
-    
+
     /**
 	 * Category Delete function.
 	 */
@@ -3488,7 +3488,7 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
-            
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -3517,11 +3517,11 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Notes Pra-Inkubasi Add Function
 	 */
-	public function notesadd()
+	public function notespraincubationadd()
 	{
         auth_redirect();
         $current_user           = smit_get_current_user();
@@ -3580,7 +3580,7 @@ class Backend extends User_Controller {
                 'overwrite'         => FALSE,
                 'max_size'          => "2048000",
             );
-            
+
             $this->load->library('MY_Upload', $config);
 
             if( ! $this->my_upload->do_upload('reg_selection_files') ){
@@ -3590,7 +3590,7 @@ class Backend extends User_Controller {
                 $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                 die(json_encode($data));
             }
-            
+
             $upload_data_files      = $this->my_upload->data();
             $file                   = $upload_data_files;
 
@@ -3615,7 +3615,7 @@ class Backend extends User_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-            
+
             // -------------------------------------------------
             // Save Notes Pra-Incubation Selection
             // -------------------------------------------------
@@ -3666,7 +3666,7 @@ class Backend extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Notes list data function.
 	 */
@@ -3733,7 +3733,7 @@ class Backend extends User_Controller {
                     class="notespradetail btn btn-xs btn-primary waves-effect tooltips" id="btn_notespra_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 */
                 $btn_action = ' ';
-                
+
                 if( !$is_admin ){
                     if($row->status == NONACTIVE)   {
                         $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
@@ -3745,13 +3745,13 @@ class Backend extends User_Controller {
                         <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
                     }
                 }
-                
+
                 if( !empty($is_admin) ){
                     if($row->status == NONACTIVE)   {
                         $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                         $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespradelete btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                     }
-                    
+
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                         $btn_action     .= '
@@ -3767,7 +3767,7 @@ class Backend extends User_Controller {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
-                
+
                 if( !empty( $row->url ) ){
                     $btn_files  = '<a href="'.base_url('unduh/notulensiprainkubasi/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
@@ -3798,7 +3798,7 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Notes confirm function.
 	 */
@@ -3840,7 +3840,7 @@ class Backend extends User_Controller {
         if( $action=='active' )     { $status = ACTIVE; }
         elseif( $action=='banned' ) { $status = BANNED; }
         elseif( $action=='delete' ) { $status = DELETED; }
-        
+
         if( $status == DELETED ){
             if( $this->Model_Praincubation->delete_notes($uniquecode) ){
                 // Set JSON data
@@ -3852,7 +3852,7 @@ class Backend extends User_Controller {
                 $data = array('msg' => 'error','message' => 'Data notulensi pra-inkubasi gagal dihapus.');
                 // JSON encode data
                 die(json_encode($data));
-            } 
+            }
         }else{
             $data_update = array('status'=>$status, 'datemodified'=>$curdate);
             if( $this->Model_Praincubation->update_notes($uniquecode, $data_update) ){
@@ -3865,11 +3865,11 @@ class Backend extends User_Controller {
                 $data = array('msg' => 'error','message' => 'Konfirmasi data notulensi pra-inkubasi tidak berhasil dilakukan.');
                 // JSON encode data
                 die(json_encode($data));
-            }    
+            }
         }
-        
+
     }
-    
+
     /**
 	 * Notes Download File function.
 	 */
@@ -3886,10 +3886,164 @@ class Backend extends User_Controller {
 
         $file_name      = $notesdata->filename . '.' . $notesdata->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $notesdata->user_id . '/' . $file_name;
-        
+
         force_download($file_name, $file_url);
     }
-    
+
+    /**
+	 * Notes Inkubasi / Tenant Add Function
+	 */
+	public function notesincubationadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        echo '<pre>';
+        print_r($_POST);
+        die();
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_event','Usulan Kegiatan','required');
+        $this->form_validation->set_rules('reg_title','Judul Notulensi','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Notulensi','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Notulensi Pra-Inkubasi baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['reg_selection_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Berkas botulensi yang di unggah. Silahkan inputkan Berkas botulensi!');
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/accompaniment/' . $current_user->id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types'     => "doc|docx|pdf",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+
+            $this->load->library('MY_Upload', $config);
+
+            if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                $message = $this->my_upload->display_errors();
+
+                // Set JSON data
+                $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                die(json_encode($data));
+            }
+
+            $upload_data_files      = $this->my_upload->data();
+            $file                   = $upload_data_files;
+
+            $status     = NONACTIVE;
+            if( !empty($is_admin) ){
+                $status = ACTIVE;
+            }
+
+            $notes_data         = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'praincubation_id'  => $event,
+                'user_id'       => $current_user->id,
+                'username'      => strtolower($current_user->username),
+                'name'          => strtoupper($current_user->name),
+                'title'         => $title,
+                'description'   => $description,
+                'url'           => smit_isset($file['full_path'],''),
+                'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                'filename'      => smit_isset($file['raw_name'],''),
+                'size'          => smit_isset($file['file_size'],0),
+                'status'        => $status,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+
+            // -------------------------------------------------
+            // Save Notes Pra-Incubation Selection
+            // -------------------------------------------------
+            $trans_save_notes           = FALSE;
+            if( $notes_save_id      = $this->Model_Praincubation->save_data_notes($notes_data) ){
+                $trans_save_notes   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_notes ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran notulensi pra-inkubasi baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'NOTESPRA_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data_files)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran notulensi pra-inkubasi tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+
+
 	public function accompanimentincubation()
 	{
         auth_redirect();
@@ -3899,13 +4053,18 @@ class Backend extends User_Controller {
         $is_jury                = as_juri($current_user);
 
         $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
+            // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
@@ -3921,16 +4080,32 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
+            'UploadFiles.init();',
+            'NotesValidation.init();',
         ));
 
         $data['title']          = TITLE . 'Laporan Notulensi';
@@ -4852,7 +5027,7 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     // Category Produk
     // ----------------------------------------------------------------------------------------------------------------------
     /**
@@ -4939,7 +5114,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
 	}
-    
+
     /**
 	 * Category Product list data function.
 	 */
@@ -4999,7 +5174,7 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Category Product Edit
 	 */
@@ -5013,11 +5188,11 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         $category_id            = $this->input->post('reg_id_categoryproduct');
         $category               = $this->input->post('reg_categoryproduct');
         $category               = trim( smit_isset($category, "") );
- 
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -5041,7 +5216,7 @@ class Backend extends User_Controller {
         $category_data  = array(
             'category_name'     => $category,
         );
-        
+
         // -------------------------------------------------
         // Edit Category Product
         // -------------------------------------------------
@@ -5086,7 +5261,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
 	}
-    
+
     /**
 	 * Category Product Delete function.
 	 */
@@ -5137,7 +5312,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         }
     }
-    
+
     // ----------------------------------------------------------------------------------------------------------------------
 
 }
