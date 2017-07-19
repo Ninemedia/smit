@@ -25,7 +25,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -36,7 +36,7 @@
                             <table class="table table-striped table-bordered table-hover" id="communication_listin" data-url="<?php echo base_url('layanan/komunikasibantuan/in'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="select_all_listin" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
             							<th class="width20 text-center">Nama Pengirim</th>
             							<th class="width15 text-center">Judul Komunikasi</th>
@@ -84,7 +84,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -95,7 +95,7 @@
                             <table class="table table-striped table-bordered table-hover" id="communication_listout" data-url="<?php echo base_url('layanan/komunikasibantuan/out'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="select_all_listout" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listout"></label></th>
             							<th class="width5">No</th>
             							<th class="width20 text-center">Nama Pengirim</th>
             							<th class="width15 text-center">Judul Komunikasi</th>
@@ -167,7 +167,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -178,7 +178,7 @@
                             <table class="table table-striped table-bordered table-hover" id="communication_listin" data-url="<?php echo base_url('layanan/komunikasibantuan/in'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all_listin" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
             							<th class="width15 text-center">Judul Komunikasi</th>
             							<th class="width25 text-center">Deskripsi</th>
@@ -224,7 +224,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -235,7 +235,7 @@
                             <table class="table table-striped table-bordered table-hover" id="communication_listout" data-url="<?php echo base_url('layanan/komunikasibantuan/out'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="select_all_listout" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listout"></label></th>
             							<th class="width5">No</th>
             							<th class="width15 text-center">Judul Komunikasi</th>
             							<th class="width25 text-center">Deskripsi</th>

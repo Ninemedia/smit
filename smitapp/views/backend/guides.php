@@ -29,7 +29,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -40,7 +40,7 @@
                             <table class="table table-striped table-bordered table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
    							            <th class="width5">No</th>
                                         <th class="width20 text-center">Judul Berkas Digital</th>
             							<th class="width35 text-center">Deskripsi</th>
@@ -138,7 +138,7 @@
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">
 						<span></span>
-						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 							<option value="">Select...</option>
 							<option value="confirm">Konfirmasi</option>
 							<option value="banned">Banned</option>
@@ -149,7 +149,7 @@
                     <table class="table table-striped table-bordered table-hover" id="guide_list" data-url="<?php echo base_url('backend/guidelistdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
-    							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+    							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
 				                <th class="width5">No</th>
                                 <th class="width20 text-center">Judul Berkas</th>
     							<th class="width35 text-center">Deskripsi</th>
