@@ -15,6 +15,7 @@
     <link href="<?php echo BE_PLUGIN_PATH . 'bootstrap/css/bootstrap.css'; ?>" rel="stylesheet" />
     
     <!-- Additional/Plugins CSS -->
+    <link href="<?php echo BE_PLUGIN_PATH . 'sweetalert/sweetalert.css'; ?>" rel="stylesheet" />
     <?php echo $headstyles; ?>
 
     <!-- Custom CSS -->

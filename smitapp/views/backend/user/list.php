@@ -18,7 +18,7 @@
                     <table class="table table-striped table-bordered table-hover" id="user_list" data-url="<?php echo base_url('userlistdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
-                                <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
     							<th class="width5 text-center">No</th>
     							<th class="width15 text-center">Username</th>
     							<th class="width20">Nama</th>

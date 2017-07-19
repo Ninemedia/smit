@@ -2012,6 +2012,7 @@ class PraIncubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = $s_year == "Pilih Tahun" ? '' : $s_year;
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -2096,17 +2097,19 @@ class PraIncubation extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                        smit_center($i),
-                        smit_center( $year ),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
-                        strtoupper( $workunit ),
-                        $event,
-                        smit_center( $sum_score ),
-                        smit_center( $average_score ),
-                        smit_center( $datecreated ),
-                        smit_center( $status ),
-                        smit_center( $btn_score. ' ' .$btn_details),
-                    );
+                    smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist'.$row->id.'"></label>'), 
+                    smit_center($i),
+                    smit_center( $year ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    strtoupper( $workunit ),
+                    $event,
+                    smit_center( $sum_score ),
+                    smit_center( $average_score ),
+                    smit_center( $datecreated ),
+                    smit_center( $status ),
+                    smit_center( $btn_details ),
+                );
                 $i++;
             }
         }
@@ -2159,6 +2162,7 @@ class PraIncubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = $s_year == "Pilih Tahun" ? '' : $s_year;
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -2242,17 +2246,19 @@ class PraIncubation extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                        smit_center($i),
-                        smit_center( $year ),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
-                        strtoupper( $workunit ),
-                        $event,
-                        smit_center( $sum_score ),
-                        smit_center( $average_score ),
-                        smit_center( $datecreated ),
-                        smit_center( $status ),
-                        smit_center( $btn_score. ' ' .$btn_details),
-                    );
+                    smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->statustwo != 2 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist'.$row->id.'"></label>'), 
+                    smit_center($i),
+                    smit_center( $year ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    strtoupper( $workunit ),
+                    $event,
+                    smit_center( $sum_score ),
+                    smit_center( $average_score ),
+                    smit_center( $datecreated ),
+                    smit_center( $status ),
+                    smit_center( $btn_score. ' ' .$btn_details),
+                );
                 $i++;
             }
         }

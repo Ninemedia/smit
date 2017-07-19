@@ -5,6 +5,7 @@
 <script src="<?php echo BE_PLUGIN_PATH . 'bootstrap/js/bootstrap.js'; ?>"></script>
 
 <!-- Additional/Plugins JS -->
+<script src="<?php echo BE_PLUGIN_PATH . 'sweetalert/sweetalert.min.js'; ?>"></script>
 <?php echo $scripts; ?>
 
 <!-- Custom Js -->

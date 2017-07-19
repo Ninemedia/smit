@@ -21,7 +21,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Pra Incubation Selection Lists
     var handleRecordsPraIncubationSelectionList = function() {
-        gridTable( $("#praincubation_list"), true, [ -1, 1, 0 ], true, $('#btn_praincubation_list') );
+        gridTable( $("#praincubation_list"), true, [ -1, 1, 0 ], true, $('#btn_resetpraincubation_list') );
     };
 
     var handleRecordsPraIncubationSelectionList2 = function() {
@@ -45,15 +45,14 @@ var TableAjax = function () {
         gridTable( $("#list_praincubationreport"), true );
     };
 
-
     // Admin Selection Lists Step One
     var handleRecordsAdminStepOneList = function() {
-        gridTable( $("#admin_stepone"), true );
+        gridTable( $("#admin_stepone"), true, [ -1, 1, 0 ], true, $('#btn_resetadmin_stepone') );
     };
 
     // Admin Selection Lists Step Two
     var handleRecordsAdminStepTwoList = function() {
-        gridTable( $("#admin_steptwo"), true );
+        gridTable( $("#admin_steptwo"), true, [ -1, 1, 0 ], true, $('#btn_resetadmin_steptwo') );
     };
 
     // Admin Score Lists Step One
@@ -322,24 +321,37 @@ var TableAjax = function () {
         dataTable.getTableWrapper().on('click', '.table-group-action-submit', function(e){
             e.preventDefault();
             
-            var action = $(".table-group-action-input", dataTable.getTableWrapper());
-            if (action.val() != "" && dataTable.getSelectedRowsCount() > 0) {
-                dataTable.addAjaxParam("sAction", "group_action");
-                dataTable.addAjaxParam("sGroupActionName", action.val());
-                var records = dataTable.getSelectedRows();
-                for (var i in records) {
-                    dataTable.addAjaxParam(records[i]["name"], records[i]["value"]);    
-                }
-                dataTable.getDataTable().fnDraw();
-                dataTable.clearAjaxParams();
-            } else if (action.val() == "") {
-                App.alert({type: 'danger', icon: 'warning', message: 'Silahkan pilih proses', container: dataTable.getTableWrapper(), place: 'prepend'});
-            } else if (dataTable.getSelectedRowsCount() === 0) {
-                App.alert({type: 'danger', icon: 'warning', message: 'Tidak ada data terpilih untuk di proses', container: dataTable.getTableWrapper(), place: 'prepend'});
-            }
+            var processVal = $('select.table-group-action-input option:selected', dataTable.getTableWrapper()).val();
+            var processTxt = $('select.table-group-action-input option:selected', dataTable.getTableWrapper()).text().toUpperCase();
             
-            selectorBtn.trigger('click');
-            $('#select_all').prop('checked', false);
+            if( processVal == "" ){
+                swal('Silahkan pilih proses');
+            }else{
+                bootbox.confirm("Anda yakin akan melakukan proses "+processTxt+" data terpilih?", function(result) {
+                    if( result == true ){
+                        var action = $(".table-group-action-input", dataTable.getTableWrapper());
+                        if (action.val() != "" && dataTable.getSelectedRowsCount() > 0) {
+                            dataTable.addAjaxParam("sAction", "group_action");
+                            dataTable.addAjaxParam("sGroupActionName", action.val());
+                            var records = dataTable.getSelectedRows();
+                            for (var i in records) {
+                                dataTable.addAjaxParam(records[i]["name"], records[i]["value"]);    
+                            }
+                            dataTable.getDataTable().fnDraw();
+                            dataTable.clearAjaxParams();
+                        } else if (action.val() == "") {
+                            App.alert({type: 'danger', icon: 'warning', message: 'Silahkan pilih proses', container: dataTable.getTableWrapper(), place: 'prepend'});
+                        } else if (dataTable.getSelectedRowsCount() === 0) {
+                            App.alert({type: 'danger', icon: 'warning', message: 'Tidak ada data terpilih untuk di proses', container: dataTable.getTableWrapper(), place: 'prepend'});
+                        }
+                        
+                        selectorBtn.trigger('click');
+                        $('#select_all').prop('checked', false);
+                        $('select.table-group-action-input').attr('disabled','disabled');
+                        $('button.table-group-action-submit').attr('disabled','disabled');
+                    }
+                });
+            }
         });
     };
 

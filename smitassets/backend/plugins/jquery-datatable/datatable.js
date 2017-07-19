@@ -172,16 +172,16 @@ var Datatable = function () {
                 countSelectedRecords();
             });
             // handle 
-            $( '#select_all' ).change( function() {
+            $( 'input.select_all[type="checkbox"]', table ).change( function() {
         		$( '.cblist:enabled' ).prop( 'checked', $(this).is(':checked') );
                 countSelectedRecords();
                 
                 if ( $(this).is(':checked') ){
-                    $('select.table-group-action-input').removeAttr('disabled');
-                    $('button.table-group-action-submit').removeAttr('disabled');
+                    $('select.table-group-action-input', tableWrapper).removeAttr('disabled');
+                    $('button.table-group-action-submit', tableWrapper).removeAttr('disabled');
                 }else{
-                    $('select.table-group-action-input').attr('disabled','disabled');
-                    $('button.table-group-action-submit').attr('disabled','disabled');
+                    $('select.table-group-action-input', tableWrapper).attr('disabled','disabled');
+                    $('button.table-group-action-submit', tableWrapper).attr('disabled','disabled');
                 }
         	});
             
