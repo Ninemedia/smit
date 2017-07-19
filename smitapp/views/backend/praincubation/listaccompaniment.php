@@ -18,7 +18,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <!-- Tab Content List Accompaniment -->
@@ -43,7 +43,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
@@ -69,11 +69,11 @@
                             </table>
                         </div>
                     </div>
-                    
+
                     <!-- Tab Content Add Accompaniment -->
                     <div role="tabpanel" class="tab-pane fade" id="companionassignment">
                         <p align="justify"><strong>Informasi : </strong><br />Daftar pendampingan ini adalah hasil dari seleksi pra-inkubasi yang telah dinyatakan lulus namun belum ditentukan pendamping. Maka dari itu tentukan pendamping seseuai dengan judul usulan yang ada. Terima kasih.</p>
-                
+
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="acceptedselection_list" data-url="<?php echo base_url('prainkubasi/daftarditerima'); ?>">
                                 <thead>
@@ -93,7 +93,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
@@ -139,7 +139,7 @@
                                     	$workunit_type = smit_workunit_type();
                                         $option = array('' => 'Pilih...');
                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-            
+
                                         if( !empty($workunit_type) ){
                                             foreach($workunit_type as $val){
                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -163,7 +163,7 @@
                         </tbody>
                     </table>
                 </div>
-            <?php endif; ?>    
+            <?php endif; ?>
             </div>
         </div>
     </div>

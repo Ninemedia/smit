@@ -122,7 +122,7 @@
                                             <table class="table table-striped table-bordered table-hover" id="list_ikmscore" data-url="<?php echo base_url('backend/ikmscorelistdata'); ?>">
                                                 <thead>
                             						<tr role="row" class="heading bg-blue">
-                            							<th class="width5">No</th>
+                                                        <th class="width5">No</th>
                             							<th class="width30 text-center">Pertanyaan</th>
                             							<th class="width20 text-center">Jawaban</th>
                                                         <th class="width5 text-center">Total</th>
@@ -170,9 +170,20 @@
                                 <div id="collapse_data" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_data">
                                     <div class="panel-body">
                                         <div class="table-container table-responsive">
+                                            <div class="table-actions-wrapper">
+                        						<span></span>
+                        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+                        							<option value="">Select...</option>
+                        							<option value="confirm">Konfirmasi</option>
+                        							<option value="banned">Banned</option>
+                        							<option value="delete">Hapus</option>
+                        						</select>
+                        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                        					</div>
                                             <table class="table table-striped table-bordered table-hover" id="list_ikmdata" data-url="<?php echo base_url('backend/ikmdatalistdata'); ?>">
                                                 <thead>
                             						<tr role="row" class="heading bg-blue">
+                                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
                             							<th class="width5">No</th>
                             							<th class="width30 text-center">Email</th>
                             							<th class="width35 text-center">Kritik dan Saran</th>
@@ -181,6 +192,7 @@
                        						        </tr>
                                                     <tr role="row" class="filter display-hide table-filter">
                             							<td></td>
+                                                        <td></td>
                             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                                         <td></td>
                                                         <td>
@@ -205,9 +217,20 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="list">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+        						<span></span>
+        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        							<option value="">Select...</option>
+        							<option value="confirm">Konfirmasi</option>
+        							<option value="banned">Banned</option>
+        							<option value="delete">Hapus</option>
+        						</select>
+        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+        					</div>
                             <table class="table table-striped table-bordered table-hover" id="list_ikm" data-url="<?php echo base_url('backend/ikmlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
+                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
             							<th class="width15 text-center">Judul Pertanyaan</th>
             							<th class="width40 text-center">Pertanyaan</th>
@@ -217,6 +240,7 @@
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_totle" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_question" /></td>
             							<td>

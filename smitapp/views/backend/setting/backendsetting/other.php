@@ -194,21 +194,33 @@
                                         </a>
                                     </li>
                                 </ul>
-                            
+
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                                         <div id="alert" class="alert display-hide"></div>
                                         <div class="table-container table-responsive">
+										<div class="table-actions-wrapper">
+											<span></span>
+											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+												<option value="">Select...</option>
+												<option value="confirm">Konfirmasi</option>
+												<option value="banned">Banned</option>
+												<option value="delete">Hapus</option>
+											</select>
+											<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+										</div>
                                         <table class="table table-striped table-bordered table-hover" id="workunit_list" data-url="<?php echo base_url('backend/workunitlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-                        							<th class="width5 text-center">No</th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Satuan Kerja</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
+													<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_workunit" /></td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_workunit_list">Search</button>
@@ -244,7 +256,7 @@
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
-                                <?php endif ?> 
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
@@ -253,7 +265,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_category">
             <h4 class="panel-title">
@@ -279,25 +291,37 @@
                                     </li>
                                     <li role="presentation">
                                         <a href="#addcategory" data-toggle="tab">
-                                            <i class="material-icons">add_box</i> TAMBAH 
+                                            <i class="material-icons">add_box</i> TAMBAH
                                         </a>
                                     </li>
                                 </ul>
-                            
+
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list_category">
                                         <div id="alert" class="alert display-hide"></div>
                                         <div class="table-container table-responsive">
+										<div class="table-actions-wrapper">
+											<span></span>
+											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+												<option value="">Select...</option>
+												<option value="confirm">Konfirmasi</option>
+												<option value="banned">Banned</option>
+												<option value="delete">Hapus</option>
+											</select>
+											<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+										</div>
                                         <table class="table table-striped table-bordered table-hover" id="category_list" data-url="<?php echo base_url('backend/categorylistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-                        							<th class="width5 text-center">No</th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
+													<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_category" /></td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_category_list">Search</button>
@@ -333,7 +357,7 @@
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
-                                <?php endif ?> 
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
@@ -342,7 +366,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_category_product">
             <h4 class="panel-title">
@@ -372,21 +396,33 @@
                                         </a>
                                     </li>
                                 </ul>
-                            
+
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="list_categoryproduct">
                                         <div id="alert" class="alert display-hide"></div>
                                         <div class="table-container table-responsive">
+										<div class="table-actions-wrapper">
+											<span></span>
+											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+												<option value="">Select...</option>
+												<option value="confirm">Konfirmasi</option>
+												<option value="banned">Banned</option>
+												<option value="delete">Hapus</option>
+											</select>
+											<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+										</div>
                                         <table class="table table-striped table-bordered table-hover" id="category_productlist" data-url="<?php echo base_url('backend/categoryproductlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-                        							<th class="width5 text-center">No</th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
+													<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_category" /></td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_category_productlist">Search</button>
@@ -422,7 +458,7 @@
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
-                                <?php endif ?> 
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>

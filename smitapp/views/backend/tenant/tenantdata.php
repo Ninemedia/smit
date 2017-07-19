@@ -23,9 +23,20 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab_tenant">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+        						<span></span>
+        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        							<option value="">Select...</option>
+        							<option value="confirm">Konfirmasi</option>
+        							<option value="banned">Banned</option>
+        							<option value="delete">Hapus</option>
+        						</select>
+        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+        					</div>
                             <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
+                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width15">Pengguna</th>
@@ -38,6 +49,7 @@
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td></td>
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
@@ -88,7 +100,7 @@
                     <div role="tabpanel" class="tab-pane fade in" id="tab_add">
                         <div class="row clearfix">
                             <div class="col-md-12">
-                                <?php 
+                                <?php
                                     $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
                                     $order_by       = ' %year% DESC';
                                     if( !empty($is_admin) ){
@@ -101,7 +113,7 @@
                                 <div class="alert alert-danger text-center display-hide error-validate">
                         			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                         		</div>
-                                
+
                                 <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang sudah terdaftar pada Pusat Inovasi LIPI. Pastikan telah memasukan data Usulan Kegiatan terlebih dahulu sesuai dengan usulan tenant yang akan di masukan. Terima kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <!--
@@ -110,7 +122,7 @@
                                     <label for="user_registered">Pengguna Terdaftar</label>
                                     <input name="tenant_data" type="radio" id="tenant_old" class="radio-col-blue" value="tenant_old" />
                                     <label for="tenant_old">Tenant Lama</label>
-                                    
+
                                     <div id="tenant_username_form" class="top15 display-hide">
                                         <label class="form-label">Username Pengguna Tenant <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
@@ -122,7 +134,7 @@
                                     </div>
                                 </div>
                                 -->
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Username Pengguna Tenant <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -132,7 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -181,7 +193,7 @@
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(1900,2030);
                                                 //$extra = 'class="form-control def" id="tenant_year"';
-    
+
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;
@@ -192,7 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <label for="name_contact">Alamat Tenant <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -226,7 +238,7 @@
                                         <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                     </div>
                                 </div>
-    
+
                                 <label for="telp_contact">Kontak</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
@@ -254,7 +266,7 @@
                                         <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label>Logo Tenant <b style="color: red !important;">(*)</b></label>
                                     <p align="justify">
@@ -276,7 +288,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <?php else : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -296,9 +308,20 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab_tenant">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+        						<span></span>
+        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        							<option value="">Select...</option>
+        							<option value="confirm">Konfirmasi</option>
+        							<option value="banned">Banned</option>
+        							<option value="delete">Hapus</option>
+        						</select>
+        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+        					</div>
                             <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
+                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width20">Judul Usulan</th>
@@ -310,6 +333,7 @@
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td></td>
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
@@ -359,7 +383,7 @@
                     <div role="tabpanel" class="tab-pane fade in" id="tab_add">
                         <div class="row clearfix">
                             <div class="col-md-12">
-                                <?php 
+                                <?php
                                     $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
                                     $order_by       = ' %year% DESC';
                                     if( !empty($is_admin) ){
@@ -372,7 +396,7 @@
                                 <div class="alert alert-danger text-center display-hide error-validate">
                         			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
                         		</div>
-                                
+
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
@@ -422,7 +446,7 @@
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(1900,2030);
                                                 //$extra = 'class="form-control def" id="tenant_year"';
-    
+
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;
@@ -433,7 +457,7 @@
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <label for="name_contact">Alamat Tenant <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">place</i></span>
@@ -467,7 +491,7 @@
                                         <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
                                     </div>
                                 </div>
-    
+
                                 <label for="telp_contact">Kontak</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="material-icons">phone</i></span>
@@ -495,7 +519,7 @@
                                         <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label>Logo Tenant <b style="color: red !important;">(*)</b></label>
                                     <p align="justify">
@@ -585,5 +609,3 @@
 	</div>
 </div>
 <!-- END INFORMATION SUCCESS SAVE LOGO TENANT MODAL -->
-
-
