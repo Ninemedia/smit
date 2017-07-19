@@ -199,6 +199,7 @@
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
    							            <th class="width5">No</th>
+            							<th class="width20 text-center">Nama Tenant</th>
             							<th class="width20 text-center">Judul Usulan</th>
             							<th class="width20 text-center">Judul Notulensi</th>
             							<th class="width5 text-center">Berkas</th>
@@ -209,6 +210,7 @@
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td></td>
+                                        <td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_name" /></td>
                                         <td></td>
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                         <td></td>
