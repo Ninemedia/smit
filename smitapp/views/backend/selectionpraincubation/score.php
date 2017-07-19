@@ -51,7 +51,7 @@
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
-                                                <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                                <th class="width5 text-center"><input name="select_all" id="select_all_step1" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step1"></label></th>
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
                     							<th class="width20">Nama</th>
@@ -165,7 +165,7 @@
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
-                                            <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                            <th class="width5 text-center"><input name="select_all" id="select_all_step2" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step2"></label></th>
                 							<th class="width5">No</th>
                                             <th class="width10 text-center">Tahun</th>
                 							<th class="width20">Nama</th>
@@ -180,7 +180,6 @@
                                         <tr role="row" class="filter display-hide table-filter">
                                             <td></td>
                 							<td></td>
-                                            <td></td>
                                             <td>
                                                 <select name="search_year" class="form-control form-filter input-sm def">
                                                 <?php
