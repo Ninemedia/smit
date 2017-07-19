@@ -299,7 +299,7 @@
                                                     <th class="width10 text-center">Tanggal Daftar</th>
                                                     <th class="width5 text-center">Status</th>
                                                     <th class="width5 text-center">Ket</th>
-                        							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+                        							<th class="width20 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
            						                </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>

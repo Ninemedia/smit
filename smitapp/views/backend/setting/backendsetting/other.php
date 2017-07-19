@@ -202,7 +202,7 @@
                                         <div class="table-container table-responsive">
 										<div class="table-actions-wrapper">
 											<span></span>
-											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+											<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 												<option value="">Select...</option>
 												<option value="confirm">Konfirmasi</option>
 												<option value="banned">Banned</option>
@@ -213,7 +213,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="workunit_list" data-url="<?php echo base_url('backend/workunitlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Satuan Kerja</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -303,7 +303,7 @@
                                         <div class="table-container table-responsive">
 										<div class="table-actions-wrapper">
 											<span></span>
-											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+											<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 												<option value="">Select...</option>
 												<option value="confirm">Konfirmasi</option>
 												<option value="banned">Banned</option>
@@ -314,7 +314,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="category_list" data-url="<?php echo base_url('backend/categorylistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -404,7 +404,7 @@
                                         <div class="table-container table-responsive">
 										<div class="table-actions-wrapper">
 											<span></span>
-											<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+											<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 												<option value="">Select...</option>
 												<option value="confirm">Konfirmasi</option>
 												<option value="banned">Banned</option>
@@ -415,7 +415,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="category_productlist" data-url="<?php echo base_url('backend/categoryproductlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>

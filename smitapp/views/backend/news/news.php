@@ -25,10 +25,8 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -36,7 +34,7 @@
                             <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('newslistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
+            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
    							            <th class="width5">No</th>
             							<th class="width15 text-center">No Berita</th>
             							<th class="width20 text-center">Judul Berita</th>

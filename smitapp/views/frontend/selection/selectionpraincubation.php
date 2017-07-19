@@ -215,7 +215,7 @@
                                             <select class="form-control" name="reg_category" id="reg_category">
                                                 <option value="">-- Pilih Kategori Bidang --</option>
                                                 <option value="pangan">PANGAN</option>
-                                                <option value="lingkungan">LINGKUNGANN</option>
+                                                <option value="lingkungan">LINGKUNGAN</option>
                                                 <option value="material_maju">MATERIAL MAJU</option>
                                                 <option value="transportasi">TRANSPORTASI</option>
                                                 <option value="informasi_komunikasi">INFORMASI &amp; KOMUNIKASI</option>
