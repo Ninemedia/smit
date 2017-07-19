@@ -920,6 +920,8 @@ class Backend extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     $row->no_announcement,
                     '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
@@ -1664,6 +1666,8 @@ class Backend extends User_Controller {
                     class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
@@ -1853,6 +1857,8 @@ class Backend extends User_Controller {
                 $btn_delete = '<a href="'.base_url('berita/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     $row->no_news,
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
@@ -3783,6 +3789,8 @@ class Backend extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode_praincubation).'">' . strtoupper($row->event_title) . '</a>',
@@ -4236,6 +4244,8 @@ class Backend extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode_incubation).'">' . strtoupper($row->name_tenant) . '</a>',

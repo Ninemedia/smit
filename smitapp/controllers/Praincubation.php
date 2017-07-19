@@ -5417,6 +5417,8 @@ class PraIncubation extends User_Controller {
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center( $i ),
                     smit_center( $year ),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
@@ -6251,6 +6253,8 @@ class PraIncubation extends User_Controller {
                 $product        = '<img class="js-animating-object img-responsive" src="'.$product.'" alt="'.$row->title.'" />';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     strtoupper($row->event_title),

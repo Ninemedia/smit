@@ -32,13 +32,14 @@
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
                             <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
                                 <div class="table-container table-responsive table-praincubation-score">
+                                    
                                     <div class="table-actions-wrapper">                           
                                     <?php
                                         $selection_date_invitation_send   = !empty($lss) ? strtotime($lss->selection_date_invitation_send) : date('Y-m-d H:i:s');
                                         $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                     ?>   
                                     <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
-                                        <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>-->
+                                        <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>-->   
                                         <span></span>
                 						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
                 							<option value="">Select...</option>
@@ -179,6 +180,7 @@
                                         <tr role="row" class="filter display-hide table-filter">
                                             <td></td>
                 							<td></td>
+                                            <td></td>
                                             <td>
                                                 <select name="search_year" class="form-control form-filter input-sm def">
                                                 <?php
