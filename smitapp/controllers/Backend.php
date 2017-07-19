@@ -997,6 +997,8 @@ class Backend extends User_Controller {
                     class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     $row->no_announcement,
                     '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
