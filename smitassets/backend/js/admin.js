@@ -2020,6 +2020,96 @@ var App = function() {
         });
     };
 
+    var handleAddReportPraincubation = function() {
+        // Save Notes
+        $('#do_save_reportpraincubationadd').click(function(e){
+            e.preventDefault();
+            processSaveReportPraincubationAdd($('#reportpraincubationadd'));
+        });
+
+        var processSaveReportPraincubationAdd = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#reportpraincubationadd')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#reg_selection_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['doo', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#btn_praincubationreport_list').trigger('click');
+                        $('#btn_praincubationreport_listreset').trigger('click');
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_reportpraincubationadd_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#reportpraincubationadd')[0].reset();
+            $('#reg_title').val('');
+            $('#reg_selection_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#btn_praincubationreport_list').trigger('click');
+            $('#btn_praincubationreport_listreset').trigger('click');
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+
     return {
 		init: function() {
             // Input your handle function here
@@ -2041,6 +2131,7 @@ var App = function() {
             handleAddPaymentTenant();
             handleAddBlogTenant();
             handleAddNotesIncubation();
+            handleAddReportPraincubation();
 
             // Edit
             handleEditWorkunit();

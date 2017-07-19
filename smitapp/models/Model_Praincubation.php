@@ -17,6 +17,7 @@ class Model_Praincubation extends SMIT_Model{
     var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
     var $praincubation_product              = "smit_praincubation_product";
     var $praincubation_notes                = "smit_praincubation_notes";
+    var $praincubation_report               = "smit_praincubation_report";
 
     /**
      * Initialize primary field
@@ -580,7 +581,7 @@ class Model_Praincubation extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Save data of notes praincubation
      *
@@ -591,6 +592,22 @@ class Model_Praincubation extends SMIT_Model{
     function save_data_notes($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->praincubation_notes, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+
+    /**
+     * Save data of report praincubation
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_report($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_report, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };
@@ -1658,7 +1675,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Retrieve all notes data
      *
@@ -1730,7 +1747,7 @@ class Model_Praincubation extends SMIT_Model{
         $query      = $this->db->get($this->praincubation_notes);
         return ( !empty($uniquecode) ? $query->row() : $query->result() );
     }
-    
+
     /**
      * Delete Notes by Uniquecode
      *
@@ -1747,7 +1764,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Update Notes by Uniquecode
      *
