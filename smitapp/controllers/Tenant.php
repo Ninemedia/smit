@@ -391,7 +391,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Pra Incubation Accompaniment list data function.
 	 */
@@ -399,7 +399,7 @@ class Tenant extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
-        
+
         $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
             if( !empty($is_pendamping) ){
@@ -436,20 +436,20 @@ class Tenant extends User_Controller {
         if( !empty($s_tenant_name) )    { $condition .= str_replace('%s%', $s_tenant_name, ' AND %tenant_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
-        
+
         if( $is_admin ){
             if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%companion_name% ' . $sort; }    
+            elseif( $column == 4 )  { $order_by .= '%companion_name% ' . $sort; }
         }else{
             if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
         }
-        
+
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
 
@@ -458,12 +458,12 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($tenant_list as $row){
-                
+
                 $companiondata      = $this->Model_User->get_userdata($row->companion_id);
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
-                
+
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
@@ -476,7 +476,7 @@ class Tenant extends User_Controller {
                         strtoupper($row->name),
                         strtoupper($companion_name),
                         smit_center( $btn_detail ),
-                    );    
+                    );
                 }elseif( !empty($is_pendamping) ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -493,9 +493,9 @@ class Tenant extends User_Controller {
                         strtoupper($row->name),
                         strtoupper($companion_name),
                         smit_center( $btn_detail ),
-                    );    
+                    );
                 }
-                
+
                 $i++;
             }
         }
@@ -678,7 +678,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Payment Add
 	 */
@@ -723,7 +723,7 @@ class Tenant extends User_Controller {
             $data = array('message' => 'error','data' => 'Tidak ada bukti pembayaran yang di unggah. Silahkan inputkan bukti pembayaran!');
             die(json_encode($data));
         }
-        
+
         $tenantdata     = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %id% = '.$tenant_id.'');
         $tenantdata     = $tenantdata[0];
 
@@ -758,7 +758,7 @@ class Tenant extends User_Controller {
 
                 //$this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(500,500)->save($upload_path. '/' .$upload_file, TRUE);
                 //$this->image_moo->clear();
-                
+
                 $status         = NONACTIVE;
                 if( $is_admin ){
                     $status     = ACTIVE;
@@ -831,7 +831,7 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Tenant Payment list data function.
 	 */
@@ -892,12 +892,12 @@ class Tenant extends User_Controller {
                 $btn_action = '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit   = '<a href="'.base_url('pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                 $btn_delete = '<a href="'.base_url('pembayaran/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
-                
+
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
                 $image          = '<img class="js-animating-object img-responsive" src="'.$image.'" alt="'.$row->title.'" />';
-                
+
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     if( !empty($is_admin) ){
@@ -914,7 +914,7 @@ class Tenant extends User_Controller {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                     }
                 }
-                
+
                 $records["aaData"][] = array(
                     smit_center($i),
                     $row->invoice,
@@ -1087,11 +1087,11 @@ class Tenant extends User_Controller {
         $is_pelaksana           = as_pelaksana($current_user);
         $id_user                = $current_user->id;
         $curdate                = date("Y-m-d H:i:s");
-        
+
         if( !empty($is_admin) ){
-            $post_username          = $this->input->post('tenant_username');    
+            $post_username          = $this->input->post('tenant_username');
         }
-        
+
         $post_selection_id      = $this->input->post('tenant_event_id');
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
@@ -1104,11 +1104,11 @@ class Tenant extends User_Controller {
         $post_tenant_legal      = $this->input->post('tenant_legal');
         $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
-        
+
         if( !empty($is_admin) ){
-            $this->form_validation->set_rules('tenant_username','Username Tenant','required');  
+            $this->form_validation->set_rules('tenant_username','Username Tenant','required');
         }
-        
+
         $this->form_validation->set_rules('tenant_event_id','Usulan Kegiatan','required');
         $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
         $this->form_validation->set_rules('tenant_email','Email Tenant','required');
@@ -1173,14 +1173,14 @@ class Tenant extends User_Controller {
                 $this->image_moo->load($upload_path . '/' .$upload_data_avatar['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_avatar, TRUE);
                 $this->image_moo->clear();
                 $file_avatar            = $upload_data_avatar;
-                
+
                 // Check Selection Data
                 if( !empty($post_selection_id) ){
                     $condition          = " WHERE %id% = ".$post_selection_id."";
                     $data_selection     = $this->Model_Incubation->get_all_incubationdata(0, 0, $condition);
                     $data_selection     = $data_selection[0];
                 }
-                
+
                 if( !empty($is_admin) ){
                     // -------------------------------------------------
                     // Check Username
@@ -1205,7 +1205,7 @@ class Tenant extends User_Controller {
                             )
                         ); die(json_encode($data));
                     }
-                    
+
                     $datetime               = date( 'Y-m-d H:i:s' );
             		$username				= strtolower( $post_username );
                     $password_global        = get_option('global_password');
@@ -1223,14 +1223,14 @@ class Tenant extends User_Controller {
                         'datecreated'       => $datetime,
                         'datemodified'      => $datetime,
                     );
-                    
+
                     $user_save_id           = $this->Model_User->save_data($data_user);
                     $tenantdata1             = array(
                         'user_id'       => trim(smit_isset($user_save_id, '')),
                         'username'      => strtolower( trim(smit_isset($username, '')) ),
                         'name'          => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                     );
-                    
+
                     $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);
                 }else{
                     $tenantdata1             = array(
@@ -1238,30 +1238,30 @@ class Tenant extends User_Controller {
                         'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
                         'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
                     );
-                    
+
                     if($data_selection->user_id != 1){ // Tidak Admin
                         $dataUser       = smit_get_userdata_by_id($data_selection->user_id);
                         $current_roles  = $dataUser->role;
-                        
+
                         if( empty($current_roles) ){
                             // Set JSON data
                             $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role untuk dipilih!');
                             die(json_encode($data));
                         }
-                        
+
                         $current_roles      = explode(',', $current_roles);
                         if( !in_array(TENANT, $current_roles) ){
                             $curdate            = date('Y-m-d H:i:s');
                             $arrTenant[]        = TENANT;
                             $arrData            = array_merge($current_roles, $arrTenant);
                             $role               = implode(',', $arrData);
-                            
+
                             $data_update        = array('role' => $role, 'datemodified' => $curdate);
-                            $update_data        = $this->Model_User->update_data($data_selection->user_id, $data_update);  
+                            $update_data        = $this->Model_User->update_data($data_selection->user_id, $data_update);
                         }
                     }
                 }
-                
+
                 $tenantdata2         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'selection_id'  => trim(smit_isset($data_selection->selection_id, '')),
@@ -1286,7 +1286,7 @@ class Tenant extends User_Controller {
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
                 );
-                
+
                 $tenantdata         = array_merge($tenantdata1, $tenantdata2);
 
                 // -------------------------------------------------
@@ -1295,11 +1295,11 @@ class Tenant extends User_Controller {
                 $trans_save_tenant       = FALSE;
                 if( $save_tenant    = $this->Model_Tenant->save_data_tenant($tenantdata) ){
                     $trans_save_tenant   = TRUE;
-                    
+
                     $update_data_incubation = array(
                         'tenant_id'  => $save_tenant,
                     );
-                    
+
                     $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);
                 }else{
                     // Rollback Transaction
@@ -1525,7 +1525,7 @@ class Tenant extends User_Controller {
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
@@ -1555,7 +1555,7 @@ class Tenant extends User_Controller {
             elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
             elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
         }
-        
+
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
@@ -1572,9 +1572,9 @@ class Tenant extends User_Controller {
                     if( $row->status == NONACTIVE ){
                         $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
                             class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
-                    }    
+                    }
                 }
-                
+
                 $btn_team       = '';
                 if( $row->status != NONACTIVE ){
                     $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
@@ -1590,6 +1590,8 @@ class Tenant extends User_Controller {
 
                 if( $is_admin ){
                     $records["aaData"][] = array(
+                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                        <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $row->year ),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
@@ -1602,6 +1604,8 @@ class Tenant extends User_Controller {
                     );
                 }else{
                     $records["aaData"][] = array(
+                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                        <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $row->year ),
                         strtoupper( $row->event_title ),
@@ -1682,7 +1686,7 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
     }
-    
+
     /**
 	 * Tenant Accepted list data function.
 	 */
@@ -1691,7 +1695,7 @@ class Tenant extends User_Controller {
         $is_admin           = as_administrator($current_user);
         $condition          = '';
         $condition          = ' WHERE %status% = '.ACTIVE.'';
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
 
@@ -1705,7 +1709,7 @@ class Tenant extends User_Controller {
 
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
-        
+
         $s_name_tenant      = $this->input->post('search_name_tenant');
         $s_name_tenant      = smit_isset($s_name_tenant, '');
         $s_title            = $this->input->post('search_title');
@@ -1714,17 +1718,17 @@ class Tenant extends User_Controller {
         $s_user_name        = smit_isset($s_user_name, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
-        
+
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name_tenant, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        
+
         if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
         elseif( $column == 2)  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 3)  { $order_by .= '%user_name% ' . $sort; }
         elseif( $column == 4)  { $order_by .= '%name% ' . $sort; }
-        
+
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
@@ -1762,7 +1766,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Tenant Detail list data function.
 	 */
@@ -1824,17 +1828,17 @@ class Tenant extends User_Controller {
         // Custom
         $condition              = '';
         $tenant_list            = '';
-        
+
         if(!empty($uniquecode)){
             $tenant_list        = $this->Model_Tenant->get_all_tenant('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
             $tenant_list        = $tenant_list[0];
             $tenant_id          = $tenant_list->id;
         }
-        
+
         if( !empty($_POST) ){
             $companion_id           = $this->input->post('companion_id');
             $companion_id           = smit_isset($companion_id, '');
-            
+
             if( empty($companion_id) ){
                 $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Silahkan pilih pendamping!').'</div>');
             }else{
@@ -1847,11 +1851,11 @@ class Tenant extends User_Controller {
                         'companion_id'      => $companion_id,
                         'datemodified'      => $curdate
                     );
-                    
+
                     if( $this->Model_Incubation->update_data_incubationdata($tenant_list->incubation_id, $tenant_update_data) ){
                         redirect( base_url('tenants/pendampingan') );
                     }
-                    
+
                 }
             }
         }
@@ -1868,7 +1872,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Product Tenant Add Function
 	 */
@@ -1923,7 +1927,7 @@ class Tenant extends User_Controller {
             $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
             die(json_encode($data));
         }
-        
+
         $tenant_id      = $event;
         $tenantdata     = $this->Model_Tenant->get_all_tenant(0,0, ' WHERE %id% = '.$tenant_id.'');
         $tenantdata     = $tenantdata[0];
@@ -1978,7 +1982,7 @@ class Tenant extends User_Controller {
             if( !empty($is_admin) ){
                 $status = ACTIVE;
             }
-            
+
             // Get Category ID
             $categorydata           = $this->Model_Option->get_categoryproductdata($category);
             if( ! $categorydata ){
@@ -2062,7 +2066,7 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Product Tenant list data function.
 	 */
@@ -2186,7 +2190,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
     * Product Details function.
     */
@@ -2219,7 +2223,7 @@ class Tenant extends User_Controller {
             $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $productdata        = $productdata[0];
         }
-        
+
         if($productdata){
             $file_name      = $productdata->filename . '.' . $productdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
@@ -2241,8 +2245,8 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
-    
+
+
     // ---------------------------------------------------------------------------------------------
     // BLOG TENANT
     /**
@@ -2296,7 +2300,7 @@ class Tenant extends User_Controller {
             $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
             die(json_encode($data));
         }
-        
+
         $tenantdata     = $this->Model_Tenant->get_all_tenant(0,0, ' WHERE %product_id% = '.$product_id.'');
         $tenantdata     = $tenantdata[0];
 
@@ -2421,7 +2425,7 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Blog Tenant list data function.
 	 */
@@ -2516,7 +2520,7 @@ class Tenant extends User_Controller {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
-                
+
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
