@@ -17,14 +17,25 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+        						<span></span>
+        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        							<option value="">Select...</option>
+        							<option value="confirm">Konfirmasi</option>
+        							<option value="banned">Banned</option>
+        							<option value="delete">Hapus</option>
+        						</select>
+        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+        					</div>
                             <table class="table table-striped table-bordered table-hover" id="blogtenant_list" data-url="<?php echo base_url('tenant/blogtenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
+                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width15 text-center">Nama Tenant</th>
             							<th class="width15 text-center">Judul Blog</th>
@@ -36,6 +47,7 @@
         					        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
+                                        <td></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_name" /></td>
                                         <td></td>
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
@@ -67,9 +79,9 @@
                                     <!-- Data Will Be Placed Here -->
                                 </tbody>
                             </table>
-                        </div>       
+                        </div>
                     </div>
-                    
+
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( 'tenant/addblogtenant', array( 'id'=>'addblogtenant', 'role'=>'form' ) ); ?>
                             <div class="alert alert-danger error-validate <?php echo empty($message) ? 'display-hide' : ''; ?>">
@@ -80,14 +92,14 @@
                                     Terjadi kesalahan, silahkan periksa kembali form dibawah!
                                 <?php } ?>
                     		</div>
-                            
+
                             <div class="alert alert-success error-validate <?php echo empty($flashdata) ? 'display-hide' : ''; ?>">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
                                 <?php if( !empty($flashdata) ){ ?>
                                     <?php echo $flashdata; ?>
                                 <?php } ?>
                     		</div>
-                            
+
                             <div class="form-group">
                                 <label class="form-label">Produk Tenant Terkait <b style="color: red !important;">(*)</b></label>
                                 <div class="input-group">
@@ -151,7 +163,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary waves-effect" id="btn_addtenantblog">Tambah Blog</button>
                             <button type="button" class="btn btn-danger waves-effect" id="btn_addtenantblog_reset">Bersihkan</button>
-                        <?php echo form_close(); ?>    
+                        <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>

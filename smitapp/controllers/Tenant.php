@@ -916,6 +916,8 @@ class Tenant extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     $row->invoice,
                     '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
@@ -2168,6 +2170,8 @@ class Tenant extends User_Controller {
                 $product        = '<img class="js-animating-object img-responsive" src="'.$product.'" alt="'.$row->title.'" />';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     strtoupper($row->event_title),
@@ -2527,6 +2531,8 @@ class Tenant extends User_Controller {
                 $image          = '<img class="js-animating-object img-responsive" src="'.$image.'" alt="'.$row->title.'" />';
 
                 $records["aaData"][] = array(
+                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
