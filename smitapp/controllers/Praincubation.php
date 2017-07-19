@@ -899,52 +899,49 @@ class PraIncubation extends User_Controller {
             return $response;
         };
         
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-
-        $curdate            = date('Y-m-d H:i:s');
-
-        // Check Data Pra Incubation Selection
-        $condition  = ' WHERE %status% = 2 AND %step% = 1';
-        $condition .= !empty($uniquecode) ? ' AND %uniquecode% LIKE "'.$uniquecode.'"' : '';
-        $order_by   = ' %id% ASC';
-        $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
-
-        if( !$praincseldata || empty($praincseldata) ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Tidak ada data seleksi step 1 yang belum dinilai oleh juri');
-            // JSON encode data
-            die(json_encode($data));
-        }
-
         // Check Pra Incubation Setting
         $praincset     = smit_latest_praincubation_setting();
         if( !$praincset || empty($praincset) ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Tidak ada data pengaturan seleksi');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
         }
 
         if( $praincset->status == 0 ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Pengaturan seleksi sudah ditutup');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
         }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
 
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
 
-        foreach($praincseldata as $row){
-            $sum_score      = $this->Model_Praincubation->sum_all_score($row->id);
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Pra Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+            if( !$praincseldata || empty($praincseldata) ){
+                continue;
+            }
+            $praincseldata  = $praincseldata[0];
+            
+            $sum_score      = $this->Model_Praincubation->sum_all_score($praincseldata->id);
             if(empty($sum_score)){
                 $sum_score  = 0;
             }
 
-            $count_all_jury = $this->Model_Praincubation->count_all_score($row->id);
+            $count_all_jury = $this->Model_Praincubation->count_all_score($praincseldata->id);
             if(empty($count_all_jury)){
                 $count_all_jury = 0;
             }
@@ -970,14 +967,14 @@ class PraIncubation extends User_Controller {
                 'datemodified'  => $curdate,
             );
 
-            if( !$this->Model_Praincubation->update_data_praincubation($row->id, $praincselupdatedata) ){
+            if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
                 continue;
             }else{
                 if( $average_score < KKM_STEP1 ){
-                    $this->smit_email->send_email_selection_not_success_step1($praincset, $row);
+                    $this->smit_email->send_email_selection_not_success_step1($praincset, $praincseldata);
                 }else{
-                    $this->smit_email->send_email_selection_confirmation_step2($row);
-                    $this->smit_email->send_email_selection_success($praincset, $row);
+                    $this->smit_email->send_email_selection_confirmation_step2($praincseldata);
+                    $this->smit_email->send_email_selection_success($praincset, $praincseldata);
                 }
             }
         }
@@ -986,10 +983,12 @@ class PraIncubation extends User_Controller {
         $this->db->trans_commit();
         // Complete Transaction
         $this->db->trans_complete();
-        // Set JSON data
-        $data = array('msg' => 'success','message' => 'Semua data Seleksi Pra Inkubasi Step 1 sudah dikonfirmasi.');
-        // JSON encode data
-        die(json_encode($data));
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Pra Inkubasi tahap 1 selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -2249,7 +2248,7 @@ class PraIncubation extends User_Controller {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $selectionlist          = $_REQUEST['selectionliststep1'];
             
-            $proses                 = $this->useraction($sGroupActionName, $selectionlist);
+            $proses                 = $this->praincubationconfirmstep1_all($sGroupActionName, $selectionlist);
             $records["sStatus"]     = $proses['status']; 
             $records["sMessage"]    = $proses['message']; 
         }
