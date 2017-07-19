@@ -17,6 +17,7 @@ class Model_Praincubation extends SMIT_Model{
     var $praincubation_selection_rate_s2    = "smit_praincubation_selection_rate_step2";
     var $praincubation_product              = "smit_praincubation_product";
     var $praincubation_notes                = "smit_praincubation_notes";
+    var $praincubation_report               = "smit_praincubation_report";
 
     /**
      * Initialize primary field
@@ -580,7 +581,7 @@ class Model_Praincubation extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Save data of notes praincubation
      *
@@ -591,6 +592,22 @@ class Model_Praincubation extends SMIT_Model{
     function save_data_notes($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->praincubation_notes, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+
+    /**
+     * Save data of report praincubation
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_report($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->praincubation_report, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };
@@ -1658,7 +1675,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Retrieve all notes data
      *
@@ -1730,7 +1747,7 @@ class Model_Praincubation extends SMIT_Model{
         $query      = $this->db->get($this->praincubation_notes);
         return ( !empty($uniquecode) ? $query->row() : $query->result() );
     }
-    
+
     /**
      * Delete Notes by Uniquecode
      *
@@ -1747,7 +1764,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Update Notes by Uniquecode
      *
@@ -1766,6 +1783,78 @@ class Model_Praincubation extends SMIT_Model{
         return false;
     }
 
+    /**
+     * Retrieve all pra incubation report data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_reportpraincubation($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "B.year", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%workunit%",             "C.workunit", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "B.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%workunit%",             "C.workunit",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*, B.event_title, B.event_desc, B.year, C.workunit
+            FROM ' . $this->praincubation_report. ' AS A
+            LEFT JOIN ' . $this->praincubation . ' AS B ON B.id = A.praincubation_id
+            LEFT JOIN ' . $this->user .' AS C ON C.id = A.user_id
+            GROUP BY A.user_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
+
+    /**
+     * Count All Rows
+     *
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_reportpraincubation($user_id=0, $praincubation_id=0){
+        if ( $user_id != 0 )            { $this->db->where('user_id', $user_id); }
+        if ( $praincubation_id != 0 )   { $this->db->where('praincubation_id', $praincubation_id); }
+
+        $query = $this->db->get($this->praincubation_report);
+
+        return $query->num_rows();
+    }
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Praincubation.php */

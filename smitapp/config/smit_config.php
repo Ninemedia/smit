@@ -329,6 +329,22 @@ $config['religion']                 = array(
 );
 
 /**
+ * Bulan Laporan
+ */
+$config['month_report']             = array(
+    1                       		=> 'Bulan 1',
+    2                          		=> 'Bulan 2',
+    3                          		=> 'Bulan 3',
+    4                         		=> 'Bulan 4',
+    5                         		=> 'Bulan 5',
+    6                         		=> 'Bulan 6',
+    7                         		=> 'Bulan 7',
+    8                         		=> 'Bulan 8',
+    9                         		=> 'Bulan 9',
+    10                         		=> 'Bulan 10',
+);
+
+/**
  * Email config
  */
 $config['email_active']             = TRUE;
