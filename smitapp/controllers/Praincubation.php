@@ -6650,6 +6650,7 @@ class PraIncubation extends User_Controller {
                 $name_user      = strtoupper($row->username);
                 $name           = strtoupper($row->name);
                 $event          = $row->event_title;
+                $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
@@ -6688,7 +6689,7 @@ class PraIncubation extends User_Controller {
                         smit_center( $year ),
                         strtoupper( $event ),
                         smit_center( $btn_download ),
-                        '',
+                        smit_center( $month ),
                         smit_center( $datecreated ),
                         smit_center( $btn_action ),
                     );
