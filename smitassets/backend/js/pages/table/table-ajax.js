@@ -200,7 +200,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Incubation Selection Lists
     var handleRecordsTenantList = function() {
-        gridTable( $("#list_tenant"), true );
+        gridTable( $("#list_tenant"), true, [ -1, 1, 0 ], true, $('#btn_tenant_listreset') );
     };
 
     // Tenant Selection Lists
