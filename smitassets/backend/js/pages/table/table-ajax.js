@@ -150,7 +150,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Payment List Admin
     var handleRecordsPaymentTenantList = function() {
-        gridTable( $("#payment_list"), false );
+        gridTable( $("#payment_list"), true, [ -1, 1, 0 ], true, $('#btn_payment_listreset') );
     };
 
     // -------------------------------------------------------------------------
@@ -166,11 +166,11 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List Communication
     var handleRecordsListIn = function() {
-        gridTable( $("#communication_listin"), true );
+        gridTable( $("#communication_listin"), true, [ -1, 1, 0 ], true, $('#btn_communication_listinreset') );
     };
 
     var handleRecordsListOut = function() {
-        gridTable( $("#communication_listout"), true );
+        gridTable( $("#communication_listout"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmdatareset') );
     };
     
     // -------------------------------------------------------------------------

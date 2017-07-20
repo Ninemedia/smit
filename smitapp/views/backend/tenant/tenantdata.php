@@ -77,7 +77,7 @@
 				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
                                         <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
             									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
@@ -360,7 +360,7 @@
 				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
                                         <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
             									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>

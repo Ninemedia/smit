@@ -3227,8 +3227,8 @@ class Backend extends User_Controller {
 
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center($i),
                         strtoupper( $name ),
                         '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
@@ -3239,8 +3239,8 @@ class Backend extends User_Controller {
                     );
                 }else{
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center($i),
                         '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
                         $desc,
@@ -3255,6 +3255,20 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $communicationlist      = $_REQUEST['communicationlist'];
+            
+            if( $value == 'in'){
+                
+            }else{
+                
+            }
+            $proses                 = $this->useraction($sGroupActionName, $communicationlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;

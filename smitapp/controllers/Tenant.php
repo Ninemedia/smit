@@ -889,10 +889,9 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($payment_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit   = '<a href="'.base_url('pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                $btn_delete = '<a href="'.base_url('pembayaran/hapus/'.$row->uniquecode).'" class="newsdelete btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
-
+                $btn_action = '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_edit   = '<a href="'.base_url('tenants/pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+  
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
@@ -900,31 +899,22 @@ class Tenant extends User_Controller {
 
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    if( !empty($is_admin) ){
-                        $btn_action     .= '<a href="'.base_url('pembayaranconfirm/active/'.$row->uniquecode).'" class="pembayaranconfirm btn btn-xs btn-success tooltips waves-effect bottom5" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                    }
-                }
-                if( !$is_admin ){
-                    if($row->status == ACTIVE)  {
-                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    }
-                }
-                if( !empty($is_admin) ){
-                    if($row->status == ACTIVE)  {
-                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    }
+                }elseif($row->status == BANNED)   {
+                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
+                }elseif($row->status == ACTIVE)  {
+                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="paymentlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    $row->invoice,
+                    smit_center($row->invoice),
                     '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $image,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action .' '. $btn_edit .' '. $btn_delete ),
+                    smit_center( $btn_action .' '. $btn_edit ),
                 );
                 $i++;
             }
@@ -932,12 +922,75 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $paymentlist            = $_REQUEST['paymentlist'];
+            
+            $proses                 = $this->paymentproses($sGroupActionName, $paymentlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Payment Proses function.
+	 */
+    function paymentproses($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $paymentdelete  = $this->Model_Tenant->delete_payment($uniquecode);    
+            }else{
+                $data_update    = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Tenant->update_payment($uniquecode, $data_update);
+            }
+        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data pembayaran selesai di proses',
+        );
+        return $response;
     }
 
     /**

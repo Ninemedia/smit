@@ -833,7 +833,7 @@ var App = function() {
 
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
-            $('#addblogtenant')[0].reset();
+            $('#paymentadd')[0].reset();
             $('#reg_thumbnail').fileinput('refresh', {
                 showUpload : false,
                 showUploadedThumbs : false,

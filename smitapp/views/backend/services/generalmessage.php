@@ -49,7 +49,7 @@
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();

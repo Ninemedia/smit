@@ -53,7 +53,7 @@
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                         <td></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status();
