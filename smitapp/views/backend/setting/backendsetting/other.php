@@ -213,7 +213,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="workunit_list" data-url="<?php echo base_url('backend/workunitlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="workunit_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="workunit_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Satuan Kerja</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -314,7 +314,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="category_list" data-url="<?php echo base_url('backend/categorylistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="category_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="category_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -415,7 +415,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="category_productlist" data-url="<?php echo base_url('backend/categoryproductlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-													<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+													<th class="width5 text-center"><input name="select_all" id="categoryproduct_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="categoryproduct_all"></label></th>
 					    							<th class="width5 text-center">No</th>
                         							<th class="width75 text-center">Nama Kategori</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>

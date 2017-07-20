@@ -1236,7 +1236,7 @@ class Backend extends User_Controller {
                 $btn_action = '<a class="workunitedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->workunit_id.'" data-name="'.$row->workunit_name.'" title="Ubah"><i class="material-icons">edit</i></a>
                 <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->workunit_id.'" value="' . $row->workunit_id . '" type="checkbox"/>
+                    smit_center('<input name="workunitlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->workunit_id.'" value="' . $row->workunit_id . '" type="checkbox"/>
                     <label for="cblist'.$row->workunit_id.'"></label>'),
                     smit_center($i),
                     $row->workunit_name,
@@ -3471,7 +3471,7 @@ class Backend extends User_Controller {
                 $btn_action = '<a class="categoryedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
                 <a href="'.($is_admin ? base_url('categorydelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
+                    smit_center('<input name="categorylist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
                     <label for="cblist'.$row->category_id.'"></label>'),
                     smit_center($i),
                     $row->category_name,
@@ -5608,7 +5608,7 @@ class Backend extends User_Controller {
                 $btn_action = '<a class="categoryproductedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
                 <a href="'.($is_admin ? base_url('categoryproductdelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categoryproductdelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
+                    smit_center('<input name="categoryproductlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
                     <label for="cblist'.$row->category_id.'"></label>'),
                     smit_center($i),
                     $row->category_name,

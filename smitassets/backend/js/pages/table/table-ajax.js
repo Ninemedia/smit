@@ -225,17 +225,17 @@ var TableAjax = function () {
 
     // Workunit Lists
     var handleRecordsWorkunitList = function() {
-        gridTable( $("#workunit_list"), true );
+        gridTable( $("#workunit_list"), true, [ -1, 1, 0 ], true, $('#btn_workunit_listreset') );
     };
 
     // Category Lists
     var handleRecordsCategoryList = function() {
-        gridTable( $("#category_list"), true );
+        gridTable( $("#category_list"), true, [ -1, 1, 0 ], true, $('#btn_category_listreset') );
     };
     
     // Category Product Lists
     var handleRecordsCategoryProductList = function() {
-        gridTable( $("#category_productlist"), true );
+        gridTable( $("#category_productlist"), true, [ -1, 1, 0 ], true, $('#btn_category_productlistreset') );
     };
 
     // Product Lists
