@@ -255,7 +255,7 @@ var TableAjax = function () {
 
     // Announcement Lists
     var handleRecordsAnnouncementList = function() {
-        gridTable( $("#announcement_list"), true );
+        gridTable( $("#announcement_list"), true, [ -1, 1, 0 ], true, $('#btn_list_announcementreset') );
     };
 
     // Announcement User Lists

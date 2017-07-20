@@ -53,8 +53,8 @@
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
         							</td>
         							<td style="text-align: center;">
-        								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
-                                        <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+        								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_announcement">Search</button>
+                                        <button class="btn bg-red waves-effect filter-cancel" id="btn_list_announcementreset">Reset</button>
         							</td>
         						</tr>
                             </thead>
