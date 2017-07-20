@@ -723,6 +723,40 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+     * Delete Product Tenant
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_product($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_product) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of product List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_product($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_product, $data) )
+            return true;
+
+        return false;
+    }
 
     // ---------------------------------------------------------------------------------
 }

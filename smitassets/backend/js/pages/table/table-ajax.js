@@ -240,7 +240,7 @@ var TableAjax = function () {
 
     // Product Lists
     var handleRecordsProductList = function() {
-        gridTable( $("#product_list"), true );
+        gridTable( $("#product_list"), true, [ -1, 1, 0 ], true, $('#btn_product_listreset') );
     };
 
     // Slider Lists

@@ -40,7 +40,7 @@
                                         <th class="width15 text-center">Nama</th>
             							<th class="width15 text-center">Judul Usulan</th>
             							<th class="width15 text-center">Judul Product</th>
-            							<th class="width20 text-center">Gambar Produk</th>
+            							<th class="width15 text-center">Gambar Produk</th>
             							<th class="width10 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
             							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
