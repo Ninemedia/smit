@@ -192,7 +192,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Blogs Tenant List
     var handleRecordsBlogTenant = function() {
-        gridTable( $("#blogtenant_list"), false );
+        gridTable( $("#blogtenant_list"), true, [ -1, 1, 0 ], true, $('#btn_blogtenant_listreset') );
     };
     
     // -------------------------------------------------------------------------

@@ -2626,57 +2626,42 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($blog_list as $row){
-                // Status
-                $btn_action = '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'"
-                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                $btn_action .= ' ';
+                // Button
+                $btn_action      = '<a href="'.base_url('tenants/blogs/detail/'.$row->uniquecode).'"
+                    class="blogtenantdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_edit       = '<a href="'.($row->user_id == 1 ? base_url('tenants/blogs/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    if( !empty($is_admin) ){
-                        $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                    }
-                }
-                if( !$is_admin ){
-                    if($row->status == ACTIVE)  {
-                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                    }
-                }
-                if( !empty($is_admin) ){
-                    if($row->status == ACTIVE)  {
-                        $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
-                    }
-                }
-
-                elseif($row->status == BANNED)  {
+                }if($row->status == ACTIVE)  {
+                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
+                }elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                elseif($row->status == DELETED) {
+                }elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
 
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
                 $image          = '<img class="js-animating-object img-responsive" src="'.$image.'" alt="'.$row->title.'" />';
-
+                
+                $title          = $row->product_title;
+                if( empty($title) ){
+                    $title      = '<strong> - </strong>';
+                }
+                
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="blogtenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
-                    strtoupper($row->product_title),
+                    strtoupper( smit_center( $title) ),
                     $image,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_action ),
+                    smit_center( $btn_action .' '. $btn_edit),
                 );
                 $i++;
             }
@@ -2684,12 +2669,75 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $blogtenantlist         = $_REQUEST['blogtenantlist'];
+            
+            $proses                 = $this->blogtenantproses($sGroupActionName, $blogtenantlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Blog Tenant Proses function.
+	 */
+    function blogtenantproses($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $blogtenantdelete   = $this->Model_Tenant->delete_blogtenant($uniquecode);    
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Tenant->update_blogtenant($uniquecode, $data_update);
+            }
+        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data blog tenant selesai di proses',
+        );
+        return $response;
     }
 
     /**
