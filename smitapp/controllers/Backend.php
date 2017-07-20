@@ -2486,22 +2486,17 @@ class Backend extends User_Controller {
                 $btn_action .= ' ';
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == ACTIVE)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a>
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/banned/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-default tooltips waves-effect" data-placement="left" title="Banned" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">block</i></a>
-                    <a href="'.($row->user_id == 1 ? base_url('sliderconfirm/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="sliderconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                    <a href="'.($row->user_id == 1 ? base_url('slider/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="slideredit btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah" '.($row->user_id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">edit</i></a>';
                 }
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('sliderconfirm/active/'.$row->uniquecode).'" class="sliderconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
 
                 $uploaded           = $row->uploader;
@@ -2513,8 +2508,8 @@ class Backend extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="sliderlist[]" class="cblist filled-in chk-col-blue" id="cblist_slider'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist_slider'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     '<a href="'.base_url('slider/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $slider,
@@ -2528,6 +2523,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $sliderlist             = $_REQUEST['sliderlist'];
+            
+            $proses                 = $this->sliderconfirm($sGroupActionName, $sliderlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -2539,57 +2543,69 @@ class Backend extends User_Controller {
     /**
 	 * Slider confirm function.
 	 */
-    function sliderconfirm($action, $uniquecode){
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+    function sliderconfirm($action, $data){
+        $response = array();
+        
         if ( !$action ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi data harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
         };
-
-        if ( !$uniquecode ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Uniquecode harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
         };
 
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi Slider hanya bisa dilakukan oleh Administrator');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
         };
-
-        $sliderdata         = $this->Model_Slider->get_slider_by_uniquecode($uniquecode);
-        if( !$sliderdata ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data slider tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
-        }
-
+        
         $curdate = date('Y-m-d H:i:s');
-        if( $action=='active' )     { $status = ACTIVE; }
-        elseif( $action=='banned' ) { $status = BANNED; }
-        elseif( $action=='delete' ) { $status = DELETED; }
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
 
-        $data_update = array('status'=>$status, 'datemodified'=>$curdate);
-        if( $this->Model_Slider->update_slider($uniquecode,$data_update) ){
-            // Set JSON data
-            $data = array('msg' => 'success','message' => 'Konfirmasi data slider berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Konfirmasi data slider tidak berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
+        foreach( $data as $key => $uniquecode ){
+            $sliderdata         = $this->Model_Slider->get_all_slider(0,0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+            $sliderdata         = $sliderdata[0];
+            $id                 = $sliderdata->user_id;
+            $userdata           = smit_get_userdata_by_id($id);
+            if( !$userdata ){
+                continue;
+            }
+            
+            $userstatus         = $userdata->status;
+            /*
+            if( $action == 'confirm' && $userstatus == ACTIVE ){
+                continue;
+            }elseif( $action == 'banned' && $userstatus == DELETED ){
+                continue;
+            }
+            */
+
+            $data_update = array('status'=>$status,'datemodified'=>$curdate);
+            $this->Model_Slider->update_slider($uniquecode, $data_update);
         }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna selesai di proses',
+        );
+        return $response;
     }
 
     /**

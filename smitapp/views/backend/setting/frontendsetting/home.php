@@ -37,7 +37,7 @@
                     						<span></span>
                     						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
                     							<option value="">Select...</option>
-                    							<option value="confirm">Konfirmasi</option>
+                    							<option value="confirm">Aktif</option>
                     							<option value="banned">Banned</option>
                     							<option value="delete">Hapus</option>
                     						</select>
@@ -46,7 +46,7 @@
                                         <table class="table table-striped table-bordered table-hover" id="slider_list" data-url="<?php echo base_url('backend/sliderlistdata'); ?>">
                                             <thead>
                         						<tr role="row" class="heading bg-blue">
-                                                    <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                                    <th class="width5 text-center"><input name="select_all" id="slider_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="slider_all"></label></th>
                         							<th class="width5">No</th>
                         							<th class="width25 text-center">Judul Slider</th>
                         							<th class="width30 text-center">Gambar Slider</th>
@@ -78,7 +78,7 @@
                         							</td>
                         							<td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_slider_list">Search</button>
-                                                        <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                                        <button class="btn bg-red waves-effect filter-cancel" id="btn_slider_listreset">Reset</button>
                         							</td>
                         						</tr>
                                             </thead>

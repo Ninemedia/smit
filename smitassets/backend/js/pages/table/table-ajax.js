@@ -245,7 +245,7 @@ var TableAjax = function () {
 
     // Slider Lists
     var handleRecordsSliderList = function() {
-        gridTable( $("#slider_list"), true );
+        gridTable( $("#slider_list"), true, [ -1, 1, 0 ], true, $('#btn_slider_listreset') );
     };
 
     // General Message Lists
