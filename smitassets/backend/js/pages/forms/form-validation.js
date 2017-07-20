@@ -1825,11 +1825,23 @@ var ScoreUserValidation = function () {
     };
 
     var handleScoreUserStep2Validation = function(){
+        $.validator.addMethod('require-one', function(value) {
+            return $('input.irl:checked').size() > 0;
+        }, 'Silahkan pilih minimal 1 IRL.');
+        
+        var checkboxes = $('input.irl');
+    	var checkbox_names = $.map(checkboxes, function(e, i) {
+    		return $(e).attr("name")
+    	}).join(" ");
+        
         $('#selection_score_step2').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
+            groups: {
+    			checks: checkbox_names
+    		},
             rules: {
                 nilai_juri_comment: {
                     required: true,
@@ -1882,17 +1894,11 @@ var ScoreUserValidation = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                "irl" : {
-                    required: true,
-                },
                 nilai_juri_comment: {
                     required: true,
                 },
             },
             messages: {
-                "irl" : {
-                    required: 'IRL harus di isi',
-                },
                 nilai_juri_comment: {
                     required: 'Komentar juri harus di isi',
                 },
