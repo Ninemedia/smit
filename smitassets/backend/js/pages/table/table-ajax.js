@@ -134,7 +134,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List IKM
     var handleRecordsIKMList = function() {
-        gridTable( $("#list_ikm"), true );
+        gridTable( $("#list_ikm"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmreset') );
     };
 
     var handleRecordsIKMScoreList = function() {
@@ -142,7 +142,7 @@ var TableAjax = function () {
     };
 
     var handleRecordsIKMDataList = function() {
-        gridTable( $("#list_ikmdata"), true );
+        gridTable( $("#list_ikmdata"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmdatareset') );
     };
     
     // -------------------------------------------------------------------------
@@ -250,7 +250,7 @@ var TableAjax = function () {
 
     // General Message Lists
     var handleRecordsGeneralMessageList = function() {
-        gridTable( $("#generalmessage_list"), true );
+        gridTable( $("#generalmessage_list"), true, [ -1, 1, 0 ], true, $('#btn_list_messagereset') );
     };
 
     // Announcement Lists

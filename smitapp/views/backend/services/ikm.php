@@ -243,8 +243,8 @@
                             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
                             							</td>
                                                         <td style="text-align: center;">
-                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
-                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
+                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikmdata">Search</button>
+                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmdatareset">Reset</button>
                             							</td>
                             						</tr>
                                                 </thead>
@@ -265,6 +265,7 @@
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Aktif</option>
+        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>

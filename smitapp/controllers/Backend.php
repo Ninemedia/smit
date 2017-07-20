@@ -2957,23 +2957,8 @@ class Backend extends User_Controller {
                 return $response;
             }
             
-            $id                   = $generalmessage_list->user_id;
-            $userdata           = smit_get_userdata_by_id($id);
-            if( !$userdata ){
-                continue;
-            }
-            
-            $userstatus         = $userdata->status;
-            /*
-            if( $action == 'confirm' && $userstatus == ACTIVE ){
-                continue;
-            }elseif( $action == 'banned' && $userstatus == DELETED ){
-                continue;
-            }
-            */
-            
             if( $action == 'confirm' ){
-                $data_update = array('status'=>$status,'datemodified'=>$curdate);
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Service->update_message($uniquecode, $data_update);  
             }elseif( $action == 'delete' ){
                 $this->Model_Service->delete_message($generalmessage_list->id);    
@@ -5207,13 +5192,10 @@ class Backend extends User_Controller {
             foreach($ikm_list as $row){
                 $btn_edit           = '<a class="ikmdataedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-uniquecode="'.$row->uniquecode.'" data-title="'.$row->title.'" data-question="'.$row->question.'" title="Ubah"><i class="material-icons">edit</i></a>';
 
-                $btn_action     = '<a href="'.base_url('ikmlist/hapus/'.$row->uniquecode).'"
-                    class="ikm btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
-
                 // Status
                 if($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == ACTIVE)  { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == BANNED)  { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == BANNED)  { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED) { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
 
                 $records["aaData"][] = array(
@@ -5224,7 +5206,7 @@ class Backend extends User_Controller {
                     $row->question,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
-                    smit_center( $btn_edit . ' ' . $btn_action ),
+                    smit_center( $btn_edit ),
                 );
                 $i++;
             }
@@ -5237,7 +5219,7 @@ class Backend extends User_Controller {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $ikmlist                = $_REQUEST['ikmlist'];
             
-            $proses                 = $this->useraction($sGroupActionName, $ikmlist);
+            $proses                 = $this->ikmlistproses($sGroupActionName, $ikmlist);
             $records["sStatus"]     = $proses['status']; 
             $records["sMessage"]    = $proses['message']; 
         }
@@ -5247,6 +5229,60 @@ class Backend extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * IKM List Proses function.
+	 */
+    function ikmlistproses($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $ikmlistdelete          = $this->Model_Service->delete_ikmlist($uniquecode);    
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Service->update_ikmlist($uniquecode, $data_update);
+            }
+        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar ikm selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -5323,7 +5359,7 @@ class Backend extends User_Controller {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $ikmdatalist            = $_REQUEST['ikmdatalist'];
             
-            $proses                 = $this->useraction($sGroupActionName, $ikmdatalist);
+            $proses                 = $this->ikmdatadelete($sGroupActionName, $ikmdatalist);
             $records["sStatus"]     = $proses['status']; 
             $records["sMessage"]    = $proses['message']; 
         }
@@ -5333,6 +5369,55 @@ class Backend extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * IKM Data Delete function.
+	 */
+    function ikmdatadelete($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            $ikmdatadelete      = $this->Model_Service->delete_ikmdata($uniquecode);
+        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar ikm data selesai di proses',
+        );
+        return $response;
     }
 
     /**
