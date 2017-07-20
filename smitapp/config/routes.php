@@ -257,6 +257,7 @@ $route['announcements/details/(:any)']  = "backend/announcementdatadetails/$1";
 $route['announcementslist']             = "backend/announcementuserlistdata";
 // Guide Files
 $route['berkas/digital']                = "backend/guides";
+$route['berkas/digital/detail/(:any)']  = "backend/guidesdetails/$1";
 // Services
 $route['layanan/komunikasibantuan']     = "backend/services";
 $route['layanan/komunikasibantuan/(:any)']  = "backend/communicationdata/$1";
@@ -264,6 +265,7 @@ $route['komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";
+$route['berita/edit/(:any)']            = "backend/newseditdata/$1";
 $route['newslistdata']                  = "backend/newslistdata";
 
 // Announcements

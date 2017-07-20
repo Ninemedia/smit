@@ -18,7 +18,7 @@
                         </a>
                     </li>
                 </ul>
-            
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
@@ -65,7 +65,7 @@
                             </tbody>
                         </table>
                         </div>
-                        
+
                         <!-- Announcement Details -->
                         <div class="card top30 bottom0 display-hide" id="announcement_details">
                             <div class="header bg-cyan">
@@ -105,7 +105,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <label class="form-label">URL </label>
                                                 <div class="input-group">
@@ -113,13 +113,6 @@
                                                     <div class="form-line">
                                                         <input type="text" name="reg_url" id="reg_url" class="form-control" placeholder="Tidak ada file" disabled="">
                                                     </div>
-<<<<<<< HEAD
-                                                    -->
-                                                    
-                                                    <button type="submit" class="btn btn-sm btn-warning waves-effect">Perbaharui Pengumuman</button>
-                                                    <button type="button" class="btn btn-sm btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
-                                                </section>
-=======
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -138,13 +131,12 @@
                                                     <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
                                                     <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
                                                 </div>
->>>>>>> 121df1ef45137ac1fb023434a2895721e32b5833
                                             </div>
                                             -->
-                                            
+
                                             <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
                                             <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
-                                                
+
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -184,7 +176,7 @@
                                             <input id="selection_files" name="selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
-                                    <!--   
+                                    <!--
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
@@ -199,7 +191,7 @@
                         <?php echo form_close(); ?>
                     </div>
                 </div>
-                
+
                 <?php else: ?>
                 <div class="table-container table-responsive bottom50">
                     <div class="table-actions-wrapper">
@@ -242,7 +234,7 @@
                         </tbody>
                     </table>
                 </div>
-                <?php endif ?> 
+                <?php endif ?>
             </div>
         </div>
     </div>

@@ -1606,6 +1606,83 @@ class Backend extends User_Controller {
 	}
 
     /**
+	 * Berkas Digital Detail list data function.
+	 */
+    public function guidesdetails($uniquecode)
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter detail berkas tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+        ));
+
+        $scripts_add            = '';
+
+        // Custom
+        $condition              = '';
+        $guides_list            = '';
+        if(!empty($uniquecode)){
+            $guides_list        = $this->Model_Guide->get_all_guides('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
+            $guides_list        = $guides_list[0];
+        }
+
+        $data['title']          = TITLE . 'Detail Berkas Digital';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['guides_list']    = $guides_list;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'guidesdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+
+
+    /**
 	 * Guides list data function.
 	 */
     function guidelistdata(){
@@ -1664,10 +1741,8 @@ class Backend extends User_Controller {
                 }
 
                 // Button
-                $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>
-                    <a href="'.base_url('pengumuman/hapus/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+                $btn_action = '<a href="'.base_url('berkas/digital/detail/'.$row->uniquecode).'"
+                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
 
                 $records["aaData"][] = array(
                     smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
@@ -1676,7 +1751,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
-                    smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                    smit_center( date('d F Y h:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -2102,6 +2177,105 @@ class Backend extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'news/newsdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+
+    /**
+    * News edit function.
+    */
+    public function newseditdata( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'NewsValidation.init();',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $newsdata           = $this->Model_News->get_news_by_uniquecode($uniquecode);
+        }
+
+        $uploaded           = $newsdata->uploader;
+
+        if($uploaded != 0){
+            $file_name      = $newsdata->filename . '.' . $newsdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'news/'. $newsdata->uploader . '/' . $file_name;
+            $news           = $file_url;
+        }else{
+            $news           = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Edit Berita';
+        $data['news_data']      = $newsdata;
+        $data['news_image']     = $news;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'news/newsedit';
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
