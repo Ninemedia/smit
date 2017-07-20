@@ -75,7 +75,7 @@
                                                     <input id="ava_selection_files" name="ava_selection_files" class="form-control" type="file" />
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-block bg-blue waves-effect">Ganti Avatar</button>
+                                            <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Avatar</button>
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -361,7 +361,7 @@
                                                 }
                                             ?>
                                         </select>
-                                        <button type="submit" class="btn btn-warning btn-block bg-blue waves-effect top30">Ubah Tipe Pengguna</button>
+                                        <button type="submit" class="btn btn-warning btn-sm waves-effect top30">Ubah Tipe Pengguna</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
