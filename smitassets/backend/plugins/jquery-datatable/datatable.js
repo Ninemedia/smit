@@ -173,7 +173,7 @@ var Datatable = function () {
             });
             // handle 
             $( 'input.select_all[type="checkbox"]', table ).change( function() {
-        		$( '.cblist:enabled' ).prop( 'checked', $(this).is(':checked') );
+        		$( '.cblist:enabled', tableWrapper ).prop( 'checked', $(this).is(':checked') );
                 countSelectedRecords();
                 
                 if ( $(this).is(':checked') ){

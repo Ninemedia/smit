@@ -1934,6 +1934,31 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+	 * Stats yearly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_yearly() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y") AS period,
+            type,
+			COUNT(id) AS total
+		FROM '.$this->praincubation_selection.'
+		WHERE type <> '.ADMINISTRATOR.'
+		GROUP BY 1,2
+		ORDER BY 1 DESC';
+
+		$qry = $this->db->query( $sql );
+
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Praincubation.php */
