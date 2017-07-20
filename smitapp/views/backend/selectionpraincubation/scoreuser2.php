@@ -11,8 +11,8 @@
                             <div class="col-md-12 bottom0">                      
                                 <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                             </div><br /><br /><br />
-                            <div id="alert-display"></div>
                             <div class="col-md-12 bottom0">
+                                <div id="alert-display"></div>
                                 <!-- Multiple Items To Be Open -->
                                 <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-col-blue">
@@ -311,31 +311,37 @@
                                                 <h2 class="card-inside-title text-uppercase">Innovation Readiness Level (IRL)</h2>
                                                 <p>IRL dapat menentukan tahapan dari teknologi, maka semakin tinggi nilai IRL yang diberikan akan semakin baik. <br />
                                                 Pilihlah nilai IRL sesuai dengan posisi proposal dibawah ini : </p>
-                                                <div class="row">
-                                                    <div class="col-md-6 bottom0">
-                                                        <input id="irl-1" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-1">(1) Idea Prospefektif</label><br />
-                                                        <input id="irl-2" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-2">(2) Proposal Riset</label><br />
-                                                        <input id="irl-3" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-3">(3) Hasil Antara Lab</label><br />
-                                                        <input id="irl-4" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-4">(4) Publikasi</label><br />
-                                                        <input id="irl-5" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-5">(5) Hasil Riset Skala Prototipe</label>
+                                                
+                                                <div class="input-group">
+                                                    <div class="checkbox-list" data-error-container="#irl_error">
+                                                        <div class="row">
+                                                            <div class="col-md-6 bottom0">
+                                                                <input id="irl-1" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-1">(1) Idea Prospefektif</label><br />
+                                                                <input id="irl-2" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-2">(2) Proposal Riset</label><br />
+                                                                <input id="irl-3" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-3">(3) Hasil Antara Lab</label><br />
+                                                                <input id="irl-4" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-4">(4) Publikasi</label><br />
+                                                                <input id="irl-5" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-5">(5) Hasil Riset Skala Prototipe</label>
+                                                            </div>
+                                                            <div class="col-md-6 bottom0">
+                                                                <input id="irl-6" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-6">(6) Paten</label><br />
+                                                                <input id="irl-7" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-7">(7) Contoh Produk Skala Komersial</label><br />
+                                                                <input id="irl-8" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-8">(8) Mitra Bisnis / Tenant</label><br />
+                                                                <input id="irl-9" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-9">(9) Captive Market</label><br />
+                                                                <input id="irl-10" name="irl" type="checkbox" class="irl require-one">
+                                                                <label for="irl-10">(10) Lisensi</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-6 bottom0">
-                                                        <input id="irl-6" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-6">(6) Paten</label><br />
-                                                        <input id="irl-7" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-7">(7) Contoh Produk Skala Komersial</label><br />
-                                                        <input id="irl-8" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-8">(8) Mitra Bisnis / Tenant</label><br />
-                                                        <input id="irl-9" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-9">(9) Captive Market</label><br />
-                                                        <input id="irl-10" name="irl" type="checkbox" class="irl">
-                                                        <label for="irl-10">(10) Lisensi</label>
-                                                    </div>
+                                                    <div id="irl_error"></div>
                                                 </div>
                                                 
                                                 <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>

@@ -3012,6 +3012,7 @@ class PraIncubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = $s_year == "Pilih Tahun" ? '' : $s_year;
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -3055,8 +3056,8 @@ class PraIncubation extends User_Controller {
 
                 if( $row->statustwo == CONFIRMED ){
                     if( empty($rated) ){
-                        $btn_score      = '<a href="'.base_url('seleksiprainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'"
-                        class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a>';
+                        $btn_score      = '<div class="bottom5"><a href="'.base_url('seleksiprainkubasi/nilai/'.$row->user_id.'/'.$row->uniquecode).'"
+                        class="btn_score btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="2" title="Nilai"><i class="material-icons">done</i></a></div>';
                     }
                     $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/2/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';

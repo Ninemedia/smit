@@ -1825,31 +1825,41 @@ var ScoreUserValidation = function () {
     };
 
     var handleScoreUserStep2Validation = function(){
+        /*
         $.validator.addMethod('require-one', function(value) {
-            return $('input.irl:checked').size() > 0;
+            return $('input.require-one:checked').size() > 0;
         }, 'Silahkan pilih minimal 1 IRL.');
         
-        var checkboxes = $('input.irl');
+        var checkboxes = $('input.require-one');
     	var checkbox_names = $.map(checkboxes, function(e, i) {
     		return $(e).attr("name")
     	}).join(" ");
+        */
         
         $('#selection_score_step2').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
+            /*
             groups: {
     			checks: checkbox_names
     		},
+            */
             rules: {
                 nilai_juri_comment: {
+                    required: true,
+                },
+                irl: {
                     required: true,
                 },
             },
             messages: {
                 nilai_juri_comment: {
                     required: 'Komentar juri harus di isi',
+                },
+                irl: {
+                    required: 'Silahkan pilih IRL',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

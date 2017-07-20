@@ -3435,9 +3435,9 @@ section.content {
 
 /* Checkbox & Radio ============================ */
 [type="checkbox"] + label {
-  padding-left: 20px;
+  padding-left: 25px;
   height: 25px;
-  line-height: 21px;
+  line-height: 20px;
   font-size: 13px;
   font-weight: normal; }
 
