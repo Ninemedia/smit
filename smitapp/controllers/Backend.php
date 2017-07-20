@@ -2822,13 +2822,11 @@ class Backend extends User_Controller {
                 }
                 elseif($row->status == READ)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '
-                    <a href="'.($is_admin ? base_url('pesanumum/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="generalmessagedelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted"><i class="material-icons">clear</i></a>';
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="generalmessagelist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper( $row->name ),
                     '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
@@ -2843,6 +2841,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $generalmessagelist     = $_REQUEST['generalmessagelist'];
+            
+            $proses                 = $this->generalmessageprosess($sGroupActionName, $generalmessagelist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -2902,49 +2909,82 @@ class Backend extends User_Controller {
     }
 
     /**
-	 * Message Delete function.
+	 * Message Prosess function.
 	 */
-    function generalmessagedelete($uniquecode){
-        // This is for AJAX request
-    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-
-        if ( !$uniquecode ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'ID Pesan harus dicantumkan');
-            // JSON encode data
-            die(json_encode($data));
+    function generalmessageprosess($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
         };
-
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Hapus pesan  hanya bisa dilakukan oleh Administrator');
-            // JSON encode data
-            die(json_encode($data));
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
         };
-
-        $generalmessage_list  = $this->Model_Service->get_all_contact_message(1, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
-        $generalmessage_list  = $generalmessage_list[0];
-
-        if( !$generalmessage_list ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data pesan tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            $generalmessage_list  = $this->Model_Service->get_all_contact_message(1, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $generalmessage_list  = $generalmessage_list[0];
+            if( !$generalmessage_list ){
+                $response = array(
+                    'status'    => 'ERROR',
+                    'message'   => 'Data pesan ini tidak ada',
+                );
+                return $response;
+            }
+            
+            $id                   = $generalmessage_list->user_id;
+            $userdata           = smit_get_userdata_by_id($id);
+            if( !$userdata ){
+                continue;
+            }
+            
+            $userstatus         = $userdata->status;
+            /*
+            if( $action == 'confirm' && $userstatus == ACTIVE ){
+                continue;
+            }elseif( $action == 'banned' && $userstatus == DELETED ){
+                continue;
+            }
+            */
+            
+            if( $action == 'confirm' ){
+                $data_update = array('status'=>$status,'datemodified'=>$curdate);
+                $this->Model_Service->update_message($uniquecode, $data_update);  
+            }elseif( $action == 'delete' ){
+                $this->Model_Service->delete_message($generalmessage_list->id);    
+            }
         }
-
-        if( $this->Model_Service->delete_message($generalmessage_list->id) ){
-            // Set JSON data
-            $data = array('msg' => 'success','message' => 'Data pesan berhasil dihapus.');
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Hapus data pesan tidak berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
-        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data pesan umum selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -5177,8 +5217,8 @@ class Backend extends User_Controller {
                 elseif($row->status == DELETED) { $status = '<span class="label label-primary">'.strtoupper($cfg_status[$row->status]).'</span>'; }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="ikmlist[]" class="cblist filled-in chk-col-blue" id="cblist_ikmlist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist_ikmlist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     $row->title,
                     $row->question,
@@ -5192,6 +5232,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $ikmlist                = $_REQUEST['ikmlist'];
+            
+            $proses                 = $this->useraction($sGroupActionName, $ikmlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -5255,8 +5304,8 @@ class Backend extends User_Controller {
                     class="ikm btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="ikmdatalist[]" class="cblist filled-in chk-col-blue" id="cblist_ikmdatalist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist_ikmdatalist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     $row->email,
                     $row->comment,
@@ -5269,6 +5318,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $ikmdatalist            = $_REQUEST['ikmdatalist'];
+            
+            $proses                 = $this->useraction($sGroupActionName, $ikmdatalist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
