@@ -1478,15 +1478,13 @@ class Backend extends User_Controller {
             if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
                 // Set JSON data
                 $data = array('msg' => 'success','message' => 'Data satuan kerja berhasil dihapus.');
-                // JSON encode data
-                die(json_encode($data));
             }else{
                 // Set JSON data
                 $data = array('msg' => 'error','message' => 'Hapus data satuan kerja tidak berhasil dilakukan.');
-                // JSON encode data
-                die(json_encode($data));
             }    
         }
+        // JSON encode data
+        die(json_encode($data));
     }
     // ---------------------------------------------------------------------------------------------
 
@@ -3478,8 +3476,7 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($category_list as $row){
                 // Button
-                $btn_action = '<a class="categoryedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($is_admin ? base_url('categorydelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categorydelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
+                $btn_action = '<a class="categoryedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 $records["aaData"][] = array(
                     smit_center('<input name="categorylist[]" class="cblist filled-in chk-col-blue" id="cblist_category'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
                     <label for="cblist_category'.$row->category_id.'"></label>'),
@@ -3639,15 +3636,13 @@ class Backend extends User_Controller {
             if( $this->Model_Option->delete_category($categorydata->category_id) ){
                 // Set JSON data
                 $data = array('msg' => 'success','message' => 'Data kategori berhasil dihapus.');
-                // JSON encode data
-                die(json_encode($data));
             }else{
                 // Set JSON data
                 $data = array('msg' => 'error','message' => 'Hapus data kategori tidak berhasil dilakukan.');
-                // JSON encode data
-                die(json_encode($data));
             }    
         }
+        // JSON encode data
+        die(json_encode($data));
     }
 
     // ----------------------------------------------------------------------------------------------------------------------
@@ -5629,10 +5624,8 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($category_list as $row){
-
-                // Status
-                $btn_action = '<a class="categoryproductedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($is_admin ? base_url('categoryproductdelete/delete/'.$row->category_id) : 'javascript:;' ).'" class="categoryproductdelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus"><i class="material-icons">clear</i></a>';
+                // Button
+                $btn_action = '<a class="categoryproductedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->category_id.'" data-name="'.$row->category_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 $records["aaData"][] = array(
                     smit_center('<input name="categoryproductlist[]" class="cblist filled-in chk-col-blue" id="cblist_categoryproduct'.$row->category_id.'" value="' . $row->category_id . '" type="checkbox"/>
                     <label for="cblist_categoryproduct'.$row->category_id.'"></label>'),
@@ -5646,6 +5639,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $categoryproductlist    = $_REQUEST['categoryproductlist'];
+            
+            $proses                 = $this->categoryproductdelete($sGroupActionName, $categoryproductlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -5744,7 +5746,7 @@ class Backend extends User_Controller {
     /**
 	 * Category Product Delete function.
 	 */
-    function categoryproductdelete($action, $id){
+    function categoryproductdelete($action, $categoryproduct){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
@@ -5755,7 +5757,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         };
 
-        if ( !$id ){
+        if ( !$categoryproduct ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'ID kategori produk harus dicantumkan');
             // JSON encode data
@@ -5770,26 +5772,26 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-
-        $categorydata       = $this->Model_Option->get_categoryproductdata($id);
-        if( !$categorydata ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data kategori produk tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
+        
+        foreach($categoryproduct AS $id){
+            $categorydata       = $this->Model_Option->get_categoryproductdata($id);
+            if( !$categorydata ){
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Data kategori produk tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            }
+    
+            if( $this->Model_Option->delete_categoryproduct($categorydata->category_id) ){
+                // Set JSON data
+                $data = array('msg' => 'success','message' => 'Data kategori produk berhasil dihapus.');
+            }else{
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Hapus data kategori produk tidak berhasil dilakukan.');
+            }    
         }
-
-        if( $this->Model_Option->delete_categoryproduct($categorydata->category_id) ){
-            // Set JSON data
-            $data = array('msg' => 'success','message' => 'Data kategori produk berhasil dihapus.');
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Hapus data kategori produk tidak berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
-        }
+        // JSON encode data
+        die(json_encode($data));
     }
 
     // ----------------------------------------------------------------------------------------------------------------------
