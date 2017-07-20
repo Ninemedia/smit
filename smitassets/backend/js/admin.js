@@ -1680,6 +1680,49 @@ var App = function() {
         };
     };
 
+    var handleEditIKMData = function() {
+        // Save IKM Data
+        $('#do_edit_ikmdata').click(function(e){
+            e.preventDefault();
+            processEditIKMData($('#ikmdataedit'));
+        });
+
+        var processEditIKMData = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#ikmdataedit')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_list_ikm').trigger('click');
+                        $('#btn_list_ikmreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+    };
 
     var handleAddCategory = function() {
         // Save Category
@@ -2274,6 +2317,7 @@ var App = function() {
             handleEditCategory();
             handleEditCategoryProduct();
             handleEditCompanion();
+            handleEditIKMData();
 		},
 
         // wrapper function to scroll(focus) to an element

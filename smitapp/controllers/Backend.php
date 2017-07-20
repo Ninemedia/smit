@@ -5128,11 +5128,10 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($ikm_list as $row){
-                $btn_edit       = '<a href="'.base_url('ikmlist/ubah/'.$row->uniquecode).'"
-                    class="ikmedit btn btn-xs btn-warning waves-effect tooltips bottom5" id="btn_ikm_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit           = '<a class="ikmdataedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-uniquecode="'.$row->uniquecode.'" data-title="'.$row->title.'" data-question="'.$row->question.'" title="Ubah"><i class="material-icons">edit</i></a>';
 
                 $btn_action     = '<a href="'.base_url('ikmlist/hapus/'.$row->uniquecode).'"
-                    class="ikm btn btn-xs btn-danger waves-effect tooltips bottom5" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
+                    class="ikm btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a> ';
 
                 // Status
                 if($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -5240,6 +5239,98 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
+
+    /**
+	 * IKM Data Edit
+	 */
+	public function ikmdataedit()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $title                  = $this->input->post('reg_title');
+        $title                  = trim( smit_isset($title, "") );
+        $question               = $this->input->post('reg_question');
+        $question               = trim( smit_isset($question, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_uniquecode','Uniquecode','required');
+        $this->form_validation->set_rules('reg_title','Judul Pertanyaan','required');
+        $this->form_validation->set_rules('reg_question','Pertanyaan','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah IKM Data tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $ikm_data  = array(
+            'title'      => $title,
+            'question'   => $question,
+        );
+
+        // -------------------------------------------------
+        // Edit Companion
+        // -------------------------------------------------
+        $trans_edit_ikm        = FALSE;
+        if( $ikm_edit_id       = $this->Model_Service->update_ikmdata($uniquecode, $ikm_data) ){
+            $trans_edit_ikm    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah IKM Data tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_edit_ikm ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Ubah IKM Data tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Ubah IKM Data baru berhasil!');
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah IKM Data tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
 
     /**
 	 * IKM Score list data function.

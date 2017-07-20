@@ -1,3 +1,48 @@
+<!-- BEGIN INFORMATION SUCCESS EDIT KATEGORI MODAL -->
+<div class="modal fade" id="edit_ikmdata" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Ubah Daftar Pertanyaan IKM</h4>
+			</div>
+			<div class="modal-body">
+                <?php echo form_open_multipart( 'backend/ikmdataedit', array( 'id'=>'ikmdataedit', 'role'=>'form' ) ); ?>
+                <div id="alert" class="alert display-hide"></div>
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        <label class="form-label">Judul Pertanyaan <b style="color: red !important;">(*)</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                            <div class="form-line">
+                                <input type="hidden" name="reg_uniquecode" id="reg_uniquecode" value="" />
+                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Pertanyaan" required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_category_reset">Bersihkan</button> -->
+                </div>
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        <label class="form-label">Pertanyaan <b style="color: red !important;">(*)</b></label>
+                        <div class="input-group">
+                            <div class="form-line">
+                                <textarea name="reg_question" id="reg_question" cols="30" rows="3" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_edit_ikmdata" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS EDIT KATEGORI MODAL -->
+
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -221,8 +266,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
+        							<option value="confirm">Aktif</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>

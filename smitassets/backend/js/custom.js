@@ -335,7 +335,7 @@ $("body").delegate( "a.workunitedit", "click", function( event ) {
     $('#edit_workunit').modal('show');
 });
 
-// Workunit Edit
+// accompanimentedit Edit
 $("body").delegate( "a.accompanimentedit", "click", function( event ) {
     event.preventDefault();
 
@@ -348,6 +348,25 @@ $("body").delegate( "a.accompanimentedit", "click", function( event ) {
     el_name.val(name);
 
     $('#edit_accompaniment_pra').modal('show');
+});
+
+// ikmdataedit Edit
+$("body").delegate( "a.ikmdataedit", "click", function( event ) {
+    event.preventDefault();
+
+    var uniquecode      = $(this).data('uniquecode');
+    var title           = $(this).data('title');
+    var question        = $(this).data('question');
+
+    var el_uniquecode   = $('#reg_uniquecode');
+    var el_title        = $('#reg_title');
+    var el_question     = $('#reg_question');
+
+    el_uniquecode.val(uniquecode);
+    el_title.val(title);
+    el_question.val(question);
+
+    $('#edit_ikmdata').modal('show');
 });
 
 // Workunit Delete
