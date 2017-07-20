@@ -1171,6 +1171,198 @@ class PraIncubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
+    
+    /**
+	 * Pra Incubation Confirm Score Step 2 All function.
+	 */
+    function praincubationconfirmstep2_all($action, $data){
+        $response   = array();
+        $desc       = 'Pengumuman Hasil Seleksi Pra-Inkubasi Tahap 2<br />Berikut Daftar Pengusul<br />';
+        $user_desc  = array();
+
+        // Check Action
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        // Check Data
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        // Check Admin Priviledges
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
+        }
+
+        if( $praincset->status == 0 ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
+        }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Pra Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %statustwo% = 2 AND %steptwo% = 2';
+            $order_by   = ' %id% ASC';
+            $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
+            if( !$praincseldata || empty($praincseldata) ){
+                continue;
+            }
+            $praincseldata  = $praincseldata[0];
+
+            // Total
+            $sum_score2     = $this->Model_Praincubation->sum_all_score2($praincseldata->id);
+            if(empty($sum_score2)){
+                $sum_score2  = 0;
+            }
+
+            $count_all_jury2= $this->Model_Praincubation->count_all_score2($praincseldata->id);
+            if(empty($count_all_jury2)){
+                $count_all_jury2 = 0;
+            }
+
+            if(!empty($sum_score2) && !empty($count_all_jury2)){
+                $average_score  = round( $sum_score2 / $count_all_jury2 );
+            }else{
+                $average_score  = 0;
+            }
+
+            if( $average_score < KKM_STEP2 ){
+                $status         = REJECTED;
+            }else{
+                $status         = ACCEPTED;
+            }
+
+            $praincselupdatedata    = array(
+                'scoretwo'          => $sum_score2,
+                'average_scoretwo'  => $average_score,
+                'statustwo'         => $status,
+                'datemodified'      => $curdate,
+            );
+
+            if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
+                continue;
+            }else{
+                if( $average_score < KKM_STEP2 ){
+                    // Send Email Notification Not Success Step 2s
+                    $this->smit_email->send_email_selection_not_success_step2($praincset, $praincseldata);
+                }else{
+                    // Update Status User
+                    $status_user        = array(
+                        'type'          => PELAKSANA,
+                        'datemodified'  => $curdate
+                    );
+                    $update_status_user = $this->Model_User->update_data($praincseldata->user_id, $status_user);
+
+                    // Send Email Notification Selection Accepted
+                    $this->smit_email->send_email_selection_accepted($praincset, $praincseldata);
+                }
+
+                // Set User Rejected
+                $user_desc[]        = array(
+                    'name'          => $praincseldata->user_name,
+                    'title'         => $praincseldata->event_title,
+                    'status'        => $status
+                );
+            }
+        }
+        
+        $desc .= '<div class="table-container table-responsive">';
+            $desc .= '<table class="table table-striped table-hover">';
+                $desc .= '
+                <thead>
+                    <tr role="row" class="heading bg-blue">
+                        <th class="width5">No</th>
+                        <th class="width25">Nama Pengusul</th>
+                        <th class="width55">Judul Seleksi</th>
+                        <th class="width15 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                if( !empty($user_desc) ){
+                    $i=1;
+                    foreach($user_desc as $user){
+                        $desc .= '
+                        <tr>
+                            <td class="width5">'.$i.'</td>
+                            <td class="width25">'.$user['name'].'</td>
+                            <td class="width55">'.$user['title'].'</td>
+                            <td class="width15 text-center"><strong>'. ( $user['status'] == ACCEPTED ? 'DITERIMA' : 'DITOLAK' ).'</strong></td>
+                        </tr>';
+                        $i++;
+                    }
+                }else{
+                    $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Pra-Inkubasi</strong></tr>';
+                }
+
+                $desc .= '</tbody>';
+            $desc .= '</table>';
+        $desc .= '</div>';
+        
+        // Save Announcement
+        $announcement_data      = array(
+            'uniquecode'        => smit_generate_rand_string(10,'low'),
+            'user_id'           => $current_user->id,
+            'username'          => strtolower($current_user->username),
+            'name'              => $current_user->name,
+            'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+            'title'             => 'Pengumuman Hasil Seleksi Pra-Inkubasi Tahap 2',
+            'desc'              => $desc,
+            'uploader'          => $current_user->id,
+            'status'            => 1,
+            'datecreated'       => $curdate,
+            'datemodified'      => $curdate,
+        );
+        $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
+
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Pra Inkubasi tahap 2 selesai di proses',
+        );
+        return $response;
+    }
 
     /**
 	 * Pra Incubation Report Confirm function.
@@ -2411,6 +2603,15 @@ class PraIncubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $selectionlist          = $_REQUEST['selectionliststep2'];
+
+            $proses                 = $this->praincubationconfirmstep2_all($sGroupActionName, $selectionlist);
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
