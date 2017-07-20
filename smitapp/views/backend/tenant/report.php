@@ -109,7 +109,7 @@
                                             <?php
                                                 $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                                 if( !empty($is_pendamping) ){
-                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';    
+                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';
                                                 }
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
@@ -182,7 +182,7 @@
     							<th class="width5">No</th>
                                 <th class="width5 text-center">Tahun</th>
     							<!-- <th class="width15">Pengguna</th> -->
-    							<th class="width15">Nama Peneliti Utama</th>
+    							<th class="width15">Nama Tenant</th>
                                 <th class="width10 text-center">Satuan Kerja</th>
                                 <th class="width30 text-center">Judul Kegiatan</th>
                                 <th class="width5 text-center">Berkas</th>
@@ -199,7 +199,7 @@
                                     <?php
                                         $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                         if( !empty($is_pendamping) ){
-                                            $conditions     = ' WHERE %companion_id% = '.$user->id.'';    
+                                            $conditions     = ' WHERE %companion_id% = '.$user->id.'';
                                         }
                                         if( !empty($is_admin) ){
                                             $conditions = ' WHERE %companion_id% > 0';
@@ -377,7 +377,7 @@
                                             <?php
                                                 $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                                 if( !empty($is_pendamping) ){
-                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';    
+                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';
                                                 }
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
@@ -407,17 +407,17 @@
                                                     if( !empty($is_admin) ){
                                                         foreach($cfg_month as $key => $value){
                                                             echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
-                    	                                }    
+                    	                                }
                                                     }else{
                                                         foreach($cfg_month as $key => $value){
                                                             $reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
                                                             $reportpra_list     = $reportpra_list[0];
-                                                            
+
                                                             if($reportpra_list->month != $key)
                                                                 echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
                     	                                }
                                                     }
-                	                                
+
                 	                            }else{
                 	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
                 	                            }

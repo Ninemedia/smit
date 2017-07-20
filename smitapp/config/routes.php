@@ -219,12 +219,12 @@ $route['tenants/pendampingan/detail/(:any)']    = "tenant/companionassignment/$1
 $route['tenants/daftarpendampingan']            = "tenant/accompanimentlistdata";
 $route['tenants/produk']                        = "tenant/tenantproduct";
 $route['tenants/pembayaran']                    = "tenant/tenantpayment";
-$route['tenants/laporan']                       = "tenant/tenantreport";
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['tenants/produk/detail/(:any)']          = "tenant/productdetails/$1";
+$route['tenants/laporan']                       = "tenant/tenantreport";
 $route['tenants/laporandata']                   = "tenant/reportdata";
 $route['tenants/laporandatauser']               = "tenant/reportdatauser";
 

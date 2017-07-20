@@ -2595,7 +2595,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Report Inkubasi/Tenant Add Function
 	 */
@@ -2693,7 +2693,7 @@ class Tenant extends User_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-            
+
             // -------------------------------------------------
             // Save Report Incubation/Tenant
             // -------------------------------------------------
@@ -2744,7 +2744,7 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Report Incubation/Tenant list data function.
 	 */
@@ -2832,7 +2832,7 @@ class Tenant extends User_Controller {
                 $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
-                $count_all_report  = $this->Model_Tenant->count_all_reportincubation($row->user_id, $row->tenant_id);
+                $count_all_report  = $this->Model_Tenant->count_all_reporttenant($row->user_id, $row->tenant_id);
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
@@ -2859,7 +2859,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Report Incubation/Tenant list data function.
 	 */
@@ -2867,7 +2867,7 @@ class Tenant extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
-        
+
         $condition          = '';
         if( !$is_admin ){
             $condition      = ' WHERE %user_id% = '.$current_user->id.'';
@@ -2929,18 +2929,18 @@ class Tenant extends User_Controller {
             elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 15 )  { $order_by .= '%datecreated% ' . $sort; }
         }
-        
-        $reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation($limit, $offset, $condition, $order_by);
+
+        $reportinc_list     = $this->Model_Tenant->get_all_reporttenant($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
 
-        if( !empty($reportpra_list) ){
+        if( !empty($reportinc_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('files_status');
 
             $i = $offset + 1;
-            foreach($reportpra_list as $row){
+            foreach($reportinc_list as $row){
                 // Status
                 $btn_action = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
@@ -2960,10 +2960,8 @@ class Tenant extends User_Controller {
                 $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
-                
-                $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
-                
-                
+                $count_all_report  = $this->Model_Tenant->count_all_reporttenant($row->user_id, $row->tenant_id);
+
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }elseif($row->status == ACTIVE)  {
