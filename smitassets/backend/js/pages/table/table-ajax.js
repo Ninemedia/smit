@@ -44,6 +44,11 @@ var TableAjax = function () {
     var handleRecordsPraIncubationReportList = function() {
         gridTable( $("#list_praincubationreport"), true );
     };
+    
+    // Tenant Report Lists
+    var handleRecordsTenantReportList = function() {
+        gridTable( $("#list_tenantreport"), true );
+    };
 
     // Admin Selection Lists Step One
     var handleRecordsAdminStepOneList = function() {
@@ -390,6 +395,7 @@ var TableAjax = function () {
             handleRecordsTenantAccompanimentList();
             handleRecordsTenantAcceptedList();
             handleRecordsBlogTenant();
+            handleRecordsTenantReportList();
 
             //Jury
             handleRecordsJuryStepOneList();

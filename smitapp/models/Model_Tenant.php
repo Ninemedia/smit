@@ -12,6 +12,7 @@ class Model_Tenant extends SMIT_Model{
     public $incubation_selection    = 'smit_incubation_selection';
     public $incubation_product      = 'smit_incubation_product';
     public $incubation_blog         = 'smit_incubation_blog';
+    public $incubation_report       = 'smit_incubation_report';
 
     /**
      * Initialize primary field
@@ -538,7 +539,96 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->row()->total;
     }
+    
+    /**
+     * Save data of report praincubation
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of product pra incubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_report($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->incubation_report, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Retrieve all incubation/tenant report data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_reporttenantadmin($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "B.year", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%workunit%",             "C.workunit", $conditions);
+        }
 
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "B.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%workunit%",             "C.workunit",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*, B.event_title, B.event_desc, B.year, C.workunit
+            FROM ' . $this->incubation_report. ' AS A
+            LEFT JOIN ' . $this->incubation . ' AS B ON B.id = A.tenant_id
+            LEFT JOIN ' . $this->user .' AS C ON C.id = A.user_id
+            GROUP BY A.user_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
+    
+    /**
+     * Count All Rows
+     *
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_reportincubation($user_id=0, $tenant_id=0){
+        if ( $user_id != 0 )            { $this->db->where('user_id', $user_id); }
+        if ( $tenant_id != 0 )          { $this->db->where('tenant_id', $tenant_id); }
+
+        $query = $this->db->get($this->incubation_report);
+
+        return $query->num_rows();
+    }
+    
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_User.php */
