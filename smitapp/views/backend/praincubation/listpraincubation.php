@@ -12,7 +12,7 @@
                             <i class="material-icons">list</i> DAFTAR PRA-INKUBASI
                         </a>
                     </li>
-                    
+
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
                             <i class="material-icons">add_box</i> TAMBAH PRA-INKUBASI
@@ -50,7 +50,7 @@
             							<td></td>
                                         <td></td>
                                         <td>
-                                            <select name="search_year" class="form-control form-filter input-sm def">
+                                            <select name="search_year" class="form-control form-filter input-sm show-tick">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);

@@ -1841,7 +1841,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
      * Retrieve all pra incubation report data
      *
@@ -1913,6 +1913,24 @@ class Model_Praincubation extends SMIT_Model{
         $query = $this->db->get($this->praincubation_report);
 
         return $query->num_rows();
+    }
+
+    /**
+     * Update Companion by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_companion($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->praincubation, $data) )
+            return true;
+
+        return false;
     }
     // ---------------------------------------------------------------------------------
 }
