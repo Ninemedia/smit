@@ -1231,10 +1231,8 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($workunit_list as $row){
-
-                // Status
-                $btn_action = '<a class="workunitedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->workunit_id.'" data-name="'.$row->workunit_name.'" title="Ubah"><i class="material-icons">edit</i></a>
-                <a href="'.($row->workunit_id>1 ? base_url('workunitconfirm/delete/'.$row->workunit_id) : 'javascript:;' ).'" class="workunitdelete btn btn-xs btn-danger waves-effect tooltips" data-placement="right" title="Hapus" '.($row->workunit_id==0 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
+                // Button
+                $btn_action = '<a class="workunitedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->workunit_id.'" data-name="'.$row->workunit_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 $records["aaData"][] = array(
                     smit_center('<input name="workunitlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->workunit_id.'" value="' . $row->workunit_id . '" type="checkbox"/>
                     <label for="cblist'.$row->workunit_id.'"></label>'),
@@ -1248,6 +1246,16 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $workunitlist           = $_REQUEST['workunitlist'];
+            
+            $proses                 = $this->workunitdelete($sGroupActionName, $workunitlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
+        
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -1429,9 +1437,9 @@ class Backend extends User_Controller {
 	}
 
     /**
-	 * Workunit Confirm / Delete function.
+	 * Workunit Delete function.
 	 */
-    function workunitconfirm($action, $id){
+    function workunitdelete($action, $workunit_list){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
@@ -1442,7 +1450,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         };
 
-        if ( !$id ){
+        if ( !$workunit_list ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'ID satuan kerja harus dicantumkan');
             // JSON encode data
@@ -1457,25 +1465,27 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-
-        $workunitdata       = smit_get_workunitdata_by_id($id);
-        if( !$workunitdata ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data satuan kerja tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
-        }
-
-        if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
-            // Set JSON data
-            $data = array('msg' => 'success','message' => 'Data satuan kerja berhasil dihapus.');
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Hapus data satuan kerja tidak berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
+        
+        foreach($workunit_list AS $id){
+            $workunitdata       = smit_get_workunitdata_by_id($id);
+            if( !$workunitdata ){
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Data satuan kerja tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            }
+    
+            if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
+                // Set JSON data
+                $data = array('msg' => 'success','message' => 'Data satuan kerja berhasil dihapus.');
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Hapus data satuan kerja tidak berhasil dilakukan.');
+                // JSON encode data
+                die(json_encode($data));
+            }    
         }
     }
     // ---------------------------------------------------------------------------------------------
@@ -3483,6 +3493,15 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $categorylist           = $_REQUEST['categorylist'];
+            
+            $proses                 = $this->categorydelete($sGroupActionName, $categorylist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -3581,7 +3600,7 @@ class Backend extends User_Controller {
     /**
 	 * Category Delete function.
 	 */
-    function categorydelete($action, $id){
+    function categorydelete($action, $categorylist){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
@@ -3592,7 +3611,7 @@ class Backend extends User_Controller {
             die(json_encode($data));
         };
 
-        if ( !$id ){
+        if ( !$categorylist ){
             // Set JSON data
             $data = array('msg' => 'error','message' => 'ID kategori harus dicantumkan');
             // JSON encode data
@@ -3607,25 +3626,27 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-
-        $categorydata       = $this->Model_Option->get_categorydata($id);
-        if( !$categorydata ){
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Data kategori tidak ditemukan atau belum terdaftar');
-            // JSON encode data
-            die(json_encode($data));
-        }
-
-        if( $this->Model_Option->delete_category($categorydata->category_id) ){
-            // Set JSON data
-            $data = array('msg' => 'success','message' => 'Data kategori berhasil dihapus.');
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // Set JSON data
-            $data = array('msg' => 'error','message' => 'Hapus data kategori tidak berhasil dilakukan.');
-            // JSON encode data
-            die(json_encode($data));
+        
+        foreach($categorylist AS $id){
+            $categorydata       = $this->Model_Option->get_categorydata($id);
+            if( !$categorydata ){
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Data kategori tidak ditemukan atau belum terdaftar');
+                // JSON encode data
+                die(json_encode($data));
+            }
+            
+            if( $this->Model_Option->delete_category($categorydata->category_id) ){
+                // Set JSON data
+                $data = array('msg' => 'success','message' => 'Data kategori berhasil dihapus.');
+                // JSON encode data
+                die(json_encode($data));
+            }else{
+                // Set JSON data
+                $data = array('msg' => 'error','message' => 'Hapus data kategori tidak berhasil dilakukan.');
+                // JSON encode data
+                die(json_encode($data));
+            }    
         }
     }
 
