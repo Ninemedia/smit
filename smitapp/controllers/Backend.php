@@ -4651,6 +4651,11 @@ class Backend extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'infografis/praincubation';
+        
+        $chart = array();
+        if ( $stats = $this->Model_Praincubation->stats_yearly() ) {
+            
+        }
 
 		// Log for dashboard
 		if ( ! $this->session->userdata( 'log_dashboard' ) ) {

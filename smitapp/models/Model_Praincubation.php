@@ -1942,6 +1942,16 @@ class Model_Praincubation extends SMIT_Model{
 	 * @param string $to   Stats to
 	 */
 	function stats_yearly() {
+        // Check Pra Incubation Setting
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            return false;
+        }
+        
+        echo "<pre>";
+        print_r($praincset);
+        die();
+       
 		$sql = '
         SELECT
 			DATE_FORMAT( datecreated, "%Y") AS period,
