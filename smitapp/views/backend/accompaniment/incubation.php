@@ -200,7 +200,7 @@
             							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list filled-in chk-col-orange" /><label for="select_all"></label></th>
    							            <th class="width5">No</th>
             							<th class="width20 text-center">Nama</th>
-            							<th class="width20 text-center">Nama Tenant</th>
+            							<th class="width15 text-center">Nama Tenant</th>
             							<th class="width20 text-center">Judul Notulensi</th>
             							<th class="width5 text-center">Berkas</th>
             							<th class="width10 text-center">Status</th>

@@ -22,10 +22,10 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            
+
                                 <div class="table-container table-responsive table-praincubation-score">
-                                    <div class="table-actions-wrapper">                           
-                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a>     
+                                    <div class="table-actions-wrapper">
+                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
@@ -53,7 +53,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -70,7 +70,7 @@
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -113,11 +113,11 @@
                                     </table>
                                 </div>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
-                                <div class="table-actions-wrapper">                          
-                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>     
+                                <div class="table-actions-wrapper">
+                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>
                         		    <!-- <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
                                 </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep2'); ?>">
@@ -146,7 +146,7 @@
                                                             $option[$val] = $val;
                                                         }
                                                     }
-                                                    
+
                                                     if( !empty($option) ){
                                                         foreach($option as $val){
                                                             echo '<option value="'.$val.'">'.$val.'</option>';
@@ -163,7 +163,7 @@
                                                 	$workunit_type = smit_workunit_type();
                                                     $option = array('' => 'Pilih...');
                                                     $extra = 'name="search_workunit" class="form-control show-tick"';
-                        
+
                                                     if( !empty($workunit_type) ){
                                                         foreach($workunit_type as $val){
                                                             $option[$val->workunit_id] = $val->workunit_name;
@@ -207,9 +207,9 @@
                             </div>
                         </div>
                     </div>
-                
+
                 <?php elseif($is_jury): ?>
-                
+
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
@@ -255,7 +255,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -272,7 +272,7 @@
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -316,7 +316,7 @@
                                     </table>
                                 </div>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('seleksiinkubasi/jurinilaidatastep2'); ?>">
@@ -346,7 +346,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -363,7 +363,7 @@
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -408,11 +408,11 @@
                                 </div>
                         </div>
                     </div>
-                    
+
                 <?php elseif($is_pelaksana): ?>
-                
+
                 <?php else: ?>
-                
+
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
@@ -430,7 +430,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                             
+
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('incubation/pengusulscorelistdatastep1/'. $user->id.''); ?>">
                                     <thead>
@@ -456,7 +456,7 @@
                                                             $option[$val] = $val;
                                                         }
                                                     }
-                                                    
+
                                                     if( !empty($option) ){
                                                         foreach($option as $val){
                                                             echo '<option value="'.$val.'">'.$val.'</option>';
@@ -473,7 +473,7 @@
                                             <td>
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                 								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
-                							</td>    
+                							</td>
                                             <td>
                                                 <select name="search_status" class="form-control form-filter input-sm">
                 									<option value="">Pilih...</option>
@@ -501,17 +501,17 @@
                                 </table>
                             </div>
                         </div>
-    
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
-                            <?php 
+                            <?php
                                 $condition              = ' WHERE A.user_id = "'.$user->id.'" AND %statustwo% <> 0';
                                 $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
                                 $data_selection         = $data_selection[0];
                             ?>
                             <?php if( empty($data_selection) || !$data_selection ) : ?>
-                                <div class="alert alert-warning bottom0">Maaf, untuk saat ini pengajuan Seleksi Inkubasi anda belum memasuki tahap 2</div>
+                                <div class="alert alert-info bottom0">Maaf, untuk saat ini pengajuan Seleksi Inkubasi anda belum memasuki tahap 2</div>
                             <?php else :  ?>
-                                <?php if($data_selection->status == 3 && $data_selection->statustwo <> 0) : ?>    
+                                <?php if($data_selection->status == 3 && $data_selection->statustwo <> 0) : ?>
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('incubation/pengusulscorelistdatastep2/'. $user->id.''); ?>">
                                         <thead>
@@ -537,7 +537,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -582,13 +582,13 @@
                                     </table>
                                 </div>
                                 <?php else : ?>
-                                    <div class="alert alert-danger bottom0">Maaf anda tidak lulus pada tahap 1. Terima Kasih</div>  
+                                    <div class="alert alert-danger bottom0">Maaf anda tidak lulus pada tahap 1. Terima Kasih</div>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
-                    
-                <?php endif ?>  
+
+                <?php endif ?>
             </div>
         </div>
     </div>

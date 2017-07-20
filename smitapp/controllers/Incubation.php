@@ -164,20 +164,20 @@ class Incubation extends User_Controller {
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-        
+
         if( !empty($is_admin) ){
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }    
+            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         }else{
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; } 
+            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         }
 
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
@@ -227,7 +227,7 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
-                    );    
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -237,9 +237,9 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
-                    );    
+                    );
                 }
-                
+
                 $i++;
             }
         }
@@ -307,15 +307,15 @@ class Incubation extends User_Controller {
             elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }    
+            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         }else{
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }    
+            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         }
-        
+
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
 
         $records            = array();
@@ -352,7 +352,7 @@ class Incubation extends User_Controller {
                     $event      = '<strong style="color : red !important; ">'.$event.'</strong>';
                     $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
                 }
-                
+
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -363,7 +363,7 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
-                    );    
+                    );
                 }else{
                     $records["aaData"][] = array(
                         smit_center( $i ),
@@ -373,9 +373,9 @@ class Incubation extends User_Controller {
                         smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
-                    );    
+                    );
                 }
-                
+
                 $i++;
             }
         }
@@ -2525,7 +2525,7 @@ class Incubation extends User_Controller {
 
                 //Workunit
                 $workunit_type = smit_workunit_type($row->workunit);
-                
+
                 $score          = $row->scoretwo;
                 $average_score  = $row->average_scoretwo;
                 $year           = $row->year;
@@ -3431,7 +3431,7 @@ class Incubation extends User_Controller {
                         $update_data_files      = array(
                             'incubation_id'     => $incubation_save_id,
                         );
-                        
+
                         $this->Model_Incubation->update_data_incubation_files($data_selection->id, $update_data_files);
                     }
                 }
@@ -4414,18 +4414,21 @@ class Incubation extends User_Controller {
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
 
+
                 if( $average_score < KKM_STEP1 ){
                     $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
 
-                if( $i == 1 ){
-                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
-                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
-                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
-                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
-                    $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
-                    $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
+                if($current_user->id == $row->user_id){
+                    if( $i == 1 ){
+                        $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
+                        $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
+                        $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
+                        $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
+                        $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
+                        $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
+                        $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
+                    }
                 }
 
                 $records["aaData"][] = array(
@@ -4560,14 +4563,16 @@ class Incubation extends User_Controller {
                     $average_score      = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
                 }
 
-                if( $i == 1 ){
-                    $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
-                    $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
-                    $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
-                    $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
-                    $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
-                    $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
+                if($current_user->id == $row->user_id){
+                    if( $i == 1 ){
+                        $workunit   = '<strong style="color : green !important; ">'.$workunit.'</strong>';
+                        $name       = '<strong style="color : green !important; ">'.$name.'</strong>';
+                        $year       = '<strong style="color : green !important; ">'.$year.'</strong>';
+                        $event      = '<strong style="color : green !important; ">'.$event.'</strong>';
+                        $datecreated= '<strong style="color : green !important; ">'.$datecreated.'</strong>';
+                        $sum_score  = '<strong style="color : green !important; ">'.floor($sum_score).'</strong>';
+                        $average_score  = '<strong style="color : green !important; ">'.floor($average_score).'</strong>';
+                    }
                 }
 
                 $records["aaData"][] = array(
@@ -4875,7 +4880,7 @@ class Incubation extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Incubation Add Function
 	 */
@@ -4939,12 +4944,12 @@ class Incubation extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             if( !empty($category) ){
                 $data_category      = $this->Model_Option->get_all_category(0, 0, ' WHERE %category_id% = '.$category.'');
                 $data_category      = $data_category[0];
             }
-            
+
             $incubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
@@ -4958,7 +4963,7 @@ class Incubation extends User_Controller {
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
-            
+
             // -------------------------------------------------
             // Save Incubation Selection
             // -------------------------------------------------
@@ -4990,7 +4995,7 @@ class Incubation extends User_Controller {
                     // Set File Upload Save
                     $file = $upload_data;
                     $incubationselectionfiles_data = array(
-                        'incubation_id' => $incubation_save_id, 
+                        'incubation_id' => $incubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
                         'user_id'       => $current_user->id,
@@ -5021,7 +5026,7 @@ class Incubation extends User_Controller {
                     // Set File Upload Save
                     $file_rab = $upload_data_rab;
                     $incubationselectionfilesrab_data = array(
-                        'incubation_id' => $incubation_save_id, 
+                        'incubation_id' => $incubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
                         'user_id'       => $current_user->id,
@@ -5084,7 +5089,7 @@ class Incubation extends User_Controller {
             }
         }
 	}
-    
+
     // ---------------------------------------------------------------------------------------------
 
 
