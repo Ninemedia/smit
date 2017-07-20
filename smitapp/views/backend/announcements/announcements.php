@@ -27,8 +27,6 @@
     						<span></span>
     						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
     							<option value="">Select...</option>
-    							<option value="confirm">Konfirmasi</option>
-    							<option value="banned">Banned</option>
     							<option value="delete">Hapus</option>
     						</select>
     						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -36,7 +34,7 @@
                         <table class="table table-striped table-bordered table-hover" id="announcement_list" data-url="<?php echo base_url('backend/announcementlistdata'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
-        							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list filled-in chk-col-orange" /><label for="select_all"></label></th>
+        							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
    							        <th class="width5">No</th>
         							<th class="width15 text-center">No Pengumuman</th>
         							<th class="width35 text-center">Judul Pengumuman</th>
@@ -198,8 +196,6 @@
 						<span></span>
 						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 							<option value="">Select...</option>
-							<option value="confirm">Konfirmasi</option>
-							<option value="banned">Banned</option>
 							<option value="delete">Hapus</option>
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -207,7 +203,7 @@
                     <table class="table table-striped table-bordered table-hover" id="announcementuser_list" data-url="<?php echo base_url('announcementslist'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
-    							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list filled-in chk-col-orange" /><label for="select_all"></label></th>
+    							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
    							    <th class="width5">No</th>
     							<th class="width20 text-center">No Pengumuman</th>
     							<th class="width60 text-center">Judul Pengumuman</th>
