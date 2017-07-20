@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Laporan Seleksi Pra Inkubasi</h2></div>
+            <div class="header"><h2>Laporan Pelaksanaan Pra Inkubasi</h2></div>
             <div class="body">
                 <?php if($is_admin): ?>
                 <!-- Nav tabs -->
@@ -164,7 +164,7 @@
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">
 						<span></span>
-						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 							<option value="">Select...</option>
 							<option value="confirm">Konfirmasi</option>
 							<option value="banned">Banned</option>
@@ -192,7 +192,7 @@
     							<td></td>
                                 <td></td>
                                 <td>
-                                    <select name="search_year" class="form-control form-filter input-sm def">
+                                    <select name="search_year" class="form-control form-filter input-sm">
                                     <?php
                                         $option = array(''=>'Pilih Tahun');
                                         $year_arr = smit_select_year(date('Y'),2030);
@@ -280,7 +280,7 @@
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>
-        						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
@@ -305,7 +305,7 @@
             							<td></td>
                                         <td></td>
                                         <td>
-                                            <select name="search_year" class="form-control form-filter input-sm def">
+                                            <select name="search_year" class="form-control form-filter input-sm">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);
