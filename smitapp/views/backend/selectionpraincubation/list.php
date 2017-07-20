@@ -18,31 +18,31 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="stepone">
                         <div class="table-container table-responsive">
-                            <div class="table-actions-wrapper">                           
+                            <div class="table-actions-wrapper">
                                 <?php
                                     $curdate    = date('Y-m-d H:i:s');
                                     $curdate    = strtotime($curdate);
-                                ?>  
-                                
+                                ?>
+
                                 <?php if( !empty($lss) ){
                                     $selection_date_adm_start   = strtotime($lss->selection_date_adm_start);
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
-                                    
-                                    //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>                         
+
+                                    //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ){ ?>
                                         <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirm">Konfirmasi Semua</a>-->
                                         <span></span>
                 						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
                 							<option value="">Select...</option>
                 							<option value="confirm">Konfirmasi</option>
                 						</select>
-                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>     
+                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                                     <?php //}
-                                } ?>  
+                                } ?>
                     		</div>
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
                                 <thead>
@@ -70,7 +70,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -83,18 +83,26 @@
                                         </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td>
+                                            <select name="search_workunit" class="form-control form-filter input-sm def">
                                             <?php
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
                                                     }
                                                 }
-                                                echo form_dropdown('workunit_type',$option,'',$extra);
+
+                                                if( !empty($option) ){
+                                                    foreach($option as $val){
+                                                        echo '<option value="'.$val.'">'.$val.'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">Tidak Ada Pilihan</option>';
+                                                }
                                             ?>
+                                            </select>
                                         </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                         <td>
@@ -154,7 +162,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -171,7 +179,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
@@ -211,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <?php else : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -226,21 +234,21 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="stepone">
                         <div class="table-container table-responsive">
-                            <div class="table-actions-wrapper">                           
+                            <div class="table-actions-wrapper">
                                 <?php
                                     $curdate    = date('Y-m-d H:i:s');
                                     $curdate    = strtotime($curdate);
-                                ?>  
-                                
+                                ?>
+
                                 <?php if( !empty($lss) ){
                                     $selection_date_adm_start   = strtotime($lss->selection_date_adm_start);
                                     $selection_date_adm_end     = strtotime($lss->selection_date_adm_end);
-                                } ?>  
+                                } ?>
                     		</div>
                             <table class="table table-striped table-bordered table-hover" id="praincubation_list" data-url="<?php echo base_url('seleksiprainkubasi/daftardatastep1'); ?>">
                                 <thead>
@@ -265,7 +273,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -281,7 +289,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;
@@ -345,7 +353,7 @@
                                                         $option[$val] = $val;
                                                     }
                                                 }
-                                                
+
                                                 if( !empty($option) ){
                                                     foreach($option as $val){
                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -361,7 +369,7 @@
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
                                                 $extra = 'name="search_workunit" class="form-control show-tick"';
-                    
+
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
                                                         $option[$val->workunit_id] = $val->workunit_name;

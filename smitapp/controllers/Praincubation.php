@@ -244,45 +244,55 @@ class PraIncubation extends User_Controller {
         $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
         $offset             = $iDisplayStart;
 
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
         $s_workunit         = $this->input->post('search_workunit');
         $s_workunit         = smit_isset($s_workunit, '');
+        $s_workunit         = ( $s_workunit == 'Pilih Satuan Kerja' ? '' : $s_workunit );
         $s_title            = $this->input->post('search_title');
         $s_title            = smit_isset($s_title, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
-        $s_year             = $this->input->post('search_year');
-        $s_year             = smit_isset($s_year, '');
-        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
+        if( !empty($s_workunit) ){
+            $workunit_type  = smit_workunit_type_byname($s_workunit);
+            $s_workunit     = '';
+            if( !empty($workunit_type) ){
+                $s_workunit     = $workunit_type->workunit_id;
+            }
+
+        }
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = %s%'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
-        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( !empty($is_admin) ){
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
         }else{
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
         }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubation($limit, $offset, $condition, $order_by);

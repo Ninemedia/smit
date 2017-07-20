@@ -50,7 +50,7 @@
             							<td></td>
                                         <td></td>
                                         <td>
-                                            <select name="search_year" class="form-control form-filter input-sm show-tick">
+                                            <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);
@@ -76,7 +76,7 @@
                                             <?php
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
+                                                $extra = 'name="search_workunit" class="form-control def"';
 
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){

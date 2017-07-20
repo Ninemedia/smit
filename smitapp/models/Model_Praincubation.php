@@ -779,6 +779,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%step%",                 "A.step", $conditions);
             $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%workunit%",             "B.workunit", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -798,6 +799,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%workunit%",             "B.workunit",  $order_by);
         }
 
         $sql = '
