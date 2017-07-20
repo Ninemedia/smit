@@ -1920,7 +1920,7 @@ class Model_Praincubation extends SMIT_Model{
      *
      * @author  Iqbal
      * @param   Int     $id     (Required)  Incibation ID
-     * @param   Array   $data   (Required)  Array data of product
+     * @param   Array   $data   (Required)  Array data of praincubation
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
     function update_companion($uniquecode, $data){
