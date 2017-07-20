@@ -12,7 +12,7 @@
                             <i class="material-icons">list</i> DAFTAR PRA-INKUBASI
                         </a>
                     </li>
-                    
+
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
                             <i class="material-icons">add_box</i> TAMBAH PRA-INKUBASI
@@ -76,7 +76,7 @@
                                             <?php
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
+                                                $extra = 'name="search_workunit" class="form-control def"';
 
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){

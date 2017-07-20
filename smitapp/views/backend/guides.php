@@ -1,7 +1,7 @@
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    
+
         <!-- Start List Guide Files -->
         <div class="card">
             <div class="header">
@@ -22,7 +22,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
@@ -31,8 +31,6 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -70,7 +68,7 @@
                                     <!-- Data Will Be Placed Here -->
                                 </tbody>
                             </table>
-                        </div>       
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( '', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
@@ -82,18 +80,18 @@
                                     Terjadi kesalahan, silahkan periksa kembali form dibawah!
                                 <?php } ?>
                     		</div>
-                            
+
                             <div class="alert alert-success error-validate <?php echo empty($flashdata) ? 'display-hide' : ''; ?>">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
                                 <?php if( !empty($flashdata) ){ ?>
                                     <?php echo $flashdata; ?>
                                 <?php } ?>
                     		</div>
-        
+
                             <div class="form-group">
                                 <label class="control-label">Judul Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
-                                    <?php 
+                                    <?php
                                         echo form_input(
                                             'guide_title',
                                             ( !empty($post) ? smit_isset($post['guide_title'],'') : '' ),
@@ -102,14 +100,14 @@
                                                 'placeholder'=>'Masukan Judul Berkas Digital...',
                                                 'required'=>'required'
                                             )
-                                        ); 
+                                        );
                                     ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Deskripsi Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
-                                    <?php 
+                                    <?php
                                         echo form_textarea(
                                             array(
                                                 'name'=>'guide_description',
@@ -118,7 +116,7 @@
                                                 'placeholder'=>'Silahkan isi deskripsi dari berkas Berkas Digital dengan maksimal 400 huruf...'
                                             ),
                                             ( !empty($post) ? smit_isset($post['guide_description'],'') : '' )
-                                        ); 
+                                        );
                                     ?>
                                 </div>
                             </div>
@@ -131,7 +129,7 @@
                                 <input id="guide_selection_files" name="guide_selection_files" class="form-control" type="file">
                             </div>
                             <button class="btn btn-sm bg-blue waves-effect" type="submit">Unggah Berkas</button>
-                        <?php echo form_close(); ?>    
+                        <?php echo form_close(); ?>
                     </div>
                 </div>
                 <?php else: ?>
@@ -177,12 +175,12 @@
                             <!-- Data Will Be Placed Here -->
                         </tbody>
                     </table>
-                </div> 
-                <?php endif ?> 
+                </div>
+                <?php endif ?>
             </div>
         </div>
         <!-- End List Guide Files -->
-    
+
     </div>
 </div>
 <!-- #END# Content -->

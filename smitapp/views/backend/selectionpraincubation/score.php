@@ -24,29 +24,29 @@
                         <?php
                             $curdate    = date('Y-m-d H:i:s');
                             $curdate    = strtotime($curdate);
-                            
+
                             $selection_date_adm_start   = !empty($lss) ? strtotime($lss->selection_date_adm_start) : date('Y-m-d H:i:s');
                             $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
-                        ?>   
-                        
+                        ?>
+
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?> 
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ): ?>
                                 <div class="table-container table-responsive table-praincubation-score">
-                                    
-                                    <div class="table-actions-wrapper">                           
+
+                                    <div class="table-actions-wrapper">
                                     <?php
                                         $selection_date_invitation_send   = !empty($lss) ? strtotime($lss->selection_date_invitation_send) : date('Y-m-d H:i:s');
                                         $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
-                                    ?>   
-                                    <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>                        
-                                        <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>-->   
+                                    ?>
+                                    <?php // if( $curdate >= $selection_date_invitation_send && $curdate <= $selection_date_interview_start ){ ?>
+                                        <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect tooltips praincubationconfirmstep1" data-placement="top" title="Detail"><i class="material-icons">done_all</i></a>-->
                                         <span></span>
                 						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
                 							<option value="">Select...</option>
                 							<option value="confirm">Konfirmasi</option>
                 						</select>
-                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>     
-                                    <?php // } ?>    
+                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                    <?php // } ?>
                         		    </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
@@ -76,7 +76,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -93,7 +93,7 @@
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -139,28 +139,28 @@
                                 <!-- <div class="alert alert-info bottom0">Proses penilaian pada tahap 1 belum dibuka. Terima Kasih</div>  -->
                             <?php //endif; ?>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <?php
                                 $selection_date_interview_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : date('Y-m-d H:i:s');
                                 $selection_date_interview_end     = !empty($lss) ? strtotime($lss->selection_date_interview_end) : date('Y-m-d H:i:s');
-                            ?>  
+                            ?>
                             <?php //if( $curdate >= $selection_date_interview_start && $curdate <= $selection_date_interview_end ) : ?>
                             <div class="table-container table-responsive">
-                                <div class="table-actions-wrapper">                           
+                                <div class="table-actions-wrapper">
                                 <?php
                                     $selection_date_result          = !empty($lss) ? strtotime($lss->selection_date_result) : date('Y-m-d H:i:s');
                                     $selection_date_proposal_start  = !empty($lss) ? strtotime($lss->selection_date_proposal_start) : date('Y-m-d H:i:s');
-                                ?> 
-                                <?php //if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){ ?>                          
+                                ?>
+                                <?php //if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){ ?>
                                     <!--<a href="<?php echo base_url('seleksiprainkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect praincubationconfirmstep2"><i class="material-icons">done_all</i></a>-->
                                     <span></span>
             						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
             							<option value="">Select...</option>
             							<option value="confirm">Konfirmasi</option>
             						</select>
-            						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>  
-                                <?php //} ?>    
+            						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                <?php //} ?>
                     		    </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/adminnilaidatastep2'); ?>">
                                     <thead>
@@ -190,7 +190,7 @@
                                                             $option[$val] = $val;
                                                         }
                                                     }
-                                                    
+
                                                     if( !empty($option) ){
                                                         foreach($option as $val){
                                                             echo '<option value="'.$val.'">'.$val.'</option>';
@@ -207,7 +207,7 @@
                                                 	$workunit_type = smit_workunit_type();
                                                     $option = array('' => 'Pilih...');
                                                     $extra = 'name="search_workunit" class="form-control show-tick"';
-                        
+
                                                     if( !empty($workunit_type) ){
                                                         foreach($workunit_type as $val){
                                                             $option[$val->workunit_id] = $val->workunit_name;
@@ -254,7 +254,7 @@
                             <?php //endif; ?>
                         </div>
                     </div>
-                
+
                 <?php elseif($is_jury): ?>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
@@ -279,12 +279,12 @@
                                 <?php
                                     $curdate    = date('Y-m-d H:i:s');
                                     $curdate    = strtotime($curdate);
-                                    
+
                                     $selection_date_adm_start   = !empty($lss) ? strtotime($lss->selection_date_adm_start) : date('Y-m-d H:i:s');
                                     $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : date('Y-m-d H:i:s');
-                                ?> 
-                                
-                                <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>     
+                                ?>
+
+                                <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>
                                     <div class="table-container table-responsive table-praincubation-score">
                                         <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiprainkubasi/jurinilaidatastep1'); ?>">
                                             <thead>
@@ -313,7 +313,7 @@
                                                                     $option[$val] = $val;
                                                                 }
                                                             }
-                                                            
+
                                                             if( !empty($option) ){
                                                                 foreach($option as $val){
                                                                     echo '<option value="'.$val.'">'.$val.'</option>';
@@ -330,7 +330,7 @@
                                                         	$workunit_type = smit_workunit_type();
                                                             $option = array('' => 'Pilih...');
                                                             $extra = 'name="search_workunit" class="form-control show-tick"';
-                                
+
                                                             if( !empty($workunit_type) ){
                                                                 foreach($workunit_type as $val){
                                                                     $option[$val->workunit_id] = $val->workunit_name;
@@ -378,7 +378,7 @@
                                 <?php //endif; ?>
                             <?php endif; ?>
                         </div>
-                        
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <?php if( $active == 0 ) : ?>
                                 <div class="alert alert-warning bottom0">Saat ini anda sedang tidak menjadi juri pada tahap 2. Terima kasih.</div>
@@ -411,7 +411,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -428,7 +428,7 @@
                                                     	$workunit_type = smit_workunit_type();
                                                         $option = array('' => 'Pilih...');
                                                         $extra = 'name="search_workunit" class="form-control show-tick"';
-                            
+
                                                         if( !empty($workunit_type) ){
                                                             foreach($workunit_type as $val){
                                                                 $option[$val->workunit_id] = $val->workunit_name;
@@ -474,11 +474,11 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    
+
                 <?php elseif($is_pelaksana): ?>
-                
+
                 <?php else: ?>
-                
+
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
@@ -498,16 +498,16 @@
                         <?php
                             $curdate    = date('Y-m-d H:i:s');
                             $curdate    = strtotime($curdate);
-                            
+
                             $selection_date_adm_start   = !empty($lss) ? strtotime($lss->selection_date_adm_start) : $curdate;
                             $selection_date_adm_end     = !empty($lss) ? strtotime($lss->selection_date_adm_end) : $curdate;
-                            
+
                             $selection_date_int_start   = !empty($lss) ? strtotime($lss->selection_date_interview_start) : $curdate;
                             $selection_date_int_end     = !empty($lss) ? strtotime($lss->selection_date_interview_end) : $curdate;
-                        ?> 
-                    
-                        <div role="tabpanel" class="tab-pane fade in active" id="step_one"> 
-                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>  
+                        ?>
+
+                        <div role="tabpanel" class="tab-pane fade in active" id="step_one">
+                            <?php //if( $curdate >= $selection_date_adm_start && $curdate <= $selection_date_adm_end ) : ?>
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('praincubation/pengusulscorelistdatastep1/'. $user->id.''); ?>">
                                         <thead>
@@ -533,7 +533,7 @@
                                                                 $option[$val] = $val;
                                                             }
                                                         }
-                                                        
+
                                                         if( !empty($option) ){
                                                             foreach($option as $val){
                                                                 echo '<option value="'.$val.'">'.$val.'</option>';
@@ -550,7 +550,7 @@
                                                 <td>
                     								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
                     								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
-                    							</td>    
+                    							</td>
                                                 <td>
                                                     <select name="search_status" class="form-control form-filter input-sm">
                     									<option value="">Pilih...</option>
@@ -585,16 +585,16 @@
                                 <?php //}?>
                             <?php //endif; ?>
                         </div>
-    
+
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
-                            <?php //if( $curdate >= $selection_date_int_start && $curdate <= $selection_date_int_end ) : ?> 
-                                <?php 
+                            <?php //if( $curdate >= $selection_date_int_start && $curdate <= $selection_date_int_end ) : ?>
+                                <?php
                                     $condition              = ' WHERE A.user_id = "'.$user->id.'" AND %status% <> 0';
                                     $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');
                                     $data_selection         = $data_selection[0];
                                 ?>
                                 <?php if( empty($data_selection) || !$data_selection ){ ?>
-                                    <div class="alert alert-danger bottom0">Maaf, Anda belum mengajukan seleksi Pra-Inkubasi</div>
+                                    <div class="alert alert-info bottom0">Maaf, Anda belum mengajukan seleksi Pra-Inkubasi Tahap 1. Terima Kasih</div>
                                 <?php }else{ ?>
                                     <?php if($data_selection->status == 3 && $data_selection->statustwo <> 0) : ?>
                                         <div class="table-container table-responsive">
@@ -622,7 +622,7 @@
                                                                         $option[$val] = $val;
                                                                     }
                                                                 }
-                                                                
+
                                                                 if( !empty($option) ){
                                                                     foreach($option as $val){
                                                                         echo '<option value="'.$val.'">'.$val.'</option>';
@@ -667,20 +667,20 @@
                                             </table>
                                         </div>
                                     <?php else : ?>
-                                        <div class="alert alert-danger bottom0">Maaf anda tidak lulus pada tahap 1. Terima Kasih</div>  
+                                        <div class="alert alert-danger bottom0">Maaf anda tidak lulus pada tahap 1. Terima Kasih</div>
                                     <?php endif; ?>
                                 <?php } ?>
                             <?php //else: ?>
                                 <?php //if( $curdate < strtotime($lss->selection_date_interview_start) ){?>
-                                    <!-- <div class="alert alert-info bottom0">Proses seleksi presentasi &amp; wawancara belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_interview_start; ?> Terima Kasih</div> 
+                                    <!-- <div class="alert alert-info bottom0">Proses seleksi presentasi &amp; wawancara belum dibuka. Dibuka pada tanggal <?php echo $lss->selection_date_interview_start; ?> Terima Kasih</div>
                                 <?php //}else{ ?>
                                     <div class="alert alert-info bottom0">Proses seleksi presentasi &amp; wawancara sudah selesai. Terima Kasih</div> -->
-                                <?php //}?>  
+                                <?php //}?>
                             <?php //endif ?>
                         </div>
                     </div>
-                    
-                <?php endif ?>  
+
+                <?php endif ?>
             </div>
         </div>
     </div>

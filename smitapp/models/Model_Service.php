@@ -130,7 +130,7 @@ class Model_Service extends SMIT_Model{
 
         return $query->num_rows();
     }
-    
+
      /**
      * Update data of general message
      *
@@ -148,9 +148,9 @@ class Model_Service extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
-     * Delete Message 
+     * Delete Message
      *
      * @param   Int     $id     (Required)  PIN Posting ID
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
@@ -524,7 +524,7 @@ class Model_Service extends SMIT_Model{
             A.ikm_id, B.title,
 			COUNT(A.ikm_id) AS total
 		FROM '.$this->ikm.' AS A
-        LEFT JOIN '.$this->ikm_list.' AS B 
+        LEFT JOIN '.$this->ikm_list.' AS B
         ON B.id = A.ikm_id
 		GROUP BY 1,2
 		ORDER BY 1 DESC';
@@ -533,7 +533,7 @@ class Model_Service extends SMIT_Model{
         $data           = $qry->result();
         if ( ! $qry || ! $qry->num_rows() )
 			return false;
-        
+
         $dataset        = array();
         $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
         $penimbang      = number_format(1/$total_ikmlist, 3);
@@ -546,7 +546,7 @@ class Model_Service extends SMIT_Model{
             $ikm            = $nilai_rata * $rata_penimbang;
             $ikm            = floor($ikm);
             //$total_ikm      += $ikm;
-            
+
             $mutu           = ' - ';
             $kenerja        = ' - ';
             $penimbang_full = ($penimbang * 100) * 100;
@@ -563,8 +563,8 @@ class Model_Service extends SMIT_Model{
                 $mutu       = 'A';
                 $kinerja    = 'Sangat Baik';
             }
-                
-            
+
+
             $dataset[]      = array(
                 'period'    => $row->period,
                 'ikm_id'    => $row->ikm_id,
@@ -578,6 +578,24 @@ class Model_Service extends SMIT_Model{
 
 		return $dataset;
 	}
+
+    /**
+     * Update IKM Data by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of praincubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_ikmdata($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->ikm_list, $data) )
+            return true;
+
+        return false;
+    }
 
     // ---------------------------------------------------------------------------------
 }

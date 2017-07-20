@@ -7,14 +7,14 @@
             </div>
             <div class="body">
                 <?php if($is_jury): ?>
-  
+
                     <div class="row clearfix">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bottom20">                      
-                            <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bottom20">
+                            <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                         </div>
                     </div>
                     <div id="alert-display"></div>
-                    
+
                     <!-- Multiple Items To Be Open -->
                     <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
                         <!-- FORMULIR PENGUSUL -->
@@ -37,7 +37,7 @@
                                                 <input type="text" name="reg_event_title" id="reg_event_title" class="form-control" value="<?php echo $data_selection->user_name; ?>" disabled="" />
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <h2 class="card-inside-title text-uppercase">Usulan Kegiatan Inkubasi</h2>
                                     <div class="form-group form-float">
                                         <label class="form-label">Judul Kegiatan</label>
@@ -64,11 +64,11 @@
                                                 <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize" disabled="" ><?php echo $data_selection->event_desc; ?></textarea>
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- BERKAS DAN PROPOSAL KEGIATAN -->
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="berkas">
@@ -91,11 +91,11 @@
                                         }else{
                                             echo '<strong>Tidak ada berkas panduan</strong>';
                                         }
-                                    ?>    
+                                    ?>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- PENILAIAN -->
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="nilai">
@@ -123,7 +123,7 @@
                                                 <td class="text-middle align-center">20</td>
                                                 <td>
                                                     <div class="input-group bottom0">
-                                                        <select class="form-control rate-step1 select-def" name="nilai_dokumen" id="nilai_dokumen" data-rate="20" data-plus="0"> 
+                                                        <select class="form-control rate-step1 select-def" name="nilai_dokumen" id="nilai_dokumen" data-rate="20" data-plus="0">
                             	                        	<option value="" selected="selected">Beri Nilai..</option>
                                                             <option value="20">Ya</option>
                                                             <option value="0">Tidak</option>
@@ -212,14 +212,14 @@
                                             <i class="material-icons">close</i> Bersihkan
                                         </button>
                                     </div>
-                                    <?php echo form_close(); ?>     
+                                    <?php echo form_close(); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- #END# Multiple Items To Be Open -->
 
-                <?php endif ?>  
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -238,8 +238,8 @@
                 <p>Apakah anda yakin akan memproses penilaian pengusul ini? Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_scoreuser_incubation" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_scoreuser_incubation" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

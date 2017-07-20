@@ -1636,6 +1636,94 @@ var App = function() {
         };
     };
 
+    var handleEditCompanion = function() {
+        // Save Companion
+        $('#do_edit_companion').click(function(e){
+            e.preventDefault();
+            processSaveCompanion($('#companionedit'));
+        });
+
+        var processSaveCompanion = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#companionedit')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_accompaniment_list').trigger('click');
+                        $('#btn_accompaniment_listreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+    };
+
+    var handleEditIKMData = function() {
+        // Save IKM Data
+        $('#do_edit_ikmdata').click(function(e){
+            e.preventDefault();
+            processEditIKMData($('#ikmdataedit'));
+        });
+
+        var processEditIKMData = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#ikmdataedit')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_list_ikm').trigger('click');
+                        $('#btn_list_ikmreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+    };
+
     var handleAddCategory = function() {
         // Save Category
         $('#do_save_category').click(function(e){
@@ -2109,7 +2197,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddReportTenant = function() {
         // Save Report Tenant
         $('#do_save_reporttenantadd').click(function(e){
@@ -2228,6 +2316,8 @@ var App = function() {
             handleEditWorkunit();
             handleEditCategory();
             handleEditCategoryProduct();
+            handleEditCompanion();
+            handleEditIKMData();
 		},
 
         // wrapper function to scroll(focus) to an element

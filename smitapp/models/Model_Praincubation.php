@@ -779,6 +779,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%step%",                 "A.step", $conditions);
             $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%workunit%",             "B.workunit", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -798,6 +799,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%workunit%",             "B.workunit",  $order_by);
         }
 
         $sql = '
@@ -1841,7 +1843,7 @@ class Model_Praincubation extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
      * Retrieve all pra incubation report data
      *
@@ -1913,6 +1915,24 @@ class Model_Praincubation extends SMIT_Model{
         $query = $this->db->get($this->praincubation_report);
 
         return $query->num_rows();
+    }
+
+    /**
+     * Update Companion by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of praincubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_companion($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->praincubation, $data) )
+            return true;
+
+        return false;
     }
     // ---------------------------------------------------------------------------------
 }

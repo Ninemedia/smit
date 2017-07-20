@@ -65,7 +65,7 @@
                                             <?php
                                             	$workunit_type = smit_workunit_type();
                                                 $option = array('' => 'Pilih...');
-                                                $extra = 'name="search_workunit" class="form-control show-tick"';
+                                                $extra = 'name="search_workunit" class="form-control def"';
 
                                                 if( !empty($workunit_type) ){
                                                     foreach($workunit_type as $val){
@@ -218,7 +218,7 @@
                                     <?php
                                     	$workunit_type = smit_workunit_type();
                                         $option = array('' => 'Pilih...');
-                                        $extra = 'name="search_workunit" class="form-control show-tick"';
+                                        $extra = 'name="search_workunit" class="form-control def"';
 
                                         if( !empty($workunit_type) ){
                                             foreach($workunit_type as $val){
@@ -305,7 +305,7 @@
             							<td></td>
                                         <td></td>
                                         <td>
-                                            <select name="search_year" class="form-control form-filter input-sm">
+                                            <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
                                                 $year_arr = smit_select_year(date('Y'),2030);
@@ -329,7 +329,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status();
@@ -373,7 +373,7 @@
                                             <?php
                                                 $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                                 if( !empty($is_pendamping) ){
-                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';    
+                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';
                                                 }
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
@@ -403,17 +403,17 @@
                                                     if( !empty($is_admin) ){
                                                         foreach($cfg_month as $key => $value){
                                                             echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
-                    	                                }    
+                    	                                }
                                                     }else{
                                                         foreach($cfg_month as $key => $value){
                                                             $reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
                                                             $reportpra_list     = $reportpra_list[0];
-                                                            
+
                                                             if($reportpra_list->month != $key)
                                                                 echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
                     	                                }
                                                     }
-                	                                
+
                 	                            }else{
                 	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
                 	                            }

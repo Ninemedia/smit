@@ -8,8 +8,8 @@
                     <!-- Score Pra Incubation Details -->
                     <div class="body">
                         <div class="row">
-                            <div class="col-md-12 bottom0">                      
-                                <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
+                            <div class="col-md-12 bottom0">
+                                <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                             </div><br /><br /><br />
                             <div class="col-md-12 bottom0">
                                 <div id="alert-display"></div>
@@ -34,7 +34,7 @@
                                                             <input type="text" name="reg_event_title" id="reg_event_title" class="form-control" value="<?php echo $data_selection->user_name; ?>" disabled="" />
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <h2 class="card-inside-title text-uppercase">Usulan Kegiatan Inkubasi</h2>
                                                 <div class="form-group form-float">
                                                     <label class="form-label">Judul Kegiatan</label>
@@ -129,7 +129,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <!-- Data Will Be Placed Here -->
-                                                            
+
                                                             <!-- Pasar -->
                                                             <tr>
                                                                 <td rowspan="5">Pasar<br />(Total 25%)</td>
@@ -172,7 +172,7 @@
                                                                     <input type="hidden" class="text-center input-mini" name="klaster1_e_rate" id="klaster1_e_rate" value="0" />
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <!-- Produk/Jasa -->
                                                             <tr>
                                                                 <td rowspan="5">Produk/Jasa<br />(Total 40%)</td>
@@ -195,7 +195,7 @@
                                                                 <td>Perlindungan HKI</td>
                                                                 <td>
                                                                     <input type="text" class="slider-indikator" name="klaster2_c_indikator" id="klaster2_c_indikator" data-selector="klaster2_c" value="" required/>
-                                                                    <input type="hidden" name="klaster2_c_max" id="klaster2_c_max" value="20" />    
+                                                                    <input type="hidden" name="klaster2_c_max" id="klaster2_c_max" value="20" />
                                                                     <input type="hidden" class="text-center input-mini" name="klaster2_c_rate" id="klaster2_c_rate" value="0" />
                                                                 </td>
                                                             </tr>
@@ -215,7 +215,7 @@
                                                                     <input type="hidden" class="text-center input-mini" name="klaster2_e_rate" id="klaster2_e_rate" value="0" />
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <!-- Finansial -->
                                                             <tr>
                                                                 <td rowspan="5">Finansial<br />(Total 15%)</td>
@@ -257,8 +257,8 @@
                                                                     <input type="hidden" name="klaster3_e_max" id="klaster3_e_max" value="15" />
                                                                     <input type="hidden" class="text-center input-mini" name="klaster3_e_rate" id="klaster3_e_rate" value="0" />
                                                                 </td>
-                                                            </tr> 
-                                                            
+                                                            </tr>
+
                                                             <!-- Kapasitas SDM dan Alih Teknologi -->
                                                             <tr>
                                                                 <td rowspan="5">Kapasitas SDM dan Alih Teknologi<br />(Total 20%)</td>
@@ -300,7 +300,7 @@
                                                                     <input type="hidden" name="klaster4_e_max" id="klaster4_e_max" value="15" />
                                                                     <input type="hidden" class="text-center input-mini" name="klaster4_e_rate" id="klaster4_e_rate" value="0" />
                                                                 </td>
-                                                            </tr>  
+                                                            </tr>
                                                             <tr class="bg-blue-grey">
                                                                 <td class="text-middle" colspan="2"><strong>TOTAL NILAI</strong></td>
                                                                 <td class="text-middle text-center"><input style="color: #666666 !important; font-weight: bold;" class="text-center input-mini" name="total_rate2" id="total_rate2" value="0" /></td>
@@ -343,7 +343,7 @@
                                                     </div>
                                                     <div id="irl_error"></div>
                                                 </div>
-                                                
+
                                                 <h2 class="card-inside-title text-uppercase">Komentar Juri</h2>
                                                 <div class="input-group">
                                                     <div class="form-line">
@@ -368,8 +368,8 @@
                             </div>
                     </div>
                     <!-- End Score Incubation Details -->
-                    
-                <?php endif ?>  
+
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -388,8 +388,8 @@
                 <p>Apakah anda yakin akan memproses penilaian pengusul ini? Pastikan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_scoreuser_praincubation2" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_scoreuser_praincubation2" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

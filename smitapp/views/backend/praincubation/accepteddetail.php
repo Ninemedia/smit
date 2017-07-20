@@ -47,10 +47,10 @@
                                             echo '</ul>';
                                         }else{
                                             echo '<strong>Tidak ada berkas panduan</strong>';
-                                        } 
+                                        }
                                     ?>
-                                    
-                                    
+
+
                                 </td>
                             </tr>
                             <tr>
@@ -65,7 +65,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    
+
                     <?php echo form_open_multipart( current_url(), array( 'id'=>'companion_assignment', 'role'=>'form' ) ); ?>
                     <?php if( $this->session->flashdata('message') ){?>
                         <?php echo $this->session->flashdata('message'); ?>
@@ -84,13 +84,13 @@
                                     <?php
                                         $option = array(''=>'Pilih Pendamping');
                                         $companion_arr = smit_companion_list();
-                                        $extra = 'class="form-control def" id="companion_id"';
-                
+                                        $extra = 'class="form-control show-tick" id="companion_id"';
+
                                         if( $companion_arr || !empty($companion_arr) ){
                                             foreach($companion_arr as $val){
                                                 $option[$val->id] = $val->name;
                                             }
-                                        }                                        
+                                        }
                                         echo form_dropdown('companion_id',$option,'',$extra);
                                     ?>
                                 </td>

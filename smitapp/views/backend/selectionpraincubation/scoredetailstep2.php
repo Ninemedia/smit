@@ -7,12 +7,12 @@
             </div>
             <div class="body">
                 <?php if($is_admin): ?>
-                    <div class="pull-right bottom25">                        
-                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                    <div class="pull-right bottom25">
+                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
-                    
+
                     <div class="table-container table-responsive table-praincubation-score">
                         <table class="table table-striped table-bordered table-hover" id="adminscore_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/nilai/detail/step2/'.$data_selection->id.''); ?>">
                             <thead>
@@ -23,8 +23,8 @@
                                     <td colspan="6" style="width25;" class="text-center"><strong>PRODUK / JASA (40%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>FINANSIAL (15%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>KAPASITAS SDM (10%)</strong></td>
-                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>  	
-                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>  	
+                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -63,30 +63,30 @@
                                     if(empty($sum_score2)){
                                         $sum_score2  = 0;
                                     }
-                                    
+
                                     $count_all_jury2= $this->Model_Praincubation->count_all_score2($data_selection->id);
                                     if(empty($count_all_jury2)){
                                         $count_all_jury2 = 0;
                                     }
-                                    
+
                                     if(!empty($sum_score2) && !empty($count_all_jury2)){
                                         $avarage_score  = $sum_score2 / $count_all_jury2;
                                     }else{
                                         $avarage_score  = 0;
                                     }
-                                    
+
                                     // IRL
                                     $sum_irl        = $this->Model_Praincubation->sum_all_irl($data_selection->id);
                                     if(empty($sum_irl)){
                                         $sum_irl  = 0;
                                     }
-                                    
+
                                     if(!empty($sum_irl) && !empty($count_all_jury2)){
                                         $avarage_irl    = $sum_irl / $count_all_jury2;
                                     }else{
                                         $avarage_irl  = 0;
                                     }
-                                    
+
                                 ?>
                                 <tr>
                                     <td colspan="26" align="right">Jumlah Total Nilai</td>
@@ -119,14 +119,14 @@
                         </div>
                         -->
                     </div>
-                    
+
                 <?php elseif($is_jury): ?>
-                    <div class="pull-right bottom25">                        
-                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                    <div class="pull-right bottom25">
+                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
-                    
+
                     <div class="table-container table-responsive table-praincubation-score">
                         <table class="table table-striped table-bordered table-hover" id="adminscore_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/nilai/detail/step2/'.$data_selection->id.''); ?>">
                             <thead>
@@ -137,8 +137,8 @@
                                     <td colspan="6" style="width25;" class="text-center"><strong>PRODUK / JASA (40%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>FINANSIAL (15%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>KAPASITAS SDM (10%)</strong></td>
-                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>  	
-                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>  	
+                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -177,30 +177,30 @@
                                     if(empty($sum_score2)){
                                         $sum_score2  = 0;
                                     }
-                                    
+
                                     $count_all_jury2= $this->Model_Praincubation->count_all_score2($data_selection->id);
                                     if(empty($count_all_jury2)){
                                         $count_all_jury2 = 0;
                                     }
-                                    
+
                                     if(!empty($sum_score2) && !empty($count_all_jury2)){
                                         $avarage_score  = $sum_score2 / $count_all_jury2;
                                     }else{
                                         $avarage_score  = 0;
                                     }
-                                    
+
                                     // IRL
                                     $sum_irl        = $this->Model_Praincubation->sum_all_irl($data_selection->id);
                                     if(empty($sum_irl)){
                                         $sum_irl  = 0;
                                     }
-                                    
+
                                     if(!empty($sum_irl) && !empty($count_all_jury2)){
                                         $avarage_irl    = $sum_irl / $count_all_jury2;
                                     }else{
                                         $avarage_irl  = 0;
                                     }
-                                    
+
                                 ?>
                                 <tr>
                                     <td colspan="26" align="right">Jumlah Total Nilai</td>
@@ -234,12 +234,12 @@
                         -->
                     </div>
                 <?php else : ?>
-                    <div class="pull-right bottom25">                        
-                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-success waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                    <div class="pull-right bottom25">
+                        <a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
-                    
+
                     <div class="table-container table-responsive table-praincubation-score">
                         <table class="table table-striped table-bordered table-hover" id="adminscore_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/nilai/detail/step2/'.$data_selection->id.''); ?>">
                             <thead>
@@ -250,8 +250,8 @@
                                     <td colspan="6" style="width25;" class="text-center"><strong>PRODUK / JASA (40%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>FINANSIAL (15%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>KAPASITAS SDM (10%)</strong></td>
-                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>  	
-                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>  	
+                                    <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>IRL</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -290,30 +290,30 @@
                                     if(empty($sum_score2)){
                                         $sum_score2  = 0;
                                     }
-                                    
+
                                     $count_all_jury2= $this->Model_Praincubation->count_all_score2($data_selection->id);
                                     if(empty($count_all_jury2)){
                                         $count_all_jury2 = 0;
                                     }
-                                    
+
                                     if(!empty($sum_score2) && !empty($count_all_jury2)){
                                         $avarage_score  = $sum_score2 / $count_all_jury2;
                                     }else{
                                         $avarage_score  = 0;
                                     }
-                                    
+
                                     // IRL
                                     $sum_irl        = $this->Model_Praincubation->sum_all_irl($data_selection->id);
                                     if(empty($sum_irl)){
                                         $sum_irl  = 0;
                                     }
-                                    
+
                                     if(!empty($sum_irl) && !empty($count_all_jury2)){
                                         $avarage_irl    = $sum_irl / $count_all_jury2;
                                     }else{
                                         $avarage_irl  = 0;
                                     }
-                                    
+
                                 ?>
                                 <tr>
                                     <td colspan="26" align="right">Jumlah Total Nilai</td>
@@ -346,8 +346,8 @@
                         </div>
                         -->
                     </div>
-                    
-                <?php endif ?> 
+
+                <?php endif ?>
             </div>
         </div>
     </div>

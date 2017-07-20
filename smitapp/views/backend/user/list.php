@@ -9,7 +9,7 @@
 						<span></span>
 						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
 							<option value="">Select...</option>
-							<option value="confirm">Konfirmasi</option>
+							<option value="confirm">Aktif</option>
 							<option value="banned">Banned</option>
 							<option value="delete">Hapus</option>
 						</select>

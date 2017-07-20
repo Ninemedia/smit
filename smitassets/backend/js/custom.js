@@ -66,7 +66,7 @@ function activateNotificationAndTasksScroll() {
 // Table Search Filter Toggle
 function tableSearchFilterToggle() {
     $("body").delegate( "button.table-search", "click", function( event ) {
-        event.preventDefault();        
+        event.preventDefault();
         $(this).parent().parent().parent().find('tr.table-filter').toggle();
     });
 }
@@ -293,7 +293,7 @@ $("body").delegate( "a.notespradelete", "click", function( event ) {
                 success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
 
                     if( response.msg == 'error' ){
                         App.alert({
@@ -323,16 +323,50 @@ $("body").delegate( "a.notespradelete", "click", function( event ) {
 // Workunit Edit
 $("body").delegate( "a.workunitedit", "click", function( event ) {
     event.preventDefault();
-    
+
     var id      = $(this).data('id');
     var name    = $(this).data('name');
     var el_id   = $('#reg_id_workunit');
     var el_name = $('#reg_workunit');
-    
+
     el_id.val(id);
     el_name.val(name);
 
     $('#edit_workunit').modal('show');
+});
+
+// accompanimentedit Edit
+$("body").delegate( "a.accompanimentedit", "click", function( event ) {
+    event.preventDefault();
+
+    var id      = $(this).data('id');
+    var name    = $(this).data('name');
+    var el_id   = $('#reg_uniquecode');
+    var el_name = $('#reg_companion_name');
+
+    el_id.val(id);
+    el_name.val(name);
+
+    $('#edit_accompaniment_pra').modal('show');
+});
+
+// ikmdataedit Edit
+$("body").delegate( "a.ikmdataedit", "click", function( event ) {
+    event.preventDefault();
+
+    var uniquecode      = $(this).data('uniquecode');
+    var title           = $(this).data('title');
+    var question        = $(this).data('question');
+
+    var el_uniquecode   = $('#reg_uniquecode');
+    var el_title        = $('#reg_title');
+    var el_question     = $('#reg_question');
+
+    el_uniquecode.val(uniquecode);
+    el_title.val(title);
+    el_question.val(question);
+
+    $('#edit_ikmdata').modal('show');
 });
 
 // Workunit Delete
@@ -381,12 +415,12 @@ $("body").delegate( "a.workunitdelete", "click", function( event ) {
 // Category Edit
 $("body").delegate( "a.categoryedit", "click", function( event ) {
     event.preventDefault();
-    
+
     var id      = $(this).data('id');
     var name    = $(this).data('name');
     var el_id   = $('#reg_id_category');
     var el_name = $('#reg_category');
-    
+
     el_id.val(id);
     el_name.val(name);
 
@@ -440,12 +474,12 @@ $("body").delegate( "a.categorydelete", "click", function( event ) {
 // Category Product Edit
 $("body").delegate( "a.categoryproductedit", "click", function( event ) {
     event.preventDefault();
-    
+
     var id      = $(this).data('id');
     var name    = $(this).data('name');
     var el_id   = $('#reg_id_categoryproduct');
     var el_name = $('#reg_categoryproduct');
-    
+
     el_id.val(id);
     el_name.val(name);
 
@@ -557,7 +591,7 @@ $("body").delegate( "a.generalmessagedelete", "click", function( event ) {
                 success: function( response ){
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON(response);
-                    
+
 
                     if( response.msg == 'error' ){
                         App.alert({
@@ -697,6 +731,25 @@ var UploadFiles = function () {
 
     var handleUploadNews = function(){
         $("#news_selection_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
+
+    var handleUploadEditNews = function(){
+        $("#newsedit_selection_files").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
             'theme': 'explorer',
@@ -877,6 +930,7 @@ var UploadFiles = function () {
             handleEditUploadFilesRAB();
             handleUploadProductPraincubation();
             handleUploadAvatarTenant();
+            handleUploadEditNews();
         }
     };
 }();
@@ -899,15 +953,15 @@ var Tenant = function () {
             maxFileSize: 2048,
             /* uploadClass: 'btn btn-success' */
         });
-        
+
         //Mobile Phone Number
         $('.tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
-        
+
         $('input:radio[name="tenant_data"]').change(function(){
             var el  = $('div#tenant_username_form');
             var elu = $('input:text[name="tenant_username"]');
             var val = $(this).val();
-            
+
             if(val == 'user_registered'){
                 el.hide();
                 elu.val('');
@@ -1046,7 +1100,7 @@ var Tenant = function () {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
 	};
-    
+
     var handleResetAddTenantUserChange = function() {
         $('#do_save_addtenantuser').click(function(e){
             e.preventDefault();
@@ -1097,7 +1151,7 @@ var Tenant = function () {
                             },
                             maxFileSize: 2048,
                         });
-                        
+
                     }
     			}
     		});
@@ -1439,20 +1493,20 @@ var Setting = function () {
             });
         });
         // ---------------------------------------------------------------------
-        
+
         // View Email Template
         $("body").delegate( "button.btn-view-mail", "click", function( event ) {
             var url         = $('#modal-view-url').data('url');
             var content     = $(this).data('content');
             var el          = $('#view-mail-content');
-            
+
             $.ajax({
                 type:   "POST",
                 url:    url,
                 data: { 'content' : content },
                 beforeSend: function (){ $("div.page-loader-wrapper").fadeIn(); },
-                success: function( response ){ 
-                    $("div.page-loader-wrapper").fadeOut(); 
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
                     el.empty().html(response).show();
                     $('#view_mail_template').modal('show');
                 }
@@ -1514,7 +1568,7 @@ var Charts = function() {
             xLabelAngle: 0,
             resize: true
 		});
-        
+
         // Chart Year Init
         var elmYear = 'chart-user-year';
 		var chartYearData = $( '#' + elmYear ).find( '.data-year' ).text();
@@ -1548,10 +1602,10 @@ var Charts = function() {
             xLabelAngle: 0,
             resize: true
 		});
-        
+
         $('a.tab_chart_user').on('shown.bs.tab', function(e) {
             var target = $(e.target).attr("href") // activated tab
-            
+
             switch (target) {
                 case "#monthly":
                     chartMonth.redraw();
@@ -1564,7 +1618,7 @@ var Charts = function() {
             }
         });
     };
-    
+
     var handleChartTabIKM = function() {
         // Chart IKM Init
         var elmIKM = 'chart-ikm';
@@ -1599,7 +1653,7 @@ var Charts = function() {
             xLabelAngle: 0,
             resize: true
 		});
-        
+
         // Chart Question Init
         var elmQuest = 'chart-question';
 		var chartQuestData = $( '#' + elmQuest ).find( '.data-year' ).text();
@@ -1633,10 +1687,10 @@ var Charts = function() {
             xLabelAngle: 0,
             resize: true
 		});
-        
+
         $('a.tab_chart_ikm').on('shown.bs.tab', function(e) {
             var target = $(e.target).attr("href") // activated tab
-            
+
             switch (target) {
                 case "#monthly":
                     chartIKM.redraw();
