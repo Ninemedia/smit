@@ -373,6 +373,28 @@ class Model_Service extends SMIT_Model{
         return false;
     }
     
+    /**
+     * Delete IKM 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_ikm($action='', $id=0){
+        if( $id == 0 || empty($action))
+            return false;
+            
+        if($action = 'ikmdata'){
+            $this->db->where('ikmdata_id', $id);    
+        }elseif($action == 'ikmlist'){
+            $this->db->where('ikm_id', $id);
+        }
+
+        if( $this->db->delete($this->ikm) )
+            return true;
+
+        return false;
+    }
+    
     /** Update data of IKM List
      *
      * @author  Iqbal

@@ -5410,7 +5410,16 @@ class Backend extends User_Controller {
         
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
-            $ikmdatadelete      = $this->Model_Service->delete_ikmdata($uniquecode);
+            $ikmdata            = $this->Model_Service->get_all_ikmdata(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $ikmdata            = $ikmdata[0];
+            $id                 = $ikmdata->id;
+            
+            if( !empty($ikmdata) ){
+                $delete_ikm     = $this->Model_Service->delete_ikm('ikmdata', $id);
+                if( !empty($delete_ikm) ){
+                    $ikmdatadelete      = $this->Model_Service->delete_ikmdata($uniquecode);    
+                }
+            }
         }
         
         $response = array(
