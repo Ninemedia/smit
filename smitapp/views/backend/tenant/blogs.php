@@ -99,6 +99,7 @@
                                     <?php echo $flashdata; ?>
                                 <?php } ?>
                     		</div>
+                            <div id="alert" class="alert display-hide"></div>
 
                             <div class="form-group">
                                 <label class="form-label">Produk Tenant Terkait <b style="color: red !important;">(*)</b></label>

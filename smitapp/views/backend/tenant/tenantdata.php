@@ -110,9 +110,7 @@
                                 ?>
                                 <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
-                                <div class="alert alert-danger text-center display-hide error-validate">
-                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                        		</div>
+                                <div id="alert" class="alert display-hide"></div>
 
                                 <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang sudah terdaftar pada Pusat Inovasi LIPI. Pastikan telah memasukan data Usulan Kegiatan terlebih dahulu sesuai dengan usulan tenant yang akan di masukan. Terima kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
@@ -393,10 +391,7 @@
                                 ?>
                                 <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenantuser', 'role'=>'form' ) ); ?>
-                                <div class="alert alert-danger text-center display-hide error-validate">
-                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                        		</div>
-
+                                <div id="alert" class="alert display-hide"></div>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>

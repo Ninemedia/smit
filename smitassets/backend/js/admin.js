@@ -698,7 +698,7 @@ var App = function() {
         var processSavePayment = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -716,14 +716,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#paymentadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#news_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -739,10 +750,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        $('#btn_payment_list').trigger('click');
-                        $('#btn_payment_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_payment_list').trigger('click');
+                    $('#btn_payment_listreset').trigger('click');
     			}
     		});
         };
@@ -787,7 +798,7 @@ var App = function() {
         var processSaveBlog = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -805,14 +816,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#addblogtenant')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -843,10 +865,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        $('#btn_blogtenant_list').trigger('click');
-                        $('#btn_blogtenant_listreset').trigger('click');
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_blogtenant_list').trigger('click');
+                    $('#btn_blogtenant_listreset').trigger('click');
     			}
     		});
         };
@@ -960,7 +982,7 @@ var App = function() {
         var processSavePraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -978,14 +1000,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#praincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1017,6 +1050,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_praincubation_list').trigger('click');
+                    $('#btn_praincubation_listreset').trigger('click');
     			}
     		});
         };
@@ -1079,7 +1114,7 @@ var App = function() {
         var processSaveProductTenantAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1097,14 +1132,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#producttenantadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1135,7 +1181,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_product_list').trigger('click');
+                    $('#btn_product_listreset').trigger('click');
     			}
     		});
         };
@@ -1196,7 +1245,7 @@ var App = function() {
         var processSaveProductPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1214,14 +1263,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#productadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1253,6 +1313,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_product_list').trigger('click');
+                    $('#btn_product_listreset').trigger('click');
     			}
     		});
         };
@@ -1312,7 +1374,7 @@ var App = function() {
         var processSaveIncubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1330,14 +1392,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#incubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1369,6 +1442,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_praincubation_list').trigger('click');
+                    $('#btn_praincubation_listreset').trigger('click');
     			}
     		});
         };
@@ -2102,7 +2177,7 @@ var App = function() {
         var processSaveNotesAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2120,14 +2195,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#notesadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2143,9 +2229,11 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_notesreset_list').trigger('click');
+                        
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_notespra_list').trigger('click');
+                    $('#btn_notespra_listreset').trigger('click');
     			}
     		});
         };
@@ -2193,7 +2281,7 @@ var App = function() {
         var processSaveNotesIncubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2211,14 +2299,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#notesincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2234,9 +2333,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_notesinc_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_notesinc_list').trigger('click');
+                    $('#btn_notesinc_listreset').trigger('click');
     			}
     		});
         };
@@ -2284,7 +2384,7 @@ var App = function() {
         var processSaveReportPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2302,14 +2402,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#reportpraincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2325,10 +2436,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_praincubationreport_list').trigger('click');
-                        $('#btn_praincubationreport_listreset').trigger('click');
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_praincubationreport_list').trigger('click');
+                    $('#btn_praincubationreport_listreset').trigger('click');
     			}
     		});
         };
@@ -2374,7 +2485,7 @@ var App = function() {
         var processSaveReportTenantAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2392,14 +2503,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#reporttenantadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2415,10 +2537,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_tenantreport_list').trigger('click');
-                        $('#btn_tenantreport_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_tenantreport_list').trigger('click');
+                    $('#btn_tenantreport_listreset').trigger('click');
     			}
     		});
         };

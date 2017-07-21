@@ -30,9 +30,7 @@
                         -->
                         <div class="col-md-12">
                             <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
-                            <div class="alert alert-danger text-center display-hide error-validate">
-                    			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                    		</div>
+                            <div id="alert" class="alert display-hide"></div>
 
                             <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                             <div class="form-group">
@@ -232,9 +230,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
-                                    <div class="alert alert-danger text-center display-hide error-validate">
-                            			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                            		</div>
+                                    <div id="alert" class="alert display-hide"></div>
 
                                     <label for="name_contact">Nama Tenant</label>
                                     <div class="input-group">
@@ -381,9 +377,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <?php echo form_open( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
-                                        <div class="alert alert-danger text-center display-hide error-validate">
-                                			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                                		</div>
+                                        <div id="alert" class="alert display-hide"></div>
 
                                         <label for="name_contact">Nama Tenant</label>
                                         <div class="input-group">
