@@ -6864,9 +6864,9 @@ class PraIncubation extends User_Controller {
             $i = $offset + 1;
             foreach($product_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('produk/detail/'.$row->uniquecode).'"
-                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a href="'.base_url('prainkubasi/produk/detail/'.$row->uniquecode).'" class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_action .= ' ';
+                
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
@@ -6874,23 +6874,20 @@ class PraIncubation extends User_Controller {
                 if( !$is_admin ){
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        $btn_action     .= '<a href="'.base_url('prainkubasi/produk/edit/'.$row->uniquecode).'" class="produkedit btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
                 if( !empty($is_admin) ){
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        $btn_action     .= '<a href="'.base_url('prainkubasi/produk/edit/'.$row->uniquecode).'" class="produkedit btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
 
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                elseif($row->status == DELETED) {
+                }elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
@@ -6930,6 +6927,61 @@ class PraIncubation extends User_Controller {
     * Product Details function.
     */
     public function productdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
+            $product_image  = $file_url;
+        }else{
+            $product_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Produk Detail';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/productdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+    * Product Edit function.
+    */
+    public function productedit( $uniquecode='' ){
         auth_redirect();
 
         $current_user           = smit_get_current_user();
