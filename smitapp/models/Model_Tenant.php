@@ -13,6 +13,7 @@ class Model_Tenant extends SMIT_Model{
     public $incubation_product      = 'smit_incubation_product';
     public $incubation_blog         = 'smit_incubation_blog';
     public $incubation_report       = 'smit_incubation_report';
+    public $incubation_payment      = 'smit_incubation_payment';
 
     /**
      * Initialize primary field
@@ -687,6 +688,142 @@ class Model_Tenant extends SMIT_Model{
         if(!$query || !$query->num_rows()) return false;
 
         return $query->result();
+    }
+    
+    /**
+     * Delete Tenant List 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_payment($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_payment) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of payment List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_payment($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_payment, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Delete Product Tenant
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_product($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_product) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of product List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_product($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_product, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Delete Blog Tenant
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_blogtenant($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_blog) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of blog List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_blogtenant($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_blog, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Delete Tenant Lit
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_tenant($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->tenant) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of tenant List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_tenant($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->tenant, $data) )
+            return true;
+
+        return false;
     }
 
     // ---------------------------------------------------------------------------------

@@ -1913,8 +1913,8 @@ class PraIncubation extends User_Controller {
                 '<a href="'.base_url('tutupprainkubasi/'.$row->uniquecode).'" class="praincubsetclose btn btn-xs btn-danger waves-effect tooltips" data-placement="top" title="Close"><i class="material-icons">clear</i></a>' :
                 '<a class="btn btn-xs btn-default waves-effect disabled"><i class="material-icons">clear</i></a>'  );
 
-                if($row->status == 1)       { $status = '<span class="label label-success">OPEN</span>'; }
-                elseif($row->status == 0)   { $status = '<span class="label label-danger">CLOSED</span>'; }
+                if($row->status == 1)       { $status = '<span class="label label-success">BUKA</span>'; }
+                elseif($row->status == 0)   { $status = '<span class="label label-danger">TUTUP</span>'; }
 
                 $records["aaData"][] = array(
                     smit_center($i),
@@ -7129,8 +7129,6 @@ class PraIncubation extends User_Controller {
                 $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center( $i ),
                     smit_center( $year ),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',

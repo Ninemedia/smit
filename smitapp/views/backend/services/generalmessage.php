@@ -25,8 +25,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
+        							<option value="confirm">Baca</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -34,7 +33,7 @@
                             <table class="table table-striped table-bordered table-hover" id="generalmessage_list" data-url="<?php echo base_url('backend/generalmessagelistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="generalmessage_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="generalmessage_all"></label></th>
             							<th class="width5">No</th>
             							<th class="width20 text-center">Nama Pengirim</th>
             							<th class="width15 text-center">Judul Pesan</th>
@@ -50,7 +49,7 @@
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();

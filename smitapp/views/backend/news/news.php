@@ -34,7 +34,7 @@
                             <table class="table table-striped table-bordered table-hover" id="news_list" data-url="<?php echo base_url('newslistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+            							<th class="width5 text-center"><input name="select_all" id="news_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="news_all"></label></th>
    							            <th class="width5">No</th>
             							<th class="width15 text-center">No Berita</th>
             							<th class="width20 text-center">Judul Berita</th>

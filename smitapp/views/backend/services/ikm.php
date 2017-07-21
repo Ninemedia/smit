@@ -219,8 +219,6 @@
                         						<span></span>
                         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
                         							<option value="">Select...</option>
-                        							<option value="confirm">Konfirmasi</option>
-                        							<option value="banned">Banned</option>
                         							<option value="delete">Hapus</option>
                         						</select>
                         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -228,7 +226,7 @@
                                             <table class="table table-striped table-bordered table-hover" id="list_ikmdata" data-url="<?php echo base_url('backend/ikmdatalistdata'); ?>">
                                                 <thead>
                             						<tr role="row" class="heading bg-blue">
-                                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                                        <th class="width5 text-center"><input name="select_all" id="ikmdata_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="ikmdata_all"></label></th>
                             							<th class="width5">No</th>
                             							<th class="width30 text-center">Email</th>
                             							<th class="width35 text-center">Kritik dan Saran</th>
@@ -245,8 +243,8 @@
                             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
                             							</td>
                                                         <td style="text-align: center;">
-                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikm">Search</button>
-                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmreset">Reset</button>
+                            								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_ikmdata">Search</button>
+                                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_list_ikmdatareset">Reset</button>
                             							</td>
                             						</tr>
                                                 </thead>
@@ -267,6 +265,7 @@
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Aktif</option>
+        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -274,7 +273,7 @@
                             <table class="table table-striped table-bordered table-hover" id="list_ikm" data-url="<?php echo base_url('backend/ikmlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="ikm_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="ikm_all"></label></th>
             							<th class="width5">No</th>
             							<th class="width15 text-center">Judul Pertanyaan</th>
             							<th class="width40 text-center">Pertanyaan</th>

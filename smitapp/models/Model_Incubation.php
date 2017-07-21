@@ -1343,6 +1343,7 @@ class Model_Incubation extends SMIT_Model{
     function get_all_payment($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "uniquecode", $conditions);
             $conditions = str_replace("%invoice%",              "invoice", $conditions);
             $conditions = str_replace("%title%",                "title", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
@@ -1355,7 +1356,8 @@ class Model_Incubation extends SMIT_Model{
 
         if( !empty($order_by) ){
             $order_by   = str_replace("%id%",                   "id", $order_by);
-            $order_by   = str_replace("%no_news%",              "no_news",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "uniquecode",  $order_by);
+            $order_by   = str_replace("%invoice%",              "invoice",  $order_by);
             $order_by   = str_replace("%title%",                "title",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);
             $order_by   = str_replace("%desc%",                 "desc",  $order_by);

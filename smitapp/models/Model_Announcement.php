@@ -122,6 +122,23 @@ class Model_Announcement extends SMIT_Model{
         return $query->result();
     }
     
+    /**
+     * Delete Announcement
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_announcement($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->announcement) )
+            return true;
+
+        return false;
+    }
+    
     // ---------------------------------------------------------------------------------
 }
 /* End of file Model_Guide.php */

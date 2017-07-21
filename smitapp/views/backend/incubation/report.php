@@ -29,7 +29,7 @@
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td>
-                                    <select name="search_status" class="form-control form-filter input-sm">
+                                    <select name="search_status" class="form-control form-filter input-sm def">
     									<option value="">Pilih...</option>
     									<?php
     			                        	$status = smit_incubation_selection_report_status();
@@ -96,7 +96,7 @@
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td>
-                                    <select name="search_status" class="form-control form-filter input-sm">
+                                    <select name="search_status" class="form-control form-filter input-sm def">
     									<option value="">Pilih...</option>
     									<?php
     			                        	$status = smit_incubation_selection_status();

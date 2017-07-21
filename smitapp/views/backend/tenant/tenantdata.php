@@ -36,11 +36,11 @@
                             <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="listtenant_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="listtenant_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width15">Pengguna</th>
-            							<th class="width20">Judul Usulan</th>
+            							<th class="width15">Judul Usulan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
                                         <th class="width10 text-center">Email</th>
                                         <th class="width10 text-center">Telp</th>
@@ -77,7 +77,7 @@
 				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
                                         <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
             									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>
@@ -87,7 +87,7 @@
                                             <div class="bottom5">
             								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
                                             </div>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_tenant_listreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -360,7 +360,7 @@
 				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
                                         <td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<option value="<?php echo ACTIVE; ?>">AKTIF</option>
             									<option value="<?php echo NONACTIVE; ?>">TIDAK AKTIF</option>

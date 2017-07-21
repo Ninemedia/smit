@@ -134,7 +134,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List IKM
     var handleRecordsIKMList = function() {
-        gridTable( $("#list_ikm"), true );
+        gridTable( $("#list_ikm"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmreset') );
     };
 
     var handleRecordsIKMScoreList = function() {
@@ -142,7 +142,7 @@ var TableAjax = function () {
     };
 
     var handleRecordsIKMDataList = function() {
-        gridTable( $("#list_ikmdata"), true );
+        gridTable( $("#list_ikmdata"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmdatareset') );
     };
     
     // -------------------------------------------------------------------------
@@ -150,7 +150,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Payment List Admin
     var handleRecordsPaymentTenantList = function() {
-        gridTable( $("#payment_list"), false );
+        gridTable( $("#payment_list"), true, [ -1, 1, 0 ], true, $('#btn_payment_listreset') );
     };
 
     // -------------------------------------------------------------------------
@@ -158,7 +158,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // News List Admin
     var handleRecordsNewsList = function() {
-        gridTable( $("#news_list"), false );
+        gridTable( $("#news_list"), true, [ -1, 1, 0 ], true, $('#btn_news_listreset') );
     };
 
     // -------------------------------------------------------------------------
@@ -166,11 +166,11 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List Communication
     var handleRecordsListIn = function() {
-        gridTable( $("#communication_listin"), true );
+        gridTable( $("#communication_listin"), true, [ -1, 1, 0 ], true, $('#btn_communication_listinreset') );
     };
 
     var handleRecordsListOut = function() {
-        gridTable( $("#communication_listout"), true );
+        gridTable( $("#communication_listout"), true, [ -1, 1, 0 ], true, $('#btn_list_ikmdatareset') );
     };
     
     // -------------------------------------------------------------------------
@@ -192,7 +192,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Blogs Tenant List
     var handleRecordsBlogTenant = function() {
-        gridTable( $("#blogtenant_list"), false );
+        gridTable( $("#blogtenant_list"), true, [ -1, 1, 0 ], true, $('#btn_blogtenant_listreset') );
     };
     
     // -------------------------------------------------------------------------
@@ -200,7 +200,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Incubation Selection Lists
     var handleRecordsTenantList = function() {
-        gridTable( $("#list_tenant"), true );
+        gridTable( $("#list_tenant"), true, [ -1, 1, 0 ], true, $('#btn_tenant_listreset') );
     };
 
     // Tenant Selection Lists
@@ -240,22 +240,22 @@ var TableAjax = function () {
 
     // Product Lists
     var handleRecordsProductList = function() {
-        gridTable( $("#product_list"), true );
+        gridTable( $("#product_list"), true, [ -1, 1, 0 ], true, $('#btn_product_listreset') );
     };
 
     // Slider Lists
     var handleRecordsSliderList = function() {
-        gridTable( $("#slider_list"), true );
+        gridTable( $("#slider_list"), true, [ -1, 1, 0 ], true, $('#btn_slider_listreset') );
     };
 
     // General Message Lists
     var handleRecordsGeneralMessageList = function() {
-        gridTable( $("#generalmessage_list"), true );
+        gridTable( $("#generalmessage_list"), true, [ -1, 1, 0 ], true, $('#btn_list_messagereset') );
     };
 
     // Announcement Lists
     var handleRecordsAnnouncementList = function() {
-        gridTable( $("#announcement_list"), true );
+        gridTable( $("#announcement_list"), true, [ -1, 1, 0 ], true, $('#btn_list_announcementreset') );
     };
 
     // Announcement User Lists

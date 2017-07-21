@@ -355,6 +355,62 @@ class Model_Service extends SMIT_Model{
 
         return $query->result();
     }
+    
+    /**
+     * Delete IKM List 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_ikmlist($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->ikm_list) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Delete IKM 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_ikm($action='', $id=0){
+        if( $id == 0 || empty($action))
+            return false;
+            
+        if($action = 'ikmdata'){
+            $this->db->where('ikmdata_id', $id);    
+        }elseif($action == 'ikmlist'){
+            $this->db->where('ikm_id', $id);
+        }
+
+        if( $this->db->delete($this->ikm) )
+            return true;
+
+        return false;
+    }
+    
+    /** Update data of IKM List
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  communication ID
+     * @param   Array   $data   (Required)  Array data of slider
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_ikmlist($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->ikm_list, $data) )
+            return true;
+
+        return false;
+    }
 
     /**
      * Retrieve all ikm data
@@ -392,6 +448,23 @@ class Model_Service extends SMIT_Model{
         if(!$query || !$query->num_rows()) return false;
 
         return $query->result();
+    }
+    
+    /**
+     * Delete IKM Data 
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_ikmdata($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->ikm_data) )
+            return true;
+
+        return false;
     }
 
     /**

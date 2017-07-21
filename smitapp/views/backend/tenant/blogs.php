@@ -35,12 +35,12 @@
                             <table class="table table-striped table-bordered table-hover" id="blogtenant_list" data-url="<?php echo base_url('tenant/blogtenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <th class="width5 text-center"><input name="select_all" id="blogtenant_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="blogtenant_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width15 text-center">Nama Tenant</th>
             							<th class="width15 text-center">Judul Blog</th>
             							<th class="width15 text-center">Judul Product</th>
-            							<th class="width20 text-center">Gambar Produk</th>
+            							<th class="width15 text-center">Gambar Produk</th>
             							<th class="width10 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
             							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -53,7 +53,7 @@
             							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                         <td></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status();
