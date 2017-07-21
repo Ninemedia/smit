@@ -7619,8 +7619,8 @@ class PraIncubation extends User_Controller {
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
-                $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
+                $btn_upload     = '<a href="'.base_url('prainkubasi/laporan/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
 
                 $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
@@ -7637,8 +7637,8 @@ class PraIncubation extends User_Controller {
                 }
 
                 if( !empty( $row->url ) ){
-                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                    $btn_download   = '<a href="'.base_url('prainkubasi/laporan/unduh/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_download  = ' - ';
                 }
@@ -7686,6 +7686,27 @@ class PraIncubation extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Report Download File function.
+	 */
+    function reportdatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Report File Data
+        $reportdata     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $reportdata     = $reportdata[0];
+          
+        if( !$reportdata || empty($guidedata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $reportdata->filename . '.' . $reportdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/praincubation/' . $reportdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -26,7 +26,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Aktif</option>
+        							<?php if( !empty($is_admin) ) :?><option value="confirm">Aktif</option><?php endif; ?>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>

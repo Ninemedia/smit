@@ -844,17 +844,21 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($tenant_list as $row){
-
-                $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                
+                $companiondata          = '';
+                if( !empty($row->companion_id) ){
+                    $companiondata      = $this->Model_User->get_userdata($row->companion_id);    
+                }
+                
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
-                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companiondata->name.'" title="Ubah"><i class="material-icons">edit</i></a>';
-
+                
+                
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center($i),
