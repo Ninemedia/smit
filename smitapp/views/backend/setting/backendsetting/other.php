@@ -1,6 +1,6 @@
 <!-- BEGIN INFORMATION SUCCESS SAVE WORKUNIT MODAL -->
 <div class="modal fade" id="save_workunit" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -55,7 +55,7 @@
 
 <!-- BEGIN INFORMATION SUCCESS SAVE KATEGORI MODAL -->
 <div class="modal fade" id="save_category" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -110,7 +110,7 @@
 
 <!-- BEGIN INFORMATION SUCCESS SAVE KATEGORI PRODUCT MODAL -->
 <div class="modal fade" id="save_categoryproduct" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

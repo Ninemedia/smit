@@ -1668,7 +1668,7 @@ var App = function() {
         var processEditWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1686,17 +1686,29 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#workunitedit')[0].reset();
-                        $('#btn_workunit_list').trigger('click');
-                        $('#btn_workunit_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_workunit_list').trigger('click');
+                    $('#btn_workunit_listreset').trigger('click');
     			}
     		});
         };
@@ -1800,7 +1812,7 @@ var App = function() {
         var processSaveCategory = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1818,17 +1830,29 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#categoryadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
-                        $('#btn_category_list').trigger('click');
-                        $('#btn_category_listreset').trigger('click');
                     }
+                    $('#btn_category_list').trigger('click');
+                    $('#btn_category_listreset').trigger('click');
     			}
     		});
         };
@@ -1857,7 +1881,7 @@ var App = function() {
         var processEditCategory = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1875,17 +1899,29 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#categoryedit')[0].reset();
-                        $('#btn_category_list').trigger('click');
-                        $('#btn_category_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_category_list').trigger('click');
+                    $('#btn_category_listreset').trigger('click');
     			}
     		});
         };
@@ -1901,7 +1937,7 @@ var App = function() {
         var processSaveCategoryProduct = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1919,17 +1955,28 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                         $('#categoryproductadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
-                        $('#btn_category_productlist').trigger('click');
-                        $('#btn_category_productlistreset').trigger('click');
                     }
+                    $('#btn_category_productlist').trigger('click');
+                    $('#btn_category_productlistreset').trigger('click');
     			}
     		});
         };
@@ -1958,7 +2005,7 @@ var App = function() {
         var processEditCategoryProduct = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1976,17 +2023,29 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#categoryproductedit')[0].reset();
-                        $('#btn_category_productlist').trigger('click');
-                        $('#btn_category_productlistreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_category_productlist').trigger('click');
+                    $('#btn_category_productlistreset').trigger('click');
     			}
     		});
         };
