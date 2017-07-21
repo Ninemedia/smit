@@ -846,8 +846,10 @@ class Tenant extends User_Controller {
             foreach($tenant_list as $row){
                 
                 $companiondata          = '';
+                $companion              = '';
                 if( !empty($row->companion_id) ){
-                    $companiondata      = $this->Model_User->get_userdata($row->companion_id);    
+                    $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                    $companion  = $companiondata->name;    
                 }
                 
                 if( !empty($companiondata) ){
@@ -856,7 +858,7 @@ class Tenant extends User_Controller {
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companiondata->name.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 
                 if( !empty($is_admin) ){

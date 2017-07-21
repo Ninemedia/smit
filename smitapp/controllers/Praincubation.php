@@ -6147,10 +6147,10 @@ class PraIncubation extends User_Controller {
         $condition              = '';
         $praincubation_list     = '';
         if(!empty($uniquecode)){
-            $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
             $praincubation_list     = $praincubation_list[0];
             $user_id                = $praincubation_list->user_id;
-            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE user_id = '.$user_id.'', '');
+            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE %user_id% = '.$user_id.'', '');
         }
 
         $data['title']          = TITLE . 'Detail Seleksi Pra-Inkubasi';
