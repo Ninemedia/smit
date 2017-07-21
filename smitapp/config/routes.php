@@ -213,12 +213,14 @@ $route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdatadeta
 // Tenant Page Routes
 $route['tenants/daftarinkubasi']                = "incubation/listincubation";
 $route['tenants/blogs']                         = "tenant/tenantblogs";
+$route['tenants/blogs/detail/(:any)']           = "tenant/tenantdetails/$1";
 $route['tenants/daftar']                        = "tenant/tenantdata";
 $route['tenants/pendampingan']                  = "tenant/tenantaccompaniment";
 $route['tenants/pendampingan/detail/(:any)']    = "tenant/companionassignment/$1";
 $route['tenants/daftarpendampingan']            = "tenant/accompanimentlistdata";
 $route['tenants/produk']                        = "tenant/tenantproduct";
 $route['tenants/pembayaran']                    = "tenant/tenantpayment";
+$route['tenants/pembayaran/detail/(:any)']      = "tenant/tenantpaymentdetails/$1";
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";

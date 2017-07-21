@@ -150,6 +150,61 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+    * Tenant Details function.
+    */
+    public function tenantdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $tenantdata         = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata        = $tenantdata[0];
+        }
+
+        if($tenantdata){
+            $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $file_name;
+            $tenant_image   = $file_url;
+        }else{
+            $tenant_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Tenant Detail';
+        $data['tenantdata']     = $tenantdata;
+        $data['tenant_image']   = $tenant_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/blogsdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
 
     /**
 	 * List Selection Tenant function.
@@ -678,6 +733,61 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+    * Tenant Payment Details function.
+    */
+    public function tenantpaymentdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = '';
+        $newsdata               = '';
+
+        if( !empty($uniquecode) ){
+            $paymentdata        = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $paymentdata        = $paymentdata[0];
+        }
+
+        if($paymentdata){
+            $file_name      = $paymentdata->filename . '.' . $paymentdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'. $paymentdata->user_id . '/' . $file_name;
+            $payment_image  = $file_url;
+        }else{
+            $payment_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Tenant Detail';
+        $data['paymentdata']    = $paymentdata;
+        $data['payment_image']  = $payment_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/paymentdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
 
     /**
 	 * Payment Add
