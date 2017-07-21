@@ -223,6 +223,7 @@ $route['tenants/daftarpendampingan']            = "tenant/accompanimentlistdata"
 $route['tenants/produk']                        = "tenant/tenantproduct";
 $route['tenants/pembayaran']                    = "tenant/tenantpayment";
 $route['tenants/pembayaran/detail/(:any)']      = "tenant/tenantpaymentdetails/$1";
+$route['tenants/pembayaran/edit/(:any)']        = "tenant/tenantpaymentedit/$1";
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
