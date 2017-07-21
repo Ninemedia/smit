@@ -1302,6 +1302,7 @@ class Backend extends User_Controller {
 
         $workunit_data  = array(
             'workunit_name' => $workunit,
+            'workunit_slug' => smit_slug($workunit)
         );
 
         // -------------------------------------------------
@@ -3393,6 +3394,7 @@ class Backend extends User_Controller {
 
         $category_data  = array(
             'category_name' => strtoupper($category),
+            'category_slug' => smit_slug($category)
         );
 
         // -------------------------------------------------
@@ -5545,6 +5547,7 @@ class Backend extends User_Controller {
 
         $category_data  = array(
             'category_name' => strtoupper($category),
+            'category_slug' => smit_slug($category)
         );
 
         // -------------------------------------------------

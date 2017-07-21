@@ -1948,14 +1948,18 @@ class Model_Praincubation extends SMIT_Model{
             return false;
         }
         
+        $year_publication   = $praincset->selection_year_publication;
+        $date_publication   = $praincset->selection_date_publication;
+        $date_imp_end       = $praincset->selection_imp_date_end;
+        
         echo "<pre>";
         print_r($praincset);
         die();
        
 		$sql = '
         SELECT
-			DATE_FORMAT( datecreated, "%Y") AS period,
-            type,
+			year AS period,
+            category,
 			COUNT(id) AS total
 		FROM '.$this->praincubation_selection.'
 		WHERE type <> '.ADMINISTRATOR.'

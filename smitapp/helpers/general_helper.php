@@ -1776,6 +1776,21 @@ if ( !function_exists('smit_workunit_type_byname') )
 	}
 }
 
+if ( !function_exists('smit_category') )
+{
+    /**
+     * Get workunit type
+     * @author  Rifal
+     * @param   Int         $id     (Optional)  ID of User Type
+     * @return  User Type Data
+     */
+	function smit_category($id='') {
+		$CI =& get_instance();
+        $category   = $CI->Model_Option->get_category($id);
+		return $category;
+	}
+}
+
 if ( !function_exists('smit_category_product') )
 {
     /**
@@ -2070,6 +2085,23 @@ if ( !function_exists('smit_indo_month') )
         );
 
         return $month_arr[$month];
+	}
+}
+
+if ( !function_exists('smit_slug') )
+{
+    /**
+     * Set slug of text
+     * @author  Iqbal
+     * 
+     * @param   string  $tring          (Required)  String of text
+     * @param   string  $replacement    (Optional)  String replacement for slug (underscores or dash), default 'underscores'
+     * @return  String slug
+     */
+	function smit_slug($string, $replacement='underscore') {
+        $replacementchar    = $replacement == "underscore" ? '_' : '-';
+        $slug               = strtolower(url_title(convert_accented_characters($string), $replacement));
+		return reduce_multiples($slug, $replacementchar, TRUE);
 	}
 }
 

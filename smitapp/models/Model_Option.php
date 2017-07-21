@@ -133,6 +133,27 @@ class Model_Option extends SMIT_Model{
     }
     
     /**
+     * Get Category
+     * 
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  ID of Category
+     * @return  Mixed   False on invalid date parameter, otherwise data of category(s).
+     */
+    function get_category($id=''){
+        if ( !empty($id) ) { 
+            $id = absint($id); 
+            $this->db->where('id', $id);
+        };
+        
+        $this->db->order_by("category_name", "ASC"); 
+        $query = $this->db->get($this->category);
+		if ( ! $query || ! $query->num_rows() )
+			return false;
+		
+        return ( !empty($id) ? $query->row() : $query->result() );
+    }
+    
+    /**
      * Update Category by ID
      *
      * @author  Iqbal

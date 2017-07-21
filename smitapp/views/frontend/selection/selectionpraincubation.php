@@ -211,8 +211,15 @@
                                         </div>
                                         <label class="form-label">Kategori Bidang <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
+                                            <?php $category = smit_category(); ?>
                                             <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                             <select class="form-control" name="reg_category" id="reg_category">
+                                                <option value="">-- Pilih Kategori Bidang --</option>
+                                                <?php if( !empty($category) ){ ?>
+                                                    <?php foreach($category as $cat){ ?>
+                                                         
+                                                    <?php } ?>
+                                                <? } ?>
                                                 <option value="">-- Pilih Kategori Bidang --</option>
                                                 <option value="pangan">PANGAN</option>
                                                 <option value="lingkungan">LINGKUNGAN</option>
