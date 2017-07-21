@@ -237,6 +237,7 @@ class Model_Service extends SMIT_Model{
             $conditions = str_replace("%name%",                 "A.name", $conditions);
             $conditions = str_replace("%from_id%",              "A.from_id", $conditions);
             $conditions = str_replace("%to_id%",                "A.to_id", $conditions);
+            $conditions = str_replace("%information%",          "A.information", $conditions);
             $conditions = str_replace("%title%",                "C.title", $conditions);
             $conditions = str_replace("%desc%",                 "C.desc", $conditions);
             $conditions = str_replace("%status%",               "C.status", $conditions);
@@ -251,6 +252,7 @@ class Model_Service extends SMIT_Model{
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
             $order_by   = str_replace("%from_id%",              "A.from_id",  $order_by);
             $order_by   = str_replace("%to_id%",                "A.to_id",  $order_by);
+            $order_by   = str_replace("%information%",          "A.information",  $order_by);
             $order_by   = str_replace("%title%",                "C.title",  $order_by);
             $order_by   = str_replace("%desc%",                 "C.desc",  $order_by);
             $order_by   = str_replace("%status%",               "C.status",  $order_by);

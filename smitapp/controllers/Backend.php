@@ -3223,20 +3223,20 @@ class Backend extends User_Controller {
 
         if( $is_admin ){
             if($value == 'in'){
-                $condition  = ' WHERE %to_id% = 1 AND information = 0 ';
+                $condition  = ' WHERE %to_id% = 1 AND %information% = 0 ';
             }else{
-                $condition  = ' WHERE %from_id% = 1 AND information = 1 ';
+                $condition  = ' WHERE %from_id% = 1 AND %information% = 1 ';
             }
         }else{
             if($value == 'in'){
-                $condition  = ' WHERE %to_id% = '.$current_user->id.' AND information = 1 ';
+                $condition  = ' WHERE %to_id% = '.$current_user->id.' AND %information% = 1 ';
             }else{
-                $condition  = ' WHERE %from_id% = '.$current_user->id.' AND information = 0';
+                $condition  = ' WHERE %from_id% = '.$current_user->id.' AND %information% = 0';
             }
         }
 
         $communication_list = $this->Model_Service->get_all_communication($limit, $offset, $condition, $order_by);
-
+        
         $records            = array();
         $records["aaData"]  = array();
 
@@ -3394,7 +3394,7 @@ class Backend extends User_Controller {
             }
         }
 
-        $cmm_data               = $this->Model_Service->get_all_communication_data(0, 0, ' WHERE %communication_id% = '.$communicationdata->communication_id.'');
+        $cmm_data               = $this->Model_Service->get_all_communication_data(0, 0, ' WHERE %communication_id% = '.$communicationdata->communication_id.'', ' %datecreated% ASC');
 
         $data['title']          = TITLE . 'Detail Komunikasi dan Bantuan';
         $data['communication_data']    = $communicationdata;
@@ -3497,6 +3497,122 @@ class Backend extends User_Controller {
 
                         $this->Model_Service->save_data_communication_data($communication_data);
                     }
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran komunikasi dan bantuan tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_communication ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran komunikasi dan bantuan tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran komunikasi dan bantuan baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'COMMUNICATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'title'=> $title)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran pengumuman tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+
+    /**
+	 * Communication Replay
+	 */
+	public function communicationreply()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $to_id                  = $this->input->post('cmm_from_id');
+        $to_id                  = trim( smit_isset($to_id, "") );
+        $cmm_id                 = $this->input->post('cmm_id');
+        $cmm_id                 = trim( smit_isset($cmm_id, "") );
+        $title                  = $this->input->post('cmm_title');
+        $title                  = trim( smit_isset($title, "") );
+        $description            = $this->input->post('cmm_description');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('cmm_title','Judul Komunikasi dan Banruan','required');
+        $this->form_validation->set_rules('cmm_description','Deskripsi Komunikasi dan Bantuan','required');
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran komunikasi dan bantuan tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            $communication_user  = array(
+                'uniquecode'    => smit_generate_rand_string(10,'low'),
+                'communication_id'  => $cmm_id,
+                'user_id'       => $current_user->id,
+                'from_id'       => $current_user->id,
+                'to_id'         => $to_id,
+                'username'      => strtolower($current_user->username),
+                'name'          => $current_user->name,
+                'information'   => 1,
+                'datecreated'   => $curdate,
+                'datemodified'  => $curdate,
+            );
+
+            // -------------------------------------------------
+            // Save Communication
+            // -------------------------------------------------
+            $trans_save_communication       = FALSE;
+            if( $communication_save_id      = $this->Model_Service->save_data_communication_user($communication_user) ){
+                $trans_save_communication   = TRUE;
+                if( !empty($communication_save_id) ){
+                    $communication_data  = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'communication_id' => $cmm_id,
+                        'user_id'       => $current_user->id,
+                        'title'         => $title,
+                        'desc'          => $description,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+
+                    $this->Model_Service->save_data_communication_data($communication_data);
                 }
             }else{
                 // Rollback Transaction
