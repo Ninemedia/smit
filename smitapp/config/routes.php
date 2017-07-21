@@ -215,6 +215,7 @@ $route['inkubasi/daftar/detail/(:any)']         = "incubation/incubationdatadeta
 $route['tenants/daftarinkubasi']                = "incubation/listincubation";
 $route['tenants/blogs']                         = "tenant/tenantblogs";
 $route['tenants/blogs/detail/(:any)']           = "tenant/tenantdetails/$1";
+$route['tenants/blogs/edit/(:any)']             = "tenant/tenantedit/$1";
 $route['tenants/daftar']                        = "tenant/tenantdata";
 $route['tenants/pendampingan']                  = "tenant/tenantaccompaniment";
 $route['tenants/pendampingan/detail/(:any)']    = "tenant/companionassignment/$1";

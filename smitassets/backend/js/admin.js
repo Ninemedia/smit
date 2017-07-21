@@ -1613,6 +1613,101 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
+    
+    var handleEditBlogTenant = function() {
+        // Edit Blog Tenant
+        $('#save_blogtenantedit').click(function(e){
+            e.preventDefault();
+            processEditBlogTenant($('#blogtenantedit'));
+        });
+
+        var processEditBlogTenant = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#blogtenantedit')[0].reset();
+                        $('#reg_thumbnail').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_blogtenantedit_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#blogtenantedit')[0].reset();
+            $('#reg_details').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
 
     var handleAddIncubation = function() {
         // Save Incubation
@@ -2904,6 +2999,7 @@ var App = function() {
             handleAddProductEDitPraincubation();
             handleEditCompanionTenant();
             handleAddProductTenantEDitPraincubation();
+            handleEditBlogTenant();
 		},
 
         // wrapper function to scroll(focus) to an element
