@@ -1599,7 +1599,7 @@ var App = function() {
         var processSaveWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert', form);
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1616,12 +1616,24 @@ var App = function() {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
 
-                    if(response.msg == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    if(response.message == 'error'){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 3
+                        });
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 3
+                        });
 
                         $('#workunitadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
@@ -2445,7 +2457,7 @@ var App = function() {
 
             if (options.closeInSeconds > 0) {
                 setTimeout(function(){
-                    $('#' + id).remove();
+                    $('#' + id).fadeOut().delay(1000).remove();
                 }, options.closeInSeconds * 1000);
             }
         },
