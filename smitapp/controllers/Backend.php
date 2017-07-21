@@ -4845,13 +4845,39 @@ class Backend extends User_Controller {
         
         $chart = array();
         if ( $stats = $this->Model_Praincubation->stats_yearly() ) {
-            
-        }
+            // Pivoting
+			$pivot_yearly = array();
+			foreach( $stats as $row ) {
+                $category       = $row->category;
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
+				if ( ! isset( $pivot_yearly[ $row->period ] ) )
+					$pivot_yearly[ $row->period ] = array();
+
+				if ( ! isset( $pivot_yearly[ $row->period ][ 'total' ] ) )
+					$pivot_yearly[ $row->period ][ 'total' ] = 0;
+
+				$pivot_yearly[ $row->period ][ 'total' ] += $row->total;
+				$pivot_yearly[ $row->period ][ $category ] = $row->total;
+			}
+            
+            $slug_arr           = smit_category_slug();
+            $name_arr           = smit_category_name();
+
+            $chart['xkey']      = 'period';
+            $chart['ykeys']     = $slug_arr;
+
+            foreach( $pivot_yearly as $period => $row ) {
+                $chart_arr              = array('period' => $period);
+                foreach($slug_arr as $slug){
+                    $chart_arr[$slug]   = smit_isset( $row[ $slug ], 0 );
+                }
+                $chart_arr['total']     = $row['total'];
+
+                // chart
+				$chart['data'][]        = $chart_arr;
+            }
+        }
+        $data['chart']			= json_encode( $chart );
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}

@@ -1791,6 +1791,48 @@ if ( !function_exists('smit_category') )
 	}
 }
 
+if ( !function_exists('smit_category_slug') )
+{
+    /**
+     * Get category slug type
+     * @author  Iqbal
+     * @return  Category Slug Data
+     */
+	function smit_category_slug() {
+		$CI =& get_instance();
+        $category   = $CI->Model_Option->get_category();
+        
+        $slug_arr   = array();
+        if( !empty($category) ){
+            foreach( $category as $cat ){
+                $slug_arr[] = $cat->category_slug;
+            }
+        }
+		return $slug_arr;
+	}
+}
+
+if ( !function_exists('smit_category_name') )
+{
+    /**
+     * Get category name type
+     * @author  Iqbal
+     * @return  Category Name Data
+     */
+	function smit_category_name() {
+		$CI =& get_instance();
+        $category   = $CI->Model_Option->get_category();
+        
+        $name_arr   = array();
+        if( !empty($category) ){
+            foreach( $category as $cat ){
+                $name_arr[] = $cat->category_name;
+            }
+        }
+		return $name_arr;
+	}
+}
+
 if ( !function_exists('smit_category_product') )
 {
     /**

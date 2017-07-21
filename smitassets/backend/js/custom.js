@@ -1703,11 +1703,48 @@ var Charts = function() {
             }
         });
     };
+    
+    var handleChartPraIncubation = function() {
+        // Chart Year Init
+        var elmYear = 'chart-praincubation-year';
+		var chartYearData = $( '#' + elmYear ).find( '.data-year' ).text();
+
+		if ( ! chartYearData )
+			return;
+
+		chartYearData = $.parseJSON( chartYearData );
+		if ( ! chartYearData.data )
+            return;
+
+		var dataY = chartYearData.data;
+		var xkeyY = chartYearData.xkey;
+		var ykeysY = chartYearData.ykeys;
+		var labelsY = chartYearData.labels;
+
+		new Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: elmYear,
+            // Chart data records -- each entry in this array corresponds to a point on the chart.
+            data: dataY,
+            // The name of the data record attribute that contains x-values.
+            xkey: xkeyY,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ykeysY,
+            // Labels for the ykeys -- will be displayed when you hover over the chart.
+            labels: labelsY,
+            xLabels: 'year',
+            // custom options
+            hideHover: 'auto',
+            xLabelAngle: 0,
+            resize: true
+		});
+    };
 
 	return {
 		init: function() {
             handleChartTabUser();
             handleChartTabIKM();
+            handleChartPraIncubation();
 		}
 	};
 }();

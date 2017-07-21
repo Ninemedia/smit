@@ -1951,20 +1951,19 @@ class Model_Praincubation extends SMIT_Model{
         $year_publication   = $praincset->selection_year_publication;
         $date_publication   = $praincset->selection_date_publication;
         $date_imp_end       = $praincset->selection_imp_date_end;
-        
-        echo "<pre>";
-        print_r($praincset);
-        die();
-       
+
 		$sql = '
         SELECT
 			year AS period,
             category,
 			COUNT(id) AS total
 		FROM '.$this->praincubation_selection.'
-		WHERE type <> '.ADMINISTRATOR.'
-		GROUP BY 1,2
-		ORDER BY 1 DESC';
+		WHERE 
+            year = '.$year_publication.' AND 
+            UNIX_TIMESTAMP(datecreated) >= '.strtotime($date_publication).' AND 
+            UNIX_TIMESTAMP(datecreated) <= '.strtotime($date_imp_end).'
+		GROUP BY 2
+		ORDER BY 3 DESC';
 
 		$qry = $this->db->query( $sql );
 

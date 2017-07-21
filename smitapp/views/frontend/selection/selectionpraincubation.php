@@ -217,17 +217,9 @@
                                                 <option value="">-- Pilih Kategori Bidang --</option>
                                                 <?php if( !empty($category) ){ ?>
                                                     <?php foreach($category as $cat){ ?>
-                                                         
+                                                        <option value="<?php echo $cat->category_slug; ?>"><?php echo $cat->category_name; ?></option>
                                                     <?php } ?>
-                                                <? } ?>
-                                                <option value="">-- Pilih Kategori Bidang --</option>
-                                                <option value="pangan">PANGAN</option>
-                                                <option value="lingkungan">LINGKUNGAN</option>
-                                                <option value="material_maju">MATERIAL MAJU</option>
-                                                <option value="transportasi">TRANSPORTASI</option>
-                                                <option value="informasi_komunikasi">INFORMASI &amp; KOMUNIKASI</option>
-                                                <option value="kesehatan_farmasi">KESEHATAN &amp; FARMASI</option>
-                                                <option value="pertahanan_keamanan">PERTAHANAN &amp; KEAMANAN</option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="alert bg-teal">
