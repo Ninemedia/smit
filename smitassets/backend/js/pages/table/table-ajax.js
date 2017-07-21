@@ -158,7 +158,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // News List Admin
     var handleRecordsNewsList = function() {
-        gridTable( $("#news_list"), false );
+        gridTable( $("#news_list"), true, [ -1, 1, 0 ], true, $('#btn_news_listreset') );
     };
 
     // -------------------------------------------------------------------------
