@@ -1599,7 +1599,7 @@ var App = function() {
         var processSaveWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var msg     = $('.alert', form);
 
             $.ajax({
     			type : "POST",
