@@ -5552,13 +5552,11 @@ class PraIncubation extends User_Controller {
                 $companiondata      = $this->Model_User->get_userdata($row->companion_id);
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                }else{ $companion_name = "<center> - </center>"; }
+                }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
-                $companiondata      = $this->Model_User->get_user_by('id', $row->companion_id);
                 $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companiondata->name.'" title="Ubah"><i class="material-icons">edit</i></a>';
 
                 if( $is_admin ){
@@ -6066,8 +6064,6 @@ class PraIncubation extends User_Controller {
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center( $i ),
                     smit_center( $year ),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
