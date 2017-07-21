@@ -20,7 +20,7 @@
 
 <!-- BEGIN INFORMATION SUCCESS EDIT WORKUNIT MODAL -->
 <div class="modal fade" id="edit_workunit" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -75,7 +75,7 @@
 
 <!-- BEGIN INFORMATION SUCCESS EDIT KATEGORI MODAL -->
 <div class="modal fade" id="edit_category" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -130,7 +130,7 @@
 
 <!-- BEGIN INFORMATION SUCCESS EDIT KATEGORI PRODUCT MODAL -->
 <div class="modal fade" id="edit_categoryproduct" tabindex="-1" role="basic" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

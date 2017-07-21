@@ -1514,7 +1514,7 @@ var App = function() {
         var processSaveSlider = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1532,14 +1532,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#slideradd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#slider_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1555,7 +1566,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_slider_list').trigger('click');
+                    $('#btn_slider_listreset').trigger('click');
     			}
     		});
         };
@@ -1570,6 +1584,7 @@ var App = function() {
             $('.form-group').removeClass('has-error');
             $('#reg_title').val('');
             $('#reg_desc').val('');
+            $('#slideradd')[0].reset();
             $('#slider_selection_files').fileinput('refresh', {
                 showUpload : false,
                 showUploadedThumbs : false,
@@ -1668,7 +1683,7 @@ var App = function() {
         var processEditWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var wrapper = form;
+            var table_container = $('#workunitedit').parents('.dataTables_wrapper');
 
             $.ajax({
     			type : "POST",
@@ -1690,7 +1705,7 @@ var App = function() {
                     		type: 'danger',
                     		icon: 'warning',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
@@ -1699,13 +1714,13 @@ var App = function() {
                     		type: 'success',
                     		icon: 'check',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
 
                         $('#workunitedit')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
                     $('#btn_workunit_list').trigger('click');
                     $('#btn_workunit_listreset').trigger('click');
@@ -1881,7 +1896,7 @@ var App = function() {
         var processEditCategory = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var wrapper = form;
+            var table_container = $('#categoryedit').parents('.dataTables_wrapper');
 
             $.ajax({
     			type : "POST",
@@ -1903,7 +1918,7 @@ var App = function() {
                     		type: 'danger',
                     		icon: 'warning',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
@@ -1912,13 +1927,13 @@ var App = function() {
                     		type: 'success',
                     		icon: 'check',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
 
                         $('#categoryedit')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
                     $('#btn_category_list').trigger('click');
                     $('#btn_category_listreset').trigger('click');
@@ -2005,7 +2020,7 @@ var App = function() {
         var processEditCategoryProduct = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var wrapper = form;
+            var table_container = $('#categoryproductedit').parents('.dataTables_wrapper');
 
             $.ajax({
     			type : "POST",
@@ -2027,7 +2042,7 @@ var App = function() {
                     		type: 'danger',
                     		icon: 'warning',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
@@ -2036,13 +2051,13 @@ var App = function() {
                     		type: 'success',
                     		icon: 'check',
                     		message: response.data,
-                    		container: wrapper,
+                    		container: table_container,
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
 
                         $('#categoryproductedit')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
                     $('#btn_category_productlist').trigger('click');
                     $('#btn_category_productlistreset').trigger('click');
