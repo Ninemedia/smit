@@ -499,7 +499,7 @@ var App = function() {
         var processSaveAnnouncement = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -517,14 +517,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#announcementadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -540,7 +551,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_list_announcement').trigger('click');
+                    $('#btn_list_announcementreset').trigger('click');
     			}
     		});
         };
@@ -584,7 +598,7 @@ var App = function() {
         var processSaveNews = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -602,14 +616,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#newsadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#news_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -625,9 +650,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        $('#btn_news_listreset').trigger('click');
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_news_list').trigger('click');
+                    $('#btn_news_listreset').trigger('click');
     			}
     		});
         };

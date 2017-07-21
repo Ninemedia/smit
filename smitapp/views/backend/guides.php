@@ -184,3 +184,23 @@
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE BERKAS DIGITAL MODAL -->
+<div class="modal fade" id="save_guides" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Pendaftaran Berkas Digital</h4>
+			</div>
+			<div class="modal-body">
+                <p>Anda Sedang Melakukan Pendaftaran Berkas Digital. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_guides" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE BERKAS DIGITAL MODAL -->

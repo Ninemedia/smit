@@ -221,7 +221,7 @@
     							</td>
     							<td style="text-align: center;">
     								<button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_announcement_list">Search</button>
-                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_announcement_listreset">Reset</button>
     							</td>
     						</tr>
                         </thead>
@@ -249,8 +249,8 @@
                 <p>Anda Sedang Melakukan Pendaftaran Pengumuman. Pastinkan Data yang Anda masukan sudah benar!</p>
             </div>
 			<div class="modal-footer">
-                <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_announcement" data-dismiss="modal">Lanjut</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_announcement" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>
