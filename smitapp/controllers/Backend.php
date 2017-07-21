@@ -3236,7 +3236,7 @@ class Backend extends User_Controller {
         }
 
         $communication_list = $this->Model_Service->get_all_communication($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
 
