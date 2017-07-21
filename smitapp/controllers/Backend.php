@@ -933,14 +933,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $announcementlist       = $_REQUEST['announcementlist'];
-            
+
             $proses                 = $this->announcementdelete($sGroupActionName, $announcementlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -949,13 +949,13 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Announcement Delete function.
 	 */
     function announcementdelete($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -963,7 +963,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -971,7 +971,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -981,17 +981,17 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
-            $announcementdelete     = $this->Model_Announcement->delete_announcement($uniquecode); 
+            $announcementdelete     = $this->Model_Announcement->delete_announcement($uniquecode);
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar pengumuman data selesai di proses',
@@ -1302,16 +1302,16 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $workunitlist           = $_REQUEST['workunitlist'];
-            
+
             $proses                 = $this->workunitdelete($sGroupActionName, $workunitlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
-        
+
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -1522,7 +1522,7 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         foreach($workunit_list AS $id){
             $workunitdata       = smit_get_workunitdata_by_id($id);
             if( !$workunitdata ){
@@ -1531,14 +1531,14 @@ class Backend extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }
-    
+
             if( $this->Model_Option->delete_workunit($workunitdata->workunit_id) ){
                 // Set JSON data
                 $data = array('msg' => 'success','message' => 'Data satuan kerja berhasil dihapus.');
             }else{
                 // Set JSON data
                 $data = array('msg' => 'error','message' => 'Hapus data satuan kerja tidak berhasil dilakukan.');
-            }    
+            }
         }
         // JSON encode data
         die(json_encode($data));
@@ -1998,7 +1998,7 @@ class Backend extends User_Controller {
                 // Button
                 $btn_action = '<a href="'.base_url('berita/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_edit   = '<a href="'.base_url('berita/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                
+
                 $records["aaData"][] = array(
                     smit_center('<input name="newslist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
@@ -2015,14 +2015,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $newslist               = $_REQUEST['newslist'];
-            
+
             $proses                 = $this->newsproses($sGroupActionName, $newslist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -2031,13 +2031,13 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * News Proses function.
 	 */
     function newsproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2045,7 +2045,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2053,7 +2053,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -2063,22 +2063,22 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $newsdelete     = $this->Model_News->delete_news($uniquecode);    
+                $newsdelete     = $this->Model_News->delete_news($uniquecode);
             }else{
                 $data_update    = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_News->update_news($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data berita selesai di proses',
@@ -2642,14 +2642,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $sliderlist             = $_REQUEST['sliderlist'];
-            
+
             $proses                 = $this->sliderconfirm($sGroupActionName, $sliderlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -2664,7 +2664,7 @@ class Backend extends User_Controller {
 	 */
     function sliderconfirm($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2672,7 +2672,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2690,12 +2690,12 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
 
         foreach( $data as $key => $uniquecode ){
@@ -2706,7 +2706,7 @@ class Backend extends User_Controller {
             if( !$userdata ){
                 continue;
             }
-            
+
             $userstatus         = $userdata->status;
             /*
             if( $action == 'confirm' && $userstatus == ACTIVE ){
@@ -2719,7 +2719,7 @@ class Backend extends User_Controller {
             $data_update = array('status'=>$status,'datemodified'=>$curdate);
             $this->Model_Slider->update_slider($uniquecode, $data_update);
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data pengguna selesai di proses',
@@ -2948,7 +2948,7 @@ class Backend extends User_Controller {
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper( $row->name ),
-                    '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
+                    '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'">' . word_limiter($row->title, 30) . '</a>',
                     $row->email,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
@@ -2960,14 +2960,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $generalmessagelist     = $_REQUEST['generalmessagelist'];
-            
+
             $proses                 = $this->generalmessageprosess($sGroupActionName, $generalmessagelist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -3032,7 +3032,7 @@ class Backend extends User_Controller {
 	 */
     function generalmessageprosess($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -3040,7 +3040,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -3048,7 +3048,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -3058,12 +3058,12 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             $generalmessage_list  = $this->Model_Service->get_all_contact_message(1, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
@@ -3075,15 +3075,15 @@ class Backend extends User_Controller {
                 );
                 return $response;
             }
-            
+
             if( $action == 'confirm' ){
                 $data_update = array('status'=>$status, 'datemodified'=>$curdate);
-                $this->Model_Service->update_message($uniquecode, $data_update);  
+                $this->Model_Service->update_message($uniquecode, $data_update);
             }elseif( $action == 'delete' ){
-                $this->Model_Service->delete_message($generalmessage_list->id);    
+                $this->Model_Service->delete_message($generalmessage_list->id);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data pesan umum selesai di proses',
@@ -3223,15 +3223,15 @@ class Backend extends User_Controller {
 
         if( $is_admin ){
             if($value == 'in'){
-                $condition  = ' WHERE to_id = 1';
+                $condition  = ' WHERE %to_id% = 1 AND information = 0 ';
             }else{
-                $condition  = ' WHERE from_id = 1';
+                $condition  = ' WHERE %from_id% = 1 AND information = 1 ';
             }
         }else{
             if($value == 'in'){
-                $condition  = ' WHERE to_id = '.$current_user->id.'';
+                $condition  = ' WHERE %to_id% = '.$current_user->id.' AND information = 1 ';
             }else{
-                $condition  = ' WHERE from_id = '.$current_user->id.'';
+                $condition  = ' WHERE %from_id% = '.$current_user->id.' AND information = 0';
             }
         }
 
@@ -3247,8 +3247,8 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($communication_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'"
-                    class="announdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_announ_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode).'"
+                    class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
@@ -3262,20 +3262,6 @@ class Backend extends User_Controller {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
                 }
-                /*
-                elseif($row->status == BANNED)  {
-                    $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                elseif($row->status == DELETED) {
-                    $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                */
-                /*
-                    <a href="'.base_url('pesanumum/hapus/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-danger waves-effect tooltips" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>
-                */
 
                 $name           = $row->name;
                 $title          = $row->title;
@@ -3318,19 +3304,19 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $communicationlist      = $_REQUEST['communicationlist'];
-            
+
             if( $value == 'in'){
-                
+
             }else{
-                
+
             }
             $proses                 = $this->useraction($sGroupActionName, $communicationlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -3398,16 +3384,21 @@ class Backend extends User_Controller {
 
         $communicationdata      = '';
         if( !empty($uniquecode) ){
-            $communicationdata  = $this->Model_Service->get_communication_by_uniquecode($uniquecode);
+            $communicationdata  = $this->Model_Service->get_all_communication(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $communicationdata  = $communicationdata[0];
+
             if( $is_admin ){
                 if($communicationdata->status == UNREAD){
-                    $update_data        = $this->Model_Service->update_communication($uniquecode, array('status' => READ));
+                    $update_data        = $this->Model_Service->update_communication_data($communicationdata->uniquecode_data, array('status' => READ));
                 }
             }
         }
 
+        $cmm_data               = $this->Model_Service->get_all_communication_data(0, 0, ' WHERE %communication_id% = '.$communicationdata->communication_id.'');
+
         $data['title']          = TITLE . 'Detail Komunikasi dan Bantuan';
         $data['communication_data']    = $communicationdata;
+        $data['cmm_data']       = $cmm_data;
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
@@ -3464,15 +3455,11 @@ class Backend extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            $communication_data  = array(
+            $communication_id   = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'user_id'       => $current_user->id,
                 'from_id'       => $current_user->id,
                 'to_id'         => $to_id,
-                'username'      => strtolower($current_user->username),
-                'name'          => $current_user->name,
-                'title'         => $title,
-                'desc'          => $description,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
@@ -3481,8 +3468,36 @@ class Backend extends User_Controller {
             // Save Communication
             // -------------------------------------------------
             $trans_save_communication       = FALSE;
-            if( $communication_save_id      = $this->Model_Service->save_data_communication($communication_data) ){
+            if( $communication_save_id      = $this->Model_Service->save_data_communication_id($communication_id) ){
                 $trans_save_communication   = TRUE;
+                if( !empty($communication_save_id) ){
+                    $communication_user  = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'communication_id'  => $communication_save_id,
+                        'user_id'       => $current_user->id,
+                        'from_id'       => $current_user->id,
+                        'to_id'         => $to_id,
+                        'username'      => strtolower($current_user->username),
+                        'name'          => $current_user->name,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    $communication_save_user    = $this->Model_Service->save_data_communication_user($communication_user);
+
+                    if( !empty($communication_save_user) ){
+                        $communication_data  = array(
+                            'uniquecode'    => smit_generate_rand_string(10,'low'),
+                            'communication_id' => $communication_save_id,
+                            'user_id'       => $current_user->id,
+                            'title'         => $title,
+                            'desc'          => $description,
+                            'datecreated'   => $curdate,
+                            'datemodified'  => $curdate,
+                        );
+
+                        $this->Model_Service->save_data_communication_data($communication_data);
+                    }
+                }
             }else{
                 // Rollback Transaction
                 $this->db->trans_rollback();
@@ -3665,14 +3680,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $categorylist           = $_REQUEST['categorylist'];
-            
+
             $proses                 = $this->categorydelete($sGroupActionName, $categorylist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -3798,7 +3813,7 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         foreach($categorylist AS $id){
             $categorydata       = $this->Model_Option->get_categorydata($id);
             if( !$categorydata ){
@@ -3807,14 +3822,14 @@ class Backend extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }
-            
+
             if( $this->Model_Option->delete_category($categorydata->category_id) ){
                 // Set JSON data
                 $data = array('msg' => 'success','message' => 'Data kategori berhasil dihapus.');
             }else{
                 // Set JSON data
                 $data = array('msg' => 'error','message' => 'Hapus data kategori tidak berhasil dilakukan.');
-            }    
+            }
         }
         // JSON encode data
         die(json_encode($data));
@@ -4842,10 +4857,10 @@ class Backend extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'infografis/praincubation';
-        
+
         $chart = array();
         if ( $stats = $this->Model_Praincubation->stats_yearly() ) {
-            
+
         }
 
 		// Log for dashboard
@@ -5348,14 +5363,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $ikmlist                = $_REQUEST['ikmlist'];
-            
+
             $proses                 = $this->ikmlistproses($sGroupActionName, $ikmlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -5364,13 +5379,13 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * IKM List Proses function.
 	 */
     function ikmlistproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -5378,7 +5393,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -5386,7 +5401,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -5396,22 +5411,22 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $ikmlistdelete          = $this->Model_Service->delete_ikmlist($uniquecode);    
+                $ikmlistdelete          = $this->Model_Service->delete_ikmlist($uniquecode);
             }else{
                 $data_update = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Service->update_ikmlist($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar ikm selesai di proses',
@@ -5488,14 +5503,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $ikmdatalist            = $_REQUEST['ikmdatalist'];
-            
+
             $proses                 = $this->ikmdatadelete($sGroupActionName, $ikmdatalist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -5504,13 +5519,13 @@ class Backend extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * IKM Data Delete function.
 	 */
     function ikmdatadelete($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -5518,7 +5533,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -5526,7 +5541,7 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -5536,26 +5551,26 @@ class Backend extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             $ikmdata            = $this->Model_Service->get_all_ikmdata(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $ikmdata            = $ikmdata[0];
             $id                 = $ikmdata->id;
-            
+
             if( !empty($ikmdata) ){
                 $delete_ikm     = $this->Model_Service->delete_ikm('ikmdata', $id);
                 if( !empty($delete_ikm) ){
-                    $ikmdatadelete      = $this->Model_Service->delete_ikmdata($uniquecode);    
+                    $ikmdatadelete      = $this->Model_Service->delete_ikmdata($uniquecode);
                 }
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar ikm data selesai di proses',
@@ -5942,14 +5957,14 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $categoryproductlist    = $_REQUEST['categoryproductlist'];
-            
+
             $proses                 = $this->categoryproductdelete($sGroupActionName, $categoryproductlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -6075,7 +6090,7 @@ class Backend extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         };
-        
+
         foreach($categoryproduct AS $id){
             $categorydata       = $this->Model_Option->get_categoryproductdata($id);
             if( !$categorydata ){
@@ -6084,14 +6099,14 @@ class Backend extends User_Controller {
                 // JSON encode data
                 die(json_encode($data));
             }
-    
+
             if( $this->Model_Option->delete_categoryproduct($categorydata->category_id) ){
                 // Set JSON data
                 $data = array('msg' => 'success','message' => 'Data kategori produk berhasil dihapus.');
             }else{
                 // Set JSON data
                 $data = array('msg' => 'error','message' => 'Hapus data kategori produk tidak berhasil dilakukan.');
-            }    
+            }
         }
         // JSON encode data
         die(json_encode($data));

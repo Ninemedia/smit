@@ -5,15 +5,31 @@
             <div class="header">
                 <a href="<?php echo base_url('layanan/komunikasibantuan'); ?>" class="btn btn-sm btn-default waves-effect pull-right back"><i class="material-icons">arrow_back</i> Kembali</a>
                 <h2><?php echo strtoupper($communication_data->title); ?></h2>
-                <p class="bottom0">Tanggal Pesan : <?php echo date('d F Y H:i:s', strtotime($communication_data->datecreated)); ?></p>    
+                <p class="bottom0">Tanggal Pesan : <?php echo date('d F Y H:i:s', strtotime($communication_data->datecreated)); ?></p>
             </div>
             <div class="body">
                 <p align="justify" class="uppercase">
                     Pengirim : <strong><?php echo strtoupper($communication_data->name); ?></strong>
                 </p><hr />
-                <p align="justify" class="bottom50">
-                    <?php echo $communication_data->desc; ?>
-                </p>
+                <?php if( !empty($cmm_data) ) : ?>
+                <?php
+                    foreach ($cmm_data AS $row) {
+                        # code...
+                        if($row->user_id == $user->id){
+                ?>
+                    <p align="left" class="bottom50">
+                        <strong>Anda : </strong><br />
+                        <?php echo $row->desc; ?>
+                    </p>
+                    <?php }else{ ?>
+                    <p align="right" class="bottom50">
+                        <?php $userdata = $this->Model_User->get_user_by('id', $row->user_id); ?>
+                        <strong><?php echo strtoupper( $userdata->name ); ?> : </strong><br />
+                        <?php echo $row->desc; ?>
+                    </p>
+                <?php }} ?>
+                <?php endif; ?>
+
                 <a class="btn bg-blue waves-effect m-b-15" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample"> Balas Pesan </a>
                 <div id="collapseExample" class="collapse" aria-expanded="true" style="">
                     <div class="well">
@@ -21,12 +37,13 @@
                             <div class="body">
                                 <?php echo form_open_multipart( 'backend/communicationadd', array( 'id'=>'cmm_form', 'role'=>'form' ) ); ?>
                                     <div id="alert" class="alert display-hide"></div>
-                                    <input type="hidden" name="cmm_user_id" id="cmm_user_id" value="<?php echo strtoupper($communication_data->user_id); ?>" />
+                                    <input type="hidden" name="cmm_user_id" id="cmm_user_id" value="<?php echo strtoupper($user->id); ?>" />
+                                    <input type="hidden" name="cmm_id" id="cmm_id" value="<?php echo strtoupper($communication_data->id); ?>" />
                                     <input type="hidden" name="cmm_title" id="cmm_title" value="<?php echo strtoupper($communication_data->title); ?>" />
                                     <div class="form-group">
                                         <label class="control-label">Isi Balasan Komunikasi <b style="color: red !important;">(*)</b></label>
                                         <div class="form-line">
-                                            <?php 
+                                            <?php
                                                 echo form_textarea(
                                                     array(
                                                         'name'=>'cmm_description',
@@ -36,13 +53,13 @@
                                                         'placeholder'=>'Silahkan isi deskripsi dari komikasi dan bantuan dengan maksimal 400 huruf...'
                                                     ),
                                                     ( !empty($post) ? smit_isset($post['cmm_description'],'') : '' )
-                                                ); 
+                                                );
                                             ?>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary waves-effect" id="btn_cmmadd">Balas Komunikasi</button>
                                     <button type="button" class="btn btn-danger waves-effect" id="btn_cmmadd_reset">Bersihkan</button>
-                                <?php echo form_close(); ?> 
+                                <?php echo form_close(); ?>
                             </div>
                         </div>
                     </div>
