@@ -4254,6 +4254,10 @@ class Backend extends User_Controller {
                 /*
                 $btn_action = '<a href="'.base_url('notulensiprainkubasi/detail/'.$row->uniquecode).'"
                     class="notespradetail btn btn-xs btn-primary waves-effect tooltips" id="btn_notespra_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
+                
                 */
                 $btn_action = ' ';
 
@@ -4263,44 +4267,35 @@ class Backend extends User_Controller {
                     }
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
                     }
                 }
 
                 if( !empty($is_admin) ){
                     if($row->status == NONACTIVE)   {
                         $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespradelete btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                     }
 
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                     }
                 }
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
 
                 if( !empty( $row->url ) ){
                     $btn_files  = '<a href="'.base_url('unduh/notulensiprainkubasi/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
+                    class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_files  = ' - ';
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="notespralist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode_praincubation).'">' . strtoupper($row->event_title) . '</a>',
@@ -4316,12 +4311,75 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $notespralist           = $_REQUEST['notespralist'];
+            
+            $proses                 = $this->notespraproses($sGroupActionName, $notespralist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Notes Praincubation Proses function.
+	 */
+    function notespraproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $notesdelete    = $this->Model_Praincubation->delete_notes($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Praincubation->update_notes($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar laproan notulensi selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -4709,8 +4767,12 @@ class Backend extends User_Controller {
                 /*
                 $btn_action = '<a href="'.base_url('notulensiprainkubasi/detail/'.$row->uniquecode).'"
                     class="notespradetail btn btn-xs btn-primary waves-effect tooltips" id="btn_notespra_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action     .= '
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
+                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                 */
                 $btn_action = ' ';
+                
 
                 if( !$is_admin ){
                     if($row->status == NONACTIVE)   {
@@ -4718,32 +4780,23 @@ class Backend extends User_Controller {
                     }
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus"><i class="material-icons">clear</i></a>';
                     }
                 }
 
                 if( !empty($is_admin) ){
                     if($row->status == NONACTIVE)   {
                         $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespradelete btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                     }
 
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="notespraconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>
-                        <a href="'.($row->user_id == 1 ? base_url('notulensiprainkubasi/delete/'.$row->uniquecode) : 'javascript:;' ).'" class="notespradelete btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Hapus" '.($current_user->id > 1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a>';
                     }
                 }
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.base_url('notulensiprainkubasi/active/'.$row->uniquecode).'" class="notespraconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
 
                 if( !empty( $row->url ) ){
@@ -4754,8 +4807,8 @@ class Backend extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="noteinclist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     '<a href="'.base_url('inkubasi/daftar/detail/'.$row->uniquecode_incubation).'">' . strtoupper($row->name_tenant) . '</a>',
@@ -4771,12 +4824,75 @@ class Backend extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $noteinclist            = $_REQUEST['noteinclist'];
+            
+            $proses                 = $this->notesincproses($sGroupActionName, $noteinclist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Notes Incubation Proses function.
+	 */
+    function notesincproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $notesdelete    = $this->Model_Incubation->delete_notes($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Incubation->update_notes($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar laproan notulensi selesai di proses',
+        );
+        return $response;
     }
 
     /**

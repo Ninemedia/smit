@@ -1472,6 +1472,41 @@ class Model_Incubation extends SMIT_Model{
     }
     
     /**
+     * Delete Notes by Uniquecode
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_notes($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_notes) )
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Update Notes by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_notes($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_notes, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
 	 * Stats monthly
 	 * @author Iqbal
 	 * @param string $from Stats from
