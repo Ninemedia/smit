@@ -1706,7 +1706,77 @@ var Charts = function() {
     
     var handleChartPraIncubation = function() {
         // Chart Year Init
-        var elmYear = 'chart-praincubation-year';
+        var elm = 'chart-praincubation-year';
+		var chart = $( '#' + elm ).find( '.data-year' ).text();
+
+		if ( ! chart )
+			return;
+
+		chart = $.parseJSON( chart );
+		if ( ! chart.data )
+            return;
+
+		var data = chart.data;
+		var xkey = chart.xkey;
+		var ykeys = chart.ykeys;
+		var labels = chart.labels;
+
+		new Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: elm,
+            // Chart data records -- each entry in this array corresponds to a point on the chart.
+            data: data,
+            // The name of the data record attribute that contains x-values.
+            xkey: xkey,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ykeys,
+            // Labels for the ykeys -- will be displayed when you hover over the chart.
+            labels: labels,
+            xLabels: 'year',
+            // custom options
+            hideHover: 'auto',
+            xLabelAngle: 0,
+            resize: true
+		});
+    };
+    
+    var handleChartTabIncubation = function() {
+        // Chart Month Init
+        var elmMonth = 'chart-incubation-month';
+		var chartMonthData = $( '#' + elmMonth ).find( '.data' ).text();
+
+		if ( ! chartMonthData )
+			return;
+
+		chartMonthData = $.parseJSON( chartMonthData );
+		if ( ! chartMonthData.data )
+            return;
+
+		var dataM = chartMonthData.data;
+		var xkeyM = chartMonthData.xkey;
+		var ykeysM = chartMonthData.ykeys;
+		var labelsM = chartMonthData.labels;
+
+		var chartMonth = Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: elmMonth,
+            // Chart data records -- each entry in this array corresponds to a point on the chart.
+            data: dataM,
+            // The name of the data record attribute that contains x-values.
+            xkey: xkeyM,
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ykeysM,
+            // Labels for the ykeys -- will be displayed when you hover over the chart.
+            labels: labelsM,
+            xLabels: 'month',
+            // custom options
+            hideHover: 'auto',
+            xLabelAngle: 0,
+            resize: true
+		});
+
+        // Chart Year Init
+        var elmYear = 'chart-incubation-year';
 		var chartYearData = $( '#' + elmYear ).find( '.data-year' ).text();
 
 		if ( ! chartYearData )
@@ -1721,7 +1791,7 @@ var Charts = function() {
 		var ykeysY = chartYearData.ykeys;
 		var labelsY = chartYearData.labels;
 
-		new Morris.Bar({
+		var chartYear = Morris.Bar({
             // ID of the element in which to draw the chart.
             element: elmYear,
             // Chart data records -- each entry in this array corresponds to a point on the chart.
@@ -1738,6 +1808,21 @@ var Charts = function() {
             xLabelAngle: 0,
             resize: true
 		});
+
+        $('a.tab_chart_incubation').on('shown.bs.tab', function(e) {
+            var target = $(e.target).attr("href") // activated tab
+
+            switch (target) {
+                case "#monthly":
+                    chartMonth.redraw();
+                    $(window).trigger('resize');
+                    break;
+                case "#yearly":
+                    chartYear.redraw();
+                    $(window).trigger('resize');
+                    break;
+            }
+        });
     };
 
 	return {
@@ -1745,6 +1830,7 @@ var Charts = function() {
             handleChartTabUser();
             handleChartTabIKM();
             handleChartPraIncubation();
+            handleChartTabIncubation();
 		}
 	};
 }();

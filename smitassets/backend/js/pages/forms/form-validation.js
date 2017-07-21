@@ -120,6 +120,43 @@ var ServicesValidation = function () {
         });
     };
 
+    var handleCommunicationReplyValidation = function(){
+        $('#cmmreply_form').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                cmm_description: {
+                    required: true,
+                },
+            },
+            messages: {
+                cmm_description: {
+                    required: "Deskripsi komunikasi dan bantuan harus di isi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.form-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_cmmreply').modal('show');
+            }
+        });
+    };
+
     var handleIKMValidation = function(){
         $('#ikmadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -168,6 +205,7 @@ var ServicesValidation = function () {
         init: function () {
             handleCommunicationValidation();
             handleIKMValidation();
+            handleCommunicationReplyValidation();
         }
     };
 }();
@@ -1829,13 +1867,13 @@ var ScoreUserValidation = function () {
         $.validator.addMethod('require-one', function(value) {
             return $('input.require-one:checked').size() > 0;
         }, 'Silahkan pilih minimal 1 IRL.');
-        
+
         var checkboxes = $('input.require-one');
     	var checkbox_names = $.map(checkboxes, function(e, i) {
     		return $(e).attr("name")
     	}).join(" ");
         */
-        
+
         $('#selection_score_step2').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
@@ -2140,7 +2178,7 @@ var ReportValidation = function () {
             }
         });
     };
-    
+
     var handleReportTenantValidation = function(){
         $('#reporttenantadd').validate({
             focusInvalid: true, // do not focus the last invalid input

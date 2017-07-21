@@ -261,9 +261,10 @@ $route['announcementslist']             = "backend/announcementuserlistdata";
 $route['berkas/digital']                = "backend/guides";
 $route['berkas/digital/detail/(:any)']  = "backend/guidesdetails/$1";
 // Services
+$route['layanan/pesanumum']             = "backend/generalmessage";
 $route['layanan/komunikasibantuan']     = "backend/services";
 $route['layanan/komunikasibantuan/(:any)']  = "backend/communicationdata/$1";
-$route['komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
+$route['layanan/komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";
@@ -271,7 +272,6 @@ $route['berita/edit/(:any)']            = "backend/newseditdata/$1";
 $route['newslistdata']                  = "backend/newslistdata";
 
 // Announcements
-$route['layanan/pesanumum']             = "backend/generalmessage";
 $route['pesanumum/detail/(:any)']       = "backend/generalmessagedetails/$1";
 $route['pesanumum/delete/(:any)']       = "backend/generalmessagedelete/$1";
 // All

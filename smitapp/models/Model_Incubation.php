@@ -6,18 +6,18 @@ class Model_Incubation extends SMIT_Model{
     /**
      * Initialize table
      */
-    var $user                       = "smit_user";
-    var $incubation                 = "smit_incubation";
-    var $incubation_selection       = "smit_incubation_selection";
-    var $incubation_selection_set   = "smit_incubation_selection_setting";
-    var $incubation_selection_rpt   = "smit_incubation_selection_report";
-    var $incubation_selection_files = "smit_incubation_selection_files";
-    var $incubation_selection_his        = "smit_incubation_selection_history";
-    var $incubation_selection_rate_s1    = "smit_incubation_selection_rate_step1";
-    var $incubation_selection_rate_s2    = "smit_incubation_selection_rate_step2";
-    var $incubation_payment         = "smit_incubation_payment";
-    var $incubation_notes           = "smit_incubation_notes";
-    var $incubation_tenant          = "smit_incubation_tenant";
+    var $user                           = "smit_user";
+    var $incubation                     = "smit_incubation";
+    var $incubation_selection           = "smit_incubation_selection";
+    var $incubation_selection_set       = "smit_incubation_selection_setting";
+    var $incubation_selection_rpt       = "smit_incubation_selection_report";
+    var $incubation_selection_files     = "smit_incubation_selection_files";
+    var $incubation_selection_his       = "smit_incubation_selection_history";
+    var $incubation_selection_rate_s1   = "smit_incubation_selection_rate_step1";
+    var $incubation_selection_rate_s2   = "smit_incubation_selection_rate_step2";
+    var $incubation_payment             = "smit_incubation_payment";
+    var $incubation_notes               = "smit_incubation_notes";
+    var $incubation_tenant              = "smit_incubation_tenant";
 
     /**
      * Initialize primary field
@@ -1470,6 +1470,54 @@ class Model_Incubation extends SMIT_Model{
 
         return $query->result();
     }
+    
+    /**
+	 * Stats monthly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_monthly() {
+		$sql = '
+        SELECT
+			DATE_FORMAT( datecreated, "%Y-%c") AS period,
+			DATE_FORMAT( datecreated, "%b %Y") AS period_name,
+            category,
+			COUNT(id) AS total
+		FROM '.$this->incubation_selection.'
+		GROUP BY 1,3
+		ORDER BY 3 DESC';
+
+		$qry = $this->db->query( $sql );
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
+
+	/**
+	 * Stats yearly
+	 * @author Iqbal
+	 * @param string $from Stats from
+	 * @param string $to   Stats to
+	 */
+	function stats_yearly() {
+		$sql = '
+        SELECT
+			year AS period,
+            category,
+			COUNT(id) AS total
+		FROM '.$this->incubation_selection.'
+		GROUP BY 1,2
+		ORDER BY 3 DESC';
+
+		$qry = $this->db->query( $sql );
+
+		if ( ! $qry || ! $qry->num_rows() )
+			return false;
+
+		return $qry->result();
+	}
     // ---------------------------------------------------------------------------------
 
 }
