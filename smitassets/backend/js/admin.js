@@ -698,7 +698,7 @@ var App = function() {
         var processSavePayment = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -716,14 +716,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#paymentadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#news_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -739,10 +750,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        $('#btn_payment_list').trigger('click');
-                        $('#btn_payment_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_payment_list').trigger('click');
+                    $('#btn_payment_listreset').trigger('click');
     			}
     		});
         };
@@ -787,7 +798,7 @@ var App = function() {
         var processSaveBlog = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -805,14 +816,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#addblogtenant')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -843,10 +865,10 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        $('#btn_blogtenant_list').trigger('click');
-                        $('#btn_blogtenant_listreset').trigger('click');
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_blogtenant_list').trigger('click');
+                    $('#btn_blogtenant_listreset').trigger('click');
     			}
     		});
         };
@@ -960,7 +982,7 @@ var App = function() {
         var processSavePraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -978,14 +1000,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#praincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1017,6 +1050,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_praincubation_list').trigger('click');
+                    $('#btn_praincubation_listreset').trigger('click');
     			}
     		});
         };
@@ -1079,7 +1114,7 @@ var App = function() {
         var processSaveProductTenantAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1097,14 +1132,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#producttenantadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1135,7 +1181,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_product_list').trigger('click');
+                    $('#btn_product_listreset').trigger('click');
     			}
     		});
         };
@@ -1196,7 +1245,7 @@ var App = function() {
         var processSaveProductPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1214,14 +1263,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#productadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_thumbnail').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1253,6 +1313,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_product_list').trigger('click');
+                    $('#btn_product_listreset').trigger('click');
     			}
     		});
         };
@@ -1301,18 +1363,18 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-
-    var handleAddIncubation = function() {
-        // Save Incubation
-        $('#do_save_incubationadd').click(function(e){
+    
+    var handleAddProductEDitPraincubation = function() {
+        // Edit Praincubation
+        $('#do_save_productedit').click(function(e){
             e.preventDefault();
-            processSaveIncubationAdd($('#incubationadd'));
+            processSaveProductEditPraincubationAdd($('#productedit'));
         });
 
-        var processSaveIncubationAdd = function( form ) {
+        var processSaveProductEditPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -1330,14 +1392,495 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#productedit')[0].reset();
+                        $('#reg_thumbnail').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#reg_details').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_productedit_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#productedit')[0].reset();
+            $('#reg_thumbnail').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#reg_details').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
+    var handleAddProductTenantEDitPraincubation = function() {
+        // Edit Product Tenant
+        $('#do_save_producttenantedit').click(function(e){
+            e.preventDefault();
+            processProductEditTenant($('#producttenantedit'));
+        });
+
+        var processProductEditTenant = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#producttenantedit')[0].reset();
+                        $('#reg_thumbnail').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#reg_details').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_producttenantedit_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#producttenantedit')[0].reset();
+            $('#reg_thumbnail').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#reg_details').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
+    var handlePaymentTenantEdit= function() {
+        // Edit Payment Tenant
+        $('#do_save_paymentdataedit').click(function(e){
+            e.preventDefault();
+            processEditPaymentTenant($('#paymentdataedit'));
+        });
+
+        var processEditPaymentTenant = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#paymentdataedit')[0].reset();
+                        $('#reg_thumbnail').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('#reg_details').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_paymentdataedit_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#paymentdataedit')[0].reset();
+            $('#reg_thumbnail').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#reg_details').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+    
+    var handleEditBlogTenant = function() {
+        // Edit Blog Tenant
+        $('#save_blogtenantedit').click(function(e){
+            e.preventDefault();
+            processEditBlogTenant($('#blogtenantedit'));
+        });
+
+        var processEditBlogTenant = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#blogtenantedit')[0].reset();
+                        $('#reg_thumbnail').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_blogtenantedit_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#blogtenantedit')[0].reset();
+            $('#reg_details').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['jpeg', 'jpg', 'png'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+        });
+    };
+
+    var handleAddIncubation = function() {
+        // Save Incubation
+        $('#do_save_incubationadd').click(function(e){
+            e.preventDefault();
+            processSaveIncubationAdd($('#incubationadd'));
+        });
+
+        var processSaveIncubationAdd = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#incubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1369,6 +1912,8 @@ var App = function() {
                             maxFileSize: 2048,
                         });
                     }
+                    $('#btn_praincubation_list').trigger('click');
+                    $('#btn_praincubation_listreset').trigger('click');
     			}
     		});
         };
@@ -1798,6 +2343,50 @@ var App = function() {
     		});
         };
     };
+    
+    var handleEditCompanionTenant = function() {
+        // Save Companion
+        $('#do_edit_companiontenant').click(function(e){
+            e.preventDefault();
+            processSaveCompanion($('#companiontenantedit'));
+        });
+
+        var processSaveCompanion = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var msg     = $('.alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        msg.html(response.data.msg);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.data.msgsuccess);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+
+                        $('#companiontenantedit')[0].reset();
+                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_accompaniment_list').trigger('click');
+                        $('#btn_accompaniment_listreset').trigger('click');
+                    }
+    			}
+    		});
+        };
+    };
 
     var handleEditIKMData = function() {
         // Save IKM Data
@@ -2102,7 +2691,7 @@ var App = function() {
         var processSaveNotesAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2120,14 +2709,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#notesadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2143,9 +2743,11 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_notesreset_list').trigger('click');
+                        
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_notespra_list').trigger('click');
+                    $('#btn_notespra_listreset').trigger('click');
     			}
     		});
         };
@@ -2193,7 +2795,7 @@ var App = function() {
         var processSaveNotesIncubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2211,14 +2813,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#notesincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2234,9 +2847,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_notesinc_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_notesinc_list').trigger('click');
+                    $('#btn_notesinc_listreset').trigger('click');
     			}
     		});
         };
@@ -2284,7 +2898,7 @@ var App = function() {
         var processSaveReportPraincubationAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2302,14 +2916,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#reportpraincubationadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2325,10 +2950,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_praincubationreport_list').trigger('click');
-                        $('#btn_praincubationreport_listreset').trigger('click');
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_praincubationreport_list').trigger('click');
+                    $('#btn_praincubationreport_listreset').trigger('click');
     			}
     		});
         };
@@ -2374,7 +2999,7 @@ var App = function() {
         var processSaveReportTenantAdd = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = form;
 
             $.ajax({
     			type : "POST",
@@ -2392,14 +3017,25 @@ var App = function() {
                     response = $.parseJSON( response );
 
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
 
                         $('#reporttenantadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -2415,10 +3051,10 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        $('#btn_tenantreport_list').trigger('click');
-                        $('#btn_tenantreport_listreset').trigger('click');
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    $('#btn_tenantreport_list').trigger('click');
+                    $('#btn_tenantreport_listreset').trigger('click');
     			}
     		});
         };
@@ -2485,6 +3121,11 @@ var App = function() {
             handleEditCategoryProduct();
             handleEditCompanion();
             handleEditIKMData();
+            handleAddProductEDitPraincubation();
+            handleEditCompanionTenant();
+            handleAddProductTenantEDitPraincubation();
+            handleEditBlogTenant();
+            handlePaymentTenantEdit();
 		},
 
         // wrapper function to scroll(focus) to an element

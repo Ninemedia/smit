@@ -270,6 +270,24 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+     * Update Companion by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of praincubation
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_companion($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation, $data) )
+            return true;
+
+        return false;
+    }
 
     /**
      * Get user newest

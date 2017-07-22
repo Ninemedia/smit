@@ -350,6 +350,21 @@ $("body").delegate( "a.accompanimentedit", "click", function( event ) {
     $('#edit_accompaniment_pra').modal('show');
 });
 
+// accompanimentenanttedit Edit
+$("body").delegate( "a.accompanimenttenantedit", "click", function( event ) {
+    event.preventDefault();
+
+    var id      = $(this).data('id');
+    var name    = $(this).data('name');
+    var el_id   = $('#reg_uniquecode');
+    var el_name = $('#reg_companion_name');
+
+    el_id.val(id);
+    el_name.val(name);
+
+    $('#edit_accompaniment_tenant').modal('show');
+});
+
 // ikmdataedit Edit
 $("body").delegate( "a.ikmdataedit", "click", function( event ) {
     event.preventDefault();

@@ -178,11 +178,11 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // List Notulensi Pra-Inkubasi
     var handleRecordsListNotulensiPraincubation = function() {
-        gridTable( $("#list_notespraincubation"), true );
+        gridTable( $("#list_notespraincubation"), true, [ -1, 1, 0 ], true, $('#btn_notespra_listreset') );
     };
     // List Notulensi Inkubasi
     var handleRecordsListNotulensiIncubation = function() {
-        gridTable( $("#list_notesincubation"), true );
+        gridTable( $("#list_notesincubation"), true, [ -1, 1, 0 ], true, $('#btn_notesinc_listreset') );
     };
 
     // -------------------------------------------------------------------------

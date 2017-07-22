@@ -205,7 +205,319 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
+    
+    /**
+    * Tenant Edit function.
+    */
+    public function tenantedit( $uniquecode='' ){
+        auth_redirect();
 
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ProductValidation.init();',
+        ));
+        
+        $tenantdata             = '';
+        if( !empty($uniquecode) ){
+            $tenantdata         = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata         = $tenantdata[0];
+        }
+
+        if($tenantdata){
+            $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $file_name;
+            $tenant_image   = $file_url;
+        }else{
+            $tenant_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Tenant Detail';
+        $data['tenantdata']     = $tenantdata;
+        $data['tenant_image']   = $tenant_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/blogsedit';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Blog Tenant Edit Function
+	 */
+	public function blogtenantedit()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Produk','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Produk','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Kegiatan Pra-Inkubasi baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        */
+        
+        $tenantdata             = '';
+        if( !empty($uniquecode) ){
+            $tenantdata        = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata        = $tenantdata[0];
+        }
+        
+        $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
+        $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $file_name;
+        $product_image  = $file_url;
+        
+        $thumbnail_file_name      = $tenantdata->thumbnail_filename . '.' . $tenantdata->thumbnail_extension;
+        $thumbnail_file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $thumbnail_file_name;
+        $thumbnail_product_image  = $thumbnail_file_url;
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantblog/' . $tenantdata->user_id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+            
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+            
+            $file_thumbnail     = '';
+            if( !empty($_FILES['reg_thumbnail']['name']) ){
+                //unlink($thumbnail_product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_thumbnail') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_thumbnail  = $this->my_upload->data();
+                $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
+                $this->image_moo->clear();
+                $file_thumbnail         = $upload_data_thumbnail;    
+            }
+            
+            $file_details       = '';
+            if( !empty($_FILES['reg_details']['name']) ){
+                //unlink($product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_details') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_details    = $this->my_upload->data();
+                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->clear();
+                $file_details           = $upload_data_details;
+            }
+            
+            if( !empty($file_thumbnail) && !empty($file_details) ){
+                $tenant_data            = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );    
+            }elseif( !empty($file_thumbnail) ){
+                $tenant_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                ); 
+            }elseif( !empty($file_details) ){
+                $tenant_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }else{
+                $tenant_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Edit Incubation Selection
+            // -------------------------------------------------
+            $trans_edit_blog          = FALSE;
+            if( $blog_edit_id      = $this->Model_Tenant->update_blogtenant($uniquecode, $tenant_data) ){
+                $trans_edit_blog   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah blog tenant tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_edit_blog ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Ubah blog tenant baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'BLOGEDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah blog tenant tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+    
     /**
 	 * List Selection Tenant function.
 	 */
@@ -394,13 +706,18 @@ class Tenant extends User_Controller {
         $is_pendamping          = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
-            // Default CSS Plugin
+            // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
@@ -416,10 +733,24 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
             // Bootbox Plugin
             BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
         $scripts_init           = smit_scripts_init(array(
@@ -513,16 +844,23 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($tenant_list as $row){
-
-                $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                
+                $companiondata          = '';
+                $companion              = '';
+                if( !empty($row->companion_id) ){
+                    $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                    $companion  = $companiondata->name;    
+                }
+                
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
-                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
+                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                
+                
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -530,7 +868,7 @@ class Tenant extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
                         strtoupper($companion_name),
-                        smit_center( $btn_detail ),
+                        smit_center( $btn_detail .' '.$btn_edit ),
                     );
                 }elseif( !empty($is_pendamping) ){
                     $records["aaData"][] = array(
@@ -564,6 +902,94 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+	 * Companion Edit
+	 */
+	public function companiontenantedit()
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $companion_id           = $this->input->post('reg_companion_id');
+        $companion_id           = trim( smit_isset($companion_id, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_uniquecode','Uniquecode','required');
+        $this->form_validation->set_rules('reg_companion_id','Pendamping','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah pendampingan tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $companion_data  = array(
+            'companion_id'     => $companion_id,
+        );
+
+        // -------------------------------------------------
+        // Edit Companion
+        // -------------------------------------------------
+        $trans_edit_companion        = FALSE;
+        if( $companion_edit_id       = $this->Model_Tenant->update_companion($uniquecode, $companion_data) ){
+            $trans_edit_companion    = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah pendampingan tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_edit_companion ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Ubah pendampingan tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
+            }else{
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Set JSON data
+                $data       = array('message' => 'success', 'data' => 'Ubah pendampingan baru berhasil!');
+                die(json_encode($data));
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah pendampingan tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
+	}
 
     /**
 	 * Product Tenant function.
@@ -788,6 +1214,270 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
+    
+    /**
+    * Tenant Payment Edit function.
+    */
+    public function tenantpaymentedit( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ProductValidation.init();',
+        ));
+        
+        $paymentdata               = '';
+        if( !empty($uniquecode) ){
+            $paymentdata        = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $paymentdata        = $paymentdata[0];
+        }
+
+        if($paymentdata){
+            $file_name      = $paymentdata->filename . '.' . $paymentdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'. $paymentdata->user_id . '/' . $file_name;
+            $payment_image  = $file_url;
+        }else{
+            $payment_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Pembayaran Detail';
+        $data['paymentdata']    = $paymentdata;
+        $data['payment_image']  = $payment_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/paymentedit';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Payment Tenant Edit Function
+	 */
+	public function paymentdataedit()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Pembayaran','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Pembayaran','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Pembayaran baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        */
+        
+        $tenantdata             = '';
+        if( !empty($uniquecode) ){
+            $tenantdata        = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata        = $tenantdata[0];
+        }
+        
+        $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
+        $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'. $tenantdata->user_id . '/' . $file_name;
+        $product_image  = $file_url;
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantpayment/' . $tenantdata->user_id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+            
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+            
+            $file_details       = '';
+            if( !empty($_FILES['reg_details']['name']) ){
+                //unlink($product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_details') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_details    = $this->my_upload->data();
+                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+                //$this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+                //$this->image_moo->clear();
+                $file_details           = $upload_data_details;
+            }
+            
+            if( !empty($file_details) ){
+                $tenant_data           = array(
+                    'title'             => $event_title,
+                    'desc'              => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }else{
+                $tenant_data           = array(
+                    'title'             => $event_title,
+                    'desc'              => $description,
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Edit Payment Tenant Selection
+            // -------------------------------------------------
+            $trans_edit_blog          = FALSE;
+            if( $payment_edit_id      = $this->Model_Tenant->update_payment($uniquecode, $tenant_data) ){
+                $trans_edit_blog      = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah pembayaran tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_edit_blog ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Ubah pembayaran baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'PAYMENTEDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah pembayaran tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
 
     /**
 	 * Payment Add
@@ -1962,7 +2652,7 @@ class Tenant extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $condition          = '';
-        $condition          = ' WHERE %status% = '.ACTIVE.'';
+        $condition          = ' WHERE %status% = '.ACTIVE.' AND %companion_id% = 0';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -2399,7 +3089,9 @@ class Tenant extends User_Controller {
                 $btn_action = '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'"
                     class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 
-                $btn_edit   = '<a href="'.($row->user_id == 1 ? base_url('tenants/produk/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit   = '<a href="'.base_url('tenants/produk/edit/'.$row->uniquecode).'"
+                    class="productedit btn btn-xs btn-warning waves-effect tooltips" id="btn_produk_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }elseif($row->status == ACTIVE)  {
@@ -2449,6 +3141,318 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+    * Product Edit function.
+    */
+    public function productedit( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ProductValidation.init();',
+        ));
+        
+        $productdata               = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
+            $product_image  = $file_url;
+        }else{
+            $product_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Produk Detail';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/productedit';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Product Tenant Edit Function
+	 */
+	public function producttenantedit()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Produk','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Produk','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Kegiatan Tenant baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        */
+        
+        $productdata               = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        $file_name      = $productdata->filename . '.' . $productdata->extension;
+        $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
+        $product_image  = $file_url;
+        
+        $thumbnail_file_name      = $productdata->thumbnail_filename . '.' . $productdata->thumbnail_extension;
+        $thumbnail_file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $thumbnail_file_name;
+        $thumbnail_product_image  = $thumbnail_file_url;
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantproduct/' . $productdata->user_id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+            
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+            
+            $file_thumbnail     = '';
+            if( !empty($_FILES['reg_thumbnail']['name']) ){
+                //unlink($thumbnail_product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_thumbnail') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_thumbnail  = $this->my_upload->data();
+                $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
+                $this->image_moo->clear();
+                $file_thumbnail         = $upload_data_thumbnail;    
+            }
+            
+            $file_details       = '';
+            if( !empty($_FILES['reg_details']['name']) ){
+                //unlink($product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_details') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_details    = $this->my_upload->data();
+                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->clear();
+                $file_details           = $upload_data_details;
+            }
+            
+            if( !empty($file_thumbnail) && !empty($file_details) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );    
+            }elseif( !empty($file_thumbnail) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                ); 
+            }elseif( !empty($file_details) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }else{
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Edit Incubation Selection
+            // -------------------------------------------------
+            $trans_edit_product       = FALSE;
+            if( $product_edit_id      = $this->Model_Tenant->update_product($uniquecode, $product_data) ){
+                $trans_edit_product   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah product Tenant tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_edit_product ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Ubah produk tenant baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'PRODUCTEDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah produk tenant tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
     
     /**
 	 * Product Proses function.
@@ -2802,7 +3806,8 @@ class Tenant extends User_Controller {
                 // Button
                 $btn_action      = '<a href="'.base_url('tenants/blogs/detail/'.$row->uniquecode).'"
                     class="blogtenantdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                $btn_edit       = '<a href="'.($row->user_id == 1 ? base_url('tenants/blogs/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit        = '<a href="'.base_url('tenants/blogs/edit/'.$row->uniquecode).'"
+                    class="blogtenantedit btn btn-xs btn-warning waves-effect tooltips" id="btn_produk_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';

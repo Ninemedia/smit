@@ -26,7 +26,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Aktif</option>
+        							<?php if( !empty($is_admin) ) :?><option value="confirm">Aktif</option><?php endif; ?>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -69,8 +69,8 @@
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
             							<td style="text-align: center;">
-            								<button class="btn bg-blue waves-effect filter-submit" id="btn_slider_list">Search</button>
-                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_slider_listreset">Reset</button>
+            								<button class="btn bg-blue waves-effect filter-submit" id="btn_product_list">Search</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_product_listreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>

@@ -5552,13 +5552,11 @@ class PraIncubation extends User_Controller {
                 $companiondata      = $this->Model_User->get_userdata($row->companion_id);
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                }else{ $companion_name = "<center> - </center>"; }
+                }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
-                $companiondata      = $this->Model_User->get_user_by('id', $row->companion_id);
                 $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companiondata->name.'" title="Ubah"><i class="material-icons">edit</i></a>';
 
                 if( $is_admin ){
@@ -6066,8 +6064,6 @@ class PraIncubation extends User_Controller {
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
                     smit_center( $i ),
                     smit_center( $year ),
                     '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
@@ -6151,10 +6147,10 @@ class PraIncubation extends User_Controller {
         $condition              = '';
         $praincubation_list     = '';
         if(!empty($uniquecode)){
-            $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE A.uniquecode = "'.$uniquecode.'"', '');
+            $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
             $praincubation_list     = $praincubation_list[0];
             $user_id                = $praincubation_list->user_id;
-            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE user_id = '.$user_id.'', '');
+            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE %user_id% = '.$user_id.'', '');
         }
 
         $data['title']          = TITLE . 'Detail Seleksi Pra-Inkubasi';
@@ -6723,6 +6719,224 @@ class PraIncubation extends User_Controller {
             }
         }
 	}
+    
+    /**
+	 * Product Pra-Inkubasi Edit Function
+	 */
+	public function productpraedit()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Produk','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Produk','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Kegiatan Pra-Inkubasi baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        */
+        
+        $productdata               = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+        
+        $file_name      = $productdata->filename . '.' . $productdata->extension;
+        $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
+        $product_image  = $file_url;
+        
+        $thumbnail_file_name      = $productdata->thumbnail_filename . '.' . $productdata->thumbnail_extension;
+        $thumbnail_file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $thumbnail_file_name;
+        $thumbnail_product_image  = $thumbnail_file_url;
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationproduct/' . $productdata->user_id;
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+            
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+            
+            $file_thumbnail     = '';
+            if( !empty($_FILES['reg_thumbnail']['name']) ){
+                //unlink($thumbnail_product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_thumbnail') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_thumbnail  = $this->my_upload->data();
+                $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
+                $this->image_moo->clear();
+                $file_thumbnail         = $upload_data_thumbnail;    
+            }
+            
+            $file_details       = '';
+            if( !empty($_FILES['reg_details']['name']) ){
+                //unlink($product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_details') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_details    = $this->my_upload->data();
+                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->clear();
+                $file_details           = $upload_data_details;
+            }
+            
+            if( !empty($file_thumbnail) && !empty($file_details) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );    
+            }elseif( !empty($file_thumbnail) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'thumbnail_url'           => smit_isset($file_thumbnail['full_path'],''),
+                    'thumbnail_extension'     => substr(smit_isset($file_thumbnail['file_ext'],''),1),
+                    'thumbnail_filename'      => smit_isset($file_thumbnail['raw_name'],''),
+                    'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                ); 
+            }elseif( !empty($file_details) ){
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }else{
+                $product_data           = array(
+                    'title'             => $event_title,
+                    'description'       => $description,
+                    'datecreated'       => $curdate,
+                    'datemodified'      => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Edit Incubation Selection
+            // -------------------------------------------------
+            $trans_edit_product       = FALSE;
+            if( $product_edit_id      = $this->Model_Praincubation->update_product($uniquecode, $product_data) ){
+                $trans_edit_product   = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah product pra-inkubasi tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_edit_product ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Ubah product pra-inkubasi baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'PRODUCTEDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah product pra-inkubasi tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
 
     /**
 	 * Product Pra-Incubation List function.
@@ -6864,9 +7078,9 @@ class PraIncubation extends User_Controller {
             $i = $offset + 1;
             foreach($product_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('produk/detail/'.$row->uniquecode).'"
-                    class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a href="'.base_url('prainkubasi/produk/detail/'.$row->uniquecode).'" class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_action .= ' ';
+                
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
@@ -6874,23 +7088,20 @@ class PraIncubation extends User_Controller {
                 if( !$is_admin ){
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        $btn_action     .= '<a href="'.base_url('prainkubasi/produk/edit/'.$row->uniquecode).'" class="produkedit btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
                 if( !empty($is_admin) ){
                     if($row->status == ACTIVE)  {
                         $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                        $btn_action     .= '
-                        <a href="'.($row->user_id == 1 ? base_url('produkconfirm/edit/'.$row->uniquecode) : 'javascript:;' ).'" class="produkconfirm btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                        $btn_action     .= '<a href="'.base_url('prainkubasi/produk/edit/'.$row->uniquecode).'" class="produkedit btn btn-xs btn-warning tooltips waves-effect" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
                     }
                 }
 
                 elseif($row->status == BANNED)  {
                     $status         = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
-                }
-                elseif($row->status == DELETED) {
+                }elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
@@ -6901,8 +7112,8 @@ class PraIncubation extends User_Controller {
                 $product        = '<img class="js-animating-object img-responsive" src="'.$product.'" alt="'.$row->title.'" />';
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center('<input name="producteditlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                    <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     strtoupper($row->name),
                     strtoupper($row->event_title),
@@ -6918,12 +7129,75 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $producteditlist        = $_REQUEST['producteditlist'];
+            
+            $proses                 = $this->producteditproses($sGroupActionName, $producteditlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Product Edit Proses function.
+	 */
+    function producteditproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $productdelete      = $this->Model_Praincubation->delete_product($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Praincubation->update_product($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar produk selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -6977,6 +7251,100 @@ class PraIncubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'praincubation/productdetail';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+    * Product Edit function.
+    */
+    public function productedit( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ProductValidation.init();',
+        ));
+        
+        $productdata               = '';
+        if( !empty($uniquecode) ){
+            $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $productdata        = $productdata[0];
+        }
+
+        if($productdata){
+            $file_name      = $productdata->filename . '.' . $productdata->extension;
+            $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
+            $product_image  = $file_url;
+        }else{
+            $product_image  = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Produk Detail';
+        $data['productdata']    = $productdata;
+        $data['product_image']  = $product_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/productedit';
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
@@ -7251,8 +7619,8 @@ class PraIncubation extends User_Controller {
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
-                $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
+                $btn_upload     = '<a href="'.base_url('prainkubasi/laporan/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
 
                 $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
@@ -7269,8 +7637,8 @@ class PraIncubation extends User_Controller {
                 }
 
                 if( !empty( $row->url ) ){
-                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                    $btn_download   = '<a href="'.base_url('prainkubasi/laporan/unduh/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_download  = ' - ';
                 }
@@ -7318,6 +7686,27 @@ class PraIncubation extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Report Download File function.
+	 */
+    function reportdatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Report File Data
+        $reportdata     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $reportdata     = $reportdata[0];
+          
+        if( !$reportdata || empty($guidedata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $reportdata->filename . '.' . $reportdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/praincubation/' . $reportdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
     }
 
     // ---------------------------------------------------------------------------------------------

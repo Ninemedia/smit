@@ -110,9 +110,7 @@
                                 ?>
                                 <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
-                                <div class="alert alert-danger text-center display-hide error-validate">
-                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                        		</div>
+                                <div id="alert" class="alert display-hide"></div>
 
                                 <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang sudah terdaftar pada Pusat Inovasi LIPI. Pastikan telah memasukan data Usulan Kegiatan terlebih dahulu sesuai dengan usulan tenant yang akan di masukan. Terima kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
@@ -312,8 +310,6 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -393,10 +389,7 @@
                                 ?>
                                 <?php if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenantuser', 'role'=>'form' ) ); ?>
-                                <div class="alert alert-danger text-center display-hide error-validate">
-                        			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
-                        		</div>
-
+                                <div id="alert" class="alert display-hide"></div>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
