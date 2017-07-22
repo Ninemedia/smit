@@ -1051,16 +1051,27 @@ class Backend extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"
                     class="announcementdetails btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
-                $records["aaData"][] = array(
-                    smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                    <label for="cblist'.$row->id.'"></label>'),
-                    smit_center($i),
-                    $row->no_announcement,
-                    '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
-                    smit_center($btn_action),
-                );
+                
+                if( !empty($is_amin) ){
+                    $records["aaData"][] = array(
+                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center($i),
+                        $row->no_announcement,
+                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
+                        smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
+                        smit_center($btn_action),
+                    );    
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        $row->no_announcement,
+                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
+                        smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
+                        smit_center($btn_action),
+                    );
+                }
+                
                 $i++;
             }
         }

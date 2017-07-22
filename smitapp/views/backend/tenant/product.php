@@ -26,8 +26,8 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
+        							<?php if( !empty($is_admin) ) : ?><option value="confirm">Konfirmasi</option><?php endif; ?>
+        							<?php if( !empty($is_admin) ) : ?><option value="banned">Banned</option><?php endif; ?>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -174,7 +174,7 @@
                                 <button type="button" class="btn btn-danger waves-effect" id="btn_producttenantadd_reset">Bersihkan</button>
 
                                 <?php else : ?>
-                                    <div class="alert bg-info">
+                                    <div class="alert bg-teal">
                                         <strong>Perhatian!</strong>
                                         Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada usulan seleksi yang sudah di dampingi oleh pendamping. Terima Kasih.</strong>
                                     </div>

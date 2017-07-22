@@ -39,10 +39,10 @@ var TableAjax = function () {
 
     // Pra Incubation Selection Report Lists
     var handleRecordsPraIncubationReportSelectionList = function() {
-        gridTable( $("#praincubationreport_list"), true );
+        gridTable( $("#praincubationreport_list"), true, [ -1, 1, 0 ], true, $('#btn_resetadmin_stepone') );
     };
     var handleRecordsPraIncubationReportList = function() {
-        gridTable( $("#list_praincubationreport"), true );
+        gridTable( $("#list_praincubationreport"), true, [ -1, 1, 0 ], true, $('#btn_praincubation_listreset') );
     };
     
     // Tenant Report Lists

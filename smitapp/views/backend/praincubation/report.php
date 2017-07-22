@@ -166,7 +166,7 @@
 						<span></span>
 						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 							<option value="">Select...</option>
-							<option value="confirm">Aktif</option>
+							<option value="confirm">Terima</option>
 							<option value="delete">Hapus</option>
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
@@ -249,7 +249,7 @@
     							</td>
     							<td style="text-align: center;">
                                     <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
-                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_praincubation_listreset">Reset</button>
     							</td>
     						</tr>
                         </thead>

@@ -192,27 +192,17 @@
 
                 <?php else: ?>
                 <div class="table-container table-responsive bottom50">
-                    <div class="table-actions-wrapper">
-						<span></span>
-						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
-							<option value="">Select...</option>
-							<option value="delete">Hapus</option>
-						</select>
-						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
-					</div>
                     <table class="table table-striped table-bordered table-hover" id="announcementuser_list" data-url="<?php echo base_url('announcementslist'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
-    							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="guide_list select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
-   							    <th class="width5">No</th>
+    							<th class="width5">No</th>
     							<th class="width20 text-center">No Pengumuman</th>
-    							<th class="width60 text-center">Judul Pengumuman</th>
+    							<th class="width65 text-center">Judul Pengumuman</th>
                                 <th class="width15 text-center">Tanggal Publikasi</th>
                                 <th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
 					        </tr>
                             <tr role="row" class="filter display-hide table-filter">
     							<td></td>
-                                <td></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_no_announcement" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_title" /></td>
                                 <td>
