@@ -7622,9 +7622,7 @@ class PraIncubation extends User_Controller {
                 $btn_upload     = '<a href="'.base_url('prainkubasi/laporan/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
-
                 $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
-
 
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
@@ -7645,8 +7643,8 @@ class PraIncubation extends User_Controller {
 
                 if( $is_pendamping ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
                         //'<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
@@ -7661,8 +7659,8 @@ class PraIncubation extends User_Controller {
                     );
                 }else{
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
                         strtoupper( $event ),
@@ -7680,12 +7678,77 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $reportlist             = $_REQUEST['reportlist'];
+            
+            $proses                 = $this->reportlistproses($sGroupActionName, $reportlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Reprt List Proses function.
+	 */
+    function reportlistproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        /*
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        */
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $reportdelete   = $this->Model_Praincubation->delete_notes($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Praincubation->update_notes($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar laporan selesai di proses',
+        );
+        return $response;
     }
     
     /**

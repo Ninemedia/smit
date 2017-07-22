@@ -876,7 +876,8 @@ class Tenant extends User_Controller {
                         strtoupper($row->name_tenant),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
-                        smit_center( $btn_detail ),
+                        //smit_center( $btn_detail ),
+                        ''
                     );
                 }else{
                     $records["aaData"][] = array(
@@ -896,6 +897,15 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $userlist               = $_REQUEST['userlist'];
+            
+            $proses                 = $this->useraction($sGroupActionName, $userlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
