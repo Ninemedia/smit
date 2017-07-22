@@ -286,8 +286,6 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<option value="confirm">Konfirmasi</option>
-        							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>

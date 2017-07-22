@@ -885,7 +885,8 @@ class Tenant extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
                         strtoupper($companion_name),
-                        smit_center( $btn_detail ),
+                        //smit_center( $btn_detail ),
+                        ''
                     );
                 }
 
