@@ -2557,7 +2557,7 @@ var App = function() {
 
             if (options.closeInSeconds > 0) {
                 setTimeout(function(){
-                    $('#' + id).fadeOut().delay(1000).remove();
+                    $('#' + id).fadeOut().delay(3000).remove();
                 }, options.closeInSeconds * 1000);
             }
         },

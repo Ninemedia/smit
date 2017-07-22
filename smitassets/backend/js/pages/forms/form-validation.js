@@ -458,28 +458,36 @@ var ProfileValidation = function () {
             ignore: "",
             rules: {
                 cur_pass: {
+                    minlength: 6,
                     required: true,
                 },
                 new_pass: {
+                    minlength: 6,
                     required: true,
                 },
                 cnew_pass: {
+                    minlength: 6,
                     required: true,
+                    equalTo : "#new_pass"
                 },
             },
             messages: {
                 cur_pass: {
-                    required: "Kata sandi lama anda harus diisi.."
+                    minlength: "Minimal 6 karakter",
+                    required: "Kata sandi lama anda harus diisi."
                 },
                 new_pass: {
+                    minlength: "Minimal 6 karakter",
                     required: "Kata sandi baru harus diisi."
                 },
                 cnew_pass: {
-                    required: "Ulangi kata sandi baru harus diisi."
+                    minlength: "Minimal 6 karakter",
+                    required: "Ulangi kata sandi baru harus diisi.",
+                    equalTo: "Konfirmasi kata sandi harus sesuai dengan kata sandi"
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('.alert-danger', $(this)).fadeIn();
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
                 console.log(element);
@@ -493,7 +501,7 @@ var ProfileValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.form-group').append(error);
+                $(element).parents('.input-group').append(error);
             },
             submitHandler: function (form) {
                 $('#save_changepassword').modal('show');
@@ -1263,35 +1271,42 @@ var AccountValidation = function () {
 
     var handleChangePasswordValidation = function(){
         $('#changepassword').validate({
-            focusInvalid: true, // do not focus the last invalid input
+            focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
                 cur_pass: {
+                    minlength: 6,
                     required: true,
                 },
                 new_pass: {
+                    minlength: 6,
                     required: true,
                 },
                 cnew_pass: {
+                    minlength: 6,
                     required: true,
+                    equalTo : "#new_pass"
                 },
             },
             messages: {
                 cur_pass: {
-                    required: "Kata sandi lama anda harus diisi.."
+                    minlength: "Minimal 6 karakter",
+                    required: "Kata sandi lama anda harus diisi."
                 },
                 new_pass: {
+                    minlength: "Minimal 6 karakter",
                     required: "Kata sandi baru harus diisi."
                 },
                 cnew_pass: {
-                    required: "Ulangi kata sandi baru harus diisi."
+                    minlength: "Minimal 6 karakter",
+                    required: "Ulangi kata sandi baru harus diisi.",
+                    equalTo: "Konfirmasi kata sandi harus sesuai dengan kata sandi"
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('.alert-danger', $(this)).fadeIn();
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
-                console.log(element);
                 $(element).parents('.form-line').addClass('error'); // set error class to the control group
             },
             unhighlight: function (element) {
@@ -1302,7 +1317,7 @@ var AccountValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.form-group').append(error);
+                $(element).parents('.input-group').append(error);
             },
             submitHandler: function (form) {
                 $('#save_changepassword').modal('show');

@@ -1039,13 +1039,12 @@ class User extends SMIT_Controller {
             // Set JSON data
             $data = array(
                 'message'       => 'error',
-                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+                'data'          => 'Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!',
             );
             // JSON encode data
             die(json_encode($data));
         }else{
             $curdate            = date("Y-m-d H:i:s");
-            
             $userdata         = array(
                 'name'          => strtoupper( trim(smit_isset($post_user_name, '')) ),
                 'email'         => trim(smit_isset($post_user_email, '')),
@@ -1069,14 +1068,76 @@ class User extends SMIT_Controller {
                 // Set JSON data
                 $data = array(
                     'message'   => 'success',
-                    'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
-                    'name'      => ( !empty($id_user) ? '' : smit_isset($post_user_name, '') ),
+                    'data'      => 'Validasi formulir Anda berhasil! '.$msg.'',
                 );
             }else{
                 // Set JSON data
-                $data['success']    = false;
-                $data['msg']        = 'error';
-                $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
+                $data['message']    = 'error';
+                $data['data']       = 'Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
+            }
+            
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
+    
+    /**
+	 * Job Personal Info Update function.
+	 */
+    function jobinfo()
+    { 
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $post_user_username     = $this->input->post('up_username');
+        $post_user_nip          = $this->input->post('up_nip');
+        $post_user_position     = $this->input->post('up_position');
+        $post_user_workunit     = $this->input->post('workunit_type');
+        
+        $post_user_id           = $this->input->post('user_id');
+        $id_user                = ( smit_isset($post_user_id, '') > 0 ? smit_isset($post_user_id, '') : $current_user->id );
+        $username               = smit_isset($post_user_username, '');
+        
+        $this->form_validation->set_rules('up_nip','Nomor Induk Pegawai','required');
+        $this->form_validation->set_rules('up_position','Posisi Pegawai','required');
+        $this->form_validation->set_rules('workunit_type','Satuan Kerja Pegawai','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => 'Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!',
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            $curdate            = date("Y-m-d H:i:s");
+            
+            $userdata         = array(
+                'nip'           => trim(smit_isset($post_user_nip, '')),
+                'position'      => smit_isset($post_user_position, ''),
+                'workunit'      => smit_isset($post_user_workunit, ''),
+                'datemodified'  => $curdate,
+            );
+
+            if( $save_user    = $this->Model_User->update_data($id_user, $userdata) ){
+                // Set Message
+                $msg            = ( $id_user != $current_user->id ? 'Data informasi pekerjaan <strong>'. $username .'</strong> sudah tersimpan.' : 'Data informasi pekerjaan Anda sudah tersimpan.' );
+                
+                // Set JSON data
+                $data = array(
+                    'message'   => 'success',
+                    'data'      => 'Validasi formulir Anda berhasil! '.$msg.'',
+                );
+            }else{
+                // Set JSON data
+                $data = array(
+                    'message'   => 'error',
+                    'data'      => 'Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!',
+                );
             }
             
             // JSON encode data
@@ -1234,72 +1295,7 @@ class User extends SMIT_Controller {
             die(json_encode($data));
         }
     }
-    
-    /**
-	 * Job Personal Info Update function.
-	 */
-    function jobinfo()
-    { 
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        
-        $post_user_username     = $this->input->post('up_username');
-        $post_user_nip          = $this->input->post('up_nip');
-        $post_user_position     = $this->input->post('up_position');
-        $post_user_workunit     = $this->input->post('workunit_type');
-        
-        $post_user_id           = $this->input->post('user_id');
-        $id_user                = ( smit_isset($post_user_id, '') > 0 ? smit_isset($post_user_id, '') : $current_user->id );
-        $username               = smit_isset($post_user_username, '');
-        
-        $this->form_validation->set_rules('up_nip','Nomor Induk Pegawai','required');
-        $this->form_validation->set_rules('up_position','Posisi Pegawai','required');
-        $this->form_validation->set_rules('workunit_type','Satuan Kerja Pegawai','required');
-        
-        $this->form_validation->set_message('required', '%s harus di isi');
-        $this->form_validation->set_error_delimiters('', '');
-        
-        if($this->form_validation->run() == FALSE){
-            // Set JSON data
-            $data = array(
-                'message'       => 'error',
-                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
-            );
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            $curdate            = date("Y-m-d H:i:s");
-            
-            $userdata         = array(
-                'nip'           => trim(smit_isset($post_user_nip, '')),
-                'position'      => smit_isset($post_user_position, ''),
-                'workunit'      => smit_isset($post_user_workunit, ''),
-                'datemodified'  => $curdate,
-            );
 
-            if( $save_user    = $this->Model_User->update_data($id_user, $userdata) ){
-                // Set Message
-                $msg            = ( $id_user != $current_user->id ? 'Data profil <strong>'. $username .'</strong> sudah tersimpan.' : 'Data profil Anda sudah tersimpan.' );
-                
-                // Set JSON data
-                $data = array(
-                    'message'   => 'success',
-                    'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
-                    'name'      => ( !empty($id_user) ? '' : smit_isset($post_user_name, '') ),
-                );
-            }else{
-                // Set JSON data
-                $data['success']    = true;
-                $data['msg']        = 'success';
-                $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
-            }
-            
-            // JSON encode data
-            die(json_encode($data));
-        }
-    }
-    
-    
     // ------------------------------------------------------------------------------------------------
     
     // ------------------------------------------------------------------------------------------------
@@ -1514,7 +1510,24 @@ class User extends SMIT_Controller {
      */
     function changepassword()
     {
-        auth_redirect();
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $auth = auth_redirect( $this->input->is_ajax_request() );
+        if( !$auth ){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'login'         => 'login',
+                'data'          => base_url('login'),
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
         /*
         if( smit_isset($this->input->post('id_user_other'), '') != '' ){
             $id_member          = smit_isset($this->input->post('id_member_other'), '');
@@ -1557,21 +1570,6 @@ class User extends SMIT_Controller {
         }
         */
 
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        
-        $message                = '';
-        $post                   = '';
-        $curdate                = date('Y-m-d H:i:s');
-        
-        // Set Variable
-        $cur_pass               = $this->input->post('cur_pass');
-        $cur_pass               = smit_isset($cur_pass, '');
-        $new_pass               = $this->input->post('new_pass');
-        $new_pass               = smit_isset($new_pass, '');
-        $cnew_pass              = $this->input->post('cnew_pass');
-        $cnew_pass              = smit_isset($cnew_pass, '');
-        
         $this->form_validation->set_rules('cur_pass','Password Lama','required');
         $this->form_validation->set_rules('new_pass','Pasword Baru','required');
         $this->form_validation->set_rules('cnew_pass','Konfirmasi Password Baru','required');
@@ -1583,19 +1581,27 @@ class User extends SMIT_Controller {
             // Set JSON data
             $data = array(
                 'message'       => 'error',
-                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+                'data'          => 'Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!',
             );
             // JSON encode data
             die(json_encode($data));
         }else{
+            // Set Variable
+            $curdate            = date('Y-m-d H:i:s');
+            $cur_pass           = $this->input->post('cur_pass');
+            $cur_pass           = smit_isset($cur_pass, '');
+            $new_pass           = $this->input->post('new_pass');
+            $new_pass           = smit_isset($new_pass, '');
+            $cnew_pass          = $this->input->post('cnew_pass');
+            $cnew_pass          = smit_isset($cnew_pass, '');
+            
             // Check Member Password
             $check_pass     = $this->Model_User->authenticate($current_user->username, $cur_pass);
-
             if ( !$check_pass ){
                 // Set JSON data
                 $data = array(
                     'message'   => 'error',
-                   'data'      => smit_alert('Konfirmasi password tidak sesuai dengan password baru!'),
+                    'data'      => 'Kata sandi lama Anda tidak sesuai!',
                 );
                 // JSON encode data
                 die(json_encode($data));
@@ -1604,7 +1610,7 @@ class User extends SMIT_Controller {
                     // Set JSON data
                     $data = array(
                         'message'   => 'error',
-                        'data'      => '<button class="close" data-close="alert"></button>Konfirmasi password tidak sesuai dengan password baru!',
+                        'data'      => 'Konfirmasi password tidak sesuai dengan password baru!',
                     );
                     // JSON encode data
                     die(json_encode($data));
@@ -1615,16 +1621,19 @@ class User extends SMIT_Controller {
                     );
 
                     if( $save_pass      = $this->Model_User->update_data($current_user->id, $passdata) ){
+                        // Logout
+                        smit_logout();
+                        
                         // Set JSON data
                         $data = array(
                             'message'   => 'success',
-                            'data'      => base_url('logout'),
+                            'data'      => base_url('login'),
                         );
                     }else{
                         // Set JSON data
                         $data = array(
                             'message'   => 'error',
-                            'data'      => smit_alert('Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!'),
+                            'data'      => 'Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!',
                         );
                     }
                     // JSON encode data

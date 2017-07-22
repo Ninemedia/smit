@@ -28,27 +28,27 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="active">
-                                <a href="#account" data-toggle="tab">
+                                <a href="#account" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">home</i> AKUN
                                 </a>
                             </li>
                             <li>
-                                <a href="#info" data-toggle="tab">
+                                <a href="#info" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">home</i> INFORMASI PRIBADI
                                 </a>
                             </li>
                             <li>
-                                <a href="#job" data-toggle="tab">
+                                <a href="#job" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">style</i> INFORMASI PEKERJAAN
                                 </a>
                             </li>
                             <li>
-                                <a href="#change_password" data-toggle="tab">
+                                <a href="#change_password" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">style</i> UBAH KATA SANDI
                                 </a>
                             </li>
                             <li>
-                                <a href="#user_role" data-toggle="tab">
+                                <a href="#user_role" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">account_box</i> UBAH TIPE PENGGUNA
                                 </a>
                             </li>
@@ -183,7 +183,7 @@
                                     <div class="input-group">
                                         <label class="form-label">Tanggal Lahir *</label>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="up_birthdate" id="up_birthdate" value="<?php echo $the_user->birthdate; ?>" required>
+                                            <input type="text" class="form-control datepicker" name="up_birthdate" id="up_birthdate" value="<?php echo $the_user->birthdate == "0000-00-00" ? '' : $the_user->birthdate; ?>" required>
                                         </div>
                                     </div>
                                     <div class="input-group">
@@ -213,7 +213,6 @@
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
-
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -229,7 +228,7 @@
                                     <div class="input-group">
                                         <label class="form-label">Nomor Induk Pegawai *</label>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="up_nip" id="up_nip" value="<?php echo $the_user->nip; ?>" maxlength="16" required>
+                                            <input type="text" class="form-control" name="up_nip" id="up_nip" value="<?php echo $the_user->nip == 0 ? '' : $the_user->nip; ?>" maxlength="16" required>
                                         </div>
                                     </div>
                                     <div class="input-group">
@@ -244,13 +243,15 @@
             	                        	$workunit_type = smit_workunit_type();
                                             $option = array('' => '-- Pilih Satuan Kerja --');
                                             $extra = 'class="form-control show-tick" id="workunit_type"';
+                                            $selected = array();
             
             	                            if( !empty($workunit_type) ){
             	                                foreach($workunit_type as $val){
                                                     $option[$val->workunit_id] = $val->workunit_name;
+                                                    if( $the_user->workunit == $val->workunit_id ) $selected[] = $val->workunit_id;
             	                                }
             	                            }
-                                            echo form_dropdown('workunit_type',$option,'',$extra);
+                                            echo form_dropdown('workunit_type',$option,$selected,$extra);
             	                        ?>
                                     </div>
                                     <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
@@ -264,13 +265,13 @@
                 	                       <div class="input-group">
                                                 <span class="input-group-addon"><i class="material-icons">lock</i></span>
                                                 <div class="form-line">
-                                                    <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                                    <?php echo form_password('password_old','',array('id'=>'password_old','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
                                                 </div>
                                             </div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="material-icons">lock</i></span>
                                                 <div class="form-line">
-                                                    <?php echo form_password('password','',array('id'=>'password','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
+                                                    <?php echo form_password('password_new','',array('id'=>'password_new','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
                                                 </div>
                                             </div>
                                             <div class="input-group">
@@ -283,25 +284,34 @@
                                     <?php } ?>
                                 <?php }else{ ?>
                                     <?php echo form_open( base_url('user/changepassword'), array( 'id'=>'changepassword', 'role'=>'form' ) ); ?>
-            	                        <label class="form-label">Kata Sandi Lama Anda *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                            <div class="form-line">
-                                                <?php echo form_password('cur_pass','',array('id'=>'cur_pass','class'=>'form-control','placeholder'=>'Kata Sandi Lama Anda','required'=>'required','minlength'=>'6')); ?>
+                                        <div class="alert alert-danger text-center display-hide error-validate">
+                                			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                                		</div>
+            	                        <div class="form-group">
+                                            <label class="form-label">Kata Sandi Lama Anda *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('cur_pass','',array('id'=>'cur_pass','class'=>'form-control','placeholder'=>'Kata Sandi Lama Anda')); ?>
+                                                </div>
                                             </div>
                                         </div>
-                                        <label class="form-label">Kata Sandi Baru Anda *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                            <div class="form-line">
-                                                <?php echo form_password('new_pass','',array('id'=>'new_pass','class'=>'form-control','placeholder'=>'Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
+                                        <div class="form-group">
+                                            <label class="form-label">Kata Sandi Baru Anda *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('new_pass','',array('id'=>'new_pass','class'=>'form-control','placeholder'=>'Kata Sandi Baru Anda')); ?>
+                                                </div>
                                             </div>
                                         </div>
-                                        <label class="form-label">Ulangi Kata Sandi Anda *</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                            <div class="form-line">
-                                                <?php echo form_password('cnew_pass','',array('class'=>'form-control','placeholder'=>'Ulangi Kata Sandi Baru Anda','required'=>'required','minlength'=>'6')); ?>
+                                        <div class="form-group">
+                                            <label class="form-label">Ulangi Kata Sandi Anda *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_password('cnew_pass','',array('class'=>'form-control','placeholder'=>'Ulangi Kata Sandi Baru Anda')); ?>
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>

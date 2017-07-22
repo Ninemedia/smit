@@ -161,7 +161,7 @@ var SignUp = function () {
         });
         
         //Mobile Phone Number
-        $('.mobile-phone-number').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
+        $('.mobile-phone-number').inputmask('+6299999999999', { placeholder: '+_____________' });
         
         //Datetimepicker plugin
         $('.birthdate').bootstrapMaterialDatePicker({
@@ -173,60 +173,6 @@ var SignUp = function () {
         
         //Selectpicker
         $('.show-tick').selectpicker();
-    };
-    
-    var handleSaveProfile = function() {
-        // Save Profile
-        $('#do_save_profile').click(function(e){
-            e.preventDefault();
-            processSaveProfile($('#personal'));
-        });
-        
-        var processSaveProfile = function( form ) {
-        	var url = $( form ).attr( 'action' );
-        	var data = $( form ).serialize(); // convert form to array
-            var msg = $('.alert');
-        	
-            bootbox.confirm("Anda yakin data user sudah benar?", function(result) {
-                if( result == true ){
-                    $.ajax({
-            			type : "POST",
-            			url  : url,
-            			data : data,
-                        beforeSend: function(){
-                            $("div.page-loader-wrapper").fadeIn();
-                            $('#save_profile').modal('hide');
-                        },
-            			success: function(response) {
-                            $("div.page-loader-wrapper").fadeOut();
-                            response = $.parseJSON( response );
-                            
-                            if(response.message == 'error'){
-                                msg.html(response.data.msg);
-                                msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
-                            }else{
-                                msg.html(response.data.msgsuccess);
-                                msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                                
-                                $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
-                                $(".selectpicker, .show-tick").val('').selectpicker('render');
-                            }
-            			}
-            		});
-                }
-            });
-        };
-        
-        //Mobile Phone Number
-        $('#up_phone').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
-        
-        //Datetimepicker plugin
-        $('#birthdate').bootstrapMaterialDatePicker({
-            format: 'YYYY-MM-DD',
-            clearButton: true,
-            weekStart: 1,
-            time: false
-        });
     };
     
     // --------------------------------
@@ -290,6 +236,62 @@ var SignUp = function () {
         };
     };
     
+    var handleSaveProfile = function() {
+        // Save Profile
+        $('#do_save_profile').click(function(e){
+            e.preventDefault();
+            processSaveProfile($('#personal'));
+        });
+        
+        var processSaveProfile = function( form ) {
+            var url     = $( form ).attr( 'action' );
+            var data    = $( form ).serialize(); // convert form to array
+            var wrapper = form;
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                    $('#save_profile').modal('hide');
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend'
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend'
+                        });
+                        
+                        if( response.name != '' ){
+                            if( $('#name_member').length ){
+                                $('#name_member').empty().html(response.name).fadeIn(); 
+                            }
+                        }
+                    }
+                    App.scrollTo($('body'), 0);
+    			}
+    		});    
+        };
+        
+        //Mobile Phone Number
+        $('#up_phone').inputmask('+6299999999999', { placeholder: '+_____________' });
+    };
+    
     var handleSaveJob = function() {
         // Save Job
         $('#do_save_job').click(function(e){
@@ -298,9 +300,9 @@ var SignUp = function () {
         });
         
         var processSaveJob = function( form ) {
-        	var url = $( form ).attr( 'action' );
-        	var data = $( form ).serialize(); // convert form to array
-            var msg = $('.alert');
+            var url         = $( form ).attr( 'action' );
+            var data        = $( form ).serialize(); // convert form to array
+            var wrapper     = form;
         	
             $.ajax({
     			type : "POST",
@@ -315,21 +317,29 @@ var SignUp = function () {
                     response = $.parseJSON( response );
                     
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend'
+                        });
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
-                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
-                        $(".selectpicker, .show-tick").val('').selectpicker('render');
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend'
+                        });
                     }
+                    App.scrollTo($('body'), 0);
     			}
     		});
         };
         
         //NIP
-        $('#up_nip').inputmask('99999999999999', { placeholder: '+__ ___________' });
+        $('#up_nip').inputmask('99999999999999', { placeholder: '______________' });
     };
     
     var handleSaveChangePassword = function() {
@@ -340,9 +350,9 @@ var SignUp = function () {
         });
         
         var processSaveChangePassword = function( form ) {
-        	var url = $( form ).attr( 'action' );
-        	var data = $( form ).serialize(); // convert form to array
-            var msg = $('.alert');
+            var url         = $( form ).attr( 'action' );
+            var data        = $( form ).serialize(); // convert form to array
+            var wrapper     = form;
         	
             $.ajax({
     			type : "POST",
@@ -357,20 +367,23 @@ var SignUp = function () {
                     response = $.parseJSON( response );
                     
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                        if( response.login == 'login' ){
+                            $(location).attr('href',response.data);
+                        }else{
+                            App.alert({
+                                type: 'danger',
+                                icon: 'warning',
+                                message: response.data,
+                                container: wrapper,
+                                place: 'prepend'
+                            });
+                        }
                     }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
-                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+                        $(location).attr('href',response.data);
                     }
     			}
     		});
         };
-        
-        //NIP
-        $('#up_nip').inputmask('99999999999999', { placeholder: '+__ ___________' });
     };
     
     // --------------------------------
@@ -461,6 +474,14 @@ var SignUp = function () {
     var getCaptchaResponse = function() {
 		return grecaptcha.getResponse( widgetCaptcha );
 	};
+    
+    $('a.tab-profile').click(function(){
+        var wrapper = $(this).attr('href');
+        wrapper     = $(wrapper);
+        
+        $('label.error', wrapper).remove();
+        $('div.form-line', wrapper).removeClass('error');
+    });
     
     return {
         //main function to initiate the module
