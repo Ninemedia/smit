@@ -145,7 +145,6 @@
                                         ?>
                                         <label class="form-label">Kota/Kabupaten *</label>
                                         <select class="form-control show-tick" name="up_regional" id="regional-select" 
-                                        <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>
                                         <?php echo ( empty($user_city) ? 'disabled="disabled"' : '' ); ?>>
                                             <option value="">-- Pilih Kota/Kabupaten --</option>
                                             <?php 
@@ -212,7 +211,7 @@
                                             <option value="1" <?php echo $user_marital == 1 ? 'selected="selected"' : '' ?>>MENIKAH</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-warning waves-effect">Perbaharui</button>
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -254,7 +253,7 @@
                                             echo form_dropdown('workunit_type',$option,$selected,$extra);
             	                        ?>
                                     </div>
-                                    <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                    <button type="submit" class="btn btn-warning waves-effect">Perbaharui</button>
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -314,7 +313,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-warning waves-effect" <?php echo ( !empty($user_other) && !$is_admin ? 'readonly="readonly"' : '' ); ?>>Perbaharui</button>
+                                        <button type="submit" class="btn btn-warning waves-effect">Perbaharui</button>
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
@@ -411,10 +410,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Perbaharui Data Profil Anda</h4>
+				<h4 class="modal-title">Perbaharui Data Profil <?php echo ( !empty($user_other) ? 'Anggota '.$user_other->name : 'Anda' ); ?></h4>
 			</div>
 			<div class="modal-body">
-                <p>Apakah anda yakin akan memperbaharui data profil anda ?</p>
+                <p>Apakah anda yakin akan memperbaharui data profil <?php echo ( !empty($user_other) ? 'Anggota '.$user_other->name : 'Anda' ); ?> ?</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
