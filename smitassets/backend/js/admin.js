@@ -3198,7 +3198,7 @@ var App = function() {
 
             if (options.closeInSeconds > 0) {
                 setTimeout(function(){
-                    $('#' + id).fadeOut().delay(3000).remove();
+                    $('#' + id).delay(2 * 1000).fadeOut();
                 }, options.closeInSeconds * 1000);
             }
         },

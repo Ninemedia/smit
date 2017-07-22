@@ -1525,50 +1525,48 @@ class User extends SMIT_Controller {
             die(json_encode($data));
         }
         
-        $current_user           = smit_get_current_user();
-        $is_admin               = as_administrator($current_user);
-        
-        /*
-        if( smit_isset($this->input->post('id_user_other'), '') != '' ){
-            $id_member          = smit_isset($this->input->post('id_member_other'), '');
-            $username           = smit_isset($this->input->post('username_other'), '');
+        $post_id_user_other     = $this->input->post('id_user_other');
+        if( smit_isset($post_id_user_other, '') != '' ){
+            $id_user            = $this->input->post('id_user_other');
+            $id_user            = trim( smit_isset($id_user, '') );
+            $username           = $this->input->post('username_other');
+            $username           = trim( smit_isset($username, '') );
             $curdate            = date("Y-m-d H:i:s");
-
-            $userdata           = smit_get_userdata_by_id($id_member);
-            if( !$memberdata || empty($memberdata) ){
+            
+            $userdata           = smit_get_userdata_by_id($id_user);
+            if( !$userdata || empty($userdata) ){
                 // Set JSON data
                 $data = array(
                     'message'   => 'error',
-                    'data'      => '<button class="close" data-close="alert"></button>Data anggota <strong>'.$username.'</strong> tidak ditemukan!',
+                    'data'      => 'Data anggota <strong>'.$username.'</strong> tidak ditemukan!',
                 );
             }
-
+            
             $global_pass        = get_option('global_password');
             $passdata           = array(
-                'password'      => md5($global_pass),
+                'password'      => $global_pass,
                 'datemodified'  => $curdate
             );
-
-            if( $save_pass      = $this->model_member->update_data($id_member, $passdata) ){
-                // Send SMS Confirmation
-                //$this->gmc_sms->sms_cpassword($memberdata->phone, $username, $global_pass);
+            
+            if( $save_pass      = $this->Model_User->update_data($id_user, $passdata) ){
                 // Set JSON data
                 $data = array(
                     'message'   => 'success',
-                    'data'      => '<button class="close" data-close="alert"></button>Reset/Atur ulang password anggota <strong>'.$username.'</strong> berhasil!',
+                    'data'      => 'Reset/Atur ulang password anggota <strong>'.$username.'</strong> berhasil!',
                 );
             }else{
                 // Set JSON data
                 $data = array(
                     'message'   => 'error',
-                    'data'      => '<button class="close" data-close="alert"></button>Reset/Atur ulang password anggota <strong>'.$username.'</strong> tidak berhasil!',
+                    'data'      => 'Reset/Atur ulang password anggota <strong>'.$username.'</strong> tidak berhasil!',
                 );
             }
             // JSON encode data
             die(json_encode($data));
-
         }
-        */
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
 
         $this->form_validation->set_rules('cur_pass','Password Lama','required');
         $this->form_validation->set_rules('new_pass','Pasword Baru','required');

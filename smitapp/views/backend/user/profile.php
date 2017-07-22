@@ -261,23 +261,19 @@
                                 <?php if( !empty($user_other) ){ ?>
                                     <?php if( $is_admin ){ ?>
                                         <?php echo form_open( base_url('user/changepassword'), array( 'id'=>'changepassword', 'role'=>'form' ) ); ?>
-                	                       <div class="input-group">
-                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                                <div class="form-line">
-                                                    <?php echo form_password('password_old','',array('id'=>'password_old','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
-                                                </div>
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                                <div class="form-line">
-                                                    <?php echo form_password('password_new','',array('id'=>'password_new','class'=>'form-control','placeholder'=>'Password','required'=>'required','minlength'=>'6')); ?>
-                                                </div>
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="material-icons">lock</i></span>
-                                                <div class="form-line">
-                                                    <?php echo form_password('password_confirm','',array('class'=>'form-control','placeholder'=>'Konfirmasi Password','required'=>'required','minlength'=>'6')); ?>
-                                                </div>
+                                            <div class="alert alert-danger text-center display-hide error-validate">
+                                    			<small><span>Ada kesalahan dalam pengisian formulir di bawah</span></small>
+                                    		</div>
+                                            
+                                            <input type="hidden" name="id_user_other" value="<?php echo $user_other->id; ?>" />
+                                            <input type="hidden" name="username_other" value="<?php echo $user_other->username; ?>" />
+                                            
+                                            <div class="callout callout-info">
+                                                <h4 class="block">Reset password anggota</h4>
+                                                <p>Password <strong><?php echo $user_other->username; ?></strong> akan di atur ulang ke password global. </p>
+                                                <p>
+                                                    <a class="btn btn-success no-decoration" data-toggle="modal" href="#reset_pass"> Reset Password </a>
+                                                </p>
                                             </div>
                                         <?php echo form_close(); ?>
                                     <?php } ?>
@@ -457,9 +453,29 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_changepassword" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_save_changepassword">Lanjut</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- END INFORMATION SUCCESS SAVE CHANGEPASSWORD MODAL -->
+
+<!-- BEGIN INFORMATION RESET PASSWORD MODAL -->
+<div class="modal fade" id="reset_pass" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Reset Kata Sandi Anggota</h4>
+			</div>
+			<div class="modal-body">
+                Anda yakin akan mengatur ulang password untuk anggota <strong><?php echo $user_other->username; ?></strong>?
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-info waves-effect" id="do_reset_pass">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION RESET PASSWORD MODAL -->

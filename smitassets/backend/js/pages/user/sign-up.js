@@ -386,6 +386,58 @@ var SignUp = function () {
         };
     };
     
+    var handleSaveResetPassword = function() {
+        // Save Job
+        $('#do_reset_pass').click(function(e){
+            e.preventDefault();
+            processSaveResetPassword($('#changepassword'));
+        });
+        
+        var processSaveResetPassword = function( form ) {
+            var url         = $( form ).attr( 'action' );
+            var data        = $( form ).serialize(); // convert form to array
+            var wrapper     = form;
+        	
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                    $('#reset_pass').modal('hide');
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if(response.message == 'error'){
+                        if( response.login == 'login' ){
+                            $(location).attr('href',response.data);
+                        }else{
+                            App.alert({
+                                type: 'danger',
+                                icon: 'warning',
+                                message: response.data,
+                                container: wrapper,
+                                place: 'prepend',
+                                closeInSeconds: 3
+                            });
+                        }
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.data,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 3
+                        });
+                    }
+    			}
+    		});
+        };
+    };
+    
     // --------------------------------
     // Handle Province Change
     // --------------------------------
@@ -492,6 +544,7 @@ var SignUp = function () {
             handleSaveProfile();
             handleSaveAccount();
             handleSaveChangePassword();
+            handleSaveResetPassword();
         },
         loadCaptcha: function() {
 			showCaptcha();
