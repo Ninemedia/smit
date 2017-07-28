@@ -18,6 +18,8 @@
                             <?php echo $user->name; ?> <i class="material-icons">keyboard_arrow_down</i>
                         </div>
                         <ul class="dropdown-menu pull-right">
+                            <li><a href="<?php echo base_url(); ?>" target="_blank"><i class="material-icons">home</i>Halaman Depan</a></li>
+                            <li role="seperator" class="divider"></li>
                             <li><a href="<?php echo base_url('pengguna/profil'); ?>"><i class="material-icons">person</i>Profil</a></li>
                             <li role="seperator" class="divider"></li>
                             <li><a href="<?php echo base_url('logout'); ?>"><i class="material-icons">input</i>Keluar</a></li>

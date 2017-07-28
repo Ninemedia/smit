@@ -108,6 +108,9 @@
                                 ?>
                             </div>
                         </div>
+                        <div class="form-group smit-captcha-box-contact">
+                			<div class="g-recaptcha smit-captcha-contact" data-smit-site-key="<?php echo config_item( 'captcha_site_key' ); ?>"></div>
+                		</div>
                         <button class="btn btn-md btn-primary waves-effect" type="submit">Kirim Pesan</button>
                         <button class="btn btn-md btn-danger waves-effect" id="btn_contactadd_reset">Bersihkan</button>
                     <?php echo form_close(); ?>         

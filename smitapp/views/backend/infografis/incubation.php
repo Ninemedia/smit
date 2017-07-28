@@ -4,7 +4,9 @@
         <div class="card">
             <div class="header"><h2>Info Grafis Inkubasi</h2></div>
             <div class="body">
-            
+                <p align="justify">
+                    Infografis mengenai kegiatan inkubasi per-bulan dan per-tahun
+                </p>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
@@ -22,15 +24,23 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="monthly">
+                        <?php if( !empty($stats) ) : ?>
                         <div id="chart-incubation-month" style="height: 300px;">
             				<span class="data hide"><?php echo $chart; ?></span>
             			</div>
+                        <?php else : ?>
+                            <div class="alert alert-info bottom0">Saat ini sedang tidak ada data chart. Silahkan update data terlebih dahulu.</div>
+                        <?php endif; ?>
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="yearly">
+                        <?php if( !empty($stats_yearly) ) : ?>
                         <div id="chart-incubation-year" style="height: 300px;">
             				<span class="data-year hide"><?php echo $chart_year; ?></span>
             			</div>
+                        <?php else : ?>
+                            <div class="alert alert-info bottom0">Saat ini sedang tidak ada data chart. Silahkan update data terlebih dahulu.</div>
+                        <?php endif; ?>
                     </div>
                 </div>
             

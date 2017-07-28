@@ -18,10 +18,11 @@
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         				    <div id="gtco-socialnav">
                                 <ul class="gtco-social-icons">
-            						<li><a href="https://www.twitter.com"><i class="icon-twitter"></i></a></li>
-            						<li><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
-            						<li><a href="#"><i class="icon-instagram"></i></a></li>
-            						<li><a href="http://pusinov.lipi.go.id"><i class="icon-dribbble"></i></a></li>
+                                    <li><a href="https://www.twitter.com/inovasiLIPI"><i class="icon-twitter"></i></a></li>
+            						<li><a href="https://www.facebook.com/inovasiLIPI"><i class="icon-facebook"></i></a></li>
+            						<li><a href="https://www.instagram.com/inovasiLIPI"><i class="icon-instagram"></i></a></li>
+            						<li><a href="https://www.linkedin.com/company-beta/822507"><i class="icon-linkedin"></i></a></li>
+            						<li><a href="https://www.youtube.com/lipiindonesia"><i class="icon-youtube"></i></a></li>
             					</ul>
                             </div>	
         				</div>

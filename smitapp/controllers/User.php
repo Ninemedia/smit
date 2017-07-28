@@ -357,7 +357,6 @@ class User extends SMIT_Controller {
         // Check Password
         // -------------------------------------------------
 		$verify = smit_validate_captcha();
-		
 		if ( empty( $verify->success ) ) {
             // Set JSON data
             $data = array(

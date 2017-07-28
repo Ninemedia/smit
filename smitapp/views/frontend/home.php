@@ -28,6 +28,9 @@
                     <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
                         <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
                     </li>
+                    <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+                        <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
+                    </li>
                     <?php
                 }
             ?>
@@ -169,7 +172,7 @@
                         <!-- Pengumuman Tab Content -->
                         <div class="tab-pane fade" id="pengumuman">
                             <div class="table-container table-responsive bottom50">
-                                <table class="table table-striped table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
+                                <table class="table table-striped table-bordered table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
@@ -232,22 +235,22 @@
                             <div class="item">
             					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
             				</div>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+            				</div>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+            				</div>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+            				</div>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+            				</div>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
+            				</div>
                         <?php endif; ?>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-        				</div>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-        				</div>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-        				</div>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-        				</div>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-        				</div>
         			</div>
     			</div>
             </div>

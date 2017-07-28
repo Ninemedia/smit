@@ -32,7 +32,7 @@ var Datatable = function () {
             }
 
             var the = this;
-            var base_url = window.location.origin + '/';
+            var base_url = window.location.origin + '/inkubator/';
 
             // default settings
             options = $.extend(true, {

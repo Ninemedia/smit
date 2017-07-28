@@ -47,7 +47,6 @@ class Model_User extends SMIT_Model{
         }
 
 		$user = $this->authenticate( $credentials['username'], $credentials['password'] );
-
 		if ( empty($user) ) return false;
 
         if ( ! empty( $user->id ) ) {

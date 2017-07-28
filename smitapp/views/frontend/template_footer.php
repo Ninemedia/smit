@@ -27,10 +27,11 @@
                 <div class="gtco-widget">
                     <h3>Media Sosial</h3>
         			<ul class="gtco-social-icons pull-left">
-						<li><a href="https://www.twitter.com"><i class="icon-twitter"></i></a></li>
-						<li><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
-						<li><a href="#"><i class="icon-instagram"></i></a></li>
-						<li><a href="http://pusinov.lipi.go.id"><i class="icon-dribbble"></i></a></li>
+						<li><a href="https://www.twitter.com/inovasiLIPI"><i class="icon-twitter"></i></a></li>
+						<li><a href="https://www.facebook.com/inovasiLIPI"><i class="icon-facebook"></i></a></li>
+						<li><a href="https://www.instagram.com/inovasiLIPI"><i class="icon-instagram"></i></a></li>
+						<li><a href="https://www.linkedin.com/company-beta/822507"><i class="icon-linkedin"></i></a></li>
+						<li><a href="https://www.youtube.com/lipiindonesia"><i class="icon-youtube"></i></a></li>
 					</ul>
                 </div>
 			</div>
@@ -44,7 +45,8 @@
         <div class="row copyright">
 			<div class="col-md-12 copy">
 				<p class="center" align="center" style="margin: 15px 0;">
-					<strong>Hak Cipta &copy; 2017 Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi | Powered By Raden Rifal Ardiansyah</strong>
+					<strong>Hak Cipta &copy; 2017 Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi</strong>
+                    <br /><a href="http://inovasi.lipi.go.id/en" style="color: #FFFFFF !important;" target="_blank">Website Pusat Inovasi LIPI</a>
 				</p>
 			</div>
 		</div>

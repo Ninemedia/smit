@@ -183,4 +183,33 @@ var IKM = function () {
 }();
 */
 
+var ContactForm = function () {
+
+    var getCaptchaResponse = function() {
+		return grecaptcha.getResponse( widgetCaptcha );
+	};
+    
+    var showCaptchaContact = function() {
+        // here we render the captcha
+		var container = $( '.smit-captcha-contact' )[0];
+		var parameters = {
+			"sitekey": $( container ).data( 'smit-site-key' )
+		};
+		
+		widgetCaptcha = grecaptcha.render(
+			container,
+			parameters
+		);
+	};
+    
+    return {
+        // main function to initiate the module
+        init: function () {
+            
+        },
+        loadCaptcha: function() {
+			showCaptchaContact();
+		},
+    };
+}();
 

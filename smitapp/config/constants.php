@@ -99,7 +99,8 @@ define('COMPANY_NAME', "Inkubator Teknologi Pusinov LIPI");
 |--------------------------------------------------------------------------
 */
 define('SCHEMA', ( @$_SERVER["HTTPS"] == "on" ) ? "https://" : "http://");
-define('BASE_URL', SCHEMA . ( isset( $_SERVER["SERVER_NAME"] ) ? $_SERVER["SERVER_NAME"] : '' ) . '/');
+define('PURE_URL', SCHEMA . ( isset( $_SERVER["SERVER_NAME"] ) ? $_SERVER["SERVER_NAME"] : '' ));
+define('BASE_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['SERVER_NAME']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
 
 /*
 |--------------------------------------------------------------------------

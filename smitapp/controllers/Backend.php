@@ -112,11 +112,11 @@ class Backend extends User_Controller {
             $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
 
             $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
-            $penimbang      = number_format(1/$total_ikmlist, 3);
+            $penimbang      = $total_ikmlist > 0 ? number_format(1/$total_ikmlist, 3) : 0;
             $penimbang_full = ($penimbang * 100) * 100;
 
             $ikm            = smit_get_total_ikm();
-            $ikm            = $ikm/$total_ikmlist;
+            $ikm            = $total_ikmlist > 0 ? $ikm/$total_ikmlist : 0;
             $ikm            = floor($ikm);
 
             if($ikm <= floor($penimbang_full*45/100)){
@@ -4976,6 +4976,7 @@ class Backend extends User_Controller {
         $data['main_content']   = 'infografis/user';
 
         $chart = array();
+        $stats = '';
         if ( $stats = $this->Model_User->stats_monthly() ) {
             // Pivoting
 			$pivot = array();
@@ -5018,6 +5019,7 @@ class Backend extends User_Controller {
         }
 
         $chart_year = array();
+        $stats_yearly = '';
         if ( $stats_yearly = $this->Model_User->stats_yearly() ) {
             // Pivoting
 			$pivot_yearly = array();
@@ -5060,6 +5062,8 @@ class Backend extends User_Controller {
 
         $data['chart']			= json_encode( $chart );
         $data['chart_year']	    = json_encode( $chart_year );
+        $data['stats']	        = $stats;
+        $data['stats_yearly']	= $stats_yearly;
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -5110,6 +5114,7 @@ class Backend extends User_Controller {
         $data['main_content']   = 'infografis/praincubation';
 
         $chart = array();
+        $stats = '';
         if ( $stats = $this->Model_Praincubation->stats_yearly() ) {
             // Pivoting
 			$pivot_yearly = array();
@@ -5145,6 +5150,7 @@ class Backend extends User_Controller {
             }
         }
         $data['chart']			= json_encode( $chart );
+        $data['stats']			= $stats;
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -5194,6 +5200,7 @@ class Backend extends User_Controller {
         $data['main_content']   = 'infografis/incubation';
         
         $chart = array();
+        $stats = '';
         if ( $stats = $this->Model_Incubation->stats_monthly() ) {
             // Pivoting
 			$pivot = array();
@@ -5231,6 +5238,7 @@ class Backend extends User_Controller {
         }
 
         $chart_year = array();
+        $stats_yearly = '';
         if ( $stats_yearly = $this->Model_Incubation->stats_yearly() ) {
             // Pivoting
 			$pivot_yearly = array();
@@ -5268,6 +5276,8 @@ class Backend extends User_Controller {
 
         $data['chart']			= json_encode( $chart );
         $data['chart_year']	    = json_encode( $chart_year );
+        $data['stats']	        = $stats;
+        $data['stats_yearly']	= $stats_yearly;
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -5333,7 +5343,8 @@ class Backend extends User_Controller {
             'sangat_tidak_setuju'   => $sangat_tidak_setuju,
             'total'                 => $total
         );
-
+        
+        $stats  = '';
         if ( $stats = $this->Model_Service->stats_yearly() ) {
             // Pivoting
 			$pivot = array();
@@ -5376,6 +5387,7 @@ class Backend extends User_Controller {
 
         // Chart Per question
         $chart_question     = array();
+        $stats_question     = '';
         if ( $stats = $this->Model_Service->stats_question() ) {
             // Pivoting
 			$pivot      = array();
@@ -5419,6 +5431,8 @@ class Backend extends User_Controller {
             }
         }
         $data['chart_question']			= json_encode( $chart_question );
+        $data['stats']			        = $stats;
+        $data['stats_question']			= $stats_question;
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -5495,11 +5509,11 @@ class Backend extends User_Controller {
         $sangat_tidak_setuju    = $this->Model_Service->count_all_answer(0, SANGAT_TIDAK_SETUJU);
 
         $total_ikmlist  = $this->Model_Service->count_all_ikmlist();
-        $penimbang      = number_format(1/$total_ikmlist, 3);
+        $penimbang      = $total_ikmlist > 0 ? number_format(1/$total_ikmlist, 3) : 0;
         $penimbang_full = ($penimbang * 100) * 100;
 
         $ikm            = smit_get_total_ikm();
-        $ikm            = $ikm/$total_ikmlist;
+        $ikm            = $total_ikmlist > 0 ? $ikm/$total_ikmlist : 0;
         $ikm            = floor($ikm);
 
         $mutu           = ' - ';

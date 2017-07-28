@@ -34,7 +34,7 @@
 			<div class="col-md-12">
                 <div class="panel-body">
                     <div class="table-container table-responsive bottom50">
-                        <table class="table table-striped table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="announcement_list" data-url="<?php echo base_url('announcementlist'); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>

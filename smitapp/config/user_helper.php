@@ -203,14 +203,14 @@ if ( !function_exists('smit_set_auth_cookie') ){
         
         $auth_cookie            = smit_generate_auth_cookie($id_user, $expiration, $scheme);
         $logged_in_cookie       = smit_generate_auth_cookie($id_user, $expiration, 'logged_in');
-
-    	if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', PURE_URL, $regs)){
+        
+    	if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', base_url(), $regs)){
             $cookie_domain      = '.' . $regs['domain'];
     	}else{
-            $cookie_domain      = str_replace(array('http://', 'https://', 'www.'), '', PURE_URL);
+            $cookie_domain      = str_replace(array('http://', 'https://', 'www.'), '', base_url());
             $cookie_domain      = '.' . str_replace('/', '', $cookie_domain);
     	}
-        
+     
     	$cookie = array(
     		'name'   => $auth_cookie_name,
     		'value'  => $auth_cookie,
@@ -219,7 +219,7 @@ if ( !function_exists('smit_set_auth_cookie') ){
     		'domain' => $cookie_domain,
     		'secure' => false
     	);
-        //setcookie($auth_cookie_name, $auth_cookie, $expire);
+              
     	$CI->input->set_cookie($cookie);
      
     	unset($cookie);
@@ -232,7 +232,7 @@ if ( !function_exists('smit_set_auth_cookie') ){
     		'domain' => $cookie_domain,
     		'secure' => false
     	);
-        //setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire);
+        
     	$CI->input->set_cookie($cookie);
     }
 }
@@ -248,15 +248,15 @@ if ( !function_exists('smit_clear_auth_cookie') ){
         $CI =& get_instance();
         $logged = false;
         
-    	if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', PURE_URL, $regs))
+    	if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', base_url(), $regs))
             $cookie_domain  = '.'.$regs['domain'];
         else{
-            $cookie_domain  = str_replace(array('http://', 'https://', 'www.'), '', PURE_URL);
+            $cookie_domain  = str_replace(array('http://', 'https://', 'www.'), '', base_url());
             $cookie_domain  = '.'.str_replace('/', '', $cookie_domain);
         }
-
+        
         $id_user = smit_get_current_user_id();
-
+        
         if ( !$id_user ){
         	if ($id = smit_isset($_COOKIE['logged_in_'.md5('nonssl')], false, true)){
                 $sess_user_login = $CI->session->userdata('user_logged_in');
@@ -280,9 +280,10 @@ if ( !function_exists('smit_clear_auth_cookie') ){
                 'domain'    => $cookie_domain,
                 'secure'    => false
         	);
+            
         	$CI->input->set_cookie($cookie);
         }
-
+        
     	setcookie(AUTH_COOKIE, ' ', time() - 31536000, '/', $cookie_domain);
     	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, '/', $cookie_domain);
     	setcookie(LOGGED_IN_COOKIE, ' ', time() - 31536000, '/', $cookie_domain);

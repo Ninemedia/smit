@@ -1825,10 +1825,19 @@ class Frontend extends Public_Controller {
             FE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
-        $scripts_add            = '';
+        $scripts_add            = '
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+        <script type="text/javascript">
+            function onloadCallback() {
+    			ContactForm.loadCaptcha();
+    		}
+        </script>
+        ';
+        
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'ContactValidation.init();',
+            'ContactForm.init();'
         ));
 
         $data['title']          = TITLE . 'Kontak';
@@ -1876,6 +1885,21 @@ class Frontend extends Public_Controller {
         }
 
         if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Check Captcha
+            // -------------------------------------------------
+    		$verify = smit_validate_captcha();
+    		if ( empty( $verify->success ) ) {
+                // Set JSON data
+                $data = array(
+                    'message'   => 'error',
+                    'data'      => array(
+                        'field' => '',
+                        'msg'   => 'Captcha tidak sesuai!'
+                    )
+                ); die(json_encode($data));
+    		}
+
             $contact_data       = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'name'          => strtoupper( $contact_name ),

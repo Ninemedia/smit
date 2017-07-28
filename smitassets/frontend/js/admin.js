@@ -500,15 +500,16 @@ var App = function() {
                     response = $.parseJSON( response );
                     
                     if(response.message == 'error'){
-                        msg.html(response.data.msg);
+                        msg.html(response.data);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
-                        msg.html(response.data.msgsuccess);
+                        msg.html(response.data);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
                         
                         $('#contactadd')[0].reset();
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
+                    grecaptcha.reset();
     			}
     		});
         };
