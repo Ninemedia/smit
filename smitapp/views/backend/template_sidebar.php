@@ -683,7 +683,7 @@
                 <img src="<?php echo $avatar_side; ?>" width="48" height="48" alt="User" />
             </div>
             <div class="info-container">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $user->name; ?></div>
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><a href="<?php echo base_url('pengguna/profil'); ?>" style="color: white !important;"><?php echo $user->name; ?></a></div>
                 <div class="email"><?php echo $user->email; ?></div>
                 <div class="email"><?php echo $status; ?></div>
                 <!--

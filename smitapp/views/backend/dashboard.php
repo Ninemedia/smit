@@ -154,7 +154,7 @@
     </div>
     <?php elseif( as_juri($user) ): ?>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div class="info-box bg-orange hover-expand-effect">
+        <div class="info-box bg-blue hover-expand-effect">
             <div class="icon">
                 <i class="material-icons">playlist_add_check</i>
             </div>
@@ -166,7 +166,7 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div class="info-box bg-cyan hover-expand-effect">
+        <div class="info-box bg-blue hover-expand-effect">
             <div class="icon">
                 <i class="material-icons">playlist_add_check</i>
             </div>
@@ -178,7 +178,7 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <div class="info-box bg-pink hover-expand-effect">
+        <div class="info-box bg-blue hover-expand-effect">
             <div class="icon">
                 <i class="material-icons">playlist_add_check</i>
             </div>
@@ -201,8 +201,8 @@
         <div class="card">
             <div class="header"><h2>Selamat <?php echo $hi . ' <strong>' . strtoupper($name) . '</strong>'; ?></h2></div>
             <div class="body bg-light-green">
-                <p>Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a></p>
-                <p>Status Anda saat ini <strong><?php echo $status; ?></strong></p>
+                <p>Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a>. Status Anda saat ini sebagai <strong><?php echo $status; ?></strong></p>
+                <p></p>
             </div>
             
             <?php if( $is_admin ): ?>
@@ -298,7 +298,10 @@
                 <?php $dashboard_text = get_option('be_dashboard_pendamping'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_pendamping'); ?>
+                        <?php echo get_option('be_dashboard_pendamping'); ?><hr />
+                        <div class="body bg-amber">
+                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
@@ -309,7 +312,10 @@
                 <?php $dashboard_text = get_option('be_dashboard_juri'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_juri'); ?>
+                        <?php echo get_option('be_dashboard_juri'); ?><hr />
+                        <div class="body bg-amber">
+                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        </div>
                         <h4>Status Juri Anda :</h4>
                         
                         <div class="row clearfix">
@@ -375,7 +381,10 @@
                 <?php $dashboard_text = get_option('be_dashboard_tenant'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_tenant'); ?>
+                        <?php echo get_option('be_dashboard_tenant'); ?><hr />
+                        <div class="body bg-amber">
+                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
@@ -386,7 +395,10 @@
                 <?php $dashboard_text = get_option('be_dashboard_user'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_user'); ?>
+                        <?php echo get_option('be_dashboard_user'); ?><hr />
+                        <div class="body bg-amber">
+                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        </div>
                         <h4>Status Pengajuan Seleksi Anda : </h4>
                         <div class="row clearfix">
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -464,12 +476,16 @@
             	<!-- End Content Dashboard-->
             <?php endif ?>
             
-            <?php if( as_pelaksana($user) ): ?>
+            <?php if( as_pelaksana($user) || as_pelaksana_tenant($user)): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pelaksana'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
                         <?php echo get_option('be_dashboard_pelaksana'); ?>
+                        <hr />
+                        <div class="body bg-amber">
+                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
