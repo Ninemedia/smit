@@ -34,12 +34,12 @@
                             </li>
                             <li>
                                 <a href="#info" class="tab-profile" data-toggle="tab">
-                                    <i class="material-icons">home</i> INFORMASI PRIBADI
+                                    <i class="material-icons">account_box</i> INFORMASI PRIBADI
                                 </a>
                             </li>
                             <li>
                                 <a href="#job" class="tab-profile" data-toggle="tab">
-                                    <i class="material-icons">style</i> INFORMASI PEKERJAAN
+                                    <i class="material-icons">account_balance</i> INFORMASI PEKERJAAN
                                 </a>
                             </li>
                             <li>
@@ -49,7 +49,7 @@
                             </li>
                             <li>
                                 <a href="#user_role" class="tab-profile" data-toggle="tab">
-                                    <i class="material-icons">account_box</i> UBAH TIPE PENGGUNA
+                                    <i class="material-icons">view_list</i> UBAH TIPE PENGGUNA
                                 </a>
                             </li>
                         </ul>

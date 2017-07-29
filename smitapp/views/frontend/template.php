@@ -73,14 +73,14 @@
                                     <li class="has-dropdown">
             							<a <?php echo ($active_page2 == 'daftarprainkubasi' || $active_page2 == 'produkprainkubasi' ? 'class="currentactive"' : ''); ?> href="#">Pra-Inkubasi</a>
             							<ul class="dropdown">
-            								<li><a <?php echo ($active_page2 == 'daftarprainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('prainkubasi/daftarprainkubasi'); ?>">Daftar Pra-Inkubasi</a></li>
+            								<li><a <?php echo ($active_page2 == 'daftarprainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('prainkubasi/daftarprainkubasi'); ?>">Kegiatan Pra-Inkubasi</a></li>
             								<li><a <?php echo ($active_page2 == 'produkprainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('prainkubasi/produkprainkubasi'); ?>">Produk Pra-Inkubasi</a></li>
             							</ul>
             						</li>
                                     <li class="has-dropdown">
             							<a <?php echo ($active_page2 == 'daftartenant' || $active_page2 == 'produktenant' || $active_page2 == 'fasilitastenant' || $active_page2 == 'blogtenant' || $active_page2 == 'kategoritenant' ? 'class="currentactive"' : ''); ?> href="#">Inkubasi/Tenant</a>
             							<ul class="dropdown">
-            								<li><a <?php echo ($active_page2 == 'daftartenant' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tenant/daftartenant'); ?>">Daftar Tenant</a></li>
+            								<li><a <?php echo ($active_page2 == 'daftartenant' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tenant/daftartenant'); ?>">Kegiatan Tenant</a></li>
             								<li><a <?php echo ($active_page2 == 'produktenant' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tenant/produktenant'); ?>">Produk Tenant</a></li>
             								<li><a <?php echo ($active_page2 == 'blogtenant' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tenant/blogtenant'); ?>">Blog Tenant</a></li>
             								<li><a <?php echo ($active_page2 == 'fasilitastenant' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('tenant/fasilitastenant'); ?>">Fasilitas Tenant</a></li>
@@ -91,9 +91,9 @@
             						<li class="has-dropdown">
             							<a <?php echo ($active_page2 == 'frontendberita' || $active_page2 == 'komunikasi' || $active_page2 == 'ikm' ? 'class="currentactive"' : ''); ?> href="#">Layanan</a>
             							<ul class="dropdown">
-            								<li><a <?php echo ($active_page2 == 'komunikasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/komunikasi'); ?>">Komunikasi dan Bantuan</a></li>
+            								<!-- <li><a <?php echo ($active_page2 == 'komunikasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/komunikasi'); ?>">Komunikasi dan Bantuan</a></li> -->
             								<li><a <?php echo ($active_page2 == 'ikm' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/ikm'); ?>">Pengukuran IKM</a></li>
-            								<li><a <?php echo ($active_page2 == 'frontendberita' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/frontendberita'); ?>">Berita</a></li>
+            								<li><a <?php echo ($active_page2 == 'frontendberita' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('layanan/frontendberita'); ?>">Arsip Berita</a></li>
                                         </ul>
             						</li>
                                     <li><a <?php echo ($active_page == 'kontak' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('kontak'); ?>">Kontak</a></li>

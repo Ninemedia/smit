@@ -126,8 +126,8 @@
                         Bidang Inkubasi dan Alih Teknologi<br />
                         Jalan Raya Jakarta - Bogor KM. 47 Cibinong<br /><br />
                         <i class="icon-phone"></i> Phone : (+62) 21-8791-7216<br />
-                        <i class="icon-phone"></i> Fax :(+62) 21-8791-7221<br />
-                        <i class="icon-mail2"></i> Mail :intek.pusinov@mail.lipi.go.id
+                        <i class="icon-phone"></i> Fax : (+62) 21-8791-7221<br />
+                        <i class="icon-mail2"></i> Mail : intek.pusinov@mail.lipi.go.id
                     </p>
                 </div>
             </div>
