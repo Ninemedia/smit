@@ -38,9 +38,15 @@
     padding: 6px; 
     font-size: 14px; }
   .navbar .navbar-brand img{
-    width: 40px;
     display: inline-block;
     margin-right: 5px;
+  }
+  
+  .navbar .navbar-brand img.lipi{
+    width: 40px;
+  }
+  .navbar .navbar-brand img.lipi-inkubator{
+    height: 40px;
   }
   .navbar .navbar-custom-right-menu {
     float: right; }
