@@ -230,6 +230,7 @@ var SignUp = function () {
                             },
                             maxFileSize: 1024,
                         });
+                        window.location.reload();
                     }
     			}
     		});

@@ -667,7 +667,19 @@ class User extends SMIT_Controller {
                     //$btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
+                /*
+                $role               = explode(',', $row->role);
+                $arrType            = array();
+                foreach($role AS $id){
+                    if( !empty($id) ){
+                        $type           = strtoupper($cfg_type[$id]);
+                        $arrType[]      = $type;    
+                    }
+                }
+                */
+                
                 $type               = strtoupper($cfg_type[$row->type]);
+                //$type               = $arrType;
                 
                 $records["aaData"][] = array(
                     smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
@@ -1159,8 +1171,13 @@ class User extends SMIT_Controller {
         $post_user_username     = $this->input->post('username');
         $username               = smit_isset($post_user_username, '');
         
-        $this->form_validation->set_rules('username','Username anda','required');
+        $id_user                = $current_user->id;
+        if( !empty($post_user_username) ){
+            $user               = $this->Model_User->get_user_by('login', $post_user_username);
+            $id_user            = $user->id;    
+        }
         
+        $this->form_validation->set_rules('username','Username anda','required');
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
         
@@ -1186,7 +1203,7 @@ class User extends SMIT_Controller {
             }
             
             if( !empty( $_POST ) ){
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/user/' . $current_user->id;
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/user/' . $id_user;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
                     
                 $config = array(
@@ -1219,7 +1236,7 @@ class User extends SMIT_Controller {
                         'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
                         'filename'      => smit_isset($upload_data['raw_name'],''),
                         'size'          => smit_isset($upload_data['file_size'],0),
-                        'uploader'      => $current_user->id,
+                        'uploader'      => $id_user,
                         'datemodified'  => $curdate,
                     );     
                 }
@@ -1229,7 +1246,7 @@ class User extends SMIT_Controller {
             // Save Account 
             // -------------------------------------------------
             $trans_save_account         = FALSE;
-            if( $save_user    = $this->Model_User->update_data($current_user->id, $account_data) ){
+            if( $save_user    = $this->Model_User->update_data($id_user, $account_data) ){
                 $trans_save_account  = TRUE;
             }else{
                 // Rollback Transaction

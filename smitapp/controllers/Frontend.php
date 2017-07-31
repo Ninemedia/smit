@@ -2429,7 +2429,7 @@ class Frontend extends Public_Controller {
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        //elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
@@ -2448,17 +2448,17 @@ class Frontend extends Public_Controller {
                     $workunit       = $workunit_type->workunit_name;
                 }
                 $year           = $row->year;
-                $name           = strtoupper($row->user_name);
+                $name           = strtoupper($row->name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    strtoupper( $name ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
-                    smit_center( $datecreated ),
+                    //smit_center( $datecreated ),
                     '',
                 );
                 $i++;
@@ -2529,9 +2529,9 @@ class Frontend extends Public_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-        elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        //elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
@@ -2567,9 +2567,9 @@ class Frontend extends Public_Controller {
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $row->year ),
-                    strtoupper( $row->name ),
-                    strtoupper( $row->event_title ),
                     '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                    //strtoupper( $row->name ),
+                    strtoupper( $row->event_title ),
                     $row->email,
                     smit_center( $row->phone ),
                     '',
