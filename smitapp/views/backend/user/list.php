@@ -2,7 +2,25 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>DAFTAR PENGGUNA</h2></div>
+            <div class="header">
+                <h2>DAFTAR PENGGUNA</h2>
+                <!--
+                <ul class="header-dropdown m-r-0">
+                    <li>
+                        <div class="btn-group">
+                            <a class="btn btn-primary dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:;"> Export ke Excel </a></li>
+                                <li><a href="javascript:;"> Export ke PDF </a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                -->
+            </div>
             <div class="body">
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">
@@ -14,6 +32,16 @@
 							<option value="delete">Hapus</option>
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-primary dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                            </ul>
+                        </div>
 					</div>
                     <table class="table table-striped table-bordered table-hover" id="user_list" data-url="<?php echo base_url('userlistdata'); ?>">
                         <thead>

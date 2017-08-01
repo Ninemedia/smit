@@ -706,6 +706,15 @@ class User extends SMIT_Controller {
             $proses                 = $this->useraction($sGroupActionName, $userlist);
             $records["sStatus"]     = $proses['status']; 
             $records["sMessage"]    = $proses['message']; 
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+            //$data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            //$export                         = $this->smit_excel->exportUserList( $data_list );
+            $export = '';
+                        
+            $records["sStatus"]             = "EXPORTED";
+            $records["sMessage"]            = $export;
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+            
         }
         
         $records["sEcho"]                   = $sEcho;

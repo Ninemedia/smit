@@ -287,7 +287,8 @@ var TableAjax = function () {
         });
 
         if( action == true ){
-            gridExport( grid, '.table-export-excel' );
+            gridExport( grid, '.table-export-excel', 'export_excel' );
+            gridExport( grid, '.table-export-pdf', 'export_pdf' );
         }
         
         if( process == true ){
@@ -304,18 +305,6 @@ var TableAjax = function () {
             	sAction = 'export_excel';
 
             dataTable.addAjaxParam( "sAction", sAction );
-            var table = $( selectorBtn ).closest( '.table-container' ).find( 'table' );
-
-            // get all typeable inputs
-            $( 'textarea.form-filter, select.form-filter, input.form-filter:not([type="radio"],[type="checkbox"])', table ).each( function() {
-                dataTable.addAjaxParam( $(this).attr("name"), $(this).val() );
-            });
-
-            // get all checkable inputs
-            $( 'input.form-filter[type="checkbox"]:checked, input.form-filter[type="radio"]:checked', table ).each( function() {
-                dataTable.addAjaxParam( $(this).attr("name"), $(this).val() );
-            });
-
             dataTable.getDataTable().fnDraw();
             dataTable.clearAjaxParams();
         });
