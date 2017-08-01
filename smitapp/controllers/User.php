@@ -707,14 +707,25 @@ class User extends SMIT_Controller {
             $records["sStatus"]     = $proses['status']; 
             $records["sMessage"]    = $proses['message']; 
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-            //$data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
-            //$export                         = $this->smit_excel->exportUserList( $data_list );
-            $export = '';
-                        
-            $records["sStatus"]             = "EXPORTED";
-            $records["sMessage"]            = $export;
+            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportUserList( $data_list );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+            }
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
-            
+            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportUserList( $data_list, true );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+            }
         }
         
         $records["sEcho"]                   = $sEcho;

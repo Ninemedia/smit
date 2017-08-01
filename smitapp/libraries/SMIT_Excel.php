@@ -48,6 +48,18 @@ class SMIT_Excel extends PHPExcel
 			),
 		),
 	);
+    
+    var $styleHeading = array(
+        'alignment' => array(
+            'wrap'          => true,
+            'horizontal'    => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical'      => PHPExcel_Style_Alignment::VERTICAL_CENTER
+        ),
+        'fill' => array(
+            'type'  => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '428BCA')
+        )
+    );
 
 	/**
 	 * Constructor - Sets up the object properties.
@@ -110,12 +122,18 @@ class SMIT_Excel extends PHPExcel
 		} else {
 			array_unshift( $this->data, $this->heading );
 		}
+        
+        // add 1 row
+        array_unshift($this->data, array(''));
 		// set export date
-		array_unshift($this->data, array('Tanggal Export: ' . $this->exportDate));
+		array_unshift($this->data, array('Tanggal Export : ' . $this->exportDate));
 		// set subtitle
 		array_unshift($this->data, array($this->subTitle));
+        // add 1 row
+        array_unshift($this->data, array(''));
 		// set main title
         array_unshift($this->data, array($this->title . ' - ' . $this->companyName));
+        
 		
 		// start writing data to worksheet
 		$this->simpleExcel->writeSheet($this->data, substr( $this->title, 0, 31 ));
@@ -266,6 +284,74 @@ class SMIT_Excel extends PHPExcel
 	}
 	
 	// ---------------------------------------------------------------------------
+    
+    /**
+	 * Export User List
+	 */
+	function exportUserList($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'List Pengguna';
+		$this->heading 	= array( 'No', 'Username', 'Nama', 'Tipe' );
+		$this->data		= array();
+        // config type user
+        $cfg_type       = config_item('user_type');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			
+			$this->data[] = array(
+				$no++ . '.',
+                $row->username,
+				strtoupper($row->name),
+                strtoupper($cfg_type[$row->type]),
+			);
+		}
+
+		// complete subtitle
+		$this->subTitle = 'Tanggal List Pengguna : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit();
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:D1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:D6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:D6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:D6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:D6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A6:D' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(30);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+        
+        if( $pdf ){
+            $this->_render_pdf();
+        }
+		
+		// output to user browser
+		return $this->simpleOutput();
+	}
+    
+    // ---------------------------------------------------------------------------
 	
 	private function _render_pdf( $renderer = 'mpdf' ) {
 		$rendererName = '';
