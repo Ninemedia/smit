@@ -15,9 +15,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th style="width: 30%;">Nama Pengusul</th>
+                                <th style="width: 30%;">Nama Peneliti Utama</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $praincubation->name; ?></td>
+                                <td><?php echo strtoupper( $praincubation->name ); ?></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Judul Kegiatan</th>
@@ -59,7 +59,7 @@
                                 <td><?php echo $praincubation->year; ?></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Tanggal Usulan</th>
+                                <th style="width: 30%;">Tanggal Daftar</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo date('d F Y H:i:s', strtotime($praincubation->datecreated)); ?></td>
                             </tr>

@@ -54,7 +54,7 @@
                                                 <th class="width5 text-center"><input name="select_all" id="select_all_step1" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step1"></label></th>
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width20">Nama</th>
+                    							<th class="width20">Nama Peneliti Utama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Total Nilai</th>
@@ -168,7 +168,7 @@
                                             <th class="width5 text-center"><input name="select_all" id="select_all_step2" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step2"></label></th>
                 							<th class="width5">No</th>
                                             <th class="width10 text-center">Tahun</th>
-                							<th class="width20">Nama</th>
+                							<th class="width20">Nama Peneliti Utama</th>
                                             <th class="width15 text-center">Satuan Kerja</th>
                                             <th class="width20 text-center">Judul Kegiatan</th>
                 							<th class="width5 text-center">Total Nilai</th>
@@ -291,7 +291,7 @@
                         						<tr role="row" class="heading bg-blue">
                         							<th class="width5">No</th>
                                                     <th class="width10 text-center">Tahun</th>
-                        							<th class="width15">Nama Pengusul</th>
+                        							<th class="width15">Nama Peneliti Utama</th>
                                                     <th class="width15 text-center">Satuan Kerja</th>
                                                     <th class="width20 text-center">Judul Kegiatan</th>
                         							<th class="width5 text-center">Nilai</th>
@@ -389,7 +389,7 @@
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width15">Nama Pengusul</th>
+                    							<th class="width15">Nama Peneliti Utama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Nilai</th>

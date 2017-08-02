@@ -15,7 +15,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th style="width: 30%;">Nama Pengusul</th>
+                                <th style="width: 30%;">Nama Peneliti Utama</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo $incubation->name; ?></td>
                             </tr>
@@ -59,7 +59,7 @@
                                 <td><?php echo $incubation->year; ?></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Tanggal Usulan</th>
+                                <th style="width: 30%;">Tanggal Daftar</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo date('d F Y H:i:s', strtotime($incubation->datecreated)); ?></td>
                             </tr>

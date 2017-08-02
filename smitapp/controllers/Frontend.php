@@ -2453,7 +2453,7 @@ class Frontend extends Public_Controller {
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
                 
                 // Button
-                $btn_action = '<a class="listdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detail" data-id="'.$row->id.'" data-year="'.$year.'" data-name="'.$name.'" data-workunit="'.$workunit.'" data-title="'.$event.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a class="listdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detail" data-id="'.$row->id.'" data-year="'.$year.'" data-name="'.$name.'" data-workunit="'.$workunit.'" data-title="'.$event.'" data-category="'.$row->category.'" data-desc="'.$row->event_desc.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
 
                 $records["aaData"][] = array(
                     smit_center( $i ),

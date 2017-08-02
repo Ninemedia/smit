@@ -892,9 +892,9 @@ class Backend extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( $column == 1 )      { $order_by .= '%no_announcement% ' . $sort; }
+        //if( $column == 1 )      { $order_by .= '%no_announcement% ' . $sort; }
+        if( $column == 1 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $announcement_list  = $this->Model_Announcement->get_all_announcements($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -921,10 +921,10 @@ class Backend extends User_Controller {
                     smit_center('<input name="announcementlist[]" class="cblist filled-in chk-col-blue" id="cblist_announcement'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist_announcement'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    $row->no_announcement,
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //$row->no_announcement,
                     '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
                     smit_center( $btn_files ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -1795,10 +1795,10 @@ class Backend extends User_Controller {
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-
-        if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%description% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%datecreated% ' . $sort; }
+        
+        if( $column == 1 )              { $order_by .= '%description% ' . $sort; }
+        elseif( $column == 2 )          { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 3 )          { $order_by .= '%title% ' . $sort; }
 
         $guides_list        = $this->Model_Guide->get_all_guides($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -1824,10 +1824,10 @@ class Backend extends User_Controller {
                     smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
                     <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
+                    smit_center( date('d F Y h:i:s', strtotime($row->datecreated)) ),
                     '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
-                    smit_center( date('d F Y h:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -1991,10 +1991,10 @@ class Backend extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( $column == 1 )      { $order_by .= '%no_news% ' . $sort; }
+        //if( $column == 1 )      { $order_by .= '%no_news% ' . $sort; }
+        elseif( $column == 1 )  { $order_by .= '%datecreated% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
         elseif( $column == 3 )  { $order_by .= '%source% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $news_list          = $this->Model_News->get_all_news($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -2014,10 +2014,10 @@ class Backend extends User_Controller {
                     smit_center('<input name="newslist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    $row->no_news,
+                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //$row->no_news,
                     '<a href="'.base_url('berita/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $row->source,
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action .' '. $btn_edit ),
                 );
                 $i++;
@@ -2962,7 +2962,7 @@ class Backend extends User_Controller {
                     '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'">' . word_limiter($row->title, 30) . '</a>',
                     $row->email,
                     smit_center( $status ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -3294,7 +3294,7 @@ class Backend extends User_Controller {
                         '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
                         $desc,
                         smit_center( $status ),
-                        smit_center( $datecreated ),
+                        //smit_center( $datecreated ),
                         smit_center( $btn_action ),
                     );
                 }else{

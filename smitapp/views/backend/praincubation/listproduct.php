@@ -36,12 +36,12 @@
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
   							            <th class="width5">No</th>
-                                        <th class="width15 text-center">Nama</th>
-            							<th class="width15 text-center">Judul Usulan</th>
-            							<th class="width15 text-center">Judul Product</th>
+                                        <th class="width15 text-center">Nama Pengguna</th>
+            							<th class="width15 text-center">Judul Kegiatan</th>
+            							<th class="width15 text-center">Judul Produk</th>
             							<th class="width15 text-center">Gambar Produk</th>
             							<th class="width10 text-center">Status</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
         					        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
@@ -64,10 +64,12 @@
             			                        ?>
             								</select>
                                         </td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
             							<td style="text-align: center;">
             								<button class="btn bg-blue waves-effect filter-submit" id="btn_product_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel" id="btn_product_listreset">Reset</button>

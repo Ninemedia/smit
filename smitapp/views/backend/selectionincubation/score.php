@@ -32,7 +32,7 @@
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width20">Nama</th>
+                    							<th class="width20">Nama Peneliti Utama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Total Nilai</th>
@@ -125,7 +125,7 @@
                 						<tr role="row" class="heading bg-blue">
                 							<th class="width5">No</th>
                                             <th class="width10 text-center">Tahun</th>
-                							<th class="width20">Nama</th>
+                							<th class="width20">Nama Peneliti Utama</th>
                                             <th class="width15 text-center">Satuan Kerja</th>
                                             <th class="width20 text-center">Judul Kegiatan</th>
                 							<th class="width5 text-center">Total Nilai</th>
@@ -233,7 +233,7 @@
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width15">Nama</th>
+                    							<th class="width15">Nama Peneliti Utama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Nilai</th>
@@ -324,7 +324,7 @@
                     						<tr role="row" class="heading bg-blue">
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
-                    							<th class="width15">Nama</th>
+                    							<th class="width15">Nama Peneliti Utama</th>
                                                 <th class="width15 text-center">Satuan Kerja</th>
                                                 <th class="width20 text-center">Judul Kegiatan</th>
                     							<th class="width5 text-center">Nilai</th>

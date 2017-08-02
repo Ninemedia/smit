@@ -35,7 +35,7 @@
                                 <td><p><?php echo $paymentdata->desc; ?></p></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Tanggal Usulan</th>
+                                <th style="width: 30%;">Tanggal Pembayaran</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo date('d F Y H:i:s', strtotime($paymentdata->datecreated)); ?></td>
                             </tr>

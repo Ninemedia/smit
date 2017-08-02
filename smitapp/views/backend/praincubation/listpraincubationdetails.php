@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th style="width: 30%;">Nama Pengusul</th>
+                                <th style="width: 30%;">Nama Peneliti Utama</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo $praincubation->name; ?></td>
                             </tr>

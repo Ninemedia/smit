@@ -39,10 +39,10 @@
             							<th class="width5">No</th>
                                         <th class="width15 text-center">Nama Tenant</th>
             							<th class="width15 text-center">Judul Blog</th>
-            							<th class="width15 text-center">Judul Product</th>
+            							<th class="width15 text-center">Judul Produk</th>
             							<th class="width15 text-center">Gambar Produk</th>
             							<th class="width10 text-center">Status</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
         					        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
@@ -65,10 +65,12 @@
             			                        ?>
             								</select>
                                         </td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
             							<td style="text-align: center;">
             								<button class="btn bg-blue waves-effect filter-submit" id="btn_blogtenant_list">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel" id="btn_blogtenant_listreset">Reset</button>

@@ -466,18 +466,24 @@ var App = function() {
             var name    = $(this).data('name');
             var workunit= $(this).data('workunit');
             var title   = $(this).data('title');
+            var category= $(this).data('category');
+            var desc    = $(this).data('desc');
             
             var el_id   = $('#list_id');
             var el_name = $('#list_name');
             var el_year = $('#list_year');
             var el_workunit = $('#list_workunit');
             var el_title = $('#list_title');
+            var el_category = $('#list_category');
+            var el_desc = $('#list_desc');
         
             el_id.val(id);
             el_name.val(name);
             el_year.val(year);
             el_workunit.val(workunit);
             el_title.val(title);
+            el_category.val(category);
+            el_desc.val(desc);
         
             $('#detail_list').modal('show');
         });

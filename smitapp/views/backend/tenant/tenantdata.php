@@ -40,7 +40,7 @@
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width15">Pengguna</th>
-            							<th class="width15">Judul Usulan</th>
+            							<th class="width15">Judul Kegiatan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
                                         <th class="width10 text-center">Email</th>
                                         <th class="width10 text-center">Telp</th>
@@ -320,7 +320,7 @@
                                         <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
-            							<th class="width20">Judul Usulan</th>
+            							<th class="width20">Judul Kegiatan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
                                         <th class="width10 text-center">Email</th>
                                         <th class="width10 text-center">Telp</th>

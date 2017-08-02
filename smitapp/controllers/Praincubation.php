@@ -268,7 +268,6 @@ class PraIncubation extends User_Controller {
             if( !empty($workunit_type) ){
                 $s_workunit     = $workunit_type->workunit_id;
             }
-
         }
 
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
@@ -321,7 +320,7 @@ class PraIncubation extends User_Controller {
                 $year           = $row->year;
                 $name           = strtoupper($row->user_name);
                 $event          = $row->event_title;
-                $datecreated    = date('d F Y', strtotime($row->datecreated));
+                $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
                 if( $row->status == NOTCONFIRMED ){
                     $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
@@ -340,7 +339,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
                         strtoupper( $workunit ),
                         strtoupper( $event ),
-                        smit_center( $datecreated ),
+                        //smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
                     );
@@ -472,7 +471,7 @@ class PraIncubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($workunit_type->workunit_name),
                         strtoupper($row->event_title),
-                        smit_center( date('d F Y', strtotime($row->datecreated)) ),
+                        //smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
                         smit_center($btn_action),
                     );
@@ -6031,11 +6030,11 @@ class PraIncubation extends User_Controller {
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
         if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%user_name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%workunit% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
+        //elseif( $column == 2 )  { $order_by .= '%user_name% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
+        //elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
 
@@ -6066,11 +6065,11 @@ class PraIncubation extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
-                    strtoupper( $name ),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
+                    //strtoupper( $name ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
-                    smit_center( $datecreated ),
+                    //smit_center( $datecreated ),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -7115,12 +7114,12 @@ class PraIncubation extends User_Controller {
                     smit_center('<input name="producteditlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    strtoupper($row->name),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                     strtoupper($row->event_title),
                     '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,
                     smit_center( $status ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action ),
                 );
                 $i++;

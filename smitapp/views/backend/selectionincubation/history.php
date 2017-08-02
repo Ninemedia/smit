@@ -11,8 +11,8 @@
     						<tr role="row" class="heading bg-blue">
     							<th class="width5">No</th>
     							<th class="width10 text-center">Tahun</th>
-    							<th class="width15">Juri</th>
-    							<th class="width15">Nama Pengusul</th>
+    							<th class="width15">Nama Juri</th>
+    							<th class="width15">Nama Peneliti Utama</th>
                                 <th class="width20 text-center">Judul Kegiatan</th>
                                 <th class="width5 text-center">Step</th>
     							<th class="width5 text-center">Nilai</th>

@@ -1724,7 +1724,7 @@ class Tenant extends User_Controller {
                     '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $image,
                     smit_center( $status ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action .' '. $btn_edit ),
                 );
                 $i++;
@@ -3127,7 +3127,7 @@ class Tenant extends User_Controller {
                     '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,
                     smit_center( $status ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action .' '. $btn_edit),
                 );
                 $i++;
@@ -3849,7 +3849,7 @@ class Tenant extends User_Controller {
                     strtoupper( smit_center( $title) ),
                     $image,
                     smit_center( $status ),
-                    smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
+                    //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action .' '. $btn_edit),
                 );
                 $i++;

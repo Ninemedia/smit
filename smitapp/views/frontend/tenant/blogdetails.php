@@ -54,6 +54,7 @@
                     <?php echo $blogdata->description; ?>
                 </div>
                 <div id="disqus_thread"></div>
+                <!--
                 <script>
                     /**
                     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -71,6 +72,7 @@
                         (d.head || d.body).appendChild(s);
                     })();
                 </script>
+                -->
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
                 <div class="row clearfix">

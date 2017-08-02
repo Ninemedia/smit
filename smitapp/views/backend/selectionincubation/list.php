@@ -30,13 +30,13 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-                                        <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Nama</th>
+                                        <th class="width5 text-center">Tahun</th>
+            							<th class="width15">Nama Peneliti Utama</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
                                         <th class="width10 text-center">Status</th>
-            							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -77,10 +77,12 @@
                                             ?>
                                         </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm">
             									<option value="">Pilih...</option>
@@ -115,13 +117,13 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5">No</th>
-                                        <th class="width10 text-center">Tahun</th>
-            							<th class="width15">Nama</th>
+                                        <th class="width5 text-center">Tahun</th>
+            							<th class="width15">Nama Peneliti Utama</th>
                                         <th class="width10 text-center">Satuan Kerja</th>
                                         <th class="width20 text-center">Judul Kegiatan</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
                                         <th class="width10 text-center">Status</th>
-            							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -162,10 +164,12 @@
                                             ?>
                                         </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm">
             									<option value="">Pilih...</option>

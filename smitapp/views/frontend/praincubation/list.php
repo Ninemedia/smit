@@ -154,9 +154,14 @@
                                 <td><input type="text" id="list_title" class="form-control" disabled="TRUE"></td>
                             </tr>
                             <tr>
+                                <th style="width: 30%;">Kategori</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_category" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
                                 <th style="width: 30%;">Deskripsi Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td></td>
+                                <td><textarea id="list_desc" class="form-control" disabled="TRUE"></textarea></td>
                             </tr>
                         </tbody>
                     </table>

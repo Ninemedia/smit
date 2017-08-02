@@ -27,7 +27,7 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
-        							<th class="width10 text-center">Tahun<br />Seleksi</th>
+        							<th class="width5 text-center">Tahun</th>
                                     <th class="width15 text-center">Juri Tahap 1</th>
                                     <th class="width15 text-center">Juri Tahap 2</th>
                                     <th class="width10 text-center">Status</th>

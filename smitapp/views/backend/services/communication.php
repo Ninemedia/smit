@@ -38,12 +38,12 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all" id="select_all_listin" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
-            							<th class="width20 text-center">Nama Pengirim</th>
+            							<th class="width15 text-center">Nama Pengirim</th>
             							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width15 text-center">Deskripsi</th>
-            							<th class="width15 text-center">Status</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
-            							<th class="width13 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width25 text-center">Deskripsi</th>
+            							<th class="width10 text-center">Status</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
+            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
@@ -64,10 +64,12 @@
             			                        ?>
             								</select>
                                         </td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
             							<td style="text-align: center;">
             								<button class="btn bg-blue waves-effect filter-submit" id="btn_communication_listin">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel" id="btn_communication_listinreset">Reset</button>
@@ -101,7 +103,7 @@
             							<th class="width15 text-center">Judul Komunikasi</th>
             							<th class="width15 text-center">Deskripsi</th>
             							<th class="width15 text-center">Status</th>
-                                        <th class="width10 text-center">Tanggal Daftar</th>
+                                        <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width13 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
@@ -123,10 +125,12 @@
             			                        ?>
             								</select>
                                         </td>
+                                        <!--
                                         <td>
             								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
             								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
             							</td>
+                                        -->
             							<td style="text-align: center;">
             								<button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
                                             <button class="btn bg-red waves-effect filter-cancel">Reset</button>

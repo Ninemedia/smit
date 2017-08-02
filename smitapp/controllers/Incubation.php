@@ -224,7 +224,7 @@ class Incubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
                         strtoupper( $workunit ),
                         strtoupper( $event ),
-                        smit_center( $datecreated ),
+                        //smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
                     );
@@ -360,7 +360,7 @@ class Incubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
                         strtoupper( $workunit ),
                         strtoupper( $event ),
-                        smit_center( $datecreated ),
+                        //smit_center( $datecreated ),
                         smit_center( $status ),
                         smit_center( $btn_action ),
                     );
@@ -4693,7 +4693,7 @@ class Incubation extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
                         strtoupper( $workunit ),
                         strtoupper( $event ),
-                        smit_center( $datecreated ),
+                        //smit_center( $datecreated ),
                         smit_center( $btn_action ),
                     );
                 }else{
