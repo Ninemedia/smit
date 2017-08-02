@@ -456,6 +456,33 @@ var App = function() {
         }
     }
     
+    var handlePraincubation = function() {
+        // List Praincubation
+        $("body").delegate( "a.listdetail", "click", function( event ) {
+            event.preventDefault();
+        
+            var id      = $(this).data('id');
+            var year    = $(this).data('year');
+            var name    = $(this).data('name');
+            var workunit= $(this).data('workunit');
+            var title   = $(this).data('title');
+            
+            var el_id   = $('#list_id');
+            var el_name = $('#list_name');
+            var el_year = $('#list_year');
+            var el_workunit = $('#list_workunit');
+            var el_title = $('#list_title');
+        
+            el_id.val(id);
+            el_name.val(name);
+            el_year.val(year);
+            el_workunit.val(workunit);
+            el_title.val(title);
+        
+            $('#detail_list').modal('show');
+        });
+    };
+    
     // Handles custom checkboxes & radios using jQuery Uniform plugin
     var handleUniform = function () {
         if (!jQuery().uniform) {
@@ -613,6 +640,7 @@ var App = function() {
 		init: function() {
             // Input your handle function here
             handleInit();
+            handlePraincubation();
             handleSetting();
             handleAddContact();
             handleAddIKM();

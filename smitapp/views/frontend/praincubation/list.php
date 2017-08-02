@@ -115,3 +115,70 @@
 		</div>
 	</div>
 </div>
+
+<!-- BEGIN INFORMATION SUCCESS DETAIL LIST MODAL -->
+<div class="modal fade" id="detail_list" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <button class="btn btn-default waves-effect pull-right" type="button" data-dismiss="modal"><i class="material-icons">close</i></button>
+				<h4 class="modal-title">Detail List Pra-Inkubasi</h4>
+			</div>
+			<div class="modal-body">
+                <div class="table-container table-responsive">
+                    <table class="table table-striped table-hover" id="">
+                        <thead>
+                            <tr class="bg-blue-grey">
+                                <td colspan="3" class="text-center"><strong>DETAIL</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">Tahun</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_year" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Nama Peneliti Utama</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_name" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Satuan Kerja</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_workunit" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Judul Kegiatan</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_title" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Deskripsi Kegiatan</th>
+                                <td style="width: 1%;"> : </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+            
+                <!--
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        <label class="form-label">Nama Satuan Kerja <b style="color: red !important;">(*)</b></label>
+                        <p id="list_name"></p>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                            <div class="form-line">
+                                <input type="text" name="list_name" id="list_name" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS DETAIL LIST MODAL -->

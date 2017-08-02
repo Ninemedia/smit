@@ -2442,7 +2442,7 @@ class Frontend extends Public_Controller {
 
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                $workunit   = '<center> - </cemter>';
+                $workunit   = ' - ';
                 if($row->workunit > 0){
                     $workunit_type  = smit_workunit_type($row->workunit);
                     $workunit       = $workunit_type->workunit_name;
@@ -2451,6 +2451,9 @@ class Frontend extends Public_Controller {
                 $name           = strtoupper($row->name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
+                
+                // Button
+                $btn_action = '<a class="listdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detail" data-id="'.$row->id.'" data-year="'.$year.'" data-name="'.$name.'" data-workunit="'.$workunit.'" data-title="'.$event.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
@@ -2459,7 +2462,7 @@ class Frontend extends Public_Controller {
                     strtoupper( $workunit ),
                     strtoupper( $event ),
                     //smit_center( $datecreated ),
-                    '',
+                    smit_center( $btn_action ),
                 );
                 $i++;
             }
