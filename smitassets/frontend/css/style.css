@@ -609,6 +609,10 @@ h1, h2, h3, h4, h5, h6, figure {
   font-size: 20px;
 }
 
+footer .gtco-widget ul li a i:hover{
+    color: #E4A000 !important;
+}
+
 .gtco-login-button{
     text-align: right;
 }
