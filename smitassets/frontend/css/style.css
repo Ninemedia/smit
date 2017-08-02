@@ -613,6 +613,10 @@ footer .gtco-widget ul li a i:hover{
     color: #E4A000 !important;
 }
 
+.copy p a:hover{
+    color: #E4A000 !important;
+}
+
 .gtco-login-button{
     text-align: right;
 }
