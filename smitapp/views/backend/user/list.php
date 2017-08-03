@@ -33,7 +33,7 @@
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                         <div class="btn-group">
-                            <a class="btn btn-sm btn-primary dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                            <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                                 Export
                                 <span class="caret"></span>
                             </a>

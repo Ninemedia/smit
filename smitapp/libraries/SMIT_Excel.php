@@ -330,9 +330,9 @@ class SMIT_Excel extends PHPExcel
         $this->worksheet->getStyle('A6:D6')->getFont()->setBold(true);
         $this->worksheet->getStyle('A6:D6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
 		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
         $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 		$this->worksheet->getStyle('A6:D' . $rowNumber)->applyFromArray($this->styleBorderThin);
 		
 		$this->worksheet->getColumnDimension('A')->setWidth(5);
