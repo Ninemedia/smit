@@ -1803,6 +1803,41 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
+    
+    /**
+     * Delete Notes by Uniquecode
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_report($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->praincubation_report) )
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Update Notes by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_report($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->praincubation_report, $data) )
+            return true;
+
+        return false;
+    }
 
     /**
      * Retrieve all pra incubation report data

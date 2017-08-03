@@ -4550,7 +4550,7 @@ class PraIncubation extends User_Controller {
             'ReportValidation.init();',
         ));
 
-        $data['title']          = TITLE . 'Laporan Seleksi Inkubasi';
+        $data['title']          = TITLE . 'Laporan Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
@@ -4560,6 +4560,86 @@ class PraIncubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'praincubation/report';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    public function praincubationreportdetail( $id = '' )
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+        $is_jury                = as_juri($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ReportValidation.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Seleksi Pra-Inkubasi';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['id']             = $id;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'praincubation/reportdetails';
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -7515,8 +7595,8 @@ class PraIncubation extends User_Controller {
 
             $i = $offset + 1;
             foreach($reportpra_list as $row){
-                // Status
-                $btn_action = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                // Button
+                $btn_action = '<a href="'.base_url('prainkubasi/laporan/detail/'.$row->user_id).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 $workunit   = '<center> - </cemter>';
@@ -7530,12 +7610,6 @@ class PraIncubation extends User_Controller {
                 $event          = $row->event_title;
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
-
-                $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
-
-                $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
                 $count_all_report  = $this->Model_Praincubation->count_all_reportpraincubation($row->user_id, $row->praincubation_id);
 
@@ -7568,7 +7642,7 @@ class PraIncubation extends User_Controller {
     /**
 	 * Report Pra Incubation list data function.
 	 */
-    function reportdatauser( ){
+    function reportdatauser( $id='' ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
@@ -7579,6 +7653,9 @@ class PraIncubation extends User_Controller {
         }
         if( $is_pendamping ){
             $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+        }
+        if( !empty($id) ){
+            $condition      = ' WHERE %user_id% = '.$id.'';
         }
 
         $order_by           = 'year DESC';
@@ -7698,7 +7775,8 @@ class PraIncubation extends User_Controller {
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        '',
                     );
                 }else{
                     $records["aaData"][] = array(
@@ -7711,7 +7789,8 @@ class PraIncubation extends User_Controller {
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        '',
                     );
                 }
 
@@ -7780,10 +7859,10 @@ class PraIncubation extends User_Controller {
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $reportdelete   = $this->Model_Praincubation->delete_notes($uniquecode);
+                $reportdelete   = $this->Model_Praincubation->delete_report($uniquecode);
             }else{
                 $data_update = array('status'=>$status, 'datemodified'=>$curdate);
-                $this->Model_Praincubation->update_notes($uniquecode, $data_update);
+                $this->Model_Praincubation->update_report($uniquecode, $data_update);
             }
         }
 
