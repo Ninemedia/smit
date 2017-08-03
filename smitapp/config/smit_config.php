@@ -269,7 +269,7 @@ $config['user_menu_access']             = array(
         'prainkubasi',
         'prainkubasi/daftar',
         'prainkubasi/pendampingan',
-        'prainkubasi/tambahproduk',
+        //'prainkubasi/tambahproduk',
         'prainkubasi/produk',
         //'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',

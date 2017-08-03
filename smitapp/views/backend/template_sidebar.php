@@ -110,7 +110,7 @@
     if(!empty($is_admin)){
         $title_daftar   = 'Daftar Hasil Pra-Inkubasi';
         $title_daftar_inkubasi   = 'Daftar Hasil Inkubasi';
-    }else{ $title_daftar   = 'Daftar Usulan'; $title_daftar_inkubasi   = 'Daftar Usulan'; }
+    }else{ $title_daftar   = 'Daftar Kegiatan'; $title_daftar_inkubasi   = 'Daftar Kegiatan'; }
 
     // Set menu array
     $menu_arr = array(

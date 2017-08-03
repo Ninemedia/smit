@@ -5424,6 +5424,7 @@ class PraIncubation extends User_Controller {
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
             // Default JS Plugin
@@ -5486,6 +5487,7 @@ class PraIncubation extends User_Controller {
         $data['title']          = TITLE . 'Daftar Pendampingan PraInkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_pendamping']  = $is_pendamping;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -5502,11 +5504,17 @@ class PraIncubation extends User_Controller {
     function accompanimentlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE %companion_id% > 0 ';
-        if( !$is_admin ){
+        $is_pendamping      = as_pendamping($current_user);
+        
+        $condition          = ' WHERE %user_id% = '.$current_user->id.'';
+        if( !empty($is_pendamping) ){
             $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
         }
-
+        
+        if( !empty($is_admin) ){
+            $condition          = ' WHERE %companion_id% > 0 ';
+        }
+        
         $order_by           = '';
         $iTotalRecords      = 0;
 
@@ -5544,11 +5552,15 @@ class PraIncubation extends User_Controller {
             elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%companion_name% ' . $sort; }
-        }else{
+        }elseif( $is_pendamping ){
             if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%user_name% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%name% ' . $sort; }
+        }else{
+            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%companion_name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
         }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
@@ -5588,13 +5600,20 @@ class PraIncubation extends User_Controller {
                         $companion_name,
                         smit_center( $btn_detail .' '. $btn_edit ),
                     );
-                }else{
+                }elseif( $is_pendamping ){
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->event_title),
                         strtoupper($workunit_type),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        strtoupper($row->user_name),
                         strtoupper($row->name),
+                        smit_center( $btn_detail ),
+                    );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper($row->event_title),
+                        strtoupper($companiondata->name),
                         smit_center( $btn_detail ),
                     );
                 }
@@ -6279,6 +6298,8 @@ class PraIncubation extends User_Controller {
 
         $year                   = $this->input->post('reg_year');
         $year                   = trim( smit_isset($year, "") );
+        $user_id                = $this->input->post('reg_user_id');
+        $user_id                = trim( smit_isset($user_id, "") );
         $name                   = $this->input->post('reg_name');
         $name                   = trim( smit_isset($name, "") );
         $category               = $this->input->post('reg_category');
@@ -6287,11 +6308,14 @@ class PraIncubation extends User_Controller {
         $event_title            = trim( smit_isset($event_title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
+        
+        $userdata               = smit_get_userdata_by_id($user_id);
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_year','Tahun Kegiatan','required');
+        $this->form_validation->set_rules('reg_user_id','Nama Pengguna','required');
         $this->form_validation->set_rules('reg_name','Nama Peneliti Utama','required');
         $this->form_validation->set_rules('reg_category','Kategori Bidang','required');
         $this->form_validation->set_rules('reg_title','Judul Kegiatan','required');
@@ -6335,8 +6359,8 @@ class PraIncubation extends User_Controller {
             $praincubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
-                'user_id'       => $current_user->id,
-                'username'      => strtolower($current_user->username),
+                'user_id'       => $userdata->id,
+                'username'      => strtolower($userdata->username),
                 'name'          => $name,
                 'event_title'   => $event_title,
                 'event_desc'    => $description,
@@ -6354,7 +6378,7 @@ class PraIncubation extends User_Controller {
                 $trans_save_praincubation   = TRUE;
 
                 // Upload Files Process
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $current_user->id;
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
 
                 $config = array(
@@ -6380,8 +6404,8 @@ class PraIncubation extends User_Controller {
                         'praincubation_id'  => $praincubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
-                        'user_id'       => $current_user->id,
-                        'username'      => strtolower($current_user->username),
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
                         'name'          => $name,
                         'url'           => smit_isset($file['full_path'],''),
                         'extension'     => substr(smit_isset($file['file_ext'],''),1),
@@ -6411,8 +6435,8 @@ class PraIncubation extends User_Controller {
                         'praincubation_id'  => $praincubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
-                        'user_id'       => $current_user->id,
-                        'username'      => strtolower($current_user->username),
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
                         'name'          => $name,
                         'url'           => smit_isset($file_rab['full_path'],''),
                         'extension'     => substr(smit_isset($file_rab['file_ext'],''),1),
@@ -6460,7 +6484,7 @@ class PraIncubation extends User_Controller {
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran pra-inkubasi baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
-                    smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                    smit_log( 'PRAINCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$userdata->username, 'upload_files'=> $upload_data)) );
                 }
             }else{
                 // Rollback Transaction
