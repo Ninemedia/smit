@@ -40,7 +40,8 @@ class SMIT_Email
 		$transport = false;	
 		
 		if ($mailserver_host = config_item('mailserver_host')) {
-			$transport = Swift_SmtpTransport::newInstance($mailserver_host, 25);
+            $mailserver_port = config_item('mailserver_port');
+			$transport = Swift_SmtpTransport::newInstance($mailserver_host, $mailserver_port, 'ssl');
 			
 			if ( $username = config_item('mailserver_username') )
 				$transport->setUsername( $username );
