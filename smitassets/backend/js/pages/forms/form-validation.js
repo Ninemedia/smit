@@ -710,6 +710,9 @@ var IncubationValidation = function () {
                 reg_year: {
                     required: true,
                 },
+                reg_user_id: {
+                    required: true,
+                },
                 reg_name: {
                     required: true,
                 },
@@ -732,6 +735,9 @@ var IncubationValidation = function () {
             messages: {
                 reg_year: {
                     required: 'Tahun Kegiatan harus di isi',
+                },
+                reg_user_id: {
+                    required: 'Nama Pengguma harus di isi',
                 },
                 reg_name: {
                     required: 'Nama Peneliti Utama harus di isi',

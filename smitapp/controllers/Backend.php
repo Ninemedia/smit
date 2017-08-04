@@ -1032,8 +1032,8 @@ class Backend extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( $column == 1 )      { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%datecreated% ' . $sort; }
+        if( $column == 1 )              { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 2 )          { $order_by .= '%title% ' . $sort; }
 
         if( !empty($condition) ){
             $condition      = substr($condition, 4);
@@ -1058,16 +1058,15 @@ class Backend extends User_Controller {
                         <label for="cblist'.$row->id.'"></label>'),
                         smit_center($i),
                         $row->no_announcement,
-                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
+                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><' . $row->title . '</a>',
                         smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
                         smit_center($btn_action),
                     );    
                 }else{
                     $records["aaData"][] = array(
                         smit_center($i),
-                        $row->no_announcement,
-                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'"><strong>' . strtoupper($row->title) . '</strong></a>',
                         smit_center( date('d F Y H:i:s', strtotime($row->datecreated) ) ),
+                        '<a href="'.base_url('pengumuman/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
                         smit_center($btn_action),
                     );
                 }

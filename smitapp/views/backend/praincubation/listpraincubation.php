@@ -105,7 +105,7 @@
                                         <span class="input-group-addon"><i class="material-icons">date_range</i></span>
                                         <select class="form-control" name="reg_year" id="reg_year">
                                         <?php
-                                            $option = array(''=>'Pilih Tahun');
+                                            $option = array(''=>'-- Pilih Tahun --');
                                             $year_arr = smit_select_year(1999,2030);
                                             if( !empty($year_arr) ){
                                                 foreach($year_arr as $val){
@@ -121,6 +121,28 @@
                                                 echo '<option value="">Tahun Kosong</option>';
                                             }
                                         ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nama Pengguna<b style="color: red !important;">(*)</b></label>
+                                    <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu/</p>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                        <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">
+                                            <?php
+                                                $conditions     = ' WHERE %type% = 6 OR %type% = 7';
+                                            	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                                
+                                                if( !empty($user_list) ){
+                                                    echo '<option value="">-- Pilih Nama Penguna --</option>';
+                                                    foreach($user_list as $row){
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                }
+                	                        ?>
                                         </select>
                                     </div>
                                 </div>
@@ -202,11 +224,11 @@
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
                                     <th class="width10 text-center">Tahun</th>
-        							<th class="width15">Pengguna</th>
+        							<!-- <th class="width15">Pengguna</th> -->
         							<th class="width15">Nama Peneliti Utama</th>
                                     <th class="width10 text-center">Satuan Kerja</th>
                                     <th class="width20 text-center">Judul Kegiatan</th>
-                                    <th class="width10 text-center">Tanggal Usulan</th>
+                                    <!-- <th class="width10 text-center">Tanggal Usulan</th> -->
         							<th class="width15 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
         						</tr>
                                 <tr role="row" class="filter display-hide table-filter">
@@ -232,7 +254,7 @@
                                         ?>
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td>
+                                    <!-- <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_user" /></td> -->
         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                     <td>
                                         <?php
@@ -249,10 +271,12 @@
                                         ?>
                                     </td>
         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
+                                    <!--
                                     <td>
         								<input type="text" class="form-control form-filter input-sm date-picker text-center bottom5" readonly name="search_datecreated_min" placeholder="From" />
         								<input type="text" class="form-control form-filter input-sm date-picker text-center" readonly name="search_datecreated_max" placeholder="To" />
         							</td>
+                                    -->
         							<td style="text-align: center;">
                                         <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_praincubation_list">Search</button>
                                         <button class="btn bg-red waves-effect filter-cancel">Reset</button>
