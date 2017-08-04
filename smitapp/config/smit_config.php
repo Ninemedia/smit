@@ -348,10 +348,10 @@ $config['month_report']             = array(
  * Email config
  */
 $config['email_active']             = TRUE;
-$config['mailserver_host']		    = 'smtp.googlemail.com';
+$config['mailserver_host']		    = 'smtp.gmail.com';
 $config['mailserver_port']		    = '465';
-$config['mailserver_username'] 	    = 'inkubator@mail.lipi.go.id';
-$config['mailserver_password'] 	    = 'pass';
+$config['mailserver_username'] 	    = 'muhammadiqbal1917@gmail.com';
+$config['mailserver_password'] 	    = 'Kyuknightwolf1917!';
 
 // automatic logout
 $config['idle_timeout']             = 1800;  // in seconds
