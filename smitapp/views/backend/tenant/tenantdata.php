@@ -108,7 +108,6 @@
                                     }
     	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);
                                 ?>
-                                <?php //if( !empty($incubation_list) ) : ?>
                                 <?php echo form_open_multipart( 'tenant/addtenant', array( 'id'=>'addtenant', 'role'=>'form' ) ); ?>
                                 <div id="alert" class="alert display-hide"></div>
 
@@ -277,11 +276,6 @@
                                     <button class="btn btn-sm btn-danger waves-effect" id="btn_addtenant_reset" type="button">Bersihkan </button>
                                 </div>
                                 <?php echo form_close(); ?>
-                                <?php //else : ?>
-                                <div class="alert alert-info">
-                                    <strong>Informasi!</strong> Untuk saat ini tidak ada usulan kegiatan. Terima Kasih.
-                                </div>
-                                <?php //endif; ?>
                             </div>
                         </div>
                     </div>
@@ -526,9 +520,11 @@
                                 </div>
                                 <?php echo form_close(); ?>
                                 <?php else : ?>
-                                <div class="alert alert-info">
-                                    <strong>Informasi!</strong> Untuk saat ini tidak ada usulan kegiatan. Terima Kasih.
-                                </div>
+                                    <?php if( empty($is_admin) ) : ?>
+                                    <div class="alert alert-info">
+                                        <strong>Informasi!</strong> Untuk saat ini tidak ada usulan kegiatan. Terima Kasih.
+                                    </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
                         </div>

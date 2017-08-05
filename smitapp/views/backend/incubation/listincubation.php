@@ -124,6 +124,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label">Nama Pengguna<b style="color: red !important;">(*)</b></label>
+                                    <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu</p>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                        <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">
+                                            <?php
+                                                $conditions     = ' WHERE %type% = 3 OR %type% = 7';
+                                            	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                                
+                                                if( !empty($user_list) ){
+                                                    echo '<option value="">-- Pilih Nama Penguna --</option>';
+                                                    foreach($user_list as $row){
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                }
+                	                        ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Nama Peneliti Utama <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">person</i></span>

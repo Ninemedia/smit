@@ -4897,6 +4897,8 @@ class Incubation extends User_Controller {
 
         $year                   = $this->input->post('reg_year');
         $year                   = trim( smit_isset($year, "") );
+        $user_id                = $this->input->post('reg_user_id');
+        $user_id                = trim( smit_isset($user_id, "") );
         $name                   = $this->input->post('reg_name');
         $name                   = trim( smit_isset($name, "") );
         $category               = $this->input->post('reg_category');
@@ -4905,11 +4907,14 @@ class Incubation extends User_Controller {
         $event_title            = trim( smit_isset($event_title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
-
+        
+        $userdata               = smit_get_userdata_by_id($user_id);
+        
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_year','Tahun Kegiatan','required');
+        $this->form_validation->set_rules('reg_user_id','Nama Pengguna','required');
         $this->form_validation->set_rules('reg_name','Nama Peneliti Utama','required');
         $this->form_validation->set_rules('reg_category','Kategori Bidang','required');
         $this->form_validation->set_rules('reg_title','Judul Kegiatan','required');
@@ -4953,8 +4958,8 @@ class Incubation extends User_Controller {
             $incubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
-                'user_id'       => $current_user->id,
-                'username'      => strtolower($current_user->username),
+                'user_id'       => $userdata->id,
+                'username'      => strtolower($userdata->username),
                 'name'          => $name,
                 'event_title'   => $event_title,
                 'event_desc'    => $description,
@@ -4972,7 +4977,7 @@ class Incubation extends User_Controller {
                 $trans_save_incubation      = TRUE;
 
                 // Upload Files Process
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $current_user->id;
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
 
                 $config = array(
@@ -4998,8 +5003,8 @@ class Incubation extends User_Controller {
                         'incubation_id' => $incubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
-                        'user_id'       => $current_user->id,
-                        'username'      => strtolower($current_user->username),
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
                         'name'          => $name,
                         'url'           => smit_isset($file['full_path'],''),
                         'extension'     => substr(smit_isset($file['file_ext'],''),1),
@@ -5029,8 +5034,8 @@ class Incubation extends User_Controller {
                         'incubation_id' => $incubation_save_id,
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'year'          => $year,
-                        'user_id'       => $current_user->id,
-                        'username'      => strtolower($current_user->username),
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
                         'name'          => $name,
                         'url'           => smit_isset($file_rab['full_path'],''),
                         'extension'     => substr(smit_isset($file_rab['file_ext'],''),1),
@@ -5078,7 +5083,7 @@ class Incubation extends User_Controller {
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran pra-inkubasi baru berhasil!');
                     die(json_encode($data));
                     // Set Log Data
-                    smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                    smit_log( 'INCUBATION_REG', 'SUCCESS', maybe_serialize(array('username'=>$userdata->username, 'upload_files'=> $upload_data)) );
                 }
             }else{
                 // Rollback Transaction
