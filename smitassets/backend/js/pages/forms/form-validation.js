@@ -1894,6 +1894,68 @@ var TenantValidation = function () {
             }
         });
     };
+    
+    var handleAddTeamTenantValidation = function(){
+        $('#addteamtenant').validate({
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=file]')) {
+                    $(element).parent().parent().parent().parent().parent().append(error);
+                } else {
+                    $(element).parents('.input-group').append(error);
+                }
+            },
+            submitHandler: function (form) {
+                bootbox.confirm("Apakah data tim tenant sudah benar?", function(result) {
+                    if( result == true ){
+                        form.submit();
+                    }
+                });
+            }
+        });
+        
+        $('input.team_image').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Foto tim harus di isi",
+                }
+            });
+        });
+        
+        $('input.team_name').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Nama tim harus di isi",
+                }
+            });
+        });
+        
+        $('input.team_position').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Jabatan/posisi/peran tim harus di isi",
+                }
+            });
+        });
+    };
 
     return {
         //main function to initiate the module
@@ -1902,6 +1964,7 @@ var TenantValidation = function () {
             handleAddTenantUserValidation();
             handleLogoTenantValidation();
             handleAddBlogTenantValidation();
+            handleAddTeamTenantValidation();
         }
     };
 }();

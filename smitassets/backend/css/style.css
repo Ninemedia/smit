@@ -13,6 +13,12 @@
   }
 }
 
+@media (min-width: 767px) {
+    .bottom0-lg {
+        margin-bottom: 0 !important;
+    }
+}
+
 .navbar {
   font-family: "Roboto", sans-serif;
   -webkit-border-radius: 0;
@@ -8417,6 +8423,7 @@ select.input-sm {
 .file-input .form-control{
     border: 1px solid #ccc !important;
     padding-left: 5px;
+    border-radius: 0;
 }
 
 .file-input .btn:not(.btn-link):not(.btn-circle){
@@ -8560,4 +8567,12 @@ hr.line-warning{
 
 .table-scrollable{
     margin-bottom: 25px;
+}
+
+.header-team{
+    padding: 5px 20px !important;
+}
+
+.header-team a{
+    margin-top: 6px;
 }
