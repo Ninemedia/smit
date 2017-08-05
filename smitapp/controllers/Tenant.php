@@ -555,11 +555,6 @@ class Tenant extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/list';
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
-
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
 
@@ -641,10 +636,264 @@ class Tenant extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/tenantdata';
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Tenant list data function.
+	 */
+    function tenantlistdata( ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        if( !$is_admin ){
+            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_event            = $this->input->post('search_event');
+        $s_event            = smit_isset($s_year, '');
+        $s_name_tenant      = $this->input->post('search_name_tenant');
+        $s_name_tenant      = smit_isset($$s_name_tenant, '');
+        $s_email            = $this->input->post('search_email');
+        $s_email            = smit_isset($s_email, '');
+        $s_phone            = $this->input->post('search_phone');
+        $s_phone            = smit_isset($s_phone, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
+        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
+        if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
+        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $is_admin ){
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%name_tenant% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%email% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%phone% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
+        }else{
+            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name_tenant% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+        }
+
+        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($tenant_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('user_status');
+
+            $i = $offset + 1;
+            foreach($tenant_list as $row){
+                // Button & Status
+                $btn_confirm    = '';
+                if( !empty($is_admin) ){
+                    if( $row->status == NONACTIVE ){
+                        $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
+                            class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
+                    }
+                }
+
+                $btn_team       = '';
+                if( $row->status != NONACTIVE ){
+                    $btn_team       = '<a href="'.base_url('tenants/tambahtim/'.$row->uniquecode).'"
+                        class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
+                }
+                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+
+                if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+
+                if( $is_admin ){
+                    $records["aaData"][] = array(
+                        smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
+                        smit_center( $i ),
+                        smit_center( $row->year ),
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
+                        strtoupper( $row->event_title ),
+                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                        $row->email,
+                        smit_center( $row->phone ),
+                        smit_center( $status ),
+                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                    );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
+                        smit_center( $i ),
+                        smit_center( $row->year ),
+                        strtoupper( $row->event_title ),
+                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
+                        $row->email,
+                        smit_center( $row->phone ),
+                        smit_center( $status ),
+                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                    );
+                }
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $tenantlist             = $_REQUEST['tenantlist'];
+            
+            $proses                 = $this->tenantlistproses($sGroupActionName, $tenantlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Tenant Add Team function.
+	 */
+	public function addteam($uniquecode)
+	{
+        auth_redirect();
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        if( !$uniquecode ){
+            redirect( base_url('tenants/daftar') );
+        }
+        
+        // Check Tenant Data
+        $tenantdata             = '';
+        if( !empty($uniquecode) ){
+            $tenantdata         = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata         = $tenantdata[0];
+            
+            if( !$tenantdata ){
+                redirect( base_url('tenants/daftar') );
+            }
+        }
+        
+        if( $_POST ){
+            $team_count         = $this->input->post("team_count");
+            $team_count         = smit_isset( $team_count, 0 );
+            
+            if( $team_count > 0 ){
+                
+            }else{
+                
+            }
+            
+            $this->session->set_flashdata('message','<div class="alert alert-danger">'.smit_alert('Silahkan inputkan minimal 1 tim tenant!').'</div>');
+        }
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Input Mask Plugin
+            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'Tenant.init();',
+            'UploadFiles.init();',
+            'TenantValidation.init();'
+        ));
+
+        $data['title']          = TITLE . 'Tambah Tim Tenant';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['tenantdata']     = $tenantdata;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/addteam';
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
@@ -2387,164 +2636,6 @@ class Tenant extends User_Controller {
         }
     }
 
-    /**
-	 * Tenant list data function.
-	 */
-    function tenantlistdata( ){
-        $current_user       = smit_get_current_user();
-        $is_admin           = as_administrator($current_user);
-        $condition          = '';
-        if( !$is_admin ){
-            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
-        }
-
-        $order_by           = '';
-        $iTotalRecords      = 0;
-
-        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
-        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
-
-        $sAction            = smit_isset($_REQUEST['sAction'],'');
-        $sEcho              = intval($_REQUEST['sEcho']);
-        $sort               = $_REQUEST['sSortDir_0'];
-        $column             = intval($_REQUEST['iSortCol_0']);
-
-        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
-        $offset             = $iDisplayStart;
-
-        $s_name             = $this->input->post('search_name');
-        $s_name             = smit_isset($s_name, '');
-        $s_event            = $this->input->post('search_event');
-        $s_event            = smit_isset($s_year, '');
-        $s_name_tenant      = $this->input->post('search_name_tenant');
-        $s_name_tenant      = smit_isset($$s_name_tenant, '');
-        $s_email            = $this->input->post('search_email');
-        $s_email            = smit_isset($s_email, '');
-        $s_phone            = $this->input->post('search_phone');
-        $s_phone            = smit_isset($s_phone, '');
-        $s_status           = $this->input->post('search_status');
-        $s_status           = smit_isset($s_status, '');
-        $s_year             = $this->input->post('search_year');
-        $s_year             = smit_isset($s_year, '');
-
-        $s_date_min         = $this->input->post('search_datecreated_min');
-        $s_date_min         = smit_isset($s_date_min, '');
-        $s_date_max         = $this->input->post('search_datecreated_max');
-        $s_date_max         = smit_isset($s_date_max, '');
-
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
-        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
-        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
-        if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
-        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
-
-        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
-        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-
-        if( $is_admin ){
-            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-            elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%name_tenant% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%email% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%phone% ' . $sort; }
-            elseif( $column == 7 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
-        }else{
-            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 3 )  { $order_by .= '%name_tenant% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
-        }
-
-        $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
-        $records            = array();
-        $records["aaData"]  = array();
-
-        if( !empty($tenant_list) ){
-            $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('user_status');
-
-            $i = $offset + 1;
-            foreach($tenant_list as $row){
-                // Button & Status
-                $btn_confirm    = '';
-                if( !empty($is_admin) ){
-                    if( $row->status == NONACTIVE ){
-                        $btn_confirm    = '<a href="'.base_url('tenants/konfirmasi/active/'.$row->user_id).'"
-                            class="tenantconfirm btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" id="tenantconfirm" title="Konfirmasi"><i class="material-icons">done</i></a> ';
-                    }
-                }
-
-                $btn_team       = '';
-                if( $row->status != NONACTIVE ){
-                    $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
-                        class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
-                }
-                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
-                if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-
-                if( $is_admin ){
-                    $records["aaData"][] = array(
-                        smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
-                        <label for="cblist'.$row->uniquecode.'"></label>'),
-                        smit_center( $i ),
-                        smit_center( $row->year ),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
-                        strtoupper( $row->event_title ),
-                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
-                        $row->email,
-                        smit_center( $row->phone ),
-                        smit_center( $status ),
-                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
-                    );
-                }else{
-                    $records["aaData"][] = array(
-                        smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
-                        <label for="cblist'.$row->uniquecode.'"></label>'),
-                        smit_center( $i ),
-                        smit_center( $row->year ),
-                        strtoupper( $row->event_title ),
-                        '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
-                        $row->email,
-                        smit_center( $row->phone ),
-                        smit_center( $status ),
-                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
-                    );
-                }
-                $i++;
-            }
-        }
-
-        $end                = $iDisplayStart + $iDisplayLength;
-        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
-        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
-            $sGroupActionName       = $_REQUEST['sGroupActionName'];
-            $tenantlist             = $_REQUEST['tenantlist'];
-            
-            $proses                 = $this->tenantlistproses($sGroupActionName, $tenantlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
-        }
-
-        $records["sEcho"]                   = $sEcho;
-        $records["iTotalRecords"]           = $iTotalRecords;
-        $records["iTotalDisplayRecords"]    = $iTotalRecords;
-
-        echo json_encode($records);
-    }
-    
     /**
 	 * Tenant List Proses function.
 	 */

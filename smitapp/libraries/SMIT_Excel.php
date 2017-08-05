@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once APPPATH . "/libraries/phpexcel/PHPExcel/IOFactory.php";
 require_once APPPATH . "/libraries/phpexcel/PHPExcel.php";
 // use this library if you want to export thousands of rows with lightweight engine - means very FAST!!!
 require_once APPPATH . 'libraries/xlsxwriter.class.php';
@@ -81,6 +82,7 @@ class SMIT_Excel extends PHPExcel
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
+        header('Cache-Control: max-age=0');
 		header("Pragma: no-cache");
 		header('Content-Type: ' . $content_type);
 		header('Content-Disposition: attachment;filename="' . $filename . '"');
@@ -106,12 +108,10 @@ class SMIT_Excel extends PHPExcel
 	 * Init simple exporter
 	 * 
 	 */
-	function simpleInit() {
-		$this->simpleExcel = new XLSXWriter();
-		
+	function simpleInit($pdf=false) {
 		$currentTime = time();
 		$this->exportDate = date('d M, Y', $currentTime);
-		$this->tempFile = 'smitassets/backend/export/' . str_replace(' ', '_', $this->title) . '_' . date('YmdHis', $currentTime) . '.xlsx'; // relative to index.php of CI
+		$this->tempFile = 'smitassets/backend/export/' . str_replace(' ', '_', $this->title) . '_' . date('YmdHis', $currentTime) . ( $pdf ? '.pdf' : '.xlsx'); // relative to index.php of CI
 		
 		// set table header
 		if ( is_array( $this->heading[0] ) ) {
@@ -134,47 +134,84 @@ class SMIT_Excel extends PHPExcel
 		// set main title
         array_unshift($this->data, array($this->title . ' - ' . $this->companyName));
         
-		
-		// start writing data to worksheet
-		$this->simpleExcel->writeSheet($this->data, substr( $this->title, 0, 31 ));
-		// save as temporaryfile - raw excel - without any styling
-        $this->simpleExcel->writeToFile($this->tempFile);
-		
-		// load file using PHP excel then modif the style
-		$this->objReader = new PHPExcel_Reader_Excel2007();
-		$this->objPHPExcel = $this->objReader->load( $this->tempFile );
-		
-		// setup properties
-		$this->setFileProperties();
-		
-		$this->objPHPExcel->setActiveSheetIndex(0);
-		$this->worksheet = $this->objPHPExcel->getActiveSheet();
+        if( $pdf ){
+            $objPHPExcel = new PHPExcel();
+            $this->worksheet = $objPHPExcel->getActiveSheet(0);
+            
+            // setup properties
+    		$this->setFileProperties();
+            
+            $objPHPExcel->setActiveSheetIndex(0);
+            $this->objPHPExcel = $objPHPExcel;
+        }else{
+            $this->simpleExcel = new XLSXWriter();
+            // start writing data to worksheet
+    		$this->simpleExcel->writeSheet($this->data, substr( $this->title, 0, 31 ));
+    		// save as temporaryfile - raw excel - without any styling
+            $this->simpleExcel->writeToFile($this->tempFile);
+    		
+    		// load file using PHP excel then modif the style
+    		$this->objReader = new PHPExcel_Reader_Excel2007();
+    		$this->objPHPExcel = $this->objReader->load( $this->tempFile );
+    		
+    		// setup properties
+    		$this->setFileProperties();
+    		
+    		$this->objPHPExcel->setActiveSheetIndex(0);
+    		$this->worksheet = $this->objPHPExcel->getActiveSheet();
+        }
 	}
 	
 	/**
 	 * Output simple exporter to file
 	 * 
 	 */
-	function simpleOutput($save=true) {
-		$this->objWriter = new PHPExcel_Writer_Excel2007($this->objPHPExcel);
-        $this->objWriter->setPreCalculateFormulas(false);
-		
-		$filename = str_replace(' ', '_', $this->title) . date('YmdHis') . '.xlsx';
-		
-		if (!$save) {
-			$this->setHeader('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $filename);
-			$this->objWriter->save('php://output');
-		} else {
-			$this->objWriter->save($this->tempFile);
-		}
-		
-		// clean up objects
-		$this->objPHPExcel->disconnectWorksheets();
-		unset($this->objPHPExcel);
+	function simpleOutput($save=true, $pdf=false) {
+        if( $pdf ){
+            $rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
+            $rendererLibrary = 'tcpdf-6.2.13';
+            $rendererLibraryPath = APPPATH . 'libraries/' . $rendererLibrary;
 
-		return base_url( $this->tempFile );
-	}
+            if( !PHPExcel_Settings::setPdfRenderer($rendererName,$rendererLibraryPath) ) {
+            	die(
+            		'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
+            		'<br />' .
+            		'at the top of this script as appropriate for your directory structure'
+            	);
+            }
+            
+            $filename   = str_replace(' ', '_', $this->title) . date('YmdHis') . '.pdf';
+            
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment;filename="'.$filename.'"');
+            header('Cache-Control: max-age=0');
+            
+            $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'PDF');
+            $objWriter->save('php://output');
+            
+            return true;
+        }else{
+            $this->objWriter = new PHPExcel_Writer_Excel2007($this->objPHPExcel);
+            $this->objWriter->setPreCalculateFormulas(false);
+    		
+    		$filename = str_replace(' ', '_', $this->title) . date('YmdHis') . ($pdf ? '.pdf' : '.xlsx');
+    		
+    		if (!$save) {
+                $mime = ( $pdf ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
+    			$this->setHeader($mime, $filename);
+    			$this->objWriter->save('php://output');
+    		} else {
+    			$this->objWriter->save($this->tempFile);
+    		}   
+            
+            // clean up objects
+    		$this->objPHPExcel->disconnectWorksheets();
+    		unset($this->objPHPExcel);
     
+    		return base_url( $this->tempFile );
+        }
+	}
+ 
     /*
 	|--------------------------------------------------------------------------
 	| Excel To Array
@@ -225,6 +262,72 @@ class SMIT_Excel extends PHPExcel
 
         return $namedDataArray;
 	}
+    
+    // ---------------------------------------------------------------------------
+    
+    /**
+	 * Export User List
+	 */
+	function exportUserList($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'List Pengguna';
+		$this->heading 	= array( 'No', 'Username', 'Nama', 'Tipe' );
+		$this->data		= array();
+        // config type user
+        $cfg_type       = config_item('user_type');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			
+			$this->data[] = array(
+				$no++ . '.',
+                $row->username,
+				strtoupper($row->name),
+                strtoupper($cfg_type[$row->type]),
+			);
+		}
+
+		// complete subtitle
+		$this->subTitle = 'Tanggal List Pengguna : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:D1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:D6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:D6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:D6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:D6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$this->worksheet->getStyle('A6:D' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(30);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    // ---------------------------------------------------------------------------
 	
 	/**
 	 * Export Score Step 1
@@ -284,74 +387,6 @@ class SMIT_Excel extends PHPExcel
 	}
 	
 	// ---------------------------------------------------------------------------
-    
-    /**
-	 * Export User List
-	 */
-	function exportUserList($data=array(), $pdf=false) {
-		// setup necessary information
-		$this->title 	= 'List Pengguna';
-		$this->heading 	= array( 'No', 'Username', 'Nama', 'Tipe' );
-		$this->data		= array();
-        // config type user
-        $cfg_type       = config_item('user_type');
-		
-		// set data
-		$no=1;
-		foreach($data as $row) {
-			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
-			
-			$this->data[] = array(
-				$no++ . '.',
-                $row->username,
-				strtoupper($row->name),
-                strtoupper($cfg_type[$row->type]),
-			);
-		}
-
-		// complete subtitle
-		$this->subTitle = 'Tanggal List Pengguna : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
-		
-		// init simple export
-		$this->simpleInit();
-		
-		$rowNumber = count($this->data);
-		
-		// styling excel file
-        $this->worksheet->mergeCells('A1:D1');
-        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
-            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        ));
-        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
-        
-		$this->worksheet->getStyle('A6:D6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $this->worksheet->getStyle('A6:D6')->applyFromArray($this->styleHeading);
-        $this->worksheet->getStyle('A6:D6')->getFont()->setBold(true);
-        $this->worksheet->getStyle('A6:D6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
-		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-		$this->worksheet->getStyle('A6:D' . $rowNumber)->applyFromArray($this->styleBorderThin);
-		
-		$this->worksheet->getColumnDimension('A')->setWidth(5);
-		$this->worksheet->getColumnDimension('B')->setWidth(30);
-		$this->worksheet->getColumnDimension('C')->setWidth(40);
-		$this->worksheet->getColumnDimension('D')->setWidth(30);
-        
-        $this->worksheet->getRowDimension('6')->setRowHeight(20);
-        $this->worksheet->getRowDimension('1')->setRowHeight(30);
-        
-        if( $pdf ){
-            $this->_render_pdf();
-        }
-		
-		// output to user browser
-		return $this->simpleOutput();
-	}
-    
-    // ---------------------------------------------------------------------------
 	
 	private function _render_pdf( $renderer = 'mpdf' ) {
 		$rendererName = '';
@@ -370,7 +405,10 @@ class SMIT_Excel extends PHPExcel
 				$rendererLibrary = 'mpdf-6.0.0';
 				break;
 			case 'tcpdf':
+                set_time_limit( 0 );
+				ini_set( 'memory_limit', '512M' );
 				$rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
+                $rendererLibrary = 'tcpdf-6.2.13';
 				break;
 		}
 		

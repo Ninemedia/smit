@@ -236,6 +236,7 @@ $route['tenants/produk/edit/(:any)']            = "tenant/productedit/$1";
 $route['tenants/laporan']                       = "tenant/tenantreport";
 $route['tenants/laporandata']                   = "tenant/reportdata";
 $route['tenants/laporandatauser']               = "tenant/reportdatauser";
+$route['tenants/tambahtim/(:any)']              = "tenant/addteam/$1";
 
 // Pengukuran ikm
 $route['layanan/pengukuranikm']         = "backend/ikm";

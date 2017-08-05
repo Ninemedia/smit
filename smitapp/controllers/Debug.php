@@ -24,8 +24,8 @@ class Debug extends Public_Controller {
 		$to = $this->input->get('to');
 		
 		// using PHP mailer
-		echo 'sending email using PHP mailer...' . br();
-		@mail($to, 'Test Email PHP Mail', 'This is test email using PHP mailer.');
+		//echo 'sending email using PHP mailer...' . br();
+		//@mail($to, 'Test Email PHP Mail', 'This is test email using PHP mailer.');
 		
 		// using Swiftmailer
 		echo 'sending email using Swiftmailer...' . br();
@@ -135,6 +135,24 @@ class Debug extends Public_Controller {
 
         echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
 	}
+    
+    /**
+     * Test Function
+     */
+    public function test(){
+        set_time_limit( 0 );
+		$this->benchmark->mark('started');
+        echo "<pre>";
+        
+        $data_list = $this->Model_User->get_all_user();
+        $this->smit_excel->exportUserList( $data_list, true );
+        //$this->smit_excel->test();
+        
+        $this->benchmark->mark('ended');
+		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
+
+        echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
+    }
 }
 
 /* End of file Debug.php */

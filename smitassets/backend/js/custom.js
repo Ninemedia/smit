@@ -365,6 +365,116 @@ $("body").delegate( "a.accompanimenttenantedit", "click", function( event ) {
     $('#edit_accompaniment_tenant').modal('show');
 });
 
+$(document).ready(function() {
+    var tx = 1;
+    var tc_el = $('input[name=team_count]');
+    
+    // Add More Team
+    $("body").delegate( "button.addteam-more", "click", function( event ) {
+        event.preventDefault();
+        tx++;
+    
+        var wrapper         = $(".addteam_container");
+        var content         = '<div class="card">' + 
+            '<div class="header header-team bg-cyan">' + 
+                '<a href="javascript:void(0);" class="deleteteam pull-right tooltips" data-placement="left" title="Hapus">' +
+                    '<i class="material-icons">delete_forever</i>' +
+                '</a>' + 
+                '<h5>Data Tim Tenant</h5>' + 
+            '</div>' + 
+            '<div class="body">' +
+                '<div class="row bottom0">' +
+                    '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0-lg" >' +
+                        '<div class="input-group">' +
+                            '<input name="team_image_'+tx+'" id="team_image_'+tx+'" class="form-control team_image" type="file" />' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0" >' +
+                        '<div class="input-group">' +
+                            '<label class="form-label">Name *</label>' +
+                            '<div class="form-line">' +
+                                '<input type="text" class="form-control team_name" name="team_name_'+tx+'" id="team_name_'+tx+'">' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="input-group bottom0">' +
+                            '<label class="form-label">Jabatan/Posisi/Peran *</label>' +
+                            '<div class="form-line">' +
+                                '<input type="text" class="form-control team_position" name="team_position_'+tx+'" id="team_position_'+tx+'">' +
+                            '</div>' + 
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+        
+        tc_el.val(tx);
+        $(wrapper).append(content);
+        
+        $(".team_image").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 1024,
+        });
+        
+        $('a.tooltips').tooltip();
+        App.scrollTo( $(this) , 100);
+        
+        $('input.team_image').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Foto tim harus di isi",
+                }
+            });
+        });
+        
+        $('input.team_name').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Nama tim harus di isi",
+                }
+            });
+        });
+        
+        $('input.team_position').each(function() {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required:  "Jabatan/posisi/peran tim harus di isi",
+                }
+            });
+        });
+        
+        $(".team_image").on('fileselect', function(event, numFiles, label) {
+            $(this).parent().parent().parent().parent().parent().find('label.error').remove();
+        });
+    });
+    
+    // Delete Team Data
+    $("body").delegate( "a.deleteteam", "click", function( event ) {
+        event.preventDefault();
+        $(this).parent('div').parent('div').remove();
+        tx--;
+        tc_el.val(tx);
+        App.scrollTo( $('button.addteam-more') , 100);
+    });
+    
+    $(".team_image").on('fileselect', function(event, numFiles, label) {
+        $(this).parent().parent().parent().parent().parent().find('label.error').remove();
+    });
+});
+
 // ikmdataedit Edit
 $("body").delegate( "a.ikmdataedit", "click", function( event ) {
     event.preventDefault();
@@ -726,7 +836,7 @@ var UploadFiles = function () {
     };
 
     var handleUploadAvatar = function(){
-        $("#ava_selection_files").fileinput({
+        $("#ava_selection_files, .team_image").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
             'theme': 'explorer',
