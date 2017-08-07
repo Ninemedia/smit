@@ -738,7 +738,7 @@ class Tenant extends User_Controller {
                     $btn_team       = '<a href="'.base_url('tenants/tambahtim/'.$row->uniquecode).'"
                         class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
                 }
-                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
+                $btn_action     = '<a href="'.base_url('tenants/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -798,6 +798,82 @@ class Tenant extends User_Controller {
     }
     
     /**
+    * Tenant List Details function.
+    */
+    public function tenantlistdetails( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Input Mask Plugin
+            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'Tenant.init();',
+        ));
+
+        if( !empty($uniquecode) ){
+            $tenantdata         = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $tenantdata         = $tenantdata[0];
+        }
+
+        $data['title']          = TITLE . 'Tenant Detail';
+        $data['tenantdata']     = $tenantdata;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/tenantdetails';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
 	 * Tenant Add Team function.
 	 */
 	public function addteam($uniquecode)
@@ -806,6 +882,8 @@ class Tenant extends User_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $message                = '';
+        $curdate                = date('Y-m-d H:i:s');
         
         if( !$uniquecode ){
             redirect( base_url('tenants/daftar') );
@@ -828,9 +906,106 @@ class Tenant extends User_Controller {
             
             if( $team_count == 0 ){
                 // Set JSON data
-                $data = array('status' => 'error','message' => 'Silahkan inputkan minimal 1 tim tenant');
+                $data = array('status' => 'error','message' => 'Silahkan inputkan minimal 1 tim tenant!');
                 die(json_encode($data));
             }
+            
+            if( empty($_FILES) || !$_FILES ){
+                // Set JSON data
+                $data = array('status' => 'error','message' => 'Tidak ada foto tim tenant yang diinputkan');
+                die(json_encode($data));
+            }
+            
+            if( empty($_POST) || !$_POST ){
+                // Set JSON data
+                $data = array('status' => 'error','message' => 'Semua data tim tenant harus di isi!');
+                die(json_encode($data));
+            }
+            
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            $error = 0;
+            for($i=1; $i<=$team_count; $i++){
+                // Set Required Variables
+                $team_image_{$i}    = $_FILES['team_image_'.$i];
+                $team_image_{$i}    = smit_isset( $team_image_{$i}, array() );
+                $team_name_{$i}     = $this->input->post("team_name_".$i);
+                $team_name_{$i}     = smit_isset( $team_name_{$i}, '' );
+                $team_position_{$i} = $this->input->post("team_position_".$i);
+                $team_position_{$i} = smit_isset( $team_position_{$i}, '' );
+                
+                // Check Error pass continue ...
+                if( empty($team_image_{$i}['name']) ){
+                    $error++; continue;
+                }
+                if( empty($team_name_{$i}) ){
+                    $error++; continue;
+                }
+                if( empty($team_position_{$i}) ){
+                    $error++; continue; 
+                } 
+                
+                // Upload Image first ...
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/tenant/team/' . $tenantdata->id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                
+                // Initialize Upload Config
+                $config = array(
+                    'upload_path'   => $upload_path,
+                    'allowed_types' => "jpg|jpeg|png",
+                    'overwrite'     => FALSE,
+                    'max_size'      => "1024000", 
+                );
+                $this->upload->initialize($config);
+                
+                // Do Upload Image
+                if( ! $this->upload->do_upload('team_image_'.$i) ){
+                    $error++; continue;
+                }
+                
+                $upload_data        = $this->upload->data();
+                $upload_file        = $upload_data['raw_name'] . $upload_data['file_ext'];
+                $thumbnail          = 'Thumbnail_' . $upload_data['raw_name'];
+                $thumbfile          = $thumbnail . $upload_data['file_ext'];
+                
+                // Set Thumbnail
+                $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(300,300)->save($upload_path. '/' .$thumbfile, TRUE);
+                $this->image_moo->clear();
+                
+                // Set Team Data
+                $team_data  = array(
+                    'id_tenant'     => $tenantdata->id,
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'name'          => $team_name_{$i},
+                    'position'      => $team_position_{$i},
+                    'url'           => smit_isset($upload_data['full_path'],''),
+                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'filename'      => smit_isset($upload_data['raw_name'],''),
+                    'thumbnail'     => smit_isset($thumbnail,''),
+                    'size'          => smit_isset($upload_data['file_size'],0),
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                ); 
+                
+                // Save Team Data
+                if( !$this->Model_Tenant->save_data_tenant_team($team_data) ){
+                    $error++; continue;
+                }
+            }
+            
+            // Commit Transaction
+            $this->db->trans_commit();
+            // Complete Transaction
+            $this->db->trans_complete();
+            
+            if( $error > 0 ) $message = '<span class="text-warning"><strong>Tetapi terdapat '.$error.' data tim yang gagal ditambahkan</strong></span>';
+            
+            // Set JSON data
+            $data = array('status' => 'success','message' => 'Data tim tenant berhasil di tambahkan' . br() . $message);
+            die(json_encode($data));
         }
 
         $headstyles             = smit_headstyles(array(

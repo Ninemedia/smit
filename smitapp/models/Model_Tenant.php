@@ -6,9 +6,10 @@ class Model_Tenant extends SMIT_Model{
 	/**
 	 * For SMIT_Model
 	 */
-    public $user          	= 'smit_user';
-    public $tenant         	= 'smit_incubation_tenant';
-    public $incubation      = 'smit_incubation';
+    public $user                    = 'smit_user';
+    public $tenant         	        = 'smit_incubation_tenant';
+    public $tenant_team         	= 'smit_incubation_tenant_team';
+    public $incubation              = 'smit_incubation';
     public $incubation_selection    = 'smit_incubation_selection';
     public $incubation_product      = 'smit_incubation_product';
     public $incubation_blog         = 'smit_incubation_blog';
@@ -42,6 +43,22 @@ class Model_Tenant extends SMIT_Model{
     function save_data_tenant($data){
         if( empty($data) ) return false;
         if( $this->db->insert($this->tenant, $data) ) {
+            $id = $this->db->insert_id();
+            return $id;
+        };
+        return false;
+    }
+    
+    /**
+     * Save data of tenant team
+     *
+     * @author  Iqbal
+     * @param   Array   $data   (Required)  Array data of tenant team
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function save_data_tenant_team($data){
+        if( empty($data) ) return false;
+        if( $this->db->insert($this->tenant_team, $data) ) {
             $id = $this->db->insert_id();
             return $id;
         };

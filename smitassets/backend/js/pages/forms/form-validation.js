@@ -1961,11 +1961,61 @@ var TenantValidation = function () {
                                     App.alert({
                                 		type: 'success',
                                 		icon: 'check',
-                                		message: response.data,
+                                		message: response.message,
                                 		container: container,
                                 		place: 'prepend',
                                 		closeInSeconds: 3
                                 	});
+                                    
+                                    var wrapper         = $(".addteam_container");
+                                    var content         = '<div class="card">' + 
+                                        '<div class="header header-team bg-cyan">' + 
+                                            '<h5>Data Tim Tenant</h5>' + 
+                                        '</div>' + 
+                                        '<div class="body">' +
+                                            '<div class="row bottom0">' +
+                                                '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0-lg" >' +
+                                                    '<div class="input-group">' +
+                                                        '<input name="team_image_1" id="team_image_1" class="form-control team_image" type="file" />' +
+                                                    '</div>' +
+                                                '</div>' +
+                                                '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0" >' +
+                                                    '<div class="input-group">' +
+                                                        '<label class="form-label">Name *</label>' +
+                                                        '<div class="form-line">' +
+                                                            '<input type="text" class="form-control team_name" name="team_name_1" id="team_name_1">' +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                    '<div class="input-group bottom0">' +
+                                                        '<label class="form-label">Jabatan/Posisi/Peran *</label>' +
+                                                        '<div class="form-line">' +
+                                                            '<input type="text" class="form-control team_position" name="team_position_1" id="team_position_1">' +
+                                                        '</div>' + 
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>';
+                                    
+                                    wrapper.empty().html(content).fadeIn();
+                                    $('input[name=team_count]').val(1);
+                                    
+                                    $(".team_image").fileinput({
+                                        showUpload : false,
+                                        showUploadedThumbs : false,
+                                        'theme': 'explorer',
+                                        'uploadUrl': '#',
+                                        fileType: "any",
+                                        overwriteInitial: false,
+                                        initialPreviewAsData: true,
+                                        allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                                        fileActionSettings : {
+                                            showUpload: false,
+                                            showZoom: false,
+                                        },
+                                        maxFileSize: 1024,
+                                    });
+                                    
                                 }
                             }
                         });

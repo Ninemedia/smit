@@ -229,7 +229,6 @@ $route['tenants/pembayaran/detail/(:any)']      = "tenant/tenantpaymentdetails/$
 $route['tenants/pembayaran/edit/(:any)']        = "tenant/tenantpaymentedit/$1";
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
-$route['tenants/daftar/detail/(:any)']          = "tenant/tenantlistdetails/$1";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['tenants/produk/detail/(:any)']          = "tenant/productdetails/$1";
 $route['tenants/produk/edit/(:any)']            = "tenant/productedit/$1";
@@ -237,6 +236,7 @@ $route['tenants/laporan']                       = "tenant/tenantreport";
 $route['tenants/laporandata']                   = "tenant/reportdata";
 $route['tenants/laporandatauser']               = "tenant/reportdatauser";
 $route['tenants/tambahtim/(:any)']              = "tenant/addteam/$1";
+$route['tenants/detail/(:any)']                 = "tenant/tenantlistdetails/$1";
 
 // Pengukuran ikm
 $route['layanan/pengukuranikm']         = "backend/ikm";
