@@ -822,17 +822,15 @@ class Tenant extends User_Controller {
             }
         }
         
-        if( $_POST ){
+        if ( $this->input->is_ajax_request() ) {
             $team_count         = $this->input->post("team_count");
             $team_count         = smit_isset( $team_count, 0 );
             
-            if( $team_count > 0 ){
-                
-            }else{
-                
+            if( $team_count == 0 ){
+                // Set JSON data
+                $data = array('status' => 'error','message' => 'Silahkan inputkan minimal 1 tim tenant');
+                die(json_encode($data));
             }
-            
-            $this->session->set_flashdata('message','<div class="alert alert-danger">'.smit_alert('Silahkan inputkan minimal 1 tim tenant!').'</div>');
         }
 
         $headstyles             = smit_headstyles(array(

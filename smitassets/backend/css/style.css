@@ -8576,3 +8576,8 @@ hr.line-warning{
 .header-team a{
     margin-top: 6px;
 }
+
+.card .header-team a.btn{
+    padding: 1px 10px;
+    color: #888888 !important;
+}

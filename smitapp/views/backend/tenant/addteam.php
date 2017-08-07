@@ -15,18 +15,14 @@
                     </li>
                 </ul>
             </div>
-            <div class="body">
-                <?php if( $this->session->flashdata('message') ){?>
-                    <?php echo $this->session->flashdata('message'); ?>
-                <?php }?>
-            
+            <div class="body body-team">
                 <p class="text-justify bottom20">
                     <strong>Perhatian!</strong>
                     File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah
                     <strong>jpg/jpeg/png.</strong>
                 </p>
                 
-                <?php echo form_open_multipart( '', array( 'id'=>'addteamtenant', 'role'=>'form' ) ); ?>
+                <?php echo form_open_multipart( current_url(), array( 'id'=>'addteamtenant', 'role'=>'form' ) ); ?>
                 <input type="hidden" name="team_count" value="1" />
                 <div class="addteam_container">
                     <div class="card">

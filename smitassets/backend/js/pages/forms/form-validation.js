@@ -1923,7 +1923,46 @@ var TenantValidation = function () {
             submitHandler: function (form) {
                 bootbox.confirm("Apakah data tim tenant sudah benar?", function(result) {
                     if( result == true ){
-                        form.submit();
+                        var teamform    = $('#addteamtenant');
+                        var teamdata    = new FormData(teamform[0]);
+                        var url         = teamform.attr('action');
+                        var container   = $('div.body-team');
+                        
+                        $.ajax({
+                            type:   "POST",
+                            url:    url,
+                            data:   teamdata,
+                            cache : false,
+                            contentType : false,
+                            processData : false,
+                            beforeSend: function (){
+                                $("div.page-loader-wrapper").fadeIn();
+                            },
+                            success: function( response ){
+                                $("div.page-loader-wrapper").fadeOut();
+                                response = $.parseJSON(response);
+    
+                                if( response.status == 'error' ){
+                                    App.alert({
+                                        type: 'danger',
+                                        icon: 'warning',
+                                        message: response.message,
+                                        container: container,
+                                        place: 'prepend',
+                                        closeInSeconds: 3
+                                    });
+                                }else{
+                                    App.alert({
+                                		type: 'success',
+                                		icon: 'check',
+                                		message: response.data,
+                                		container: container,
+                                		place: 'prepend',
+                                		closeInSeconds: 3
+                                	});
+                                }
+                            }
+                        });
                     }
                 });
             }

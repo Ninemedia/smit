@@ -377,8 +377,8 @@ $(document).ready(function() {
         var wrapper         = $(".addteam_container");
         var content         = '<div class="card">' + 
             '<div class="header header-team bg-cyan">' + 
-                '<a href="javascript:void(0);" class="deleteteam pull-right tooltips" data-placement="left" title="Hapus">' +
-                    '<i class="material-icons">delete_forever</i>' +
+                '<a href="javascript:void(0);" class="btn btn-xs btn-default waves-effect deleteteam pull-right tooltips" data-placement="left" title="Hapus">' +
+                    'X' +
                 '</a>' + 
                 '<h5>Data Tim Tenant</h5>' + 
             '</div>' + 
