@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Nama Pengguna<b style="color: red !important;">(*)</b></label>
-                                    <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu/</p>
+                                    <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu</p>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">

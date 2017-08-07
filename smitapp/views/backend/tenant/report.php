@@ -399,26 +399,31 @@
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_month" id="reg_month">
                                             <?php
-                                                $cfg_month      = config_item('month_report');
-                	                            if( !empty($cfg_month) ){
-                	                                echo '<option value="">-- Pilih Bulan --</option>';
+                                                $cfg_month      = config_item('month_report_incubation');
+                                                if( !empty($cfg_month) ){
+                                                    echo '<option value="">-- Pilih Bulan --</option>';
                                                     if( !empty($is_admin) ){
                                                         foreach($cfg_month as $key => $value){
                                                             echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
-                    	                                }
+                                                        }
                                                     }else{
                                                         foreach($cfg_month as $key => $value){
-                                                            $reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
-                                                            $reportpra_list     = $reportpra_list[0];
-
-                                                            if($reportpra_list->month != $key)
-                                                                echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
-                    	                                }
+                                                            $reportinc_list     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
+                                                            $reportinc_list     = $reportinc_list[0];
+                                                            
+                                                            if( !empty($reportinc_list) ){
+                                                                if($reportinc_list->month != $key)
+                                                                    echo '<option value="'.$key.'">'.strtoupper($value).'</option>';    
+                                                            }else{
+                                                                echo '<option value="'.$key.'">'.strtoupper($value).'</option>';  
+                                                            }
+                                                            
+                                                        }
                                                     }
-
-                	                            }else{
-                	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                	                            }
+                                        
+                                                }else{
+                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                }
                 	                        ?>
                                         </select>
                                     </div>

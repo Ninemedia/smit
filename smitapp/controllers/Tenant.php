@@ -2116,7 +2116,7 @@ class Tenant extends User_Controller {
             'TableAjax.init();',
             'UploadFiles.init();',
             'ReportValidation.init();',
-        ));
+        ));                                     
 
         $data['title']          = TITLE . 'Laporan Tenant';
         $data['user']           = $current_user;

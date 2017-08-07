@@ -343,6 +343,21 @@ $config['month_report']             = array(
     9                         		=> 'Bulan 9',
     10                         		=> 'Bulan 10',
 );
+//incubatior
+$config['month_report_incubation']             = array(
+    1                       		=> 'Bulan 1',
+    2                          		=> 'Bulan 2',
+    3                          		=> 'Bulan 3',
+    4                         		=> 'Bulan 4',
+    5                         		=> 'Bulan 5',
+    6                         		=> 'Bulan 6',
+    7                         		=> 'Bulan 7',
+    8                         		=> 'Bulan 8',
+    9                         		=> 'Bulan 9',
+    10                         		=> 'Bulan 10',
+    11                         		=> 'Bulan 11',
+    12                         		=> 'Bulan 12',
+);
 
 /**
  * Email config
