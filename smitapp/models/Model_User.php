@@ -228,6 +228,7 @@ class Model_User extends SMIT_Model{
             $conditions = str_replace("%username%",             "username", $conditions);
             $conditions = str_replace("%name%",                 "name", $conditions);
             $conditions = str_replace("%type%",                 "type", $conditions);
+            $conditions = str_replace("%role%",                 "role", $conditions);
             $conditions = str_replace("%status%",               "status", $conditions);
             $conditions = str_replace("%position%",             "position", $conditions);
             $conditions = str_replace("%city%",                 "city",  $conditions);
@@ -239,6 +240,7 @@ class Model_User extends SMIT_Model{
             $order_by   = str_replace("%username%",             "username",  $order_by);
             $order_by   = str_replace("%name%",                 "name",  $order_by);
             $order_by   = str_replace("%type%",                 "type",  $order_by);
+            $order_by   = str_replace("%role%",                 "role",  $order_by);
             $order_by   = str_replace("%status%",               "status",  $order_by);
             $order_by   = str_replace("%position%",             "position",  $order_by);
             $order_by   = str_replace("%city%",                 "city",  $order_by);

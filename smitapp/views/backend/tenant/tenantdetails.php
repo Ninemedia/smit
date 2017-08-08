@@ -2,7 +2,16 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Detail Tenant</h2></div>
+            <div class="header">
+                <h2>Detail Tenant</h2>
+                <ul class="header-dropdown" style="top: 15px;">
+                    <li>
+                        <a class="btn btn-sm btn-default waves-effect back" href="<?php echo base_url('tenants/daftar'); ?>">
+                            <i class="material-icons" style="font-size: 16px;">arrow_back</i> Kembali
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div class="body">
 
                 <?php echo form_open_multipart( 'tenant/tenantdetailedit', array( 'id'=>'tenantdetails', 'role'=>'form' ) ); ?>

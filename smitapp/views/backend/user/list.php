@@ -61,7 +61,7 @@
     							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                 <td>
-                                    <select name="search_type" class="form-control form-filter input-sm">
+                                    <select name="search_role" class="form-control form-filter input-sm">
     									<option value="">Pilih...</option>
     									<?php
     			                        	$type = smit_user_type();

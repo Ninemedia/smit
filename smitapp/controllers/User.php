@@ -610,8 +610,8 @@ class User extends SMIT_Controller {
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
-        $s_type             = $this->input->post('search_type');
-        $s_type             = smit_isset($s_type, '');
+        $s_role             = $this->input->post('search_role');
+        $s_role             = smit_isset($s_role, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
         
@@ -622,7 +622,7 @@ class User extends SMIT_Controller {
         
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_type) )           { $condition .= str_replace('%s%', $s_type, ' AND %type% = %s%'); }
+        if( !empty($s_role) )           { $condition .= str_replace('%s%', $s_role, ' AND %role% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
@@ -630,7 +630,7 @@ class User extends SMIT_Controller {
         
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%type% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%role% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
 
@@ -667,19 +667,14 @@ class User extends SMIT_Controller {
                     //$btn_action     = '<a href="'.base_url('userconfirm/active/'.$row->id).'" class="userconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
                 }
                 
-                /*
-                $role               = explode(',', $row->role);
                 $arrType            = array();
-                foreach($role AS $id){
-                    if( !empty($id) ){
-                        $type           = strtoupper($cfg_type[$id]);
-                        $arrType[]      = $type;    
+                if( !empty($row->role) ){
+                    $role           = explode(',', $row->role);
+                    foreach($role as $key => $val){
+                        $val = trim($val);
+                        $arrType[]  = strtoupper($cfg_type[$val]); 
                     }
                 }
-                */
-                
-                $type               = strtoupper($cfg_type[$row->type]);
-                //$type               = $arrType;
                 
                 $records["aaData"][] = array(
                     smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
@@ -687,7 +682,7 @@ class User extends SMIT_Controller {
                     smit_center($i),
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     $row->name,
-                    $type,
+                    implode( ', ', $arrType ),
                     smit_center($status),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center($btn_action),
