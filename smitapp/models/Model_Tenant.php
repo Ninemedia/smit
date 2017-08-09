@@ -374,7 +374,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*,B.workunit, B.*, C.name AS companion_name
+            SELECT A.*, B.*, C.name AS companion_name
             FROM ' . $this->tenant. ' AS A
             LEFT JOIN ' . $this->incubation_selection . ' AS B
             ON B.id = A.selection_id

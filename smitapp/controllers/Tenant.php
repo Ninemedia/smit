@@ -1279,7 +1279,7 @@ class Tenant extends User_Controller {
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
-                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_detail         = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 
@@ -1335,6 +1335,85 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+	 * Incubation Detail list data function.
+	 */
+    public function incubationdatadetails($uniquecode)
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+
+        $scripts_add            = '';
+
+        // Custom
+        $condition              = '';
+        $incubation_list        = '';
+        if(!empty($uniquecode)){
+            $incubation_list     = $this->Model_Tenant->get_all_tenant('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
+            $incubation_list     = $incubation_list[0];
+        }
+
+        $data['title']          = TITLE . 'Detail Tenant';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['incubation']     = $incubation_list;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/listtenantdetails';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
     
     /**
 	 * Companion Edit

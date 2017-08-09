@@ -24,11 +24,27 @@
                     <div role="tabpanel" class="tab-pane fade in active" id="stepone">
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">                           
-                                <a href="<?php echo base_url('seleksiinkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirm">Konfirmasi Semua</a>     
-                    		</div>
+                                <!-- <a href="<?php echo base_url('seleksiinkubasi/konfirmasi'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirm">Konfirmasi Semua</a> -->     
+                                <select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+        							<option value="">Select...</option>
+        							<option value="confirm">Konfirmasi</option>
+        						</select>
+        						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                        Export
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                        <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                    </ul>
+                                </div>
+                            </div>
                             <table class="table table-striped table-bordered table-hover" id="incubation_list" data-url="<?php echo base_url('seleksiinkubasi/daftardatastep1'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
+            							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width5 text-center">Tahun</th>
             							<th class="width15">Nama Peneliti Utama</th>
@@ -39,6 +55,7 @@
             							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
+                                        <td></td>
             							<td></td>
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">
@@ -100,7 +117,7 @@
                                             <div class="bottom5">
             								    <button class="btn bg-blue waves-effect filter-submit" id="btn_incubation_list">Search</button>
                                             </div>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_incubation_listreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -113,6 +130,18 @@
                     
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                        Export
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                        <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                    </ul>
+                                </div>
+                    		</div>
                             <table class="table table-striped table-bordered table-hover" id="incubation_list2" data-url="<?php echo base_url('seleksiinkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">

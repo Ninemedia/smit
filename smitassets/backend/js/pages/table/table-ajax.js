@@ -96,7 +96,7 @@ var TableAjax = function () {
     // -------------------------------------------------------------------------
     // Incubation Selection Lists
     var handleRecordsIncubationSelectionList    = function() {
-        gridTable( $("#incubation_list"), true );
+        gridTable( $("#incubation_list"), true, [ -1, 1, 0 ], true, $('#btn_incubation_listreset') );
     };
 
     var handleRecordsIncubationSelectionList2   = function() {

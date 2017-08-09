@@ -25,11 +25,27 @@
 
                                 <div class="table-container table-responsive table-praincubation-score">
                                     <div class="table-actions-wrapper">
-                                        <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a>
+                                        <!-- <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a> -->
+                                        <select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+                							<option value="">Select...</option>
+                							<option value="confirm">Konfirmasi</option>
+                						</select>
+                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                                Export
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                                <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
+                    							<th class="width5 text-center"><input name="select_all" id="select_all_step1" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step1"></label></th>
                     							<th class="width5">No</th>
                                                 <th class="width10 text-center">Tahun</th>
                     							<th class="width20">Nama Peneliti Utama</th>
@@ -43,6 +59,7 @@
        						                </tr>
                                             <tr role="row" class="filter display-hide table-filter">
                     							<td></td>
+                                                <td></td>
                                                 <td>
                                                     <select name="search_year" class="form-control form-filter input-sm def">
                                                     <?php
@@ -117,12 +134,28 @@
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
                                 <div class="table-actions-wrapper">
-                                    <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>
-                        		    <!-- <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
+                                    <!--<a href="<?php echo base_url('seleksiinkubasi/konfirmasistep2'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep2"><i class="material-icons">done_all</i></a>
+                        		     <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
+                                    <select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
+            							<option value="">Select...</option>
+            							<option value="confirm">Konfirmasi</option>
+            						</select>
+            						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                            Export
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                            <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiinkubasi/adminnilaidatastep2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">
+                							<th class="width5 text-center"><input name="select_all" id="select_all_step2" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_step2"></label></th>
                 							<th class="width5">No</th>
                                             <th class="width10 text-center">Tahun</th>
                 							<th class="width20">Nama Peneliti Utama</th>
@@ -136,6 +169,7 @@
    						                </tr>
                                         <tr role="row" class="filter display-hide table-filter">
                 							<td></td>
+                                            <td></td>
                                             <td>
                                                 <select name="search_year" class="form-control form-filter input-sm def">
                                                 <?php

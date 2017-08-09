@@ -113,6 +113,7 @@
 
                                 <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang sudah terdaftar pada Pusat Inovasi LIPI. Pastikan telah memasukan data Usulan Kegiatan terlebih dahulu sesuai dengan usulan tenant yang akan di masukan. Terima kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
+                                
                                 <!--
                                 <div class="form-group">
                                     <input name="tenant_data" type="radio" id="user_registered" class="radio-col-blue" value="user_registered" checked />
@@ -125,13 +126,12 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">person</i></span>
                                             <div class="form-line">
-                                                <?php //echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Username Pengguna Tenant')); ?>
+                                                <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Username Pengguna Tenant', 'required'=>'required')); ?>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 -->
-
                                 <div class="form-group">
                                     <label class="form-label">Username Pengguna Tenant <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
