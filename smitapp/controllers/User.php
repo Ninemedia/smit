@@ -1148,7 +1148,7 @@ class User extends SMIT_Controller {
             $curdate            = date("Y-m-d H:i:s");
             
             $userdata         = array(
-                'nip'           => trim(smit_isset($post_user_nip, '')),
+                'nip'           => smit_isset($post_user_nip, ''),
                 'position'      => smit_isset($post_user_position, ''),
                 'workunit'      => smit_isset($post_user_workunit, ''),
                 'datemodified'  => $curdate,

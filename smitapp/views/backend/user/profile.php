@@ -227,7 +227,7 @@
                                     <div class="input-group">
                                         <label class="form-label">Nomor Induk Pegawai *</label>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="up_nip" id="up_nip" value="<?php echo $the_user->nip == 0 ? '' : $the_user->nip; ?>" maxlength="16" required>
+                                            <input type="text" class="form-control" name="up_nip" id="up_nip" value="<?php echo $the_user->nip == 0 ? '' : $the_user->nip; ?>" maxlength="18" required>
                                         </div>
                                     </div>
                                     <div class="input-group">
