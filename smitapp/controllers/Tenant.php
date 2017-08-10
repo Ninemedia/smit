@@ -4497,7 +4497,7 @@ class Tenant extends User_Controller {
                 }
                 $year           = $row->year;
                 $name_user      = strtoupper($row->username);
-                $name           = strtoupper($row->name);
+                $name           = strtoupper($row->name_tenant);
                 $event          = $row->event_title;
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
@@ -4513,8 +4513,8 @@ class Tenant extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
                     strtoupper( $name ),
+                    strtoupper( $name_user ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
                     smit_center( $count_all_report ),
@@ -4616,7 +4616,7 @@ class Tenant extends User_Controller {
     /**
 	 * Report Incubation/Tenant list data function.
 	 */
-    function reportdatauser( ){
+    function reportdatauser( $id='' ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
@@ -4627,6 +4627,9 @@ class Tenant extends User_Controller {
         }
         if( $is_pendamping ){
             $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+        }
+        if( !empty($id) ){
+            $condition      = ' WHERE %user_id% = '.$id.'';
         }
 
         $order_by           = 'year DESC';
@@ -4704,13 +4707,12 @@ class Tenant extends User_Controller {
                     $workunit       = $workunit_type->workunit_name;
                 }
                 $year           = $row->year;
-                $name_user      = strtoupper($row->username);
-                $name           = strtoupper($row->name);
+                $name           = strtoupper($row->name_tenant);
                 $event          = $row->event_title;
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
-                $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                $btn_upload     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
                 $count_all_report  = $this->Model_Tenant->count_all_reporttenant($row->user_id, $row->tenant_id);
@@ -4726,7 +4728,7 @@ class Tenant extends User_Controller {
                 }
 
                 if( !empty( $row->url ) ){
-                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    $btn_download   = '<a href="'.base_url('tenants/laporan/unduh/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_download  = ' - ';
@@ -4734,11 +4736,10 @@ class Tenant extends User_Controller {
 
                 if( $is_pendamping ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
-                        //'<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
                         strtoupper( $name ),
                         strtoupper( $workunit ),
                         strtoupper( $event ),
@@ -4746,20 +4747,21 @@ class Tenant extends User_Controller {
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        ''
                     );
                 }else{
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
-                        smit_center( $year ),
-                        strtoupper( $event ),
+                        strtoupper( $name ),
                         smit_center( $btn_download ),
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        ''
                     );
                 }
 
@@ -4769,12 +4771,98 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $reportlist             = $_REQUEST['reportlist'];
+            
+            $proses                 = $this->reportlistproses($sGroupActionName, $reportlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Reprt List Proses function.
+	 */
+    function reportlistproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        /*
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        */
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $reportdelete   = $this->Model_Incubation->delete_report($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Incubation->update_report($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar laporan selesai di proses',
+        );
+        return $response;
+    }
+    
+    /**
+	 * Report Download File function.
+	 */
+    function reportdatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Report File Data
+        $reportdata     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $reportdata     = $reportdata[0];
+          
+        if( !$reportdata || empty($reportdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $reportdata->filename . '.' . $reportdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
     }
 
     // ---------------------------------------------------------------------------------------------

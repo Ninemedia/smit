@@ -14,13 +14,12 @@
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
 					</div>
-                    <table class="table table-striped table-bordered table-hover" id="list_praincubationreport" data-url="<?php echo base_url('prainkubasi/laporandata/detail/'.$id.''); ?>">
+                    <table class="table table-striped table-bordered table-hover" id="list_praincubationreport" data-url="<?php echo base_url('tenants/laporandata/detail/'.$id.''); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
     							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
-						         <th class="width5">No</th>
-                                <th class="width5 text-center">Tahun</th>
-                                <th class="width30 text-center">Judul Kegiatan</th>
+                                <th class="width5">No</th>
+                                <th class="width20 text-center">Nama Tenant</th>
                                 <th class="width5 text-center">Berkas</th>
                                 <th class="width5 text-center">Bulan</th>
                                 <th class="width10 text-center">Status</th>
@@ -30,27 +29,6 @@
                             <tr role="row" class="filter display-hide table-filter">
     							<td></td>
                                 <td></td>
-                                <td>
-                                    <select name="search_year" class="form-control form-filter input-sm def">
-                                    <?php
-                                        $option = array(''=>'Pilih Tahun');
-                                        $year_arr = smit_select_year(date('Y'),2030);
-                                        if( !empty($year_arr) ){
-                                            foreach($year_arr as $val){
-                                                $option[$val] = $val;
-                                            }
-                                        }
-
-                                        if( !empty($option) ){
-                                            foreach($option as $val){
-                                                echo '<option value="'.$val.'">'.$val.'</option>';
-                                            }
-                                        }else{
-                                            echo '<option value="">Tahun Kosong</option>';
-                                        }
-                                    ?>
-                                    </select>
-                                </td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                 <td></td>
                                 <td></td>

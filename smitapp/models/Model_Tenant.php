@@ -630,10 +630,11 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.event_desc, B.year, C.workunit
+            SELECT A.*, B.event_title, B.event_desc, B.year, C.workunit, D.name_tenant
             FROM ' . $this->incubation_report. ' AS A
             LEFT JOIN ' . $this->incubation . ' AS B ON B.id = A.tenant_id
             LEFT JOIN ' . $this->user .' AS C ON C.id = A.user_id
+            LEFT JOIN ' . $this->tenant . ' AS D ON D.id = A.tenant_id
             GROUP BY A.user_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
@@ -707,7 +708,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*, C.companion_id, C.event_title, C.event_desc, C.year, D.workunit
+            SELECT A.*, B.name_tenant, C.companion_id, C.event_title, C.event_desc, C.year, D.workunit
             FROM ' . $this->incubation_report. ' AS A
             LEFT JOIN ' . $this->tenant . ' AS B ON B.id = A.tenant_id
             LEFT JOIN ' . $this->incubation . ' AS C ON C.id = A.tenant_id

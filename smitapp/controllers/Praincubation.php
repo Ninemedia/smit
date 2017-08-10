@@ -7884,7 +7884,7 @@ class PraIncubation extends User_Controller {
         $reportdata     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];
           
-        if( !$reportdata || empty($guidedata) ){
+        if( !$reportdata || empty($reportdata) ){
             redirect( current_url() );
         }
 
