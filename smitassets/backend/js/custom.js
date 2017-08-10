@@ -1062,7 +1062,7 @@ var UploadFiles = function () {
 
 var Tenant = function () {
     var handleUploadAvatarTenant = function(){
-        $("#avatar_company").fileinput({
+        $("#avatar_company, #tenant_logo_files").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
             'theme': 'explorer',
@@ -1309,9 +1309,7 @@ var Tenant = function () {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
 	};
-
-
-
+    
     return {
         //main function to initiate the module
         init: function () {

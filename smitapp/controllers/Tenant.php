@@ -1084,6 +1084,155 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
+    
+    /**
+	 * Tenant Logo Update function.
+	 */
+    function tenantlogo()
+    {
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        
+        
+        $this->form_validation->set_rules('username','Username anda','required');
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // -------------------------------------------------
+            // Check File
+            // -------------------------------------------------
+            if( empty($_FILES['ava_selection_files']['name']) ){
+                // Set JSON data
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => smit_alert('Tidak ada berkas avatar yang di unggah. Silahkan inputkan berkas avatar!'),
+                );
+                die(json_encode($data));
+            }
+            
+            if( !empty( $_POST ) ){
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/user/' . $id_user;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                    
+                $config = array(
+                    'upload_path'   => $upload_path,
+                    'allowed_types' => "jpg|jpeg|png",
+                    'overwrite'     => FALSE,
+                    'max_size'      => "1024000", 
+                );
+                $this->upload->initialize($config);
+                
+                // -------------------------------------------------
+                // Begin Transaction
+                // -------------------------------------------------
+                $this->db->trans_begin();
+                
+                if( !empty($_FILES['ava_selection_files']['name']) ){
+                    if( ! $this->upload->do_upload('ava_selection_files') ){
+                        $message = $this->upload->display_errors();
+                        // Set JSON data
+                        $data = array('message' => 'error','data' => $this->upload->display_errors()); 
+                        die(json_encode($data));
+                    }
+                    $upload_data    = $this->upload->data();
+                    $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+                    $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_file, TRUE);
+                    $this->image_moo->clear();
+                    
+                    $account_data  = array(
+                        'url'           => smit_isset($upload_data['full_path'],''),
+                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                        'filename'      => smit_isset($upload_data['raw_name'],''),
+                        'size'          => smit_isset($upload_data['file_size'],0),
+                        'uploader'      => $id_user,
+                        'datemodified'  => $curdate,
+                    );     
+                }
+            }
+            
+            // -------------------------------------------------
+            // Save Account 
+            // -------------------------------------------------
+            $trans_save_account         = FALSE;
+            if( $save_user    = $this->Model_User->update_data($id_user, $account_data) ){
+                $trans_save_account  = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Perbaharui profil avatar tidak berhasil. Terjadi kesalahan berkas anda'); 
+                die(json_encode($data));
+            }
+            
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_account ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+                    
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Perbaharui akun baru berhasil!'); 
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'ACCOUNT_UPDATE', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data.'); 
+                die(json_encode($data)); 
+            } 
+            
+            /*
+            if( $save_user    = $this->Model_User->update_data($id_user, $userdata) ){
+                // Set Message
+                $msg            = ( $id_user != $current_user->id ? 'Data profil <strong>'. $username .'</strong> sudah tersimpan.' : 'Data profil Anda sudah tersimpan.' );
+                
+                // Set JSON data
+                $data = array(
+                    'message'   => 'success',
+                    'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
+                    'name'      => ( !empty($id_user) ? '' : smit_isset($post_user_name, '') ),
+                );
+            }else{
+                // Set JSON data
+                $data['success']    = false;
+                $data['msg']        = 'error';
+                $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
+            }
+            */
+            
+            // JSON encode data
+            die(json_encode($data));
+        }
+    }
 
     /**
 	 * Score Tenant function.
@@ -2510,7 +2659,7 @@ class Tenant extends User_Controller {
         $curdate                = date("Y-m-d H:i:s");
 
         if( !empty($is_admin) ){
-            $post_username          = $this->input->post('tenant_username');
+            $post_user_id       = $this->input->post('tenant_user_id');
         }
 
         $post_selection_id      = $this->input->post('tenant_event_id');
@@ -2603,6 +2752,7 @@ class Tenant extends User_Controller {
                 }
 
                 if( !empty($is_admin) ){
+                    /*
                     // -------------------------------------------------
                     // Check Username
                     // -------------------------------------------------
@@ -2644,11 +2794,23 @@ class Tenant extends User_Controller {
                         'datecreated'       => $datetime,
                         'datemodified'      => $datetime,
                     );
+                    */
+                    
+                    $userdata           = smit_get_userdata_by_id($post_user_id);
+                    if( !$userdata ){
+                        // Set JSON data
+                        $data = array(
+                            'message'   => 'error',
+                            'data'      => array(
+                                'field' => '',
+                                'msg'   => 'Data user tidak ditemukan atau belum terdaftar.',
+                            )
+                        ); die(json_encode($data));
+                    }
 
-                    $user_save_id           = $this->Model_User->save_data($data_user);
-                    $tenantdata1             = array(
-                        'user_id'       => trim(smit_isset($user_save_id, '')),
-                        'username'      => strtolower( trim(smit_isset($username, '')) ),
+                    $tenantdata1        = array(
+                        'user_id'       => $post_user_id,
+                        'username'      => $userdata->username,
                         'name'          => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                     );
 

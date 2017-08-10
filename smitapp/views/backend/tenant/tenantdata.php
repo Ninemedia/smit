@@ -133,12 +133,33 @@
                                 </div>
                                 -->
                                 <div class="form-group">
-                                    <label class="form-label">Username Pengguna Tenant <b style="color: red !important;">(*)</b></label>
+                                    <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
+                                    <p>Pastikan sudah ada nama pengguna sistem terlebih dahulu</p>
+                                    <!--
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">person</i></span>
                                         <div class="form-line">
                                             <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Username Pengguna Tenant', 'required'=>'required')); ?>
                                         </div>
+                                    </div>
+                                    -->
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                        <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id">
+                                            <?php
+                                                $conditions     = ' WHERE %type% = 3 OR %type% = 7';
+                                            	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                                
+                                                if( !empty($user_list) ){
+                                                    echo '<option value="">-- Pilih Nama Penguna --</option>';
+                                                    foreach($user_list as $row){
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).'</option>';
+                                                    }
+                                                }else{
+                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                }
+                	                        ?>
+                                        </select>
                                     </div>
                                 </div>
 

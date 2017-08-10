@@ -20,7 +20,7 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="active">
                                 <a href="#logo" class="tab-profile" data-toggle="tab">
-                                    <i class="material-icons">face</i> AKUN
+                                    <i class="material-icons">face</i> LOGO
                                 </a>
                             </li>
                             <li>
@@ -49,7 +49,7 @@
                                                     <strong>Perhatian!</strong>
                                                     File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
                                                 </p>
-                                                <input type="hidden" name="tenant_username" value="<?php echo $tenantdata->username; ?>" />
+                                                <input type="hidden" name="tenant_id" value="<?php echo $tenantdata->id; ?>" />
                                                 <div class="form-group">
                                                     <label>Unggah Logo</label>
                                                     <input id="tenant_logo_files" name="tenant_logo_files" class="form-control" type="file" />
