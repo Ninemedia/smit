@@ -145,7 +145,7 @@
                                     -->
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id">
+                                        <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id" data-url="<?php echo base_url('tenant/getevent'); ?>">
                                             <?php
                                                 $conditions     = ' WHERE %type% = 3 OR %type% = 7';
                                             	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
@@ -167,8 +167,10 @@
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id">
+                                        <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id" disabled="disabled">
+                                            <option value="">-- Pilih Usulan Kegiatan --</option>
                                             <?php
+                                                /*
                                                 $conditions     = ' WHERE %user_id% = '.$user->id.' AND %tenant_id% = 0';
                                                 $order_by       = ' %year% DESC';
                                                 if( !empty($is_admin) ){
@@ -183,6 +185,7 @@
                 	                            }else{
                 	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
                 	                            }
+                                                */
                 	                        ?>
                                         </select>
                                     </div>

@@ -853,6 +853,7 @@ class Tenant extends User_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'Tenant.init();',
+            'TenantValidation.init();'
         ));
 
         if( !empty($uniquecode) ){
@@ -5039,6 +5040,49 @@ class Tenant extends User_Controller {
         $file_name      = $reportdata->filename . '.' . $reportdata->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
         force_download($file_name, $file_url);
+    }
+    
+    /**
+	 * Get Event By User ID function.
+	 */
+    function getevent(){
+        $user_id            = $this->input->post('tenant_user_id');
+        $user_id            = smit_isset($user_id, '');
+        $data               = '<option value="">-- Pilih Usulan Kegiatan --</option>';
+
+        if( empty($user_id) ){
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => $data,
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }
+        
+        $conditions         = ' WHERE %user_id% = '.$user_id.' AND %tenant_id% = 0';
+        $order_by           = ' %year% DESC';
+    	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);
+        if( !empty($incubation_list) ){
+            foreach($incubation_list as $row){
+                $data      .= '<option value="'.$row->id.'">'.strtoupper($row->year).' - '.strtoupper($row->event_title).'</option>';
+            }
+            // Set JSON data
+            $data = array(
+                'message'       => 'success',
+                'data'          => $data,
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array(
+                'message'       => 'error',
+                'data'          => $data,
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }
     }
 
     // ---------------------------------------------------------------------------------------------

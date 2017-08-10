@@ -1137,13 +1137,52 @@ var Tenant = function () {
             });
             return false;
         });
+	};
+    
+    // --------------------------------
+    // Handle Add Tenant User ID Change
+    // --------------------------------
+	var handleTenantUserIDChange = function() {
+        // Province Change
+        $('#tenant_user_id').on("change",function(){
+            var val     = $(this).val();
+            var url     = $(this).data('url');
+            var el      = $('#tenant_event_id');
+            
+            $.ajax({
+                type:   "POST",
+                data:   {
+                    'tenant_user_id' : val
+                },
+                url:    url,
+                beforeSend: function (){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+                success: function( response ){
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON(response);
 
+                    el.empty().hide();
+                    el.parent().removeClass('has-error');
+                    el.parent().find('.help-block').empty().hide();
+
+                    if(response.message == 'success'){
+                        el.attr('disabled', false);
+                        el.html(response.data).selectpicker('refresh');
+                    }else{
+                        el.attr('disabled', true);
+                        el.html(response.data).selectpicker('refresh');
+                    }
+                }
+            });
+            return false;
+        });
 	};
 
     // --------------------------------
-    // Handle Add Tenant Change
+    // Handle Add Tenant
     // --------------------------------
-	var handleResetAddTenantChange = function() {
+	var handleResetAddTenant = function() {
         $('#do_save_addtenant').click(function(e){
             e.preventDefault();
             processSaveAddTenant($('#addtenant'));
@@ -1226,7 +1265,10 @@ var Tenant = function () {
         });
 	};
 
-    var handleResetAddTenantUserChange = function() {
+    // --------------------------------
+    // Handle Add Tenant User
+    // --------------------------------
+    var handleResetAddTenantUser = function() {
         $('#do_save_addtenantuser').click(function(e){
             e.preventDefault();
             processSaveAddUserTenant($('#addtenantuser'));
@@ -1315,8 +1357,9 @@ var Tenant = function () {
         init: function () {
             handleUploadAvatarTenant();
             handleProvinceChange();
-            handleResetAddTenantChange();
-            handleResetAddTenantUserChange();
+            handleResetAddTenant();
+            handleResetAddTenantUser();
+            handleTenantUserIDChange();
         }
     };
 }();

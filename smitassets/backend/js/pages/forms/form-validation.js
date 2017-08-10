@@ -1810,16 +1810,16 @@ var TenantValidation = function () {
     };
 
     var handleLogoTenantValidation = function(){
-        $('#logotenant').validate({
+        $('#tenantlogo').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
-                avatar_company: {
+                tenant_logo_files: {
                     required: true,
                 },
             },
             messages: {
-                avatar_company: {
+                tenant_logo_files: {
                     required: "Berkas harus diisi."
                 },
             },
