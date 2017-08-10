@@ -862,9 +862,13 @@ class Tenant extends User_Controller {
         
         if($tenantdata->uploader != 0){
             $file_name          = $tenantdata->filename . '.' . $tenantdata->extension;
-            $file_url           = BE_IMG_PATH . 'tenant/' . $tenantdata->uploader . '/' . $file_name; 
-            $logo               = $file_url;
-            if( !file_exists($logo) ) $logo = BE_IMG_PATH . 'logo/logo-square.jpg';
+            $file_url           = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $tenantdata->uploader . '/' . $file_name; 
+            
+            if( !file_exists($file_url) ) {
+                $logo           = BE_IMG_PATH . 'logo/logo-square.jpg';
+            }else{
+                $logo           = BE_UPLOAD_PATH . 'incubationtenant/' . $tenantdata->uploader . '/' . $file_name;
+            }
         }else{
             $logo               = BE_IMG_PATH . 'logo/logo-square.jpg';
         }
