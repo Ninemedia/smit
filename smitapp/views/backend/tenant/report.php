@@ -170,8 +170,6 @@
 						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
 							<option value="">Select...</option>
 							<option value="confirm">Terima</option>
-							<!-- <option value="banned">Banned</option> -->
-							<option value="delete">Hapus</option>
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
 					</div>
@@ -254,7 +252,7 @@
     							</td>
     							<td style="text-align: center;">
                                     <button class="btn bg-blue waves-effect filter-submit bottom5-min" id="btn_tenant_list">Search</button>
-                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_tenant_listreset">Reset</button>
     							</td>
     						</tr>
                         </thead>
@@ -294,9 +292,8 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
-    							         <th class="width5">No</th>
-                                        <th class="width5 text-center">Tahun</th>
-                                        <th class="width30 text-center">Judul Kegiatan</th>
+   							            <th class="width5">No</th>
+                                        <th class="width20 text-center">Nama Tenant</th>
                                         <th class="width5 text-center">Berkas</th>
                                         <th class="width5 text-center">Bulan</th>
                                         <th class="width10 text-center">Status</th>
@@ -306,27 +303,6 @@
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td></td>
-                                        <td>
-                                            <select name="search_year" class="form-control form-filter input-sm def">
-                                            <?php
-                                                $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
-                                                if( !empty($year_arr) ){
-                                                    foreach($year_arr as $val){
-                                                        $option[$val] = $val;
-                                                    }
-                                                }
-
-                                                if( !empty($option) ){
-                                                    foreach($option as $val){
-                                                        echo '<option value="'.$val.'">'.$val.'</option>';
-                                                    }
-                                                }else{
-                                                    echo '<option value="">Tahun Kosong</option>';
-                                                }
-                                            ?>
-                                            </select>
-                                        </td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
                                         <td></td>
                                         <td></td>

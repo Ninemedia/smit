@@ -340,7 +340,7 @@ var SignUp = function () {
         };
         
         //NIP
-        $('#up_nip').inputmask('99999999999999', { placeholder: '______________' });
+        $('#up_nip').inputmask('999999999999999999', { placeholder: '__________________' });
     };
     
     var handleSaveChangePassword = function() {

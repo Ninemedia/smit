@@ -117,7 +117,7 @@
                                             <div class="bottom5">
             								    <button class="btn bg-blue waves-effect filter-submit" id="btn_incubation_list">Search</button>
                                             </div>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_incubation_listreset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -130,6 +130,18 @@
                     
                     <div role="tabpanel" class="tab-pane fade" id="steptwo">
                         <div class="table-container table-responsive">
+                            <div class="table-actions-wrapper">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                        Export
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                        <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                    </ul>
+                                </div>
+                    		</div>
                             <table class="table table-striped table-bordered table-hover" id="incubation_list2" data-url="<?php echo base_url('seleksiinkubasi/daftardatastep2'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">

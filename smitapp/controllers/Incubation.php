@@ -256,6 +256,26 @@ class Incubation extends User_Controller {
             $proses                 = $this->incubationconfirm_all($sGroupActionName, $selectionlist);
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportUserList( $data_list );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+            }
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportUserList( $data_list, true );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+            }
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -263,6 +283,100 @@ class Incubation extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Incubation Confirm All function.
+	 */
+    function incubationconfirm_all($action, $data){
+        $response = array();
+
+        // Check Action
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        // Check Data
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        // Check Admin Priviledges
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        // Check Incubation Setting
+        $incset         = smit_latest_incubation_setting();
+        if( !$incset || empty($incset) ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
+        }
+
+        if( $incset->status == 0 ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
+        }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+            if( !$incseldata || empty($incseldata) ){
+                continue;
+            }
+            $incseldata  = $incseldata[0];
+
+            $incselupdatedata   = array(
+                'status'        => $status,
+                'datemodified'  => $curdate,
+            );
+            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                continue;
+            }
+            $this->smit_email->send_email_selection_confirmation_step1($incseldata);
+        }
+
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data seleksi selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -1826,6 +1940,8 @@ class Incubation extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
+                        smit_center('<input name="selectionliststep1[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist'.$row->id.'"></label>'),
                         smit_center($i),
                         smit_center( $year ),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
@@ -1843,12 +1959,148 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $selectionlist          = $_REQUEST['selectionliststep1'];
+
+            $proses                 = $this->incubationconfirmstep1_all($sGroupActionName, $selectionlist);
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Incubation Confirm Score Step 1 All function.
+	 */
+    function incubationconfirmstep1_all($action, $data){
+        $response = array();
+
+        // Check Action
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        // Check Data
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        // Check Admin Priviledges
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        // Check Incubation Setting
+        $incset         = smit_latest_incubation_setting();
+        if( !$incset || empty($incset) ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
+        }
+
+        if( $incset->status == 0 ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
+        }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Pra Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+            if( !$incseldata || empty($incseldata) ){
+                continue;
+            }
+            $incseldata  = $incseldata[0];
+
+            $sum_score      = $this->Model_Incubation->sum_all_score($incseldata->id);
+            if(empty($sum_score)){
+                $sum_score  = 0;
+            }
+
+            $count_all_jury = $this->Model_Incubation->count_all_score($incseldata->id);
+            if(empty($count_all_jury)){
+                $count_all_jury = 0;
+            }
+
+            if(!empty($sum_score) && !empty($count_all_jury)){
+                $average_score  = round( $sum_score / $count_all_jury );
+            }else{
+                $average_score  = 0;
+            }
+
+            if( $average_score < KKM_STEP1 ){
+                $status         = REJECTED;
+            }else{
+                $status         = ACCEPTED;
+            }
+
+            $incselupdatedata   = array(
+                'score'         => $sum_score,
+                'average_score' => $average_score,
+                'status'        => $status,
+                'statustwo'     => 1,
+                'steptwo'       => 2,
+                'datemodified'  => $curdate,
+            );
+
+            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                continue;
+            }else{
+                if( $average_score < KKM_STEP1 ){
+                    $this->smit_email->send_email_selection_not_success_step1($incset, $incseldata);
+                }else{
+                    $this->smit_email->send_email_selection_confirmation_step2($incseldata);
+                    $this->smit_email->send_email_selection_success($incset, $incseldata);
+                }
+            }
+        }
+
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Inkubasi tahap 1 selesai di proses',
+        );
+        return $response;
     }
 
     /**
@@ -1953,6 +2205,8 @@ class Incubation extends User_Controller {
                 $workunit_type      = smit_workunit_type($row->workunit);
 
                 $records["aaData"][] = array(
+                        smit_center('<input name="selectionliststep2[]" class="cblist filled-in chk-col-blue" id="cblist2'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->statustwo != 2 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist2'.$row->id.'"></label>'),
                         smit_center($i),
                         smit_center($row->year),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
@@ -1962,7 +2216,7 @@ class Incubation extends User_Controller {
                         smit_center( floor($average_score) ),
                         smit_center( date('d F Y', strtotime($row->datecreated)) ),
                         smit_center( $status ),
-                        smit_center( $btn_score .' '. $btn_details),
+                        smit_center( $btn_details),
                     );
                 $i++;
             }
@@ -1970,12 +2224,213 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $selectionlist          = $_REQUEST['selectionliststep2'];
+
+            $proses                 = $this->incubationconfirmstep2_all($sGroupActionName, $selectionlist);
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Incubation Confirm Score Step 2 All function.
+	 */
+    function incubationconfirmstep2_all($action, $data){
+        $response   = array();
+        $desc       = 'Pengumuman Hasil Seleksi Inkubasi Tahap 2<br />Berikut Daftar Pengusul<br />';
+        $user_desc  = array();
+
+        // Check Action
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        // Check Data
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        // Check Admin Priviledges
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        // Check Incubation Setting
+        $incset     = smit_latest_incubation_setting();
+        if( !$incset || empty($incset) ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data pengaturan seleksi',
+            );
+            return $response;
+        }
+
+        if( $incset->status == 0 ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Pengaturan seleksi sudah ditutup',
+            );
+            return $response;
+        }
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Pra Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %statustwo% = 2 AND %steptwo% = 2';
+            $order_by   = ' %id% ASC';
+            $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+            if( !$incseldata || empty($incseldata) ){
+                continue;
+            }
+            $incseldata  = $incseldata[0];
+
+            // Total
+            $sum_score2     = $this->Model_Incubation->sum_all_score2($incseldata->id);
+            if(empty($sum_score2)){
+                $sum_score2  = 0;
+            }
+
+            $count_all_jury2= $this->Model_Incubation->count_all_score2($incseldata->id);
+            if(empty($count_all_jury2)){
+                $count_all_jury2 = 0;
+            }
+
+            if(!empty($sum_score2) && !empty($count_all_jury2)){
+                $average_score  = round( $sum_score2 / $count_all_jury2 );
+            }else{
+                $average_score  = 0;
+            }
+
+            if( $average_score < KKM_STEP2 ){
+                $status         = REJECTED;
+            }else{
+                $status         = ACCEPTED;
+            }
+
+            $incselupdatedata    = array(
+                'scoretwo'          => $sum_score2,
+                'average_scoretwo'  => $average_score,
+                'statustwo'         => $status,
+                'datemodified'      => $curdate,
+            );
+
+            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                continue;
+            }else{
+                if( $average_score < KKM_STEP2 ){
+                    // Send Email Notification Not Success Step 2s
+                    $this->smit_email->send_email_selection_not_success_step2($incset, $incseldata);
+                }else{
+                    // Update Status User
+                    $status_user        = array(
+                        'type'          => PELAKSANA,
+                        'datemodified'  => $curdate
+                    );
+                    $update_status_user = $this->Model_User->update_data($incseldata->user_id, $status_user);
+
+                    // Send Email Notification Selection Accepted
+                    $this->smit_email->send_email_selection_accepted($incset, $incseldata);
+                }
+
+                // Set User Rejected
+                $user_desc[]        = array(
+                    'name'          => $incseldata->user_name,
+                    'title'         => $incseldata->event_title,
+                    'status'        => $status
+                );
+            }
+        }
+        
+        $desc .= '<div class="table-container table-responsive">';
+            $desc .= '<table class="table table-striped table-hover">';
+                $desc .= '
+                <thead>
+                    <tr role="row" class="heading bg-blue">
+                        <th class="width5">No</th>
+                        <th class="width25">Nama Pengusul</th>
+                        <th class="width55">Judul Seleksi</th>
+                        <th class="width15 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                if( !empty($user_desc) ){
+                    $i=1;
+                    foreach($user_desc as $user){
+                        $desc .= '
+                        <tr>
+                            <td class="width5">'.$i.'</td>
+                            <td class="width25">'.$user['name'].'</td>
+                            <td class="width55">'.$user['title'].'</td>
+                            <td class="width15 text-center"><strong>'. ( $user['status'] == ACCEPTED ? 'DITERIMA' : 'DITOLAK' ).'</strong></td>
+                        </tr>';
+                        $i++;
+                    }
+                }else{
+                    $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Inkubasi</strong></tr>';
+                }
+
+                $desc .= '</tbody>';
+            $desc .= '</table>';
+        $desc .= '</div>';
+        
+        // Save Announcement
+        $announcement_data      = array(
+            'uniquecode'        => smit_generate_rand_string(10,'low'),
+            'user_id'           => $current_user->id,
+            'username'          => strtolower($current_user->username),
+            'name'              => $current_user->name,
+            'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+            'title'             => 'Pengumuman Hasil Seleksi Inkubasi Tahap 2',
+            'desc'              => $desc,
+            'uploader'          => $current_user->id,
+            'status'            => 1,
+            'datecreated'       => $curdate,
+            'datemodified'      => $curdate,
+        );
+        $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
+
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Inkubasi tahap 2 selesai di proses',
+        );
+        return $response;
     }
 
     /**

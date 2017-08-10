@@ -1279,7 +1279,7 @@ class Tenant extends User_Controller {
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
-                $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_detail         = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 
@@ -1335,6 +1335,85 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    /**
+	 * Incubation Detail list data function.
+	 */
+    public function incubationdatadetails($uniquecode)
+	{
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pengusul            = as_pengusul($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+
+        if( !$uniquecode ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Parameter data pengaturan seleksi tidak ditemukan');
+            // JSON encode data
+            die(json_encode($data));
+        }
+
+        $headstyles             = smit_headstyles(array(
+            // Default CSS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+        ));
+
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'PraIncubationList.init();',
+        ));
+
+        $scripts_add            = '';
+
+        // Custom
+        $condition              = '';
+        $incubation_list        = '';
+        if(!empty($uniquecode)){
+            $incubation_list     = $this->Model_Tenant->get_all_tenant('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
+            $incubation_list     = $incubation_list[0];
+        }
+
+        $data['title']          = TITLE . 'Detail Tenant';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_pengusul']    = $is_pengusul;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['incubation']     = $incubation_list;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/listtenantdetails';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
     
     /**
 	 * Companion Edit
@@ -4408,7 +4487,7 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($reportpra_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                $btn_action = '<a href="'.base_url('tenants/laporan/detail/'.$row->user_id).'"
                     class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
                 $workunit   = '<center> - </cemter>';
@@ -4418,7 +4497,7 @@ class Tenant extends User_Controller {
                 }
                 $year           = $row->year;
                 $name_user      = strtoupper($row->username);
-                $name           = strtoupper($row->name);
+                $name           = strtoupper($row->name_tenant);
                 $event          = $row->event_title;
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
@@ -4434,8 +4513,8 @@ class Tenant extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
                     strtoupper( $name ),
+                    strtoupper( $name_user ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
                     smit_center( $count_all_report ),
@@ -4456,11 +4535,88 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
+    
+    function tenantreportdetail( $id = '' ){
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+        $is_jury                = as_juri($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ReportValidation.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Tenant';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['id']             = $id;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/reportdetails';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
 
     /**
 	 * Report Incubation/Tenant list data function.
 	 */
-    function reportdatauser( ){
+    function reportdatauser( $id='' ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
@@ -4471,6 +4627,9 @@ class Tenant extends User_Controller {
         }
         if( $is_pendamping ){
             $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
+        }
+        if( !empty($id) ){
+            $condition      = ' WHERE %user_id% = '.$id.'';
         }
 
         $order_by           = 'year DESC';
@@ -4548,13 +4707,12 @@ class Tenant extends User_Controller {
                     $workunit       = $workunit_type->workunit_name;
                 }
                 $year           = $row->year;
-                $name_user      = strtoupper($row->username);
-                $name           = strtoupper($row->name);
+                $name           = strtoupper($row->name_tenant);
                 $event          = $row->event_title;
                 $month          = $row->month;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
-                $btn_upload     = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                $btn_upload     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
                 $count_all_report  = $this->Model_Tenant->count_all_reporttenant($row->user_id, $row->tenant_id);
@@ -4570,7 +4728,7 @@ class Tenant extends User_Controller {
                 }
 
                 if( !empty( $row->url ) ){
-                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    $btn_download   = '<a href="'.base_url('tenants/laporan/unduh/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_download  = ' - ';
@@ -4578,11 +4736,10 @@ class Tenant extends User_Controller {
 
                 if( $is_pendamping ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
-                        //'<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name_user . '</a>',
                         strtoupper( $name ),
                         strtoupper( $workunit ),
                         strtoupper( $event ),
@@ -4590,20 +4747,21 @@ class Tenant extends User_Controller {
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        ''
                     );
                 }else{
                     $records["aaData"][] = array(
-                        smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
-                        <label for="cblist'.$row->id.'"></label>'),
+                        smit_center('<input name="reportlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
-                        smit_center( $year ),
-                        strtoupper( $event ),
+                        strtoupper( $name ),
                         smit_center( $btn_download ),
                         smit_center( $month ),
                         smit_center( $status ),
                         smit_center( $datecreated ),
-                        smit_center( $btn_action ),
+                        //smit_center( $btn_action ),
+                        ''
                     );
                 }
 
@@ -4613,12 +4771,98 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $reportlist             = $_REQUEST['reportlist'];
+            
+            $proses                 = $this->reportlistproses($sGroupActionName, $reportlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Reprt List Proses function.
+	 */
+    function reportlistproses($action, $data){
+        $response = array();
+
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        $current_user       = smit_get_current_user();
+        /*
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+        */
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
+        elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+
+        $data = (object) $data;
+        foreach( $data as $key => $uniquecode ){
+            if( $action=='delete' ){
+                $reportdelete   = $this->Model_Incubation->delete_report($uniquecode);
+            }else{
+                $data_update = array('status'=>$status, 'datemodified'=>$curdate);
+                $this->Model_Incubation->update_report($uniquecode, $data_update);
+            }
+        }
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar laporan selesai di proses',
+        );
+        return $response;
+    }
+    
+    /**
+	 * Report Download File function.
+	 */
+    function reportdatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+
+        // Check Report File Data
+        $reportdata     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $reportdata     = $reportdata[0];
+          
+        if( !$reportdata || empty($reportdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $reportdata->filename . '.' . $reportdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
     }
 
     // ---------------------------------------------------------------------------------------------

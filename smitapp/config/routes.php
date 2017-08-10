@@ -233,10 +233,14 @@ $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";
 $route['tenants/produk/detail/(:any)']          = "tenant/productdetails/$1";
 $route['tenants/produk/edit/(:any)']            = "tenant/productedit/$1";
 $route['tenants/laporan']                       = "tenant/tenantreport";
+$route['tenants/laporan/detail/(:num)']         = "tenant/tenantreportdetail/$1";
+$route['tenants/laporan/unduh/(:any)']          = "tenant/reportdatadownloadfile/$1";
 $route['tenants/laporandata']                   = "tenant/reportdata";
+$route['tenants/laporandata/detail/(:num)']     = "tenant/reportdatauser/$1";
 $route['tenants/laporandatauser']               = "tenant/reportdatauser";
 $route['tenants/tambahtim/(:any)']              = "tenant/addteam/$1";
 $route['tenants/detail/(:any)']                 = "tenant/tenantlistdetails/$1";
+$route['tenants/daftar/detail/(:any)']          = "tenant/incubationdatadetails/$1";
 
 // Pengukuran ikm
 $route['layanan/pengukuranikm']         = "backend/ikm";

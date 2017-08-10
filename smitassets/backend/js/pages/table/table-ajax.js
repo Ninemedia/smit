@@ -47,7 +47,7 @@ var TableAjax = function () {
     
     // Tenant Report Lists
     var handleRecordsTenantReportList = function() {
-        gridTable( $("#list_tenantreport"), true );
+        gridTable( $("#list_tenantreport"), true, [ -1, 1, 0 ], true, $('#btn_tenant_listreset') );
     };
 
     // Admin Selection Lists Step One

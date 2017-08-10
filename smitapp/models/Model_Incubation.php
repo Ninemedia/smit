@@ -18,6 +18,7 @@ class Model_Incubation extends SMIT_Model{
     var $incubation_payment             = "smit_incubation_payment";
     var $incubation_notes               = "smit_incubation_notes";
     var $incubation_tenant              = "smit_incubation_tenant";
+    var $incubation_report              = "smit_incubation_report";
 
     /**
      * Initialize primary field
@@ -1554,6 +1555,41 @@ class Model_Incubation extends SMIT_Model{
 		return $qry->result();
 	}
     // ---------------------------------------------------------------------------------
+    
+    /**
+     * Delete Notes by Uniquecode
+     *
+     * @param   Int     $id     (Required)  PIN Posting ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_report($uniquecode){
+        if( empty($uniquecode) )
+            return false;
+
+        $this->db->where('uniquecode', $uniquecode);
+        if( $this->db->delete($this->incubation_report) )
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Update Notes by Uniquecode
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Incibation ID
+     * @param   Array   $data   (Required)  Array data of product
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_report($uniquecode, $data){
+        if( empty($uniquecode) || empty($data) ) return false;
+        $this->db->where('uniquecode', $uniquecode);
+
+        if( $this->db->update($this->incubation_report, $data) )
+            return true;
+
+        return false;
+    }
 
 }
 /* End of file Model_Incubation.php */
