@@ -89,6 +89,7 @@
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">
+                                <?php if( !empty($tenant_list) ) : ?>
                                 <h4>Masukan Data Produk Tenant</h4>
                                 <div class="form-group">
                                     <label class="form-label">Nama Tenant<b style="color: red !important;">(*)</b></label>
@@ -133,7 +134,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <?php if( !empty($tenant_list) ) : ?>
                                 <div class="form-group">
                                     <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -178,7 +178,7 @@
                                 <?php else : ?>
                                     <div class="alert bg-teal">
                                         <strong>Perhatian!</strong>
-                                        Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada usulan seleksi yang sudah di dampingi oleh pendamping. Terima Kasih.</strong>
+                                        Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada tenant yang sudah didampingi oleh pendamping.</strong>
                                     </div>
                                 <?php endif; ?>
                             </section>
