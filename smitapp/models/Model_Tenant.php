@@ -167,6 +167,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%email%",                "A.email", $conditions);
             $conditions = str_replace("%phone%",                "A.phone", $conditions);
             $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%address%",              "A.address", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
             $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
@@ -184,6 +185,7 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%email%",                "A.email",  $order_by);
             $order_by   = str_replace("%phone%",                "A.phone",  $order_by);
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%address%",              "A.address",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
             $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
@@ -191,7 +193,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.year, B.companion_id, B.name AS user_name, B.event_desc, B.category, B.id AS product_id
+            SELECT A.*, B.event_title, B.year, B.companion_id, B.name AS user_name, B.event_desc, B.category, B.id AS product_id, A.year AS year_tenant
 			FROM ' . $this->tenant. ' AS A
 			LEFT JOIN ' . $this->incubation. ' AS B
 			ON B.id = A.incubation_id';

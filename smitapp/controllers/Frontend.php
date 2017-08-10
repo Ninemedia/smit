@@ -1095,10 +1095,16 @@ class Frontend extends Public_Controller {
         $scripts_add            = '';
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
-            'TableAjax.init();'
+            'TableAjax.init();',
         ));
-
+        
+        $tenant_list        = $this->Model_Tenant->get_all_tenant(0, 0, " WHERE %status% = 1");
+        
+        $counttenant        = count($tenant_list);
+        
         $data['title']          = TITLE . 'Daftar Tenant';
+        $data['tenantdata']     = $tenant_list;
+        $data['counttenant']    = $counttenant;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -2502,8 +2508,8 @@ class Frontend extends Public_Controller {
 
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
-        $s_event            = $this->input->post('search_event');
-        $s_event            = smit_isset($s_year, '');
+        $s_address          = $this->input->post('search_address');
+        $s_address            = smit_isset($s_address, '');
         $s_name_tenant      = $this->input->post('search_name_tenant');
         $s_name_tenant      = smit_isset($$s_name_tenant, '');
         $s_email            = $this->input->post('search_email');
@@ -2525,16 +2531,16 @@ class Frontend extends Public_Controller {
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
         if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
-        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_address) )           { $condition .= str_replace('%s%', $s_address, ' AND %address% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        //if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
         //elseif( $column == 1 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%name_teannt% ' . $sort; }
-        elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
+        if( $column == 1 )  { $order_by .= '%name_teannt% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%address% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
         elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
@@ -2559,8 +2565,8 @@ class Frontend extends Public_Controller {
                 $btn_team       = '<a href="'.base_url('tenants/daftar/tim/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
 
-                $btn_action     = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                // Button
+                $btn_action = '<a class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detailtenant" data-id="'.$row->id.'" data-name="'.$row->name_tenant.'" data-address="'.$row->address.'" data-email="'.$row->email.'" data-phone="'.$row->phone.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -2569,13 +2575,13 @@ class Frontend extends Public_Controller {
 
                 $records["aaData"][] = array(
                     smit_center( $i ),
-                    smit_center( $row->year ),
+                    //smit_center( $row->year ),
                     '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                     //strtoupper( $row->name ),
-                    strtoupper( $row->event_title ),
+                    strtoupper( $row->address ),
                     $row->email,
                     smit_center( $row->phone ),
-                    '',
+                    smit_center( $btn_action ),
                 );
                 $i++;
             }
