@@ -489,6 +489,33 @@ var App = function() {
         });
     };
     
+    var handleTenantList = function() {
+        // List Praincubation
+        $("body").delegate( "a.listdetailtenant", "click", function( event ) {
+            event.preventDefault();
+        
+            var id      = $(this).data('id');
+            var name    = $(this).data('name');
+            var address = $(this).data('address');
+            var email   = $(this).data('email');
+            var phone   = $(this).data('phone');
+            
+            var el_id   = $('#list_id');
+            var el_name = $('#list_name');
+            var el_address = $('#list_address');
+            var el_email = $('#list_email');
+            var el_phone = $('#list_phone');
+        
+            el_id.val(id);
+            el_name.val(name);
+            el_address.val(address);
+            el_email.val(email);
+            el_phone.val(phone);
+        
+            $('#detail_listtenant').modal('show');
+        });
+    };
+    
     // Handles custom checkboxes & radios using jQuery Uniform plugin
     var handleUniform = function () {
         if (!jQuery().uniform) {
@@ -647,6 +674,7 @@ var App = function() {
             // Input your handle function here
             handleInit();
             handlePraincubation();
+            handleTenantList();
             handleSetting();
             handleAddContact();
             handleAddIKM();

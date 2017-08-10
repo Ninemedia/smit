@@ -56,7 +56,40 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="grid">
-                        
+                            <?php if( $tenantdata || !empty($tenantdata) ){ ?>
+                                <div class="row">
+                                <?php foreach($tenantdata as $key => $tenant){ ?>
+                                    <?php $desc     = word_limiter($tenant->name_tenant,30); ?>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="media">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    <div class="media-left">
+                                                        <a href="javascript:void(0);">
+                                                            <img class="js-animating-object img-responsive media-object visible-xs"
+                                                            src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenant->uploader.'/'.$tenant->filename.'.'.$tenant->extension; ?>" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <a href="<?php echo base_url('frontendberita/detail/'.$tenant->uniquecode.''); ?>" class="media-heading-link"><?php echo $tenant->name_tenant; ?></a>
+                                                    <div class="media-date"><i class="icon-calendar"></i> <?php echo $tenant->year; ?></div>
+                                                    <i class="icon-address"></i> <?php echo $tenant->address; ?><br />
+                                                    <i class="icon-message"></i> <?php echo $tenant->email; ?><br />
+                                                    <i class="icon-phone"></i> <?php echo $tenant->phone; ?><br />
+                                                    <a class="listdetailtenant waves-effect tooltips" id="btn_list_detailtenant" data-id="<?php echo $tenant->id; ?>" data-name="<?php echo $tenant->name_tenant; ?>" data-address="<?php echo $tenant->address; ?>" data-email="<?php echo $tenant->email; ?>" data-phone="<?php echo $tenant->phone; ?>"><strong>Selengkapnya</strong></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                </div>
+                                <?php if($counttenant > LIMIT_DEFAULT){ ?>
+                                    <a href="<?php echo base_url('tenant/daftartenant'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
+                                <?php } ?>
+                            <?php }else{ ?>
+                                <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
+                            <?php } ?>
                         </div>
                         <div class="tab-pane fade in" id="tabel">
                             <div class="table-container table-responsive">
@@ -64,16 +97,17 @@
                                     <thead>
                                         <tr role="row" class="heading bg-blue">
                                             <th class="width5">No</th>
-                                            <th class="width5 text-center">Tahun</th>
+                                            <!-- <th class="width5 text-center">Tahun</th> -->
                                             <!-- <th class="width15">Pengguna</th> -->
                                             <th class="width15 text-center">Nama Tenant</th>
-                                            <th class="width20">Judul Kegiatan</th>
+                                            <th class="width20">Alamat</th>
                                             <th class="width10 text-center">Email</th>
                                             <th class="width10 text-center">Telp</th>
                                             <th class="width10 text-center">Actions<br /></th>
                                         </tr>
                                         <tr role="row" class="filter table-filter">
                                             <td></td>
+                                            <!--
                                             <td>
                                                 <select name="search_year" class="form-control form-filter input-sm def">
                                                 <?php
@@ -95,9 +129,10 @@
                                                 ?>
                                                 </select>
                                             </td>
+                                            -->
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
                                             <!-- <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td> -->
-                                            <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
+                                            <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_address" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
                                             <td style="text-align: center;">
@@ -119,3 +154,49 @@
 		</div>
 	</div>
 </div>
+
+<!-- BEGIN INFORMATION SUCCESS DETAIL LIST MODAL -->
+<div class="modal fade" id="detail_listtenant" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <button class="btn btn-default waves-effect pull-right" type="button" data-dismiss="modal"><i class="material-icons">close</i></button>
+				<h4 class="modal-title">Detail List Tenant</h4>
+			</div>
+			<div class="modal-body">
+                <div class="table-container table-responsive">
+                    <table class="table table-striped table-hover" id="">
+                        <thead>
+                            <tr class="bg-blue-grey">
+                                <td colspan="3" class="text-center"><strong>DETAIL</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">Nama Tenant</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_name" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Alamat</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_address" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Email</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_email" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Telp</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_phone" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS DETAIL LIST MODAL -->
