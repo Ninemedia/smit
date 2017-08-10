@@ -219,6 +219,8 @@ class Incubation extends User_Controller {
 
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
+                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status > 0 ? 'disabled="disabled"' : '' ).'/>
+                        <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
@@ -246,6 +248,15 @@ class Incubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $selectionlist          = $_REQUEST['selectionlist'];
+
+            $proses                 = $this->incubationconfirm_all($sGroupActionName, $selectionlist);
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -561,6 +572,82 @@ class Incubation extends User_Controller {
         $data = array('msg' => 'success','message' => 'Semua data Seleksi Inkubasi sudah dikonfirmasi.');
         // JSON encode data
         die(json_encode($data));
+    }
+    
+    /**
+	 * Incubation Confirm All function.
+	 */
+    function incubationconfirm_all($action, $data){
+        $response = array();
+
+        // Check Action
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+
+        // Check Data
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+
+        // Check Admin Priviledges
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        if ( !$is_admin ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Hanya Administrator yang dapat melakukan proses ini',
+            );
+            return $response;
+        };
+
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            // Check Data Incubation Selection
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $incseldata = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+            if( !$incseldata || empty($incseldata) ){
+                continue;
+            }
+            $incseldata  = $incseldata[0];
+
+            $incselupdatedata   = array(
+                'status'        => $status,
+                'datemodified'  => $curdate,
+            );
+            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                continue;
+            }
+            $this->smit_email->send_email_selection_confirmation_step1($incseldata);
+        }
+
+        // Commit Transaction
+        $this->db->trans_commit();
+        // Complete Transaction
+        $this->db->trans_complete();
+
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data seleksi selesai di proses',
+        );
+        return $response;
     }
 
     // ---------------------------------------------------------------------------------------------
