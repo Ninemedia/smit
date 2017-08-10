@@ -1519,12 +1519,12 @@ if ( !function_exists('smit_notification_template') )
         $template_body      = '
         <div style="border-left:1px solid #f0f0f0;border-right:1px solid #f0f0f0;color:#666;font-size:12px;line-height:24px;">
             <div dir="ltr" style="background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea; text-align:center;">
-                <img style="width:97%;height:auto;display:block;" src="https://lh4.googleusercontent.com/XJfIiotKMH5Cpt_if6_dw6p_-9SNUNXqTlaKfO4hlHN5sLAyfppY7k-LsPS-jibkB6xl92pSs39NVe0=w1366-h645" alt="Header" title="Header" />
+                <img style="width:97%;height:auto;display:block;" src="'.BE_IMG_PATH.'kop.jpg" alt="Header" title="Header" />
             </div>
             <div dir="ltr" style="padding:24px 32px 24px 32px;background:#fff;border-right:1px solid #eaeaea;border-left:1px solid #eaeaea">
                 '.( empty($message) ? 'This notification has empty message' : $message).'
                 <div style="text-align:right;">
-                    <img style="width:280px;height:auto;" src="https://lh4.googleusercontent.com/xOqILhUQTzNbkbNtpZRqmOAHK3Uwh0aiRgTRlT4NODp03enTmt4uaVlcc0Pw9FvhBzPNQ7w4iVUicqU=w1366-h645" alt="Sign" title="Sign" />
+                    <img style="width:280px;height:auto;" src="'.BE_IMG_PATH.'sign.jpg" alt="Sign" title="Sign" />
                 </div>
             </div>
         </div>
