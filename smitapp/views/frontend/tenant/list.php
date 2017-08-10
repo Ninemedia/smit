@@ -77,7 +77,7 @@
                                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                                     <div class="media-left">
                                                         <a href="javascript:void(0);">
-                                                            <img class="js-animating-object img-responsive media-object visible-xs"
+                                                            <img class="js-animating-object img-responsive media-object"
                                                             src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenant->uploader.'/'.$tenant->filename.'.'.$tenant->extension; ?>" />
                                                         </a>
                                                     </div>

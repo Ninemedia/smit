@@ -19,7 +19,7 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="active">
-                                <a href="#account" class="tab-profile" data-toggle="tab">
+                                <a href="#logo" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">face</i> AKUN
                                 </a>
                             </li>
@@ -37,26 +37,25 @@
                         
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade in active" id="account">
+                            <div role="tabpanel" class="tab-pane fade in active" id="logo">
                                 <!-- Profile Image -->
                                 <div class="box box-primary">
                                     <div class="box-body box-profile">
-                                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $avatar; ?>" alt="Avatar Pengguna" />
-                                        <h3 class="profile-username text-center" id="profile_username"><?php echo $the_user->name; ?></h3>
-                                        <p class="text-muted text-center"><?php echo $status; ?></p>
-                                        <?php echo form_open_multipart( 'user/accountsetting', array( 'id'=>'accountsetting', 'role'=>'form' ) ); ?>
+                                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $logo; ?>" alt="Logo Tenant" />
+                                        <h3 class="profile-username text-center"><?php echo $tenantdata->name; ?></h3>
+                                        <?php echo form_open_multipart( 'tenant/tenantlogo', array( 'id'=>'tenantlogo', 'role'=>'form' ) ); ?>
                                             <div class="form-group">
                                                 <p align="justify">
                                                     <strong>Perhatian!</strong>
                                                     File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
                                                 </p>
-                                                <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
+                                                <input type="hidden" name="tenant_username" value="<?php echo $tenantdata->username; ?>" />
                                                 <div class="form-group">
-                                                    <label>Unggah Avatar</label>
-                                                    <input id="ava_selection_files" name="ava_selection_files" class="form-control" type="file" />
+                                                    <label>Unggah Logo</label>
+                                                    <input id="tenant_logo_files" name="tenant_logo_files" class="form-control" type="file" />
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Avatar</button>
+                                            <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Logo</button>
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -69,7 +68,7 @@
                                         <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                            <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                            <select class="form-control show-tick" name="tenant_reg_event" id="tenant_reg_event">
                                                 <?php
                                                     $conditions     = ' WHERE %user_id% = '.$user->id.'';
                                                     if( !empty($is_admin) ){

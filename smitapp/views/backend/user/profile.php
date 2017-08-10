@@ -469,7 +469,7 @@
 				<h4 class="modal-title">Reset Kata Sandi Anggota</h4>
 			</div>
 			<div class="modal-body">
-                Anda yakin akan mengatur ulang password untuk anggota <strong><?php echo $user_other->username; ?></strong>?
+                Anda yakin akan mengatur ulang password untuk anggota <strong><?php echo smit_isset($user_other->username,''); ?></strong>?
             </div>
 			<div class="modal-footer">
 				<button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
