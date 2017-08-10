@@ -60,6 +60,17 @@
                                 <div class="row">
                                 <?php foreach($tenantdata as $key => $tenant){ ?>
                                     <?php $desc     = word_limiter($tenant->name_tenant,30); ?>
+                                    <?php
+                                        $city   = $this->Model_Address->get_cities($tenant->city);
+                                        $city   = $city->regional_name;
+                                        $province   = $this->Model_Address->get_provinces($tenant->province);
+                                        $province   = $province->province_name;
+                                        
+                                        $address        = $tenant->address;
+                                        $address        .= ' '.$city;
+                                        $address        .= ' '.$tenant->district;
+                                        $address        .= ' PROVINSI '.$province;
+                                    ?>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="media">
                                             <div class="row">
@@ -77,7 +88,7 @@
                                                     <i class="icon-address"></i> <?php echo $tenant->address; ?><br />
                                                     <i class="icon-message"></i> <?php echo $tenant->email; ?><br />
                                                     <i class="icon-phone"></i> <?php echo $tenant->phone; ?><br />
-                                                    <a class="listdetailtenant waves-effect tooltips" id="btn_list_detailtenant" data-id="<?php echo $tenant->id; ?>" data-name="<?php echo $tenant->name_tenant; ?>" data-address="<?php echo $tenant->address; ?>" data-email="<?php echo $tenant->email; ?>" data-phone="<?php echo $tenant->phone; ?>"><strong>Selengkapnya</strong></a>
+                                                    <a class="listdetailtenant waves-effect tooltips" id="btn_list_detailtenant" data-id="<?php echo $tenant->id; ?>" data-name="<?php echo $tenant->name_tenant; ?>" data-address="<?php echo $address; ?>" data-email="<?php echo $tenant->email; ?>" data-phone="<?php echo $tenant->phone; ?>" data-year="<?php echo $tenant->year; ?>" data-legal="<?php echo $tenant->legal; ?>" data-licensing="<?php echo $tenant->licensing; ?>" data-partnerships="<?php echo $tenant->partnerships; ?>"><strong>Selengkapnya</strong></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,9 +189,14 @@
                                 <td><input type="text" id="list_name" class="form-control" disabled="TRUE"></td>
                             </tr>
                             <tr>
+                                <th style="width: 30%;">Tahun Berdiri</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_year" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
                                 <th style="width: 30%;">Alamat</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><input type="text" id="list_address" class="form-control" disabled="TRUE"></td>
+                                <td><textarea id="list_address" class="form-control" disabled="TRUE"></textarea></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Email</th>
@@ -188,9 +204,24 @@
                                 <td><input type="text" id="list_email" class="form-control" disabled="TRUE"></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Telp</th>
+                                <th style="width: 30%;">Kontak</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><input type="text" id="list_phone" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Bentuk Legalitas Usaha (PT/CV/Lainnya)</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_legal" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><input type="text" id="list_licensing" class="form-control" disabled="TRUE"></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 30%;">Kemitraan Usaha yang Dimiliki</th>
+                                <td style="width: 1%;"> : </td>
+                                <td><textarea id="list_partnerships" class="form-control" disabled="TRUE"></textarea></td>
                             </tr>
                         </tbody>
                     </table>

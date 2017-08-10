@@ -499,18 +499,30 @@ var App = function() {
             var address = $(this).data('address');
             var email   = $(this).data('email');
             var phone   = $(this).data('phone');
+            var year    = $(this).data('year');
+            var legal   = $(this).data('legal');
+            var licensing       = $(this).data('licensing');
+            var partnerships    = $(this).data('partnerships');
             
             var el_id   = $('#list_id');
             var el_name = $('#list_name');
             var el_address = $('#list_address');
             var el_email = $('#list_email');
             var el_phone = $('#list_phone');
+            var el_year     = $('#list_year');
+            var el_legal    = $('#list_legal');
+            var el_licensing    = $('#list_licensing');
+            var el_partnerships = $('#list_partnerships');
         
             el_id.val(id);
             el_name.val(name);
             el_address.val(address);
             el_email.val(email);
             el_phone.val(phone);
+            el_year.val(year);
+            el_legal.val(legal);
+            el_licensing.val(licensing);
+            el_partnerships.val(partnerships);
         
             $('#detail_listtenant').modal('show');
         });

@@ -1099,7 +1099,6 @@ class Frontend extends Public_Controller {
         ));
         
         $tenant_list        = $this->Model_Tenant->get_all_tenant(0, 0, " WHERE %status% = 1");
-        
         $counttenant        = count($tenant_list);
         
         $data['title']          = TITLE . 'Daftar Tenant';
@@ -2566,7 +2565,17 @@ class Frontend extends Public_Controller {
                     class="inact btn btn-xs btn-defaukt waves-effect tooltips bottom5" data-placement="left" title="Tambah Tim"><i class="material-icons">group</i></a> ';
 
                 // Button
-                $btn_action = '<a class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detailtenant" data-id="'.$row->id.'" data-name="'.$row->name_tenant.'" data-address="'.$row->address.'" data-email="'.$row->email.'" data-phone="'.$row->phone.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
+                $city   = $this->Model_Address->get_cities($row->city);
+                $city   = $city->regional_name;
+                $province   = $this->Model_Address->get_provinces($row->province);
+                $province   = $province->province_name;
+                
+                $address        = $row->address;
+                $address        .= ' '.$city;
+                $address        .= ' '.$row->district;
+                $address        .= ' PROVINSI '.$province;
+                
+                $btn_action = '<a class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detailtenant" data-id="'.$row->id.'" data-name="'.$row->name_tenant.'" data-address="'.$address.'" data-email="'.$row->email.'" data-phone="'.$row->phone.'" data-year="'.$row->year.'" data-legal="'.$row->legal.'" data-licensing="'.$row->licensing.'" data-partnerships="'.$row->partnerships.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
