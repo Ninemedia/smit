@@ -756,9 +756,9 @@ class Tenant extends User_Controller {
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         $row->email,
-                        smit_center( $row->phone ),
+                        $row->phone,
                         smit_center( $status ),
-                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                        smit_center( $btn_action . ' ' . $btn_team ),
                     );
                 }else{
                     $records["aaData"][] = array(
@@ -769,9 +769,9 @@ class Tenant extends User_Controller {
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         $row->email,
-                        smit_center( $row->phone ),
+                        $row->phone,
                         smit_center( $status ),
-                        smit_center( $btn_confirm . ' '. $btn_action . ' ' . $btn_team ),
+                        smit_center( $btn_action . ' ' . $btn_team ),
                     );
                 }
                 $i++;
