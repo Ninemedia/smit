@@ -35,7 +35,7 @@
                                 <thead>
             						<tr role="row" class="heading bg-blue">
             							<th class="width5 text-center"><input name="select_all" id="news_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="news_all"></label></th>
-   							            <th class="width5">No</th>
+   							            <th class="width5 text-center">No</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
             							<!-- <th class="width15 text-center">No Berita</th> -->
             							<th class="width25 text-center">Judul Berita</th>
@@ -95,6 +95,15 @@
                                         <div class="input-group">
                                             <div class="form-line">
                                                 <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tanggal Publikasi <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">date_range</i></span>
+                                            <div class="form-line">
+                                                <input type="text" class="reg_date form-control date-picker " placeholder="Pilih tanggal..." name="reg_date" value="" required>
                                             </div>
                                         </div>
                                     </div>

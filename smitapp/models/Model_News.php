@@ -97,6 +97,7 @@ class Model_News extends SMIT_Model{
             $conditions = str_replace("%status%",               "status", $conditions);
             $conditions = str_replace("%extension%",            "extension", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+            $conditions = str_replace("%datemodified%",          "datemodified", $conditions);
         }
         
         if( !empty($order_by) ){
@@ -109,12 +110,13 @@ class Model_News extends SMIT_Model{
             $order_by   = str_replace("%status%",               "status",  $order_by);
             $order_by   = str_replace("%extension%",            "extension",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+            $conditions = str_replace("%datemodified%",          "datemodified", $conditions);
         }
         
         $sql = 'SELECT * FROM ' . $this->news. '';
         
         if( !empty($conditions) ){ $sql .= $conditions; }
-        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datemodified DESC');
         
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 

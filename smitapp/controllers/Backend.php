@@ -2123,6 +2123,7 @@ class Backend extends User_Controller {
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
+        $time                   = date('H:i:s');
 
         $title                  = $this->input->post('reg_title');
         $title                  = trim( smit_isset($title, "") );
@@ -2130,6 +2131,8 @@ class Backend extends User_Controller {
         $source                 = trim( smit_isset($source, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
+        $date                   = $this->input->post('reg_date');
+        $date                   = trim( smit_isset($date, "") );
 
         // -------------------------------------------------
         // Check Form Validation
@@ -2137,6 +2140,7 @@ class Backend extends User_Controller {
         $this->form_validation->set_rules('reg_title','Judul Berita','required');
         $this->form_validation->set_rules('reg_source','Sumber Berita','required');
         $this->form_validation->set_rules('reg_desc','Isi Berita','required');
+        $this->form_validation->set_rules('reg_date','Tanggal Publikasi','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -2209,7 +2213,7 @@ class Backend extends User_Controller {
                     'size'          => smit_isset($upload_data['file_size'],0),
                     'uploader'      => $current_user->id,
                     'status'        => ACTIVE,
-                    'datecreated'   => $curdate,
+                    'datecreated'   => $date .' '. $time,
                     'datemodified'  => $curdate,
                 );
             }else{
@@ -2224,7 +2228,7 @@ class Backend extends User_Controller {
                     'desc'          => $description,
                     'uploader'      => $current_user->id,
                     'status'        => ACTIVE,
-                    'datecreated'   => $curdate,
+                    'datecreated'   => $date .' '. $time,
                     'datemodified'  => $curdate,
                 );
             }

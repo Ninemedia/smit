@@ -41,6 +41,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">Tanggal Publikasi <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">date_range</i></span>
+                                    <div class="form-line">
+                                        <input type="text" class="reg_date form-control date-picker " placeholder="Pilih tanggal..." name="reg_date" value="" required>
+                                    </div>
+                                </div>
+                            </div>
                             <h4>Gambar Berita</h4>
                             <div class="details-img">
                                 <img class="js-animating-object img-responsive" src="<?php echo $news_image; ?>" alt=""/>
@@ -65,3 +74,23 @@
     </div>
 </div>
 <!-- #END# Content -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE NEWS MODAL -->
+<div class="modal fade" id="save_newsedit" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Ubah Berita</h4>
+			</div>
+			<div class="modal-body">
+                <p>Anda Sedang Melakukan Ubah Berita. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_newsedit" data-dismiss="modal">Lanjut</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE NEWS MODAL -->
