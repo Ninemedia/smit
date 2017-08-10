@@ -859,9 +859,19 @@ class Tenant extends User_Controller {
             $tenantdata         = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $tenantdata         = $tenantdata[0];
         }
+        
+        if($tenantdata->uploader != 0){
+            $file_name          = $tenantdata->filename . '.' . $tenantdata->extension;
+            $file_url           = BE_IMG_PATH . 'tenant/' . $tenantdata->uploader . '/' . $file_name; 
+            $logo               = $file_url;
+            if( !file_exists($logo) ) $logo = BE_IMG_PATH . 'logo/logo-square.jpg';
+        }else{
+            $logo               = BE_IMG_PATH . 'logo/logo-square.jpg';
+        }
 
         $data['title']          = TITLE . 'Tenant Detail';
         $data['tenantdata']     = $tenantdata;
+        $data['logo']           = $logo;
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
