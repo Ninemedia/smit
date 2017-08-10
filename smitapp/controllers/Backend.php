@@ -344,6 +344,7 @@ class Backend extends User_Controller {
         $value  = $this->input->post('value');
         $value  = smit_isset($value, '');
 
+        // Dashboard Setting
         if( $field == 'be_dashboard_user' ){
             update_option('be_dashboard_user', $value);
         }elseif( $field == 'be_dashboard_juri' ){
@@ -354,6 +355,8 @@ class Backend extends User_Controller {
             update_option('be_dashboard_tenant', $value);
         }elseif( $field == 'be_dashboard_pelaksana' ){
             update_option('be_dashboard_pelaksana', $value);
+            
+        // Pra-Incubation Notif Setting
         }elseif( $field == 'be_notif_praincubation_confirm' ){
             update_option('be_notif_praincubation_confirm', $value);
         }elseif( $field == 'be_notif_praincubation_confirm2' ){
@@ -366,6 +369,12 @@ class Backend extends User_Controller {
             update_option('be_notif_praincubation_success', $value);
         }elseif( $field == 'be_notif_praincubation_accepted' ){
             update_option('be_notif_praincubation_accepted', $value);
+            
+        // Incubation Notif Setting
+        }elseif( $field == 'be_notif_incubation_confirm' ){
+            update_option('be_notif_incubation_confirm', $value);
+        }elseif( $field == 'be_notif_incubation_confirm2' ){
+            update_option('be_notif_incubation_confirm2', $value);
         }elseif( $field == 'be_notif_incubation_not_success' ){
             update_option('be_notif_incubation_not_success', $value);
         }elseif( $field == 'be_notif_incubation_not_success2' ){
@@ -374,6 +383,8 @@ class Backend extends User_Controller {
             update_option('be_notif_incubation_success', $value);
         }elseif( $field == 'be_notif_incubation_accepted' ){
             update_option('be_notif_incubation_accepted', $value);
+            
+        // Registration Notif Setting
         }elseif( $field == 'be_notif_registration_selection' ){
             update_option('be_notif_registration_selection', $value);
         }elseif( $field == 'be_notif_registration_pengusul' ){
@@ -384,8 +395,12 @@ class Backend extends User_Controller {
             update_option('be_notif_registration_juri', $value);
         }elseif( $field == 'be_notif_registration_for_admin' ){
             update_option('be_notif_registration_for_admin', $value);
+            
+        // Rated Notif Setting
         }elseif( $field == 'be_notif_rated_selection' ){
             update_option('be_notif_rated_selection', $value);
+            
+        // Forgot Password Notif Setting
         }elseif( $field == 'be_notif_forgot_password' ){
             update_option('be_notif_forgot_password', $value);
         }
