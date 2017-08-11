@@ -135,14 +135,6 @@
                                 <div class="form-group">
                                     <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
                                     <p>Pastikan sudah ada nama pengguna sistem terlebih dahulu</p>
-                                    <!--
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                        <div class="form-line">
-                                            <?php echo form_input('tenant_username','',array('class'=>'form-control tenant_username','placeholder'=>'Username Pengguna Tenant', 'required'=>'required')); ?>
-                                        </div>
-                                    </div>
-                                    -->
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id" data-url="<?php echo base_url('tenant/getevent'); ?>">
@@ -167,7 +159,7 @@
                                     <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id" disabled="disabled">
+                                        <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id">
                                             <option value="">-- Pilih Usulan Kegiatan --</option>
                                             <?php
                                                 /*
@@ -190,101 +182,123 @@
                                         </select>
                                     </div>
                                 </div>
-                                <label for="name_contact">Nama Tenant <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_name','',array('class'=>'form-control tenant_name','placeholder'=>'Nama Tenant Anda','required'=>'required')); ?>
+                                <div class="form-group">
+                                    <label for="name_contact">Nama Tenant <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_name','',array('class'=>'form-control tenant_name','placeholder'=>'Nama Tenant Anda','required'=>'required')); ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <label for="email_contact">Email Tenant <b style="color: red !important;">(*)</b></label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">email</i></span>
-                                            <div class="form-line">
-                                                <?php echo form_input('tenant_email','',array('class'=>'form-control tenant_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
+                                        <div class="form-group">
+                                            <label for="email_contact">Email Tenant <b style="color: red !important;">(*)</b></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="material-icons">email</i></span>
+                                                <div class="form-line">
+                                                    <?php echo form_input('tenant_email','',array('class'=>'form-control tenant_email','placeholder'=>'Email','required'=>'required','autocomplete'=>'off')); ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
-                                        <label for="name_contact">Tahun Berdiri <b style="color: red !important;">(*)</b></label>
-                                        <div class="input-group">
-                                            <?php
-                                                $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(1900,2030);
-                                                //$extra = 'class="form-control def" id="tenant_year"';
-
-                                                if( !empty($year_arr) ){
-                                                    foreach($year_arr as $val){
-                                                        $option[$val] = $val;
+                                        <div class="form-group">
+                                            <label for="name_contact">Tahun Berdiri <b style="color: red !important;">(*)</b></label>
+                                            <div class="input-group">
+                                                <?php
+                                                    $option = array(''=>'Pilih Tahun');
+                                                    $year_arr = smit_select_year(1900,2030);
+                                                    //$extra = 'class="form-control def" id="tenant_year"';
+    
+                                                    if( !empty($year_arr) ){
+                                                        foreach($year_arr as $val){
+                                                            $option[$val] = $val;
+                                                        }
                                                     }
-                                                }
-                                                echo form_dropdown('tenant_year', $option, '');
-                                            ?>
+                                                    echo form_dropdown('tenant_year', $option, '');
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <label for="name_contact">Alamat Tenant <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_address','',array('class'=>'form-control company_address','placeholder'=>'Alamat Tenant Anda','required'=>'required')); ?>
+                                <div class="form-group">
+                                    <label for="name_contact">Alamat Tenant <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_address','',array('class'=>'form-control company_address','placeholder'=>'Alamat Tenant Anda','required'=>'required')); ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <select class="form-control show-tick province" name="tenant_province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
-        	                        	<?php
-                                            $province = smit_provinces();
-                                            echo '<option value="">-- Pilih Propinsi --</option>';
-                                            if( !empty($province) ){
-                                                foreach($province as $p){
-                                                    echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                        <select class="form-control show-tick province" name="tenant_province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
+            	                        	<?php
+                                                $province = smit_provinces();
+                                                echo '<option value="">-- Pilih Propinsi --</option>';
+                                                if( !empty($province) ){
+                                                    foreach($province as $p){
+                                                        echo '<option value="'.$p->province_id.'">'.$p->province_name.'</option>';
+                                                    }
                                                 }
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <select class="form-control show-tic province" name="tenant_regional" id="regional-select" disabled="disabled">
-                                        <option value="">-- Pilih Kota/Kabupaten --</option>
-                                    </select>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">place</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
-
-                                <label for="telp_contact">Kontak</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">phone</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_phone_contact','',array('class'=>'form-control tenant_phone_contact','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                        <select class="form-control show-tic province" name="tenant_regional" id="regional-select" disabled="disabled">
+                                            <option value="">-- Pilih Kota/Kabupaten --</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya) <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_legal','',array('class'=>'form-control tenant_legal','placeholder'=>'Nomor Legalitas Usaha Anda','required'=>'required')); ?>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">place</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_district','',array('class'=>'form-control tenant_district','placeholder'=>'Kecamatan/Kelurahan')); ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian) <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">phone</i></span>
-                                    <div class="form-line">
-                                        <?php echo form_input('tenant_bussiness','',array('class'=>'form-control tenant_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
+                                
+                                <div class="form-group">
+                                    <label for="telp_contact">Kontak</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">phone</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_phone_contact','',array('class'=>'form-control tenant_phone_contact','placeholder'=>'No. HP/Telepon','required'=>'required')); ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <label for="telp_contact">Kemitraan Usaha yang Dimiliki <b style="color: red !important;">(*)</b></label>
-                                <div class="input-group">
-                                    <div class="form-line">
-                                        <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
+                                <div class="form-group">
+                                    <label for="name_contact">Bentuk Legalitas Usaha (PT/CV/Lainnya) <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_legal','',array('class'=>'form-control tenant_legal','placeholder'=>'Nomor Legalitas Usaha Anda','required'=>'required')); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telp_contact">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian) <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">phone</i></span>
+                                        <div class="form-line">
+                                            <?php echo form_input('tenant_bussiness','',array('class'=>'form-control tenant_bussiness','placeholder'=>'SIUP/NPWP/Akte Notaris Pendirian','required'=>'required')); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telp_contact">Kemitraan Usaha yang Dimiliki <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
+                                        </div>
                                     </div>
                                 </div>
 

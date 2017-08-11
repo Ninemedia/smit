@@ -1611,10 +1611,10 @@ var TenantValidation = function () {
                 tenant_district: {
                     required: true,
                 },
-                province: {
+                tenant_province: {
                     required: true,
                 },
-                regional: {
+                tenant_regional: {
                     required: true,
                 },
                 tenant_phone_contact: {
@@ -1656,10 +1656,10 @@ var TenantValidation = function () {
                 tenant_district: {
                     required: 'Kecamatan/Kelurahan harus di isi',
                 },
-                province: {
+                tenant_province: {
                     required: 'Provinsi harus di isi',
                 },
-                regional: {
+                tenant_regional: {
                     required: 'Kota/Kabupaten harus di isi',
                 },
                 tenant_phone_contact: {
@@ -1690,7 +1690,21 @@ var TenantValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
+                if (element.parents(".form-group").size() > 0) {
+                    element.parents(".form-group").append(error);
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else if (element.parents('.radio-list').size() > 0) {
+                    error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+                } else if (element.parents('.radio-inline').size() > 0) {
+                    error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+                } else if (element.parents('.checkbox-list').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+                } else if (element.parents('.checkbox-inline').size() > 0) {
+                    error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
             },
             submitHandler: function (form) {
                 $('#save_addtenant').modal('show');

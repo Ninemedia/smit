@@ -1165,14 +1165,7 @@ var Tenant = function () {
                     el.empty().hide();
                     el.parent().removeClass('has-error');
                     el.parent().find('.help-block').empty().hide();
-
-                    if(response.message == 'success'){
-                        el.attr('disabled', false);
-                        el.html(response.data).selectpicker('refresh');
-                    }else{
-                        el.attr('disabled', true);
-                        el.html(response.data).selectpicker('refresh');
-                    }
+                    el.html(response.data).selectpicker('refresh');
                 }
             });
             return false;
@@ -1245,6 +1238,7 @@ var Tenant = function () {
 
             $(msg).hide().empty();
             $('.form-group').removeClass('has-error');
+            $('#addtenant label.error').remove();
             $('#addtenant')[0].reset();
             $('#avatar_selection_files').fileinput('refresh', {
                 showUpload : false,
@@ -1261,7 +1255,11 @@ var Tenant = function () {
                 },
                 maxFileSize: 2048,
             });
-            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+            
+            $('#addtenant select').selectpicker('refresh');
+            $('html, body').animate( { scrollTop: $('body').offset().top - 200 }, 500 );
+            
+            
         });
 	};
 
