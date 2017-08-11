@@ -812,6 +812,8 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'animate-css/animate.css',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
             // Jquery Fileinput Plugin
@@ -825,6 +827,10 @@ class Tenant extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
@@ -845,6 +851,7 @@ class Tenant extends User_Controller {
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
             BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
             BE_JS_PATH . 'pages/forms/editors.js',
             BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
@@ -853,6 +860,7 @@ class Tenant extends User_Controller {
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'Tenant.init();',
+            'TableAjax.init();',
             'TenantValidation.init();'
         ));
 
