@@ -88,6 +88,9 @@ var ServicesValidation = function () {
                 cmm_description: {
                     required: true,
                 },
+                cmm_user_id: {
+                    required: true,
+                },
             },
             messages: {
                 cmm_title: {
@@ -95,6 +98,9 @@ var ServicesValidation = function () {
                 },
                 cmm_description: {
                     required: "Deskripsi komunikasi dan bantuan harus di isi."
+                },
+                cmm_user_id: {
+                    required: "ID Pengguna harus di isi."
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

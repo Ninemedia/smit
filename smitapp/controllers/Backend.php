@@ -3131,6 +3131,10 @@ class Backend extends User_Controller {
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
         $is_pengusul            = as_pengusul($current_user);
+        $is_pelaksana           = as_pelaksana($current_user);
+        $is_pelaksana_tenant    = as_pelaksana_tenant($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+        
         $message                = '';
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
@@ -3140,6 +3144,8 @@ class Backend extends User_Controller {
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
             BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
@@ -3153,6 +3159,8 @@ class Backend extends User_Controller {
             // Default JS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.js',
             BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // DataTable Plugin
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
@@ -3160,8 +3168,6 @@ class Backend extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
@@ -3169,10 +3175,18 @@ class Backend extends User_Controller {
             // Jquery Validation Plugin
             BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // Input Mask Plugin
+            BE_PLUGIN_PATH . 'jquery-inputmask/jquery.inputmask.bundle.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
             BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
             BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
@@ -3188,6 +3202,9 @@ class Backend extends User_Controller {
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
         $data['is_pengusul']    = $is_pengusul;
+        $data['is_pelaksana']   = $is_pelaksana;
+        $data['is_pendamping']   = $is_pendamping;
+        $data['is_pelaksana_tenant']    = $is_pelaksana_tenant;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -3206,6 +3223,10 @@ class Backend extends User_Controller {
     function communicationdata( $value ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
+        $is_pelasana        = as_pelaksana($current_user);
+        $is_pelaksana_tenant    = as_pelaksana_tenant($current_user);
+        $is_pendamping      = as_pendamping($current_user);
+        
         $condition          = '';
 
         $order_by           = '';
@@ -3275,7 +3296,7 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($communication_list as $row){
-                // Status
+                // Button
                 $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode).'"
                     class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
 
@@ -3289,7 +3310,7 @@ class Backend extends User_Controller {
                 }
                 elseif($row->status == READ)  {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    $btn_action     .= '<a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
+                    //$btn_action     .= '<a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
                 }
 
                 $name           = $row->name;
@@ -3315,6 +3336,37 @@ class Backend extends User_Controller {
                         //smit_center( $datecreated ),
                         smit_center( $btn_action ),
                     );
+                }elseif($is_pelasana || $is_pelaksana_tenant || $is_pendamping){
+                    if( $value == 'in' ){
+                        $fromdata   = smit_get_userdata_by_id($row->to_id);
+                        $from_name  = $fromdata->name;
+                        $records["aaData"][] = array(
+                            smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                            <label for="cblist'.$row->uniquecode.'"></label>'),
+                            smit_center($i),
+                            strtoupper( $from_name ),
+                            '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
+                            $desc,
+                            smit_center( $status ),
+                            smit_center( $datecreated ),
+                            smit_center( $btn_action ),
+                        );    
+                    }else{
+                        $todata     = smit_get_userdata_by_id($row->to_id);
+                        $to_name    = $todata->name;
+                        
+                        $records["aaData"][] = array(
+                            smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                            <label for="cblist'.$row->uniquecode.'"></label>'),
+                            smit_center($i),
+                            strtoupper( $to_name ),
+                            '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
+                            $desc,
+                            smit_center( $status ),
+                            smit_center( $datecreated ),
+                            smit_center( $btn_action ),
+                        );    
+                    }
                 }else{
                     $records["aaData"][] = array(
                         smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
@@ -3464,6 +3516,13 @@ class Backend extends User_Controller {
         $title                  = trim( smit_isset($title, "") );
         $description            = $this->input->post('cmm_description');
         $description            = trim( smit_isset($description, "") );
+        
+        if( !$is_admin ){
+            $user_id            = $this->input->post('cmm_user_id');
+            $user_id            = trim( smit_isset($user_id, "") );
+            $to_id              = $user_id;    
+        }
+        
 
         // -------------------------------------------------
         // Check Form Validation

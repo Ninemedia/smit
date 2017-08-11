@@ -55,7 +55,7 @@
                                                     <input id="tenant_logo_files" name="tenant_logo_files" class="form-control" type="file" />
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Logo</button>
+                                            <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Logo</button>
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -212,10 +212,50 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ubah Data</button>
                                 <?php echo form_close(); ?>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="team">
-                            
+                                <div class="table-container table-responsive">
+                                    <div class="table-actions-wrapper">
+                						<span></span>
+                						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
+                							<option value="">Select...</option>
+                							<option value="confirm">Konfirmasi</option>
+                							<option value="banned">Banned</option>
+                							<option value="delete">Hapus</option>
+                						</select>
+                						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                					</div>
+                                    <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
+                                        <thead>
+                    						<tr role="row" class="heading bg-blue">
+                                                <th class="width5 text-center"><input name="select_all" id="listtenant_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="listtenant_all"></label></th>
+                    							<th class="width5">No</th>
+                    							<th class="width15">Nama Anggota</th>
+                    							<th class="width15">Posisi</th>
+                                                <th class="width10 text-center">Foto</th>
+                    							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
+                    						</tr>
+                                            <tr role="row" class="filter display-hide table-filter">
+                    							<td></td>
+                                                <td></td>
+                    							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
+                                                <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_position" /></td>
+                                                <td></td>
+                    							<td style="text-align: center;">
+                                                    <div class="bottom5">
+                    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
+                                                    </div>
+                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_tenant_listreset">Reset</button>
+                    							</td>
+                    						</tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data Will Be Placed Here -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
