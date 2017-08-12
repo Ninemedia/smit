@@ -2820,6 +2820,266 @@ class Backend extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
+    
+    /**
+    * Slider Edit function.
+    */
+    public function slideredit( $uniquecode='' ){
+        auth_redirect();
+
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // Bootbox Plugin
+            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+            BE_JS_PATH . 'pages/forms/editors.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'SliderValidation.init();',
+        ));
+        
+        $sliderdata         = '';
+        if( !empty($uniquecode) ){
+            $sliderdata     = $this->Model_Slider->get_all_slider(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $sliderdata     = $sliderdata[0];
+        }
+        
+        if($sliderdata){
+            $file_name      = $sliderdata->filename . '.' . $sliderdata->extension;
+            $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
+            $slider_image   = $file_url;
+        }else{
+            $slider_image   = BE_IMG_PATH . 'news/noimage.jpg';
+        }
+
+        $data['title']          = TITLE . 'Pembayaran Detail';
+        $data['sliderdata']     = $sliderdata;
+        $data['slider_image']   = $slider_image;
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'setting/frontendsetting/slideredit';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+	 * Slider Edit Function
+	 */
+	public function sliderdataedit()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = trim( smit_isset($uniquecode, "") );
+        $event_title            = $this->input->post('reg_title');
+        $event_title            = trim( smit_isset($event_title, "") );
+        $description            = $this->input->post('reg_desc');
+        $description            = trim( smit_isset($description, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_title','Judul Slider','required');
+        $this->form_validation->set_rules('reg_desc','Deskripsi Slider','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Slider baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_thumbnail']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada thumbnail yang di unggah. Silahkan inputkan thumbnail gambar!');
+            die(json_encode($data));
+        }
+
+        if( empty($_FILES['reg_details']['name']) ){
+            $data = array('message' => 'error','data' => 'Tidak ada details gambar yang di unggah. Silahkan inputkan details gambar kegiatan!');
+            die(json_encode($data));
+        }
+        */
+        
+        $sliderdata             = '';
+        if( !empty($uniquecode) ){
+            $sliderdata        = $this->Model_Slider->get_all_slider(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $sliderdata        = $sliderdata[0];
+        }
+        
+        $file_name      = $sliderdata->filename . '.' . $sliderdata->extension;
+        $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
+        $slider_image   = $file_url;
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            // Upload Files Process
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/frontend/images/slider/';
+            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+            
+            $config = array(
+                'upload_path'       => $upload_path,
+                'allowed_types' => "jpg|jpeg|png",
+                'overwrite'         => FALSE,
+                'max_size'          => "2048000",
+            );
+            $this->load->library('MY_Upload', $config);
+            
+            $file_details       = '';
+            if( !empty($_FILES['reg_details']['name']) ){
+                //unlink($product_image);
+                
+                if( ! $this->my_upload->do_upload('reg_details') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+                $upload_data_details    = $this->my_upload->data();
+                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+                $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1140,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->clear();
+                $file_details           = $upload_data_details;
+            }
+            
+            if( !empty($file_details) ){
+                $slider_data            = array(
+                    'title'             => $event_title,
+                    'desc'              => $description,
+                    'url'               => smit_isset($file_details['full_path'],''),
+                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                    'filename'          => smit_isset($file_details['raw_name'],''),
+                    'size'              => smit_isset($file_details['file_size'],0),
+                    'datemodified'      => $curdate,
+                );
+            }else{
+                $slider_data            = array(
+                    'title'             => $event_title,
+                    'desc'              => $description,
+                    'datemodified'      => $curdate,
+                );
+            }
+            
+            // -------------------------------------------------
+            // Edit Slider Selection
+            // -------------------------------------------------
+            $trans_edit_slider      = FALSE;
+            if( $slider_edit_id         = $this->Model_Slider->update_slider($uniquecode, $slider_data) ){
+                $trans_edit_slider      = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_edit_slider ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Ubah Slider baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'SLIDEREDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
 
     // ---------------------------------------------------------------------------------------------
     // SERVICE
@@ -4888,7 +5148,7 @@ class Backend extends User_Controller {
                 }
 
                 if( !empty( $row->url ) ){
-                    $btn_files  = '<a href="'.base_url('unduh/notulensiprainkubasi/'.$row->uniquecode).'"
+                    $btn_files  = '<a href="'.base_url('unduh/notulensiinkubasi/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Download File"><i class="material-icons">file_download</i></a> ';
                 }else{
                     $btn_files  = ' - ';

@@ -5644,7 +5644,6 @@ class PraIncubation extends User_Controller {
         }
 
         $praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata($limit, $offset, $condition, $order_by);
-
         $records            = array();
         $records["aaData"]  = array();
 
@@ -5661,14 +5660,17 @@ class PraIncubation extends User_Controller {
                 }
 
                 $companiondata      = $this->Model_User->get_userdata($row->companion_id);
+                $btn_edit           = '';
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
+                    $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                }else{ 
+                    $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; 
+                }
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companiondata->name.'" title="Ubah"><i class="material-icons">edit</i></a>';
-
+                
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -5692,7 +5694,7 @@ class PraIncubation extends User_Controller {
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->event_title),
-                        strtoupper($companiondata->name),
+                        $companion_name,
                         smit_center( $btn_detail ),
                     );
                 }
@@ -5780,7 +5782,7 @@ class PraIncubation extends User_Controller {
                     smit_center( $i ),
                     strtoupper( $row->event_title ),
                     strtoupper( $workunit_type ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper( $row->user_name ),
                     strtoupper( $row->name ),
                     smit_center( $btn_add ),
                 );
@@ -7237,7 +7239,7 @@ class PraIncubation extends User_Controller {
                     smit_center('<input name="producteditlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                    strtoupper($row->name), 
                     strtoupper($row->event_title),
                     '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,

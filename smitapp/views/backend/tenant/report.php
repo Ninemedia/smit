@@ -388,7 +388,7 @@
                                                             $reportinc_list     = $reportinc_list[0];
                                                             
                                                             if( !empty($reportinc_list) ){
-                                                                if($reportinc_list->month != $key)
+                                                                //if($reportinc_list->month != $key)
                                                                     echo '<option value="'.$key.'">'.strtoupper($value).'</option>';    
                                                             }else{
                                                                 echo '<option value="'.$key.'">'.strtoupper($value).'</option>';  

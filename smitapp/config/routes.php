@@ -263,6 +263,7 @@ $route['lihatsurat']                    = "backend/viewmailtemplate";
 
 // Slider
 $route['slider/detail/(:any)']          = "backend/sliderdetails/$1";
+$route['slider/edit/(:any)']            = "backend/slideredit/$1";
 $route['sliderconfirm/(:any)/(:any)']   = "backend/sliderconfirm/$1/$2";
 
 // Announcements

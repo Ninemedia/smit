@@ -402,11 +402,11 @@
                     	                                }
                                                     }else{
                                                         foreach($cfg_month as $key => $value){
-                                                            $reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
-                                                            $reportpra_list     = $reportpra_list[0];
+                                                            //$reportpra_list     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
+                                                            //$reportpra_list     = $reportpra_list[0];
 
-                                                            if($reportpra_list->month != $key)
-                                                                echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
+                                                            //if($reportpra_list->month != $key)
+                                                            echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
                     	                                }
                                                     }
 
