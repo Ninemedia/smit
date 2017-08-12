@@ -106,39 +106,6 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'home';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
-    /**
-    * Blog Pagination function.
-    */
-    function blogpagination(){
-        $page   = $this->input->post('page');
-        $page   = smit_isset($page, '');
-
-        if(!$page){
-            $offset = 0;
-        }else{
-            $offset = $page;
-        }
-
-        // Total rows count
-        $countblogdata          = $this->Model_Tenant->count_data_blog_tenant();
-
-        // Pagination configuration
-        $config['target']       = '#blogtenantlist';
-        $config['base_url']     = base_url('tenant/blogtenant/halaman');
-        $config['total_rows']   = $countblogdata;
-        $config['per_page']     = $this->perPageBlog;
-        $config['uri_segment']  = 4;
-        $this->ajax_pagination->initialize($config);
-
-        $blogdata               = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, $offset, ' WHERE %status% = 1');
-
-        //get the posts data
-        $data['blogdata']       = $blogdata;
-
-        //load the view
-        $this->load->view(VIEW_FRONT . 'tenant/blogpagination', $data);
-    }
 
     // ---------------------------------------------------------------------------------------------
     // ABOOUT ME
@@ -1328,21 +1295,24 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
-        $config['base_url']     = base_url('tenant/blogtenant');
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
         $config['total_rows']   = $counttenantdata;
-        $config['per_page']     = $this->perPage;
+        $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
-        $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPage, 0, ' WHERE %status% = 1');
+        $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, 0, ' WHERE %status% = 1');
+        /*
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
-            $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
+            $allcategorydata    = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
         }
+        */
 
         $data['title']          = TITLE . 'Blog Tenant';
         $data['blogdata']       = $tenantdata;
         $data['countblog']      = $counttenantdata;
-        $data['allcategorydata']= $allcategorydata;
+        //$data['allcategorydata']= $allcategorydata;
         $data['category_id']    = $id;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1351,6 +1321,39 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/blog';
 
         $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+    * Blog Pagination function.
+    */
+    function blogpagination(){
+        $page   = $this->input->post('page');
+        $page   = smit_isset($page, '');
+
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+
+        // Total rows count
+        $countblogdata          = $this->Model_Tenant->count_data_blog_tenant();
+
+        // Pagination configuration
+        $config['target']       = '#blogtenantlist';
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
+        $config['total_rows']   = $countblogdata;
+        $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
+        $this->ajax_pagination->initialize($config);
+
+        $blogdata               = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, $offset, ' WHERE %status% = 1');
+
+        //get the posts data
+        $data['blogdata']       = $blogdata;
+
+        //load the view
+        $this->load->view(VIEW_FRONT . 'tenant/blogpagination', $data);
     }
 
     /**
