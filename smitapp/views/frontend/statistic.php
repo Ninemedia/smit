@@ -43,7 +43,16 @@
                             </div>
                             <div id="collapse_praincubation" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_praincubation">
                                 <div class="panel-body">
-
+                                    <p align="justify">
+                                        Infografis mengenai jumlah kegiatan Pra-Inkubasi per-tahun sesuai dengan kategori
+                                    </p>
+                                    <?php if( !empty($stats_praincubation) ) : ?>
+                                    <div id="chart-praincubation-yearly" style="height: 300px;">
+                        				<span class="data-praincubation-yearly hide"><?php echo $chart_praincubation; ?></span>
+                        			</div>
+                                    <?php else : ?>
+                                        <div class="alert alert-info bottom0">Saat ini sedang tidak ada data chart. Silahkan update data terlebih dahulu.</div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -57,10 +66,49 @@
                             </div>
                             <div id="collapse_incubation" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_incubation">
                                 <div class="panel-body">
-
+                                    <p align="justify">
+                                        Infografis mengenai kegiatan inkubasi per-bulan dan per-tahun
+                                    </p>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#monthly" data-toggle="tab" class="tab_chart_incubation">
+                                                <i class="material-icons">donut_small</i> BULANAN
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#yearly" data-toggle="tab" class="tab_chart_incubation">
+                                                <i class="material-icons">donut_small</i> TAHUNAN
+                                            </a>
+                                        </li>
+                                    </ul>
+                    
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="monthly">
+                                            <?php if( !empty($stats_incubation_monthly) ) : ?>
+                                            <div id="chart-incubation-monthly" style="height: 300px;">
+                                				<span class="data-incubation-monthly hide"><?php echo $chart_incubation_monthly; ?></span>
+                                			</div>
+                                            <?php else : ?>
+                                                <div class="alert alert-info bottom0">Saat ini sedang tidak ada data chart. Silahkan update data terlebih dahulu.</div>
+                                            <?php endif; ?>
+                                        </div>
+                    
+                                        <div role="tabpanel" class="tab-pane fade" id="yearly">
+                                            <?php if( !empty($stats_incubation_yearly) ) : ?>
+                                            <div id="chart-incubation-yearly" style="height: 300px;">
+                                				<span class="data-incubation-yearly hide"><?php echo $chart_incubation_yearly; ?></span>
+                                			</div>
+                                            <?php else : ?>
+                                                <div class="alert alert-info bottom0">Saat ini sedang tidak ada data chart. Silahkan update data terlebih dahulu.</div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!--
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="heading_ikm">
                                 <h4 class="panel-title">
@@ -75,6 +123,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>

@@ -1809,6 +1809,8 @@ class Frontend extends Public_Controller {
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
             FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            // Morris Chart CSS Plugin
+            BE_PLUGIN_PATH . 'morrisjs/morris.css',
 
             //Css Path
             FE_CSS_PATH    . 'animate.css',
@@ -1817,16 +1819,22 @@ class Frontend extends Public_Controller {
         ));
 
         $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
             FE_PLUGIN_PATH . 'node-waves/waves.js',
             FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
             FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Morrist Chart JS Plugin
+            BE_PLUGIN_PATH . 'raphael/raphael.min.js',
+            BE_PLUGIN_PATH . 'morrisjs/morris.js',
             // Always placed at bottom
             FE_JS_PATH . 'admin.js',
             // Put script based on current page
         ));
 
         $scripts_add            = '';
-        $scripts_init           = '';
+        $scripts_init           = smit_scripts_init(array(
+            'Charts.init();'
+        ));
 
         $data['title']          = TITLE . 'Statistik';
         $data['headstyles']     = $headstyles;
@@ -1834,6 +1842,136 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'statistic';
+        
+        // ======================================
+        // Pra-Incubation Chart
+        // ======================================
+        $chart_praincubation = array();
+        $stats_praincubation = '';
+        if ( $stats_praincubation = $this->Model_Praincubation->stats_yearly() ) {
+            // Pivoting
+			$pivot_yearly_praincubation = array();
+			foreach( $stats_praincubation as $row ) {
+                $category_praincubation = $row->category;
+
+				if ( ! isset( $pivot_yearly_praincubation[ $row->period ] ) )
+					$pivot_yearly_praincubation[ $row->period ] = array();
+
+				if ( ! isset( $pivot_yearly_praincubation[ $row->period ][ 'total' ] ) )
+					$pivot_yearly_praincubation[ $row->period ][ 'total' ] = 0;
+
+				$pivot_yearly_praincubation[ $row->period ][ 'total' ] += $row->total;
+				$pivot_yearly_praincubation[ $row->period ][ $category_praincubation ] = $row->total;
+			}
+            
+            $slug_arr_praincubation         = smit_category_slug();
+            $name_arr_praincubation         = smit_category_name();
+
+            $chart_praincubation['xkey']    = 'period';
+            $chart_praincubation['ykeys']   = $slug_arr_praincubation;
+            $chart_praincubation['labels']  = $name_arr_praincubation;
+
+            foreach( $pivot_yearly_praincubation as $period_praincubation => $row ) {
+                $chart_arr_praincubation    = array('period' => $period_praincubation);
+                foreach($slug_arr_praincubation as $slug_praincubation){
+                    $chart_arr_praincubation[$slug_praincubation]   = smit_isset( $row[ $slug_praincubation ], 0 );
+                }
+                $chart_arr_praincubation['total'] = $row['total'];
+
+                // chart
+				$chart_praincubation['data'][] = $chart_arr_praincubation;
+            }
+        }
+        $data['chart_praincubation']    = json_encode( $chart_praincubation );
+        $data['stats_praincubation']	= $stats_praincubation;
+        // ======================================
+        
+        // ======================================
+        // Incubation Chart
+        // ======================================
+        
+        // Chart Monthly
+        $chart_inc_monthly = array();
+        $stats_inc_monthly = '';
+        if ( $stats_inc_monthly = $this->Model_Incubation->stats_monthly() ) {
+            // Pivoting
+			$pivot_inc_monthly = array();
+			foreach( $stats_inc_monthly as $row ) {
+                $category_inc_monthly = $row->category;
+
+				if ( ! isset( $pivot_inc_monthly[ $row->period ] ) )
+					$pivot_inc_monthly[ $row->period ] = array();
+
+				if ( ! isset( $pivot_inc_monthly[ $row->period ][ 'total' ] ) )
+					$pivot_inc_monthly[ $row->period ][ 'total' ] = 0;
+
+				$pivot_inc_monthly[ $row->period ][ 'period_name' ] = $row->period_name;
+				$pivot_inc_monthly[ $row->period ][ 'total' ] += $row->total;
+				$pivot_inc_monthly[ $row->period ][ $category_inc_monthly ] = $row->total;
+			}
+
+            $slug_arr_inc_monthly           = smit_category_slug();
+            $name_arr_inc_monthly           = smit_category_name();
+
+            $chart_inc_monthly['xkey']      = 'period';
+            $chart_inc_monthly['ykeys']     = $slug_arr_inc_monthly;
+            $chart_inc_monthly['labels']    = $name_arr_inc_monthly;
+
+            foreach( $pivot_inc_monthly as $period_inc_monthly => $row ) {
+                $chart_arr_inc_monthly          = array('period' => $period_inc_monthly);
+                foreach($slug_arr_inc_monthly as $slug_inc_monthly){
+                    $chart_arr_inc_monthly[$slug_inc_monthly]   = smit_isset( $row[ $slug_inc_monthly ], 0 );
+                }
+                $chart_arr_inc_monthly['total'] = $row['total'];
+
+                // chart
+				$chart_inc_monthly['data'][]        = $chart_arr_inc_monthly;
+            }
+        }
+        $data['chart_incubation_monthly']   = json_encode( $chart_inc_monthly );
+        $data['stats_incubation_monthly']	= $stats_inc_monthly;
+        
+        // Chart Yearly
+        $chart_inc_yearly = array();
+        $stats_inc_yearly = '';
+        if ( $stats_inc_yearly = $this->Model_Incubation->stats_yearly() ) {
+            // Pivoting
+			$pivot_inc_yearly = array();
+			foreach( $stats_inc_yearly as $row ) {
+                $categoryinc_yearly = $row->category;
+
+				if ( ! isset( $pivot_inc_yearly[ $row->period ] ) )
+					$pivot_inc_yearly[ $row->period ] = array();
+
+				if ( ! isset( $pivot_inc_yearly[ $row->period ][ 'total' ] ) )
+					$pivot_inc_yearly[ $row->period ][ 'total' ] = 0;
+
+				$pivot_inc_yearly[ $row->period ][ 'total' ] += $row->total;
+				$pivot_inc_yearly[ $row->period ][ $categoryinc_yearly ] = $row->total;
+			}
+
+            $slug_arr_inc_yearly           = smit_category_slug();
+            $name_arr_inc_yearly           = smit_category_name();
+
+            $chart_inc_yearly['xkey']      = 'period';
+            $chart_inc_yearly['ykeys']     = $slug_arr_inc_yearly;
+            $chart_inc_yearly['labels']    = $name_arr_inc_yearly;
+
+            foreach( $pivot_inc_yearly as $period_inc_yearly => $row ) {
+                $chart_arr_inc_yearly       = array('period' => $period_inc_yearly);
+                foreach($slug_arr_inc_yearly as $slug_inc_yearly){
+                    $chart_arr_inc_yearly[$slug_inc_yearly]  = smit_isset( $row[ $slug_inc_yearly ], 0 );
+                }
+                $chart_arr_inc_yearly['total']  = $row['total'];
+
+                // chart
+				$chart_inc_yearly['data'][]        = $chart_arr_inc_yearly;
+            }
+        }
+        $data['chart_incubation_yearly']    = json_encode( $chart_inc_yearly );
+        $data['stats_incubation_yearly']	= $stats_inc_yearly;
+        // ======================================
+        
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
