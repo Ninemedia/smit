@@ -27,6 +27,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
+        							<option value="inwall">Inwall</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>
@@ -42,8 +43,7 @@
             							<th class="width15">Pengguna</th>
             							<th class="width15">Judul Kegiatan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
-                                        <th class="width10 text-center">Email</th>
-                                        <th class="width10 text-center">Telp</th>
+                                        <th class="width10 text-center">Posisi</th>
                                         <th class="width10 text-center">Status</th>
             							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
@@ -74,8 +74,13 @@
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
+                                        <td>
+                                            <select name="search_postion" class="form-control form-filter input-sm def">
+            									<option value="">Pilih...</option>
+            									<option value="<?php echo ACTIVE; ?>">INWALL</option>
+            									<option value="<?php echo NONACTIVE; ?>">OUTWALL</option>
+            								</select>
+                                        </td>
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
@@ -354,8 +359,7 @@
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width20">Judul Kegiatan</th>
                                         <th class="width10 text-center">Nama Tenant</th>
-                                        <th class="width10 text-center">Email</th>
-                                        <th class="width10 text-center">Telp</th>
+                                        <th class="width10 text-center">Posisi</th>
                                         <th class="width10 text-center">Status</th>
             							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
@@ -385,8 +389,13 @@
                                         </td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_event" /></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-				                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
+                                        <td>
+                                            <select name="search_status" class="form-control form-filter input-sm def">
+            									<option value="">Pilih...</option>
+            									<option value="<?php echo ACTIVE; ?>">INWALL</option>
+            									<option value="<?php echo NONACTIVE; ?>">OUTWALL</option>
+            								</select>
+                                        </td>
                                         <td>
                                             <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>

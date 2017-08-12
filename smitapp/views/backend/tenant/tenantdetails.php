@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Logo</button>
-                                            <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-logo-tenant">Bersihkan</button>
+                                            <!-- <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-logo-tenant">Bersihkan</button> -->
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>

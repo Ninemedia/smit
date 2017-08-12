@@ -670,10 +670,8 @@ class Tenant extends User_Controller {
         $s_event            = smit_isset($s_year, '');
         $s_name_tenant      = $this->input->post('search_name_tenant');
         $s_name_tenant      = smit_isset($$s_name_tenant, '');
-        $s_email            = $this->input->post('search_email');
-        $s_email            = smit_isset($s_email, '');
-        $s_phone            = $this->input->post('search_phone');
-        $s_phone            = smit_isset($s_phone, '');
+        $s_position         = $this->input->post('search_position');
+        $s_position         = smit_isset($s_position, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
@@ -687,9 +685,8 @@ class Tenant extends User_Controller {
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_name_tenant) )    { $condition .= str_replace('%s%', $s_name, ' AND %name_tenant% LIKE "%%s%%"'); }
-        if( !empty($s_email) )          { $condition .= str_replace('%s%', $s_email, ' AND %email% LIKE "%%s%%"'); }
-        if( !empty($s_phone) )          { $condition .= str_replace('%s%', $s_phone, ' AND %phone% LIKE "%%s%%"'); }
-        if( !empty($s_event) )           { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
+        if( !empty($s_position) )       { $condition .= str_replace('%s%', $s_position, ' AND %postion% = %s%'); }
+        if( !empty($s_event) )          { $condition .= str_replace('%s%', $s_year, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
@@ -700,18 +697,16 @@ class Tenant extends User_Controller {
             elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%name_tenant% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%email% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%phone% ' . $sort; }
-            elseif( $column == 7 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 8 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%postion% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
         }else{
             if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 2 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name_tenant% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%email% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%phone% ' . $sort; }
-            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%postion% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
         }
 
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
@@ -745,6 +740,9 @@ class Tenant extends User_Controller {
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                
+                if($row->position == ACTIVE)          { $position = '<span class="label label-success">'.strtoupper('INWALL').'</span>'; }
+                elseif($row->position == NONACTIVE)   { $position = '<span class="label label-default">'.strtoupper('OUTWALL').'</span>'; }
 
                 if( $is_admin ){
                     $records["aaData"][] = array(
@@ -755,8 +753,7 @@ class Tenant extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
-                        $row->email,
-                        $row->phone,
+                        smit_center( $position ),
                         smit_center( $status ),
                         smit_center( $btn_action . ' ' . $btn_team ),
                     );
@@ -768,8 +765,7 @@ class Tenant extends User_Controller {
                         smit_center( $row->year ),
                         strtoupper( $row->event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
-                        $row->email,
-                        $row->phone,
+                        smit_center( $position ),
                         smit_center( $status ),
                         smit_center( $btn_action . ' ' . $btn_team ),
                     );
@@ -3561,11 +3557,15 @@ class Tenant extends User_Controller {
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        elseif( $action=='inwall' ) { $actiontxt = 'Inwalll'; $postion = ACTIVE; }
         
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
                 $tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);    
+            }elseif($action=='inwall'){
+                $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
+                $this->Model_Tenant->update_tenant($uniquecode, $data_update);
             }else{
                 $data_update = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_tenant($uniquecode, $data_update);
