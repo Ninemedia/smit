@@ -643,33 +643,33 @@ var NewsValidation = function () {
     
     var handleNewsEditValidation = function(){
         $('#newsedit').validate({
-            focusInvalid: true, // do not focus the last invalid input
+            focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                reg_title: {
+                newsedit_title: {
                     required: true,
                 },
-                reg_source: {
+                newsedit_source: {
                     required: true,
                 },
-                reg_desc: {
+                newsedit_desc: {
                     required: true,
                 },
-                reg_date: {
+                newsedit_date: {
                     required: true,
                 },
             },
             messages: {
-                reg_title: {
+                newsedit_title: {
                     required: 'Judul Berita harus di isi',
                 },
-                reg_source: {
+                newsedit_source: {
                     required: 'Sumber Berita harus di isi',
                 },
-                reg_desc: {
+                newsedit_desc: {
                     required: 'Isi Berita harus di isi',
                 },
-                reg_date: {
+                newsedit_date: {
                     required: 'Tanggal Publikasi harus di isi',
                 },
             },

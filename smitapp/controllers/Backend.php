@@ -2354,11 +2354,11 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
             // Jquery Fileinput Plugin
             BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
-            // Bootstrap Select Plugin
-            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
         ));
 
         $loadscripts            = smit_scripts(array(
@@ -2378,15 +2378,15 @@ class Backend extends User_Controller {
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
-            // Jquery Fileinput Plugin
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
-            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
             // Jquery Validation Plugin
             BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
 
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
@@ -2396,20 +2396,17 @@ class Backend extends User_Controller {
             BE_JS_PATH . 'pages/forms/form-validation.js',
         ));
 
-        $scripts_add            = '';
-        $scripts_init           = smit_scripts_init(array(
+        $scripts_add        = '';
+        $scripts_init       = smit_scripts_init(array(
             'App.init();',
             'TableAjax.init();',
             'UploadFiles.init();',
             'NewsValidation.init();',
         ));
 
-        $scripts_add            = '';
-        $scripts_init           = '';
-        $newsdata               = '';
-
+        $newsdata           = '';
         if( !empty($uniquecode) ){
-            $newsdata           = $this->Model_News->get_news_by_uniquecode($uniquecode);
+            $newsdata       = $this->Model_News->get_news_by_uniquecode($uniquecode);
         }
 
         $uploaded           = $newsdata->uploader;
@@ -2434,6 +2431,135 @@ class Backend extends User_Controller {
         $data['main_content']   = 'news/newsedit';
 
         $this->load->view(VIEW_BACK . 'template', $data);
+    }
+    
+    /**
+    * News edit function.
+    */
+    public function newsedit(){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $curdate                = date("Y-m-d H:i:s");
+        $newsdata_update_image  = array();
+        $current_file           = '';
+        $image                  = '';
+        
+        $post_newsedit_id       = $this->input->post('newsedit_id');
+        $post_newsedit_id       = trim( smit_isset($post_newsedit_id, 0) );
+        $post_newsedit_title    = $this->input->post('newsedit_title');
+        $post_newsedit_title    = trim( smit_isset($post_newsedit_title, '') );
+        $post_newsedit_source   = $this->input->post('newsedit_source');
+        $post_newsedit_source   = trim( smit_isset($post_newsedit_source, '') );
+        $post_newsedit_desc     = $this->input->post('newsedit_desc');
+        $post_newsedit_desc     = trim( smit_isset($post_newsedit_desc, '') );
+        $post_newsedit_date     = $this->input->post('newsedit_date');
+        $post_newsedit_date     = trim( smit_isset($post_newsedit_date, '') );
+
+        $this->form_validation->set_rules('newsedit_title','Judul Berita','required');
+        $this->form_validation->set_rules('newsedit_source','Sumber Berita','required');
+        $this->form_validation->set_rules('newsedit_desc','Isi Berita','required|trim');
+        $this->form_validation->set_rules('newsedit_date','Tanggal Publikasi','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'status'        => 'error',
+                'message'       => 'Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!',
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Check News Data First
+            if( !$newsdata = $this->Model_News->get_news($post_newsedit_id) ){
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'error','message' => 'Data berita tidak ditemukan atau belum terdaftar');
+                die(json_encode($data));
+            }
+
+            // Check if update change image
+            if( !empty($_FILES['newsedit_image']['name']) ){
+                // -------------------------------------------------
+                // Set Path and Upload Config
+                // -------------------------------------------------
+                $upload_path    = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/news/' . $current_user->id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+                
+                $current_path   = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/news/' . $newsdata->uploader;
+                $current_file   = $current_path . '/' . $newsdata->filename . '.' . $newsdata->extension;
+                $current_thumb  = $current_path . '/' . $newsdata->thumbnail . '.' . $newsdata->extension;
+                    
+                $config = array(
+                    'upload_path'   => $upload_path,
+                    'allowed_types' => "jpg|jpeg|png",
+                    'overwrite'     => FALSE,
+                    'max_size'      => "1024000", 
+                );
+                $this->upload->initialize($config);
+                
+                if( ! $this->upload->do_upload('newsedit_image') ){
+                    // Set JSON data and JSON encode data
+                    $data = array('status' => 'error','message' => $this->upload->display_errors());
+                    die(json_encode($data));
+                }
+
+                $upload_data    = $this->upload->data();
+                $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+                $thumbnail      = 'Thumbnail_' . $upload_data['raw_name'];
+                $thumbfile      = $thumbnail . $upload_data['file_ext'];
+
+                $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(1140,400)->save($upload_path. '/' .$upload_file, TRUE);
+                $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$thumbfile, TRUE);
+                $this->image_moo->clear();
+
+                $newsdata_update_image = array(
+                    'url'       => smit_isset($upload_data['full_path'],''),
+                    'extension' => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'filename'  => smit_isset($upload_data['raw_name'],''),
+                    'thumbnail' => smit_isset($thumbnail,''),
+                    'size'      => smit_isset($upload_data['file_size'],0),
+                    'uploader'  => $current_user->id,
+                );
+                
+                $image          = '<img class="js-animating-object img-responsive" src="'. BE_UPLOAD_PATH . 'news/' . $current_user->id . '/' . $upload_file .'" alt="Gambar Berita"/>';
+            }
+            
+            // Set News Data Update
+            $newsdata_update    = array(
+                'title'         => $post_newsedit_title,
+                'source'        => $post_newsedit_source,
+                'desc'          => $post_newsedit_desc,
+                'datecreated'   => $post_newsedit_date,
+                'datemodified'  => $curdate,
+            );
+            
+            if( !empty($newsdata_update_image) ) {
+                $newsdata_update = array_merge($newsdata_update, $newsdata_update_image);
+            }
+            
+            if( $this->Model_News->update_news($newsdata->uniquecode, $newsdata_update) ){
+                if( !empty($current_file) ){
+                    // Delete Previous File
+                    if( file_exists($current_file) ){
+                        unlink($current_file);
+                        unlink($current_thumb);
+                    }
+                }
+                
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'success','message' => 'Data berita berhasil diperbaharui','image'=> $image );
+                die(json_encode($data));
+            }else{
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'error','message' => 'Data berita tidak berhasil diperbaharui');
+                die(json_encode($data));
+            }
+        }
     }
 
     // ---------------------------------------------------------------------------------------------

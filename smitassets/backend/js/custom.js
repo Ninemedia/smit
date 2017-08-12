@@ -869,12 +869,9 @@ var UploadFiles = function () {
                 showZoom: false,
             },
             maxFileSize: 1024,
-            /* uploadClass: 'btn btn-success' */
         });
-    };
-
-    var handleUploadEditNews = function(){
-        $("#newsedit_selection_files").fileinput({
+        
+        $("input#newsedit_image").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
             'theme': 'explorer',
@@ -888,7 +885,6 @@ var UploadFiles = function () {
                 showZoom: false,
             },
             maxFileSize: 1024,
-            /* uploadClass: 'btn btn-success' */
         });
     };
 
@@ -1055,7 +1051,6 @@ var UploadFiles = function () {
             handleEditUploadFilesRAB();
             handleUploadProductPraincubation();
             handleUploadAvatarTenant();
-            handleUploadEditNews();
         }
     };
 }();

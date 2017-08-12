@@ -1,6 +1,7 @@
 ﻿$(function () {    
     // Put your sctipt here...
     selectDatePicker( $('input.datepicker'), 'YYYY-MM-DD' );
+    selectDateTimePicker( $('input.newsedit_date') );
 });
 
 var selectDatePicker = function(el, formatdate='', el_end=''){
@@ -11,6 +12,23 @@ var selectDatePicker = function(el, formatdate='', el_end=''){
         weekStart: 1,
         year: false,
         time: false
+    }).on('change', function(e, date){
+        if( el_end!="" ){
+            $(el_end).bootstrapMaterialDatePicker('setMinDate', date);
+        }
+        $(el).parent().removeClass('error');
+        $(el).parent().parent().find('label').remove();
+    });
+}
+
+var selectDateTimePicker = function(el, formatdate='', el_end=''){
+    //Datetimepicker plugin
+    $(el).bootstrapMaterialDatePicker({
+        format: formatdate!="" ? formatdate : 'YYYY-MM-DD H:mm:ss',
+        clearButton: true,
+        weekStart: 1,
+        year: true,
+        time: true
     }).on('change', function(e, date){
         if( el_end!="" ){
             $(el_end).bootstrapMaterialDatePicker('setMinDate', date);

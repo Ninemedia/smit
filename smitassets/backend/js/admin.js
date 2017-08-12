@@ -687,6 +687,75 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
+    
+    var handleEditNews = function() {
+        // Save News
+        $('#do_save_newsedit').click(function(e){
+            e.preventDefault();
+            processSaveEditNews($('#newsedit'));
+        });
+
+        var processSaveEditNews = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var elimg   = $('div.details-img');
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                    $('#save_newsedit').modal('hide');
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.status == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.message,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.message,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                        
+                        if( response.image != "" ){
+                            elimg.empty().html(response.image).show();
+                        }
+
+                        $('#newsedit_image').fileinput('refresh');
+                        $('html, body').animate( { scrollTop: $('body').offset().top - 200 }, 500 );
+                    }
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_newsadd_reset', function(event){
+			event.preventDefault();
+
+            $('#newsedit .form-line').removeClass('error');
+            $('label.error').remove();
+            $('#news_selection_files').fileinput('refresh');
+            $('html, body').animate( { scrollTop: $('body').offset().top - 200 }, 500 );
+        });
+    };
 
     var handleAddPaymentTenant = function() {
         // Save Payement
@@ -3184,6 +3253,7 @@ var App = function() {
             handleReplyCommunication();
 
             // Edit
+            handleEditNews();
             handleEditWorkunit();
             handleEditCategory();
             handleEditCategoryProduct();

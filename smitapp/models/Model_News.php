@@ -35,7 +35,7 @@ class Model_News extends SMIT_Model{
     function get_news($id=''){
         if ( !empty($id) ) { 
             $id = absint($id); 
-            $this->db->where($primary, $id);
+            $this->db->where($this->primary, $id);
         };
         
         $this->db->order_by("datecreated", "DESC"); 
