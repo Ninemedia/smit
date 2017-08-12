@@ -328,6 +328,82 @@ class SMIT_Excel extends PHPExcel
 	}
     
     // ---------------------------------------------------------------------------
+    
+    
+    // ---------------------------------------------------------------------------
+    // Pra-Incubation
+    /**
+	 * Export User List
+	 */
+	function exportSelectionStep1($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Seleksi Pra-Inkubasi Tahap 1';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Judul Kegiatan', 'Status' );
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('user_status');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			
+            if($row->status == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == RATED)       { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == ACCEPTED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == REJECTED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $row->year,
+                strtoupper($row->user_name),
+				strtoupper($row->event_title),
+                $status
+			);
+		}
+
+		// complete subtitle
+		$this->subTitle = 'Tanggal Daftar Seleksi Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:F1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A7:E7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A7:E7')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A7:E7')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A7:E7')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A8:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B8:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('C8:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D8:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E8:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$this->worksheet->getStyle('A6:E' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(30);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(30);
+		$this->worksheet->getColumnDimension('E')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    // ---------------------------------------------------------------------------
 	
 	/**
 	 * Export Score Step 1

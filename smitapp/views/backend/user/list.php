@@ -32,6 +32,7 @@
 							<option value="delete">Hapus</option>
 						</select>
 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                        <!--
                         <div class="btn-group">
                             <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                                 Export
@@ -42,6 +43,7 @@
                                 <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
                             </ul>
                         </div>
+                        -->
 					</div>
                     <table class="table table-striped table-bordered table-hover" id="user_list" data-url="<?php echo base_url('userlistdata'); ?>">
                         <thead>
