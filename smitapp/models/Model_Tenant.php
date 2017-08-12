@@ -67,12 +67,12 @@ class Model_Tenant extends SMIT_Model{
 
 
     /**
-     * Get user data by conditions
+     * Get tenant data by conditions
      *
      * @author  Iqbal
      * @param   String  $field  (Required)  Database field name or special field name defined inside this function
      * @param   String  $value  (Optional)  Value of the field being searched
-     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of user
+     * @return  Mixed   Boolean false on failed process, invalid data, or data is not found, otherwise StdClass of tenant
      */
     function get_tenant_by($field, $value='')
     {
@@ -82,32 +82,22 @@ class Model_Tenant extends SMIT_Model{
             case 'id':
                 $id     = $value;
                 break;
-            case 'email':
-                $value  = sanitize_email($value);
-                $id     = '';
-                $field  = 'email';
-                break;
-            case 'login':
+            case 'user':
                 $value  = $value;
                 $id     = '';
-                $field  = 'login';
+                $field  = 'user_id';
                 break;
             default:
                 return false;
         }
 
         if ( $id != '' && $id > 0 )
-            return $this->get_userdata($id);
+            return $this->get_tenantdata_by_id($id);
 
         if( empty($field) ) return false;
 
         $db     = $this->db;
-
-        if( $field == 'login' ){
-			$db->where('username', $value);
-        }else{
-            $db->where($field, $value);
-        }
+        $db->where($field, $value);
 
         $query  = $db->get($this->tenant);
 
@@ -115,18 +105,18 @@ class Model_Tenant extends SMIT_Model{
             return false;
 
         foreach ( $query->result() as $row ) {
-            $user = $row;
+            $tenantdata = $row;
         }
 
-        return $user;
+        return $tenantdata;
     }
 
     /**
-     * Get user data by user ID
+     * Get tenant data by user ID
      *
      * @author  Iqbal
      * @param   Integer $user_id  (Required)  User ID
-     * @return  Mixed   False on failed process, otherwise object of user.
+     * @return  Mixed   False on failed process, otherwise object of tenant.
      */
     function get_tenantdata($user_id){
         if ( !is_numeric($user_id) ) return false;
@@ -139,10 +129,34 @@ class Model_Tenant extends SMIT_Model{
             return false;
 
         foreach ( $query->result() as $row ) {
-            $user = $row;
+            $tenantdata = $row;
         }
 
-        return $user;
+        return $tenantdata;
+    }
+    
+    /**
+     * Get tenant data by tenant ID
+     *
+     * @author  Iqbal
+     * @param   Integer $user_id  (Required)  User ID
+     * @return  Mixed   False on failed process, otherwise object of tenant.
+     */
+    function get_tenantdata_by_id($id){
+        if ( !is_numeric($id) ) return false;
+
+        $id = absint($id);
+        if ( !$id ) return false;
+
+        $query = $this->db->get_where($this->tenant, array('id' => $id));
+        if ( !$query->num_rows() )
+            return false;
+
+        foreach ( $query->result() as $row ) {
+            $tenantdata = $row;
+        }
+
+        return $tenantdata;
     }
 
     /**
@@ -208,6 +222,48 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
+    
+    /**
+     * Retrieve all tenant team data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of tenant         default 0
+     * @param   Int     $offset             Offset ot tenant        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of tenant team list
+     */
+    function get_all_tenant_team($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%id_tenant%",            "A.id_tenant", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%position%",             "A.position", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by = str_replace("%id%",                     "A.id", $order_by);
+            $order_by = str_replace("%id_tenant%",              "A.id_tenant", $order_by);
+            $order_by = str_replace("%uniquecode%",             "A.uniquecode", $order_by);
+            $order_by = str_replace("%name%",                   "A.name", $order_by);
+            $order_by = str_replace("%position%",               "A.position", $order_by);
+            $order_by = str_replace("%datecreated%",            "A.datecreated", $order_by);
+        }
+
+        $sql = 'SELECT A.* FROM ' . $this->tenant_team. ' AS A ';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
 
     /**
      * Save data of user
@@ -253,18 +309,12 @@ class Model_Tenant extends SMIT_Model{
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
     function update_data($id, $data){
-        $this->load->library( 'encrypt' );
         if( empty($id) || empty($data) ) return false;
 
-        if( isset($data['password']) ){
-            $data['password']       = $this->encrypt->encode( $data['password'] );
-        }
+        if ( is_array($id) ) $this->db->where_in('id', $id);
+		else $this->db->where('id', $id);
 
-        if( isset($data['password_pin']) ){
-            $data['password_pin']   = $this->encrypt->encode( $data['password_pin'] );
-        }
-
-        if( $this->update($id, $data) )
+        if( $this->db->update($this->tenant, $data) )
             return true;
 
         return false;
@@ -285,6 +335,26 @@ class Model_Tenant extends SMIT_Model{
 		else $this->db->where('user_id', $id);
 
         if( $this->db->update($this->tenant, $data) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Update data of tenant team
+     *
+     * @author  Iqbal
+     * @param   Int     $id     (Required)  Tenant Team ID
+     * @param   Array   $data   (Required)  Array data of tenant team
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function update_data_tenant_team($id, $data){
+        if( empty($id) || empty($data) ) return false;
+
+        if ( is_array($id) ) $this->db->where_in('id', $id);
+		else $this->db->where('id', $id);
+
+        if( $this->db->update($this->tenant_team, $data) )
             return true;
 
         return false;

@@ -241,6 +241,7 @@ $route['tenants/laporandatauser']               = "tenant/reportdatauser";
 $route['tenants/tambahtim/(:any)']              = "tenant/addteam/$1";
 $route['tenants/detail/(:any)']                 = "tenant/tenantlistdetails/$1";
 $route['tenants/daftar/detail/(:any)']          = "tenant/incubationdatadetails/$1";
+$route['tenants/tenantteamdetail/(:any)']       = "tenant/tenantteamdetail/$1";
 
 // Pengukuran ikm
 $route['layanan/pengukuranikm']         = "backend/ikm";

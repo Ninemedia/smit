@@ -897,6 +897,129 @@ class Tenant extends User_Controller {
     }
     
     /**
+	 * Tenant Team list data function.
+	 */
+    function tenantteamlistdata($id_tenant=''){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $condition          = '';
+        if( !empty($id_tenant) ){
+            $condition      = ' WHERE %id_tenant% LIKE "'.$id_tenant.'"';
+        }
+
+        $order_by           = '';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_position         = $this->input->post('search_position');
+        $s_position         = smit_isset($s_position, '');
+
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_position) )       { $condition .= str_replace('%s%', $s_position, ' AND %position% LIKE "%%s%%"'); }
+
+        if( $column == 2 )      { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%position% ' . $sort; }
+
+        $tenantteam_list    = $this->Model_Tenant->get_all_tenant_team($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+
+        if( !empty($tenantteam_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+
+            $i = $offset + 1;
+            foreach($tenantteam_list as $row){
+                $logo_name  = $row->thumbnail . '.' . $row->extension;
+                $logo_file  = BE_UPLOAD_PATH . 'incubationtenantteam/' . $row->id_tenant . '/' . $logo_name;
+                $logo       = '<img src="'.$logo_file.'" class="tenant-team-list-logo" />';
+                
+                $btn_edit   = '<a href="'.base_url('tenants/tenantteamdetail/'.$row->uniquecode).'"
+                    class="tenantteamedit btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Edit"><i class="material-icons">edit</i></a> ';
+                
+                $records["aaData"][] = array(
+                    smit_center('<input name="tenantteamlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
+                    <label for="cblist'.$row->id.'"></label>'),
+                    smit_center( $i ),
+                    $row->name,
+                    $row->position,
+                    smit_center( $logo ),
+                    smit_center( $btn_edit ),
+                );
+                
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
+            $sGroupActionName       = $_REQUEST['sGroupActionName'];
+            $tenantteamlist         = $_REQUEST['tenantteamlist'];
+            
+            $proses                 = $this->tenantteamlistproses($sGroupActionName, $tenantteamlist);
+            $records["sStatus"]     = $proses['status']; 
+            $records["sMessage"]    = $proses['message']; 
+        }
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
+    /**
+	 * Tenant Team Detail data function.
+	 */
+    function tenantteamdetail($uniquecode){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        // Check uniquecode
+        if ( !$uniquecode ){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Data tim tenant tidak ditemukan atau belum terdaftar!');
+            die(json_encode($data));
+        }
+        
+        // Check Tenant Team Data
+        if( !$teamdata_all = $this->Model_Tenant->get_all_tenant_team(0,0,' WHERE %uniquecode% LIKE "'.$uniquecode.'"','')){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Data tim tenant tidak ditemukan atau belum terdaftar!');
+            die(json_encode($data));
+        }
+        
+        $teamdata       = $teamdata_all[0];
+        $ava_name       = $teamdata->thumbnail . '.' . $teamdata->extension;
+        $ava_file       = BE_UPLOAD_PATH . 'incubationtenantteam/' . $teamdata->id_tenant . '/' . $ava_name;
+        $ava            = '<img src="'.$ava_file.'" class="tenant-team-ava img-responsive img-circle" alt="Avatar" />';
+        
+        $teamdata_json  = array(
+            'uniquecode'=> $teamdata->uniquecode,
+            'name'      => $teamdata->name,
+            'position'  => $teamdata->position,
+            'ava'       => $ava,
+        );
+        
+        // Set JSON data
+        $data = array('status' => 'success','message' => 'Data tim tenant berhasil ditemukan!','data'=>$teamdata_json);
+        die(json_encode($data));
+    }
+    
+    /**
 	 * Tenant Add Team function.
 	 */
 	public function addteam($uniquecode)
@@ -972,7 +1095,7 @@ class Tenant extends User_Controller {
                 } 
                 
                 // Upload Image first ...
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/tenant/team/' . $tenantdata->id;
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
                 
                 // Initialize Upload Config
@@ -1101,146 +1224,279 @@ class Tenant extends User_Controller {
     {
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        
         $message                = '';
-        $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         
+        // Set Post Variable
+        $tenant_id              = $this->input->post("tenant_id");
+        $tenant_id              = smit_isset( $tenant_id, 0 );
         
-        
-        $this->form_validation->set_rules('username','Username anda','required');
-        $this->form_validation->set_message('required', '%s harus di isi');
-        $this->form_validation->set_error_delimiters('', '');
-        
-        if($this->form_validation->run() == FALSE){
+        // -------------------------------------------------
+        // Check Tenant Data
+        // -------------------------------------------------
+        $tenantdata             = $this->Model_Tenant->get_tenantdata_by_id($tenant_id);
+        if( !$tenantdata ){
             // Set JSON data
             $data = array(
-                'message'       => 'error',
-                'data'          => smit_alert('Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!'),
+                'status'        => 'error',
+                'message'       => smit_alert('Data tenant tidak ditemukan atau belum terdaftar!'),
             );
-            // JSON encode data
-            die(json_encode($data));
-        }else{
-            // -------------------------------------------------
-            // Check File
-            // -------------------------------------------------
-            if( empty($_FILES['ava_selection_files']['name']) ){
-                // Set JSON data
-                $data = array(
-                    'message'       => 'error',
-                    'data'          => smit_alert('Tidak ada berkas avatar yang di unggah. Silahkan inputkan berkas avatar!'),
-                );
-                die(json_encode($data));
-            }
-            
-            if( !empty( $_POST ) ){
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/images/user/' . $id_user;
-                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                    
-                $config = array(
-                    'upload_path'   => $upload_path,
-                    'allowed_types' => "jpg|jpeg|png",
-                    'overwrite'     => FALSE,
-                    'max_size'      => "1024000", 
-                );
-                $this->upload->initialize($config);
-                
-                // -------------------------------------------------
-                // Begin Transaction
-                // -------------------------------------------------
-                $this->db->trans_begin();
-                
-                if( !empty($_FILES['ava_selection_files']['name']) ){
-                    if( ! $this->upload->do_upload('ava_selection_files') ){
-                        $message = $this->upload->display_errors();
-                        // Set JSON data
-                        $data = array('message' => 'error','data' => $this->upload->display_errors()); 
-                        die(json_encode($data));
-                    }
-                    $upload_data    = $this->upload->data();
-                    $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
-                    $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_file, TRUE);
-                    $this->image_moo->clear();
-                    
-                    $account_data  = array(
-                        'url'           => smit_isset($upload_data['full_path'],''),
-                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
-                        'filename'      => smit_isset($upload_data['raw_name'],''),
-                        'size'          => smit_isset($upload_data['file_size'],0),
-                        'uploader'      => $id_user,
-                        'datemodified'  => $curdate,
-                    );     
-                }
-            }
-            
-            // -------------------------------------------------
-            // Save Account 
-            // -------------------------------------------------
-            $trans_save_account         = FALSE;
-            if( $save_user    = $this->Model_User->update_data($id_user, $account_data) ){
-                $trans_save_account  = TRUE;
-            }else{
-                // Rollback Transaction
-                $this->db->trans_rollback();
-                // Set JSON data
-                $data = array('message' => 'error','data' => 'Perbaharui profil avatar tidak berhasil. Terjadi kesalahan berkas anda'); 
-                die(json_encode($data));
-            }
-            
-            // -------------------------------------------------
-            // Commit or Rollback Transaction
-            // -------------------------------------------------
-            if( $trans_save_account ){
-                if ($this->db->trans_status() === FALSE){
-                    // Rollback Transaction
-                    $this->db->trans_rollback();
-                    // Set JSON data
-                    $data = array(
-                        'message'       => 'error',
-                        'data'          => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data transaksi database.'
-                    ); die(json_encode($data));
-                }else{
-                    // Commit Transaction
-                    $this->db->trans_commit();
-                    // Complete Transaction
-                    $this->db->trans_complete();
-                    
-                    // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Perbaharui akun baru berhasil!'); 
-                    die(json_encode($data));
-                    // Set Log Data
-                    smit_log( 'ACCOUNT_UPDATE', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
-                }
-            }else{
-                // Rollback Transaction
-                $this->db->trans_rollback();
-                // Set JSON data
-                $data = array('message' => 'error','data' => 'Perbaharui akun tidak berhasil. Terjadi kesalahan data.'); 
-                die(json_encode($data)); 
-            } 
-            
-            /*
-            if( $save_user    = $this->Model_User->update_data($id_user, $userdata) ){
-                // Set Message
-                $msg            = ( $id_user != $current_user->id ? 'Data profil <strong>'. $username .'</strong> sudah tersimpan.' : 'Data profil Anda sudah tersimpan.' );
-                
-                // Set JSON data
-                $data = array(
-                    'message'   => 'success',
-                    'data'      => smit_alert('Validasi formulir Anda berhasil! '.$msg.''),
-                    'name'      => ( !empty($id_user) ? '' : smit_isset($post_user_name, '') ),
-                );
-            }else{
-                // Set JSON data
-                $data['success']    = false;
-                $data['msg']        = 'error';
-                $data['message']    = '<strong>Validasi formulir Anda tidak berhasil! Silahkan periksa kembali data formulir Anda!';  
-            }
-            */
-            
-            // JSON encode data
             die(json_encode($data));
         }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['tenant_logo_files']['name']) ){
+            // Set JSON data
+            $data = array(
+                'status'        => 'error',
+                'message'       => smit_alert('Tidak ada berkas logo yang di unggah. Silahkan inputkan berkas logo!'),
+            );
+            die(json_encode($data));
+        }
+            
+        // -------------------------------------------------
+        // Set Path and Upload Config
+        // -------------------------------------------------
+        $upload_path    = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $current_user->id;
+        if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+        
+        $current_path   = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $tenantdata->uploader;
+        $current_file   = $current_path . '/' . $tenantdata->filename . '.' . $tenantdata->extension;
+            
+        $config = array(
+            'upload_path'   => $upload_path,
+            'allowed_types' => "jpg|jpeg|png",
+            'overwrite'     => FALSE,
+            'max_size'      => "1024000", 
+        );
+        $this->upload->initialize($config);
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        // -------------------------------------------------
+        // Do Upload
+        // -------------------------------------------------
+        if( ! $this->upload->do_upload('tenant_logo_files') ){
+            $message = $this->upload->display_errors();
+            // Set JSON data
+            $data = array('status' => 'error','message' => $message); 
+            die(json_encode($data));
+        }
+        $upload_data    = $this->upload->data();
+        $upload_file    = $upload_data['raw_name'] . $upload_data['file_ext'];
+        $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_file, TRUE);
+        $this->image_moo->clear();
+
+        // -------------------------------------------------
+        // Update Tenant Data 
+        // -------------------------------------------------
+        $tenantdata_update  = array(
+            'url'           => smit_isset($upload_data['full_path'],''),
+            'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+            'filename'      => smit_isset($upload_data['raw_name'],''),
+            'size'          => smit_isset($upload_data['file_size'],0),
+            'uploader'      => $current_user->id,
+            'datemodified'  => $curdate,
+        ); 
+        
+        $trans_save_tenant  = FALSE;
+        if( $save_tenant_update = $this->Model_Tenant->update_data($tenant_id, $tenantdata_update) ){
+            $trans_save_tenant  = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan sistem'); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_tenant ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('status' => 'error', 'message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan data transaksi database.'); 
+                die(json_encode($data));
+            }else{
+                // Delete Previous File
+                if( file_exists($current_file) ){
+                    unlink($current_file);
+                }
+                
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+                
+                // Set JSON data
+                $data = array(
+                    'status'    => 'success', 
+                    'message'   => 'Pembaharuan logo tenant berhasil!',
+                    'file'      => '<img class="tenant-logo img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenant/' . $current_user->id . '/' . $upload_file.'" alt="Logo Tenant" />' 
+                ); 
+                die(json_encode($data));
+                // Set Log Data
+                smit_log( 'TENANT_LOGO_UPDATE', 'SUCCESS', maybe_serialize(array('tenant_id'=>$tenant_id, 'url'=> smit_isset($upload_data['full_path'],''))) );
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant akun tidak berhasil. Terjadi kesalahan data.'); 
+            die(json_encode($data)); 
+        } 
+    }
+    
+    /**
+	 * Tenant Team Avatar Update function.
+	 */
+    function tenantteamava()
+    {
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $message                = '';
+        $curdate                = date('Y-m-d H:i:s');
+        
+        // Set Post Variable
+        $tenantteam_uniquecode  = $this->input->post("tenant_team_uniquecode");
+        $tenantteam_uniquecode  = smit_isset( $tenantteam_uniquecode, 0 );
+        
+        // -------------------------------------------------
+        // Check Tenant Data
+        // -------------------------------------------------
+        $tenantteamdata_all     = $this->Model_Tenant->get_all_tenant_team(0,0,' WHERE %uniquecode% LIKE "'.$tenantteam_uniquecode.'"','');
+        if( !$tenantteamdata_all ){
+            // Set JSON data
+            $data = array(
+                'status'        => 'error',
+                'message'       => smit_alert('Data tim tenant tidak ditemukan atau belum terdaftar!'),
+            );
+            die(json_encode($data));
+        }
+        $tenantteamdata         = $tenantteamdata_all[0];
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        if( empty($_FILES['tenant_team_ava_files']['name']) ){
+            // Set JSON data
+            $data = array(
+                'status'        => 'error',
+                'message'       => smit_alert('Tidak ada berkas avatar yang di unggah. Silahkan inputkan berkas avatar!'),
+            );
+            die(json_encode($data));
+        }
+            
+        // -------------------------------------------------
+        // Set Path and Upload Config
+        // -------------------------------------------------
+        $upload_path    = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantteamdata->id_tenant;
+        if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+        
+        $current_path   = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantteamdata->id_tenant;
+        $current_file   = $current_path . '/' . $tenantteamdata->filename . '.' . $tenantteamdata->extension;
+            
+        $config = array(
+            'upload_path'   => $upload_path,
+            'allowed_types' => "jpg|jpeg|png",
+            'overwrite'     => FALSE,
+            'max_size'      => "1024000", 
+        );
+        $this->upload->initialize($config);
+        
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        // -------------------------------------------------
+        // Do Upload
+        // -------------------------------------------------
+        if( ! $this->upload->do_upload('tenant_team_ava_files') ){
+            $message = $this->upload->display_errors();
+            // Set JSON data
+            $data = array('status' => 'error','message' => $message); 
+            die(json_encode($data));
+        }
+        
+        $upload_data        = $this->upload->data();
+        $upload_file        = $upload_data['raw_name'] . $upload_data['file_ext'];
+        $thumbnail          = 'Thumbnail_' . $upload_data['raw_name'];
+        $thumbfile          = $thumbnail . $upload_data['file_ext'];
+        
+        // Set Thumbnail
+        $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(300,300)->save($upload_path. '/' .$thumbfile, TRUE);
+        $this->image_moo->clear();
+
+        // -------------------------------------------------
+        // Update Tenant Team Data 
+        // -------------------------------------------------
+        $tenantteamdata_update  = array(
+            'url'           => smit_isset($upload_data['full_path'],''),
+            'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+            'filename'      => smit_isset($upload_data['raw_name'],''),
+            'thumbnail'     => $thumbnail,
+            'size'          => smit_isset($upload_data['file_size'],0),
+            'datemodified'  => $curdate,
+        ); 
+        
+        $trans_save_tenant_team  = FALSE;
+        if( $save_tenant_team_update = $this->Model_Tenant->update_data_tenant_team($tenantteamdata->id, $tenantteamdata_update) ){
+            $trans_save_tenant_team  = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan sistem'); 
+            die(json_encode($data));
+        }
+        
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_save_tenant_team ){
+            if ($this->db->trans_status() === FALSE){
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('status' => 'error', 'message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan data transaksi database.'); 
+                die(json_encode($data));
+            }else{
+                // Delete Previous File
+                if( file_exists($current_file) ){
+                    unlink($current_file);
+                }
+                
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+                
+                // Set JSON data
+                $data = array(
+                    'status'    => 'success', 
+                    'message'   => 'Pembaharuan avatar tim tenant berhasil!',
+                    'file'      => '<img class="tenant-team-ava img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenantteam/' . $tenantteamdata->id_tenant . '/' . $thumbfile.'" alt="Avatar" />' 
+                ); 
+                die(json_encode($data));
+                // Set Log Data
+                smit_log( 'TENANT_TEAM_AVA_UPDATE', 'SUCCESS', maybe_serialize(array('tenantteam_id'=>$tenantteamdata->id, 'url'=> smit_isset($upload_data['full_path'],''))) );
+            }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant akun tidak berhasil. Terjadi kesalahan data.'); 
+            die(json_encode($data)); 
+        } 
     }
 
     /**

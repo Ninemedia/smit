@@ -1350,6 +1350,70 @@ var Tenant = function () {
         });
 	};
     
+    // --------------------------------
+    // Handle Edit Tenant Team
+    // --------------------------------
+	var handleTenantTeamEdit = function() {
+        $("body").delegate( "a.tenantteamedit", "click", function( event ) {
+            event.preventDefault();
+            
+            var url             = $(this).attr('href');
+            var table_container = $('#list_tenant_team').parents('.dataTables_wrapper');
+            var el_uniquecode   = $('input.tenant_team_uniquecode');
+            var el_ava          = $('div.tenant-team-ava-wrapper');
+            var el_name         = $('input.team_name_edit');
+            var el_position     = $('input.team_position_edit');
+            
+            $.ajax({
+    			type : "POST",
+    			url  : $(this).attr('href'),
+    			data : '',
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if( response.status == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: table_container,
+                            place: 'prepend',
+                            closeInSeconds: 3,
+                        });
+                        return false;
+                    }else{
+                        el_uniquecode.val(response.data.uniquecode);
+                        el_ava.html(response.data.ava);
+                        el_name.val(response.data.name);
+                        el_position.val(response.data.position);
+                        
+                        $('#tenant_team_ava_files').fileinput({
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        
+                        $('#tenant_team_edit').modal('show');
+                    }
+    			}
+    		});
+        });
+	};
+    
     return {
         //main function to initiate the module
         init: function () {
@@ -1358,6 +1422,7 @@ var Tenant = function () {
             handleResetAddTenant();
             handleResetAddTenantUser();
             handleTenantUserIDChange();
+            handleTenantTeamEdit();
         }
     };
 }();

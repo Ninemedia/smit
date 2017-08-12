@@ -202,6 +202,10 @@ var TableAjax = function () {
     var handleRecordsTenantList = function() {
         gridTable( $("#list_tenant"), true, [ -1, 1, 0 ], true, $('#btn_tenant_listreset') );
     };
+    
+    var handleRecordsTenantTeamList = function() {
+        gridTable( $("#list_tenant_team"), true, [ -1, 1, 0, 4 ], true, $('#btn_list_tenant_team_reset') );
+    };
 
     // Tenant Selection Lists
     var handleRecordsTenantSelectionList = function() {
@@ -380,6 +384,7 @@ var TableAjax = function () {
 
             //Tenant
             handleRecordsTenantList();
+            handleRecordsTenantTeamList();
             handleRecordsTenantSelectionList();
             handleRecordsTenantAccompanimentList();
             handleRecordsTenantAcceptedList();

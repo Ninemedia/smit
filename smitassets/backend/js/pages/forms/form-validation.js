@@ -1840,7 +1840,7 @@ var TenantValidation = function () {
             },
             messages: {
                 tenant_logo_files: {
-                    required: "Berkas harus diisi."
+                    required: "Berkas logo tenant harus diisi."
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -1858,68 +1858,186 @@ var TenantValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.form-group').append(error);
+                if (element.is('input[type=file]')) {
+                    $(element).parent().parent().parent().parent().parent().append(error);
+                } else {
+                    $(element).parents('.input-group').append(error);
+                }
             },
             submitHandler: function (form) {
-                $('#save_logotenant').modal('show');
+                bootbox.confirm("Anda yakin akan mengganti logo tenant?", function(result) {
+                    if( result == true ){
+                        processSaveLogoTenant($('#tenantlogo'));
+                    }
+                });
             }
-        });
-
-        // Save Logo Tenant
-        $('#do_save_logotenant').click(function(e){
-            e.preventDefault();
-            processSaveLogoTenant($('#logotenant'));
         });
 
         var processSaveLogoTenant = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var msg     = $('.alert');
+            var wrapper = $('#tenantlogo');
+            var elimg   = $('.tenant-logo-wrapper');
 
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-
                 cache : false,
                 contentType : false,
                 processData : false,
                 beforeSend: function(){
                     $("div.page-loader-wrapper").fadeIn();
-                    $('#save_logotenant').modal('hide');
                 },
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-
-                    if(response.message == 'error'){
-                        msg.html(response.data.msg);
-                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
-                    }else{
-                        msg.html(response.data.msgsuccess);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-
-                        $('#logotenant')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
-                        $('#avatar_company').fileinput('refresh', {
-                            showUpload : false,
-                            showUploadedThumbs : false,
-                            'theme': 'explorer',
-                            'uploadUrl': '#',
-                            fileType: "any",
-                            overwriteInitial: false,
-                            initialPreviewAsData: true,
-                            allowedFileExtensions: ['jpeg', 'jpg', 'png'],
-                            fileActionSettings : {
-                                showUpload: false,
-                                showZoom: false,
-                            },
-                            maxFileSize: 1024,
+                    
+                    if( response.status == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
                         });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
+                        });
+                        
+                        $('#tenantlogo')[0].reset();
+                        $('#tenant_logo_files').fileinput('refresh');
+                        elimg.empty().html(response.file).fadeIn();
                     }
     			}
     		});
         };
+        
+        $('#tenant_logo_files').on('fileselect', function(event, numFiles, label) {
+            $('#tenantlogo label.error').remove();
+        });
+        
+        $('button.btn-clear-logo-tenant').on('click', function(event) {
+            event.preventDefault();
+            if( $('button.fileinput-remove-button').is(':visible') ){
+                $('button.fileinput-remove-button').trigger('click');
+                return false;
+            }
+            $('#tenantlogo label.error').remove();
+        });
+    };
+    
+    var handleAvatarTenantTeamValidation = function(){
+        $('#tenantteamava').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                tenant_team_ava_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                tenant_team_ava_files: {
+                    required: "Berkas avatar tim tenant harus diisi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=file]')) {
+                    $(element).parent().parent().parent().parent().parent().append(error);
+                } else {
+                    $(element).parents('.input-group').append(error);
+                }
+            },
+            submitHandler: function (form) {
+                bootbox.confirm("Anda yakin akan mengganti avatar?", function(result) {
+                    if( result == true ){
+                        processUpdateAvatarTenantTeam($('#tenantteamava'));
+                    }
+                });
+            }
+        });
+
+        var processUpdateAvatarTenantTeam = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = $('#tenantteamava');
+            var elimg   = $('.tenant-team-ava-wrapper');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if( response.status == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
+                        });
+                        
+                        $('#tenantteamava')[0].reset();
+                        $('#tenant_team_ava_files').fileinput('refresh');
+                        elimg.empty().html(response.file).fadeIn();
+                        //$('button#btn_list_tenant_team_reset').trigger('click');
+                    }
+    			}
+    		});
+        };
+        
+        $('#tenant_team_ava_files').on('fileselect', function(event, numFiles, label) {
+            $('#tenantteamava label.error').remove();
+        });
+        
+        $('button.btn-clear-tenant-team-ava').on('click', function(event) {
+            event.preventDefault();
+            if( $('button.fileinput-remove-button').is(':visible') ){
+                $('button.fileinput-remove-button').trigger('click');
+                return false;
+            }
+            $('#tenantteamava label.error').remove();
+        });
     };
 
     var handleAddBlogTenantValidation = function(){
@@ -2142,6 +2260,7 @@ var TenantValidation = function () {
             handleLogoTenantValidation();
             handleAddBlogTenantValidation();
             handleAddTeamTenantValidation();
+            handleAvatarTenantTeamValidation();
         }
     };
 }();

@@ -38,11 +38,11 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="logo">
-                                <!-- Profile Image -->
+                                <!-- Tenant Logo -->
                                 <div class="box box-primary">
-                                    <div class="box-body box-profile">
-                                        <img class="profile-user-img img-responsive img-circle" src="<?php echo $logo; ?>" alt="Logo Tenant" />
-                                        <h3 class="profile-username text-center"><?php echo $tenantdata->name; ?></h3>
+                                    <div class="box-body">
+                                        <div class="tenant-logo-wrapper"><img class="tenant-logo img-responsive img-circle" src="<?php echo $logo; ?>" alt="Logo Tenant" /></div>
+                                        <h3 class="tenant-name text-center bottom35"><?php echo $tenantdata->name; ?></h3>
                                         <?php echo form_open_multipart( 'tenant/tenantlogo', array( 'id'=>'tenantlogo', 'role'=>'form' ) ); ?>
                                             <div class="form-group">
                                                 <p align="justify">
@@ -51,11 +51,11 @@
                                                 </p>
                                                 <input type="hidden" name="tenant_id" value="<?php echo $tenantdata->id; ?>" />
                                                 <div class="form-group">
-                                                    <label>Unggah Logo</label>
                                                     <input id="tenant_logo_files" name="tenant_logo_files" class="form-control" type="file" />
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Logo</button>
+                                            <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-logo-tenant">Bersihkan</button>
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -221,16 +221,14 @@
                 						<span></span>
                 						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
                 							<option value="">Select...</option>
-                							<option value="confirm">Konfirmasi</option>
-                							<option value="banned">Banned</option>
                 							<option value="delete">Hapus</option>
                 						</select>
                 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                 					</div>
-                                    <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
+                                    <table class="table table-striped table-bordered table-hover" id="list_tenant_team" data-url="<?php echo base_url('tenant/tenantteamlistdata/'.$tenantdata->id); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
-                                                <th class="width5 text-center"><input name="select_all" id="listtenant_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="listtenant_all"></label></th>
+                                                <th class="width5 text-center"><input name="select_all" id="list_tenant_team_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="list_tenant_team_all"></label></th>
                     							<th class="width5">No</th>
                     							<th class="width15">Nama Anggota</th>
                     							<th class="width15">Posisi</th>
@@ -245,9 +243,9 @@
                                                 <td></td>
                     							<td style="text-align: center;">
                                                     <div class="bottom5">
-                    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
+                    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_tenant_team">Search</button>
                                                     </div>
-                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_tenant_listreset">Reset</button>
+                                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_list_tenant_team_reset">Reset</button>
                     							</td>
                     						</tr>
                                         </thead>
@@ -260,10 +258,72 @@
                         </div>
                     </div>
                 </div>
-                
-
             </div>
         </div>
     </div>
 </div>
 <!-- END Content -->
+
+<!-- BEGIN TENANT TEAM EDIT MODAL -->
+<div class="modal fade" id="tenant_team_edit" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Ubah Anggota Tim Tenant</h4>
+			</div>
+			<div class="modal-body">
+                <!-- ============================ -->
+                <!-- ==== Tenant Team Avatar ==== -->
+                <!-- ============================ -->
+                <div class="tenant-team-ava-wrapper"><!-- Will be place by AJAX response --></div>
+                <h3 class="tenant-name text-center bottom35"><!-- Will be place by AJAX response --></h3>
+                <?php echo form_open_multipart( 'tenant/tenantteamava', array( 'id'=>'tenantteamava', 'role'=>'form' ) ); ?>
+                    <div class="form-group">
+                        <p align="justify">
+                            <strong>Perhatian!</strong>
+                            File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
+                        </p>
+                        <input type="hidden" class="tenant_team_uniquecode" name="tenant_team_uniquecode" value="" />
+                        <div class="form-group">
+                            <input id="tenant_team_ava_files" name="tenant_team_ava_files" class="form-control" type="file" />
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Avatar</button>
+                        <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-tenant-team-ava">Bersihkan</button>
+                    </div>
+                <?php echo form_close(); ?>
+                
+                <!-- ============================ -->
+                <!-- ===== Tenant Team Data ===== -->
+                <!-- ============================ -->
+                <?php echo form_open( 'tenant/tenantteamedit', array( 'id'=>'tenantteamedit', 'role'=>'form' ) ); ?>
+                <div class="form-group">
+                    <label class="form-label" for="team_name_edit">Nama *</label>
+                    <div class="input-group">
+                        <div class="form-line">
+                            <!-- Value Will be place by AJAX response -->
+                            <input type="text" class="form-control team_name_edit" name="team_name_edit" id="team_name_edit" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="team_position_edit">Jabatan/Posisi/Peran *</label>
+                    <div class="input-group bottom0">
+                        <div class="form-line">
+                            <!-- Value Will be place by AJAX response -->
+                            <input type="text" class="form-control team_position_edit" name="team_position_edit" id="team_position_edit" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
+				<button type="submit" class="btn btn-info waves-effect">Ubah</button>
+			</div>
+            <?php echo form_close(); ?>
+		</div>
+	</div>
+</div>
+<!-- END TENANT TEAM EDIT MODAL -->

@@ -8452,11 +8452,19 @@ input[name="guide_title"]:-moz-placeholder { /* Firefox 18- */
     text-transform: none;
 }
 
-.profile-user-img {
+.profile-user-img,
+.tenant-logo,
+.tenant-team-ava {
     border: 3px solid #2196F3;
     margin: 0 auto;
     padding: 3px;
     width: 150px;
+}
+
+.tenant-team-list-logo {
+    border: 3px solid #2196F3;
+    padding: 3px;
+    width: 75px;
 }
 
 .multi_select{
