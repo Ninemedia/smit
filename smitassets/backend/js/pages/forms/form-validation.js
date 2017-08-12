@@ -793,12 +793,14 @@ var IncubationValidation = function () {
                 reg_desc: {
                     required: true,
                 },
+                /*
                 reg_selection_files: {
                     required: true,
                 },
                 reg_selection_rab: {
                     required: true,
                 },
+                */
             },
             messages: {
                 reg_year: {
@@ -819,12 +821,14 @@ var IncubationValidation = function () {
                 reg_desc: {
                     required: 'Deskripsi Kegiatan harus di isi',
                 },
+                /*
                 reg_selection_files: {
                     required: 'Berkas Proposal Kegiatan harus di isi',
                 },
                 reg_selection_rab: {
                     required: 'Berkas RAB Kegiatan harus di isi',
                 },
+                */
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();

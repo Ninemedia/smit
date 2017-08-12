@@ -590,7 +590,7 @@ class User extends SMIT_Controller {
     function userlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE %type% != '.ADMINISTRATOR.' ';
+        $condition          = ' WHERE %type% != '.ADMINISTRATOR.' AND %status% != 3';
         
         $order_by           = '';
         $iTotalRecords      = 0;

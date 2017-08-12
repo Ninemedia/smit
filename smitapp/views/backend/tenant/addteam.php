@@ -31,12 +31,12 @@
                         </div>
                         <div class="body">
                             <div class="row bottom0">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0-lg" >
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom0-lg" >
                                     <div class="input-group">
                                         <input name="team_image_1" id="team_image_1" class="form-control team_image" type="file" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0" >
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom0" >
                                     <div class="input-group">
                                         <label class="form-label">Name *</label>
                                         <div class="form-line">

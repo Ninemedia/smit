@@ -365,8 +365,8 @@ $config['month_report_incubation']             = array(
 $config['email_active']             = TRUE;
 $config['mailserver_host']		    = 'smtp.gmail.com';
 $config['mailserver_port']		    = '465';
-$config['mailserver_username'] 	    = 'muhammadiqbal1917@gmail.com';
-$config['mailserver_password'] 	    = 'Kyuknightwolf1917!';
+$config['mailserver_username'] 	    = 'radenrifalardiansyah@gmail.com';
+$config['mailserver_password'] 	    = 'hdw20rra5566';
 
 // automatic logout
 $config['idle_timeout']             = 1800;  // in seconds

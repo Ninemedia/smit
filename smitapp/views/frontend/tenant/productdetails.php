@@ -46,8 +46,8 @@
                     <img class="js-animating-object img-responsive" src="<?php echo $product_image; ?>" alt="" />
                 </div>
                 <p class="news-date">
-                    <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="fa fa-user"></i> Posting By : <?php echo $productdata->name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!-- <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    <i class="fa fa-user"></i> <a href="">Diproduksi Oleh : <?php echo $productdata->name; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <i class="fa fa-tasks"></i> Kategori : <a href=""><?php echo $productdata->category_product; ?></a>
                 </p>
                 <div class="news-content">

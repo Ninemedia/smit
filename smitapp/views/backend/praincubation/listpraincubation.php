@@ -131,13 +131,26 @@
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">
                                             <?php
-                                                $conditions     = ' WHERE %type% = 6 OR %type% = 7';
+                                                $conditions     = ' WHERE %type% = 6 OR %type% = 7 OR %type% = 5';
                                             	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                             
                                                 
                                                 if( !empty($user_list) ){
                                                     echo '<option value="">-- Pilih Nama Penguna --</option>';
                                                     foreach($user_list as $row){
-                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).'</option>';
+                                                        if( $row->type == 2 ){
+                                                            $status = 'PENDAMPING';
+                                                        }elseif( $row->type == 3 ){
+                                                            $status = 'TENANT';
+                                                        }elseif( $row->type == 4 ){
+                                                            $status = 'JURI';
+                                                        }elseif( $row->type == 5 ){
+                                                            $status = 'PENGUSUL';
+                                                        }else{
+                                                            $status = 'PELAKSANA';
+                                                        }
+                                                        
+                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).' - '. $status.'</option>';
                                                     }
                                                 }else{
                                                     echo '<option value="">-- Tidak Ada Pilihan --</option>';

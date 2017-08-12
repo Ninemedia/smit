@@ -6567,6 +6567,7 @@ class PraIncubation extends User_Controller {
         // -------------------------------------------------
         // Check File
         // -------------------------------------------------
+        /*
         if( empty($_FILES['reg_selection_files']['name']) ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Tidak ada berkas yang di unggah. Silahkan inputkan berkas kegiatan!');
@@ -6578,7 +6579,7 @@ class PraIncubation extends User_Controller {
             $data = array('message' => 'error','data' => 'Tidak ada berkas yang di unggah. Silahkan inputkan berkas kegiatan!');
             die(json_encode($data));
         }
-
+        */
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -6610,7 +6611,7 @@ class PraIncubation extends User_Controller {
             $trans_save_praincubation       = FALSE;
             if( $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation($praincubationselection_data) ){
                 $trans_save_praincubation   = TRUE;
-
+                if( !empty($_FILES) ){
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
@@ -6622,15 +6623,18 @@ class PraIncubation extends User_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-
-                if( ! $this->my_upload->do_upload('reg_selection_files') ){
-                    $message = $this->my_upload->display_errors();
-
-                    // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
-                    die(json_encode($data));
+                
+                
+                    if( ! $this->my_upload->do_upload('reg_selection_files') ){
+                        $message = $this->my_upload->display_errors();
+    
+                        // Set JSON data
+                        $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                        die(json_encode($data));
+                    }
+                    $upload_data    = $this->my_upload->data();    
                 }
-                $upload_data    = $this->my_upload->data();
+                
                 if( !empty($upload_data) ){
                     // Set File Upload Save
                     $file = $upload_data;
@@ -6652,16 +6656,33 @@ class PraIncubation extends User_Controller {
                     if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
                         continue;
                     }
+                }else{
+                    $praincubationselectionfiles_data = array(
+                        'praincubation_id'  => $praincubation_save_id,
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
+                        'name'          => $name,
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfiles_data) ){
+                        continue;
+                    }
                 }
-
-                if( ! $this->my_upload->do_upload('reg_selection_rab') ){
-                    $message = $this->my_upload->display_errors();
-
-                    // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
-                    die(json_encode($data));
+                
+                if( !empty($_FILES) ){
+                    if( ! $this->my_upload->do_upload('reg_selection_rab') ){
+                        $message = $this->my_upload->display_errors();
+    
+                        // Set JSON data
+                        $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                        die(json_encode($data));
+                    }
+                    $upload_data_rab    = $this->my_upload->data();
                 }
-                $upload_data_rab    = $this->my_upload->data();
                 if( !empty($upload_data_rab) ){
                     // Set File Upload Save
                     $file_rab = $upload_data_rab;
@@ -6676,6 +6697,21 @@ class PraIncubation extends User_Controller {
                         'extension'     => substr(smit_isset($file_rab['file_ext'],''),1),
                         'filename'      => smit_isset($file_rab['raw_name'],''),
                         'size'          => smit_isset($file_rab['file_size'],0),
+                        'status'        => ACTIVE,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );
+                    if( !$this->Model_Praincubation->save_data_praincubation_selection_files($praincubationselectionfilesrab_data) ){
+                        continue;
+                    }
+                }else{
+                    $praincubationselectionfilesrab_data = array(
+                        'praincubation_id'  => $praincubation_save_id,
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'year'          => $year,
+                        'user_id'       => $userdata->id,
+                        'username'      => strtolower($userdata->username),
+                        'name'          => $name,
                         'status'        => ACTIVE,
                         'datecreated'   => $curdate,
                         'datemodified'  => $curdate,

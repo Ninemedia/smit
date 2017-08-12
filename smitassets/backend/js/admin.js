@@ -1088,6 +1088,7 @@ var App = function() {
                     	});
 
                         $('#praincubationadd')[0].reset();
+                        /*
                         $('#reg_selection_files').fileinput('refresh', {
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1118,6 +1119,7 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
+                        */
                     }
                     $('#btn_praincubation_list').trigger('click');
                     $('#btn_praincubation_listreset').trigger('click');
