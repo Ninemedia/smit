@@ -63,6 +63,29 @@
                             <div role="tabpanel" class="tab-pane fade in" id="info">
                                 <?php echo form_open_multipart( 'tenant/tenantdetailedit', array( 'id'=>'tenantdetails', 'role'=>'form' ) ); ?>
                                     <h4><p>Berikut adalah detail data Tenant anda</p></h4>
+                                    <!-- Nama Pengguna Tenant -->
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
+                                        <p>Pastikan sudah ada nama pengguna sistem terlebih dahulu</p>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                            <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id" data-url="<?php echo base_url('tenant/getevent'); ?>">
+                                                <?php
+                                                    $conditions     = ' WHERE %type% = 3 OR %type% = 7';
+                                                	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                                    
+                                                    if( !empty($user_list) ){
+                                                        echo '<option value="">-- Pilih Nama Penguna --</option>';
+                                                        foreach($user_list as $row){
+                                                            echo '<option value="'.$row->id.'" '.( $tenantdata->username == $row->username ? 'selected' : '' ).'>'.$row->username.'</option>';
+                                                        }
+                                                    }else{
+                                                        echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                    }
+                    	                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <!-- Usulan Kegiatan -->
                                     <div class="form-group">
                                         <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
@@ -70,10 +93,7 @@
                                             <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                             <select class="form-control show-tick" name="tenant_reg_event" id="tenant_reg_event">
                                                 <?php
-                                                    $conditions     = ' WHERE %user_id% = '.$user->id.'';
-                                                    if( !empty($is_admin) ){
-                                                        $conditions = '';
-                                                    }
+                                                    $conditions         = ' WHERE %user_id% = '.$tenantdata->user_id.' AND %tenant_id% = 0';
                     	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions);
                     	                            if( !empty($incubation_list) ){
                     	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';

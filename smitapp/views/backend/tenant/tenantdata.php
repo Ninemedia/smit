@@ -145,7 +145,7 @@
                                                 if( !empty($user_list) ){
                                                     echo '<option value="">-- Pilih Nama Penguna --</option>';
                                                     foreach($user_list as $row){
-                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).'</option>';
+                                                        echo '<option value="'.$row->id.'">'.$row->username.'</option>';
                                                     }
                                                 }else{
                                                     echo '<option value="">-- Tidak Ada Pilihan --</option>';

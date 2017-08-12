@@ -2071,6 +2071,98 @@ var TenantValidation = function () {
         });
     };
     
+    var handleEditTenantDetailValidation = function(){
+        $('#tenantdetails').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                team_name_edit: {
+                    required: true,
+                },
+                team_position_edit: {
+                    required: true,
+                },
+            },
+            messages: {
+                team_name_edit: {
+                    required: "Nama tim tenant harus diisi."
+                },
+                team_position_edit: {
+                    required: "Posisi tim tenant harus diisi."
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).parents('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                if (element.parents(".form-group").size() > 0) {
+                    element.parents(".form-group").append(error);
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
+            },
+            submitHandler: function (form) {
+                processEditTenantDetail($('#tenantdetails'));
+            }
+        });
+        
+        var processEditTenantDetail = function( form ) {
+            var url     = $(form).attr( 'action' );
+            var data    = $(form).serialize()
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if( response.status == 'error' ){
+                        App.alert({
+                            type: 'danger',
+                            icon: 'warning',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
+                        });
+                    }else{
+                        App.alert({
+                            type: 'success',
+                            icon: 'check',
+                            message: response.message,
+                            container: wrapper,
+                            place: 'prepend',
+                            closeInSeconds: 2,
+                        });
+                        
+                        $('#tenantlogo')[0].reset();
+                        $('#tenant_logo_files').fileinput('refresh');
+                        elimg.empty().html(response.file).fadeIn();
+                    }
+    			}
+    		});
+        };
+    };
+    
     var handleEditTenantTeamValidation = function(){
         $("body").delegate( "button.btn-edit-tenant-team", "click", function( event ) {
             event.preventDefault();
@@ -2378,6 +2470,7 @@ var TenantValidation = function () {
             handleAddBlogTenantValidation();
             handleAddTeamTenantValidation();
             handleAvatarTenantTeamValidation();
+            handleEditTenantDetailValidation();
             handleEditTenantTeamValidation();
         }
     };
