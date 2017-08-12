@@ -37,7 +37,7 @@
 			</div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="news-title">Blog Tenant Terbaru</h4>
-                <div class="panel-body">
+                <div class="panel-body" id="blogtenantlist">
                     <div class="row">
                         <?php
                             $condition          = ' WHERE %status% = 1';
@@ -46,9 +46,9 @@
                             }
                             $blog_list          = $this->Model_Tenant->get_all_blogtenant(0, 0, $condition);
                         ?>
-                        <?php if( !empty($blog_list) ) : ?>
+                        <?php if( !empty($blogdata) ) : ?>
                         <?php
-                            foreach($blog_list AS $row){
+                            foreach($blogdata AS $row){
                                 $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
                                 $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                                 $blog           = $file_url;
@@ -71,6 +71,7 @@
                             <div class="alert alert-info">Saat ini sedang tidak ada blog tenant yang di publikasi. Terima Kasih.</div>
                         <?php endif; ?>
                     </div>
+                    <div class="text-center"><?php echo $this->ajax_pagination->create_links(); ?></div>
                 </div>
             </div>
 		</div>
