@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-warning waves-effect" id="btn_paymentdataedit">Ubah Pembayaran</button>
-                        <button type="button" class="btn btn-danger waves-effect" id="btn_paymentdataedit_reset">Bersihkan</button>
+                        <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_paymentdataedit_reset">Bersihkan</button> -->
                     </section>
                 </div>
                 <?php echo form_close(); ?>

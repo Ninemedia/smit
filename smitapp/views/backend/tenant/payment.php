@@ -27,7 +27,7 @@
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
-        							<?php if( !empty($is_admin) ) : ?><option value="confirm">Konfirmasi</option><?php endif; ?>
+        							<?php if( !empty($is_admin) ) : ?><option value="confirm">Terima</option><?php endif; ?>
         							<?php if( !empty($is_admin) ) : ?><option value="banned">Banned</option><?php endif; ?>
         							<option value="delete">Hapus</option>
         						</select>

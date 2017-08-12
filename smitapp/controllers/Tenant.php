@@ -2368,7 +2368,7 @@ class Tenant extends User_Controller {
 
         if( !empty($payment_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
-            $cfg_status     = config_item('user_status');
+            $cfg_status     = config_item('files_status');
 
             $i = $offset + 1;
             foreach($payment_list as $row){
