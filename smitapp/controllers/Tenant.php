@@ -1451,7 +1451,7 @@ class Tenant extends User_Controller {
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
 
                 // Button
-                $btn_detail         = '<a href="'.base_url('tenants/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_detail         = '<a href="'.base_url('tenants/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 
@@ -1480,7 +1480,7 @@ class Tenant extends User_Controller {
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
                         strtoupper($companion_name),
-                        //smit_center( $btn_detail ),
+                        smit_center( $btn_detail ),
                         ''
                     );
                 }
