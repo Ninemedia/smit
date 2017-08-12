@@ -13,14 +13,14 @@
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> TAMBAH PRODUK
+                            <i class="material-icons">add_box</i> TAMBAH PRODUK         
                         </a>
                     </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="list">
-                        <!-- Content -->
+                        <!-- Content -->    
                         <div class="table-container table-responsive">
                             <div class="table-actions-wrapper">
         						<span></span>

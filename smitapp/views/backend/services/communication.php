@@ -516,7 +516,7 @@
                                 Pesan ini otomatis ditujukan untuk Administrator
                             </p>
                             
-                            <input type="text" id="cmm_user_id" name="cmm_user_id" value="<?php echo ADMINISTRATOR; ?>" />
+                            <input type="hidden" id="cmm_user_id" name="cmm_user_id" value="<?php echo ADMINISTRATOR; ?>" />
                             <div class="form-group">
                                 <label class="control-label">Judul Komunikasi <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">

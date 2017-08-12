@@ -5780,7 +5780,7 @@ class PraIncubation extends User_Controller {
                     smit_center( $i ),
                     strtoupper( $row->event_title ),
                     strtoupper( $workunit_type ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                    strtoupper( $row->user_name ),
                     strtoupper( $row->name ),
                     smit_center( $btn_add ),
                 );
@@ -7237,7 +7237,7 @@ class PraIncubation extends User_Controller {
                     smit_center('<input name="producteditlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                    strtoupper($row->name), 
                     strtoupper($row->event_title),
                     '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,
