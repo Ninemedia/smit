@@ -217,7 +217,7 @@ class Model_Service extends SMIT_Model{
         };
         return false;
     }
-
+    
     /**
      * Retrieve all contact message data
      *
@@ -228,7 +228,7 @@ class Model_Service extends SMIT_Model{
      * @param   String  $order_by           Column that make to order   default ''
      * @return  Object  Result of user list
      */
-    function get_all_communication($limit=0, $offset=0, $conditions='', $order_by=''){
+    function get_all_communication_out($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%id%",                   "A.id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
@@ -238,9 +238,10 @@ class Model_Service extends SMIT_Model{
             $conditions = str_replace("%from_id%",              "A.from_id", $conditions);
             $conditions = str_replace("%to_id%",                "A.to_id", $conditions);
             $conditions = str_replace("%information%",          "A.information", $conditions);
-            $conditions = str_replace("%title%",                "C.title", $conditions);
+            $conditions = str_replace("%title%",                "B.title", $conditions);
             $conditions = str_replace("%desc%",                 "C.desc", $conditions);
             $conditions = str_replace("%status%",               "C.status", $conditions);
+            $conditions = str_replace("%id_userdata%",          "user_id", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
         }
 
@@ -253,13 +254,70 @@ class Model_Service extends SMIT_Model{
             $order_by   = str_replace("%from_id%",              "A.from_id",  $order_by);
             $order_by   = str_replace("%to_id%",                "A.to_id",  $order_by);
             $order_by   = str_replace("%information%",          "A.information",  $order_by);
-            $order_by   = str_replace("%title%",                "C.title",  $order_by);
+            $order_by   = str_replace("%title%",                "B.title",  $order_by);
             $order_by   = str_replace("%desc%",                 "C.desc",  $order_by);
             $order_by   = str_replace("%status%",               "C.status",  $order_by);
+            $order_by   = str_replace("%id_userdata%",          "user_id",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+        
+        /*
+        $sql = 'SELECT A.*, B.title, C.desc, C.status, C.uniquecode AS uniquecode_data, C.user_id AS id_userdata FROM ' . $this->communication_user. ' AS A
+            LEFT JOIN '. $this->communication_id .' AS B ON B.id = A.communication_id
+            LEFT JOIN '. $this->communication_data . ' AS C ON C.communication_id = A.communication_id
+        ';
+        */
+        $sql = 'SELECT * FROM ' . $this->communication_data. '';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
+    
+    function get_all_communication($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%communication_id%",     "A.communication_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%uniquecode_data%",      "c.uniquecode", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%from_id%",              "A.from_id", $conditions);
+            $conditions = str_replace("%to_id%",                "A.to_id", $conditions);
+            $conditions = str_replace("%information%",          "A.information", $conditions);
+            $conditions = str_replace("%title%",                "B.title", $conditions);
+            $conditions = str_replace("%desc%",                 "C.desc", $conditions);
+            $conditions = str_replace("%status%",               "C.status", $conditions);
+            $conditions = str_replace("%id_userdata%",          "C.user_id", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%communication_id%",     "A.communication_id",  $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%uniquecode_data%",      "C.uniquecode",  $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%from_id%",              "A.from_id",  $order_by);
+            $order_by   = str_replace("%to_id%",                "A.to_id",  $order_by);
+            $order_by   = str_replace("%information%",          "A.information",  $order_by);
+            $order_by   = str_replace("%title%",                "B.title",  $order_by);
+            $order_by   = str_replace("%desc%",                 "C.desc",  $order_by);
+            $order_by   = str_replace("%status%",               "C.status",  $order_by);
+            $order_by   = str_replace("%id_userdata%",          "C.user_id",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
         }
 
-        $sql = 'SELECT A.*, C.title, C.desc, C.status, C.uniquecode AS uniquecode_data FROM ' . $this->communication_user. ' AS A
+        $sql = 'SELECT A.*, B.title, C.desc, C.status, C.uniquecode AS uniquecode_data, C.user_id AS id_userdata FROM ' . $this->communication_user. ' AS A
             LEFT JOIN '. $this->communication_id .' AS B ON B.id = A.communication_id
             LEFT JOIN '. $this->communication_data . ' AS C ON C.communication_id = A.communication_id
         ';
@@ -274,7 +332,105 @@ class Model_Service extends SMIT_Model{
 
         return $query->result();
     }
+    
+    function get_all_communication_in($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%from_id%",              "A.from_id", $conditions);
+            $conditions = str_replace("%to_id%",                "A.to_id", $conditions);
+            $conditions = str_replace("%information%",          "A.information", $conditions);
+            $conditions = str_replace("%title%",                "B.title", $conditions);
+            $conditions = str_replace("%desc%",                 "C.desc", $conditions);
+            $conditions = str_replace("%status%",               "C.status", $conditions);
+            $conditions = str_replace("%id_userdata%",          "C.user_id", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
 
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%from_id%",              "A.from_id",  $order_by);
+            $order_by   = str_replace("%to_id%",                "A.to_id",  $order_by);
+            $order_by   = str_replace("%information%",          "A.information",  $order_by);
+            $order_by   = str_replace("%title%",                "B.title",  $order_by);
+            $order_by   = str_replace("%desc%",                 "C.desc",  $order_by);
+            $order_by   = str_replace("%status%",               "C.status",  $order_by);
+            $order_by   = str_replace("%id_userdata%",          "C.user_id",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+
+        $sql = 'SELECT A.*, B.title, C.desc, C.status, C.uniquecode AS uniquecode_data, C.user_id AS id_userdata FROM ' . $this->communication_user. ' AS A
+            LEFT JOIN '. $this->communication_id .' AS B ON B.id = A.communication_id
+            LEFT JOIN '. $this->communication_data . ' AS C ON C.communication_id = A.communication_id
+        ';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
+    
+    function get_all_communication_inuser($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%uniquecode_data%",      "C.uniquecode", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%from_id%",              "A.from_id", $conditions);
+            $conditions = str_replace("%to_id%",                "A.to_id", $conditions);
+            $conditions = str_replace("%information%",          "A.information", $conditions);
+            $conditions = str_replace("%title%",                "B.title", $conditions);
+            $conditions = str_replace("%desc%",                 "C.desc", $conditions);
+            $conditions = str_replace("%status%",               "C.status", $conditions);
+            $conditions = str_replace("%id_userdata%",          "C.user_id", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%uniquecode_data%",      "C.uniquecode",  $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%from_id%",              "A.from_id",  $order_by);
+            $order_by   = str_replace("%to_id%",                "A.to_id",  $order_by);
+            $order_by   = str_replace("%information%",          "A.information",  $order_by);
+            $order_by   = str_replace("%title%",                "B.title",  $order_by);
+            $order_by   = str_replace("%desc%",                 "C.desc",  $order_by);
+            $order_by   = str_replace("%status%",               "C.status",  $order_by);
+            $order_by   = str_replace("%id_userdata%",          "C.user_id",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+        }
+
+        $sql = 'SELECT A.*, C.user_id AS id_userdata, C.status, C.desc, C.uniquecode AS uniquecode_data FROM ' . $this->communication_user. ' AS A
+                LEFT JOIN '.$this->communication_data.' AS C ON C.communication_id = A.communication_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
+    
     /**
      * Retrieve all contact message data
      *

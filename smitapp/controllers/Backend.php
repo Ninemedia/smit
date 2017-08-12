@@ -3222,8 +3222,7 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($generalmessage_list as $row){
                 // Status
-                $btn_action = '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'"
-                    class="messagedetails btn btn-xs btn-primary waves-effect tooltips" id="btn_message_detail" data-placement="left" title="Baca"><i class="material-icons">zoom_in</i></a> ';
+                $btn_action = '<a href="'.base_url('pesanumum/detail/'.$row->uniquecode).'" class="messagedetails btn btn-xs btn-primary waves-effect tooltips" id="btn_message_detail" data-placement="left" title="Baca"><i class="material-icons">zoom_in</i></a> ';
 
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
@@ -3519,33 +3518,33 @@ class Backend extends User_Controller {
 
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %title% LIKE "%%s%%"'); }
-        if( !empty($s_desc) )           { $condition .= str_replace('%s%', $s_email, ' AND %desc% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
 
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
-
+        
         if( $column == 1 )      { $order_by .= '%name% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%title% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%desc% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%datecreated% ' . $sort; }
 
         if( $is_admin ){
             if($value == 'in'){
-                $condition  = ' WHERE %to_id% = 1 AND %information% = 0 ';
+                $condition  = ' WHERE %id_userdata% > 1 AND %to_id% = 1 AND %information% = 0 ';
+                $communication_list = $this->Model_Service->get_all_communication_in($limit, $offset, $condition, $order_by);
             }else{
-                $condition  = ' WHERE %from_id% = 1 AND %information% = 1 ';
+                $condition  = ' WHERE %id_userdata% = 1 ';
+                $communication_list = $this->Model_Service->get_all_communication_out($limit, $offset, $condition, $order_by);
             }
         }else{
             if($value == 'in'){
-                $condition  = ' WHERE %to_id% = '.$current_user->id.' AND %information% = 1 ';
+                $condition  = ' WHERE %to_id% = '.$current_user->id.' AND %id_userdata% <> '.$current_user->id.'';
+                $communication_list = $this->Model_Service->get_all_communication_inuser($limit, $offset, $condition, $order_by);
             }else{
-                $condition  = ' WHERE %from_id% = '.$current_user->id.' AND %information% = 0';
+                $condition  = ' WHERE %id_userdata% = '.$current_user->id.' ';
+                $communication_list = $this->Model_Service->get_all_communication_out($limit, $offset, $condition, $order_by);
             }
         }
-
-        $communication_list = $this->Model_Service->get_all_communication($limit, $offset, $condition, $order_by);
 
         $records            = array();
         $records["aaData"]  = array();
@@ -3557,71 +3556,81 @@ class Backend extends User_Controller {
             $i = $offset + 1;
             foreach($communication_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode).'"
-                    class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-
+                $btn_action = '';
+                if($is_admin){
+                    $btn_action = '';
+                    if($row->status == READ) $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->communication_id).'" class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                }elseif( $is_pendamping ){
+                    $btn_action = '';
+                    $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode).'" class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';    
+                }else{
+                    $btn_action = '';
+                    $btn_action = '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode).'" class="cmmdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_cmm_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';    
+                }
+                
+                $name = '';
+                if( $value == 'in' ){
+                    if($is_admin) $name           = $row->name;
+                    $desc           = $row->desc;
+                    $datecreated    = $row->datecreated;
+                }else{
+                    $desc           = $row->desc;
+                    $datecreated    = $row->datecreated;
+                }
+                
                 if($row->status == UNREAD )   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    if( !$is_admin && $value == 'out'){
-                        $btn_action .= '';
-                    }else{
-                        $btn_action .= '<a href="'.base_url('communicationconfirm/active/'.$row->id).'" class="communicationconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Balas"><i class="material-icons">reply</i></a> ';
-                    }
-                }
-                elseif($row->status == READ)  {
-                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
-                    //$btn_action     .= '<a href="'.($row->id>1 ? base_url('communicationconfirm/delete/'.$row->id) : 'javascript:;' ).'" class="communicationconfirm btn btn-xs btn-danger tooltips waves-effect" data-placement="left" title="Deleted" '.($row->id==1 ? 'disabled="disabled"' : '').'><i class="material-icons">clear</i></a> ';
-                }
-
-                $name           = $row->name;
-                $title          = $row->title;
-                $desc           = $row->desc;
-                $datecreated    = $row->datecreated;
-                if( $row->status == UNREAD ){
-                    $name       = '<strong style="color : red !important; ">'.$name.'</strong>';
-                    $title      = '<strong style="color : red !important; ">'.$title.'</strong>';
+                    if( $value == 'in' ) $name       = '<strong style="color : red !important; ">'.$name.'</strong>';
                     $desc       = '<strong style="color : red !important; ">'.$desc.'</strong>';
                     $datecreated= '<strong style="color : red !important; ">'.date('d F Y H:i:s', strtotime($datecreated)).'</strong>';
+                }elseif($row->status == READ)  {
+                    $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
-
+                
                 if( !empty($is_admin) ){
-                    $records["aaData"][] = array(
-                        smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
-                        <label for="cblist'.$row->uniquecode.'"></label>'),
-                        smit_center($i),
-                        strtoupper( $name ),
-                        '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
-                        $desc,
-                        smit_center( $status ),
-                        //smit_center( $datecreated ),
-                        smit_center( $btn_action ),
-                    );
+                    if( $value == 'in' ){
+                        $records["aaData"][] = array(
+                            smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                            <label for="cblist'.$row->uniquecode.'"></label>'),
+                            smit_center($i),
+                            strtoupper( $name ),
+                            '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->communication_id).'">' . $desc . '</a>',
+                            smit_center( $status ),
+                            //smit_center( $datecreated ),
+                            smit_center( $btn_action ),
+                        );
+                    }else{
+                        $records["aaData"][] = array(
+                            smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                            <label for="cblist'.$row->uniquecode.'"></label>'),
+                            smit_center($i),
+                            '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->communication_id).'">' . $desc . '</a>',
+                            smit_center( $status ),
+                            //smit_center( $datecreated ),
+                            smit_center( $btn_action ),
+                        );
+                    }
                 }elseif($is_pelasana || $is_pelaksana_tenant || $is_pendamping){
                     if( $value == 'in' ){
-                        $fromdata   = smit_get_userdata_by_id($row->to_id);
+                        $fromdata   = smit_get_userdata_by_id($row->user_id);
                         $from_name  = $fromdata->name;
                         $records["aaData"][] = array(
                             smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                             <label for="cblist'.$row->uniquecode.'"></label>'),
                             smit_center($i),
                             strtoupper( $from_name ),
-                            '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
-                            $desc,
+                            '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->uniquecode_data).'">' . $desc . '</a>',
                             smit_center( $status ),
                             smit_center( $datecreated ),
                             smit_center( $btn_action ),
                         );    
                     }else{
-                        $todata     = smit_get_userdata_by_id($row->to_id);
-                        $to_name    = $todata->name;
                         
                         $records["aaData"][] = array(
                             smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                             <label for="cblist'.$row->uniquecode.'"></label>'),
                             smit_center($i),
-                            strtoupper( $to_name ),
-                            '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
-                            $desc,
+                            '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->communication_id).'">' . $desc . '</a>',
                             smit_center( $status ),
                             smit_center( $datecreated ),
                             smit_center( $btn_action ),
@@ -3632,8 +3641,7 @@ class Backend extends User_Controller {
                         smit_center('<input name="communicationlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                         <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center($i),
-                        '<a href="'.base_url('komunikasibantuan/detail/'.$row->uniquecode).'">' . $title . '</a>',
-                        $desc,
+                        '<a href="'.base_url('layanan/komunikasibantuan/detail/'.$row->communication_id).'">' . $title . '</a>',
                         smit_center( $status ),
                         smit_center( $datecreated ),
                         smit_center( $btn_action ),
@@ -3670,11 +3678,12 @@ class Backend extends User_Controller {
     /**
     * Communication Details function.
     */
-    public function communicationdetails( $uniquecode='' ){
+    public function communicationdetails( $id='' ){
         auth_redirect();
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
@@ -3724,14 +3733,24 @@ class Backend extends User_Controller {
         ));
 
         $communicationdata      = '';
-        if( !empty($uniquecode) ){
-            $communicationdata  = $this->Model_Service->get_all_communication(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
-            $communicationdata  = $communicationdata[0];
-
+        if( !empty($id) ){
+            
             if( $is_admin ){
+                $communicationdata  = $this->Model_Service->get_all_communication(0, 0, ' WHERE %communication_id% = "'.$id.'"');
+                $communicationdata  = $communicationdata[0];
+
                 if($communicationdata->status == UNREAD){
                     $update_data        = $this->Model_Service->update_communication_data($communicationdata->uniquecode_data, array('status' => READ));
                 }
+            }else{
+                $communicationdata  = $this->Model_Service->get_all_communication(0, 0, ' WHERE %uniquecode_data% LIKE "'.$id.'"');
+                foreach($communicationdata AS $row){
+                    if($row->status == UNREAD){
+                        $update_data        = $this->Model_Service->update_communication_data($row->uniquecode_data, array('status' => READ));
+                    }    
+                }
+                $communicationdata  = $communicationdata[0];
+                
             }
         }
 
@@ -3742,6 +3761,7 @@ class Backend extends User_Controller {
         $data['cmm_data']       = $cmm_data;
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
+        $data['is_pendamping']  = $is_pendamping;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -3808,6 +3828,7 @@ class Backend extends User_Controller {
                 'user_id'       => $current_user->id,
                 'from_id'       => $current_user->id,
                 'to_id'         => $to_id,
+                'title'         => $title,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
@@ -3837,7 +3858,6 @@ class Backend extends User_Controller {
                             'uniquecode'    => smit_generate_rand_string(10,'low'),
                             'communication_id' => $communication_save_id,
                             'user_id'       => $current_user->id,
-                            'title'         => $title,
                             'desc'          => $description,
                             'datecreated'   => $curdate,
                             'datemodified'  => $curdate,
@@ -3897,6 +3917,7 @@ class Backend extends User_Controller {
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
 
         $message                = '';
         $post                   = '';
@@ -3954,7 +3975,6 @@ class Backend extends User_Controller {
                         'uniquecode'    => smit_generate_rand_string(10,'low'),
                         'communication_id' => $cmm_id,
                         'user_id'       => $current_user->id,
-                        'title'         => $title,
                         'desc'          => $description,
                         'datecreated'   => $curdate,
                         'datemodified'  => $curdate,

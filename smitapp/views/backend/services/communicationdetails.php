@@ -14,7 +14,6 @@
                 <?php if( !empty($cmm_data) ) : ?>
                 <?php
                     foreach ($cmm_data AS $row) {
-                        # code...
                         if($row->user_id == $user->id){
                 ?>
                     <p align="left" class="bottom50">
@@ -30,7 +29,8 @@
                     </p>
                 <?php }} ?>
                 <?php endif; ?>
-
+                
+                <?php if($is_admin || $is_pendamping) : ?>
                 <a class="btn bg-blue waves-effect m-b-15" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample"> Balas Pesan </a>
                 <div id="collapseExample" class="collapse" aria-expanded="true" style="">
                     <div class="well">
@@ -66,6 +66,7 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

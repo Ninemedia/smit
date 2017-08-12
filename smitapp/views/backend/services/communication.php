@@ -39,8 +39,7 @@
                                         <th class="width5 text-center"><input name="select_all" id="select_all_listin" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
             							<th class="width15 text-center">Nama Pengirim</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width25 text-center">Deskripsi</th>
+            							<th class="width20 text-center">Judul Komunikasi</th>
             							<th class="width10 text-center">Status</th>
                                         <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -50,9 +49,8 @@
                                         <td></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();
@@ -99,21 +97,17 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all" id="select_all_listout" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listout"></label></th>
             							<th class="width5">No</th>
-            							<th class="width20 text-center">Nama Pengirim</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width15 text-center">Deskripsi</th>
-            							<th class="width15 text-center">Status</th>
+            							<th class="width30 text-center">Isi Pesan</th>
+            							<th class="width10 text-center">Status</th>
                                         <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
-            							<th class="width13 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
+            							<td></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();
@@ -185,20 +179,18 @@
                                         <th class="width5 text-center"><input name="select_all_listin" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
                                         <th class="width15 text-center">Komunikasi Dari</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width25 text-center">Deskripsi</th>
+            							<th class="width20 text-center">Isi Pesan</th>
             							<th class="width15 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
-            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td></td>
                                         <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
             							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();
@@ -243,21 +235,17 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all" id="select_all_listout" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listout"></label></th>
             							<th class="width5">No</th>
-                                        <th class="width15 text-center">Tujuan Komunikasi</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
-            							<th class="width25 text-center">Deskripsi</th>
+            							<th class="width20 text-center">Isi Pesan</th>
             							<th class="width10 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
-            							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
+            							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
        						        </tr>
                                     <tr role="row" class="filter display-hide table-filter">
             							<td></td>
                                         <td></td>
-                                        <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_title" /></td>
-            							<td><input type="text" class="form-control form-filter input-sm text-lowercase" name="search_email" /></td>
+            							<td></td>
             							<td>
-                                            <select name="search_status" class="form-control form-filter input-sm">
+                                            <select name="search_status" class="form-control form-filter input-sm def">
             									<option value="">Pilih...</option>
             									<?php
             			                        	$status = smit_user_status_message();
