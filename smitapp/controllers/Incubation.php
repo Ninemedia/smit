@@ -257,24 +257,24 @@ class Incubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            $data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
             if( !empty($data_list) ){
-                $export                     = $this->smit_excel->exportUserList( $data_list );
+                $export                     = $this->smit_excel->exportSelectionStep1( $data_list );
                 $records["sStatus"]         = "EXPORTED";
                 $records["sMessage"]        = $export;
             }else{
                 $records["sStatus"]         = "ERROR";
-                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+                $records["sMessage"]        = 'Tidak ada data Seleksi Inkubasi untuk di export';
             }
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
-            $data_list                      = $this->Model_User->get_all_user(0, 0, $condition, $order_by);
+            $data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
             if( !empty($data_list) ){
-                $export                     = $this->smit_excel->exportUserList( $data_list, true );
+                $export                     = $this->smit_excel->exportSelectionStep1( $data_list, true );
                 $records["sStatus"]         = "EXPORTED";
                 $records["sMessage"]        = $export;
             }else{
                 $records["sStatus"]         = "ERROR";
-                $records["sMessage"]        = 'Tidak ada data pengguna untuk di export';
+                $records["sMessage"]        = 'Tidak ada data Seleksi Inkubasi untuk di export';
             }
         }
 
@@ -507,6 +507,28 @@ class Incubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+            $data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportSelectionStep2( $data_list );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data Seleksi Inkubasi untuk di export';
+            }
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+            $data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
+            if( !empty($data_list) ){
+                $export                     = $this->smit_excel->exportSelectionStep2( $data_list, true );
+                $records["sStatus"]         = "EXPORTED";
+                $records["sMessage"]        = $export;
+            }else{
+                $records["sStatus"]         = "ERROR";
+                $records["sMessage"]        = 'Tidak ada data Seleksi Inkubasi untuk di export';
+            }
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -1891,6 +1913,26 @@ class Incubation extends User_Controller {
             $proses                 = $this->incubationconfirmstep1_all($sGroupActionName, $selectionlist);
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);    
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportScoreStep1( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Penilaian Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportScoreStep1( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Penilaian Inkubasi untuk di export';
+        	}
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -2156,6 +2198,26 @@ class Incubation extends User_Controller {
             $proses                 = $this->incubationconfirmstep2_all($sGroupActionName, $selectionlist);
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);    
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportScoreStep2( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Penilaian Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportScoreStep2( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Penilaian Inkubasi untuk di export';
+        	}
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -4678,6 +4740,28 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation_history(0, 0, $condition, $order_by);    
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportHistory( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Riwayat Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Incubation->get_all_incubation_history(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportHistory( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Riwayat Inkubasi untuk di export';
+        	}
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -4915,6 +4999,29 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
+                
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportRankingStep1( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Peringkat Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportRankingStep1( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Peringkat Inkubasi untuk di export';
+        	}
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
@@ -5059,6 +5166,29 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
+                
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportRankingStep2( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Peringkat Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportRankingStep2( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data Peringkat Inkubasi untuk di export';
+        	}
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;

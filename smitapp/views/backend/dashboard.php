@@ -348,7 +348,7 @@
                                 <div class="card">
                                     <?php if( !empty($lss) ) : ?>
                                     <div class="header bg-pink">
-                                        <h2>Seleksi Inkubasi<small>Description text here...</small></h2>
+                                        <h2>Seleksi Inkubasi<small>&nbsp;</small></h2>
                                     </div>
                                     <div class="body">
                                         <?php if( $phase1 == ACTIVE ) : ?>

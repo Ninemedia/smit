@@ -328,7 +328,7 @@ class SMIT_Excel extends PHPExcel
 	}
     
     // ---------------------------------------------------------------------------
-    
+        
     
     // ---------------------------------------------------------------------------
     // Pra-Incubation
@@ -337,7 +337,7 @@ class SMIT_Excel extends PHPExcel
 	 */
 	function exportSelectionStep1($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Seleksi Pra-Inkubasi Tahap 1';
+		$this->title 	= 'Daftar Seleksi Tahap 1';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Status' );
 		$this->data		= array();
         // config type user
@@ -346,7 +346,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
 			
             if($row->status == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
             elseif($row->status == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->status]).''; }
@@ -368,7 +368,7 @@ class SMIT_Excel extends PHPExcel
 		}
 
 		// complete subtitle
-		$this->subTitle = 'Tanggal Daftar Seleksi Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		//$this->subTitle = 'Tanggal Daftar Seleksi Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
 		
 		// init simple export
 		$this->simpleInit($pdf);
@@ -415,7 +415,7 @@ class SMIT_Excel extends PHPExcel
 	 */
 	function exportSelectionStep2($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Seleksi Pra-Inkubasi Tahap 2';
+		$this->title 	= 'Daftar Seleksi Tahap 2';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Status' );
 		$this->data		= array();
         // config type user
@@ -424,7 +424,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) $this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
 			
             if($row->statustwo == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
             elseif($row->statustwo == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
@@ -446,7 +446,7 @@ class SMIT_Excel extends PHPExcel
 		}
 
 		// complete subtitle
-		$this->subTitle = 'Tanggal Daftar Seleksi Pra-Inkubasi Tahap 2 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		//$this->subTitle = 'Tanggal Daftar Seleksi Pra-Inkubasi Tahap 2 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
 		
 		// init simple export
 		$this->simpleInit($pdf);
@@ -493,7 +493,7 @@ class SMIT_Excel extends PHPExcel
 	 */
 	function exportScoreStep1($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Penilaian Pra-Inkubasi Tahap 1';
+		$this->title 	= 'Daftar Penilaian Tahap 1';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai', 'Status' );
 		$this->data		= array();
         // config type user
@@ -502,7 +502,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
 			
             if($row->status == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
             elseif($row->status == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->status]).''; }
@@ -578,7 +578,7 @@ class SMIT_Excel extends PHPExcel
 	 */
 	function exportScoreStep2($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Penilaian Pra-Inkubasi Tahap 2';
+		$this->title 	= 'Daftar Penilaian Tahap 2';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai', 'Status' );
 		$this->data		= array();
         // config type user
@@ -587,7 +587,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
 			
             if($row->statustwo == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
             elseif($row->statustwo == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
@@ -661,9 +661,9 @@ class SMIT_Excel extends PHPExcel
     /**
 	 * Export Ranking Step 1
 	 */
-	function exportrankingStep1($data=array(), $pdf=false) {
+	function exportRankingStep1($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Rangking Pra-Inkubasi Tahap 1';
+		$this->title 	= 'Daftar Rangking Tahap 1';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai');
 		$this->data		= array();
         // config type user
@@ -672,7 +672,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
             
             $workunit_type  = smit_workunit_type($row->workunit);
             $workunit       = $workunit_type->workunit_name;
@@ -737,9 +737,9 @@ class SMIT_Excel extends PHPExcel
     /**
 	 * Export Ranking Step 2
 	 */
-	function exportrankingStep2($data=array(), $pdf=false) {
+	function exportRankingStep2($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Rangking Pra-Inkubasi Tahap 2';
+		$this->title 	= 'Daftar Peringkat Tahap 2';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai');
 		$this->data		= array();
         // config type user
@@ -748,7 +748,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
             
             $workunit_type  = smit_workunit_type($row->workunit);
             $workunit       = $workunit_type->workunit_name;
@@ -811,11 +811,11 @@ class SMIT_Excel extends PHPExcel
 	}
     
     /**
-	 * Export History Praincubation
+	 * Export History
 	 */
-	function exportHistoryPraincubation($data=array(), $pdf=false) {
+	function exportHistory($data=array(), $pdf=false) {
 		// setup necessary information
-		$this->title 	= 'Daftar Riwayat Pra-Inkubasi';
+		$this->title 	= 'Daftar Riwayat';
 		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Step', 'Nilai');
 		$this->data		= array();
         // config type user
@@ -824,7 +824,7 @@ class SMIT_Excel extends PHPExcel
 		// set data
 		$no=1;
 		foreach($data as $row) {
-			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			//if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
             
             $rate           = $row->rate_total;
             $year           = $row->year;
@@ -844,7 +844,7 @@ class SMIT_Excel extends PHPExcel
                     $step           = '<strong style="color: red !important;">'.$step.'</strong>';
                     $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';
                 }
-            }
+            }                        
             
 			$this->data[] = array(
 				$no++ . '.',
