@@ -2076,19 +2076,75 @@ var TenantValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
-                team_name_edit: {
+                tenant_name: {
                     required: true,
                 },
-                team_position_edit: {
+                tenant_email: {
+                    required: true,
+                    email: true,
+                },
+                tenant_year: {
+                    required: true,
+                },
+                tenant_address: {
+                    required: true,
+                },
+                tenant_province: {
+                    required: true,
+                },
+                tenant_regional: {
+                    required: true,
+                },
+                tenant_district: {
+                    required: true,
+                },
+                tenant_phone_contact: {
+                    required: true,
+                },
+                tenant_legal: {
+                    required: true,
+                },
+                tenant_bussiness: {
+                    required: true,
+                },
+                tenant_mitra: {
                     required: true,
                 },
             },
             messages: {
-                team_name_edit: {
-                    required: "Nama tim tenant harus diisi."
+                tenant_name: {
+                    required: 'Nama Tenant harus di isi',
                 },
-                team_position_edit: {
-                    required: "Posisi tim tenant harus diisi."
+                tenant_email: {
+                    required: 'Email harus di isi',
+                    email: 'Masukkan alamat email Anda yang benar',
+                },
+                tenant_year: {
+                    required: 'Pilih tahun berdirinya tenant anda',
+                },
+                tenant_address: {
+                    required: 'Alamat harus di isi',
+                },
+                tenant_district: {
+                    required: 'Kecamatan/Kelurahan harus di isi',
+                },
+                tenant_province: {
+                    required: 'Provinsi harus di isi',
+                },
+                tenant_regional: {
+                    required: 'Kota/Kabupaten harus di isi',
+                },
+                tenant_phone_contact: {
+                    required: 'Kontak harus di isi',
+                },
+                tenant_legal: {
+                    required: 'Legal harus di pilih',
+                },
+                tenant_bussiness: {
+                    required: 'NPWP harus di pilih',
+                },
+                tenant_mitra: {
+                    required: 'Kemitraan harus di pilih',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -2115,7 +2171,11 @@ var TenantValidation = function () {
                 }
             },
             submitHandler: function (form) {
-                processEditTenantDetail($('#tenantdetails'));
+                bootbox.confirm("Anda yakin akan memperbaharui data tenant?", function(result) {
+                    if( result == true ){
+                        processEditTenantDetail($('#tenantdetails'));
+                    }
+                });
             }
         });
         
@@ -2153,14 +2213,13 @@ var TenantValidation = function () {
                             place: 'prepend',
                             closeInSeconds: 2,
                         });
-                        
-                        $('#tenantlogo')[0].reset();
-                        $('#tenant_logo_files').fileinput('refresh');
-                        elimg.empty().html(response.file).fadeIn();
                     }
     			}
     		});
         };
+        
+        //Mobile Phone Number
+        $('#tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
     };
     
     var handleEditTenantTeamValidation = function(){

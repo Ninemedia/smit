@@ -897,6 +897,87 @@ class Tenant extends User_Controller {
     }
     
     /**
+    * Tenant List Details Edit function.
+    */
+    public function tenantlistdetailsedit(){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $curdate                = date("Y-m-d H:i:s");
+
+        $post_tenant_id         = $this->input->post('tenant_id');
+        $post_tenant_name       = $this->input->post('tenant_name');
+        $post_tenant_email      = $this->input->post('tenant_email');
+        $post_tenant_year       = $this->input->post('tenant_year');
+        $post_tenant_address    = $this->input->post('tenant_address');
+        $post_tenant_province   = $this->input->post('tenant_province');
+        $post_tenant_city       = $this->input->post('tenant_regional');
+        $post_tenant_district   = $this->input->post('tenant_district');
+        $post_tenant_phone      = $this->input->post('tenant_phone_contact');
+        $post_tenant_legal      = $this->input->post('tenant_legal');
+        $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
+        $post_tenant_mitra      = $this->input->post('tenant_mitra');
+
+        $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
+        $this->form_validation->set_rules('tenant_email','Email Tenant','required');
+        $this->form_validation->set_rules('tenant_year','Tahun Berdiri Tenant','required');
+        $this->form_validation->set_rules('tenant_address','Alamat','required');
+        $this->form_validation->set_rules('tenant_province','Provinsi','required');
+        $this->form_validation->set_rules('tenant_regional','Kota/Kabupaten','required');
+        $this->form_validation->set_rules('tenant_district','Kecamatan/Kelurahan','required');
+        $this->form_validation->set_rules('tenant_phone_contact','Telp/HP','required');
+        $this->form_validation->set_rules('tenant_legal','Legal','required');
+        $this->form_validation->set_rules('tenant_bussiness','NPWP','required');
+        $this->form_validation->set_rules('tenant_mitra','Mitra Usaha','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if($this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array(
+                'status'        => 'error',
+                'message'       => 'Anda memiliki beberapa kesalahan ( '.validation_errors().'). Silakan cek di formulir bawah ini!',
+            );
+            // JSON encode data
+            die(json_encode($data));
+        }else{
+            // Check Data Tenant
+            if( !$tenantdata = $this->Model_Tenant->get_tenantdata_by_id($post_tenant_id) ){
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'error','message' => 'Data tenant tidak ditemukan atau belum terdaftar');
+                die(json_encode($data));
+            }
+            
+            $tenantdata_update  = array(
+                'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
+                'email'         => trim(smit_isset($post_tenant_email, '')),
+                'phone'         => trim(smit_isset($post_tenant_phone, '')),
+                'year'          => smit_isset($post_tenant_year, ''),
+                'address'       => strtoupper( trim(smit_isset($post_tenant_address, '')) ),
+                'province'      => smit_isset($post_tenant_province, ''),
+                'city'          => smit_isset($post_tenant_city, ''),
+                'district'      => strtoupper( trim(smit_isset($post_tenant_district, '')) ),
+                'legal'         => trim(smit_isset($post_tenant_legal, '')),
+                'licensing'     => trim(smit_isset($post_tenant_bussiness, '')),
+                'partnerships'  => smit_isset($post_tenant_mitra, ''),
+                'datemodified'  => $curdate,
+            );
+            if( $this->Model_Tenant->update_data($post_tenant_id, $tenantdata_update) ){
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'success','message' => 'Data tenant berhasil diperbaharui');
+                die(json_encode($data));
+            }else{
+                // Set JSON data and JSON encode data
+                $data = array('status' => 'error','message' => 'Data tenant tidak berhasil diperbaharui');
+                die(json_encode($data));
+            }
+        }
+    }
+    
+    /**
 	 * Tenant Team list data function.
 	 */
     function tenantteamlistdata($id_tenant=''){

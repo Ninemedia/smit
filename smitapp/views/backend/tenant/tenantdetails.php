@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="header">
-                <h2>Detail Tenant</h2>
+                <h2>Detail Inkubasi / Tenant</h2>
                 <ul class="header-dropdown" style="top: 15px;">
                     <li>
                         <a class="btn btn-sm btn-default waves-effect back" href="<?php echo base_url('tenants/daftar'); ?>">
@@ -61,52 +61,9 @@
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="info">
-                                <?php echo form_open_multipart( 'tenant/tenantdetailedit', array( 'id'=>'tenantdetails', 'role'=>'form' ) ); ?>
+                                <?php echo form_open_multipart( 'tenant/tenantlistdetailsedit', array( 'id'=>'tenantdetails', 'role'=>'form' ) ); ?>
                                     <h4><p>Berikut adalah detail data Tenant anda</p></h4>
-                                    <!-- Nama Pengguna Tenant -->
-                                    <div class="form-group">
-                                        <label class="form-label">Nama Pengguna Tenant <b style="color: red !important;">(*)</b></label>
-                                        <p>Pastikan sudah ada nama pengguna sistem terlebih dahulu</p>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                            <select class="form-control show-tick" name="tenant_user_id" id="tenant_user_id" data-url="<?php echo base_url('tenant/getevent'); ?>">
-                                                <?php
-                                                    $conditions     = ' WHERE %type% = 3 OR %type% = 7';
-                                                	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
-                                                    
-                                                    if( !empty($user_list) ){
-                                                        echo '<option value="">-- Pilih Nama Penguna --</option>';
-                                                        foreach($user_list as $row){
-                                                            echo '<option value="'.$row->id.'" '.( $tenantdata->username == $row->username ? 'selected' : '' ).'>'.$row->username.'</option>';
-                                                        }
-                                                    }else{
-                                                        echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                                                    }
-                    	                        ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Usulan Kegiatan -->
-                                    <div class="form-group">
-                                        <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                            <select class="form-control show-tick" name="tenant_reg_event" id="tenant_reg_event">
-                                                <?php
-                                                    $conditions         = ' WHERE %user_id% = '.$tenantdata->user_id.' AND %tenant_id% = 0';
-                    	                        	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions);
-                    	                            if( !empty($incubation_list) ){
-                    	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';
-                    	                                foreach($incubation_list as $row){
-                                                            echo '<option value="'.$row->id.'" '.( $row->id == $tenantdata->incubation_id ? 'selected' : '').'>'.strtoupper($row->event_title).'</option>';
-                    	                                }
-                    	                            }else{
-                    	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                    	                            }
-                    	                        ?>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="tenant_id" value="<?php echo $tenantdata->id; ?>" />
                                     <!-- Nama Tenant -->
                                     <div class="form-group">
                                         <label for="name_contact">Nama Tenant <b style="color: red !important;">(*)</b></label>
@@ -158,6 +115,8 @@
                                                 <?php echo form_input('tenant_address',$tenantdata->address,array('class'=>'form-control company_address','placeholder'=>'Alamat Tenant Anda','required'=>'required')); ?>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">place</i></span>
                                             <select class="form-control show-tick province" name="tenant_province" id="province-select" data-url="<?php echo base_url('selectprovince'); ?>">
@@ -172,6 +131,8 @@
                                                 ?>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">place</i></span>
                                             <select class="form-control show-tic province" name="tenant_regional" id="regional-select" <?php echo ($tenantdata->city > 0 ? '' : 'disabled="disabled"'); ?>>
@@ -186,6 +147,8 @@
                                                 ?>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">place</i></span>
                                             <div class="form-line">
@@ -244,6 +207,7 @@
                 							<option value="delete">Hapus</option>
                 						</select>
                 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
+                                        <a href="<?php echo base_url('tenants/tambahtim/'.$tenantdata->uniquecode); ?>" class="btn btn-sm btn-success" >Tambah Tim</a>
                 					</div>
                                     <table class="table table-striped table-bordered table-hover" id="list_tenant_team" data-url="<?php echo base_url('tenant/tenantteamlistdata/'.$tenantdata->id); ?>">
                                         <thead>
