@@ -17,6 +17,8 @@ class Frontend extends Public_Controller {
         parent::__construct();
         $this->load->library('AJAX_Pagination');
         $this->perPage = LIMIT_DETAIL;
+        $this->perPageNews = LIMIT_NEWS_FE;
+        $this->perPageBlog = LIMIT_BLOG_FE;
     }
 
     /**
@@ -73,7 +75,7 @@ class Frontend extends Public_Controller {
         ));
 
         $sliderdata             = $this->Model_Slider->get_all_slider('', '', ' WHERE status = 1');
-        $newsdata               = $this->Model_News->get_all_news(LIMIT_DEFAULT, 0, ' WHERE status = 1');
+        $newsdata               = $this->Model_News->get_all_news($this->perPage, 0, ' WHERE status = 1');
         $countnewsdata          = $this->Model_News->count_data_news();
 
         // Total rows count
@@ -81,12 +83,13 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
-        $config['base_url']     = base_url('tenant/blogtenant');
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
         $config['total_rows']   = $counttenantdata;
-        $config['per_page']     = $this->perPage;
+        $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
-        $blogtenantdata         = $this->Model_Tenant->get_all_blogtenant($this->perPage, 0, ' WHERE %status% = 1');
+        $blogtenantdata         = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, 0, ' WHERE %status% = 1');
         $tenantdata             = $this->Model_Tenant->get_all_tenant($this->perPage, 0, ' WHERE %status% = 1');
 
         $data['title']          = TITLE . 'Home';
@@ -102,6 +105,39 @@ class Frontend extends Public_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'home';
         $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+    * Blog Pagination function.
+    */
+    function blogpagination(){
+        $page   = $this->input->post('page');
+        $page   = smit_isset($page, '');
+
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+
+        // Total rows count
+        $countblogdata          = $this->Model_Tenant->count_data_blog_tenant();
+
+        // Pagination configuration
+        $config['target']       = '#blogtenantlist';
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
+        $config['total_rows']   = $countblogdata;
+        $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
+        $this->ajax_pagination->initialize($config);
+
+        $blogdata               = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, $offset, ' WHERE %status% = 1');
+
+        //get the posts data
+        $data['blogdata']       = $blogdata;
+
+        //load the view
+        $this->load->view(VIEW_FRONT . 'tenant/blogpagination', $data);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -324,7 +360,6 @@ class Frontend extends Public_Controller {
         $scripts_init           = smit_scripts_init(array(
             'Guides.init();',
             'SelectionValidation.init();',
-            'Selection.init();',
         ));
 
         $data['title']          = TITLE . 'Seleksi Inkubasi';
@@ -2278,12 +2313,13 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#newslist';
-        $config['base_url']     = base_url('frontendberita/halaman');
+        $config['base_url']     = base_url('layanan/frontendberita/halaman');
         $config['total_rows']   = $countnewsdata;
-        $config['per_page']     = $this->perPage;
+        $config['per_page']     = $this->perPageNews;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
-        $newsdata               = $this->Model_News->get_all_news($this->perPage, 0, ' WHERE status = 1');
+        $newsdata               = $this->Model_News->get_all_news($this->perPageNews, 0, ' WHERE status = 1');
 
         $data['title']          = TITLE . 'Daftar Berita';
         $data['headstyles']     = $headstyles;
@@ -2299,7 +2335,7 @@ class Frontend extends Public_Controller {
     /**
     * News Pagination function.
     */
-    function newspagination(){
+    function newspagination($page=0){
         $page   = $this->input->post('page');
         $page   = smit_isset($page, '');
 
@@ -2314,12 +2350,13 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#newslist';
-        $config['base_url']     = base_url('frontendberita/halaman');
+        $config['base_url']     = base_url('layanan/frontendberita/halaman');
         $config['total_rows']   = $countnewsdata;
-        $config['per_page']     = $this->perPage;
+        $config['per_page']     = $this->perPageNews;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
-        $newsdata               = $this->Model_News->get_all_news($this->perPage, $offset, ' WHERE status = 1');
+        $newsdata               = $this->Model_News->get_all_news($this->perPageNews, $offset, ' WHERE status = 1');
 
         //get the posts data
         $data['newsdata']       = $newsdata;

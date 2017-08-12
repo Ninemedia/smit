@@ -260,7 +260,7 @@
                                         <?php
                                         	$workunit_type = smit_workunit_type();
                                             $option = array('' => 'Pilih...');
-                                            $extra = 'name="search_workunit" class="form-control show-tick"';
+                                            $extra = 'name="search_workunit" class="form-control show-tick def"';
 
                                             if( !empty($workunit_type) ){
                                                 foreach($workunit_type as $val){

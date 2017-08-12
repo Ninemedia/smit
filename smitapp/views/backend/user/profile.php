@@ -14,13 +14,15 @@
     }else{
         $status     = 'PELAKSANA';
     }
+    
+    $access         = $is_admin || ($the_user->id == $user->id) ? TRUE : FALSE;
 ?>  
 
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Profil Anda</h2></div>
+            <div class="header"><h2>Profil <?php echo ( $the_user->id == $user->id ? 'Anda' : 'Anggota '.strtoupper($the_user->name) )?></h2></div>
             <div class="body">
                 <div class="row">
                     <!-- Profile -->
@@ -42,6 +44,7 @@
                                     <i class="material-icons">account_balance</i> INFORMASI PEKERJAAN
                                 </a>
                             </li>
+                            <?php if($access){ ?>
                             <li>
                                 <a href="#change_password" class="tab-profile" data-toggle="tab">
                                     <i class="material-icons">style</i> UBAH KATA SANDI
@@ -52,6 +55,7 @@
                                     <i class="material-icons">view_list</i> UBAH TIPE PENGGUNA
                                 </a>
                             </li>
+                            <?php } ?>
                         </ul>
     
                         <!-- Tab panes -->
@@ -63,23 +67,27 @@
                                         <img class="profile-user-img img-responsive img-circle" src="<?php echo $avatar; ?>" alt="Avatar Pengguna" />
                                         <h3 class="profile-username text-center" id="profile_username"><?php echo $the_user->name; ?></h3>
                                         <p class="text-muted text-center"><?php echo $status; ?></p>
-                                        <?php echo form_open_multipart( 'user/accountsetting', array( 'id'=>'accountsetting', 'role'=>'form' ) ); ?>
-                                            <div class="form-group">
-                                                <p align="justify">
-                                                    <strong>Perhatian!</strong>
-                                                    File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
-                                                </p>
-                                                <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
+                                        
+                                        <?php if( $access ){ ?>
+                                            <?php echo form_open_multipart( 'user/accountsetting', array( 'id'=>'accountsetting', 'role'=>'form' ) ); ?>
                                                 <div class="form-group">
-                                                    <label>Unggah Avatar</label>
-                                                    <input id="ava_selection_files" name="ava_selection_files" class="form-control" type="file" />
+                                                    <p align="justify">
+                                                        <strong>Perhatian!</strong>
+                                                        File yang dapat di upload adalah dengan Ukuran Maksimal 1 MB dan format File adalah <strong>jpg/jpeg/png.</strong>
+                                                    </p>
+                                                    <input type="hidden" name="username" value="<?php echo $the_user->username; ?>" />
+                                                    <div class="form-group">
+                                                        <label>Unggah Avatar</label>
+                                                        <input id="ava_selection_files" name="ava_selection_files" class="form-control" type="file" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Avatar</button>
-                                        <?php echo form_close(); ?>
+                                                <button type="submit" class="btn btn-primary btn-sm bg-blue waves-effect">Ganti Avatar</button>
+                                            <?php echo form_close(); ?>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
+                            
                             <div role="tabpanel" class="tab-pane fade in" id="info">
                                 <?php echo form_open( 'user/personalinfo', array( 'id'=>'personal', 'role'=>'form', 'enctype'=>'multipart/form-data' ) ); ?>
                                     <div class="alert alert-danger text-center display-hide error-validate">
@@ -211,7 +219,9 @@
                                             <option value="1" <?php echo $user_marital == 1 ? 'selected="selected"' : '' ?>>MENIKAH</option>
                                         </select>
                                     </div>
+                                    <?php if($access){ ?>
                                     <button type="submit" class="btn btn-warning waves-effect">Perbaharui</button>
+                                    <?php } ?>
                                 <?php echo form_close(); ?>
                             </div>
                             
@@ -253,10 +263,13 @@
                                             echo form_dropdown('workunit_type',$option,$selected,$extra);
             	                        ?>
                                     </div>
+                                    <?php if($access){ ?>
                                     <button type="submit" class="btn btn-warning waves-effect">Perbaharui</button>
+                                    <?php } ?>
                                 <?php echo form_close(); ?>
                             </div>
                             
+                            <?php if($access){ ?>
                             <div role="tabpanel" class="tab-pane fade" id="change_password">
                                 <?php if( !empty($user_other) ){ ?>
                                     <?php if( $is_admin ){ ?>
@@ -370,6 +383,7 @@
                                     <?php echo form_close(); ?>
                                 <?php } ?>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

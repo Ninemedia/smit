@@ -6157,6 +6157,7 @@ class PraIncubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -6208,8 +6209,7 @@ class PraIncubation extends User_Controller {
                 $records["aaData"][] = array(
                     smit_center( $i ),
                     smit_center( $year ),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . $name . '</a>',
-                    //strtoupper( $name ),
+                    strtoupper( $name ),
                     strtoupper( $workunit ),
                     strtoupper( $event ),
                     //smit_center( $datecreated ),

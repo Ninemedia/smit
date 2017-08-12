@@ -17,10 +17,10 @@
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                        <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                        <a href="<?php echo base_url('layanan/frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
                         <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
                         <?php echo $desc; ?><br />
-                        <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
+                        <a href="<?php echo base_url('layanan/frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
                     </div>
                 </div>
             </div>

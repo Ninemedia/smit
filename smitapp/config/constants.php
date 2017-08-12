@@ -305,6 +305,8 @@ define('MAX_SCORE',   100);
 */
 define('LIMIT_DEFAULT',     10);
 define('LIMIT_DETAIL',      10);
+define('LIMIT_NEWS_FE',     5);
+define('LIMIT_BLOG_FE',     6);
 
 /*
 |--------------------------------------------------------------------------

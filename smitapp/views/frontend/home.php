@@ -107,10 +107,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
+                                                    <a href="<?php echo base_url('layanan/frontendberita/detail/'.$news->uniquecode.''); ?>" class="media-heading-link"><?php echo $news->title; ?></a>
                                                     <div class="media-date"><i class="icon-calendar"></i> <?php echo date('d M Y', strtotime($news->datecreated)); ?></div>
                                                     <?php echo $desc; ?><br />
-                                                    <a href="<?php echo base_url('frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
+                                                    <a href="<?php echo base_url('layanan/frontendberita/detail/'.$news->uniquecode.''); ?>"><strong>Selengkapnya</strong></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                 <?php } ?>
                                 </div>
                                 <?php if($countnews > LIMIT_DEFAULT){ ?>
-                                    <a href="<?php echo base_url('frontendberita'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
+                                    <a href="<?php echo base_url('layanan/frontendberita'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
                                 <?php } ?>
                             <?php }else{ ?>
                                 <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
@@ -129,16 +129,9 @@
                         <div class="tab-pane fade" id="blog">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="panel-body">
+                                    <div class="panel-body" id="blogtenantlist">
                                         <div class="row">
-                                            <?php
-                                                $condition          = ' WHERE %status% = 1';
-                                                if( !empty($category_id) ){
-                                                    $condition      = ' WHERE %status% = 1 AND %category_id% = '.$category_id.'';
-                                                }
-                                                $blog_list          = $this->Model_Tenant->get_all_blogtenant(0, 0, $condition);
-                                            ?>
-                                            <?php if( !empty($blog_list) ) : ?>
+                                            <?php if( !empty($blogdata) ) : ?>
                                             <?php
                                                 foreach($blogdata AS $row){
                                                     $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
@@ -163,9 +156,9 @@
                                                 <div class="alert alert-info">Saat ini sedang tidak ada blog tenant yang di publikasi. Terima Kasih.</div>
                                             <?php endif; ?>
                                         </div>
+                                        <div class="text-center"><?php echo $this->ajax_pagination->create_links(); ?></div>
                                     </div>
                                 </div>
-                            
                     		</div>
                         </div>
 
@@ -221,16 +214,29 @@
                 <div class="gtco-widget">
         			<div class="owl-carousel owl-carousel-footer">
                         <?php if( !empty($tenantdata) ) : ?>
-                        <?php
+                            <?php
+                            $i=0;
                             foreach($tenantdata AS $row){
                                 $file_name      = $row->filename . '.' . $row->extension;
                                 $file_url       = BE_UPLOAD_PATH . 'incubationtenant/'.$row->uploader.'/' . $file_name; 
                                 $tenant         = $file_url;
-                        ?>
-                        <div class="item">
-        					<img class="js-animating-object img-responsive" src="<?php echo $tenant; ?>" alt="" />
-        				</div>
-                        <?php } ?>
+                                $i++;
+                            ?>
+                            <div class="item">
+            					<img class="js-animating-object img-responsive" src="<?php echo $tenant; ?>" alt="" />
+            				</div>
+                            <?php } ?>
+                            <?php 
+                                if($i < 6){
+                                    $minus = 6 - $i;
+                                    for($j=1; $j<=$minus; $j++){
+                                        echo '
+                                        <div class="item">
+                        					<img class="js-animating-object img-responsive" src="'.FE_IMG_PATH.'tenant/logo-tenant1.jpg" alt="" />
+                        				</div>';
+                                    }
+                                } 
+                            ?>
                         <?php else : ?>
                             <div class="item">
             					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />

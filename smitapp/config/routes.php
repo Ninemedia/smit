@@ -300,11 +300,6 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // Frontend Page Routes
 // -------------------------------------------------------------------------
 // 1. Home
-// 1.1 News
-$route['frontendberita']                = "frontend/news";
-$route['frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
-$route['frontendberita/halaman']        = "frontend/newspagination";
-$route['frontendberita/halaman/(:num)'] = "frontend/newspagination/$1";
 // 2. About Me (Profile)
 $route['profil']                        = "frontend/profile";
 $route['tentangkami/profil']            = "frontend/profile";
@@ -319,34 +314,39 @@ $route['announcementlist']              = "frontend/announcementlistdata";
 $route['seleksi/prainkubasi']           = "frontend/selectionpraincubation";
 $route['seleksi/inkubasi']              = "frontend/selectionincubation";
 // 4. Pra-Incubation
-$route['prainkubasi/daftarprainkubasi'] = "frontend/listpraincubation";
-$route['prainkubasi/produkprainkubasi'] = "frontend/productpraincubation";
+$route['prainkubasi/daftarprainkubasi']                 = "frontend/listpraincubation";
+$route['prainkubasi/produkprainkubasi']                 = "frontend/productpraincubation";
 $route['prainkubasi/produkprainkubasi/detail/(:any)']   = "frontend/productpraincubationdetail/$1";
 $route['prainkubasi/produkprainkubasi/kategori/(:any)'] = "frontend/productpraincubation/$1";
-$route['prainkubasi/daftarprainkubasidata'] = "frontend/praincubationdata";
+$route['prainkubasi/daftarprainkubasidata']             = "frontend/praincubationdata";
 // 5. Incubation/Tenant
-$route['tenant/daftartenant']           = "frontend/listtenant";
-$route['tenant/daftartenantdata']       = "frontend/tenantlistdata";
-$route['tenant/produktenant']           = "frontend/producttenant";
+$route['tenant/daftartenant']                   = "frontend/listtenant";
+$route['tenant/daftartenantdata']               = "frontend/tenantlistdata";
+$route['tenant/produktenant']                   = "frontend/producttenant";
 $route['tenant/produktenant/detail/(:any)']     = "frontend/producttenantdetail/$1";
 $route['tenant/produktenant/kategori/(:any)']   = "frontend/producttenant/$1";
-$route['tenant/fasilitastenant']        = "frontend/fasilitiestenant";
-$route['tenant/blogtenant']             = "frontend/blogtenant";
+$route['tenant/fasilitastenant']                = "frontend/fasilitiestenant";
+$route['tenant/blogtenant']                     = "frontend/blogtenant";
 $route['tenant/blogtenant/detail/(:any)']       = "frontend/blogtenantdetail/$1";
 $route['tenant/blogtenant/kategori/(:any)']     = "frontend/blogtenant/$1";
+$route['tenant/blogtenant/halaman']             = "frontend/blogpagination";
+$route['tenant/blogtenant/halaman/(:num)']      = "frontend/blogpagination/$1";
 /*
 $route['tenant/kategoritenant']         = "frontend/blogcategory";
 */
 // 6. Berkas Digital
-$route['berkasdigital']                 = "frontend/guide";
+$route['berkasdigital']                         = "frontend/guide";
 // 7. Info Grafis
-$route['infografis']                    = "frontend/statistic";
+$route['infografis']                            = "frontend/statistic";
 // 8. Layanan
-$route['layanan/komunikasi']            = "frontend/communication";
-$route['layanan/ikm']                   = "frontend/ikm";
-$route['layanan/frontendberita']        = "frontend/news";
+$route['layanan/komunikasi']                    = "frontend/communication";
+$route['layanan/ikm']                           = "frontend/ikm";
+$route['layanan/frontendberita']                = "frontend/news";
+$route['layanan/frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
+$route['layanan/frontendberita/halaman']        = "frontend/newspagination";
+$route['layanan/frontendberita/halaman/(:num)'] = "frontend/newspagination/$1";
 // 9. Contact
-$route['kontak']                        = "frontend/contact";
+$route['kontak']                            = "frontend/contact";
 
 // All
 $route['unduhberkas/(:any)']                = "frontend/guidesdownloadfile/$1";
