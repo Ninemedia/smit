@@ -72,7 +72,7 @@ var TableAjax = function () {
 
     // Juri History List Pra-Inkubasi
     var handleRecordsJuryHistoryList = function() {
-        gridTable( $("#praincubationhistory_list"), true );
+        gridTable( $("#praincubationhistory_list"), true, [ -1, 1, 0 ], true, $('#btn_list_historyreset') );
     };
     // Juri History List Inkubasi
     var handleRecordsJuryHistoryIncubationList = function() {

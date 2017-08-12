@@ -488,6 +488,419 @@ class SMIT_Excel extends PHPExcel
 		return $this->simpleOutput(true, $pdf);
 	}
     
+    /**
+	 * Export Score Step 1
+	 */
+	function exportScoreStep1($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Penilaian Pra-Inkubasi Tahap 1';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai', 'Status' );
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('incsel_status');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			
+            if($row->status == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == RATED)       { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == ACCEPTED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            elseif($row->status == REJECTED)    { $status = ''.strtoupper($cfg_status[$row->status]).''; }
+            
+            $workunit_type  = smit_workunit_type($row->workunit);
+            $workunit       = $workunit_type->workunit_name;
+            $sum_score      = $row->score;
+            $average_score  = $row->average_score;
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $row->year,
+                strtoupper($row->user_name),
+                strtoupper($workunit),
+				strtoupper($row->event_title),
+                $sum_score,
+                $average_score,
+                $status
+			);
+		}
+
+		// complete subtitle
+		//$this->subTitle = 'Tanggal Daftar Penilaian Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:H1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:H6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:H6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:H6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:H6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E7:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('F7:F' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('G7:G' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('H7:H' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A7:H' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(10);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(40);
+		$this->worksheet->getColumnDimension('E')->setWidth(70);
+		$this->worksheet->getColumnDimension('F')->setWidth(30);
+		$this->worksheet->getColumnDimension('G')->setWidth(30);
+		$this->worksheet->getColumnDimension('H')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    /**
+	 * Export Score Step 2
+	 */
+	function exportScoreStep2($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Penilaian Pra-Inkubasi Tahap 2';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai', 'Status' );
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('incsel_status_steptwo');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+			
+            if($row->statustwo == NOTCONFIRMED)    { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
+            elseif($row->statustwo == CONFIRMED)   { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
+            elseif($row->statustwo == RATED)       { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
+            elseif($row->statustwo == ACCEPTED)    { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
+            elseif($row->statustwo == REJECTED)    { $status = ''.strtoupper($cfg_status[$row->statustwo]).''; }
+            
+            $workunit_type  = smit_workunit_type($row->workunit);
+            $workunit       = $workunit_type->workunit_name;
+            $sum_score      = $row->scoretwo;
+            $average_score  = $row->average_scoretwo;
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $row->year,
+                strtoupper($row->user_name),
+                strtoupper($workunit),
+				strtoupper($row->event_title),
+                $sum_score,
+                $average_score,
+                $status
+			);
+		}
+
+		// complete subtitle
+		//$this->subTitle = 'Tanggal Daftar Penilaian Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:H1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:H6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:H6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:H6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:H6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E7:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('F7:F' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('G7:G' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('H7:H' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A7:H' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(10);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(40);
+		$this->worksheet->getColumnDimension('E')->setWidth(70);
+		$this->worksheet->getColumnDimension('F')->setWidth(30);
+		$this->worksheet->getColumnDimension('G')->setWidth(30);
+		$this->worksheet->getColumnDimension('H')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    /**
+	 * Export Ranking Step 1
+	 */
+	function exportrankingStep1($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Rangking Pra-Inkubasi Tahap 1';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai');
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('incsel_status');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+            
+            $workunit_type  = smit_workunit_type($row->workunit);
+            $workunit       = $workunit_type->workunit_name;
+            $sum_score      = $row->score;
+            $average_score  = $row->average_score;
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $row->year,
+                strtoupper($row->user_name),
+                strtoupper($workunit),
+				strtoupper($row->event_title),
+                $sum_score,
+                $average_score,
+			);
+		}
+
+		// complete subtitle
+		//$this->subTitle = 'Tanggal Daftar Penilaian Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:G1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:G6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:G6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E7:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('F7:F' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('G7:G' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A7:G' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(10);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(40);
+		$this->worksheet->getColumnDimension('E')->setWidth(70);
+		$this->worksheet->getColumnDimension('F')->setWidth(30);
+		$this->worksheet->getColumnDimension('G')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    /**
+	 * Export Ranking Step 2
+	 */
+	function exportrankingStep2($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Rangking Pra-Inkubasi Tahap 2';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Total Nilai', 'Rata Nilai');
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('incsel_status');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+            
+            $workunit_type  = smit_workunit_type($row->workunit);
+            $workunit       = $workunit_type->workunit_name;
+            $sum_score      = $row->scoretwo;
+            $average_score  = $row->average_scoretwo;
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $row->year,
+                strtoupper($row->user_name),
+                strtoupper($workunit),
+				strtoupper($row->event_title),
+                $sum_score,
+                $average_score,
+			);
+		}
+
+		// complete subtitle
+		//$this->subTitle = 'Tanggal Daftar Penilaian Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:G1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:G6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:G6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E7:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('F7:F' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('G7:G' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A7:G' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(10);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(40);
+		$this->worksheet->getColumnDimension('E')->setWidth(70);
+		$this->worksheet->getColumnDimension('F')->setWidth(30);
+		$this->worksheet->getColumnDimension('G')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
+    /**
+	 * Export History Praincubation
+	 */
+	function exportHistoryPraincubation($data=array(), $pdf=false) {
+		// setup necessary information
+		$this->title 	= 'Daftar Riwayat Pra-Inkubasi';
+		$this->heading 	= array( 'No', 'Tahun', 'Nama Peneliti Utama', 'Satuan Kerja', 'Judul Kegiatan', 'Step', 'Nilai');
+		$this->data		= array();
+        // config type user
+        $cfg_status     = config_item('incsel_status');
+		
+		// set data
+		$no=1;
+		foreach($data as $row) {
+			if ($no==1) //$this->subTitle = date('d M, Y', strtotime($row->datecreated)); // since the export data is datecreated DESC
+            
+            $rate           = $row->rate_total;
+            $year           = $row->year;
+            $name_jury      = strtoupper($row->name_jury);
+            $name           = strtoupper($row->name);
+            $event          = $row->event_title;
+            $step           = $row->step;
+            $datecreated    = date('d F Y', strtotime($row->datecreated));
+
+            if( $step == 1 || $step == 2 ){
+                if($rate < KKM_STEP1 || $rate < KKM_STEP2){
+                    $rate           = '<strong style="color: red !important;">'.$rate.'</strong>';
+                    $year           = '<strong style="color: red !important;">'.$year.'</strong>';
+                    $name_jury      = '<strong style="color: red !important;">'.$name_jury.'</strong>';
+                    $name           = '<strong style="color: red !important;">'.$name.'</strong>';
+                    $event          = '<strong style="color: red !important;">'.$event.'</strong>';
+                    $step           = '<strong style="color: red !important;">'.$step.'</strong>';
+                    $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';
+                }
+            }
+            
+			$this->data[] = array(
+				$no++ . '.',
+                $year,
+                $name_jury,
+                $name,
+				$event,
+                $step,
+                $rate
+			);
+		}
+
+		// complete subtitle
+		//$this->subTitle = 'Tanggal Daftar Penilaian Pra-Inkubasi Tahap 1 : ' . date('d M, Y', strtotime($row->datecreated)) . ' s/d ' . $this->subTitle;
+		
+		// init simple export
+		$this->simpleInit($pdf);
+		
+		$rowNumber = count($this->data);
+		
+		// styling excel file
+        $this->worksheet->mergeCells('A1:G1');
+        $this->worksheet->getStyle('A1')->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        ));
+        $this->worksheet->getStyle('A1')->getFont()->setSize(13)->setBold(true);
+        
+		$this->worksheet->getStyle('A6:G6')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('A6:G6')->applyFromArray($this->styleHeading);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setBold(true);
+        $this->worksheet->getStyle('A6:G6')->getFont()->setColor( new PHPExcel_Style_Color( PHPExcel_Style_Color::COLOR_WHITE ) );
+		$this->worksheet->getStyle('A7:A' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('B7:B' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('C7:C' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('D7:D' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('E7:E' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->worksheet->getStyle('F7:F' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->worksheet->getStyle('G7:G' . $rowNumber)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$this->worksheet->getStyle('A7:G' . $rowNumber)->applyFromArray($this->styleBorderThin);
+		
+		$this->worksheet->getColumnDimension('A')->setWidth(5);
+		$this->worksheet->getColumnDimension('B')->setWidth(10);
+		$this->worksheet->getColumnDimension('C')->setWidth(40);
+		$this->worksheet->getColumnDimension('D')->setWidth(40);
+		$this->worksheet->getColumnDimension('E')->setWidth(70);
+		$this->worksheet->getColumnDimension('F')->setWidth(30);
+		$this->worksheet->getColumnDimension('G')->setWidth(30);
+        
+        $this->worksheet->getRowDimension('6')->setRowHeight(20);
+        $this->worksheet->getRowDimension('1')->setRowHeight(30);
+
+		// output to user browser
+		return $this->simpleOutput(true, $pdf);
+	}
+    
     // ---------------------------------------------------------------------------
 	
 	/**

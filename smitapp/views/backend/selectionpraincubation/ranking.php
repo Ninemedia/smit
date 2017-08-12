@@ -23,6 +23,18 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
                             <div class="table-container table-responsive table-praincubation-score">
+                                <div class="table-actions-wrapper">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                            Export
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                            <!-- <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li> -->
+                                        </ul>
+                                    </div>
+                        		</div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiprainkubasi/peringkatstep1'); ?>">
                                     <thead>
                             			<tr role="row" class="heading bg-blue">
@@ -98,6 +110,18 @@
 
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                             <div class="table-container table-responsive">
+                                <div class="table-actions-wrapper">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                            Export
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                            <!-- <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li> -->
+                                        </ul>
+                                    </div>
+                        		</div>
                                 <table class="table table-striped table-bordered table-hover" id="admin_steptwo" data-url="<?php echo base_url('seleksiprainkubasi/peringkatstep2'); ?>">
                                     <thead>
                 						<tr role="row" class="heading bg-blue">

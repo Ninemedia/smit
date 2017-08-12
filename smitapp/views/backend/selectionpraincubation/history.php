@@ -6,6 +6,18 @@
             <div class="body">
                 <?php if($is_admin): ?>
                 <div class="table-container table-responsive table-praincubation-history">
+                    <div class="table-actions-wrapper">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-warning dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
+                                <!-- <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li> -->
+                            </ul>
+                        </div>
+            		</div>
                     <table class="table table-striped table-bordered table-hover" id="praincubationhistory_list" data-url="<?php echo base_url('seleksiprainkubasi/riwayatdata'); ?>">
                         <thead>
     						<tr role="row" class="heading bg-blue">
@@ -59,9 +71,9 @@
     							</td>
     							<td style="text-align: center;">
                                     <div class="bottom5">
-    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_user">Search</button>
+    								    <button class="btn bg-blue waves-effect filter-submit" id="btn_list_history">Search</button>
                                     </div>
-                                    <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                    <button class="btn bg-red waves-effect filter-cancel" id="btn_list_historyreset">Reset</button>
     							</td>
     						</tr>
                         </thead>

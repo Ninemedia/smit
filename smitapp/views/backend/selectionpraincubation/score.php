@@ -53,7 +53,7 @@
                                             </a>
                                             <ul class="dropdown-menu pull-right">
                                                 <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
-                                                <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                                <!--<li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li> -->
                                             </ul>
                                         </div>
                                     <?php // } ?>
@@ -177,7 +177,7 @@
                                         </a>
                                         <ul class="dropdown-menu pull-right">
                                             <li><a href="javascript:;" class="table-export-excel"> Export ke Excel </a></li>
-                                            <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li>
+                                            <!-- <li><a href="javascript:;" class="table-export-pdf"> Export ke PDF </a></li> -->
                                         </ul>
                                     </div>
                                 <?php //} ?>
