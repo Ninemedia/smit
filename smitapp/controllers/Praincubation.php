@@ -5794,7 +5794,7 @@ class PraIncubation extends User_Controller {
                 $btn_edit           = '';
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                    $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                    $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.strtoupper($companiondata->name).'" title="Ubah"><i class="material-icons">edit</i></a>';
                 }else{ 
                     $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; 
                 }
