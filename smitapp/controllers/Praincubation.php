@@ -513,6 +513,29 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+        
+        if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
+                
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportSelectionStep2( $data_list );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data seleksi Pra-Inkubasi untuk di export';
+        	}
+        }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_pdf"){
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
+        	if( !empty($data_list) ){
+        		$export                     = $this->smit_excel->exportSelectionStep2( $data_list, true );
+        		$records["sStatus"]         = "EXPORTED";
+        		$records["sMessage"]        = $export;
+        	}else{
+        		$records["sStatus"]         = "ERROR";
+        		$records["sMessage"]        = 'Tidak ada data seleksi Pra-Inkubasi untuk di export';
+        	}
+        }
 
         $records["sEcho"]                   = $sEcho;
         $records["iTotalRecords"]           = $iTotalRecords;
