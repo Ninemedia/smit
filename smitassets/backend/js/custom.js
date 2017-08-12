@@ -1360,6 +1360,7 @@ var Tenant = function () {
             var url             = $(this).attr('href');
             var table_container = $('#list_tenant_team').parents('.dataTables_wrapper');
             var el_uniquecode   = $('input.tenant_team_uniquecode');
+            var el_uniquecode_e = $('input.tenant_team_uniquecode_edit');
             var el_ava          = $('div.tenant-team-ava-wrapper');
             var el_name         = $('input.team_name_edit');
             var el_position     = $('input.team_position_edit');
@@ -1387,6 +1388,7 @@ var Tenant = function () {
                         return false;
                     }else{
                         el_uniquecode.val(response.data.uniquecode);
+                        el_uniquecode_e.val(response.data.uniquecode);
                         el_ava.html(response.data.ava);
                         el_name.val(response.data.name);
                         el_position.val(response.data.position);

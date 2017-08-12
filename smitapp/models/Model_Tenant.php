@@ -252,7 +252,9 @@ class Model_Tenant extends SMIT_Model{
             $order_by = str_replace("%datecreated%",            "A.datecreated", $order_by);
         }
 
-        $sql = 'SELECT A.* FROM ' . $this->tenant_team. ' AS A ';
+        $sql = '
+        SELECT A.*, B.user_id FROM ' . $this->tenant_team . ' AS A 
+        LEFT JOIN ' . $this->tenant . ' AS B ON B.id = A.id_tenant ';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
@@ -901,7 +903,7 @@ class Model_Tenant extends SMIT_Model{
     }
     
     /**
-     * Delete Tenant Lit
+     * Delete Tenant List
      *
      * @param   Int     $id     (Required)  PIN Posting ID
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
@@ -912,6 +914,23 @@ class Model_Tenant extends SMIT_Model{
 
         $this->db->where('uniquecode', $uniquecode);
         if( $this->db->delete($this->tenant) )
+            return true;
+
+        return false;
+    }
+    
+    /**
+     * Delete Tenant Team List
+     *
+     * @param   Int     $id     (Required)  Tenant Team ID
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function delete_tenant_team($id){
+        if( empty($id) )
+            return false;
+
+        $this->db->where('id', $id);
+        if( $this->db->delete($this->tenant_team) )
             return true;
 
         return false;

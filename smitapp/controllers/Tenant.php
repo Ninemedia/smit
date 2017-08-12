@@ -946,7 +946,7 @@ class Tenant extends User_Controller {
                 $logo       = '<img src="'.$logo_file.'" class="tenant-team-list-logo" />';
                 
                 $btn_edit   = '<a href="'.base_url('tenants/tenantteamdetail/'.$row->uniquecode).'"
-                    class="tenantteamedit btn btn-xs btn-primary waves-effect tooltips bottom5" data-placement="left" title="Edit"><i class="material-icons">edit</i></a> ';
+                    class="tenantteamedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Edit"><i class="material-icons">edit</i></a> ';
                 
                 $records["aaData"][] = array(
                     smit_center('<input name="tenantteamlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
@@ -969,9 +969,30 @@ class Tenant extends User_Controller {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $tenantteamlist         = $_REQUEST['tenantteamlist'];
             
-            $proses                 = $this->tenantteamlistproses($sGroupActionName, $tenantteamlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            // Check Tenant Data
+            $tenantdata             = $this->Model_Tenant->get_tenantdata_by_id($id_tenant);
+            if( !$tenantdata ){
+                $status             = 'ERROR';
+                $message            = 'Proses tidak dapat dilakukan karena data tenant tidak ditemukan atau belum terdaftar';
+            }else{
+                if( !$is_admin ){
+                    if( $current_user->id != $tenantdata->user_id ){
+                        $status     = 'ERROR';
+                        $message    = 'Proses tidak dapat dilakukan karena data tim tenant bukan tim tenant Anda';
+                    }else{
+                        $proses     = $this->tenantteamlistproses($sGroupActionName, $tenantteamlist);
+                        $status     = $proses['status'];
+                        $message    = $proses['message'];
+                    }
+                }else{
+                    $proses         = $this->tenantteamlistproses($sGroupActionName, $tenantteamlist);
+                    $status         = $proses['status'];
+                    $message        = $proses['message'];
+                }
+            }
+
+            $records["sStatus"]     = $status; 
+            $records["sMessage"]    = $message; 
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -979,6 +1000,45 @@ class Tenant extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Tenant Team List Proses function.
+	 */
+    function tenantteamlistproses($action, $data){
+        $response = array();
+        
+        if ( !$action ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Silahkan pilih proses',
+            );
+            return $response;
+        };
+        
+        if ( !$data ){
+            $response = array(
+                'status'    => 'ERROR',
+                'message'   => 'Tidak ada data terpilih untuk di proses',
+            );
+            return $response;
+        };
+        
+        $curdate = date('Y-m-d H:i:s');
+        if( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        
+        $data = (object) $data;
+        foreach( $data as $key => $id ){
+            if( $action=='delete' ){
+                $tenantteamlistdelete = $this->Model_Tenant->delete_tenant_team($id);    
+            }
+        }
+        
+        $response = array(
+            'status'    => 'OK',
+            'message'   => 'Proses '.strtoupper($actiontxt).' data daftar tim tenant selesai di proses',
+        );
+        return $response;
     }
     
     /**
@@ -1017,6 +1077,61 @@ class Tenant extends User_Controller {
         // Set JSON data
         $data = array('status' => 'success','message' => 'Data tim tenant berhasil ditemukan!','data'=>$teamdata_json);
         die(json_encode($data));
+    }
+    
+    /**
+	 * Tenant Team Edir data function.
+	 */
+    function tenantteamedit(){
+        // This is for AJAX request
+    	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
+        
+        $curdate                = date('Y-m-d H:i:s');
+        $uniquecode             = $this->input->post('tenant_team_uniquecode_edit');
+        $uniquecode             = trim( smit_isset($uniquecode, '') );
+        $name                   = $this->input->post('team_name_edit');
+        $name                   = trim( smit_isset($name, 0) );
+        $position               = $this->input->post('team_position_edit');
+        $position               = trim( smit_isset($position, "") );
+        
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('team_name_edit','Name Tim','required');
+        $this->form_validation->set_rules('team_position_edit','Position Tim','required');
+        
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+        
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan data tim tenant tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+        
+        // Check Tenant Team Data
+        if( !$teamdata_all = $this->Model_Tenant->get_all_tenant_team(0,0,' WHERE %uniquecode% LIKE "'.$uniquecode.'"','')){
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Data tim tenant tidak ditemukan atau belum terdaftar!');
+            die(json_encode($data));
+        }
+        $teamdata           = $teamdata_all[0];
+        
+        $teamdata_update    = array(
+            'name'          => $name,
+            'position'      => $position,
+            'datemodified'  => $curdate,
+        );
+        
+        if( $this->Model_Tenant->update_data_tenant_team($teamdata->id, $teamdata_update) ){
+            // Set JSON data
+            $data = array('status' => 'success','message' => 'Pembaharuan data tim tenant berhasil');
+            die(json_encode($data));
+        }else{
+            // Set JSON data
+            $data = array('status' => 'error','message' => 'Pembaharuan data tim tenant tidak berhasil');
+            die(json_encode($data));
+        }
     }
     
     /**

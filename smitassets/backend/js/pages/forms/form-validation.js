@@ -2014,11 +2014,8 @@ var TenantValidation = function () {
                 }
             },
             submitHandler: function (form) {
-                bootbox.confirm("Anda yakin akan mengganti avatar?", function(result) {
-                    if( result == true ){
-                        processUpdateAvatarTenantTeam($('#tenantteamava'));
-                    }
-                });
+                processUpdateAvatarTenantTeam($('#tenantteamava'));
+                return false; 
             }
         });
 
@@ -2027,6 +2024,7 @@ var TenantValidation = function () {
             var data    = new FormData(form[0]);
             var wrapper = $('#tenantteamava');
             var elimg   = $('.tenant-team-ava-wrapper');
+            var msg     = $('#alert');
 
             $.ajax({
     			type : "POST",
@@ -2043,31 +2041,20 @@ var TenantValidation = function () {
                     response = $.parseJSON( response );
                     
                     if( response.status == 'error' ){
-                        App.alert({
-                            type: 'danger',
-                            icon: 'warning',
-                            message: response.message,
-                            container: wrapper,
-                            place: 'prepend',
-                            closeInSeconds: 2,
-                        });
+                        msg.html(response.message);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
-                        App.alert({
-                            type: 'success',
-                            icon: 'check',
-                            message: response.message,
-                            container: wrapper,
-                            place: 'prepend',
-                            closeInSeconds: 2,
-                        });
+                        msg.html(response.message);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
                         
                         $('#tenantteamava')[0].reset();
                         $('#tenant_team_ava_files').fileinput('refresh');
                         elimg.empty().html(response.file).fadeIn();
-                        //$('button#btn_list_tenant_team_reset').trigger('click');
+                        $('button#btn_list_tenant_team_reset').trigger('click');
                     }
     			}
     		});
+            return false;
         };
         
         $('#tenant_team_ava_files').on('fileselect', function(event, numFiles, label) {
@@ -2082,6 +2069,92 @@ var TenantValidation = function () {
             }
             $('#tenantteamava label.error').remove();
         });
+    };
+    
+    var handleEditTenantTeamValidation = function(){
+        $("body").delegate( "button.btn-edit-tenant-team", "click", function( event ) {
+            event.preventDefault();
+            
+            $('#tenantteamedit').validate({
+                focusInvalid: true, // do not focus the last invalid input
+                ignore: "",
+                rules: {
+                    team_name_edit: {
+                        required: true,
+                    },
+                    team_position_edit: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    team_name_edit: {
+                        required: "Nama tim tenant harus diisi."
+                    },
+                    team_position_edit: {
+                        required: "Posisi tim tenant harus diisi."
+                    },
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit
+                    $('.alert-danger', $(this)).fadeIn();
+                },
+                highlight: function (element) { // hightlight error inputs
+                    console.log(element);
+                    $(element).parents('.form-line').addClass('error'); // set error class to the control group
+                },
+                unhighlight: function (element) {
+                    $(element).parents('.form-line').removeClass('error');
+                },
+                success: function (label) {
+                    label.closest('.form-line').removeClass('error');
+                    label.remove();
+                },
+                errorPlacement: function (error, element) {
+                    if (element.parents(".form-group").size() > 0) {
+                        element.parents(".form-group").append(error);
+                    } else if (element.attr("data-error-container")) {
+                        error.appendTo(element.attr("data-error-container"));
+                    } else {
+                        error.insertAfter(element); // for other inputs, just perform default behavior
+                    }
+                },
+                submitHandler: function (form) {
+                    processEditTenantTeam($('#tenantteamedit'));
+                }
+            });
+            
+            if( $('#tenantteamedit').valid() ){
+                $('#tenantteamedit').submit();
+            }
+        });
+
+        var processEditTenantTeam = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = $('#tenantteamedit').serialize();
+            var msg     = $('#alert');
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+                    
+                    if( response.status == 'error' ){
+                        msg.html(response.message);
+                        msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
+                    }else{
+                        msg.html(response.message);
+                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
+                        $('button#btn_list_tenant_team_reset').trigger('click');
+                    }
+    			}
+    		});
+            return false;
+        };
     };
 
     var handleAddBlogTenantValidation = function(){
@@ -2305,6 +2378,7 @@ var TenantValidation = function () {
             handleAddBlogTenantValidation();
             handleAddTeamTenantValidation();
             handleAvatarTenantTeamValidation();
+            handleEditTenantTeamValidation();
         }
     };
 }();

@@ -278,6 +278,7 @@
                 <!-- ============================ -->
                 <div class="tenant-team-ava-wrapper"><!-- Will be place by AJAX response --></div>
                 <h3 class="tenant-name text-center bottom35"><!-- Will be place by AJAX response --></h3>
+                <div id="alert" class="alert"></div>
                 <?php echo form_open_multipart( 'tenant/tenantteamava', array( 'id'=>'tenantteamava', 'role'=>'form' ) ); ?>
                     <div class="form-group">
                         <p align="justify">
@@ -299,6 +300,7 @@
                 <!-- ===== Tenant Team Data ===== -->
                 <!-- ============================ -->
                 <?php echo form_open( 'tenant/tenantteamedit', array( 'id'=>'tenantteamedit', 'role'=>'form' ) ); ?>
+                <input type="hidden" class="tenant_team_uniquecode_edit" name="tenant_team_uniquecode_edit" value="" />
                 <div class="form-group">
                     <label class="form-label" for="team_name_edit">Nama *</label>
                     <div class="input-group">
@@ -317,12 +319,13 @@
                         </div>
                     </div>
                 </div>
+                <?php echo form_close(); ?>
             </div>
 			<div class="modal-footer">
 				<button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="submit" class="btn btn-info waves-effect">Ubah</button>
+				<button type="button" class="btn btn-info waves-effect btn-edit-tenant-team">Ubah</button>
 			</div>
-            <?php echo form_close(); ?>
+            
 		</div>
 	</div>
 </div>
