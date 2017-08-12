@@ -83,9 +83,10 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
-        $config['base_url']     = base_url('tenant/blogtenant');
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
         $config['total_rows']   = $counttenantdata;
         $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
         $blogtenantdata         = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, 0, ' WHERE %status% = 1');
@@ -124,18 +125,19 @@ class Frontend extends Public_Controller {
 
         // Pagination configuration
         $config['target']       = '#blogtenantlist';
-        $config['base_url']     = base_url('layanan/frontendberita/halaman');
+        $config['base_url']     = base_url('tenant/blogtenant/halaman');
         $config['total_rows']   = $countblogdata;
         $config['per_page']     = $this->perPageBlog;
+        $config['uri_segment']  = 4;
         $this->ajax_pagination->initialize($config);
 
-        $blogdata               = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, $offset, ' WHERE status = 1');
+        $blogdata               = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, $offset, ' WHERE %status% = 1');
 
         //get the posts data
         $data['blogdata']       = $blogdata;
 
         //load the view
-        $this->load->view(VIEW_FRONT . 'blogpagination', $data);
+        $this->load->view(VIEW_FRONT . 'tenant/blogpagination', $data);
     }
 
     // ---------------------------------------------------------------------------------------------
