@@ -91,7 +91,7 @@ class AJAX_Pagination{
 
         // Is there only one page? Hm... nothing more to do here then.
         if ($num_pages == 1){
-            $info = 'Showing : ' . $this->total_rows;
+            $info = '<strong>Tampil : ' . $this->total_rows . ' data</strong>';
             return $info;
         }
 

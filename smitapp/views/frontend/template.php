@@ -41,7 +41,7 @@
             			<div class="row">
             				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             					<div id="gtco-logo">
-                                    <a href="<?php echo base_url(); ?>"><img src="<?php echo FE_IMG_PATH; ?>logo/logo.png" alt="" /></a>
+                                    <a href="<?php echo base_url(); ?>"><img src="<?php echo FE_IMG_PATH; ?>logo/logo.jpg" alt="" /></a>
                                 </div>
             				</div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">

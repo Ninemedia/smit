@@ -876,9 +876,9 @@ class User extends SMIT_Controller {
         
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        $user_data              = '';
         
-        if ( $id > 0 && $is_admin ){
+        $user_data              = '';
+        if ( $id > 0 ){
             $user_data          = smit_get_userdata_by_id($id);
         }
         

@@ -300,11 +300,6 @@ $route['unduh/(:any)']                  = "backend/guidesdownloadfile/$1";
 // Frontend Page Routes
 // -------------------------------------------------------------------------
 // 1. Home
-// 1.1 News
-$route['frontendberita']                = "frontend/news";
-$route['frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
-$route['frontendberita/halaman']        = "frontend/newspagination";
-$route['frontendberita/halaman/(:num)'] = "frontend/newspagination/$1";
 // 2. About Me (Profile)
 $route['profil']                        = "frontend/profile";
 $route['tentangkami/profil']            = "frontend/profile";
@@ -342,11 +337,14 @@ $route['berkasdigital']                 = "frontend/guide";
 // 7. Info Grafis
 $route['infografis']                    = "frontend/statistic";
 // 8. Layanan
-$route['layanan/komunikasi']            = "frontend/communication";
-$route['layanan/ikm']                   = "frontend/ikm";
-$route['layanan/frontendberita']        = "frontend/news";
+$route['layanan/komunikasi']                    = "frontend/communication";
+$route['layanan/ikm']                           = "frontend/ikm";
+$route['layanan/frontendberita']                = "frontend/news";
+$route['layanan/frontendberita/detail/(:any)']  = "frontend/newsdetails/$1";
+$route['layanan/frontendberita/halaman']        = "frontend/newspagination";
+$route['layanan/frontendberita/halaman/(:num)'] = "frontend/newspagination/$1";
 // 9. Contact
-$route['kontak']                        = "frontend/contact";
+$route['kontak']                            = "frontend/contact";
 
 // All
 $route['unduhberkas/(:any)']                = "frontend/guidesdownloadfile/$1";

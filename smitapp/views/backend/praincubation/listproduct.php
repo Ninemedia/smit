@@ -88,6 +88,7 @@
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">
+                                <?php if( !empty($praincubation_list) ) : ?>
                                 <h4>Masukan Data Produk Pra-Inkubasi</h4>
                                 <div class="form-group">
                                     <label class="form-label">Usulan Kegiatan Pra-Inkubasi<b style="color: red !important;">(*)</b></label>
@@ -132,7 +133,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <?php if( !empty($praincubation_list) ) : ?>
                                 <div class="form-group">
                                     <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
                                     <div class="input-group">
@@ -175,7 +175,7 @@
                                 <button type="button" class="btn btn-danger waves-effect" id="btn_productadd_reset">Bersihkan</button>
 
                                 <?php else : ?>
-                                    <div class="alert bg-info">
+                                    <div class="alert bg-blue">
                                         <strong>Perhatian!</strong>
                                         Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada usulan seleksi yang sudah di dampingi oleh pendamping. Terima Kasih.</strong>
                                     </div>
