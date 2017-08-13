@@ -104,7 +104,7 @@
         }
     ?>
     <?php if($is_admin): ?>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
             <div class="icon">
                 <i class="material-icons">person_add</i>
@@ -116,7 +116,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-green hover-expand-effect">
             <div class="icon">
                 <i class="material-icons">info</i>
@@ -128,6 +128,7 @@
             </div>
         </div>
     </div>
+    <!--
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-orange hover-expand-effect">
             <div class="icon">
@@ -152,6 +153,7 @@
             </div>
         </div>
     </div>
+    -->
     <?php elseif( as_juri($user) ): ?>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="info-box bg-blue hover-expand-effect">
@@ -248,7 +250,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Selamat <?php echo $hi . ' <strong>' . strtoupper($name) . '</strong>'; ?></h2></div>
+            <div class="header"><h2>Master Data, Selamat <?php echo $hi . ' <strong>' . strtoupper($name) . '</strong>'; ?></h2></div>
             <div class="body bg-light-green">
                 <p>Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a>. Status Anda saat ini sebagai <strong><?php echo $status; ?></strong></p>
                 <p></p>
@@ -256,7 +258,83 @@
             
             <?php if( $is_admin ): ?>
                 <div class="body">
-                    <div class="panel-group" role="tablist" aria-multiselectable="true">        
+                    <div class="panel-group" role="tablist" aria-multiselectable="true">
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Pengguna</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Pengguna</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pengguna/daftar'); ?>">Daftar Pengguna</a></li>
+                                    </ul>
+                                    <h5>Layanan</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('layanan/pesanumum'); ?>">Pesan Umum</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('layanan/komunikasibantuan'); ?>">Komunikasi & Bantuan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('layanan/ikm'); ?>">Pengukuran IKM</a></li>
+                                    </ul>
+                                    <h5>Pengaturan Umum</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pengaturan/depan'); ?>">Pengaturan Frontend</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pengaturan/belakang'); ?>">Pengaturan Backend</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/pengaturan'); ?>">Pengaturan Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>">Daftar Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                    <h5>Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/daftar'); ?>">Daftar Hasil Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/produk'); ?>">Produk Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/laporan'); ?>">Laporan Pra-Inkubasi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/pengaturan'); ?>">Pengaturan Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/daftar'); ?>">Daftar Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                    <h5>Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftarinkubasi'); ?>">Daftar Hasil Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftar'); ?>">Daftar Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/produk'); ?>">Produk Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/blosg'); ?>">Blog Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pembayaran'); ?>">Pembayaran</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/laporan'); ?>">Laporan Tenant</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Pendampingan</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pendamping/notulensiprainkubasi'); ?>">Notulensi Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pendamping/notulensiinkubasi'); ?>">Notulensi Inkubasi</a></li>
+                                    </ul>
+                                    <h5>Info Grafis</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('infografis/pengguna'); ?>">Pengguna</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('infografis/prainkubasi'); ?>">Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('infografis/inkubasi'); ?>">Inkubasi / Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('infografis/ikm'); ?>">Pengukuran IKM</a></li>
+                                    </ul>
+                                    <h5><a href="<?php echo base_url('berita'); ?>">Berita</a></h5>
+                                    <h5><a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a></h5>
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                </div>
+                            </div><hr />
+                        </div>        
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="heading_total">
                                 <h4 class="panel-title">
@@ -265,7 +343,7 @@
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapse_total" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_total">
+                            <div id="collapse_total" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_total">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
