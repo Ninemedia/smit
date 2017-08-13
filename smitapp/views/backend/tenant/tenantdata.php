@@ -352,6 +352,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab_tenant">
                         <div class="table-container table-responsive">
+                            <!--
                             <div class="table-actions-wrapper">
         						<span></span>
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
@@ -360,10 +361,11 @@
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
         					</div>
+                            -->
                             <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/tenantlistdata'); ?>">
                                 <thead>
             						<tr role="row" class="heading bg-blue">
-                                        <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
+                                        <!-- <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th> -->
             							<th class="width5">No</th>
                                         <th class="width10 text-center">Tahun</th>
             							<th class="width20">Judul Kegiatan</th>
@@ -373,7 +375,7 @@
             							<th class="width10 text-center">Actions<br /><button class="btn btn-xs btn-warning table-search"><i class="material-icons">search</i></button></th>
             						</tr>
                                     <tr role="row" class="filter display-hide table-filter">
-            							<td></td>
+            							<!-- <td></td> -->
                                         <td></td>
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">

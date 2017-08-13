@@ -759,8 +759,8 @@ class Tenant extends User_Controller {
                     );
                 }else{
                     $records["aaData"][] = array(
-                        smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
-                        <label for="cblist'.$row->uniquecode.'"></label>'),
+                        //smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
+                        //<label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
                         smit_center( $row->year ),
                         strtoupper( $row->event_title ),
@@ -3568,9 +3568,10 @@ class Tenant extends User_Controller {
         
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
-            if( $action=='delete' ){
-                $tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);    
-            }elseif($action=='inwall'){
+            //if( $action=='delete' ){
+                //$tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);    
+            //}else
+            if($action=='inwall'){
                 $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_tenant($uniquecode, $data_update);
             }elseif($action=='outwall'){
