@@ -35,7 +35,7 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="news-title"><?php echo $news_data->title; ?></h4>
                 <div class="details-img">
-                    <img class="js-animating-object img-responsive" src="<?php echo $news_image; ?>" alt="" />
+                    <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" src="<?php echo $news_image; ?>" alt="" />
                 </div>
                 <p class="news-date">
                     <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($news_data->datecreated)); ?>
@@ -72,7 +72,7 @@
                 <h4 class="news-title">Berita Terkait</h4>
                 <?php if( !empty($alldata) ) : ?>
                     <?php foreach($alldata AS $row){ ?>
-                        <h5><a href="<?php echo base_url('frontendberita/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                        <h5><a href="<?php echo base_url('layanan/frontendberita/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
                     <?php } ?>
                 <?php else :  ?>
                     <div class="alert alert-info">Saat ini sedang tidak ada berita lain yang di publikasi. Terima Kasih.</div>
