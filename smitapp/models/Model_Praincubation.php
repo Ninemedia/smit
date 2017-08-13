@@ -1236,6 +1236,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%url%",                  "url", $conditions);
             $conditions = str_replace("%extension%",            "extension", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+            $conditions = str_replace("%praincubation_id%",     "praincubation_id", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -1249,6 +1250,7 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%url%",                  "url",  $order_by);
             $order_by   = str_replace("%extension%",            "extension",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+            $order_by   = str_replace("%praincubation_id%",     "praincubation_id",  $order_by);
         }
 
         $sql = 'SELECT * FROM ' . $this->praincubation_selection_files. ' ';

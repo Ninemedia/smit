@@ -6241,7 +6241,7 @@ class PraIncubation extends User_Controller {
             $condition      = ' WHERE user_id = '.$current_user->id.'';
         }
 
-        $order_by           = 'year DESC';
+        $order_by           = '';
         $iTotalRecords      = 0;
 
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
@@ -6422,7 +6422,7 @@ class PraIncubation extends User_Controller {
             $praincubation_list     = $this->Model_Praincubation->get_all_praincubationdata('', '', ' WHERE %uniquecode% = "'.$uniquecode.'"', '');
             $praincubation_list     = $praincubation_list[0];
             $user_id                = $praincubation_list->user_id;
-            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE %user_id% = '.$user_id.'', '');
+            $praincubation_files    = $this->Model_Praincubation->get_all_praincubation_files('', '', ' WHERE %user_id% = '.$user_id.' AND %praincubation_id% = '.$praincubation_list->id.' ', '');
         }
 
         $data['title']          = TITLE . 'Detail Seleksi Pra-Inkubasi';

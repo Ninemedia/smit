@@ -50,7 +50,7 @@
                                             }
                                             echo '</ul>';
                                         }else{
-                                            echo '<strong>Tidak ada berkas proposal yang di unggah oleh Pengusul ini</strong>';
+                                            echo '<strong>Tidak ada berkas proposal yang di unggah.</strong>';
                                         } 
                                     ?>
                                     
