@@ -1197,9 +1197,13 @@ class Frontend extends Public_Controller {
         $order_by               = ' %datecreated% DESC';
         $other_tenants          = $this->Model_Tenant->get_all_tenant(LIMIT_DEFAULT,0,$condition,$order_by);
 
+        $condition_blog         = ' WHERE %user_id% = '.$tenantdata->user_id.'';
+        $blogtenants            = $this->Model_Tenant->get_all_blogtenant(LIMIT_DEFAULT,0,$condition,$order_by);
+
         $data['title']          = TITLE . 'Detail Tenant';
         $data['tenantdata']     = $tenantdata;
         $data['other_tenants']  = $other_tenants;
+        $data['blogtenants']    = $blogtenants;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

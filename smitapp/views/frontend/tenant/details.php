@@ -42,7 +42,6 @@
 		<div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="news-title">DETAIL TENANT <?php echo strtoupper($tenantdata->name_tenant); ?></h4>
-                
                 <div class="tenant-detail-wrapper">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center bottom25">
@@ -83,13 +82,17 @@
                 </div>
                 
                 <p class="news-date">TENTANG <?php echo strtoupper($tenantdata->name_tenant); ?></p>
-                <div class="news-content">
+                <div class="news-content bottom50">
                     <?php if( !empty($tenantdata->description) ) : ?>
-                        <?php echo smit_isset( $tenantdata->description, '' ); ?><hr />
+                        <?php echo smit_isset( $tenantdata->description, '' ); ?>
                     <?php else : ?>
                         <strong>Tidak Ada</strong> Deskripsi Tenant
                     <?php endif; ?>
                 </div>
+                <div class="clearfix"></div>
+                <!--
+                <h4 class="news-title">PRODUK TENANT <?php echo strtoupper($tenantdata->name_tenant); ?></h4>
+                -->
             </div>
             
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
@@ -100,6 +103,16 @@
                     <?php } ?>
                 <?php else :  ?>
                     <div class="alert alert-info">Saat ini sedang tidak ada tenant lain yang terdaftar. Terima Kasih.</div>
+                <?php endif ?>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
+                <h4 class="news-title">Blog Tenant <?php echo strtoupper($tenantdata->name_tenant); ?></h4>
+                <?php if( !empty($blogtenants) ) : ?>
+                    <?php foreach($blogtenants AS $row){ ?>
+                        <h5><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->title); ?></a></h5>
+                    <?php } ?>
+                <?php else :  ?>
+                    <div class="alert alert-info">Saat ini sedang tidak ada blog tenant. Terima Kasih.</div>
                 <?php endif ?>
             </div>
         </div>
