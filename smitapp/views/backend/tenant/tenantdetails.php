@@ -74,6 +74,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Posisi Tenant -->
+                                    <div class="form-group">
+                                        <label for="name_contact">Posisi Tenant <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <?php 
+                                                $position   = $tenantdata->position = 1 ? 'INWALL' : 'OUTWALL'; 
+                                            ?>
+                                            <span class="input-group-addon"><i class="material-icons">compare_arrows</i></span>
+                                            <div class="form-line">
+                                                <?php echo form_input('tenant_name',$position,array('class'=>'form-control tenant_name','placeholder'=>'Posisi Tenant Anda','disabled'=>'TRUE')); ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- Email Tenant & Tahun Berdiri -->
                                     <div class="row bottom0">
                                         <div class="col-md-7 bottom0">

@@ -28,6 +28,7 @@
         						<select class="table-group-action-input form-control input-inline input-small input-sm def" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="inwall">Inwall</option>
+        							<option value="outwall">Outwall</option>
         							<option value="confirm">Konfirmasi</option>
         							<option value="banned">Banned</option>
         							<option value="delete">Hapus</option>

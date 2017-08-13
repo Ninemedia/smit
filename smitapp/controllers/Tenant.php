@@ -3557,13 +3557,17 @@ class Tenant extends User_Controller {
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        elseif( $action=='inwall' ) { $actiontxt = 'Inwalll'; $postion = ACTIVE; }
+        elseif( $action=='inwall' ) { $actiontxt = 'Inwall'; $postion = ACTIVE; }
+        elseif( $action=='outwall' ) { $actiontxt = 'Outwall'; $postion = NONACTIVE; }
         
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
                 $tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);    
             }elseif($action=='inwall'){
+                $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
+                $this->Model_Tenant->update_tenant($uniquecode, $data_update);
+            }elseif($action=='outwall'){
                 $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_tenant($uniquecode, $data_update);
             }else{
