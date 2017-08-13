@@ -557,6 +557,16 @@
 	    ),
         */
         array (
+            'title'     => 'Diskusi',
+            'nav'       => 'diskusi',
+            'parent'    => 'false',
+            'link'      => base_url('diskusi'),
+            'icon'      => 'chat',
+            'badge'     => 0,
+            'sub'       => false,
+            'badge'     => $badge_communication,
+	    ),
+        array (
             'title'     => 'Layanan',
             'nav'       => 'layanan',
             'parent'    => 'false',

@@ -2,7 +2,11 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
+            <?php if($is_admin) : ?>
             <div class="header"><h2>Komunikasi dan Bantuan</h2></div>
+            <?php else : ?>
+            <div class="header"><h2>Diskusi</h2></div>
+            <?php endif; ?>
             <div class="body">
                 <?php if( !empty($is_admin) ) :?>
                 <!-- Nav tabs -->
@@ -144,17 +148,17 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list_in" data-toggle="tab">
-                            <i class="material-icons">call_received</i> Komunikasi Masuk
+                            <i class="material-icons">call_received</i> Diskusi Masuk
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#list_out" data-toggle="tab">
-                            <i class="material-icons">call_made</i> Bantuan Keluar
+                            <i class="material-icons">call_made</i> Diskusi Keluar
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> Buat Komunikasi
+                            <i class="material-icons">add_box</i> Buat Diskusi
                         </a>
                     </li>
                 </ul>
@@ -178,7 +182,7 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all_listin" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
-                                        <th class="width15 text-center">Komunikasi Dari</th>
+                                        <th class="width15 text-center">Diskusi Dari</th>
             							<th class="width20 text-center">Isi Pesan</th>
             							<th class="width15 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
@@ -322,7 +326,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">Judul Komunikasi <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Judul Diskusi <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php
                                         echo form_input(
@@ -331,7 +335,7 @@
                                             array(
                                                 'class'=>'form-control text-uppercase',
                                                 'id'=>'cmm_title',
-                                                'placeholder'=>'Masukan Judul Komunikasi dan Bantuan...',
+                                                'placeholder'=>'Masukan Judul Diskusi dan Bantuan...',
                                                 'required'=>'required'
                                             )
                                         );
@@ -339,7 +343,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Deskripsi Komunikasi <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Deskripsi Diskusi <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php
                                         echo form_textarea(
@@ -348,14 +352,14 @@
                                                 'class'=>'form-control no-resize',
                                                 'id'=>'cmm_description',
                                                 'rows'=>4,
-                                                'placeholder'=>'Silahkan isi deskripsi dari komikasi dan bantuan dengan maksimal 400 huruf...'
+                                                'placeholder'=>'Silahkan isi deskripsi dari diskusi dengan maksimal 400 huruf...'
                                             ),
                                             ( !empty($post) ? smit_isset($post['cmm_description'],'') : '' )
                                         );
                                     ?>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary waves-effect" id="btn_cmmadd">Tambah Komunikasi</button>
+                            <button type="submit" class="btn btn-primary waves-effect" id="btn_cmmadd">Tambah Diskusi</button>
                             <button type="button" class="btn btn-danger waves-effect" id="btn_cmmadd_reset">Bersihkan</button>
                         <?php echo form_close(); ?>
                     </div>
@@ -365,17 +369,17 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list_in" data-toggle="tab">
-                            <i class="material-icons">call_received</i> Komunikasi Masuk
+                            <i class="material-icons">call_received</i> Diskusi Masuk
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#list_out" data-toggle="tab">
-                            <i class="material-icons">call_made</i> Bantuan Keluar
+                            <i class="material-icons">call_made</i> Diskusi Keluar
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> Buat Komunikasi
+                            <i class="material-icons">add_box</i> Buat Diskusi
                         </a>
                     </li>
                 </ul>
@@ -399,7 +403,7 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all_listin" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listin"></label></th>
             							<th class="width5">No</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
+            							<th class="width15 text-center">Judul Diskusi</th>
             							<th class="width25 text-center">Deskripsi</th>
             							<th class="width15 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
@@ -456,7 +460,7 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all" id="select_all_listout" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all_listout"></label></th>
             							<th class="width5">No</th>
-            							<th class="width15 text-center">Judul Komunikasi</th>
+            							<th class="width15 text-center">Judul Diskusi</th>
             							<th class="width25 text-center">Deskripsi</th>
             							<th class="width10 text-center">Status</th>
                                         <th class="width10 text-center">Tanggal Daftar</th>
@@ -506,7 +510,7 @@
                             
                             <input type="hidden" id="cmm_user_id" name="cmm_user_id" value="<?php echo ADMINISTRATOR; ?>" />
                             <div class="form-group">
-                                <label class="control-label">Judul Komunikasi <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Judul Diskusi <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php
                                         echo form_input(
@@ -515,7 +519,7 @@
                                             array(
                                                 'class'=>'form-control text-uppercase',
                                                 'id'=>'cmm_title',
-                                                'placeholder'=>'Masukan Judul Komunikasi dan Bantuan...',
+                                                'placeholder'=>'Masukan Judul Diskusi dan Bantuan...',
                                                 'required'=>'required'
                                             )
                                         );
@@ -523,7 +527,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Deskripsi Komunikasi <b style="color: red !important;">(*)</b></label>
+                                <label class="control-label">Deskripsi Diskusi <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">
                                     <?php
                                         echo form_textarea(
@@ -532,14 +536,14 @@
                                                 'class'=>'form-control no-resize',
                                                 'id'=>'cmm_description',
                                                 'rows'=>4,
-                                                'placeholder'=>'Silahkan isi deskripsi dari komikasi dan bantuan dengan maksimal 400 huruf...'
+                                                'placeholder'=>'Silahkan isi deskripsi dari diskusi dengan maksimal 400 huruf...'
                                             ),
                                             ( !empty($post) ? smit_isset($post['cmm_description'],'') : '' )
                                         );
                                     ?>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary waves-effect" id="btn_cmmadd">Tambah Komunikasi</button>
+                            <button type="submit" class="btn btn-primary waves-effect" id="btn_cmmadd">Tambah Diskusi</button>
                             <button type="button" class="btn btn-danger waves-effect" id="btn_cmmadd_reset">Bersihkan</button>
                         <?php echo form_close(); ?>
                     </div>
@@ -557,10 +561,18 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <?php if($is_admin) : ?>
 				<h4 class="modal-title">Pendaftaran Komunikasi dan Bantuan</h4>
+                <?php else : ?>
+                <h4 class="modal-title">Pendaftaran Diskusi</h4>
+                <?php endif; ?>
 			</div>
 			<div class="modal-body">
+                <?php if($is_admin) : ?>
                 <p>Anda Sedang Melakukan Pendaftaran Komunikasi dan Bantuan. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <?php else : ?>
+                <p>Anda Sedang Melakukan Pendaftaran Diskusi. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <?php endif; ?>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>

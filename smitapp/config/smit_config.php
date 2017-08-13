@@ -218,8 +218,9 @@ $config['user_menu_access']             = array(
         'pendamping/notulensiprainkubasi',
         'pendamping/notulensiinkubasi',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     ),
     TENANT                              => array(
         'beranda',
@@ -233,8 +234,9 @@ $config['user_menu_access']             = array(
         'tenants/pembayaran',
         'tenants/laporan',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     ),
     JURI                                => array(
         'beranda',
@@ -247,8 +249,9 @@ $config['user_menu_access']             = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     ),
     PENGUSUL                            => array(
         'beranda',
@@ -261,8 +264,9 @@ $config['user_menu_access']             = array(
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     ),
     PELAKSANA                           => array(
         'beranda',
@@ -276,8 +280,9 @@ $config['user_menu_access']             = array(
         'panduan',
         'panduan/berkas',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     ),
     PELAKSANA_TENANT                    => array(
         'beranda',
@@ -311,8 +316,9 @@ $config['user_menu_access']             = array(
         'panduan',
         'panduan/berkas',
         'pengumuman',
-        'layanan',
-        'layanan/komunikasi',
+        //'layanan',
+        //'layanan/komunikasi',
+        'diskusi'
     )
 );
 

@@ -279,6 +279,7 @@ $route['layanan/pesanumum']             = "backend/generalmessage";
 $route['layanan/komunikasibantuan']     = "backend/services";
 $route['layanan/komunikasibantuan/(:any)']  = "backend/communicationdata/$1";
 $route['layanan/komunikasibantuan/detail/(:any)']   = "backend/communicationdetails/$1";
+$route['diskusi']                       = "backend/services";
 // News
 $route['berita']                        = "backend/news";
 $route['berita/detail/(:any)']          = "backend/newsdetails/$1";
