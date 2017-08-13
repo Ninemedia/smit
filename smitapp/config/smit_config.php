@@ -143,6 +143,7 @@ $config['user_menu_access']             = array(
         'pengguna',
         'pengguna/tambah',
         'pengguna/daftar',
+        'pengguna/info',
         // ------------------- SELEKSI PRA-INKUBASI
         'seleksiprainkubasi',
         'seleksiprainkubasi/pengaturan',

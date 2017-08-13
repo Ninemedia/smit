@@ -266,6 +266,7 @@
                                     <ul>
                                         <li style="list-style-type:none;"><a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Pengguna</a></li>
                                         <li style="list-style-type:none;"><a href="<?php echo base_url('pengguna/daftar'); ?>">Daftar Pengguna</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pengguna/info'); ?>">Info Pengguna</a></li>
                                     </ul>
                                     <h5>Layanan</h5>
                                     <ul>
@@ -343,7 +344,7 @@
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapse_total" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_total">
+                            <div id="collapse_total" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_total">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
