@@ -424,6 +424,7 @@ class User extends SMIT_Controller {
             'name'              => strtoupper($name),
             'email'             => $email,
             'type'              => $user_type,
+            'role'              => $user_type,
             'phone'             => $phone,
             'gender'            => $gender,
             'workunit'          => $workunit,

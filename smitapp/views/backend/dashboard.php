@@ -426,9 +426,35 @@
                 <?php $dashboard_text = get_option('be_dashboard_pendamping'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_pendamping'); ?><hr />
-                        <div class="body bg-amber">
-                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <?php echo get_option('be_dashboard_pendamping'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <hr />
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5>Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/laporan'); ?>">Laporan Pra-Inkubasi</a></li>
+                                    </ul>
+                                    <h5>Inkubasi / Tenant</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/laporan'); ?>">Laporan Tenant</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5>Pendampingan</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pendamping/notulensiprainkubasi'); ?>">Notulensi Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('pendamping/notulensiinkubasi'); ?>">Notulensi Inkubasi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
                         </div>
                     </div>
                 <?php endif ?>
@@ -440,12 +466,34 @@
                 <?php $dashboard_text = get_option('be_dashboard_juri'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_juri'); ?><hr />
-                        <div class="body bg-amber">
-                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <?php echo get_option('be_dashboard_juri'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <hr />
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
                         </div>
                         <h4>Status Juri Anda :</h4>
-                        
                         <div class="row clearfix">
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
@@ -509,10 +557,28 @@
                 <?php $dashboard_text = get_option('be_dashboard_tenant'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_tenant'); ?><hr />
-                        <div class="body bg-amber">
-                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
-                        </div>
+                        <?php echo get_option('be_dashboard_tenant'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <hr />
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <h5>Inkubasi / Tenant</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftar'); ?>">Daftar Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/produk'); ?>">Produk Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/blosg'); ?>">Blog Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pembayaran'); ?>">Pembayaran</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/laporan'); ?>">Laporan Tenant</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
+                        </div>  
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
@@ -604,20 +670,94 @@
             	<!-- End Content Dashboard-->
             <?php endif ?>
             
-            <?php if( as_pelaksana($user) || as_pelaksana_tenant($user)): ?>
+            <?php if( as_pelaksana($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pelaksana'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
                         <?php echo get_option('be_dashboard_pelaksana'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
                         <hr />
-                        <div class="body bg-amber">
-                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/daftar'); ?>">Daftar Kegiatan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/produk'); ?>">Produk Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/laporan'); ?>">Laporan Pra-Inkubasi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
                         </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
-            <?php endif ?>    
+            <?php endif ?>
+            
+            <?php if( as_pelaksana_tenant($user)): ?>
+                <!-- Content Dasboard-->
+                <?php $dashboard_text = get_option('be_dashboard_pelaksana'); ?>
+                <?php if( !empty( $dashboard_text ) ): ?>
+                    <div class="body">
+                        <?php echo get_option('be_dashboard_pelaksana'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <hr />
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/daftar'); ?>">Daftar Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                    <h5>Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/daftar'); ?>">Daftar Kegiatan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/produk'); ?>">Produk Pra-Inkubasi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('prainkubasi/laporan'); ?>">Laporan Pra-Inkubasi</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/daftar'); ?>">Daftar Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Inkubasi / Tenant</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftarinkubasi'); ?>">Daftar Kegiatan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftar'); ?>">Daftar Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pendampingan'); ?>">Daftar Pendampingan</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/produk'); ?>">Produk Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/blosg'); ?>">Blog Tenant</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/pembayaran'); ?>">Pembayaran</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/laporan'); ?>">Laporan Tenant</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
+                        </div>
+                    </div>
+                <?php endif ?>
+            	<!-- End Content Dashboard-->
+            <?php endif ?>      
             
         </div>
     </div>

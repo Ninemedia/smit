@@ -3,8 +3,7 @@
     $user_newest    = $this->Model_User->get_user_newest();
     $count_all      = $this->Model_User->count_all();
     $count_all      = $count_all - 1;
-    $non            = $this->Model_User->count_all_user(NONACTIVE);
-    $non            = $non -1;
+    $non            = $this->Model_User->count_user(NONACTIVE);
     $active         = $this->Model_User->count_all_user(ACTIVE);
     $active         = $active -1;
     $banned         = $this->Model_User->count_all_user(BANNED);
@@ -16,7 +15,6 @@
         $banned     = 0;
         $deleted    = 0;
     }
-    
     
     $pengusul       = $this->Model_User->count_all('all', PENGUSUL);
     $pelaksana      = $this->Model_User->count_all('all', PELAKSANA);

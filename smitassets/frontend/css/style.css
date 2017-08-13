@@ -278,7 +278,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: relative;
 }
 .gtco-nav ul li.has-dropdown .dropdown {
-  min-width: 200px !important;
+  min-width: 250px !important;
   -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
