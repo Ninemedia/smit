@@ -1100,8 +1100,8 @@ class Frontend extends Public_Controller {
             'TableAjax.init();',
         ));
         
-        $tenant_list        = $this->Model_Tenant->get_all_tenant(0, 0, " WHERE %status% = 1");
-        $counttenant        = count($tenant_list);
+        $tenant_list            = $this->Model_Tenant->get_all_tenant(0, 0, " WHERE %status% = 1");
+        $counttenant            = count($tenant_list);
         
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['tenantdata']     = $tenant_list;
@@ -1111,6 +1111,49 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/list';
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+    * Tenant Details function.
+    */
+    public function detailtenant( $uniquecode='' ){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add        = '';
+        $scripts_init       = '';
+        
+        $tenantdata         = '';
+        if( !empty($uniquecode) ){
+            $tenantdata     = $this->Model_Tenant->get_tenant_by('uniquecode', $uniquecode);
+        }
+
+        $data['title']          = TITLE . 'Detail Tenant';
+        $data['tenantdata']     = $tenantdata;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/details';
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
 
@@ -2753,7 +2796,7 @@ class Frontend extends Public_Controller {
                 $address        .= ' '.$row->district;
                 $address        .= ' PROVINSI '.$province;
                 
-                $btn_action = '<a class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detailtenant" data-id="'.$row->id.'" data-name="'.$row->name_tenant.'" data-address="'.$address.'" data-email="'.$row->email.'" data-phone="'.$row->phone.'" data-year="'.$row->year.'" data-legal="'.$row->legal.'" data-licensing="'.$row->licensing.'" data-partnerships="'.$row->partnerships.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a href="'.base_url('tenant/detail/'.$row->uniquecode).'" class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
