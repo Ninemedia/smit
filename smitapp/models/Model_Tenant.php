@@ -555,6 +555,20 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->num_rows();
     }
+    
+    /**
+     * Count data of tenant
+     * 
+     * @author  Iqbal
+     * @return  Boolean Boolean false on failed process or invalid data, otherwise true
+     */
+    function count_data_tenant(){
+        $sql = 'SELECT COUNT(id) AS total FROM ' . $this->tenant. '';
+        $query = $this->db->query($sql);
+        if(!$query || !$query->num_rows()) return 0;
+        
+        return $query->row()->total;
+    }
 
     /**
      * Count data of product tenant

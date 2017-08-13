@@ -19,6 +19,7 @@ class Frontend extends Public_Controller {
         $this->perPage = LIMIT_DETAIL;
         $this->perPageNews = LIMIT_NEWS_FE;
         $this->perPageBlog = LIMIT_BLOG_FE;
+        $this->perPageTenant = LIMIT_DEFAULT;
     }
 
     /**
@@ -1100,18 +1101,60 @@ class Frontend extends Public_Controller {
             'TableAjax.init();',
         ));
         
-        $tenant_list            = $this->Model_Tenant->get_all_tenant(0, 0, " WHERE %status% = 1");
-        $counttenant            = count($tenant_list);
-        
+        // Total rows count
+        $tenant_list            = $this->Model_Tenant->get_all_tenant($this->perPageTenant, 0, " WHERE %status% = 1");
+        $counttenantdata        = $this->Model_Tenant->count_all(1);
+
+        // Pagination configuration
+        $config['target']       = '.tenantgrid';
+        $config['base_url']     = base_url('tenant/daftartenant/halaman');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPageTenant;
+        $config['uri_segment']  = 4;
+        $this->ajax_pagination->initialize($config);
+
         $data['title']          = TITLE . 'Daftar Tenant';
         $data['tenantdata']     = $tenant_list;
-        $data['counttenant']    = $counttenant;
+        $data['counttenant']    = $counttenantdata;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/list';
         $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    /**
+    * Tenant Pagination function.
+    */
+    function tenantpagination(){
+        $page   = $this->input->post('page');
+        $page   = smit_isset($page, '');
+
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+
+        // Total rows count
+        $counttenantdata        = $this->Model_Tenant->count_all(1);
+
+        // Pagination configuration
+        $config['target']       = '.tenantgrid';
+        $config['base_url']     = base_url('tenant/daftartenant/halaman');
+        $config['total_rows']   = $counttenantdata;
+        $config['per_page']     = $this->perPageTenant;
+        $config['uri_segment']  = 4;
+        $this->ajax_pagination->initialize($config);
+
+        $tenant_list            = $this->Model_Tenant->get_all_tenant($this->perPageTenant, $offset, " WHERE %status% = 1");
+
+        //get the posts data
+        $data['tenantdata']     = $tenant_list;
+
+        //load the view
+        $this->load->view(VIEW_FRONT . 'tenant/tenantpagination', $data);
     }
     
     /**

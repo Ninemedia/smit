@@ -55,11 +55,11 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="grid">
+                        <div class="tab-pane fade in active tenantgrid" id="grid">
                             <?php if( $tenantdata || !empty($tenantdata) ){ ?>
                                 <div class="row">
-                                <?php foreach($tenantdata as $key => $tenant){ ?>
-                                    <?php $desc = word_limiter($tenant->name_tenant,30); ?>
+                                <?php foreach($tenantdata as $tenant){ ?>
+                                    <?php $name = character_limiter($tenant->name_tenant,30); ?>
                                     <?php
                                         $city           = $this->Model_Address->get_cities($tenant->city);
                                         $city           = $city->regional_name;
@@ -71,7 +71,7 @@
                                         $address       .= ' '.$tenant->district;
                                         $address       .= ' PROVINSI '.$province;
                                     ?>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom30">
                                         <div class="media">
                                             <div class="row">
                                                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -83,9 +83,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                                    <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>" class="media-heading-link"><?php echo $tenant->name_tenant; ?></a>
+                                                    <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>" class="media-heading-link"><?php echo $name; ?></a>
                                                     <div class="media-date"><i class="icon-calendar"></i> <?php echo $tenant->year; ?></div>
-                                                    <i class="icon-address"></i> <?php echo $tenant->address; ?><br />
+                                                    <i class="icon-address"></i> <?php echo $address; ?><br />
                                                     <i class="icon-message"></i> <?php echo $tenant->email; ?><br />
                                                     <i class="icon-phone"></i> <?php echo $tenant->phone; ?><br />
                                                     <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>" class="listdetailtenant waves-effect"><strong>Selengkapnya</strong></a>
@@ -95,21 +95,18 @@
                                     </div>
                                 <?php } ?>
                                 </div>
-                                <?php if($counttenant > LIMIT_DEFAULT){ ?>
-                                    <a href="<?php echo base_url('tenant/daftartenant'); ?>" class="btn btn-primary top25 pull-right">Berita Lainnya</a>
-                                <?php } ?>
                             <?php }else{ ?>
                                 <div class="alert alert-info bottom0">Saat ini sedang tidak ada berita yang di publikasi. Terima Kasih.</div>
                             <?php } ?>
+                            <div class="text-center"><?php echo $this->ajax_pagination->create_links(); ?></div>
                         </div>
+                        
                         <div class="tab-pane fade in" id="tabel">
                             <div class="table-container table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="list_tenant" data-url="<?php echo base_url('tenant/daftartenantdata'); ?>">
                                     <thead>
                                         <tr role="row" class="heading bg-blue">
                                             <th class="width5">No</th>
-                                            <!-- <th class="width5 text-center">Tahun</th> -->
-                                            <!-- <th class="width15">Pengguna</th> -->
                                             <th class="width15 text-center">Nama Tenant</th>
                                             <th class="width20">Alamat</th>
                                             <th class="width10 text-center">Email</th>
@@ -118,31 +115,7 @@
                                         </tr>
                                         <tr role="row" class="filter table-filter">
                                             <td></td>
-                                            <!--
-                                            <td>
-                                                <select name="search_year" class="form-control form-filter input-sm def">
-                                                <?php
-                                                    $option = array(''=>'Pilih Tahun');
-                                                    $year_arr = smit_select_year(date('Y'),2030);
-                                                    if( !empty($year_arr) ){
-                                                        foreach($year_arr as $val){
-                                                            $option[$val] = $val;
-                                                        }
-                                                    }
-                                                    
-                                                    if( !empty($option) ){
-                                                        foreach($option as $val){
-                                                            echo '<option value="'.$val.'">'.$val.'</option>';
-                                                        }
-                                                    }else{
-                                                        echo '<option value="">Tahun Kosong</option>';
-                                                    }
-                                                ?>
-                                                </select>
-                                            </td>
-                                            -->
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
-                                            <!-- <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td> -->
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_address" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
