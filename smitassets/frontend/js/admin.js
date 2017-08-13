@@ -686,7 +686,7 @@ var App = function() {
             // Input your handle function here
             handleInit();
             handlePraincubation();
-            handleTenantList();
+            //handleTenantList();
             handleSetting();
             handleAddContact();
             handleAddIKM();

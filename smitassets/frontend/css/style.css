@@ -34382,6 +34382,17 @@ html.ie11 .bs-searchbox .form-control {
     width: 100%;
 }
 
+.media-object {
+    border: 2px solid #2196F3;
+    padding: 3px;
+}
+
+.tenant-detail-img{
+    border: 2px solid #2196F3;
+    padding: 3px;
+    width: 150px;
+}
+
 /*
  * Component: modal
  * ----------------
