@@ -401,6 +401,14 @@ class Model_User extends SMIT_Model{
 
         return $query->num_rows();
     }
+    
+    function count_all_user($status=0, $type=0){
+        if ( $status )      { $this->db->where('status', $status); }
+        if ( $type != 0 )   { $this->db->where('type', $type); }
+        
+        $query = $this->db->get($this->_user);
+        return $query->num_rows();
+    }
 
     function count_user($status){
         $this->db->where('status', $status);
