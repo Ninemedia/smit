@@ -196,6 +196,9 @@
 			dots: false,
 			smartSpeed: 800,
 			autoHeight: true,
+            autoplay:true,
+            autoplayTimeout:2000,
+            autoplayHoverPause:true,
 			navText: [
 		      "<i class='ti-arrow-left owl-direction'></i>",
 		      "<i class='ti-arrow-right owl-direction'></i>"

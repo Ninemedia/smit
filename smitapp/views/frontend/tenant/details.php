@@ -40,71 +40,63 @@
 <div id="gtco-content" class="gtco-section border-bottom animate-box">
 	<div class="gtco-container">
 		<div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="table-container table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr class="bg-blue-grey">
-                                <td colspan="3" class="text-center"><strong>DETAIL</strong></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="3" class="text-center">
-                                    <img class="tenant-detail-img" src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenantdata->uploader.'/'.$tenantdata->filename.'.'.$tenantdata->extension; ?>" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_name">Nama Tenant</label>
-                                    <input type="text" id="list_name" class="form-control" readonly="readonly" value="<?php echo $tenantdata->name; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_year">Tahun Berdiri</label>                                
-                                    <input type="text" id="list_year" class="form-control" readonly="readonly" value="<?php echo $tenantdata->year; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_address">Alamat</label>
-                                    <textarea id="list_address" class="form-control" readonly="readonly"><?php echo $address; ?></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_email">Email</label>
-                                    <input type="text" id="list_email" class="form-control" readonly="readonly" value="<?php echo $tenantdata->email; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_phone">Kontak</label>
-                                    <input type="text" id="list_phone" class="form-control" readonly="readonly" value="<?php echo $tenantdata->phone; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_legal">Bentuk Legalitas Usaha (PT/CV/Lainnya)</label>
-                                    <input type="text" id="list_legal" class="form-control" readonly="readonly" value="<?php echo $tenantdata->legal; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_licensing">Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)</label>
-                                    <input type="text" id="list_licensing" class="form-control" readonly="readonly" value="<?php echo $tenantdata->licensing; ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="list_partnerships">Kemitraan Usaha yang Dimiliki</label>
-                                    <textarea id="list_partnerships" class="form-control" readonly="readonly"><?php echo $tenantdata->partnerships; ?></textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <h4 class="news-title">DETAIL TENANT <?php echo strtoupper($tenantdata->name); ?></h4>
+                
+                <div class="tenant-detail-wrapper">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center bottom25">
+                            <img class="tenant-detail-img" src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenantdata->uploader.'/'.$tenantdata->filename.'.'.$tenantdata->extension; ?>" />
+                            <div class="tenant-detail-txt">
+                                <p class="bottom15"><strong><?php echo $tenantdata->name; ?></strong></p> 
+                                <p class="bottom5"><i class="icon-mail"></i> <small><?php echo $tenantdata->email; ?></small></p>                               
+                                <p class="bottom5"><i class="icon-phone"></i> <small><?php echo $tenantdata->phone; ?></small></p> 
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            <div class="input-group bottom0">
+                                <label>Tahun Berdiri</label> 
+                                <p class="bottom15"><?php echo $tenantdata->year; ?></p>                               
+                            </div>
+                            <div class="input-group bottom0">
+                                <label>Alamat</label> 
+                                <p class="bottom15"><?php echo $address; ?></p>                               
+                            </div>
+                            <div class="input-group bottom0">
+                                <label>Bentuk Legalitas Usaha (PT/CV/Lainnya)</label> 
+                                <p class="bottom15"><?php echo $tenantdata->legal; ?></p>                               
+                            </div>
+                            <div class="input-group bottom0">
+                                <label>Perizinan Usaha yang Dimiliki (SIUP/NPWP/Akte Notaris Pendirian)</label> 
+                                <p class="bottom15"><?php echo $tenantdata->licensing; ?></p>                               
+                            </div>
+                            <div class="input-group bottom0">
+                                <label>Kemitraan Usaha yang Dimiliki</label> 
+                                <p class="bottom15"><?php echo $tenantdata->partnerships; ?></p>                               
+                            </div>
+                            <div class="input-group bottom0">
+                                <label>Posisi</label> 
+                                <p class="bottom15"><?php echo ( $tenantdata->position == 1 ? 'INWALL' : 'OUTWALL' ); ?></p>                               
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                <p class="news-date">TENTANG <?php echo strtoupper($tenantdata->name); ?></p>
+                <div class="news-content">
+                    <?php echo smit_isset( $tenantdata->desc, '' ); ?>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
+                <h4 class="news-title">Tenant Lainnya</h4>
+                <?php if( !empty($other_tenants) ) : ?>
+                    <?php foreach($other_tenants AS $row){ ?>
+                        <h5><a href="<?php echo base_url('tenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->name); ?></a></h5>
+                    <?php } ?>
+                <?php else :  ?>
+                    <div class="alert alert-info">Saat ini sedang tidak ada tenant lain yang terdaftar. Terima Kasih.</div>
+                <?php endif ?>
             </div>
         </div>
     </div>

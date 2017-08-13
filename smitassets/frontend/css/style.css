@@ -34387,10 +34387,68 @@ html.ie11 .bs-searchbox .form-control {
     padding: 3px;
 }
 
+.tenant-detail-wrapper{
+    padding: 10px;
+    background-color: #F5F5F5;
+    border-top: 1px solid #F1F1F1;
+    border-bottom: 1px solid #F1F1F1;
+}
+
 .tenant-detail-img{
     border: 2px solid #2196F3;
     padding: 3px;
     width: 150px;
+    margin-bottom: 20px;
+}
+
+.tenant-detail-txt p i{
+    position: relative;
+    top: 2px;
+}
+
+@media screen and (max-width: 768px) {
+    .tenant-detail-wrapper .tenant-detail-txt{
+        border-bottom: 2px solid #EAEAEA;
+        padding-bottom: 20px;
+    }
+}
+
+.has-badge{
+    position: relative;    
+}
+
+.has-badge span.menu-badge{
+    position: absolute;
+    z-index: 9999;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    min-width: 10px;
+    padding: 3px 5px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    color: #FFFFFF;
+    border-radius: 2px;
+    background-color: #F44336;
+    right: 10px;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.tenant-carousel img{
+    border: 1px solid #FFFFFF;
+    display: inline-block;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.tenant-carousel:hover img{
+    border: 1px solid #2196f3;
+    
 }
 
 /*

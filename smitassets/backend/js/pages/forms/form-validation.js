@@ -772,7 +772,7 @@ var PaymentValidation = function () {
 var IncubationValidation = function () {
     var handlePraincubationValidation = function(){
         $('#praincubationadd').validate({
-            focusInvalid: true, // do not focus the last invalid input
+            focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
                 reg_year: {
@@ -807,7 +807,7 @@ var IncubationValidation = function () {
                     required: 'Tahun Kegiatan harus di isi',
                 },
                 reg_user_id: {
-                    required: 'Nama Pengguma harus di isi',
+                    required: 'Nama Pengguna harus di isi',
                 },
                 reg_name: {
                     required: 'Nama Peneliti Utama harus di isi',
@@ -831,7 +831,7 @@ var IncubationValidation = function () {
                 */
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+                $('#alert', $(this)).addClass('alert-danger').html('Ada beberapa kesalahan, silahkan cek formulir di bawah ini!').fadeIn().delay(3000).fadeOut();
             },
             highlight: function (element) { // hightlight error inputs
                 console.log(element);
@@ -845,7 +845,13 @@ var IncubationValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
+                if (element.parents(".form-group").size() > 0) {
+                    element.parents(".form-group").append(error);
+                } else if (element.attr("data-error-container")) {
+                    error.appendTo(element.attr("data-error-container"));
+                } else {
+                    error.insertAfter(element); // for other inputs, just perform default behavior
+                }
             },
             submitHandler: function (form) {
                 $('#save_praincubationadd').modal('show');

@@ -223,7 +223,9 @@
                                 $i++;
                             ?>
                             <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo $tenant; ?>" alt="" />
+            					<a href="<?php echo base_url('tenant/detail/'.$row->uniquecode); ?>" class="tenant-carousel" target="_blank">
+                                    <img class="js-animating-object img-responsive" src="<?php echo $tenant; ?>" alt="Foto Tenant" />
+                                </a>
             				</div>
                             <?php } ?>
                             <?php 
@@ -232,30 +234,24 @@
                                     for($j=1; $j<=$minus; $j++){
                                         echo '
                                         <div class="item">
-                        					<img class="js-animating-object img-responsive" src="'.FE_IMG_PATH.'tenant/logo-tenant1.jpg" alt="" />
+                                            <a href="'.base_url('tenant/daftartenant').'">
+                        					   <img class="js-animating-object img-responsive" src="'.FE_IMG_PATH.'tenant/logo-tenant1.jpg" alt="" />
+                                            </a>
                         				</div>';
                                     }
                                 } 
                             ?>
                         <?php else : ?>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
-                            <div class="item">
-            					<img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>tenant/logo-tenant1.jpg" alt="" />
-            				</div>
+                            <?php
+                                for($i=1; $i<=6; $i++){
+                                    echo '
+                                    <div class="item">
+                                        <a href="'.base_url('tenant/daftartenant').'">
+                    					   <img class="js-animating-object img-responsive" src="'.FE_IMG_PATH.'tenant/logo-tenant1.jpg" alt="" />
+                                        </a>
+                    				</div>';
+                                }
+                            ?>
                         <?php endif; ?>
         			</div>
     			</div>

@@ -1134,43 +1134,11 @@ var App = function() {
             var msg         = $('#alert');
 
             $(msg).hide().empty();
-            $('.form-group').removeClass('has-error');
-            $('#reg_title').val('');
-            $('#reg_name').val('');
-            $('#reg_desc').val('');
-            $('#reg_year').val('');
-            $('#reg_category').val('');
+            $('#praincubationadd .form-line').removeClass('error');
+            $('#praincubationadd label.error').remove();
             $('#praincubationadd')[0].reset();
-            $('#reg_selection_files').fileinput('refresh', {
-                showUpload : false,
-                showUploadedThumbs : false,
-                'theme': 'explorer',
-                'uploadUrl': '#',
-                fileType: "any",
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                allowedFileExtensions: ['doc', 'docx', 'pdf'],
-                fileActionSettings : {
-                    showUpload: false,
-                    showZoom: false,
-                },
-                maxFileSize: 2048,
-            });
-            $('#reg_selection_rab').fileinput('refresh', {
-                showUpload : false,
-                showUploadedThumbs : false,
-                'theme': 'explorer',
-                'uploadUrl': '#',
-                fileType: "any",
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                allowedFileExtensions: ['xls', 'xls'],
-                fileActionSettings : {
-                    showUpload: false,
-                    showZoom: false,
-                },
-                maxFileSize: 2048,
-            });
+            $('#reg_selection_files').fileinput('refresh');
+            $('#reg_selection_rab').fileinput('refresh');
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };

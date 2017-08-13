@@ -95,138 +95,136 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade in" id="add">
                         <?php echo form_open_multipart( 'praincubation/praincubationadd', array( 'id'=>'praincubationadd', 'role'=>'form' ) ); ?>
-                        <div id="alert" class="alert display-hide"></div>
-                        <div class="form-group form-float">
-                            <section id="">
-                                <h4>Masukan Data Pra-Inkubasi</h4>
-                                <div class="form-group">
-                                    <label class="form-label">Tahun <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">date_range</i></span>
-                                        <select class="form-control" name="reg_year" id="reg_year">
-                                        <?php
-                                            $option = array(''=>'-- Pilih Tahun --');
-                                            $year_arr = smit_select_year(1999,2030);
-                                            if( !empty($year_arr) ){
-                                                foreach($year_arr as $val){
-                                                    $option[$val] = $val;
-                                                }
+                            <div id="alert" class="alert display-hide"></div>
+                            <h4>Masukan Data Pra-Inkubasi</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Tahun <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">date_range</i></span>
+                                    <select class="form-control show-tick" name="reg_year" id="reg_year">
+                                    <?php
+                                        $option = array(''=>'-- Pilih Tahun --');
+                                        $year_arr = smit_select_year(1999,2030);
+                                        if( !empty($year_arr) ){
+                                            foreach($year_arr as $val){
+                                                $option[$val] = $val;
                                             }
-
-                                            if( !empty($option) ){
-                                                foreach($option as $val){
-                                                    echo '<option value="'.$val.'">'.$val.'</option>';
+                                        }
+    
+                                        if( !empty($option) ){
+                                            foreach($option as $val){
+                                                echo '<option value="'.$val.'">'.$val.'</option>';
+                                            }
+                                        }else{
+                                            echo '<option value="">Tahun Kosong</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nama Pengguna<b style="color: red !important;">(*)</b></label>
+                                <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu</p>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                    <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">
+                                        <?php
+                                            $conditions     = ' WHERE %type% = 6 OR %type% = 7 OR %type% = 5';
+                                        	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
+                                         
+                                            
+                                            if( !empty($user_list) ){
+                                                echo '<option value="">-- Pilih Nama Penguna --</option>';
+                                                foreach($user_list as $row){
+                                                    if( $row->type == 2 ){
+                                                        $status = 'PENDAMPING';
+                                                    }elseif( $row->type == 3 ){
+                                                        $status = 'TENANT';
+                                                    }elseif( $row->type == 4 ){
+                                                        $status = 'JURI';
+                                                    }elseif( $row->type == 5 ){
+                                                        $status = 'PENGUSUL';
+                                                    }else{
+                                                        $status = 'PELAKSANA';
+                                                    }
+                                                    
+                                                    echo '<option value="'.$row->id.'">'.strtoupper($row->name).' - '. $status.'</option>';
                                                 }
                                             }else{
-                                                echo '<option value="">Tahun Kosong</option>';
+                                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
                                             }
-                                        ?>
-                                        </select>
+            	                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nama Peneliti Utama <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                    <div class="form-line">
+                                        <input type="text" name="reg_name" id="reg_name" class="form-control" placeholder="Masukan Nama Peneliti Utama" required>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Kategori Kegiatan <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                    <select class="form-control show-tick" name="reg_category" id="reg_category">
+                                    	<?php
+                                    		$category     = smit_category();
+                                    		if( !empty($category) ){
+                                    			echo '<option value="">-- Pilih Kategori Bidang --</option>';
+                                    			foreach($category as $row){
+                                    				echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
+                                    			}
+                                    		}else{
+                                    			echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                    		}
+                                    	?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                    <div class="form-line">
+                                        <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Kegiatan" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Deskripsi Kegiatan <b style="color: red !important;">(*)</b></label>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4>Berkas Kegiatan Pra-Inkubasi</h4>
+                            <div class="form-group">
                                 <div class="form-group">
-                                    <label class="form-label">Nama Pengguna<b style="color: red !important;">(*)</b></label>
-                                    <p>Pastikan sudah ada username / pengguna sistem terlebih dahulu</p>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="reg_user_id" id="reg_user_id">
-                                            <?php
-                                                $conditions     = ' WHERE %type% = 6 OR %type% = 7 OR %type% = 5';
-                                            	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
-                                             
-                                                
-                                                if( !empty($user_list) ){
-                                                    echo '<option value="">-- Pilih Nama Penguna --</option>';
-                                                    foreach($user_list as $row){
-                                                        if( $row->type == 2 ){
-                                                            $status = 'PENDAMPING';
-                                                        }elseif( $row->type == 3 ){
-                                                            $status = 'TENANT';
-                                                        }elseif( $row->type == 4 ){
-                                                            $status = 'JURI';
-                                                        }elseif( $row->type == 5 ){
-                                                            $status = 'PENGUSUL';
-                                                        }else{
-                                                            $status = 'PELAKSANA';
-                                                        }
-                                                        
-                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name).' - '. $status.'</option>';
-                                                    }
-                                                }else{
-                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                                                }
-                	                        ?>
-                                        </select>
-                                    </div>
+                                    <label>Upload Proposal Kegiatan</label>
+                                    <p>
+                                        File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>DOCX/DOC/PDF.</strong>
+                                    </p>
+                                    <input id="reg_selection_files" name="reg_selection_files" class="form-control" type="file">
                                 </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="form-group">
-                                    <label class="form-label">Nama Peneliti Utama <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                        <div class="form-line">
-                                            <input type="text" name="reg_name" id="reg_name" class="form-control" placeholder="Masukan Nama Peneliti Utama" required>
-                                        </div>
-                                    </div>
+                                    <label>Upload Rencana Anggaran Biaya</label>
+                                    <p>
+                                        File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>XLXS/XLX.</strong>
+                                    </p>
+                                    <input id="reg_selection_rab" name="reg_selection_rab" class="form-control" type="file">
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Kategori Kegiatan <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="reg_category" id="reg_category">
-                                        	<?php
-                                        		$category     = smit_category();
-                                        		if( !empty($category) ){
-                                        			echo '<option value="">-- Pilih Kategori Bidang --</option>';
-                                        			foreach($category as $row){
-                                        				echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
-                                        			}
-                                        		}else{
-                                        			echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                                        		}
-                                        	?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Judul Kegiatan <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                                        <div class="form-line">
-                                            <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Kegiatan" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Deskripsi Kegiatan <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <div class="form-line">
-                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4>Berkas Kegiatan Pra-Inkubasi</h4>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Upload Proposal Kegiatan</label>
-                                        <p>
-                                            File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>DOCX/DOC/PDF.</strong>
-                                        </p>
-                                        <input id="reg_selection_files" name="reg_selection_files" class="form-control" type="file">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Upload Rencana Anggaran Biaya</label>
-                                        <p>
-                                            File yang dapat di upload Maksimal 2048 KB dan format File adalah <strong>XLXS/XLX.</strong>
-                                        </p>
-                                        <input id="reg_selection_rab" name="reg_selection_rab" class="form-control" type="file">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Pra-Inkubasi</button>
-                                <button type="button" class="btn btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
-                            </section>
-                        </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary waves-effect" id="btn_praincubationadd">Tambah Pra-Inkubasi</button>
+                            <button type="button" class="btn btn-danger waves-effect" id="btn_praincubationadd_reset">Bersihkan</button>
                         <?php echo form_close(); ?>
                     </div>
                 </div>

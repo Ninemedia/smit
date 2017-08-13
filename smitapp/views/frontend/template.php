@@ -1,6 +1,14 @@
 <?php
     $active_page    = ( $this->uri->segment(1, 0) ? $this->uri->segment(1, 0) : '');
     $active_page2   = ( $this->uri->segment(2, 0) ? $this->uri->segment(2, 0) : '');
+    
+    $praincset      = smit_latest_praincubation_setting();
+    $praincsel_open = FALSE;
+    if( !empty($praincset) ){
+        if( $praincset->status == 1 ){
+            $praincsel_open = TRUE;
+        }
+    }
 ?>
 
 <!DOCTYPE HTML>
@@ -66,7 +74,10 @@
             							<a <?php echo ($active_page2 == 'pengumuman' || $active_page2 == 'prainkubasi' || $active_page2 == 'inkubasi' ? 'class="currentactive"' : ''); ?> href="#">Seleksi</a>
             							<ul class="dropdown">
             								<li><a <?php echo ($active_page2 == 'pengumuman' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/pengumuman'); ?>">Pengumuman</a></li>
-            								<li><a <?php echo ($active_page2 == 'prainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/prainkubasi'); ?>">Pendaftaran Pra Inkubasi</a></li>
+            								<li class="has-badge">
+                                                <?php echo ( $praincsel_open ? '<span class="menu-badge">BUKA</span>' : '' );?>
+                                                <a <?php echo ($active_page2 == 'prainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/prainkubasi'); ?>">Pendaftaran Pra Inkubasi</a>
+                                            </li>
             								<li><a <?php echo ($active_page2 == 'inkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/inkubasi'); ?>">Pendaftaran Inkubasi</a></li>
             							</ul>
             						</li>

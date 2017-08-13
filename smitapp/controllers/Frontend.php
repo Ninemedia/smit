@@ -1181,16 +1181,25 @@ class Frontend extends Public_Controller {
             // Put script based on current page
         ));
 
-        $scripts_add        = '';
-        $scripts_init       = '';
+        $scripts_add            = '';
+        $scripts_init           = '';
         
-        $tenantdata         = '';
+        $tenantdata             = '';
         if( !empty($uniquecode) ){
-            $tenantdata     = $this->Model_Tenant->get_tenant_by('uniquecode', $uniquecode);
+            $tenantdata         = $this->Model_Tenant->get_tenant_by('uniquecode', $uniquecode);
         }
+        
+        if( !$tenantdata ){
+            redirect( base_url('tenant/daftartenant'), 'refresh' );
+        }
+
+        $condition              = ' WHERE %status% = 1 AND %id% != '.$tenantdata->id;
+        $order_by               = ' %datecreated% DESC';
+        $other_tenants          = $this->Model_Tenant->get_all_tenant(LIMIT_DEFAULT,0,$condition,$order_by);
 
         $data['title']          = TITLE . 'Detail Tenant';
         $data['tenantdata']     = $tenantdata;
+        $data['other_tenants']  = $other_tenants;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
