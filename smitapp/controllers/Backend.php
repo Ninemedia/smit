@@ -3519,6 +3519,7 @@ class Backend extends User_Controller {
         $is_pelaksana           = as_pelaksana($current_user);
         $is_pelaksana_tenant    = as_pelaksana_tenant($current_user);
         $is_pendamping          = as_pendamping($current_user);
+        $is_tenant              = as_tenant($current_user);
         
         $message                = '';
         $post                   = '';
@@ -3588,7 +3589,8 @@ class Backend extends User_Controller {
         $data['is_jury']        = $is_jury;
         $data['is_pengusul']    = $is_pengusul;
         $data['is_pelaksana']   = $is_pelaksana;
-        $data['is_pendamping']   = $is_pendamping;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['is_tenant']      = $is_tenant;
         $data['is_pelaksana_tenant']    = $is_pelaksana_tenant;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;

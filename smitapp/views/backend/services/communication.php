@@ -143,7 +143,7 @@
                     </div>
 
                 </div>
-                <?php elseif( $is_pelaksana || $is_pelaksana_tenant || $is_pendamping ) : ?>
+                <?php elseif( $is_pelaksana || $is_pelaksana_tenant || $is_pendamping || $is_tenant ) : ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
