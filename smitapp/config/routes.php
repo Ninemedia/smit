@@ -323,6 +323,8 @@ $route['prainkubasi/produkprainkubasi/kategori/(:any)'] = "frontend/productprain
 $route['prainkubasi/daftarprainkubasidata']             = "frontend/praincubationdata";
 // 5. Incubation/Tenant
 $route['tenant/daftartenant']                   = "frontend/listtenant";
+$route['tenant/daftartenant/halaman']           = "frontend/tenantpagination";
+$route['tenant/daftartenant/halaman/(:num)']    = "frontend/tenantpagination/$1";
 $route['tenant/daftartenantdata']               = "frontend/tenantlistdata";
 $route['tenant/detail/(:any)']                  = "frontend/detailtenant/$1";
 $route['tenant/produktenant']                   = "frontend/producttenant";

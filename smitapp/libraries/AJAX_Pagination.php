@@ -212,6 +212,7 @@ class AJAX_Pagination{
                     $('<?php echo $this->target; ?>').empty().hide();
                     $('<?php echo $this->target; ?>').html(data);
                     $('<?php echo $this->target; ?>').fadeIn('slow');
+                    $('<?php echo $this->target; ?>').removeAttr('style');
                 }
             });
         }
