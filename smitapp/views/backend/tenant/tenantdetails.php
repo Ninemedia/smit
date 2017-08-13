@@ -208,6 +208,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Description Tenant -->
+                                    <div class="form-group">
+                                        <label for="telp_contact">Deskripsi Singkat Tenant Anda<b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Tenant Anda" id="tenant_desc" name="tenant_desc" required><?php echo $tenantdata->description; ?></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ubah Data</button>
                                 <?php echo form_close(); ?>
                             </div>

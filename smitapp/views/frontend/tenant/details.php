@@ -41,14 +41,14 @@
 	<div class="gtco-container">
 		<div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                <h4 class="news-title">DETAIL TENANT <?php echo strtoupper($tenantdata->name); ?></h4>
+                <h4 class="news-title">DETAIL TENANT <?php echo strtoupper($tenantdata->name_tenant); ?></h4>
                 
                 <div class="tenant-detail-wrapper">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center bottom25">
                             <img class="tenant-detail-img" src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenantdata->uploader.'/'.$tenantdata->filename.'.'.$tenantdata->extension; ?>" />
                             <div class="tenant-detail-txt">
-                                <p class="bottom15"><strong><?php echo $tenantdata->name; ?></strong></p> 
+                                <p class="bottom15"><strong><?php echo $tenantdata->name_tenant; ?></strong></p> 
                                 <p class="bottom5"><i class="icon-mail"></i> <small><?php echo $tenantdata->email; ?></small></p>                               
                                 <p class="bottom5"><i class="icon-phone"></i> <small><?php echo $tenantdata->phone; ?></small></p> 
                             </div>
@@ -82,9 +82,13 @@
                     </div>
                 </div>
                 
-                <p class="news-date">TENTANG <?php echo strtoupper($tenantdata->name); ?></p>
+                <p class="news-date">TENTANG <?php echo strtoupper($tenantdata->name_tenant); ?></p>
                 <div class="news-content">
-                    <?php echo smit_isset( $tenantdata->desc, '' ); ?>
+                    <?php if( !empty($tenantdata->description) ) : ?>
+                        <?php echo smit_isset( $tenantdata->description, '' ); ?><hr />
+                    <?php else : ?>
+                        <strong>Tidak Ada</strong> Deskripsi Tenant
+                    <?php endif; ?>
                 </div>
             </div>
             
@@ -92,7 +96,7 @@
                 <h4 class="news-title">Tenant Lainnya</h4>
                 <?php if( !empty($other_tenants) ) : ?>
                     <?php foreach($other_tenants AS $row){ ?>
-                        <h5><a href="<?php echo base_url('tenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->name); ?></a></h5>
+                        <h5><a href="<?php echo base_url('tenant/detail/'.$row->uniquecode.''); ?>"><?php echo strtoupper($row->name_tenant); ?></a></h5>
                     <?php } ?>
                 <?php else :  ?>
                     <div class="alert alert-info">Saat ini sedang tidak ada tenant lain yang terdaftar. Terima Kasih.</div>

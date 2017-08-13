@@ -1696,6 +1696,9 @@ var TenantValidation = function () {
                 tenant_event_id: {
                     required: true,
                 },
+                tenant_desc: {
+                    required: true,
+                },
             },
             messages: {
                 tenant_username: {
@@ -1737,6 +1740,9 @@ var TenantValidation = function () {
                 },
                 tenant_mitra: {
                     required: 'Kemitraan harus di pilih',
+                },
+                tenant_desc: {
+                    required: 'Deskripsi Tenant harus di pilih',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -2124,6 +2130,9 @@ var TenantValidation = function () {
                 tenant_mitra: {
                     required: true,
                 },
+                tenant_desc: {
+                    required: true,
+                },
             },
             messages: {
                 tenant_name: {
@@ -2159,6 +2168,9 @@ var TenantValidation = function () {
                 },
                 tenant_mitra: {
                     required: 'Kemitraan harus di pilih',
+                },
+                tenant_mitra: {
+                    required: 'Deskripsi Tenant harus di pilih',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

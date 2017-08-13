@@ -915,6 +915,7 @@ class Tenant extends User_Controller {
         $post_tenant_legal      = $this->input->post('tenant_legal');
         $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
+        $post_tenant_desc       = $this->input->post('tenant_desc');
 
         $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
         $this->form_validation->set_rules('tenant_email','Email Tenant','required');
@@ -927,6 +928,7 @@ class Tenant extends User_Controller {
         $this->form_validation->set_rules('tenant_legal','Legal','required');
         $this->form_validation->set_rules('tenant_bussiness','NPWP','required');
         $this->form_validation->set_rules('tenant_mitra','Mitra Usaha','required');
+        $this->form_validation->set_rules('tenant_desc','Deskripsi Tenant','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -959,6 +961,7 @@ class Tenant extends User_Controller {
                 'legal'         => trim(smit_isset($post_tenant_legal, '')),
                 'licensing'     => trim(smit_isset($post_tenant_bussiness, '')),
                 'partnerships'  => smit_isset($post_tenant_mitra, ''),
+                'description'   => smit_isset($post_tenant_desc, ''),
                 'datemodified'  => $curdate,
             );
             if( $this->Model_Tenant->update_data($post_tenant_id, $tenantdata_update) ){
@@ -3131,6 +3134,7 @@ class Tenant extends User_Controller {
         $post_tenant_legal      = $this->input->post('tenant_legal');
         $post_tenant_bussiness  = $this->input->post('tenant_bussiness');
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
+        $post_tenant_desc       = $this->input->post('tenant_desc');
 
         if( !empty($is_admin) ){
             $this->form_validation->set_rules('tenant_username','Username Tenant','required');
@@ -3148,6 +3152,7 @@ class Tenant extends User_Controller {
         $this->form_validation->set_rules('tenant_legal','Legal','required');
         $this->form_validation->set_rules('tenant_bussiness','NPWP','required');
         $this->form_validation->set_rules('tenant_mitra','Mitra Usaha','required');
+        $this->form_validation->set_rules('tenant_desc','Deskripsi Tenant','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -3317,6 +3322,7 @@ class Tenant extends User_Controller {
                     'legal'         => trim(smit_isset($post_tenant_legal, '')),
                     'licensing'     => trim(smit_isset($post_tenant_bussiness, '')),
                     'partnerships'  => smit_isset($post_tenant_mitra, ''),
+                    'description'   => smit_isset($post_tenant_desc, ''),
                     'url'           => smit_isset($file_avatar['full_path'],''),
                     'extension'     => substr(smit_isset($file_avatar['file_ext'],''),1),
                     'filename'      => smit_isset($file_avatar['raw_name'],''),
