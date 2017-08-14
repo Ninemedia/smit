@@ -951,6 +951,7 @@ class Tenant extends User_Controller {
             
             $tenantdata_update  = array(
                 'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
+                'slug'          => smit_slug( trim(smit_isset($post_tenant_name, '')) ),
                 'email'         => trim(smit_isset($post_tenant_email, '')),
                 'phone'         => trim(smit_isset($post_tenant_phone, '')),
                 'year'          => smit_isset($post_tenant_year, ''),
@@ -3312,6 +3313,7 @@ class Tenant extends User_Controller {
                     'selection_id'  => trim(smit_isset($data_selection->selection_id, '')),
                     'incubation_id' => trim(smit_isset($post_selection_id, '')),
                     'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
+                    'slug'          => smit_slug( trim(smit_isset($post_tenant_name, '')) ),
                     'email'         => trim(smit_isset($post_tenant_email, '')),
                     'phone'         => trim(smit_isset($post_tenant_phone, '')),
                     'year'          => smit_isset($post_tenant_year, ''),
