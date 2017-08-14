@@ -1278,23 +1278,11 @@ var SliderValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
-                reg_title: {
-                    required: true,
-                },
-                reg_desc: {
-                    required: true,
-                },
                 slider_selection_files: {
                     required: true,
                 },
             },
             messages: {
-                reg_title: {
-                    required: 'Judul Slider harus di isi',
-                },
-                reg_desc: {
-                    required: 'Deskripsi Slider harus di isi',
-                },
                 slider_selection_files: {
                     required: 'Gambar Slider di isi',
                 },

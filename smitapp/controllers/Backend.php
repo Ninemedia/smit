@@ -2585,6 +2585,7 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
+        /*
         $this->form_validation->set_rules('reg_title','Judul Slider','required');
         $this->form_validation->set_rules('reg_desc','Deskripsi Slider','required');
 
@@ -2596,6 +2597,7 @@ class Backend extends User_Controller {
             $data = array('message' => 'error','data' => 'Pendaftaran slider tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
+        */
 
         // -------------------------------------------------
         // Check File
@@ -2636,22 +2638,39 @@ class Backend extends User_Controller {
 
                 $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(1346,400)->save($upload_path. '/' .$upload_file, TRUE);
                 $this->image_moo->clear();
-
-                $slider_data        = array(
-                    'uniquecode'    => smit_generate_rand_string(10,'low'),
-                    'user_id'       => $current_user->id,
-                    'username'      => strtolower($current_user->username),
-                    'name'          => $current_user->name,
-                    'title'         => $title,
-                    'desc'          => $description,
-                    'url'           => smit_isset($upload_data['full_path'],''),
-                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
-                    'filename'      => smit_isset($upload_data['raw_name'],''),
-                    'size'          => smit_isset($upload_data['file_size'],0),
-                    'uploader'      => $current_user->id,
-                    'datecreated'   => $curdate,
-                    'datemodified'  => $curdate,
-                );
+                
+                if( empty($title) || empty($description) ){
+                    $slider_data        = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'user_id'       => $current_user->id,
+                        'username'      => strtolower($current_user->username),
+                        'name'          => $current_user->name,
+                        'url'           => smit_isset($upload_data['full_path'],''),
+                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                        'filename'      => smit_isset($upload_data['raw_name'],''),
+                        'size'          => smit_isset($upload_data['file_size'],0),
+                        'uploader'      => $current_user->id,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );    
+                }else{
+                    $slider_data        = array(
+                        'uniquecode'    => smit_generate_rand_string(10,'low'),
+                        'user_id'       => $current_user->id,
+                        'username'      => strtolower($current_user->username),
+                        'name'          => $current_user->name,
+                        'title'         => $title,
+                        'desc'          => $description,
+                        'url'           => smit_isset($upload_data['full_path'],''),
+                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                        'filename'      => smit_isset($upload_data['raw_name'],''),
+                        'size'          => smit_isset($upload_data['file_size'],0),
+                        'uploader'      => $current_user->id,
+                        'datecreated'   => $curdate,
+                        'datemodified'  => $curdate,
+                    );    
+                }
+                
             }
 
             // -------------------------------------------------
@@ -2708,7 +2727,7 @@ class Backend extends User_Controller {
     function sliderlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = '';
+        $condition          = ' WHERE %status% <> 3';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -2772,20 +2791,25 @@ class Backend extends User_Controller {
                 elseif($row->status == DELETED) {
                     $status         = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
+                
+                $title      = $row->title; 
+                if( empty($title) ){
+                    $title  = 'TIDAK ADA JUDUL';
+                }
 
                 $uploaded           = $row->uploader;
                 if($uploaded != 0){
                     $file_name      = $row->filename . '.' . $row->extension;
                     $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
                     $slider         = $file_url;
-                    $slider         = '<img class="js-animating-object img-responsive" src="'.$slider.'" alt="'.$row->title.'" />';
+                    $slider         = '<img class="js-animating-object img-responsive" src="'.$slider.'" alt="'.$title.'" />';
                 }
 
                 $records["aaData"][] = array(
                     smit_center('<input name="sliderlist[]" class="cblist filled-in chk-col-blue" id="cblist_slider'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist_slider'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    '<a href="'.base_url('slider/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    '<a href="'.base_url('slider/detail/'.$row->uniquecode).'">' . strtoupper($title) . '</a>',
                     $slider,
                     smit_center( $status ),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),

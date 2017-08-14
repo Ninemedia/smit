@@ -96,6 +96,7 @@ class Model_Slider extends SMIT_Model{
             $conditions = str_replace("%url%",                  "url", $conditions);
             $conditions = str_replace("%extension%",            "extension", $conditions);
             $conditions = str_replace("%datecreated%",          "datecreated", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
         }
         
         if( !empty($order_by) ){
@@ -107,6 +108,7 @@ class Model_Slider extends SMIT_Model{
             $order_by   = str_replace("%url%",                  "url",  $order_by);
             $order_by   = str_replace("%extension%",            "extension",  $order_by);
             $order_by   = str_replace("%datecreated%",          "datecreated",  $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
         }
         
         $sql = 'SELECT * FROM ' . $this->slider. '';

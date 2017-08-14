@@ -95,19 +95,19 @@
                                                 <section id="">
                                                     <h4>Pengaturan Slider</h4>
                                                     <div class="form-group">
-                                                        <label class="form-label">Judul Slider <b style="color: red !important;">(*)</b></label>
+                                                        <label class="form-label">Judul Slider <b style="color: red !important;"></b></label>
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                                             <div class="form-line">
-                                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Slider" required>
+                                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Slider">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Deskripsi <b style="color: red !important;">(*)</b></label>
+                                                        <label class="form-label">Deskripsi <b style="color: red !important;"></b></label>
                                                         <div class="input-group">
                                                             <div class="form-line">
-                                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor" required></textarea>
+                                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
