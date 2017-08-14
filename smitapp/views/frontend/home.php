@@ -29,7 +29,10 @@
                         <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
                     </li>
                     <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
-                        <img src="<?php echo FE_IMG_PATH; ?>slider/slider1.jpg" alt="" width="1346" height="400" />
+                        <img src="<?php echo FE_IMG_PATH; ?>slider/slider2.jpg" alt="" width="1346" height="400" />
+                    </li>
+                    <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText1">
+                        <img src="<?php echo FE_IMG_PATH; ?>slider/slider5.jpg" alt="" width="1346" height="400" />
                     </li>
                     <?php
                 }
