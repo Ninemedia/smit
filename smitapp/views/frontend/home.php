@@ -40,6 +40,7 @@
             if(!empty($sliderdata)){
                 $j  = 1;
                 foreach($sliderdata AS $row){
+                    if( !empty($row->title) && !empty($row->desc) ){
                     ?>
                     <!-- TEXTS -->
                     <div id="bannerscollection_zoominout_sliderText<?php echo $j; ?>" class="bannerscollection_zoominout_texts">
@@ -53,6 +54,7 @@
                         </div>
                     </div>
                     <?php
+                    }
                     $j++;
                 }
             }

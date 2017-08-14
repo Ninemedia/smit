@@ -144,9 +144,14 @@ class Debug extends Public_Controller {
 		$this->benchmark->mark('started');
         echo "<pre>";
         
-        $data_list = $this->Model_User->get_all_user();
-        $this->smit_excel->exportUserList( $data_list, true );
-        //$this->smit_excel->test();
+        $tenant_list    = $this->Model_Tenant->get_all_tenant();
+        if( !empty($tenant_list) ){
+            foreach($tenant_list as $row){
+                $name = $row->name_tenant;
+                $data_update = array('slug' => smit_slug($name));
+                $this->Model_Tenant->update_data($row->id, $data_update);
+            }
+        }
         
         $this->benchmark->mark('ended');
 		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');

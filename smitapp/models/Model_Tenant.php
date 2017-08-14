@@ -92,6 +92,11 @@ class Model_Tenant extends SMIT_Model{
                 $id     = '';
                 $field  = 'uniquecode';
                 break;
+            case 'slug':
+                $value  = $value;
+                $id     = '';
+                $field  = 'slug';
+                break;
             default:
                 return false;
         }

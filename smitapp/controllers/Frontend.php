@@ -1160,7 +1160,7 @@ class Frontend extends Public_Controller {
     /**
     * Tenant Details function.
     */
-    public function detailtenant( $uniquecode='' ){
+    public function detailtenant( $slug='' ){
         $headstyles             = smit_headstyles(array(
             //Plugin Path
             FE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1185,8 +1185,8 @@ class Frontend extends Public_Controller {
         $scripts_init           = '';
         
         $tenantdata             = '';
-        if( !empty($uniquecode) ){
-            $tenantdata         = $this->Model_Tenant->get_tenant_by('uniquecode', $uniquecode);
+        if( !empty($slug) ){
+            $tenantdata         = $this->Model_Tenant->get_tenant_by('slug', $slug);
         }
         
         if( !$tenantdata ){
@@ -2852,7 +2852,7 @@ class Frontend extends Public_Controller {
                 $address        .= ' '.$row->district;
                 $address        .= ' PROVINSI '.$province;
                 
-                $btn_action = '<a href="'.base_url('tenant/detail/'.$row->uniquecode).'" class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                $btn_action = '<a href="'.base_url('tenant/detail/'.$row->slug).'" class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
