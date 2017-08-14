@@ -14,14 +14,14 @@
                 <div class="form-group form-float">
                     <section id="">
                         <h4>Masukan Data Slider yaran yang Akan Dirubah</h4>
-                        <input type="hidden" name="reg_uniquecode" id="reg_uniquecode" class="form-control" value="<?php echo $sliderdata->uniquecode; ?>">
+                        <input type="hidden" name="slider_uniquecode" id="slider_uniquecode" class="form-control" value="<?php echo $sliderdata->uniquecode; ?>">
                         
                         <div class="form-group">
                             <label class="form-label">Judul Slider <b style="color: red !important;">(*)</b></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                 <div class="form-line">
-                                    <input type="text" name="reg_title" id="reg_title" class="form-control" value="<?php echo $sliderdata->title; ?>" required>
+                                    <input type="text" name="slider_title" id="slider_title" class="form-control" value="<?php echo $sliderdata->title; ?>" required>
                                 </div>
                             </div>
                         </div> 
@@ -29,7 +29,7 @@
                             <label class="form-label">Deskripsi Slider <b style="color: red !important;">(*)</b></label>
                             <div class="input-group">
                                 <div class="form-line">
-                                    <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize ckeditor"><?php echo $sliderdata->desc; ?></textarea>
+                                    <textarea name="slider_desc" id="slider_desc" cols="30" rows="3" class="form-control no-resize ckeditor"><?php echo $sliderdata->desc; ?></textarea>
                                 </div>
                             </div>
                         </div>   
@@ -44,7 +44,7 @@
                             </p>
                             <div class="form-group">
                                 <label>Gambar Slider</label>
-                                <input id="reg_details" name="reg_details" class="form-control" type="file">
+                                <input id="slider_image" name="slider_image" class="form-control" type="file">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-warning waves-effect" id="btn_sliderdataedit">Ubah Slider</button>

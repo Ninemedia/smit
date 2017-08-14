@@ -99,7 +99,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                                             <div class="form-line">
-                                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Slider">
+                                                                <input type="text" name="slider_title" id="slider_title" class="form-control" placeholder="Masukan Judul Slider">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -107,7 +107,7 @@
                                                         <label class="form-label">Deskripsi <b style="color: red !important;"></b></label>
                                                         <div class="input-group">
                                                             <div class="form-line">
-                                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control ckeditor"></textarea>
+                                                                <textarea name="slider_desc" id="slider_desc" cols="30" rows="3" class="form-control ckeditor"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -118,7 +118,7 @@
                                                         </p>
                                                         <div class="form-group">
                                                             <label>Upload Slider</label>
-                                                            <input id="slider_selection_files" name="slider_selection_files" class="form-control" type="file">
+                                                            <input id="slider_image" name="slider_image" class="form-control" type="file">
                                                         </div>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary waves-effect" id="btn_slideradd">Tambah Slider</button>

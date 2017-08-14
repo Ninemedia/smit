@@ -2577,9 +2577,9 @@ class Backend extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
 
-        $title                  = $this->input->post('reg_title');
+        $title                  = $this->input->post('slider_title');
         $title                  = trim( smit_isset($title, "") );
-        $description            = $this->input->post('reg_desc');
+        $description            = $this->input->post('slider_desc');
         $description            = trim( smit_isset($description, "") );
 
         // -------------------------------------------------
@@ -2602,7 +2602,7 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         // Check File
         // -------------------------------------------------
-        if( empty($_FILES['slider_selection_files']['name']) ){
+        if( empty($_FILES['slider_image']['name']) ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Tidak ada gambar slider yang di unggah. Silahkan inputkan gambar slider!');
             die(json_encode($data));
@@ -2624,8 +2624,8 @@ class Backend extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            if( !empty($_FILES['slider_selection_files']['name']) ){
-                if( ! $this->upload->do_upload('slider_selection_files') ){
+            if( !empty($_FILES['slider_image']['name']) ){
+                if( ! $this->upload->do_upload('slider_image') ){
                     $message = $this->upload->display_errors();
 
                     // Set JSON data
@@ -3079,18 +3079,19 @@ class Backend extends User_Controller {
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
         
-        $uniquecode             = $this->input->post('reg_uniquecode');
+        $uniquecode             = $this->input->post('slider_uniquecode');
         $uniquecode             = trim( smit_isset($uniquecode, "") );
-        $event_title            = $this->input->post('reg_title');
+        $event_title            = $this->input->post('slider_title');
         $event_title            = trim( smit_isset($event_title, "") );
-        $description            = $this->input->post('reg_desc');
+        $description            = $this->input->post('slider_desc');
         $description            = trim( smit_isset($description, "") );
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
-        $this->form_validation->set_rules('reg_title','Judul Slider','required');
-        $this->form_validation->set_rules('reg_desc','Deskripsi Slider','required');
+        /*
+        $this->form_validation->set_rules('slider_title','Judul Slider','required');
+        $this->form_validation->set_rules('slider_desc','Deskripsi Slider','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -3100,6 +3101,7 @@ class Backend extends User_Controller {
             $data = array('message' => 'error','data' => 'Ubah Slider baru tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
+        */
 
         // -------------------------------------------------
         // Check File
@@ -3126,108 +3128,106 @@ class Backend extends User_Controller {
         $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
         $slider_image   = $file_url;
 
-        if( !empty( $_POST ) ){
-            // -------------------------------------------------
-            // Begin Transaction
-            // -------------------------------------------------
-            $this->db->trans_begin();
+        // -------------------------------------------------
+        // Begin Transaction
+        // -------------------------------------------------
+        $this->db->trans_begin();
+        
+        // Upload Files Process
+        $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/frontend/images/slider/';
+        if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+        
+        $config = array(
+            'upload_path'       => $upload_path,
+            'allowed_types' => "jpg|jpeg|png",
+            'overwrite'         => FALSE,
+            'max_size'          => "2048000",
+        );
+        $this->load->library('MY_Upload', $config);
+        
+        $file_details       = '';
+        if( !empty($_FILES['slider_image']['name']) ){
+            //unlink($product_image);
             
-            // Upload Files Process
-            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/frontend/images/slider/';
-            if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-            
-            $config = array(
-                'upload_path'       => $upload_path,
-                'allowed_types' => "jpg|jpeg|png",
-                'overwrite'         => FALSE,
-                'max_size'          => "2048000",
+            if( ! $this->my_upload->do_upload('slider_image') ){
+                $message = $this->my_upload->display_errors();
+
+                // Set JSON data
+                $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                die(json_encode($data));
+            }
+            $upload_data_details    = $this->my_upload->data();
+            $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
+            $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1140,400)->save($upload_path. '/' .$upload_file, TRUE);
+            $this->image_moo->clear();
+            $file_details           = $upload_data_details;
+        }
+        
+        if( !empty($file_details) ){
+            $slider_data            = array(
+                'title'             => $event_title,
+                'desc'              => $description,
+                'url'               => smit_isset($file_details['full_path'],''),
+                'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
+                'filename'          => smit_isset($file_details['raw_name'],''),
+                'size'              => smit_isset($file_details['file_size'],0),
+                'datemodified'      => $curdate,
             );
-            $this->load->library('MY_Upload', $config);
-            
-            $file_details       = '';
-            if( !empty($_FILES['reg_details']['name']) ){
-                //unlink($product_image);
-                
-                if( ! $this->my_upload->do_upload('reg_details') ){
-                    $message = $this->my_upload->display_errors();
-    
-                    // Set JSON data
-                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
-                    die(json_encode($data));
-                }
-                $upload_data_details    = $this->my_upload->data();
-                $upload_file            = $upload_data_details['raw_name'] . $upload_data_details['file_ext'];
-                $this->image_moo->load($upload_path . '/' .$upload_data_details['file_name'])->resize_crop(1140,400)->save($upload_path. '/' .$upload_file, TRUE);
-                $this->image_moo->clear();
-                $file_details           = $upload_data_details;
-            }
-            
-            if( !empty($file_details) ){
-                $slider_data            = array(
-                    'title'             => $event_title,
-                    'desc'              => $description,
-                    'url'               => smit_isset($file_details['full_path'],''),
-                    'extension'         => substr(smit_isset($file_details['file_ext'],''),1),
-                    'filename'          => smit_isset($file_details['raw_name'],''),
-                    'size'              => smit_isset($file_details['file_size'],0),
-                    'datemodified'      => $curdate,
-                );
-            }else{
-                $slider_data            = array(
-                    'title'             => $event_title,
-                    'desc'              => $description,
-                    'datemodified'      => $curdate,
-                );
-            }
-            
-            // -------------------------------------------------
-            // Edit Slider Selection
-            // -------------------------------------------------
-            $trans_edit_slider      = FALSE;
-            if( $slider_edit_id         = $this->Model_Slider->update_slider($uniquecode, $slider_data) ){
-                $trans_edit_slider      = TRUE;
-            }else{
+        }else{
+            $slider_data            = array(
+                'title'             => $event_title,
+                'desc'              => $description,
+                'datemodified'      => $curdate,
+            );
+        }
+        
+        // -------------------------------------------------
+        // Edit Slider Selection
+        // -------------------------------------------------
+        $trans_edit_slider      = FALSE;
+        if( $slider_edit_id         = $this->Model_Slider->update_slider($uniquecode, $slider_data) ){
+            $trans_edit_slider      = TRUE;
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data formulir anda');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Commit or Rollback Transaction
+        // -------------------------------------------------
+        if( $trans_edit_slider ){
+            if ($this->db->trans_status() === FALSE){
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data formulir anda');
-                die(json_encode($data));
-            }
-
-            // -------------------------------------------------
-            // Commit or Rollback Transaction
-            // -------------------------------------------------
-            if( $trans_edit_slider ){
-                if ($this->db->trans_status() === FALSE){
-                    // Rollback Transaction
-                    $this->db->trans_rollback();
-                    // Set JSON data
-                    $data = array(
-                        'message'       => 'error',
-                        'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
-                    ); die(json_encode($data));
-                }else{
-                    // Commit Transaction
-                    $this->db->trans_commit();
-                    // Complete Transaction
-                    $this->db->trans_complete();
-
-                    // Send Email Notification
-                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
-
-                    // Set JSON data
-                    $data       = array('message' => 'success', 'data' => 'Ubah Slider baru berhasil!');
-                    die(json_encode($data));
-                    // Set Log Data
-                    smit_log( 'SLIDEREDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
-                }
+                $data = array(
+                    'message'       => 'error',
+                    'data'          => 'Ubah tidak berhasil. Terjadi kesalahan data transaksi database.'
+                ); die(json_encode($data));
             }else{
-                // Rollback Transaction
-                $this->db->trans_rollback();
+                // Commit Transaction
+                $this->db->trans_commit();
+                // Complete Transaction
+                $this->db->trans_complete();
+
+                // Send Email Notification
+                //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
                 // Set JSON data
-                $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data.');
+                $data       = array('message' => 'success', 'data' => 'Ubah Slider baru berhasil!');
                 die(json_encode($data));
+                // Set Log Data
+                smit_log( 'SLIDEREDIT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'upload_files'=> $upload_data)) );
             }
+        }else{
+            // Rollback Transaction
+            $this->db->trans_rollback();
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Ubah Slider tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
         }
 	}
 

@@ -889,7 +889,7 @@ var UploadFiles = function () {
     };
 
     var handleUploadSlider = function(){
-        $("#slider_selection_files").fileinput({
+        $("#slider_image").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
             'theme': 'explorer',
@@ -1737,6 +1737,10 @@ var Setting = function () {
                     $('#view_mail_template').modal('show');
                 }
             });
+        });
+        
+        $("#slider_image").on('fileselect', function(event, numFiles, label) {
+            $(this).parent().parent().parent().parent().parent().find('label.error').remove();
         });
     };
 

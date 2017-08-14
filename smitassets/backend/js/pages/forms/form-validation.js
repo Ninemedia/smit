@@ -1278,12 +1278,12 @@ var SliderValidation = function () {
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
-                slider_selection_files: {
+                slider_image: {
                     required: true,
                 },
             },
             messages: {
-                slider_selection_files: {
+                slider_image: {
                     required: 'Gambar Slider di isi',
                 },
             },
@@ -1302,7 +1302,11 @@ var SliderValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
+                if (element.is('input[type=file]')) {
+                    $(element).parent().parent().parent().parent().parent().append(error);
+                } else {
+                    $(element).parents('.input-group').append(error);
+                }
             },
             submitHandler: function (form) {
                 $('#save_slider').modal('show');
@@ -1314,22 +1318,8 @@ var SliderValidation = function () {
         $('#sliderdataedit').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
-            rules: {
-                reg_title: {
-                    required: true,
-                },
-                reg_desc: {
-                    required: true,
-                },
-            },
-            messages: {
-                reg_title: {
-                    required: 'Judul Slider harus di isi',
-                },
-                reg_desc: {
-                    required: 'Deskripsi Slider harus di isi',
-                },
-            },
+            rules: {},
+            messages: {},
             invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
             },
@@ -1345,7 +1335,11 @@ var SliderValidation = function () {
                 label.remove();
             },
             errorPlacement: function (error, element) {
-                $(element).parents('.input-group').append(error);
+                if (element.is('input[type=file]')) {
+                    $(element).parent().parent().parent().parent().parent().append(error);
+                } else {
+                    $(element).parents('.input-group').append(error);
+                }
             },
             submitHandler: function (form) {
                 $('#save_sliderdataedit').modal('show');

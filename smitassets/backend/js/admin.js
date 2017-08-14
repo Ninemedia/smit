@@ -2255,30 +2255,16 @@ var App = function() {
         // Reset Slider Form
         $('body').on('click', '#btn_slideradd_reset', function(event){
 			event.preventDefault();
-            var frm         = $(this).data('form');
-            var msg         = $('#alert');
+            var msg = $('#alert');
 
-            $(msg).hide().empty();
-            $('.form-group').removeClass('has-error');
-            $('#reg_title').val('');
-            $('#reg_desc').val('');
+            $(msg).empty().hide();
+            $('#slideradd label.error').remove();
             $('#slideradd')[0].reset();
-            $('#slider_selection_files').fileinput('refresh', {
-                showUpload : false,
-                showUploadedThumbs : false,
-                'theme': 'explorer',
-                'uploadUrl': '#',
-                fileType: "any",
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                allowedFileExtensions: ['jpg', 'jpeg', 'png'],
-                fileActionSettings : {
-                    showUpload: false,
-                    showZoom: false,
-                },
-                maxFileSize: 1024,
-            });
-            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+            if( $('button.fileinput-remove-button').is(':visible') ){
+                $('button.fileinput-remove-button').trigger('click');
+                return false;
+            }
+            $('html, body').animate( { scrollTop: $('body').offset().top - 300 }, 500 );
         });
     };
 
