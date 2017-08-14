@@ -1839,7 +1839,7 @@ class Backend extends User_Controller {
                     <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     smit_center( date('d F Y h:i:s', strtotime($row->datecreated)) ),
-                    '<a href="'.base_url('guidefiles/'.$row->id).'">' . $row->title . '</a>',
+                    '<a href="'.base_url('berkas/digital/detail/'.$row->uniquecode).'">' . $row->title . '</a>',
                     $row->description,
                     smit_center( $btn_files ),
                     smit_center( $btn_action ),

@@ -1302,12 +1302,20 @@ class Incubation extends User_Controller {
         $scripts_add            = '';
 
         // Get Pra-Incubation Selection Data
-        if( $step == 1 ){
-            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';
+        if( $is_pengusul ){
+            if( $step == 1 ){
+                $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' ';
+            }else{
+                $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' ';
+            }
         }else{
-            $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';
+            if( $step == 1 ){
+                $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %step% = '.$step.' AND %status% <> 0 ';
+            }else{
+                $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';
+            }
         }
-
+        
         $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
         if( !$data_selection || empty($data_selection) ){
             redirect( base_url('seleksiinkubasi/nilai') );
@@ -2934,7 +2942,7 @@ class Incubation extends User_Controller {
                 $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/1/'.$row->uniquecode).'"
                 class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="2" title="Details"><i class="material-icons">zoom_in</i></a>';
 
-                if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
+                if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == REJECTED)    { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }

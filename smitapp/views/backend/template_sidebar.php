@@ -702,7 +702,7 @@
                 <img src="<?php echo $avatar_side; ?>" width="48" height="48" alt="User" />
             </div>
             <div class="info-container">
-                <div class="name"><a href="<?php echo base_url('pengguna/profil'); ?>" style="color: white !important;"><?php echo $user->name; ?></a></div>
+                <div class="name"><a href="<?php echo base_url('pengguna/profil'); ?>" style="color: white !important;"><?php echo word_limiter($user->name, 15); ?></a></div>
                 <div class="email"><?php echo $user->email; ?></div>
                 <div class="email"><?php echo $status; ?></div>
                 <!--

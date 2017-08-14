@@ -329,12 +329,15 @@ class Frontend extends Public_Controller {
             'Guides.init();',
             'SelectionValidation.init();',
         ));
+        
+        $lss = smit_latest_incubation_setting();
 
         $data['title']          = TITLE . 'Seleksi Inkubasi';
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
+        $data['lss']            = $lss;
         $data['main_content']   = 'selection/selectionincubation';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
@@ -348,11 +351,13 @@ class Frontend extends Public_Controller {
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
 
         // Set JSON data
+        /*
         $data       = array(
             'message' => 'success',
             'data' => smit_alert('Pendaftaran seleksi inkubasi baru berhasil!<br />Data seleksi Anda akan segera di proses<br />Silahkan <strong><a href="'.base_url('login').'">LOGIN</a></strong> untuk melihat data seleksi Anda!')
         );
         die(json_encode($data));
+        */
 
         $message                = '';
         $post                   = '';

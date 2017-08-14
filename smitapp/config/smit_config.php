@@ -257,10 +257,12 @@ $config['user_menu_access']             = array(
     PENGUSUL                            => array(
         'beranda',
         'seleksiprainkubasi',
+        //'seleksiprainkubasi/daftar',
         'seleksiprainkubasi/nilai',
         'seleksiprainkubasi/peringkat',
         'seleksiprainkubasi/riwayat',
         'seleksiinkubasi',
+        //'seleksiinkubasi/daftar',
         'seleksiinkubasi/nilai',
         'seleksiinkubasi/peringkat',
         'seleksiinkubasi/riwayat',

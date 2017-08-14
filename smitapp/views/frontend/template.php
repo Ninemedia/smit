@@ -9,6 +9,14 @@
             $praincsel_open = TRUE;
         }
     }
+    
+    $incset         = smit_latest_incubation_setting();
+    $incsel_open    = FALSE;
+    if( !empty($incset) ){
+        if( $incset->status == 1 ){
+            $incsel_open = TRUE;
+        }
+    }
 ?>
 
 <!DOCTYPE HTML>
@@ -78,7 +86,10 @@
                                                 <?php echo ( $praincsel_open ? '<span class="menu-badge">BUKA</span>' : '' );?>
                                                 <a <?php echo ($active_page2 == 'prainkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/prainkubasi'); ?>">Pendaftaran Pra Inkubasi</a>
                                             </li>
-            								<li><a <?php echo ($active_page2 == 'inkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/inkubasi'); ?>">Pendaftaran Inkubasi</a></li>
+            								<li class="has-badge">
+                                                <?php echo ( $incsel_open ? '<span class="menu-badge">BUKA</span>' : '' );?>
+                                                <a <?php echo ($active_page2 == 'inkubasi' ? 'class="currentactive"' : ''); ?> href="<?php echo base_url('seleksi/inkubasi'); ?>">Pendaftaran Inkubasi</a>
+                                            </li>
             							</ul>
             						</li>
                                     <li class="has-dropdown">

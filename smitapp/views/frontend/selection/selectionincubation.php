@@ -38,6 +38,16 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="body">
                     <div class="card">
+                        <?php if( !$lss || empty($lss) ) : ?>
+                            <div class="header">
+                                <h3 class="bottom0">SELEKSI BELUM DIBUKA</h3>
+                            </div>
+                            <div class="body">
+                                <div class="body bg-teal">
+                                    <p align="center" class="bottom0"><strong>TIDAK DAPAT MELAKUKAN SELEKSI KEGIATAN INKUBASI DIKARENALAN TIDAK ADA JURI. MOHON TUNGGU HINGGA ADMIN MENENTUKAN JURI UNTUK SELEKSI KEGIATAN INI. TERIMA KASIH.</strong></p>
+                                </div>
+                            </div>
+                        <?php else : ?>
                         <div class="body">
                             <h4>Formulir Pendaftaran Seleksi Inkubasi</h4>
                             
@@ -93,16 +103,15 @@
                                         </div>
                                         <label class="form-label">Kategori Bidang <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
+                                            <?php $category = smit_category(); ?>
                                             <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                             <select class="form-control" name="reg_category" id="reg_category">
                                                 <option value="">-- Pilih Kategori Bidang --</option>
-                                                <option value="pangan">PANGAN</option>
-                                                <option value="lingkungan">LINGKUNGANN</option>
-                                                <option value="material_maju">MATERIAL MAJU</option>
-                                                <option value="transportasi">TRANSPORTASI</option>
-                                                <option value="informasi_komunikasi">INFORMASI &amp; KOMUNIKASI</option>
-                                                <option value="kesehatan_farmasi">KESEHATAN &amp; FARMASI</option>
-                                                <option value="pertahanan_keamanan">PERTAHANAN &amp; KEAMANAN</option>
+                                                <?php if( !empty($category) ){ ?>
+                                                    <?php foreach($category as $cat){ ?>
+                                                        <option value="<?php echo $cat->category_slug; ?>"><?php echo $cat->category_name; ?></option>
+                                                    <?php } ?>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="alert bg-teal">
@@ -129,6 +138,7 @@
                             <?php echo form_close(); ?>
                             
                         </div>
+                        <?php endif; ?>
                 </div>
                 </div>
             </div>

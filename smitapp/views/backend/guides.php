@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
-                        <?php echo form_open_multipart( '', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
+                        <?php echo form_open_multipart( 'backend/guides', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
                             <div class="alert alert-danger error-validate <?php echo empty($message) ? 'display-hide' : ''; ?>">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
                                 <?php if( !empty($message) ){ ?>

@@ -63,7 +63,8 @@ var GuidesValidation = function () {
                 $(element).parents('.form-group').append(error);
             },
             submitHandler: function (form) {
-                form.submit();
+                //form.submit();
+                $('#save_guides').modal('show');
             }
         });
     };

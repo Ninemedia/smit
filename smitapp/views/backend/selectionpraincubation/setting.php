@@ -92,11 +92,12 @@
                         <?php $latest_selection_praincubation_setting = smit_latest_praincubation_setting(); ?>
                         <?php if( !empty($latest_selection_praincubation_setting) ){ ?>
                             <div class="alert alert-info bottom15">Pengaturan Pra-Inkubasi tidak dapat ditambahkan karena saat ini sedang dibuka Seleksi Pra-Inkubasi</div>
-                            <div class="alert alert-warning bottom0">Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </div>
+                            <p>Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </p>
+                            <hr />
                         <?php }else{ ?>
+                            <p>Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </p>
+                            <hr />
                             <div id="alert" class="alert display-hide"></div>
-                            <div class="alert alert-warning bottom0">Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </div>
-                        
                             <?php echo form_open_multipart( base_url('selectionsetting'), array( 'id'=>'selection_praincubation_wizard', 'role'=>'form' ) ); ?>
                                 <h3>Tanggal Seleksi</h3>
                                 <section>

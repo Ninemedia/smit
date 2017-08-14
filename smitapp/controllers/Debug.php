@@ -29,7 +29,8 @@ class Debug extends Public_Controller {
 		
 		// using Swiftmailer
 		echo 'sending email using Swiftmailer...' . br();
-		$response = $this->smit_email->send_email_test($to);
+		//$response = $this->smit_email->send_email_test($to);
+		$response = $this->smit_email->send_email_registration_selection($to, 'PRAINKUBASI');
 		if(is_array($response)) {
 			echo 'failed:' . br();
 			var_dump($response);

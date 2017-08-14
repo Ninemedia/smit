@@ -589,16 +589,43 @@
                 <?php $dashboard_text = get_option('be_dashboard_user'); ?>
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
-                        <?php echo get_option('be_dashboard_user'); ?><hr />
-                        <div class="body bg-amber">
-                            <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <?php echo get_option('be_dashboard_user'); ?>
+                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <hr />
+                        <div class="panel bottom5">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Pra-Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiprainkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5>Seleksi Inkubasi</h5>
+                                    <ul>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>">Penilaian Seleksi</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/peringkat'); ?>">Peringkat Penilaian</a></li>
+                                        <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
+                                    <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
+                                </div>
+                            </div><hr />
                         </div>
                         <h4>Status Pengajuan Seleksi Anda : </h4>
                         <div class="row clearfix">
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header bg-cyan">
+                                        <?php if( !empty($lss) ) : ?>
                                         <h2>Seleksi Pra-Inkubasi<small>Tanggal Seleksi : <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_start)); ?></strong> - <strong><?php echo date('d F Y H:i:s', strtotime($lss->selection_date_adm_end)); ?></strong></small></h2>
+                                        <?php else : ?>
+                                        <h2>Seleksi Pra-Inkubasi<small>Belum Dibuka</small></h2>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="body">
                                         <?php if( !empty($data_praincubation) ) :?>
@@ -631,7 +658,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header bg-pink">
-                                        <h2>Seleksi Inkubasi<small>...</small></h2>
+                                        <h2>Seleksi Inkubasi<small>Dibuka</small></h2>
                                     </div>
                                     <div class="body">
                                         <?php if( !empty($data_incubation) ) :?>
