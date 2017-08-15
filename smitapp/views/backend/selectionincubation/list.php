@@ -28,6 +28,7 @@
         						<select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
         							<option value="">Select...</option>
         							<option value="confirm">Konfirmasi</option>
+        							<option value="process">Proses Nilai</option>
         						</select>
         						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                                 <div class="btn-group">

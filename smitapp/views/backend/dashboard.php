@@ -522,26 +522,26 @@
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
-                                    <?php if( !empty($lss) ) : ?>
+                                    <?php if( !empty($incss) ) : ?>
                                     <div class="header bg-pink">
-                                        <h2>Seleksi Inkubasi<small>&nbsp;</small></h2>
+                                        <h2>Seleksi Inkubasi<small>Dibuka</small></h2>
                                     </div>
                                     <div class="body">
-                                        <?php if( $phase1 == ACTIVE ) : ?>
-                                            Anda Terpilih Menjadi Juri <strong>Tahap 1</strong> Seleksi Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php if( $phaseinc1 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 1</strong> Seleksi Inkubasi Tahun <?php echo $incss->selection_year_publication; ?></a>
                                         <?php else : ?><br />
-                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 1 Tahun <?php echo $lss->selection_year_publication; ?>
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 1 Tahun <?php echo $incss->selection_year_publication; ?>
                                         <?php endif ?><br />
-                                        <?php if( $phase2 == ACTIVE ) : ?>
-                                            Anda Terpilih Menjadi Juri <strong>Tahap 2</strong> Seleksi Inkubasi Tahun <?php echo $lss->selection_year_publication; ?></a>
+                                        <?php if( $phaseinc2 == ACTIVE ) : ?>
+                                            Anda Terpilih Menjadi Juri <strong>Tahap 2</strong> Seleksi Inkubasi Tahun <?php echo $incss->selection_year_publication; ?></a>
                                         <?php else : ?><br />
-                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
+                                            Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $incss->selection_year_publication; ?>
                                         <?php endif ?><br /><br />
                                         
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
                                     <?php else : ?>
-                                        <div class="alert alert-warning bottom0">Tidak ada Seleksi Pra-Inkubasi yang dibuka saat ini</div>
+                                        <div class="alert alert-warning bottom0">Tidak ada Seleksi Inkubasi yang dibuka saat ini</div>
                                     <?php endif; ?>
                                 </div>
                             </div>

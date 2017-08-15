@@ -219,7 +219,7 @@ class Incubation extends User_Controller {
 
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status > 0 ? 'disabled="disabled"' : '' ).'/>
+                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status == 1 || $row->status == 4 ? 'disabled="disabled"' : '' ).'/>
                         <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
@@ -340,7 +340,7 @@ class Incubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
-
+        if( $action=='process' )    { $actiontxt = 'Proses Nilai'; $status = ACTIVE; }
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
@@ -349,22 +349,76 @@ class Incubation extends User_Controller {
         $data = (object) $data;
         foreach( $data as $key => $id ){
             // Check Data Incubation Selection
-            $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
-            $order_by   = ' %id% ASC';
-            $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
-            if( !$incseldata || empty($incseldata) ){
-                continue;
+            if($action=='confirm'){
+                $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
+                $order_by   = ' %id% ASC';
+                $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+                if( !$incseldata || empty($incseldata) ){
+                    continue;
+                }
+                $incseldata  = $incseldata[0];
+    
+                $incselupdatedata   = array(
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );
+                
+                if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                    continue;
+                }
+                $this->smit_email->send_email_selection_confirmation_step1($incseldata);    
+            }else{
+                $incset     = smit_latest_incubation_setting();
+                $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
+                $order_by   = ' %id% ASC';
+                $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+                if( !$incseldata || empty($incseldata) ){
+                    continue;
+                }
+                $incseldata  = $incseldata[0];
+                
+                $sum_score      = $this->Model_Incubation->sum_all_score($id);
+                if(empty($sum_score)){
+                    $sum_score  = 0;
+                }
+    
+                $count_all_jury = $this->Model_Incubation->count_all_score($id);
+                if(empty($count_all_jury)){
+                    $count_all_jury = 0;
+                }
+    
+                if(!empty($sum_score) && !empty($count_all_jury)){
+                    $avarage_score  = $sum_score / $count_all_jury;
+                }else{
+                    $avarage_score  = 0;
+                }
+    
+                if( $avarage_score < KKM_STEP1 ){
+                    $status         = REJECTED;
+                }else{
+                    $status         = ACCEPTED;
+                }
+    
+                $incselupdatedata    = array(
+                    'score'         => $sum_score,
+                    'average_score' => $avarage_score,
+                    'status'        => $status,
+                    'statustwo'     => 1,
+                    'steptwo'       => 2,
+                    'datemodified'  => $curdate,
+                );
+    
+                if( !$this->Model_Incubation->update_data_incubation($id, $incselupdatedata) ){
+                    continue;
+                }else{
+                    if( $avarage_score < KKM_STEP1 ){
+                        $this->smit_email->send_email_selection_not_success_step1($incset, $incseldata);
+                    }else{
+                        $this->smit_email->send_email_selection_confirmation_step2($incseldata);
+                        $this->smit_email->send_email_selection_success($incset, $incseldata);
+                    }
+                }
             }
-            $incseldata  = $incseldata[0];
-
-            $incselupdatedata   = array(
-                'status'        => $status,
-                'datemodified'  => $curdate,
-            );
-            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
-                continue;
-            }
-            $this->smit_email->send_email_selection_confirmation_step1($incseldata);
         }
 
         // Commit Transaction
@@ -4628,7 +4682,7 @@ class Incubation extends User_Controller {
                 $condition          = ' WHERE user_id = '. $current_user->id .' ';
             }
         }
-
+        
         $order_by           = '';
         $iTotalRecords      = 0;
 

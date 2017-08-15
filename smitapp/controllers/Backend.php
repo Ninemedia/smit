@@ -47,8 +47,11 @@ class Backend extends User_Controller {
         $scripts_init           = '';
 
         $lss                    = smit_latest_praincubation_setting();
+        $incss                  = smit_latest_incubation_setting();
         $phase1                 = 0;
         $phase2                 = 0;
+        $phaseinc1              = 0;
+        $phaseinc2              = 0;
 
         if( !empty($is_jury) ){
             if( !empty($lss) ){
@@ -68,6 +71,24 @@ class Backend extends User_Controller {
                     }
                 }
             }
+            
+            if( !empty($incss) ){
+                $jury_phase1            = $incss->selection_juri_phase1;
+                $jury_phase1            = explode(',', $jury_phase1);
+                foreach($jury_phase1 AS $id){
+                    if($id == $current_user->id){
+                        $phaseinc1      = ACTIVE;
+                    }
+                }
+
+                $jury_phase2            = $incss->selection_juri_phase2;
+                $jury_phase2            = explode(',', $jury_phase2);
+                foreach($jury_phase2 AS $id){
+                    if($id == $current_user->id){
+                        $phaseinc2      = ACTIVE;
+                    }
+                }
+            }
 
         }
 
@@ -79,6 +100,7 @@ class Backend extends User_Controller {
         $step_pra_2             = 0;
         $data_incubation        = '';
         $data_praincubation     = '';
+        
         if( as_pengusul($current_user) ){
             $data_incubation        = $this->Model_Incubation->get_all_incubation('', 0, ' WHERE user_id = '.$current_user->id.'');
             $data_praincubation     = $this->Model_Praincubation->get_all_praincubation('', 0, ' WHERE user_id = '.$current_user->id.'');
@@ -150,6 +172,8 @@ class Backend extends User_Controller {
 
         $data['phase1']         = $phase1;
         $data['phase2']         = $phase2;
+        $data['phaseinc1']      = $phaseinc1;
+        $data['phaseinc2']      = $phaseinc2;
         $data['status_inc_1']   = $status_inc_1;
         $data['status_inc_2']   = $status_inc_2;
         $data['status_pra_1']   = $status_pra_1;
@@ -158,6 +182,7 @@ class Backend extends User_Controller {
         $data['data_incubation']    = $data_incubation;
         $data['data_praincubation'] = $data_praincubation;
         $data['lss']            = $lss;
+        $data['incss']          = $incss;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

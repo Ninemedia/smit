@@ -96,7 +96,7 @@
                                 </ul>
                             </div>
                 		</div>
-                        <table class="table table-striped table-bordered table-hover" id="incubationhistory_list" data-url="<?php echo base_url('seleksiprainkubasi/riwayatdata/'.$user->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="incubationhistory_list" data-url="<?php echo base_url('seleksiinkubasi/riwayatdata/'.$user->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>
@@ -173,7 +173,7 @@
                                 </ul>
                             </div>
                 		</div>
-                        <table class="table table-striped table-bordered table-hover" id="incubationhistory_list" data-url="<?php echo base_url('seleksiprainkubasi/riwayatdata/'.$user->id.''); ?>">
+                        <table class="table table-striped table-bordered table-hover" id="incubationhistory_list" data-url="<?php echo base_url('seleksiinkubasi/riwayatdata/'.$user->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
         							<th class="width5">No</th>

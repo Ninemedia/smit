@@ -261,7 +261,8 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
-                                <div class="table-container table-responsive table-praincubation-score">
+                                    <p>Status penilaian akan berubah jika seluruh juri seleksi sudah menilai berkas proposal. Jika anda sudah melakukan penilaian maka keterangan akan bertanda ceklis.</p>
+                                    <div class="table-container table-responsive table-praincubation-score">
                                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiinkubasi/jurinilaidatastep1'); ?>">
                                         <thead>
                     						<tr role="row" class="heading bg-blue">
@@ -352,6 +353,8 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
+                                <p>Data tahap 2 akan muncul jika data proposal kegiatan pengusul sudah di konfirmasi oleh admin. Status penilaian akan berubah jika seluruh juri seleksi sudah menilai berkas proposal. Jika anda sudah melakukan penilaian maka keterangan akan bertanda ceklis.</p>
+                                
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('seleksiinkubasi/jurinilaidatastep2'); ?>">
                                         <thead>
