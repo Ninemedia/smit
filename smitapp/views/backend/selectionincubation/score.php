@@ -138,7 +138,7 @@
                         		     <button class="btn btn-grey waves-effect" type="button" disabled="disabled"><i class="material-icons">done_all</i> Konfirmasi Semua</button> -->
                                     <select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
             							<option value="">Select...</option>
-            							<option value="confirm">Konfirmasi</option>
+            							<option value="confirm">Proses Tahap 2</option>
             						</select>
             						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                                     <div class="btn-group">
@@ -354,7 +354,7 @@
 
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
                                 <p>Data tahap 2 akan muncul jika data proposal kegiatan pengusul sudah di konfirmasi oleh admin. Status penilaian akan berubah jika seluruh juri seleksi sudah menilai berkas proposal. Jika anda sudah melakukan penilaian maka keterangan akan bertanda ceklis.</p>
-                                
+
                                 <div class="table-container table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="jury_steptwo" data-url="<?php echo base_url('seleksiinkubasi/jurinilaidatastep2'); ?>">
                                         <thead>

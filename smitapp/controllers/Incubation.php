@@ -248,7 +248,7 @@ class Incubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $selectionlist          = $_REQUEST['selectionlist'];
@@ -284,7 +284,7 @@ class Incubation extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Confirm All function.
 	 */
@@ -357,16 +357,16 @@ class Incubation extends User_Controller {
                     continue;
                 }
                 $incseldata  = $incseldata[0];
-    
+
                 $incselupdatedata   = array(
                     'status'        => $status,
                     'datemodified'  => $curdate,
                 );
-                
+
                 if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
                     continue;
                 }
-                $this->smit_email->send_email_selection_confirmation_step1($incseldata);    
+                $this->smit_email->send_email_selection_confirmation_step1($incseldata);
             }else{
                 $incset     = smit_latest_incubation_setting();
                 $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
@@ -376,29 +376,29 @@ class Incubation extends User_Controller {
                     continue;
                 }
                 $incseldata  = $incseldata[0];
-                
+
                 $sum_score      = $this->Model_Incubation->sum_all_score($id);
                 if(empty($sum_score)){
                     $sum_score  = 0;
                 }
-    
+
                 $count_all_jury = $this->Model_Incubation->count_all_score($id);
                 if(empty($count_all_jury)){
                     $count_all_jury = 0;
                 }
-    
+
                 if(!empty($sum_score) && !empty($count_all_jury)){
                     $avarage_score  = $sum_score / $count_all_jury;
                 }else{
                     $avarage_score  = 0;
                 }
-    
+
                 if( $avarage_score < KKM_STEP1 ){
                     $status         = REJECTED;
                 }else{
                     $status         = ACCEPTED;
                 }
-    
+
                 $incselupdatedata    = array(
                     'score'         => $sum_score,
                     'average_score' => $avarage_score,
@@ -407,7 +407,7 @@ class Incubation extends User_Controller {
                     'steptwo'       => 2,
                     'datemodified'  => $curdate,
                 );
-    
+
                 if( !$this->Model_Incubation->update_data_incubation($id, $incselupdatedata) ){
                     continue;
                 }else{
@@ -561,7 +561,7 @@ class Incubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
             $data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
             if( !empty($data_list) ){
@@ -1369,7 +1369,7 @@ class Incubation extends User_Controller {
                 $condition          = ' WHERE %uniquecode% = "'.$unique.'" AND %steptwo% = '.$step.' AND %statustwo% <> 0 ';
             }
         }
-        
+
         $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
         if( !$data_selection || empty($data_selection) ){
             redirect( base_url('seleksiinkubasi/nilai') );
@@ -1967,7 +1967,7 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $selectionlist          = $_REQUEST['selectionliststep1'];
@@ -1976,7 +1976,7 @@ class Incubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportScoreStep1( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -2003,7 +2003,7 @@ class Incubation extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Confirm Score Step 1 All function.
 	 */
@@ -2206,9 +2206,9 @@ class Incubation extends User_Controller {
                 $btn_score          = '';
                 $btn_details        = '';
                 if( $row->statustwo == RATED ){
-                    $lss                                = smit_latest_praincubation_setting();
+                    $lss                                = smit_latest_incubation_setting();
                     $selection_date_result              = strtotime($lss->selection_date_result);
-                    $selection_date_proposal_start     =     strtotime($lss->selection_date_proposal_start);
+                    $selection_date_proposal_start      = strtotime($lss->selection_date_proposal_start);
                     if( $curdate >= $selection_date_result && $curdate <= $selection_date_proposal_start ){
                         $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'"
                         class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
@@ -2252,7 +2252,7 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $selectionlist          = $_REQUEST['selectionliststep2'];
@@ -2261,7 +2261,7 @@ class Incubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Incubation->get_all_incubation(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportScoreStep2( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -2288,7 +2288,7 @@ class Incubation extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Confirm Score Step 2 All function.
 	 */
@@ -2346,7 +2346,7 @@ class Incubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
@@ -2419,7 +2419,7 @@ class Incubation extends User_Controller {
                 );
             }
         }
-        
+
         $desc .= '<div class="table-container table-responsive">';
             $desc .= '<table class="table table-striped table-hover">';
                 $desc .= '
@@ -2452,7 +2452,7 @@ class Incubation extends User_Controller {
                 $desc .= '</tbody>';
             $desc .= '</table>';
         $desc .= '</div>';
-        
+
         // Save Announcement
         $announcement_data      = array(
             'uniquecode'        => smit_generate_rand_string(10,'low'),
@@ -4682,7 +4682,7 @@ class Incubation extends User_Controller {
                 $condition          = ' WHERE user_id = '. $current_user->id .' ';
             }
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
 
@@ -4802,9 +4802,9 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Incubation->get_all_incubation_history(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Incubation->get_all_incubation_history(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportHistory( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -5061,10 +5061,10 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
         	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
-                
+
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportRankingStep1( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -5228,10 +5228,10 @@ class Incubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
         	$data_list                      = $this->Model_Incubation->get_all_ranking(0, 0, $condition, $order_by);
-                
+
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportRankingStep2( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -5565,9 +5565,9 @@ class Incubation extends User_Controller {
         $event_title            = trim( smit_isset($event_title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
-        
+
         $userdata               = smit_get_userdata_by_id($user_id);
-        
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
@@ -5634,14 +5634,14 @@ class Incubation extends User_Controller {
         $trans_save_incubation          = FALSE;
         if( $incubation_save_id         = $this->Model_Incubation->save_data_incubation($incubationselection_data) ){
             $trans_save_incubation      = TRUE;
-            
+
             // Check if Upload Selection Files
             // -------------------------------
             if( !empty($_FILES['reg_selection_files']['name']) ){
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -5649,13 +5649,13 @@ class Incubation extends User_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-    
+
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
-                
+
                 if( $upload_data = $this->my_upload->data() ){
                     // Set File Upload Save
                     $file = $upload_data;
@@ -5698,14 +5698,14 @@ class Incubation extends User_Controller {
                     }
                 }
             }
-            
+
             // Check if Upload RAB Files
             // -------------------------
             if( !empty($_FILES['reg_selection_rab']['name']) ){
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -5713,14 +5713,14 @@ class Incubation extends User_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-    
-                
+
+
                 if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
-                
+
                 if( $upload_data_rab = $this->my_upload->data() ){
                     // Set File Upload Save
                     $file_rab = $upload_data_rab;
