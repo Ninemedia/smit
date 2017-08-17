@@ -2402,7 +2402,8 @@ class Incubation extends User_Controller {
                 }else{
                     // Update Status User
                     $status_user        = array(
-                        'type'          => PELAKSANA,
+                        'type'          => TENANT,
+                        'role'          => TENANT,
                         'datemodified'  => $curdate
                     );
                     $update_status_user = $this->Model_User->update_data($incseldata->user_id, $status_user);
