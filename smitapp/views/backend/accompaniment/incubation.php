@@ -259,6 +259,10 @@
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
                                                 }
+                                                
+                                                if( !empty($is_pendamping) ){
+                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';
+                                                }
                 	                        	$tenant_list    = $this->Model_Tenant->get_all_tenant(0, 0, $conditions);
                 	                            if( !empty($tenant_list) ){
                 	                                echo '<option value="">-- Pilih Nama Tenant --</option>';

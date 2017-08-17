@@ -99,6 +99,10 @@
                                                 if( !empty($is_admin) ){
                                                     $conditions = ' WHERE %companion_id% > 0';
                                                 }
+                                                
+                                                if( !empty($is_pendamping) ){
+                                                    $conditions     = ' WHERE %companion_id% = '.$user->id.'';
+                                                }
                 	                        	$praincubation_list    = $this->Model_Praincubation->get_all_praincubationdata(0, 0, $conditions);
                 	                            if( !empty($praincubation_list) ){
                 	                                echo '<option value="">-- Pilih Usulan Kegiatan --</option>';

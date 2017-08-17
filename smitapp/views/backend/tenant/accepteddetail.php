@@ -58,6 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <p><strong>Informasi ! </strong>Jika Pendamping tidak ditemukan, silahkan admin memasukan atau menambahkan pendamping terlebih dahulu <a href="<?php echo base_url('pengguna/tambah'); ?>">disini</a></p>
                             <tr>
                                 <th style="width: 30%;" class="text-middle">Pendamping</th>
                                 <td style="width: 1%;" class="text-middle"> : </td>

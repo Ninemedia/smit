@@ -564,6 +564,14 @@
                                         <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Kegiatan Anda" id="tenant_mitra" name="tenant_mitra" required></textarea>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="telp_contact">Deskripsi Singkat Tentang Tenant <b style="color: red !important;">(*)</b></label>
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <textarea cols="30" rows="3" class="form-control no-resize" placeholder="Masukan Deskripsi Tenant Anda" id="tenant_desc" name="tenant_desc" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <label>Logo Tenant <b style="color: red !important;">(*)</b></label>

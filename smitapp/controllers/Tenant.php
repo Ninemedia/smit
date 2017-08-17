@@ -1913,7 +1913,7 @@ class Tenant extends User_Controller {
                         strtoupper($row->name_tenant),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
-                        strtoupper($companion_name),
+                        $companion_name,
                         smit_center( $btn_detail .' '.$btn_edit ),
                     );
                 }elseif( !empty($is_pendamping) ){
@@ -1931,7 +1931,7 @@ class Tenant extends User_Controller {
                         strtoupper($row->name_tenant),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
                         strtoupper($row->name),
-                        strtoupper($companion_name),
+                        $companion_name,
                         smit_center( $btn_detail ),
                         ''
                     );
@@ -2193,8 +2193,14 @@ class Tenant extends User_Controller {
             'UploadFiles.init();',
             'ProductValidation.init();',
         ));
+        $tenantdata             = '';
+        
+        if( !$is_admin ){
+            $tenantdata             = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %user_id% = '.$current_user->id.' AND %companion_id% > 0');    
+        }
 
         $data['title']          = TITLE . 'Produk Tenant';
+        $data['tenantdata']     = $tenantdata;
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;

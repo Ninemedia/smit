@@ -89,98 +89,187 @@
                         <div id="alert" class="alert display-hide"></div>
                         <div class="form-group form-float">
                             <section id="">
-                                <?php if( !empty($tenant_list) ) : ?>
-                                <h4>Masukan Data Produk Tenant</h4>
-                                <div class="form-group">
-                                    <label class="form-label">Nama Tenant<b style="color: red !important;">(*)</b></label>
-                                    <p>Tenant yang sudah ada pendamping</p>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">assignment</i></span>
-                                        <select class="form-control show-tick" name="reg_event" id="reg_event">
-                                            <?php
-                                                $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
-                                                if( !empty($is_admin) ){
-                                                    $conditions = ' WHERE %companion_id% > 0';
-                                                }
-                	                        	$tenant_list    = $this->Model_Tenant->get_all_tenant(0, 0, $conditions);
-                	                            if( !empty($tenant_list) ){
-                	                                echo '<option value="">-- Pilih Nama Tenant --</option>';
-                	                                foreach($tenant_list as $row){
-                                                        echo '<option value="'.$row->id.'">'.strtoupper($row->name_tenant).'</option>';
-                	                                }
-                	                            }else{
-                	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                	                            }
-                	                        ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Kategori Produk Tenant<b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">category</i></span>
-                                        <select class="form-control show-tick" name="reg_category" id="reg_category">
-                                            <?php
-                                                $category_product   = smit_category_product();
-                                                if( !empty($category_product) ){
-                                                    echo '<option value="">-- Pilih Kategori Produk --</option>';
-                                                    foreach($category_product as $row){
-                                                        echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
+                                <?php if($is_admin) : ?>
+                                    <h4>Masukan Data Produk Tenant</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Tenant<b style="color: red !important;">(*)</b></label>
+                                        <p>Tenant yang sudah ada pendamping</p>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                            <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                                <?php
+                                                    $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
+                                                    if( !empty($is_admin) ){
+                                                        $conditions = ' WHERE %companion_id% > 0';
                                                     }
-                                                }else{
-                                                    echo '<option value="">-- Tidak Ada Pilihan --</option>';
-                                                }
-                	                        ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                                        <div class="form-line">
-                                            <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Produk" required>
+                    	                        	$tenant_list    = $this->Model_Tenant->get_all_tenant(0, 0, $conditions);
+                    	                            if( !empty($tenant_list) ){
+                    	                                echo '<option value="">-- Pilih Nama Tenant --</option>';
+                    	                                foreach($tenant_list as $row){
+                                                            echo '<option value="'.$row->id.'">'.strtoupper($row->name_tenant).'</option>';
+                    	                                }
+                    	                            }else{
+                    	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                    	                            }
+                    	                        ?>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Deskripsi Produk <b style="color: red !important;">(*)</b></label>
-                                    <div class="input-group">
-                                        <div class="form-line">
-                                            <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize ckeditor"></textarea>
+                                    <div class="form-group">
+                                        <label class="form-label">Kategori Produk Tenant<b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">category</i></span>
+                                            <select class="form-control show-tick" name="reg_category" id="reg_category">
+                                                <?php
+                                                    $category_product   = smit_category_product();
+                                                    if( !empty($category_product) ){
+                                                        echo '<option value="">-- Pilih Kategori Produk --</option>';
+                                                        foreach($category_product as $row){
+                                                            echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
+                                                        }
+                                                    }else{
+                                                        echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                    }
+                    	                        ?>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-                                <h4>Produk Tenant</h4>
-                                <div class="form-group">
-                                    <p align="justify">
-                                        <strong>Perhatian!</strong>
-                                        File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
-                                    </p>
                                     <div class="form-group">
-                                        <label>Thumbnail Produk</label>
-                                        <input id="reg_thumbnail" name="reg_thumbnail" class="form-control" type="file">
+                                        <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                            <div class="form-line">
+                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Produk" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <p align="justify">
-                                        <strong>Perhatian!</strong>
-                                        File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
-                                    </p>
                                     <div class="form-group">
-                                        <label>Detail Gambar Produk</label>
-                                        <input id="reg_details" name="reg_details" class="form-control" type="file">
+                                        <label class="form-label">Deskripsi Produk <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize ckeditor"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary waves-effect" id="btn_producttenantadd">Tambah Produk</button>
-                                <button type="button" class="btn btn-danger waves-effect" id="btn_producttenantadd_reset">Bersihkan</button>
-
+                                    <h4>Produk Tenant</h4>
+                                    <div class="form-group">
+                                        <p align="justify">
+                                            <strong>Perhatian!</strong>
+                                            File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
+                                        </p>
+                                        <div class="form-group">
+                                            <label>Thumbnail Produk</label>
+                                            <input id="reg_thumbnail" name="reg_thumbnail" class="form-control" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p align="justify">
+                                            <strong>Perhatian!</strong>
+                                            File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
+                                        </p>
+                                        <div class="form-group">
+                                            <label>Detail Gambar Produk</label>
+                                            <input id="reg_details" name="reg_details" class="form-control" type="file">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_producttenantadd">Tambah Produk</button>
+                                    <button type="button" class="btn btn-danger waves-effect" id="btn_producttenantadd_reset">Bersihkan</button>
                                 <?php else : ?>
-                                    <div class="alert bg-teal">
-                                        <strong>Perhatian!</strong>
-                                        Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada tenant yang sudah didampingi oleh pendamping.</strong>
+                                    <?php if( !empty($tenantdata) ) : ?>
+                                    <h4>Masukan Data Produk Tenant</h4>
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Tenant<b style="color: red !important;">(*)</b></label>
+                                        <p>Tenant yang sudah ada pendamping</p>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                            <select class="form-control show-tick" name="reg_event" id="reg_event">
+                                                <?php
+                                                    $conditions     = ' WHERE %user_id% = '.$user->id.' AND %companion_id% > 0';
+                                                    if( !empty($is_admin) ){
+                                                        $conditions = ' WHERE %companion_id% > 0';
+                                                    }
+                    	                        	$tenant_list    = $this->Model_Tenant->get_all_tenant(0, 0, $conditions);
+                    	                            if( !empty($tenant_list) ){
+                    	                                echo '<option value="">-- Pilih Nama Tenant --</option>';
+                    	                                foreach($tenant_list as $row){
+                                                            echo '<option value="'.$row->id.'">'.strtoupper($row->name_tenant).'</option>';
+                    	                                }
+                    	                            }else{
+                    	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                    	                            }
+                    	                        ?>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Kategori Produk Tenant<b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">category</i></span>
+                                            <select class="form-control show-tick" name="reg_category" id="reg_category">
+                                                <?php
+                                                    $category_product   = smit_category_product();
+                                                    if( !empty($category_product) ){
+                                                        echo '<option value="">-- Pilih Kategori Produk --</option>';
+                                                        foreach($category_product as $row){
+                                                            echo '<option value="'.$row->category_id.'">'.strtoupper($row->category_name).'</option>';
+                                                        }
+                                                    }else{
+                                                        echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                                    }
+                    	                        ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Judul Produk <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                                            <div class="form-line">
+                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Produk" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Deskripsi Produk <b style="color: red !important;">(*)</b></label>
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <textarea name="reg_desc" id="reg_desc" cols="30" rows="3" class="form-control no-resize ckeditor"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4>Produk Tenant</h4>
+                                    <div class="form-group">
+                                        <p align="justify">
+                                            <strong>Perhatian!</strong>
+                                            File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
+                                        </p>
+                                        <div class="form-group">
+                                            <label>Thumbnail Produk</label>
+                                            <input id="reg_thumbnail" name="reg_thumbnail" class="form-control" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p align="justify">
+                                            <strong>Perhatian!</strong>
+                                            File yang dapat di upload adalah dengan Ukuran 1140 x 400px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
+                                        </p>
+                                        <div class="form-group">
+                                            <label>Detail Gambar Produk</label>
+                                            <input id="reg_details" name="reg_details" class="form-control" type="file">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_producttenantadd">Tambah Produk</button>
+                                    <button type="button" class="btn btn-danger waves-effect" id="btn_producttenantadd_reset">Bersihkan</button>
+    
+                                    <?php else : ?>
+                                        <div class="alert bg-teal">
+                                            <strong>Perhatian!</strong>
+                                            Maaf untuk saat ini anda tidak dapat menambahkan produk dikarenakan tidak ada tenant yang sudah didampingi oleh pendamping.</strong>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
+                                
+                                
                             </section>
                         </div>
                         <?php echo form_close(); ?>

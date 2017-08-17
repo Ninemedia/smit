@@ -4509,6 +4509,7 @@ class Backend extends User_Controller {
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
+        $is_pendampng           = as_pendamping($current_user);
 
         $headstyles             = smit_headstyles(array(
             // Default JS Plugin
@@ -4566,10 +4567,11 @@ class Backend extends User_Controller {
             'NotesValidation.init();',
         ));
 
-        $data['title']          = TITLE . 'Laporan Notulensi';
+        $data['title']          = TITLE . 'Laporan Notulensi Pra-Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
+        $data['is_pendamping']  = $is_pendampng;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
@@ -5178,6 +5180,8 @@ class Backend extends User_Controller {
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $is_jury                = as_juri($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+
 
         $headstyles             = smit_headstyles(array(
             // Default JS Plugin
@@ -5235,10 +5239,11 @@ class Backend extends User_Controller {
             'NotesValidation.init();',
         ));
 
-        $data['title']          = TITLE . 'Laporan Notulensi';
+        $data['title']          = TITLE . 'Laporan Notulensi Inkubasi';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['is_jury']        = $is_jury;
+        $data['is_pendamping']  = $is_pendamping;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;

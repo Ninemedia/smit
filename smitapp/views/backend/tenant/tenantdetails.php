@@ -42,7 +42,7 @@
                                 <div class="box box-primary">
                                     <div class="box-body">
                                         <div class="tenant-logo-wrapper"><img class="tenant-logo img-responsive img-circle" src="<?php echo $logo; ?>" alt="Logo Tenant" /></div>
-                                        <h3 class="tenant-name text-center bottom35"><?php echo $tenantdata->name; ?></h3>
+                                        <h3 class="tenant-name text-center bottom35"><?php echo $tenantdata->name_tenant; ?></h3>
                                         <?php echo form_open_multipart( 'tenant/tenantlogo', array( 'id'=>'tenantlogo', 'role'=>'form' ) ); ?>
                                             <div class="form-group">
                                                 <p align="justify">
@@ -298,7 +298,7 @@
                     </div>
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Avatar</button>
-                        <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-tenant-team-ava">Bersihkan</button>
+                        <!-- <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-tenant-team-ava">Bersihkan</button> -->
                     </div>
                 <?php echo form_close(); ?>
                 
