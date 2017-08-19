@@ -242,7 +242,7 @@
     </div>
     <?php elseif( as_pengusul($user) ): ?>
     
-    <?php endif ?> 
+    <?php endif; ?> 
 </div>
 <!-- #END# Widgets -->
 
@@ -590,7 +590,11 @@
                 <?php if( !empty( $dashboard_text ) ): ?>
                     <div class="body">
                         <?php echo get_option('be_dashboard_user'); ?>
-                        <p>Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.</p>
+                        <p>
+                            Perbaharui segera profil pengguna anda di <a href="<?php echo base_url('pengguna/profil'); ?>"><strong>MENU PROFIL</strong></a>. Pastikan data profil yang anda masukan dan sesuai dengan identitas anda.
+                            <br />
+                            Silahkan melakukan pengajuan <a href="<?php echo base_url('seleksi/prainkubasi'); ?>" target="_blank">SELEKSI PRA-INKUBASI</a> atau <a href="<?php echo base_url('seleksi/inkubasi'); ?>" target="_blank">SELEKSI INKUBASI</a>. Masukan data berkas sesuai dengan ketentuan.
+                        </p>
                         <hr />
                         <div class="panel bottom5">
                             <div class="row">

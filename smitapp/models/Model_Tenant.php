@@ -629,6 +629,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%product_title%",        "B.title", $conditions);
             $conditions = str_replace("%category_id%",          "B.category_id", $conditions);
             $conditions = str_replace("%category_product%",     "B.category_product", $conditions);
+            $conditions = str_replace("%name_tenant%",          "C.name_tenant", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -644,13 +645,15 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%product_title%",        "B.title",  $order_by);
             $order_by   = str_replace("%category_id%",          "B.category_id",  $order_by);
             $order_by   = str_replace("%category_product%",     "B.category_product",  $order_by);
+            $order_by   = str_replace("%name_tenant%",          "C.name_tenant",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.title AS product_title, B.category_id, B.category_product
+            SELECT A.*,B.title AS product_title, B.category_id, B.category_product, C.name_tenant
             FROM ' . $this->incubation_blog. ' AS A
-            LEFT JOIN ' . $this->incubation_product . ' AS B
-            ON B.id = A.product_id';
+            LEFT JOIN ' . $this->incubation_product . ' AS B ON B.id = A.product_id
+            LEFT JOIN ' . $this->tenant . ' AS C ON C.id = B.tenant_id
+            ';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

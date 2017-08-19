@@ -54,7 +54,7 @@
                                                     <input id="tenant_logo_files" name="tenant_logo_files" class="form-control" type="file" />
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-warning btn-sm bg-blue waves-effect">Ganti Logo</button>
+                                            <button type="submit" class="btn btn-warning btn-sm waves-effect">Ganti Logo</button>
                                             <!-- <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-logo-tenant">Bersihkan</button> -->
                                         <?php echo form_close(); ?>
                                     </div>

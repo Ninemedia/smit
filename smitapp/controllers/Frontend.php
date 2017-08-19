@@ -1406,17 +1406,16 @@ class Frontend extends Public_Controller {
         $this->ajax_pagination->initialize($config);
 
         $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, 0, ' WHERE %status% = 1');
-        /*
+        
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
             $allcategorydata    = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
         }
-        */
 
         $data['title']          = TITLE . 'Blog Tenant';
         $data['blogdata']       = $tenantdata;
         $data['countblog']      = $counttenantdata;
-        //$data['allcategorydata']= $allcategorydata;
+        $data['allcategorydata']= $allcategorydata;
         $data['category_id']    = $id;
         $data['headstyles']     = $headstyles;
         $data['scripts']        = $loadscripts;
@@ -1503,7 +1502,7 @@ class Frontend extends Public_Controller {
 
         $alldata                = $this->Model_Tenant->get_all_blogtenant(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
         $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$blogdata->category_product.'"');
-
+        
         $data['title']          = TITLE . 'Detail Blog Tenant';
         $data['blogdata']       = $blogdata;
         $data['blog_image']     = $image_blog;

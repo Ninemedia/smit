@@ -47,7 +47,7 @@
                 </div>
                 <p class="news-date">
                     <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($blogdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="fa fa-user"></i> Posting By : <?php echo $blogdata->name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-user"></i> Tenant By : <?php echo $blogdata->name_tenant; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <i class="fa fa-tasks"></i> Kategori : <a href=""><?php echo $blogdata->category_product; ?></a>
                 </p>
                 <div class="news-content">
