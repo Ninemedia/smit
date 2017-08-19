@@ -228,7 +228,7 @@
                                 $i++;
                             ?>
                             <div class="item">
-            					<a href="<?php echo base_url('tenant/detail/'.$row->uniquecode); ?>" class="tenant-carousel" target="_blank">
+            					<a href="<?php echo base_url('tenant/detail/'.$row->name_tenant); ?>" class="tenant-carousel" target="_blank">
                                     <img class="js-animating-object img-responsive" src="<?php echo $tenant; ?>" alt="Foto Tenant" />
                                 </a>
             				</div>
