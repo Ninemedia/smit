@@ -58,6 +58,22 @@
                                         <div class="body bg-teal bottom30">
                                             <?php echo get_option('be_frontend_incubation_note'); ?>
                                         </div>
+                                        <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
+                                        <?php
+                                            $guide_files_ids    = $lss->selection_files;
+                                            $guide_files_ids    = explode(',',$guide_files_ids);
+                                            $guide_files        = smit_get_selection_files($guide_files_ids);
+                                            
+                                            if( !empty($guide_files) ){
+                                                echo '<ul class="bottom40">';
+                                                foreach($guide_files as $file){
+                                                    echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                                }
+                                                echo '</ul>';
+                                            }else{
+                                                echo '<strong>Tidak ada berkas panduan</strong>';
+                                            }
+                                        ?>
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>

@@ -148,7 +148,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Pra-Inkubasi</h4>
+                                        <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Inkubasi</h4>
                                         <?php
                                             $guide_files_ids    = $lss->selection_files;
                                             $guide_files_ids    = explode(',',$guide_files_ids);
@@ -157,7 +157,7 @@
                                             if( !empty($guide_files) ){
                                                 echo '<ul class="bottom40">';
                                                 foreach($guide_files as $file){
-                                                    echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/prainkubasi/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
+                                                    echo '<li>'.$file->title.' - <a href="'.base_url('unduhberkas/'.$file->uniquecode).'" class="font-bold col-cyan">Unduh disini</a></li>';
                                                 }
                                                 echo '</ul>';
                                             }else{

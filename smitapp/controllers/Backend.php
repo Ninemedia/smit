@@ -1598,7 +1598,6 @@ class Backend extends User_Controller {
     // ---------------------------------------------------------------------------------------------
     // Guides Files
     // ---------------------------------------------------------------------------------------------
-
     /**
 	 * Guides Files
 	 */
@@ -1618,8 +1617,7 @@ class Backend extends User_Controller {
                 $message = 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!';
             }else{
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $current_user->id;
-                if( !file_exists($upload_path) )
-                {
+                if( !file_exists($upload_path) ){
                     mkdir($upload_path, 0777, TRUE);
                 }
 
@@ -1648,9 +1646,10 @@ class Backend extends User_Controller {
                         'datecreated'   => $curdate,
                         'datemodified'  => $curdate,
                     );
+                    
                     if( $this->Model_Guide->save_data_guide($guide_data) ){
                         $this->session->set_flashdata('success','Berkas panduan berhasil diupload');
-                        redirect(base_url('panduan/berkas'));
+                        redirect(base_url('berkas/digital'));
                     }
                 }
             }
@@ -1705,7 +1704,7 @@ class Backend extends User_Controller {
             'GuidesValidation.init();',
         ));
 
-        $data['title']          = TITLE . 'Berkas Panduan';
+        $data['title']          = TITLE . 'Berkas Digital';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;

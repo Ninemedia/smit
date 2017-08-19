@@ -24,9 +24,11 @@
             </div>
             <div class="body">
                 <p align="justify" class="uppercase">
-                    Pengumuman Nomor : <?php echo $no_announcement; ?>  Tentang <?php echo strtoupper($title); ?> Pada Pusat Inovasi LIPI
+                    Pengumuman Nomor : <?php echo $no_announcement; ?>  <br />Tentang <strong><?php echo strtoupper($title); ?></strong> pada Pusat Inovasi LIPI Bidang Inkubasi dan Alih Teknologi.
+                    <hr />
                 </p>
                 <p align="justify">
+                    <strong>Isi Pengumuman : </strong><br />
                     <?php echo $desc; ?>
                 </p>
             </div>
