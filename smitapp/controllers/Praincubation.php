@@ -4206,9 +4206,12 @@ class PraIncubation extends User_Controller {
 
             $i = $offset + 1;
             foreach($praincubation_list as $row){
-                $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/1/'.$row->uniquecode).'"
+                $btn_details = '';
+                if( $row->status != NOTCONFIRMED ){
+                    $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/1/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
-
+                }
+                
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
