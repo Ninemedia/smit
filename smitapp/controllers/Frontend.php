@@ -2172,6 +2172,7 @@ class Frontend extends Public_Controller {
             // -------------------------------------------------
             // Check Captcha
             // -------------------------------------------------
+            /*
     		$verify = smit_validate_captcha();
     		if ( empty( $verify->success ) ) {
                 // Set JSON data
@@ -2183,6 +2184,7 @@ class Frontend extends Public_Controller {
                     )
                 ); die(json_encode($data));
     		}
+            */
 
             $contact_data       = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
