@@ -809,8 +809,6 @@ class Backend extends User_Controller {
 
             if( !empty($_FILES['selection_files']['name']) ){
                 if( ! $this->upload->do_upload('selection_files') ){
-                    $message = $this->upload->display_errors();
-
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->upload->display_errors());
                     die(json_encode($data));
@@ -877,12 +875,13 @@ class Backend extends User_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
+                    
+                    // Set Log Data
+                    smit_log( 'ANNOUNCEMENT_REG', 'SUCCESS', maybe_serialize(array('username'=>$current_user->username, 'url'=> smit_isset($upload_data['full_path'],''))) );
 
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pendaftaran pengumuman baru berhasil!');
                     die(json_encode($data));
-                    // Set Log Data
-                    smit_log( 'ANNOUNCEMENT_REG', 'SUCCESS', maybe_serialize(array('username'=>$username, 'url'=> smit_isset($upload_data['full_path'],''))) );
                 }
             }else{
                 // Rollback Transaction

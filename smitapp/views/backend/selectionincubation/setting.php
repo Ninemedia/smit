@@ -62,8 +62,6 @@
                         <?php $latest_selection_incubation_setting = smit_latest_incubation_setting(); ?>
                         <?php if( !empty($latest_selection_incubation_setting) ){ ?>
                             <div class="alert alert-warning bottom0">Pengaturan Inkubasi tidak dapat ditambahkan karena saat ini sedang dibuka Seleksi Inkubasi</div>
-                            <p>Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </p>
-                            <hr />
                         <?php }else{ ?>
                             <p>Pastikan anda telah menambahkan juri. Link menambahkan juri <a href="<?php echo base_url('pengguna/tambah'); ?>">Tambah Juri</a>. Dan pastikan data berkas digital telah terunggah sebelumnya pada menu <a href="<?php echo base_url('berkas/digital'); ?>">Berkas Digital</a> </p>
                             <hr />

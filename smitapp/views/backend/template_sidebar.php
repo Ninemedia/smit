@@ -683,6 +683,13 @@
         $file_name      = $user->filename . '.' . $user->extension;
         $file_url       = BE_AVA_PATH . $user->uploader . '/' . $file_name;
         $avatar_side    = $file_url;
+        if( !file_exists($avatar_side) ){
+            if($user->gender == GENDER_MALE){
+                $avatar_side    = BE_IMG_PATH . 'avatar/avatar1.png';
+            }else{
+                $avatar_side    = BE_IMG_PATH . 'avatar/avatar3.png';
+            }
+        }
     }else{
         if($user->gender == GENDER_MALE){
             $avatar_side    = BE_IMG_PATH . 'avatar/avatar1.png';

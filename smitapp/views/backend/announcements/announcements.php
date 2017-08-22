@@ -73,7 +73,7 @@
                             <div class="body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementadd', 'role'=>'form' ) ); ?>
+                                        <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementdetails', 'role'=>'form' ) ); ?>
                                             <div id="alert" class="alert display-hide"></div>
 
                                             <h4>Pengaturan Pengumuman</h4>
@@ -124,17 +124,8 @@
                                                     <input id="edit_selection_files" name="edit_selection_files" class="form-control" type="file">
                                                 </div>
                                             </div>
-                                            <!--
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input class="filled-in" id="reg_agree" name="reg_agree" type="checkbox">
-                                                    <label class="form-label reg_agree" for="reg_agree">Saya setuju dengan Syarat dan Ketentuan.</label>
-                                                </div>
-                                            </div>
-                                            -->
-
                                             <button type="submit" class="btn btn-warning waves-effect">Perbaharui Pengumuman</button>
-                                            <button type="button" class="btn btn-danger waves-effect" id="btn_addannouncement_reset">Bersihkan</button>
+                                            <button type="button" class="btn btn-danger waves-effect" id="btn_editannouncement_reset">Bersihkan</button>
 
                                         <?php echo form_close(); ?>
                                     </div>
@@ -144,7 +135,6 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( 'backend/announcementadd', array( 'id'=>'announcementadd', 'role'=>'form' ) ); ?>
-                            <div id="alert" class="alert display-hide"></div>
                             <div class="form-group form-float">
                                 <section id="">
                                     <h4>Pengaturan Pengumuman</h4>

@@ -458,39 +458,6 @@ var App = function() {
 
     var handleAddAnnouncement = function() {
         // Save Announcement
-        $('body').on('click', '#btn_addannouncement_reset', function(event){
-			event.preventDefault();
-            var url = $(this).attr('href');
-            var table_container = $('#announcementuser_list').parents('.dataTables_wrapper');
-            var el = $('#save_announcement');
-
-            $.ajax({
-                type:   "POST",
-                url:    url,
-                beforeSend: function (){
-                    $("div.page-loader-wrapper").fadeIn();
-                },
-                success: function( response ){
-                    $("div.page-loader-wrapper").fadeOut();
-                    response    = $.parseJSON(response);
-
-                    if( response.message == 'redirect'){
-                        $(location).attr('href',response.data);
-                    }else if( response.message == 'error'){
-                        App.alert({
-                            type: 'danger',
-                            icon: 'warning',
-                            message: response.data,
-                            container: table_container,
-                            place: 'prepend'
-                        });
-                    }else{
-                        el.fadeIn();
-                    }
-                }
-            });
-        });
-
         $('#do_save_announcement').click(function(e){
             e.preventDefault();
             processSaveAnnouncement($('#announcementadd'));
@@ -505,7 +472,6 @@ var App = function() {
     			type : "POST",
     			url  : url,
     			data : data,
-
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -551,10 +517,9 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_list_announcement').trigger('click');
+                        $('#btn_list_announcementreset').trigger('click');
                     }
-                    $('#btn_list_announcement').trigger('click');
-                    $('#btn_list_announcementreset').trigger('click');
     			}
     		});
         };
@@ -562,13 +527,12 @@ var App = function() {
         // Reset Announcement Form
         $('body').on('click', '#btn_addannouncement_reset', function(event){
 			event.preventDefault();
-            var frm         = $(this).data('form');
-            var msg         = $('#alert');
-
-            $(msg).hide().empty();
+            var frm = $(this).data('form');
+            
             $('.form-group').removeClass('has-error');
-            $('#reg_title').val('');
-            $('#reg_desc').val('');
+            $('#announcementadd')[0].reset();
+            $('#announcementadd fomr-line').removeAttr('error');
+            $('#announcementadd label.error').remove();
             $('#selection_files').fileinput('refresh', {
                 showUpload : false,
                 showUploadedThumbs : false,
@@ -584,7 +548,6 @@ var App = function() {
                 },
                 maxFileSize: 2048,
             });
-            $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
 
