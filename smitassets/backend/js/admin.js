@@ -3199,7 +3199,6 @@ var App = function() {
     			type : "POST",
     			url  : url,
     			data : data,
-
                 cache : false,
                 contentType : false,
                 processData : false,
@@ -3245,10 +3244,8 @@ var App = function() {
                             },
                             maxFileSize: 1024,
                         });
-                        //$('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('#btn_guide_list').trigger('click');
                     }
-                    $('#btn_news_list').trigger('click');
-                    $('#btn_news_listreset').trigger('click');
     			}
     		});
         };

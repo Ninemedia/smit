@@ -99,10 +99,10 @@ var Wizard = function () {
             onStepChanged: function (event, currentIndex, priorIndex) {
                 setButtonWavesEffect(event);
                 
-                if (currentIndex == 3) {
-                    setSelecetionDet();
+                if (currentIndex == 2) {
+                    setSelecetionDetInc();
                 }else{
-                    clearSelecetionDet();
+                    clearSelecetionDetInc();
                 }
             },
             onFinishing: function (event, currentIndex) {
@@ -143,6 +143,7 @@ var Wizard = function () {
         formWizardValidate(form, 'details_selection_praincubation');
     };
     
+    // Detail Information Pra-Incubation
     var setSelecetionDet = function(){
         var selection_year_publication_val = $('#selection_year_publication').val();
         $('.selection_det_year_publication').empty().html( selection_year_publication_val ).show();
@@ -224,6 +225,40 @@ var Wizard = function () {
         $('.selection_det_date_agreement').empty().html('-').show();
         $('.selection_det_imp_date').empty().html('-').show();
         $('.selection_det_desc').empty().html('-').show();
+        $('.selection_det_selection_files').empty().html('-').show();
+        $('.selection_det_juri_phase1').empty().html('-').show();
+        $('.selection_det_juri_phase2').empty().html('-').show();
+    }
+    
+    // Detail Information Incubation
+    var setSelecetionDetInc = function(){
+        var selection_year_publication_val = $('#selection_year_publication').val();
+        $('.selection_det_year_publication').empty().html( selection_year_publication_val ).show();
+
+        var selection_det_selection_files_val = $('#selection_files').val()
+        var selection_det_selection_files_txt = '';
+        $.each( selection_det_selection_files_val, function( index, value ){
+            selection_det_selection_files_txt += "- " + $("#selection_files option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_selection_files').empty().html( selection_det_selection_files_txt ).show();
+        
+        var selection_det_juri_phase1_val = $('#selection_juri_phase1').val();
+        var selection_det_juri_phase1_txt = '';
+        $.each( selection_det_juri_phase1_val, function( index, value ){
+            selection_det_juri_phase1_txt += "- " + $("#selection_juri_phase1 option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_juri_phase1').empty().html( selection_det_juri_phase1_txt ).show();
+        
+        var selection_det_juri_phase2_val = $('#selection_juri_phase2').val();
+        var selection_det_juri_phase2_txt = '';
+        $.each( selection_det_juri_phase2_val, function( index, value ){
+            selection_det_juri_phase2_txt += "- " + $("#selection_juri_phase2 option[value='"+value+"']").text() + "<br />";
+        });
+        $('.selection_det_juri_phase2').empty().html( selection_det_juri_phase2_txt ).show();
+    }
+    
+    var clearSelecetionDetInc = function(){
+        $('.selection_det_year_publication').empty().html('-').show();
         $('.selection_det_selection_files').empty().html('-').show();
         $('.selection_det_juri_phase1').empty().html('-').show();
         $('.selection_det_juri_phase2').empty().html('-').show();

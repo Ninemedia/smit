@@ -124,6 +124,8 @@ var SignUp = function () {
                                 $('#sign-up-form')[0].reset();
                                 $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
                                 $(".selectpicker, .show-tick").val('').selectpicker('render');
+                                
+                                grecaptcha.reset();
                             }
             			}
             		});

@@ -60,7 +60,7 @@
                                             <div class="bottom5">
             								    <button class="btn bg-blue waves-effect filter-submit" id="btn_guide_list">Search</button>
                                             </div>
-                                            <button class="btn bg-red waves-effect filter-cancel">Reset</button>
+                                            <button class="btn bg-red waves-effect filter-cancel" id="btn_guide_list_reset">Reset</button>
             							</td>
             						</tr>
                                 </thead>
@@ -72,22 +72,6 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="add">
                         <?php echo form_open_multipart( 'backend/guides', array( 'id'=>'guide_files', 'role'=>'form' ) ); ?>
-                            <div class="alert alert-danger error-validate <?php echo empty($message) ? 'display-hide' : ''; ?>">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
-                                <?php if( !empty($message) ){ ?>
-                                    <?php echo $message; ?>
-                                <?php }else{ ?>
-                                    Terjadi kesalahan, silahkan periksa kembali form dibawah!
-                                <?php } ?>
-                    		</div>
-
-                            <div class="alert alert-success error-validate <?php echo empty($flashdata) ? 'display-hide' : ''; ?>">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="material-icons">close</i></button>
-                                <?php if( !empty($flashdata) ){ ?>
-                                    <?php echo $flashdata; ?>
-                                <?php } ?>
-                    		</div>
-
                             <div class="form-group">
                                 <label class="control-label">Judul Berkas Digital <b style="color: red !important;">(*)</b></label>
                                 <div class="form-line">

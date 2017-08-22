@@ -1614,48 +1614,53 @@ class Backend extends User_Controller {
         if( !empty( $_POST ) ){
             $post = $_POST;
             if( empty($_FILES['guide_selection_files']['name']) ){
-                $message = 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!';
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Tidak ada berkas panduan yang di unggah. Silahkan inputkan berkas panduan!');
+                die(json_encode($data));
+            }
+
+            $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $current_user->id;
+            if( !file_exists($upload_path) ){
+                mkdir($upload_path, 0777, TRUE);
+            }
+
+            $config = array(
+                'upload_path'   => $upload_path,
+                'allowed_types' => "doc|docx|pdf|xls|xlsx",
+                'overwrite'     => FALSE,
+                'max_size'      => "2048000",
+            );
+            $this->upload->initialize($config);
+
+            if( ! $this->upload->do_upload('guide_selection_files') ){
+                $message = $this->upload->display_errors();
+                // Set JSON data
+                $data = array('message' => 'error','data' => $message);
+                die(json_encode($data));
             }else{
-                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/guide/' . $current_user->id;
-                if( !file_exists($upload_path) ){
-                    mkdir($upload_path, 0777, TRUE);
-                }
-
-                $config = array(
-                    'upload_path'   => $upload_path,
-                    'allowed_types' => "doc|docx|pdf|xls|xlsx",
-                    'overwrite'     => FALSE,
-                    'max_size'      => "2048000",
+                $upload_data    = $this->upload->data();
+                $random         = smit_generate_rand_string(10,'low');
+                $guide_data     = array(
+                    'uniquecode'    => $random,
+                    'title'         => strtoupper( smit_isset($_POST['guide_title'],'') ),
+                    'url'           => smit_isset($upload_data['full_path'],''),
+                    'description'   => smit_isset($_POST['guide_description'],''),
+                    'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
+                    'name'          => smit_isset($upload_data['raw_name'],''),
+                    'size'          => smit_isset($upload_data['file_size'],0),
+                    'uploader'      => $current_user->id,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
                 );
-                $this->upload->initialize($config);
-
-                if( ! $this->upload->do_upload('guide_selection_files') ){
-                    $message = $this->upload->display_errors();
-                }else{
-                    $upload_data    = $this->upload->data();
-                    $random         = smit_generate_rand_string(10,'low');
-                    $guide_data     = array(
-                        'uniquecode'    => $random,
-                        'title'         => strtoupper( smit_isset($_POST['guide_title'],'') ),
-                        'url'           => smit_isset($upload_data['full_path'],''),
-                        'description'   => smit_isset($_POST['guide_description'],''),
-                        'extension'     => substr(smit_isset($upload_data['file_ext'],''),1),
-                        'name'          => smit_isset($upload_data['raw_name'],''),
-                        'size'          => smit_isset($upload_data['file_size'],0),
-                        'uploader'      => $current_user->id,
-                        'datecreated'   => $curdate,
-                        'datemodified'  => $curdate,
-                    );
-                    
-                    if( $this->Model_Guide->save_data_guide($guide_data) ){
-                        $this->session->set_flashdata('success','Berkas panduan berhasil diupload');
-                        redirect(base_url('berkas/digital'));
-                    }
+                
+                if( $this->Model_Guide->save_data_guide($guide_data) ){
+                    // Set JSON data
+                    $data = array('message' => 'success','data' => 'Berkas panduan berhasil diupload');
+                    die(json_encode($data));
                 }
             }
         }
 
-        $flashdata              = $this->session->flashdata('success');
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -1711,8 +1716,6 @@ class Backend extends User_Controller {
         $data['scripts']        = $loadscripts;
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
-        $data['message']        = $message;
-        $data['flashdata']      = $flashdata;
         $data['post']           = $post;
         $data['main_content']   = 'guides';
 
