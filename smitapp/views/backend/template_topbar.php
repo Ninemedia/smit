@@ -12,6 +12,24 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <!-- Call Search -->
+                <?php if( !$is_admin) : ?>
+                <li>
+                    <div class="user-helper-dropdown">
+                        <div class="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            TIPE PENGGUNA <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="<?php echo base_url(); ?>" target="_blank"><i class="material-icons">home</i>Halaman Depan</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="<?php echo base_url('pengguna/profil'); ?>"><i class="material-icons">person</i>Profil</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="<?php echo base_url('logout'); ?>"><i class="material-icons">input</i>Keluar</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <?php endif; ?>
+                <!-- #END# Call Search -->
+                <!-- Call User -->
                 <li>
                     <div class="user-helper-dropdown">
                         <div class="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -26,7 +44,7 @@
                         </ul>
                     </div>
                 </li>
-                <!-- #END# Call Search -->
+                <!-- #END# Call User -->
                 
                 <!-- Notification List -->
                 <!-- Put Here -->
