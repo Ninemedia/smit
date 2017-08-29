@@ -252,8 +252,7 @@
         <div class="card">
             <div class="header"><h2>Master Data, Selamat <?php echo $hi . ' <strong>' . strtoupper($name) . '</strong>'; ?></h2></div>
             <div class="body bg-light-green">
-                <p>Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a>. Status Anda saat ini sebagai <strong><?php echo $status; ?></strong></p>
-                <p></p>
+                <p class="bottom0">Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a>. Status Anda saat ini sebagai <strong><?php echo $status; ?></strong></p>
             </div>
             
             <?php if( $is_admin ): ?>
