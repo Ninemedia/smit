@@ -6,6 +6,7 @@
 
 <!-- Additional/Plugins JS -->
 <script src="<?php echo BE_PLUGIN_PATH . 'sweetalert/sweetalert.min.js'; ?>"></script>
+<script src="<?php echo BE_PLUGIN_PATH . 'bootbox/bootbox.min.js'; ?>"></script>
 <?php echo $scripts; ?>
 
 <!-- Custom Js -->

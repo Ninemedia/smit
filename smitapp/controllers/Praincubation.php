@@ -90,8 +90,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -583,8 +581,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -1530,8 +1526,6 @@ class PraIncubation extends User_Controller {
             BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
             BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
             BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Bootstrap Select Plugin
             BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
             // Always placed at bottom
@@ -2070,9 +2064,7 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Bootbox Plugin
+            // Range Slider Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
 
             // Always placed at bottom
@@ -2159,9 +2151,7 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Bootbox Plugin
+            // Range Slider Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
 
             // Always placed at bottom
@@ -3509,9 +3499,7 @@ class PraIncubation extends User_Controller {
             // Jquery Validation Plugin
             BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
             BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Bootbox Plugin
+            // Range Slider Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
 
             // Always placed at bottom
@@ -3611,9 +3599,7 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Bootbox Plugin
+            // Range Slider Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
 
             // Always placed at bottom
@@ -4632,8 +4618,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -4711,8 +4695,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -5333,9 +5315,7 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
-            // Bootbox Plugin
+            // Range Slider Plugin
             BE_PLUGIN_PATH . 'ion-rangeslider/js/ion.rangeSlider.js',
 
             // Always placed at bottom
@@ -5427,8 +5407,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -5666,8 +5644,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -5981,8 +5957,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -6186,8 +6160,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -6402,8 +6374,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -6477,8 +6447,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -6822,8 +6790,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -7307,8 +7273,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
@@ -7623,8 +7587,6 @@ class PraIncubation extends User_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin

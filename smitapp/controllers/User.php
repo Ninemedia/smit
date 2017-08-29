@@ -561,8 +561,6 @@ class User extends SMIT_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -835,8 +833,6 @@ class User extends SMIT_Controller {
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
             BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Always placed at bottom
             BE_JS_PATH . 'admin.js',
             // Put script based on current page
@@ -917,8 +913,6 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
             BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // Multi-Select Plugin
             BE_PLUGIN_PATH . 'multi-select/js/jquery.multi-select.js',
             
@@ -1710,9 +1704,6 @@ class User extends SMIT_Controller {
             BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
             // Datetime Picker Plugin
             BE_PLUGIN_PATH . 'momentjs/moment.js',
-            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
-            // Bootbox Plugin
-            BE_PLUGIN_PATH . 'bootbox/bootbox.min.js',
             // CKEditor Plugin
             BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
             // Jquery Fileinput Plugin
