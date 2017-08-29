@@ -8598,3 +8598,7 @@ table#list_tenant_team tbody tr th{
 table#list_tenant_team tbody tr td.sorting_1{
     padding-top: 25px;
 }
+
+.navbar-right > li{
+    margin-left: 20px;
+}

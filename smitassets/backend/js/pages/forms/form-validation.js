@@ -223,7 +223,7 @@ var ProfileValidation = function () {
         $('#user_role_select').multiSelect();
 
         //Button User Role Click
-        $("body").delegate( "button.btn-role", "click", function( event ) {
+        $("body").delegate( "a.btn-role, button.btn-role", "click", function( event ) {
             event.preventDefault();
 
             var role        = $(this).data('role');
