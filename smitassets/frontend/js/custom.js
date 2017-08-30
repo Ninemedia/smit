@@ -454,7 +454,21 @@ var Charts = function() {
 // ---------------------------------------------------------------------------
 var SearchEngine = function() {
     var handleSearchEngine = function() {
-        var form    = $('#searching-form');
+        $(  '#search_news_paginate,' +
+            '#search_blogtenant_paginate,' + 
+            '#search_announcement_paginate,' + 
+            '#search_praincubationlist_paginate,' + 
+            '#search_praincubationproduct_paginate,' + 
+            '#search_incubationproduct_paginate,' + 
+            '#search_tenantlist_paginate,' + 
+            '#search_guides_paginate').mbPagination({
+        	showFirstLast: true,
+            prevText: 'Prev',
+            nextText: 'Next',
+            firstText: 'First',
+            lastText: 'Last',
+        	perPage: $(this).data('perpage'),
+        });
     };
 
     return {
@@ -463,3 +477,5 @@ var SearchEngine = function() {
 		}
 	};
 }();
+
+

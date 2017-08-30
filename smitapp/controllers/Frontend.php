@@ -2920,7 +2920,9 @@ class Frontend extends Public_Controller {
         ));
 
         $scripts_add                    = '';
-        $scripts_init                   = '';
+        $scripts_init                   = smit_scripts_init(array(
+            'SearchEngine.init()',
+        ));
         
         if( !$_POST ) redirect( base_url() );
         

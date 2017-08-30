@@ -34451,6 +34451,21 @@ html.ie11 .bs-searchbox .form-control {
     
 }
 
+.mb-pagination li.active{
+    border-color: #1F91F3 !important;
+}
+
+.mb-pagination .active a{
+    background-color: #1F91F3 !important;
+}
+
+.mb-pagination span, .mb-pagination a{
+    color: #666666;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 6px 10px;
+}
+
 /*
  * Component: modal
  * ----------------
