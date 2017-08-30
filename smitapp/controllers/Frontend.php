@@ -2888,6 +2888,105 @@ class Frontend extends Public_Controller {
 
         echo json_encode($records);
     }
+    
+    // ---------------------------------------------------------------------------------------------
+    // SEARCH ENGINE
+    // ---------------------------------------------------------------------------------------------
+    
+    /**
+	 * Search engine function.
+	 */
+    function searchengine(){
+        $headstyles             = smit_headstyles(array(
+            //Plugin Path
+            FE_PLUGIN_PATH . 'node-waves/waves.css',
+            FE_PLUGIN_PATH . 'sweetalert/sweetalert.css',
+            FE_PLUGIN_PATH . 'jquery-pagination/css/jQueryPagination.css',
+
+            //Css Path
+            FE_CSS_PATH    . 'animate.css',
+            FE_CSS_PATH    . 'icomoon.css',
+            FE_CSS_PATH    . 'themify-icons.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            FE_PLUGIN_PATH . 'node-waves/waves.js',
+            FE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            FE_PLUGIN_PATH . 'jquery-countto/jquery.countTo.js',
+            FE_PLUGIN_PATH . 'jquery-pagination/js/jQueryPagination.min.js',
+            // Always placed at bottom
+            FE_JS_PATH . 'admin.js',
+            // Put script based on current page
+        ));
+
+        $scripts_add                    = '';
+        $scripts_init                   = '';
+        
+        if( !$_POST ) redirect( base_url() );
+        
+        $s_key                          = $this->input->post('search_key', TRUE);
+        $s_key                          = smit_isset($s_key, '');
+        $search_data                    = $this->Model_Search->get_search(0,0,$s_key);
+
+        $s_news_data                    = array();
+        $s_blogtenant_data              = array();
+        $s_announcement_data            = array();
+        $s_praincubationlist_data       = array();
+        $s_praincubationproduct_data    = array();
+        $s_incubationproduct_data       = array();
+        $s_tenantlist_data              = array();
+        $s_guides_data                  = array();
+        
+        if( $search_data || !empty($search_data) ){
+            foreach($search_data as $row){
+                if( $row->search_type == 'news' ){
+                    $s_news_data[] = $row; 
+                }
+                if( $row->search_type == 'blog_tenant' ){
+                    $s_blogtenant_data[] = $row; 
+                }
+                if( $row->search_type == 'announcement' ){
+                    $s_announcement_data[] = $row; 
+                }
+                if( $row->search_type == 'list_praincubation' ){
+                    $s_praincubationlist_data[] = $row; 
+                }
+                if( $row->search_type == 'list_praincubation_product' ){
+                    $s_praincubationproduct_data[] = $row; 
+                }
+                if( $row->search_type == 'list_incubation_product' ){
+                    $s_incubationproduct_data[] = $row; 
+                }
+                if( $row->search_type == 'list_tenant' ){
+                    $s_tenantlist_data[] = $row; 
+                }
+                if( $row->search_type == 'list_guide' ){
+                    $s_guides_data[] = $row; 
+                }
+            }
+        }
+        
+        $data['s_news_data']                = $s_news_data;
+        $data['s_blogtenant_data']          = $s_blogtenant_data;
+        $data['s_announcement_data']        = $s_announcement_data;
+        $data['s_praincubationlist_data']   = $s_praincubationlist_data;
+        $data['s_praincubationproduct_data']= $s_praincubationproduct_data;
+        $data['s_incubationproduct_data']   = $s_incubationproduct_data;
+        $data['s_tenantlist_data']          = $s_tenantlist_data;
+        $data['s_guides_data']              = $s_guides_data;
+
+        $data['title']          = TITLE . 'Halaman Pencarian';
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['search_key']     = $s_key;
+        $data['main_content']   = 'searchengine';
+
+        $this->load->view(VIEW_FRONT . 'template', $data);
+    }
+    
+    // ---------------------------------------------------------------------------------------------
 
 }
 

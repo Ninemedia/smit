@@ -356,6 +356,7 @@ $route['kontak']                            = "frontend/contact";
 // All
 $route['unduhberkas/(:any)']                = "frontend/guidesdownloadfile/$1";
 $route['unduhberkas/prainkubasi/(:any)']    = "frontend/praincubationdownloadfile/$1";
+$route['pencarian']                         = "frontend/searchengine";
 // -------------------------------------------------------------------------
 
 /* End of file routes.php */

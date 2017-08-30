@@ -61,16 +61,18 @@
                                 </div>
             				</div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <?php echo form_open( base_url('pencarian'), array( 'id'=>'searching-form', 'role'=>'form' ) ); ?>
                                 <div class="input-group gtco-search">
                                     <div class="form-line">
                                         <input type="text" name="search_key" id="search_key" class="form-control" placeholder="KATA KUNCI">
                                     </div>
                                     <span class="input-group-addon">
-                                        <button class="btn waves-effect" type="button">
+                                        <button class="btn waves-effect" type="submit">
                                             <i class="material-icons">search</i>
                                         </button>
                                     </span>
                                 </div>
+                                <?php echo form_close(); ?>
                             </div>
             			</div>
                         <div class="row" id="menu-header">

@@ -170,4 +170,5 @@ $autoload['model'] = array(
     'Model_News',
     'Model_Slider',
     'Model_Service',
+    'Model_Search',
 );

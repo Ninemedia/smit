@@ -449,3 +449,17 @@ var Charts = function() {
 		}
 	};
 }();
+
+// Search Engine
+// ---------------------------------------------------------------------------
+var SearchEngine = function() {
+    var handleSearchEngine = function() {
+        var form    = $('#searching-form');
+    };
+
+    return {
+		init: function() {
+            handleSearchEngine();
+		}
+	};
+}();
