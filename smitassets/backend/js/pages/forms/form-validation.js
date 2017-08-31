@@ -1634,9 +1634,11 @@ var TenantValidation = function () {
                 tenant_mitra: {
                     required: true,
                 },
+                /*
                 tenant_event_id: {
                     required: true,
                 },
+                */
                 tenant_desc: {
                     required: true,
                 },
@@ -1645,9 +1647,11 @@ var TenantValidation = function () {
                 tenant_username: {
                     required: 'Username tenant harus di isi',
                 },
+                /*
                 tenant_event_id: {
                     required: 'Usulan Kegiatan harus di isi',
                 },
+                */
                 tenant_name: {
                     required: 'Nama Tenant harus di isi',
                 },

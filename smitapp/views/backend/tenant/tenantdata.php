@@ -162,7 +162,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;">(*)</b></label>
+                                    <label class="form-label">Usulan Kegiatan Inkubasi <b style="color: red !important;"></b></label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="tenant_event_id" id="tenant_event_id">
