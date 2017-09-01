@@ -737,15 +737,19 @@ class Tenant extends User_Controller {
                 
                 if($row->position == ACTIVE)          { $position = '<span class="label label-success">'.strtoupper('INWALL').'</span>'; }
                 elseif($row->position == NONACTIVE)   { $position = '<span class="label label-default">'.strtoupper('OUTWALL').'</span>'; }
-
+                
+                $event_title        = $row->event_title;
+                if(empty($event_title)){
+                    $event_title    = "<span style='color: red;'>Tidak Ada data</span>";
+                }
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                         <label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
-                        smit_center( $row->year ),
+                        smit_center( $row->year_tenant ),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper( $row->name ) . '</a>',
-                        strtoupper( $row->event_title ),
+                        strtoupper( $event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         smit_center( $position ),
                         smit_center( $status ),
@@ -756,8 +760,8 @@ class Tenant extends User_Controller {
                         //smit_center('<input name="tenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                         //<label for="cblist'.$row->uniquecode.'"></label>'),
                         smit_center( $i ),
-                        smit_center( $row->year ),
-                        strtoupper( $row->event_title ),
+                        smit_center( $row->year_tenant ),
+                        strtoupper( $event_title ),
                         '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                         smit_center( $position ),
                         smit_center( $status ),
@@ -3104,8 +3108,11 @@ class Tenant extends User_Controller {
         if( !empty($is_admin) ){
             $post_user_id       = $this->input->post('tenant_user_id');
         }
-
         $post_selection_id      = $this->input->post('tenant_event_id');
+        if( empty($post_selection_id) ){
+            $post_selection_id  = '';
+        }
+        
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
         $post_tenant_year       = $this->input->post('tenant_year');
@@ -3119,11 +3126,13 @@ class Tenant extends User_Controller {
         $post_tenant_mitra      = $this->input->post('tenant_mitra');
         $post_tenant_desc       = $this->input->post('tenant_desc');
 
+        /*
         if( !empty($is_admin) ){
             $this->form_validation->set_rules('tenant_username','Username Tenant','required');
         }
+        */
 
-        $this->form_validation->set_rules('tenant_event_id','Usulan Kegiatan','required');
+        //$this->form_validation->set_rules('tenant_event_id','Usulan Kegiatan','required');
         $this->form_validation->set_rules('tenant_name','Nama Tenant','required');
         $this->form_validation->set_rules('tenant_email','Email Tenant','required');
         $this->form_validation->set_rules('tenant_year','Tahun Berdiri Tenatn','required');
@@ -3170,7 +3179,7 @@ class Tenant extends User_Controller {
 
                 $config = array(
                     'upload_path'       => $upload_path,
-                    'allowed_types' => "jpg|jpeg|png",
+                    'allowed_types'     => "jpg|jpeg|png",
                     'overwrite'         => FALSE,
                     'max_size'          => "2048000",
                 );
@@ -3188,7 +3197,9 @@ class Tenant extends User_Controller {
                 $this->image_moo->load($upload_path . '/' .$upload_data_avatar['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_avatar, TRUE);
                 $this->image_moo->clear();
                 $file_avatar            = $upload_data_avatar;
-
+                
+                $tenantdata1            = array();
+                $data_selection         = "";
                 // Check Selection Data
                 if( !empty($post_selection_id) ){
                     $condition          = " WHERE %id% = ".$post_selection_id."";
@@ -3197,50 +3208,6 @@ class Tenant extends User_Controller {
                 }
 
                 if( !empty($is_admin) ){
-                    /*
-                    // -------------------------------------------------
-                    // Check Username
-                    // -------------------------------------------------
-                    $check_username     = smit_check_username($post_username);
-                    if( $check_username == 'invalid' ){
-                        // Set JSON data
-                        $data = array(
-                            'message'   => 'error',
-                            'data'      => array(
-                                'field' => '',
-                                'msg'   => 'Username tidak sesuai dengan kriteria.',
-                            )
-                        ); die(json_encode($data));
-                    }elseif( $check_username == 'notavailable' ){
-                        // Set JSON data
-                        $data = array(
-                            'message'   => 'error',
-                            'data'      => array(
-                                'field' => '',
-                                'msg'   => 'Username ini sudah terdaftar. Silahkan masukkan username lain.',
-                            )
-                        ); die(json_encode($data));
-                    }
-
-                    $datetime               = date( 'Y-m-d H:i:s' );
-            		$username				= strtolower( $post_username );
-                    $password_global        = get_option('global_password');
-                    $phone                  = str_replace(' ','',$post_tenant_phone);
-                    $data_user              = array(
-                        'username'          => $username,
-                        'password'          => $password_global,
-                        'name'              => strtoupper($post_tenant_name),
-                        'email'             => $post_tenant_email,
-                        'type'              => TENANT,
-                        'type_basic'        => TENANT,
-                        'role'              => TENANT,
-                        'phone'             => $phone,
-                        'status'            => 1,
-                        'datecreated'       => $datetime,
-                        'datemodified'      => $datetime,
-                    );
-                    */
-                    
                     $userdata           = smit_get_userdata_by_id($post_user_id);
                     if( !$userdata ){
                         // Set JSON data
@@ -3252,16 +3219,17 @@ class Tenant extends User_Controller {
                             )
                         ); die(json_encode($data));
                     }
-
+                    
                     $tenantdata1        = array(
                         'user_id'       => $post_user_id,
                         'username'      => $userdata->username,
-                        'name'          => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
+                        'name'          => strtoupper( trim(smit_isset($userdata->name, '')) ),
                     );
-
-                    $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);
+                    if( !empty($data_selection) ){
+                        $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);    
+                    }
                 }else{
-                    $tenantdata1             = array(
+                    $tenantdata1        = array(
                         'user_id'       => trim(smit_isset($data_selection->user_id, '')),
                         'username'      => strtolower( trim(smit_isset($data_selection->username, '')) ),
                         'name'          => strtoupper( trim(smit_isset($data_selection->name, '')) ),
@@ -3289,11 +3257,11 @@ class Tenant extends User_Controller {
                         }
                     }
                 }
-
+                
                 $tenantdata2         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
-                    'selection_id'  => trim(smit_isset($data_selection->selection_id, '')),
-                    'incubation_id' => trim(smit_isset($post_selection_id, '')),
+                    'selection_id'  => $data_selection ? trim(smit_isset($data_selection->selection_id, '')) : 0,
+                    'incubation_id' => $post_selection_id ? trim(smit_isset($post_selection_id, '')) : 0,
                     'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                     'slug'          => smit_slug( trim(smit_isset($post_tenant_name, '')) ),
                     'email'         => trim(smit_isset($post_tenant_email, '')),
@@ -3318,7 +3286,7 @@ class Tenant extends User_Controller {
                 );
 
                 $tenantdata         = array_merge($tenantdata1, $tenantdata2);
-
+                
                 // -------------------------------------------------
                 // Save Tenant Selection
                 // -------------------------------------------------
@@ -3329,8 +3297,10 @@ class Tenant extends User_Controller {
                     $update_data_incubation = array(
                         'tenant_id'  => $save_tenant,
                     );
-
-                    $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);
+                    
+                    if( !empty($post_selection_id) ){
+                        $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);    
+                    }
                 }else{
                     // Rollback Transaction
                     $this->db->trans_rollback();
