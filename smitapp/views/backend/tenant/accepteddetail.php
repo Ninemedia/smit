@@ -22,17 +22,41 @@
                             <tr>
                                 <th style="width: 30%;">Judul Usulan Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $tenant->event_title; ?></td>
+                                <td>
+                                    <?php 
+                                        $event_title    = $tenant->event_title;
+                                        if( empty($event_title) ){
+                                            $event_title= "<span style='color : red;'>Tidak Ada Data</span>";
+                                        }
+                                        echo $event_title; 
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Deskripsi Kegiatan</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo $tenant->event_desc; ?></td>
+                                <td>
+                                    <?php
+                                        $event_desc     = $tenant->event_desc;
+                                        if( empty($event_desc) ){
+                                            $event_desc = "<span style='color : red;'>Tidak Ada Data</span>";
+                                        }
+                                        echo $event_desc; 
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Kategori</th>
                                 <td style="width: 1%;"> : </td>
-                                <td><?php echo strtoupper($tenant->category); ?></td>
+                                <td>
+                                    <?php 
+                                        $category       = strtoupper($tenant->category);
+                                        if( empty($category) ){
+                                            $category   = "<span style='color : red;'>Tidak Ada Data</span>";
+                                        }
+                                        echo $category; 
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th style="width: 30%;">Tanggal Usulan</th>
