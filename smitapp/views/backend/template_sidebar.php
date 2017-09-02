@@ -13,6 +13,29 @@
             $badgelist_user = $user_list;
         }
     }
+    // -------------------------------------------------------------------------------------------------------------
+    
+    // Pendampingan
+    // Pendampingan -> Notulensi
+    $total_accompaniment_badge_pra    = 0;
+    $total_accompaniment_badge_inc    = 0;
+    if(!empty($is_admin)){
+        $acompaniment_list_pra  = $this->Model_Praincubation->count_notes(UNREAD);
+        if($acompaniment_list_pra > 0){
+            $total_accompaniment_badge_pra = $acompaniment_list_pra;
+        }
+        
+        $acompaniment_list_inc  = $this->Model_Incubation->count_notes(UNREAD);
+        if($acompaniment_list_inc > 0){
+            $total_accompaniment_badge_inc = $acompaniment_list_inc;
+        }
+    }else{
+        $acompaniment_list_inc  = $this->Model_Incubation->count_notes(UNREAD);
+        if($acompaniment_list_inc > 0){
+            $total_accompaniment_badge_inc = $acompaniment_list_inc;
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------
 
     // Layanan
     // Layanan -> Pesan Umum
@@ -38,6 +61,7 @@
         }
     }
     $total_service_badge    = $badge_generalmessage + $badge_communication;
+    // -------------------------------------------------------------------------------------------------------------
 
     // Seleksi Pra-Inkubasi -> Penilaian Seleksi
     $badge_score_total      = 0;
@@ -467,17 +491,18 @@
                     'parent'    => 'pendamping',
                     'link'      => base_url('pendamping/notulensiprainkubasi'),
                     'icon'      => 'view_list',
-                    'badge'     => 0,
+                    'badge'     => $total_accompaniment_badge_pra,
                     'sub'       => false,
                 ),
                 array (
-                    'title'     => 'Notulensi Inkubasi/Tenant',
+                    'title'     => 'Notulensi Inkubasi',
                     'nav'       => 'pendamping/notulensiinkubasi',
                     'parent'    => 'pendamping',
                     'link'      => base_url('pendamping/notulensiinkubasi'),
                     'icon'      => 'build',
                     'sub'       => false,
-                    'badge'     => 0,
+                    'badge'     => $total_accompaniment_badge_inc,
+                    'sub'       => false,
                 ),
             ),
 	    ),

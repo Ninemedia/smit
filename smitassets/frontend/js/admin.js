@@ -579,7 +579,7 @@ var App = function() {
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
                         
                         $('#contactadd')[0].reset();
-                        $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
+                        $('html, body').animate( { scrollTop: $('body').offset().top}, 500 );
                     }
                     grecaptcha.reset();
     			}

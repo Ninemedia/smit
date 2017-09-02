@@ -1488,6 +1488,13 @@ class Model_Incubation extends SMIT_Model{
 
         return false;
     }
+    
+    function count_notes($status){
+        $this->db->where('status', $status);
+        $query = $this->db->get($this->incubation_notes);
+
+        return $query->num_rows();
+    }
 
     /**
      * Update Notes by Uniquecode

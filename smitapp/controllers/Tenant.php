@@ -1903,7 +1903,7 @@ class Tenant extends User_Controller {
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         strtoupper($row->name),
                         $companion_name,
                         smit_center( $btn_detail .' '.$btn_edit ),
@@ -1912,7 +1912,7 @@ class Tenant extends User_Controller {
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         strtoupper($row->name),
                         //smit_center( $btn_detail ),
                         ''
@@ -1921,7 +1921,7 @@ class Tenant extends User_Controller {
                     $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name_tenant),
-                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->user_name) . '</a>',
+                        '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         strtoupper($row->name),
                         $companion_name,
                         smit_center( $btn_detail ),
@@ -3640,8 +3640,8 @@ class Tenant extends User_Controller {
 
         if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
         elseif( $column == 2)  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 3)  { $order_by .= '%user_name% ' . $sort; }
-        elseif( $column == 4)  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 3)  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 4)  { $order_by .= '%user_name% ' . $sort; }
 
         $tenant_list        = $this->Model_Tenant->get_all_tenant($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -3658,13 +3658,23 @@ class Tenant extends User_Controller {
                     $btn_add = '<a href="'.base_url('tenants/pendampingan/detail/'.$row->uniquecode).'"
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
                 }
+                
+                $peneliti_utama     = $row->user_name;
+                if( empty($peneliti_utama) ){
+                    $peneliti_utama = $row->name;
+                }
+                
+                $event_title        = $row->event_title;
+                if( empty($event_title) ){
+                    $event_title    = "<span style='color : red; '>Tidak Ada Data</span>";
+                }
 
                 $records["aaData"][] = array(
                     smit_center($i),
                     strtoupper($row->name_tenant),
-                    strtoupper($row->event_title),
-                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->username) . '</a>',
-                    strtoupper($row->user_name),
+                    strtoupper($event_title),
+                    '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
+                    strtoupper($peneliti_utama),
                     smit_center($btn_add),
                 );
                 $i++;

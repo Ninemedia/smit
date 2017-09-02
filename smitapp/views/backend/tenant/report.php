@@ -2,7 +2,7 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Laporan Pelaksanaan Inkubasi/Tenant</h2></div>
+            <div class="header"><h2>Monitoring Inkubasi/Tenant</h2></div>
             <div class="body">
                 <?php if($is_admin): ?>
                 <!-- Nav tabs -->

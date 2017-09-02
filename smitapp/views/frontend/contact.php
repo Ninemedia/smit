@@ -149,7 +149,7 @@
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
-				<button type="button" class="btn btn-info waves-effect" id="do_save_contact" data-dismiss="modal">Lanjut</button>
+				<button type="button" class="btn btn-primary waves-effect" id="do_save_contact" data-dismiss="modal">Lanjut</button>
 			</div>
 		</div>
 	</div>

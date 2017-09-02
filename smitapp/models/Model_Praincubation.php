@@ -1787,6 +1787,13 @@ class Model_Praincubation extends SMIT_Model{
 
         return false;
     }
+    
+    function count_notes($status){
+        $this->db->where('status', $status);
+        $query = $this->db->get($this->praincubation_notes);
+
+        return $query->num_rows();
+    }
 
     /**
      * Update Notes by Uniquecode
