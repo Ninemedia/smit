@@ -5164,7 +5164,7 @@ class Tenant extends User_Controller {
         $is_pendamping      = as_pendamping($current_user);
         $condition          = '';
 
-        $order_by           = 'year DESC';
+        $order_by           = '';
         $iTotalRecords      = 0;
 
         $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
@@ -5193,6 +5193,7 @@ class Tenant extends User_Controller {
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
+        
 
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %username% LIKE "%%s%%"'); }
@@ -5208,7 +5209,7 @@ class Tenant extends User_Controller {
         elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
         elseif( $column == 4 )  { $order_by .= '%workunit% ' . $sort; }
         elseif( $column == 5 )  { $order_by .= '%event_title% ' . $sort; }
-        elseif( $column == 15 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $reportaction_list  = $this->Model_Tenant->get_all_reportactionplanadmin($limit, $offset, $condition, $order_by);
         $records            = array();
@@ -5235,19 +5236,15 @@ class Tenant extends User_Controller {
                 $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 
-                if( empty($name_actionplan) ){
-                    $title  = 'TIDAK ADA NAMA ACTION PLAN';
-                }
-                
-                $btn_download = "<center><span style='color : red;'> - </span></center>";
-                $uploaded   = $row->uploader;
+                $btn_download   = "<center><span style='color : red;'> - </span></center>";
+                $uploaded       = $row->uploader;
                 if( $uploaded > 0 ){
                     $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }
-                
+                $btn_action     = "";
                 if( $uploaded == 0){
-                    $btn_action = '<a href="'.base_url('tenants/laporan/detail/'.$row->user_id).'"
+                    $btn_action = '<a href="'.base_url('tenants/laporan/detail/'.$row->id).'"
                     class="inact btn btn-xs btn-succes waves-effect tooltips bottom5" data-placement="left" title="Tambah Bukti Berkas"><i class="material-icons">add</i></a> ';
                 }
 
@@ -5257,7 +5254,7 @@ class Tenant extends User_Controller {
                     smit_center( $month ),
                     strtoupper( $name ),
                     strtoupper( $name_actionplan ),
-                    $btn_download,
+                    smit_center( $btn_download ),
                     smit_center( $datecreated ),
                     smit_center( $btn_action ),
                 );
@@ -5447,6 +5444,7 @@ class Tenant extends User_Controller {
                     'user_id'       => $tenantdata->user_id,
                     'username'      => strtolower($tenantdata->username),
                     'name'          => strtoupper($tenantdata->name),
+                    'name_actionplan'=> $name_actionplan,
                     'url'           => smit_isset($file['full_path'],''),
                     'extension'     => substr(smit_isset($file['file_ext'],''),1),
                     'filename'      => smit_isset($file['raw_name'],''),
@@ -5470,6 +5468,7 @@ class Tenant extends User_Controller {
                     'user_id'       => $tenantdata->user_id,
                     'username'      => strtolower($tenantdata->username),
                     'name'          => strtoupper($tenantdata->name),
+                    'name_actionplan'=> $name_actionplan,
                     'month'         => $month,
                     'year'          => $year,
                     'status'        => $status,
