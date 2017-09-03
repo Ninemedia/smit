@@ -1896,7 +1896,7 @@ class Tenant extends User_Controller {
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('tenants/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-tenantid="'.$row->id.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 
                 
                 if( !empty($is_admin) ){
@@ -2047,6 +2047,8 @@ class Tenant extends User_Controller {
         $uniquecode             = trim( smit_isset($uniquecode, "") );
         $companion_id           = $this->input->post('reg_companion_id');
         $companion_id           = trim( smit_isset($companion_id, "") );
+        $tenant_id              = $this->input->post('reg_tenant_id');
+        $tenant_id              = trim( smit_isset($tenant_id, "") );
 
         // -------------------------------------------------
         // Check Form Validation
@@ -2069,14 +2071,18 @@ class Tenant extends User_Controller {
         $this->db->trans_begin();
 
         $companion_data  = array(
-            'companion_id'     => $companion_id,
-        );
+            'companion_id'      => $companion_id,
+            'datemodified'       => $curdate,
+        );  
 
         // -------------------------------------------------
         // Edit Companion
         // -------------------------------------------------
         $trans_edit_companion        = FALSE;
-        if( $companion_edit_id       = $this->Model_Tenant->update_companion($uniquecode, $companion_data) ){
+        if( $companion_edit_id       = $this->Model_Tenant->update_data_tenant($tenant_id, $companion_data) ){
+            if($companion_edit_id ){
+                $this->Model_Tenant->update_companion($uniquecode, $companion_data);
+            }
             $trans_edit_companion    = TRUE;
         }else{
             // Rollback Transaction
@@ -3773,11 +3779,16 @@ class Tenant extends User_Controller {
                         'companion_id'      => $companion_id,
                         'datemodified'      => $curdate
                     );
+                    
+                    $incubation_id          = $tenant_list->incubation_id;
 
-                    if( $this->Model_Incubation->update_data_incubationdata($tenant_list->incubation_id, $tenant_update_data) ){
+                    if($incubation_id > 0 || !empty($incubation_id)){
+                        $this->Model_Incubation->update_data_incubationdata($tenant_list->incubation_id, $tenant_update_data);
+                    }
+                    
+                    if( $this->Model_Tenant->update_data_tenant($tenant_list->id, $tenant_update_data) ){
                         redirect( base_url('tenants/pendampingan') );
                     }
-
                 }
             }
         }
@@ -5144,6 +5155,127 @@ class Tenant extends User_Controller {
         echo json_encode($records);
     }
     
+    /**
+	 * Report Action Plan list data function.
+	 */
+    function reportactionplandata( ){
+        $current_user       = smit_get_current_user();
+        $is_admin           = as_administrator($current_user);
+        $is_pendamping      = as_pendamping($current_user);
+        $condition          = '';
+
+        $order_by           = 'year DESC';
+        $iTotalRecords      = 0;
+
+        $iDisplayLength     = intval($_REQUEST['iDisplayLength']);
+        $iDisplayStart      = intval($_REQUEST['iDisplayStart']);
+
+        $sAction            = smit_isset($_REQUEST['sAction'],'');
+        $sEcho              = intval($_REQUEST['sEcho']);
+        $sort               = $_REQUEST['sSortDir_0'];
+        $column             = intval($_REQUEST['iSortCol_0']);
+
+        $limit              = ( $iDisplayLength == '-1' ? 0 : $iDisplayLength );
+        $offset             = $iDisplayStart;
+
+        $s_year             = $this->input->post('search_year');
+        $s_year             = smit_isset($s_year, '');
+        $s_user_name        = $this->input->post('search_user');
+        $s_user_name        = smit_isset($s_user_name, '');
+        $s_name             = $this->input->post('search_name');
+        $s_name             = smit_isset($s_name, '');
+        $s_workunit         = $this->input->post('search_workunit');
+        $s_workunit         = smit_isset($s_workunit, '');
+        $s_title            = $this->input->post('search_title');
+        $s_title            = smit_isset($s_title, '');
+
+        $s_date_min         = $this->input->post('search_datecreated_min');
+        $s_date_min         = smit_isset($s_date_min, '');
+        $s_date_max         = $this->input->post('search_datecreated_max');
+        $s_date_max         = smit_isset($s_date_max, '');
+
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %username% LIKE "%%s%%"'); }
+        if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
+        if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
+        if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
+
+        if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
+        if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
+
+        if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
+        elseif( $column == 2 )  { $order_by .= '%username% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
+        elseif( $column == 4 )  { $order_by .= '%workunit% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%event_title% ' . $sort; }
+        elseif( $column == 15 )  { $order_by .= '%datecreated% ' . $sort; }
+
+        $reportaction_list  = $this->Model_Tenant->get_all_reportactionplanadmin($limit, $offset, $condition, $order_by);
+        $records            = array();
+        $records["aaData"]  = array();
+        
+        if( !empty($reportaction_list) ){
+            $iTotalRecords  = smit_get_last_found_rows();
+            $cfg_status     = config_item('incsel_status');
+
+            $i = $offset + 1;
+            foreach($reportaction_list as $row){
+                $workunit   = '<center> - </cemter>';
+                if($row->workunit > 0){
+                    $workunit_type  = smit_workunit_type($row->workunit);
+                    $workunit       = $workunit_type->workunit_name;
+                }
+                $year           = $row->year;
+                $month          = $row->month;
+                $name           = strtoupper($row->name_tenant);
+                $name_actionplan      = $row->name_actionplan;
+                $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
+
+                
+                $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                
+                if( empty($name_actionplan) ){
+                    $title  = 'TIDAK ADA NAMA ACTION PLAN';
+                }
+                
+                $btn_download = "<center><span style='color : red;'> - </span></center>";
+                $uploaded   = $row->uploader;
+                if( $uploaded > 0 ){
+                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                }
+                
+                if( $uploaded == 0){
+                    $btn_action = '<a href="'.base_url('tenants/laporan/detail/'.$row->user_id).'"
+                    class="inact btn btn-xs btn-succes waves-effect tooltips bottom5" data-placement="left" title="Tambah Bukti Berkas"><i class="material-icons">add</i></a> ';
+                }
+
+                $records["aaData"][] = array(
+                    smit_center( $i ),
+                    smit_center( $year ),
+                    smit_center( $month ),
+                    strtoupper( $name ),
+                    strtoupper( $name_actionplan ),
+                    $btn_download,
+                    smit_center( $datecreated ),
+                    smit_center( $btn_action ),
+                );
+
+                $i++;
+            }
+        }
+
+        $end                = $iDisplayStart + $iDisplayLength;
+        $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
+
+        $records["sEcho"]                   = $sEcho;
+        $records["iTotalRecords"]           = $iTotalRecords;
+        $records["iTotalDisplayRecords"]    = $iTotalRecords;
+
+        echo json_encode($records);
+    }
+    
     function tenantreportdetail( $id = '' ){
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
@@ -5217,6 +5349,184 @@ class Tenant extends User_Controller {
         $data['main_content']   = 'tenant/reportdetails';
 
         $this->load->view(VIEW_BACK . 'template', $data);
+	}
+    
+    /**
+	 * Report Action Plan Add Function
+	 */
+	public function reportactionplanadd()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+        
+        $event                  = $this->input->post('reg_event');
+        $event                  = trim( smit_isset($event, "") );
+        $year                   = $this->input->post('reg_year');
+        $year                   = trim( smit_isset($year, "") );
+        $month                  = $this->input->post('reg_month');
+        $month                  = trim( smit_isset($month, "") );
+        $name_actionplan        = $this->input->post('reg_name_actionplan');
+        $name_actionplan        = trim( smit_isset($name_actionplan, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('reg_event','Nama Tenant','required');
+        $this->form_validation->set_rules('reg_year','Tahun','required');
+        $this->form_validation->set_rules('reg_month','Bulan','required');
+        $this->form_validation->set_rules('reg_name_actionplan','Nama Action Plan','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Laporan Action Plan baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        // -------------------------------------------------
+        // Check File
+        // -------------------------------------------------
+        /*
+        if( empty($_FILES['reg_actionplan_files']['name']) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Berkas laporan yang di unggah. Silahkan inputkan Berkas laporan!');
+            die(json_encode($data));
+        }
+        */
+
+        $tenantdata     = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %id% = '.$event.'');
+        $tenantdata     = $tenantdata[0];
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+            
+            if( !empty($_FILES['reg_actionplan_files']['name']) ){
+                // Upload Files Process
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $tenantdata->user_id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+    
+                $config = array(
+                    'upload_path'       => $upload_path,
+                    'allowed_types'     => "doc|docx|pdf",
+                    'overwrite'         => FALSE,
+                    'max_size'          => "2048000",
+                );
+    
+                $this->load->library('MY_Upload', $config);
+    
+                if( ! $this->my_upload->do_upload('reg_actionplan_files') ){
+                    $message = $this->my_upload->display_errors();
+    
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+    
+                $upload_data_files      = $this->my_upload->data();
+                $file                   = $upload_data_files;
+    
+                $status     = NONACTIVE;
+                if( !empty($is_admin) ){
+                    $status = ACTIVE;
+                }
+    
+                $report_data        = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'tenant_id'     => $event,
+                    'user_id'       => $tenantdata->user_id,
+                    'username'      => strtolower($tenantdata->username),
+                    'name'          => strtoupper($tenantdata->name),
+                    'url'           => smit_isset($file['full_path'],''),
+                    'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                    'filename'      => smit_isset($file['raw_name'],''),
+                    'size'          => smit_isset($file['file_size'],0),
+                    'month'         => $month,
+                    'year'          => $year,
+                    'status'        => $status,
+                    'uploader'      => $tenantdata->user_id,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );    
+            }else{
+                $status     = NONACTIVE;
+                if( !empty($is_admin) ){
+                    $status = ACTIVE;
+                }
+    
+                $report_data        = array(
+                    'uniquecode'    => smit_generate_rand_string(10,'low'),
+                    'tenant_id'     => $event,
+                    'user_id'       => $tenantdata->user_id,
+                    'username'      => strtolower($tenantdata->username),
+                    'name'          => strtoupper($tenantdata->name),
+                    'month'         => $month,
+                    'year'          => $year,
+                    'status'        => $status,
+                    'datecreated'   => $curdate,
+                    'datemodified'  => $curdate,
+                );
+            }
+
+            // -------------------------------------------------
+            // Save Report Incubation/Tenant
+            // -------------------------------------------------
+            $trans_save_actionplan  = FALSE;
+            if( $report_save_id     = $this->Model_Tenant->save_data_actionplan($report_data) ){
+                $trans_save_actionplan  = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran laporan Inkubasi/Tenant tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_actionplan ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran laporan Action Plan tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran laporan Action Plan baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'REPORTINC_REG', 'SUCCESS', maybe_serialize(array('username'=>$tenantdata->username, 'upload_files'=> $upload_data_files ? $upload_data_files : "")) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran laporan Action Plan tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
 	}
 
     /**

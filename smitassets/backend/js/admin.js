@@ -3142,6 +3142,107 @@ var App = function() {
             });
             $('#btn_tenantreport_list').trigger('click');
             $('#btn_tenantreport_listreset').trigger('click');
+            $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+        });
+    };
+    
+    var handleAddReportActionPlanTenant = function() {
+        // Save Report Action Plan Tenant
+        $('#do_save_reportactionplanadd').click(function(e){
+            e.preventDefault();
+            processSaveReportActionPlanAdd($('#reportactionplanadd'));
+        });
+
+        var processSaveReportActionPlanAdd = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#reportactionplanadd')[0].reset();
+                        $('#reg_actionplan_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['doo', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+                    }
+                    $('#btn_actionplantenantreport_list').trigger('click');
+                    $('#btn_actionplantenantreport_listreset').trigger('click');
+    			}
+    		});
+        };
+
+        // Reset News Form
+        $('body').on('click', '#btn_reportactionplanadd_reset', function(event){
+			event.preventDefault();
+            var frm         = $(this).data('form');
+            var msg         = $('#alert');
+
+            $(msg).hide().empty();
+            $('.form-group').removeClass('has-error');
+            $('#reportactionplanadd')[0].reset();
+            $('#reg_title').val('');
+            $('#reg_actionplan_files').fileinput('refresh', {
+                showUpload : false,
+                showUploadedThumbs : false,
+                'theme': 'explorer',
+                'uploadUrl': '#',
+                fileType: "any",
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions: ['doc', 'docx', 'pdf'],
+                fileActionSettings : {
+                    showUpload: false,
+                    showZoom: false,
+                },
+                maxFileSize: 2048,
+            });
+            $('#btn_actionplantenantreport_list').trigger('click');
+            $('#btn_actionplantenantreport_listreset').trigger('click');
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
@@ -3237,6 +3338,7 @@ var App = function() {
             handleAddNotesIncubation();
             handleAddReportPraincubation();
             handleAddReportTenant();
+            handleAddReportActionPlanTenant();
             handleAddGuides();
             handleReplyCommunication();
 

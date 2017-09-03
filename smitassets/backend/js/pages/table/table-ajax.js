@@ -49,6 +49,9 @@ var TableAjax = function () {
     var handleRecordsTenantReportList = function() {
         gridTable( $("#list_tenantreport"), true, [ -1, 1, 0 ], true, $('#btn_tenant_listreset') );
     };
+    var handleRecordsActionPlanTenantReportList = function() {
+        gridTable( $("#list_actionplantenantreport"), true, [ -1, 1, 0 ], true, $('#btn_actionplantenant_listreset') );
+    };
 
     // Admin Selection Lists Step One
     var handleRecordsAdminStepOneList = function() {
@@ -390,6 +393,7 @@ var TableAjax = function () {
             handleRecordsTenantAcceptedList();
             handleRecordsBlogTenant();
             handleRecordsTenantReportList();
+            handleRecordsActionPlanTenantReportList();
 
             //Jury
             handleRecordsJuryStepOneList();

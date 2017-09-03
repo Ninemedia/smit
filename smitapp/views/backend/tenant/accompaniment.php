@@ -16,6 +16,7 @@
                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                             <div class="form-line">
                                 <input type="hidden" name="reg_uniquecode" id="reg_uniquecode" value="" />
+                                <input type="hidden" name="reg_tenant_id" id="reg_tenant_id" value="" />
                                 <input type="text" name="reg_companion_name" id="reg_companion_name" class="form-control" placeholder="Masukan Nama Kategori" required disabled="TRUE">
                             </div>
                         </div>

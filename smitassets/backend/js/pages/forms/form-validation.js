@@ -3024,12 +3024,68 @@ var ReportValidation = function () {
             }
         });
     };
+    
+    var handleReportActionPlanValidation = function(){
+        $('#reportactionplanadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_event: {
+                    required: true,
+                },
+                reg_year: {
+                    required: true,
+                },
+                reg_month: {
+                    required: true,
+                },
+                reg_name_actionplan: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_event: {
+                    required: 'Nama Tenant harus di isi',
+                },
+                reg_year: {
+                    required: 'Tahun harus di isi',
+                },
+                reg_month: {
+                    required: 'Bulan harus di isi',
+                },
+                reg_name_actionplan: {
+                    required: 'Nama Action Plan harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_reportactionplanadd').modal('show');
+            }
+        });
+    };
 
     return {
         //main function to initiate the module
         init: function () {
             handleReportPraincubationValidation();
             handleReportTenantValidation();
+            handleReportActionPlanValidation();
         }
     };
 }();

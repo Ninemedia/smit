@@ -448,7 +448,7 @@
                     'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Laporan Tenant',
+                    'title'     => 'Monitoring Tenant',
                     'nav'       => 'tenants/laporan',
                     'parent'    => 'tenants',
                     'link'      => base_url('tenants/laporan'),

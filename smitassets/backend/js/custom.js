@@ -356,11 +356,14 @@ $("body").delegate( "a.accompanimenttenantedit", "click", function( event ) {
 
     var id      = $(this).data('id');
     var name    = $(this).data('name');
+    var tenant_id    = $(this).data('tenantid');
     var el_id   = $('#reg_uniquecode');
     var el_name = $('#reg_companion_name');
+    var el_tenant_id = $('#reg_tenant_id');
 
     el_id.val(id);
     el_name.val(name);
+    el_tenant_id.val(tenant_id);
 
     $('#edit_accompaniment_tenant').modal('show');
 });
@@ -1005,6 +1008,25 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
+    
+    var handleEditUploadFilesActionPlan = function(){
+        $("#reg_actionplan_files").fileinput({
+            showUpload : false,
+            showUploadedThumbs : false,
+            'theme': 'explorer',
+            'uploadUrl': '#',
+            fileType: "any",
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            allowedFileExtensions: ['doc', 'docx', 'pdf'],
+            fileActionSettings : {
+                showUpload: false,
+                showZoom: false,
+            },
+            maxFileSize: 2048,
+            /* uploadClass: 'btn btn-success' */
+        });
+    };
 
     var handleEditUploadFilesRAB = function(){
         $("#reg_selection_rab").fileinput({
@@ -1093,6 +1115,7 @@ var UploadFiles = function () {
             handleEditUploadFilesRAB();
             handleUploadProductPraincubation();
             handleUploadAvatarTenant();
+            handleEditUploadFilesActionPlan();
         }
     };
 }();

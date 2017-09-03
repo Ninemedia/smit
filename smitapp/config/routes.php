@@ -239,6 +239,7 @@ $route['tenants/laporan/unduh/(:any)']          = "tenant/reportdatadownloadfile
 $route['tenants/laporandata']                   = "tenant/reportdata";
 $route['tenants/laporandata/detail/(:num)']     = "tenant/reportdatauser/$1";
 $route['tenants/laporandatauser']               = "tenant/reportdatauser";
+$route['tenants/laporanactionplandata']         = "tenant/reportactionplandata";
 $route['tenants/tambahtim/(:any)']              = "tenant/addteam/$1";
 $route['tenants/detail/(:any)']                 = "tenant/tenantlistdetails/$1";
 $route['tenants/daftar/detail/(:any)']          = "tenant/incubationdatadetails/$1";
