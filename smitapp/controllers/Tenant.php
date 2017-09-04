@@ -5194,7 +5194,6 @@ class Tenant extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
-
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
@@ -5592,6 +5591,130 @@ class Tenant extends User_Controller {
                     die(json_encode($data));
                     // Set Log Data
                     smit_log( 'REPORTINC_REG', 'SUCCESS', maybe_serialize(array('username'=>$tenantdata->username, 'upload_files'=> $upload_data_files ? $upload_data_files : "")) );
+                }
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran laporan Action Plan tidak berhasil. Terjadi kesalahan data.');
+                die(json_encode($data));
+            }
+        }
+	}
+
+    public function reportactionplanaddfiles()
+	{
+        auth_redirect();
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+
+        $message                = '';
+        $post                   = '';
+        $curdate                = date('Y-m-d H:i:s');
+        $upload_data            = array();
+
+        $id                     = $this->input->post('tenant_id');
+        $id                     = trim( smit_isset($id, "") );
+
+        // -------------------------------------------------
+        // Check Form Validation
+        // -------------------------------------------------
+        $this->form_validation->set_rules('tenant_id','Tenant Id','required');
+
+        $this->form_validation->set_message('required', '%s harus di isi');
+        $this->form_validation->set_error_delimiters('', '');
+
+        if( $this->form_validation->run() == FALSE){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pendaftaran Laporan Action Plan baru tidak berhasil. '.validation_errors().'');
+            die(json_encode($data));
+        }
+
+        if( !empty( $_POST ) ){
+            // -------------------------------------------------
+            // Begin Transaction
+            // -------------------------------------------------
+            $this->db->trans_begin();
+
+            if( !empty($_FILES['reg_actionplan_files']['name']) ){
+                // Upload Files Process
+                $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $tenantdata->user_id;
+                if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
+
+                $config = array(
+                    'upload_path'       => $upload_path,
+                    'allowed_types'     => "doc|docx|pdf",
+                    'overwrite'         => FALSE,
+                    'max_size'          => "2048000",
+                );
+
+                $this->load->library('MY_Upload', $config);
+
+                if( ! $this->my_upload->do_upload('reg_actionplan_files') ){
+                    $message = $this->my_upload->display_errors();
+
+                    // Set JSON data
+                    $data = array('message' => 'error','data' => $this->my_upload->display_errors());
+                    die(json_encode($data));
+                }
+
+                $upload_data_files      = $this->my_upload->data();
+                $file                   = $upload_data_files;
+
+                $status     = NONACTIVE;
+                if( !empty($is_admin) ){
+                    $status = ACTIVE;
+                }
+
+                $report_data        = array(
+                    'url'           => smit_isset($file['full_path'],''),
+                    'extension'     => substr(smit_isset($file['file_ext'],''),1),
+                    'filename'      => smit_isset($file['raw_name'],''),
+                    'size'          => smit_isset($file['file_size'],0),
+                    'datemodified'  => $curdate,
+                );
+            }
+
+            // -------------------------------------------------
+            // Save Report Incubation/Tenant
+            // -------------------------------------------------
+            $trans_save_actionplan  = FALSE;
+            if( $report_save_id     = $this->Model_Tenant->update_actionplan($id, $report_data) ){
+                $trans_save_actionplan  = TRUE;
+            }else{
+                // Rollback Transaction
+                $this->db->trans_rollback();
+                // Set JSON data
+                $data = array('message' => 'error','data' => 'Pendaftaran Bekras Action Plan tidak berhasil. Terjadi kesalahan data formulir anda');
+                die(json_encode($data));
+            }
+
+            // -------------------------------------------------
+            // Commit or Rollback Transaction
+            // -------------------------------------------------
+            if( $trans_save_actionplan ){
+                if ($this->db->trans_status() === FALSE){
+                    // Rollback Transaction
+                    $this->db->trans_rollback();
+                    // Set JSON data
+                    $data = array(
+                        'message'       => 'error',
+                        'data'          => 'Pendaftaran laporan Action Plan tidak berhasil. Terjadi kesalahan data transaksi database.'
+                    ); die(json_encode($data));
+                }else{
+                    // Commit Transaction
+                    $this->db->trans_commit();
+                    // Complete Transaction
+                    $this->db->trans_complete();
+
+                    // Send Email Notification
+                    //$this->smit_email->send_email_registration_selection($userdata->email, $event_title);
+
+                    // Set JSON data
+                    $data       = array('message' => 'success', 'data' => 'Pendaftaran laporan Action Plan baru berhasil!');
+                    die(json_encode($data));
+                    // Set Log Data
+                    smit_log( 'REPORTINC_REG', 'SUCCESS', maybe_serialize(array('username'=>$current_user->username, 'upload_files'=> $upload_data_files ? $upload_data_files : "")) );
                 }
             }else{
                 // Rollback Transaction

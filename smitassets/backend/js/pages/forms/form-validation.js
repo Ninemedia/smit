@@ -599,7 +599,7 @@ var NewsValidation = function () {
             }
         });
     };
-    
+
     var handleNewsEditValidation = function(){
         $('#newsedit').validate({
             focusInvalid: false, // do not focus the last invalid input
@@ -977,7 +977,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     var handleProductEditValidation = function(){
         $('#productedit').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1020,7 +1020,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     var handleProductTenantEditValidation = function(){
         $('#producttenantedit').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1130,7 +1130,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     var handleBlogTenantEditValidation = function(){
         $('#blogtenantedit').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1173,7 +1173,7 @@ var ProductValidation = function () {
             }
         });
     };
-    
+
     var handlePaymentEditValidation = function(){
         $('#paymentdataedit').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1272,7 +1272,7 @@ var SliderValidation = function () {
             }
         });
     };
-    
+
     var handleSliderEditValidation = function(){
         $('#sliderdataedit').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1901,7 +1901,7 @@ var TenantValidation = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if( response.status == 'error' ){
                         App.alert({
                             type: 'danger',
@@ -1920,7 +1920,7 @@ var TenantValidation = function () {
                             place: 'prepend',
                             closeInSeconds: 2,
                         });
-                        
+
                         $('#tenantlogo')[0].reset();
                         $('#tenant_logo_files').fileinput('refresh');
                         elimg.empty().html(response.file).fadeIn();
@@ -1928,11 +1928,11 @@ var TenantValidation = function () {
     			}
     		});
         };
-        
+
         $('#tenant_logo_files').on('fileselect', function(event, numFiles, label) {
             $('#tenantlogo label.error').remove();
         });
-        
+
         $('button.btn-clear-logo-tenant').on('click', function(event) {
             event.preventDefault();
             if( $('button.fileinput-remove-button').is(':visible') ){
@@ -1942,7 +1942,7 @@ var TenantValidation = function () {
             $('#tenantlogo label.error').remove();
         });
     };
-    
+
     var handleAvatarTenantTeamValidation = function(){
         $('#tenantteamava').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -1980,7 +1980,7 @@ var TenantValidation = function () {
             },
             submitHandler: function (form) {
                 processUpdateAvatarTenantTeam($('#tenantteamava'));
-                return false; 
+                return false;
             }
         });
 
@@ -2004,14 +2004,14 @@ var TenantValidation = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if( response.status == 'error' ){
                         msg.html(response.message);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
                         msg.html(response.message);
                         msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast').delay(3000).fadeOut();
-                        
+
                         $('#tenantteamava')[0].reset();
                         $('#tenant_team_ava_files').fileinput('refresh');
                         elimg.empty().html(response.file).fadeIn();
@@ -2021,11 +2021,11 @@ var TenantValidation = function () {
     		});
             return false;
         };
-        
+
         $('#tenant_team_ava_files').on('fileselect', function(event, numFiles, label) {
             $('#tenantteamava label.error').remove();
         });
-        
+
         $('button.btn-clear-tenant-team-ava').on('click', function(event) {
             event.preventDefault();
             if( $('button.fileinput-remove-button').is(':visible') ){
@@ -2035,7 +2035,7 @@ var TenantValidation = function () {
             $('#tenantteamava label.error').remove();
         });
     };
-    
+
     var handleEditTenantDetailValidation = function(){
         $('#tenantdetails').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -2149,7 +2149,7 @@ var TenantValidation = function () {
                 });
             }
         });
-        
+
         var processEditTenantDetail = function( form ) {
             var url     = $(form).attr( 'action' );
             var data    = $(form).serialize()
@@ -2165,7 +2165,7 @@ var TenantValidation = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if( response.status == 'error' ){
                         App.alert({
                             type: 'danger',
@@ -2188,15 +2188,15 @@ var TenantValidation = function () {
     			}
     		});
         };
-        
+
         //Mobile Phone Number
         $('#tenant_phone_contact').inputmask('+62 99999999999', { placeholder: '+__ ___________' });
     };
-    
+
     var handleEditTenantTeamValidation = function(){
         $("body").delegate( "button.btn-edit-tenant-team", "click", function( event ) {
             event.preventDefault();
-            
+
             $('#tenantteamedit').validate({
                 focusInvalid: true, // do not focus the last invalid input
                 ignore: "",
@@ -2243,7 +2243,7 @@ var TenantValidation = function () {
                     processEditTenantTeam($('#tenantteamedit'));
                 }
             });
-            
+
             if( $('#tenantteamedit').valid() ){
                 $('#tenantteamedit').submit();
             }
@@ -2264,7 +2264,7 @@ var TenantValidation = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if( response.status == 'error' ){
                         msg.html(response.message);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
@@ -2339,7 +2339,7 @@ var TenantValidation = function () {
             }
         });
     };
-    
+
     var handleAddTeamTenantValidation = function(){
         $('#addteamtenant').validate({
             focusInvalid: false, // do not focus the last invalid input
@@ -2372,7 +2372,7 @@ var TenantValidation = function () {
                         var teamdata    = new FormData(teamform[0]);
                         var url         = teamform.attr('action');
                         var container   = $('div.body-team');
-                        
+
                         $.ajax({
                             type:   "POST",
                             url:    url,
@@ -2386,7 +2386,7 @@ var TenantValidation = function () {
                             success: function( response ){
                                 $("div.page-loader-wrapper").fadeOut();
                                 response = $.parseJSON(response);
-    
+
                                 if( response.status == 'error' ){
                                     App.alert({
                                         type: 'danger',
@@ -2405,12 +2405,12 @@ var TenantValidation = function () {
                                 		place: 'prepend',
                                 		closeInSeconds: 3
                                 	});
-                                    
+
                                     var wrapper         = $(".addteam_container");
-                                    var content         = '<div class="card">' + 
-                                        '<div class="header header-team bg-cyan">' + 
-                                            '<h5>Data Tim Tenant</h5>' + 
-                                        '</div>' + 
+                                    var content         = '<div class="card">' +
+                                        '<div class="header header-team bg-cyan">' +
+                                            '<h5>Data Tim Tenant</h5>' +
+                                        '</div>' +
                                         '<div class="body">' +
                                             '<div class="row bottom0">' +
                                                 '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 bottom0-lg" >' +
@@ -2429,16 +2429,16 @@ var TenantValidation = function () {
                                                         '<label class="form-label">Jabatan/Posisi/Peran *</label>' +
                                                         '<div class="form-line">' +
                                                             '<input type="text" class="form-control team_position" name="team_position_1" id="team_position_1">' +
-                                                        '</div>' + 
+                                                        '</div>' +
                                                     '</div>' +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>';
-                                    
+
                                     wrapper.empty().html(content).fadeIn();
                                     $('input[name=team_count]').val(1);
-                                    
+
                                     $(".team_image").fileinput({
                                         showUpload : false,
                                         showUploadedThumbs : false,
@@ -2454,7 +2454,7 @@ var TenantValidation = function () {
                                         },
                                         maxFileSize: 1024,
                                     });
-                                    
+
                                 }
                             }
                         });
@@ -2462,7 +2462,7 @@ var TenantValidation = function () {
                 });
             }
         });
-        
+
         $('input.team_image').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -2471,7 +2471,7 @@ var TenantValidation = function () {
                 }
             });
         });
-        
+
         $('input.team_name').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -2480,7 +2480,7 @@ var TenantValidation = function () {
                 }
             });
         });
-        
+
         $('input.team_position').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -3024,7 +3024,7 @@ var ReportValidation = function () {
             }
         });
     };
-    
+
     var handleReportActionPlanValidation = function(){
         $('#reportactionplanadd').validate({
             focusInvalid: true, // do not focus the last invalid input
@@ -3076,6 +3076,43 @@ var ReportValidation = function () {
             },
             submitHandler: function (form) {
                 $('#save_reportactionplanadd').modal('show');
+            }
+        });
+    };
+
+    var handleReportActionPlanFilesValidation = function(){
+        $('#reportactionplanadd').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_actionplan_files: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_actionplan_files: {
+                    required: 'Bukti Berkas Action Plan harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#save_reportactionplanaddfiles').modal('show');
             }
         });
     };

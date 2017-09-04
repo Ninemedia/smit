@@ -49,7 +49,7 @@ class Model_Tenant extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Save data of tenant team
      *
@@ -145,7 +145,7 @@ class Model_Tenant extends SMIT_Model{
 
         return $tenantdata;
     }
-    
+
     /**
      * Get tenant data by tenant ID
      *
@@ -237,7 +237,7 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
      * Retrieve all tenant team data
      *
@@ -268,7 +268,7 @@ class Model_Tenant extends SMIT_Model{
         }
 
         $sql = '
-        SELECT A.*, B.user_id FROM ' . $this->tenant_team . ' AS A 
+        SELECT A.*, B.user_id FROM ' . $this->tenant_team . ' AS A
         LEFT JOIN ' . $this->tenant . ' AS B ON B.id = A.id_tenant ';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
@@ -356,7 +356,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Update data of tenant team
      *
@@ -376,7 +376,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Update Companion by Uniquecode
      *
@@ -561,10 +561,10 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->num_rows();
     }
-    
+
     /**
      * Count data of tenant
-     * 
+     *
      * @author  Iqbal
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
      */
@@ -572,7 +572,7 @@ class Model_Tenant extends SMIT_Model{
         $sql = 'SELECT COUNT(id) AS total FROM ' . $this->tenant. '';
         $query = $this->db->query($sql);
         if(!$query || !$query->num_rows()) return 0;
-        
+
         return $query->row()->total;
     }
 
@@ -697,7 +697,7 @@ class Model_Tenant extends SMIT_Model{
         };
         return false;
     }
-    
+
     /**
      * Save data of report praincubation
      *
@@ -711,6 +711,16 @@ class Model_Tenant extends SMIT_Model{
             $id = $this->db->insert_id();
             return $id;
         };
+        return false;
+    }
+
+	function update_actionplan($id, $data){
+        if( empty($id) || empty($data) ) return false;
+        $this->db->where('id', $id);
+
+        if( $this->db->update($this->incubation_actionplan, $data) )
+            return true;
+
         return false;
     }
 
@@ -770,7 +780,7 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
      * Retrieve all incubation/tenant report data
      *
@@ -904,9 +914,9 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
-    
+
     /**
-     * Delete Tenant List 
+     * Delete Tenant List
      *
      * @param   Int     $id     (Required)  PIN Posting ID
      * @return  Boolean Boolean false on failed process or invalid data, otherwise true
@@ -921,7 +931,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /** Update data of payment List
      *
      * @author  Iqbal
@@ -938,7 +948,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Delete Product Tenant
      *
@@ -955,7 +965,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /** Update data of product List
      *
      * @author  Iqbal
@@ -972,7 +982,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Delete Blog Tenant
      *
@@ -989,7 +999,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /** Update data of blog List
      *
      * @author  Iqbal
@@ -1006,7 +1016,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Delete Tenant List
      *
@@ -1023,7 +1033,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Delete Tenant Team List
      *
@@ -1040,7 +1050,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /** Update data of tenant List
      *
      * @author  Iqbal
@@ -1057,7 +1067,7 @@ class Model_Tenant extends SMIT_Model{
 
         return false;
     }
-    
+
     /**
      * Retrieve all pra incubation report data
      *

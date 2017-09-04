@@ -528,7 +528,7 @@ var App = function() {
         $('body').on('click', '#btn_addannouncement_reset', function(event){
 			event.preventDefault();
             var frm = $(this).data('form');
-            
+
             $('.form-group').removeClass('has-error');
             $('#announcementadd')[0].reset();
             $('#announcementadd fomr-line').removeAttr('error');
@@ -650,7 +650,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleEditNews = function() {
         // Save News
         $('#do_save_newsedit').click(function(e){
@@ -697,7 +697,7 @@ var App = function() {
                     		place: 'prepend',
                     		closeInSeconds: 3
                     	});
-                        
+
                         if( response.image != "" ){
                             elimg.empty().html(response.image).show();
                         }
@@ -1365,7 +1365,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddProductEDitPraincubation = function() {
         // Edit Praincubation
         $('#do_save_productedit').click(function(e){
@@ -1490,7 +1490,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleAddProductTenantEDitPraincubation = function() {
         // Edit Product Tenant
         $('#do_save_producttenantedit').click(function(e){
@@ -1615,7 +1615,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handlePaymentTenantEdit= function() {
         // Edit Payment Tenant
         $('#do_save_paymentdataedit').click(function(e){
@@ -1740,7 +1740,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
     var handleSliderEdit= function() {
         // Edit Slider
         $('#do_save_sliderdataedit').click(function(e){
@@ -1808,7 +1808,7 @@ var App = function() {
     		});
         };
     };
-    
+
     var handleEditBlogTenant = function() {
         // Edit Blog Tenant
         $('#save_blogtenantedit').click(function(e){
@@ -2399,7 +2399,7 @@ var App = function() {
     		});
         };
     };
-    
+
     var handleEditCompanionTenant = function() {
         // Save Companion
         $('#do_edit_companiontenant').click(function(e){
@@ -2799,7 +2799,7 @@ var App = function() {
                             },
                             maxFileSize: 2048,
                         });
-                        
+
                         $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
                     }
                     $('#btn_notespra_list').trigger('click');
@@ -3045,6 +3045,7 @@ var App = function() {
         });
     };
 
+
     var handleAddReportTenant = function() {
         // Save Report Tenant
         $('#do_save_reporttenantadd').click(function(e){
@@ -3145,7 +3146,7 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
         });
     };
-    
+
     var handleAddReportActionPlanTenant = function() {
         // Save Report Action Plan Tenant
         $('#do_save_reportactionplanadd').click(function(e){
@@ -3246,7 +3247,78 @@ var App = function() {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
     };
-    
+
+    var handleAddReportActionPlanFilesTenant = function() {
+        // Save Report Action Plan Tenant
+        $('#do_save_reportactionplanaddfiles').click(function(e){
+            e.preventDefault();
+            processSaveReportActionPlanAddFiles($('#reportactionplanaddfiles'));
+        });
+
+        var processSaveReportActionPlanAddFiles = function( form ) {
+            var url     = form.attr( 'action' );
+            var data    = new FormData(form[0]);
+            var wrapper = form;
+
+            $.ajax({
+    			type : "POST",
+    			url  : url,
+    			data : data,
+
+                cache : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function(){
+                    $("div.page-loader-wrapper").fadeIn();
+                },
+    			success: function(response) {
+                    $("div.page-loader-wrapper").fadeOut();
+                    response = $.parseJSON( response );
+
+                    if(response.message == 'error'){
+                        App.alert({
+                    		type: 'danger',
+                    		icon: 'warning',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+                    }else{
+                        App.alert({
+                    		type: 'success',
+                    		icon: 'check',
+                    		message: response.data,
+                    		container: wrapper,
+                    		place: 'prepend',
+                    		closeInSeconds: 3
+                    	});
+
+                        $('#reportactionplanaddfiles')[0].reset();
+                        $('#reg_actionplan_files').fileinput('refresh', {
+                            showUpload : false,
+                            showUploadedThumbs : false,
+                            'theme': 'explorer',
+                            'uploadUrl': '#',
+                            fileType: "any",
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            allowedFileExtensions: ['doo', 'docx', 'pdf'],
+                            fileActionSettings : {
+                                showUpload: false,
+                                showZoom: false,
+                            },
+                            maxFileSize: 2048,
+                        });
+                        $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
+                    }
+                    $('#btn_actionplantenantreport_list').trigger('click');
+                    $('#btn_actionplantenantreport_listreset').trigger('click');
+    			}
+    		});
+        };
+    };
+
     var handleAddGuides = function() {
         // Save Guides
         $('#do_save_guides').click(function(e){
@@ -3339,6 +3411,7 @@ var App = function() {
             handleAddReportPraincubation();
             handleAddReportTenant();
             handleAddReportActionPlanTenant();
+            handleAddReportActionPlanFilesTenant();
             handleAddGuides();
             handleReplyCommunication();
 
