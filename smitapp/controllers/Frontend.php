@@ -1488,16 +1488,16 @@ class Frontend extends Public_Controller {
 
         $blogdata               = '';
         if( !empty($uniquecode) ){
-            $blogdata        = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
-            $blogdata        = $blogdata[0];
+            $blogdata       = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
+            $blogdata       = $blogdata[0];
         }
 
+        $image_blog         = BE_IMG_PATH . 'news/noimage.jpg';
         if($blogdata){
             $file_name      = $blogdata->filename . '.' . $blogdata->extension;
             $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $blogdata->user_id . '/' . $file_name;
-            $image_blog     = $file_url;
-        }else{
-            $image_blog     = BE_IMG_PATH . 'news/noimage.jpg';
+            $file_dir       = BE_UPLOAD_DIR . 'tenantblog/'. $blogdata->user_id . '/' . $file_name;
+            $image_blog     = !file_exists($file_dir) ? BE_IMG_PATH . 'news/noimage.jpg' : $file_url;
         }
 
         $alldata                = $this->Model_Tenant->get_all_blogtenant(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');

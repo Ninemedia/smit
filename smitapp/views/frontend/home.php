@@ -141,7 +141,8 @@
                                                 foreach($blogdata AS $row){
                                                     $file_name      = $row->thumbnail_filename . '.' . $row->thumbnail_extension;
                                                     $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name; 
-                                                    $blog           = $file_url;
+                                                    $file_dir       = BE_UPLOAD_DIR . 'tenantblog/'.$row->user_id.'/' . $file_name;
+                                                    $blog           = !file_exists($file_dir) ? BE_IMG_PATH . 'news/thumbs/noimage.jpg' : $file_url;
                                             ?>
                                 			<div class="col-md-4 col-sm-12">
                                 				<div class="feature-left animate-box" data-animate-effect="fadeInLeft">
@@ -150,7 +151,7 @@
                                 						<div class="blog-text">
                                 							<h4><a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>"><?php echo word_limiter($row->title,2) ; ?></a></h4>
                                 							<span class="posted_on"><?php echo date('d F Y', strtotime($row->datecreated)); ?></span>
-                                							<p><?php echo word_limiter($row->description,25); ?></p>
+                                							<div><?php echo word_limiter($row->description,25); ?></div>
                                 							<a href="<?php echo base_url('tenant/blogtenant/detail/'.$row->uniquecode.''); ?>" class="btn btn-primary waves-effect">Detail</a>
                                 						</div>
                                 					</div>
