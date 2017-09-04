@@ -3312,6 +3312,7 @@ var App = function() {
                         });
                         $('html, body').animate( { scrollTop: $('body').offset().top }, 500 );
                     }
+                    
                     $('#btn_actionplantenantreport_list').trigger('click');
                     $('#btn_actionplantenantreport_listreset').trigger('click');
     			}

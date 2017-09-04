@@ -823,8 +823,7 @@ class Model_Tenant extends SMIT_Model{
             FROM ' . $this->incubation_actionplan. ' AS A
             LEFT JOIN ' . $this->incubation . ' AS B ON B.id = A.tenant_id
             LEFT JOIN ' . $this->user .' AS C ON C.id = A.user_id
-            LEFT JOIN ' . $this->tenant . ' AS D ON D.id = A.tenant_id
-            GROUP BY A.user_id';
+            LEFT JOIN ' . $this->tenant . ' AS D ON D.id = A.tenant_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

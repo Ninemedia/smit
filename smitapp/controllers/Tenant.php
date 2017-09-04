@@ -5630,6 +5630,9 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
 
+        $reportaction_list  = $this->Model_Tenant->get_all_reportactionplanadmin(0, 0, ' WHERE %id% = '.$id.'');
+        $reportaction_list  = $reportaction_list[0];
+        
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction
@@ -5671,6 +5674,7 @@ class Tenant extends User_Controller {
                     'extension'     => substr(smit_isset($file['file_ext'],''),1),
                     'filename'      => smit_isset($file['raw_name'],''),
                     'size'          => smit_isset($file['file_size'],0),
+                    'uploader'      => $reportaction_list->user_id,
                     'datemodified'  => $curdate,
                 );
             }

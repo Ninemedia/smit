@@ -3081,7 +3081,7 @@ var ReportValidation = function () {
     };
 
     var handleReportActionPlanFilesValidation = function(){
-        $('#reportactionplanadd').validate({
+        $('#reportactionplanaddfiles').validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",
             rules: {
@@ -3123,6 +3123,7 @@ var ReportValidation = function () {
             handleReportPraincubationValidation();
             handleReportTenantValidation();
             handleReportActionPlanValidation();
+            handleReportActionPlanFilesValidation();
         }
     };
 }();
