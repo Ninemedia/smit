@@ -148,7 +148,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
     * Tenant Details function.
     */
@@ -203,7 +203,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
     * Tenant Edit function.
     */
@@ -267,7 +267,7 @@ class Tenant extends User_Controller {
             'UploadFiles.init();',
             'ProductValidation.init();',
         ));
-        
+
         $tenantdata             = '';
         if( !empty($uniquecode) ){
             $tenantdata         = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
@@ -295,7 +295,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
 	 * Blog Tenant Edit Function
 	 */
@@ -309,7 +309,7 @@ class Tenant extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $uniquecode             = $this->input->post('reg_uniquecode');
         $uniquecode             = trim( smit_isset($uniquecode, "") );
         $event                  = $this->input->post('reg_event');
@@ -348,17 +348,17 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
         */
-        
+
         $tenantdata             = '';
         if( !empty($uniquecode) ){
             $tenantdata        = $this->Model_Tenant->get_all_blogtenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $tenantdata        = $tenantdata[0];
         }
-        
+
         $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
         $file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $file_name;
         $product_image  = $file_url;
-        
+
         $thumbnail_file_name      = $tenantdata->thumbnail_filename . '.' . $tenantdata->thumbnail_extension;
         $thumbnail_file_url       = BE_UPLOAD_PATH . 'tenantblog/'. $tenantdata->user_id . '/' . $thumbnail_file_name;
         $thumbnail_product_image  = $thumbnail_file_url;
@@ -368,11 +368,11 @@ class Tenant extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             // Upload Files Process
             $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantblog/' . $tenantdata->user_id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-            
+
             $config = array(
                 'upload_path'       => $upload_path,
                 'allowed_types' => "jpg|jpeg|png",
@@ -380,14 +380,14 @@ class Tenant extends User_Controller {
                 'max_size'          => "2048000",
             );
             $this->load->library('MY_Upload', $config);
-            
+
             $file_thumbnail     = '';
             if( !empty($_FILES['reg_thumbnail']['name']) ){
                 //unlink($thumbnail_product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_thumbnail') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -396,16 +396,16 @@ class Tenant extends User_Controller {
                 $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
                 $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
                 $this->image_moo->clear();
-                $file_thumbnail         = $upload_data_thumbnail;    
+                $file_thumbnail         = $upload_data_thumbnail;
             }
-            
+
             $file_details       = '';
             if( !empty($_FILES['reg_details']['name']) ){
                 //unlink($product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_details') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -416,7 +416,7 @@ class Tenant extends User_Controller {
                 $this->image_moo->clear();
                 $file_details           = $upload_data_details;
             }
-            
+
             if( !empty($file_thumbnail) && !empty($file_details) ){
                 $tenant_data            = array(
                     'title'             => $event_title,
@@ -431,7 +431,7 @@ class Tenant extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                );    
+                );
             }elseif( !empty($file_thumbnail) ){
                 $tenant_data           = array(
                     'title'             => $event_title,
@@ -442,7 +442,7 @@ class Tenant extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                ); 
+                );
             }elseif( !empty($file_details) ){
                 $tenant_data           = array(
                     'title'             => $event_title,
@@ -462,7 +462,7 @@ class Tenant extends User_Controller {
                     'datemodified'      => $curdate,
                 );
             }
-            
+
             // -------------------------------------------------
             // Edit Incubation Selection
             // -------------------------------------------------
@@ -513,7 +513,7 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * List Selection Tenant function.
 	 */
@@ -632,7 +632,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Tenant list data function.
 	 */
@@ -734,10 +734,10 @@ class Tenant extends User_Controller {
                 elseif($row->status == NONACTIVE)   { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
-                
+
                 if($row->position == ACTIVE)          { $position = '<span class="label label-success">'.strtoupper('INWALL').'</span>'; }
                 elseif($row->position == NONACTIVE)   { $position = '<span class="label label-default">'.strtoupper('OUTWALL').'</span>'; }
-                
+
                 $event_title        = $row->event_title;
                 if(empty($event_title)){
                     $event_title    = "<span style='color: red;'>Tidak Ada data</span>";
@@ -774,14 +774,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $tenantlist             = $_REQUEST['tenantlist'];
-            
+
             $proses                 = $this->tenantlistproses($sGroupActionName, $tenantlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -790,7 +790,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
     * Tenant List Details function.
     */
@@ -799,7 +799,7 @@ class Tenant extends User_Controller {
 
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
-        
+
         $headstyles             = smit_headstyles(array(
             // Default CSS Plugin
             BE_PLUGIN_PATH . 'node-waves/waves.css',
@@ -860,11 +860,11 @@ class Tenant extends User_Controller {
             $tenantdata         = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $tenantdata         = $tenantdata[0];
         }
-        
+
         if($tenantdata->uploader != 0){
             $file_name          = $tenantdata->filename . '.' . $tenantdata->extension;
-            $file_url           = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $tenantdata->uploader . '/' . $file_name; 
-            
+            $file_url           = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $tenantdata->uploader . '/' . $file_name;
+
             if( !file_exists($file_url) ) {
                 $logo           = BE_IMG_PATH . 'logo/logo-square.jpg';
             }else{
@@ -887,14 +887,14 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
     * Tenant List Details Edit function.
     */
     public function tenantlistdetailsedit(){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $curdate                = date("Y-m-d H:i:s");
@@ -944,7 +944,7 @@ class Tenant extends User_Controller {
                 $data = array('status' => 'error','message' => 'Data tenant tidak ditemukan atau belum terdaftar');
                 die(json_encode($data));
             }
-            
+
             $tenantdata_update  = array(
                 'name_tenant'   => strtoupper( trim(smit_isset($post_tenant_name, '')) ),
                 'slug'          => smit_slug( trim(smit_isset($post_tenant_name, '')) ),
@@ -972,7 +972,7 @@ class Tenant extends User_Controller {
             }
         }
     }
-    
+
     /**
 	 * Tenant Team list data function.
 	 */
@@ -1021,10 +1021,10 @@ class Tenant extends User_Controller {
                 $logo_name  = $row->thumbnail . '.' . $row->extension;
                 $logo_file  = BE_UPLOAD_PATH . 'incubationtenantteam/' . $row->id_tenant . '/' . $logo_name;
                 $logo       = '<img src="'.$logo_file.'" class="tenant-team-list-logo" />';
-                
+
                 $btn_edit   = '<a href="'.base_url('tenants/tenantteamdetail/'.$row->uniquecode).'"
                     class="tenantteamedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Edit"><i class="material-icons">edit</i></a> ';
-                
+
                 $records["aaData"][] = array(
                     smit_center('<input name="tenantteamlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
                     <label for="cblist'.$row->id.'"></label>'),
@@ -1034,18 +1034,18 @@ class Tenant extends User_Controller {
                     smit_center( $logo ),
                     smit_center( $btn_edit ),
                 );
-                
+
                 $i++;
             }
         }
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $tenantteamlist         = $_REQUEST['tenantteamlist'];
-            
+
             // Check Tenant Data
             $tenantdata             = $this->Model_Tenant->get_tenantdata_by_id($id_tenant);
             if( !$tenantdata ){
@@ -1068,8 +1068,8 @@ class Tenant extends User_Controller {
                 }
             }
 
-            $records["sStatus"]     = $status; 
-            $records["sMessage"]    = $message; 
+            $records["sStatus"]     = $status;
+            $records["sMessage"]    = $message;
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -1078,13 +1078,13 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Tenant Team List Proses function.
 	 */
     function tenantteamlistproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -1092,7 +1092,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -1100,69 +1100,69 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $id ){
             if( $action=='delete' ){
-                $tenantteamlistdelete = $this->Model_Tenant->delete_tenant_team($id);    
+                $tenantteamlistdelete = $this->Model_Tenant->delete_tenant_team($id);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar tim tenant selesai di proses',
         );
         return $response;
     }
-    
+
     /**
 	 * Tenant Team Detail data function.
 	 */
     function tenantteamdetail($uniquecode){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         // Check uniquecode
         if ( !$uniquecode ){
             // Set JSON data
             $data = array('status' => 'error','message' => 'Data tim tenant tidak ditemukan atau belum terdaftar!');
             die(json_encode($data));
         }
-        
+
         // Check Tenant Team Data
         if( !$teamdata_all = $this->Model_Tenant->get_all_tenant_team(0,0,' WHERE %uniquecode% LIKE "'.$uniquecode.'"','')){
             // Set JSON data
             $data = array('status' => 'error','message' => 'Data tim tenant tidak ditemukan atau belum terdaftar!');
             die(json_encode($data));
         }
-        
+
         $teamdata       = $teamdata_all[0];
         $ava_name       = $teamdata->thumbnail . '.' . $teamdata->extension;
         $ava_file       = BE_UPLOAD_PATH . 'incubationtenantteam/' . $teamdata->id_tenant . '/' . $ava_name;
         $ava            = '<img src="'.$ava_file.'" class="tenant-team-ava img-responsive img-circle" alt="Avatar" />';
-        
+
         $teamdata_json  = array(
             'uniquecode'=> $teamdata->uniquecode,
             'name'      => $teamdata->name,
             'position'  => $teamdata->position,
             'ava'       => $ava,
         );
-        
+
         // Set JSON data
         $data = array('status' => 'success','message' => 'Data tim tenant berhasil ditemukan!','data'=>$teamdata_json);
         die(json_encode($data));
     }
-    
+
     /**
 	 * Tenant Team Edir data function.
 	 */
     function tenantteamedit(){
         // This is for AJAX request
     	if ( ! $this->input->is_ajax_request() ) exit('No direct script access allowed');
-        
+
         $curdate                = date('Y-m-d H:i:s');
         $uniquecode             = $this->input->post('tenant_team_uniquecode_edit');
         $uniquecode             = trim( smit_isset($uniquecode, '') );
@@ -1170,22 +1170,22 @@ class Tenant extends User_Controller {
         $name                   = trim( smit_isset($name, 0) );
         $position               = $this->input->post('team_position_edit');
         $position               = trim( smit_isset($position, "") );
-        
+
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('team_name_edit','Name Tim','required');
         $this->form_validation->set_rules('team_position_edit','Position Tim','required');
-        
+
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
-        
+
         if( $this->form_validation->run() == FALSE){
             // Set JSON data
             $data = array('status' => 'error','message' => 'Pembaharuan data tim tenant tidak berhasil. '.validation_errors().'');
             die(json_encode($data));
         }
-        
+
         // Check Tenant Team Data
         if( !$teamdata_all = $this->Model_Tenant->get_all_tenant_team(0,0,' WHERE %uniquecode% LIKE "'.$uniquecode.'"','')){
             // Set JSON data
@@ -1193,13 +1193,13 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
         $teamdata           = $teamdata_all[0];
-        
+
         $teamdata_update    = array(
             'name'          => $name,
             'position'      => $position,
             'datemodified'  => $curdate,
         );
-        
+
         if( $this->Model_Tenant->update_data_tenant_team($teamdata->id, $teamdata_update) ){
             // Set JSON data
             $data = array('status' => 'success','message' => 'Pembaharuan data tim tenant berhasil');
@@ -1210,61 +1210,61 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
     }
-    
+
     /**
 	 * Tenant Add Team function.
 	 */
 	public function addteam($uniquecode)
 	{
         auth_redirect();
-        
+
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
         $message                = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         if( !$uniquecode ){
             redirect( base_url('tenants/daftar') );
         }
-        
+
         // Check Tenant Data
         $tenantdata             = '';
         if( !empty($uniquecode) ){
             $tenantdata         = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $tenantdata         = $tenantdata[0];
-            
+
             if( !$tenantdata ){
                 redirect( base_url('tenants/daftar') );
             }
         }
-        
+
         if ( $this->input->is_ajax_request() ) {
             $team_count         = $this->input->post("team_count");
             $team_count         = smit_isset( $team_count, 0 );
-            
+
             if( $team_count == 0 ){
                 // Set JSON data
                 $data = array('status' => 'error','message' => 'Silahkan inputkan minimal 1 tim tenant!');
                 die(json_encode($data));
             }
-            
+
             if( empty($_FILES) || !$_FILES ){
                 // Set JSON data
                 $data = array('status' => 'error','message' => 'Tidak ada foto tim tenant yang diinputkan');
                 die(json_encode($data));
             }
-            
+
             if( empty($_POST) || !$_POST ){
                 // Set JSON data
                 $data = array('status' => 'error','message' => 'Semua data tim tenant harus di isi!');
                 die(json_encode($data));
             }
-            
+
             // -------------------------------------------------
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             $error = 0;
             for($i=1; $i<=$team_count; $i++){
                 // Set Required Variables
@@ -1274,7 +1274,7 @@ class Tenant extends User_Controller {
                 $team_name_{$i}     = smit_isset( $team_name_{$i}, '' );
                 $team_position_{$i} = $this->input->post("team_position_".$i);
                 $team_position_{$i} = smit_isset( $team_position_{$i}, '' );
-                
+
                 // Check Error pass continue ...
                 if( empty($team_image_{$i}['name']) ){
                     $error++; continue;
@@ -1283,36 +1283,36 @@ class Tenant extends User_Controller {
                     $error++; continue;
                 }
                 if( empty($team_position_{$i}) ){
-                    $error++; continue; 
-                } 
-                
+                    $error++; continue;
+                }
+
                 // Upload Image first ...
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-                
+
                 // Initialize Upload Config
                 $config = array(
                     'upload_path'   => $upload_path,
                     'allowed_types' => "jpg|jpeg|png",
                     'overwrite'     => FALSE,
-                    'max_size'      => "1024000", 
+                    'max_size'      => "1024000",
                 );
                 $this->upload->initialize($config);
-                
+
                 // Do Upload Image
                 if( ! $this->upload->do_upload('team_image_'.$i) ){
                     $error++; continue;
                 }
-                
+
                 $upload_data        = $this->upload->data();
                 $upload_file        = $upload_data['raw_name'] . $upload_data['file_ext'];
                 $thumbnail          = 'Thumbnail_' . $upload_data['raw_name'];
                 $thumbfile          = $thumbnail . $upload_data['file_ext'];
-                
+
                 // Set Thumbnail
                 $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(300,300)->save($upload_path. '/' .$thumbfile, TRUE);
                 $this->image_moo->clear();
-                
+
                 // Set Team Data
                 $team_data  = array(
                     'id_tenant'     => $tenantdata->id,
@@ -1326,21 +1326,21 @@ class Tenant extends User_Controller {
                     'size'          => smit_isset($upload_data['file_size'],0),
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
-                ); 
-                
+                );
+
                 // Save Team Data
                 if( !$this->Model_Tenant->save_data_tenant_team($team_data) ){
                     $error++; continue;
                 }
             }
-            
+
             // Commit Transaction
             $this->db->trans_commit();
             // Complete Transaction
             $this->db->trans_complete();
-            
+
             if( $error > 0 ) $message = '<span class="text-warning"><strong>Tetapi terdapat '.$error.' data tim yang gagal ditambahkan</strong></span>';
-            
+
             // Set JSON data
             $data = array('status' => 'success','message' => 'Data tim tenant berhasil di tambahkan' . br() . $message);
             die(json_encode($data));
@@ -1406,7 +1406,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Tenant Logo Update function.
 	 */
@@ -1416,11 +1416,11 @@ class Tenant extends User_Controller {
         $is_admin               = as_administrator($current_user);
         $message                = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         // Set Post Variable
         $tenant_id              = $this->input->post("tenant_id");
         $tenant_id              = smit_isset( $tenant_id, 0 );
-        
+
         // -------------------------------------------------
         // Check Tenant Data
         // -------------------------------------------------
@@ -1445,36 +1445,36 @@ class Tenant extends User_Controller {
             );
             die(json_encode($data));
         }
-            
+
         // -------------------------------------------------
         // Set Path and Upload Config
         // -------------------------------------------------
         $upload_path    = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $current_user->id;
         if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-        
+
         $current_path   = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenant/' . $tenantdata->uploader;
         $current_file   = $current_path . '/' . $tenantdata->filename . '.' . $tenantdata->extension;
-            
+
         $config = array(
             'upload_path'   => $upload_path,
             'allowed_types' => "jpg|jpeg|png",
             'overwrite'     => FALSE,
-            'max_size'      => "1024000", 
+            'max_size'      => "1024000",
         );
         $this->upload->initialize($config);
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         // -------------------------------------------------
         // Do Upload
         // -------------------------------------------------
         if( ! $this->upload->do_upload('tenant_logo_files') ){
             $message = $this->upload->display_errors();
             // Set JSON data
-            $data = array('status' => 'error','message' => $message); 
+            $data = array('status' => 'error','message' => $message);
             die(json_encode($data));
         }
         $upload_data    = $this->upload->data();
@@ -1483,7 +1483,7 @@ class Tenant extends User_Controller {
         $this->image_moo->clear();
 
         // -------------------------------------------------
-        // Update Tenant Data 
+        // Update Tenant Data
         // -------------------------------------------------
         $tenantdata_update  = array(
             'url'           => smit_isset($upload_data['full_path'],''),
@@ -1492,8 +1492,8 @@ class Tenant extends User_Controller {
             'size'          => smit_isset($upload_data['file_size'],0),
             'uploader'      => $current_user->id,
             'datemodified'  => $curdate,
-        ); 
-        
+        );
+
         $trans_save_tenant  = FALSE;
         if( $save_tenant_update = $this->Model_Tenant->update_data($tenant_id, $tenantdata_update) ){
             $trans_save_tenant  = TRUE;
@@ -1501,10 +1501,10 @@ class Tenant extends User_Controller {
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan sistem'); 
+            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan sistem');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Commit or Rollback Transaction
         // -------------------------------------------------
@@ -1513,25 +1513,25 @@ class Tenant extends User_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('status' => 'error', 'message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan data transaksi database.'); 
+                $data = array('status' => 'error', 'message' => 'Pembaharuan logo tenant tidak berhasil. Terjadi kesalahan data transaksi database.');
                 die(json_encode($data));
             }else{
                 // Delete Previous File
                 if( file_exists($current_file) ){
                     unlink($current_file);
                 }
-                
+
                 // Commit Transaction
                 $this->db->trans_commit();
                 // Complete Transaction
                 $this->db->trans_complete();
-                
+
                 // Set JSON data
                 $data = array(
-                    'status'    => 'success', 
+                    'status'    => 'success',
                     'message'   => 'Pembaharuan logo tenant berhasil!',
-                    'file'      => '<img class="tenant-logo img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenant/' . $current_user->id . '/' . $upload_file.'" alt="Logo Tenant" />' 
-                ); 
+                    'file'      => '<img class="tenant-logo img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenant/' . $current_user->id . '/' . $upload_file.'" alt="Logo Tenant" />'
+                );
                 die(json_encode($data));
                 // Set Log Data
                 smit_log( 'TENANT_LOGO_UPDATE', 'SUCCESS', maybe_serialize(array('tenant_id'=>$tenant_id, 'url'=> smit_isset($upload_data['full_path'],''))) );
@@ -1540,11 +1540,11 @@ class Tenant extends User_Controller {
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant akun tidak berhasil. Terjadi kesalahan data.'); 
-            die(json_encode($data)); 
-        } 
+            $data = array('status' => 'error','message' => 'Pembaharuan logo tenant akun tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
     }
-    
+
     /**
 	 * Tenant Team Avatar Update function.
 	 */
@@ -1554,11 +1554,11 @@ class Tenant extends User_Controller {
         $is_admin               = as_administrator($current_user);
         $message                = '';
         $curdate                = date('Y-m-d H:i:s');
-        
+
         // Set Post Variable
         $tenantteam_uniquecode  = $this->input->post("tenant_team_uniquecode");
         $tenantteam_uniquecode  = smit_isset( $tenantteam_uniquecode, 0 );
-        
+
         // -------------------------------------------------
         // Check Tenant Data
         // -------------------------------------------------
@@ -1584,50 +1584,50 @@ class Tenant extends User_Controller {
             );
             die(json_encode($data));
         }
-            
+
         // -------------------------------------------------
         // Set Path and Upload Config
         // -------------------------------------------------
         $upload_path    = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantteamdata->id_tenant;
         if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-        
+
         $current_path   = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationtenantteam/' . $tenantteamdata->id_tenant;
         $current_file   = $current_path . '/' . $tenantteamdata->filename . '.' . $tenantteamdata->extension;
-            
+
         $config = array(
             'upload_path'   => $upload_path,
             'allowed_types' => "jpg|jpeg|png",
             'overwrite'     => FALSE,
-            'max_size'      => "1024000", 
+            'max_size'      => "1024000",
         );
         $this->upload->initialize($config);
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
         $this->db->trans_begin();
-        
+
         // -------------------------------------------------
         // Do Upload
         // -------------------------------------------------
         if( ! $this->upload->do_upload('tenant_team_ava_files') ){
             $message = $this->upload->display_errors();
             // Set JSON data
-            $data = array('status' => 'error','message' => $message); 
+            $data = array('status' => 'error','message' => $message);
             die(json_encode($data));
         }
-        
+
         $upload_data        = $this->upload->data();
         $upload_file        = $upload_data['raw_name'] . $upload_data['file_ext'];
         $thumbnail          = 'Thumbnail_' . $upload_data['raw_name'];
         $thumbfile          = $thumbnail . $upload_data['file_ext'];
-        
+
         // Set Thumbnail
         $this->image_moo->load($upload_path . '/' .$upload_data['file_name'])->resize_crop(300,300)->save($upload_path. '/' .$thumbfile, TRUE);
         $this->image_moo->clear();
 
         // -------------------------------------------------
-        // Update Tenant Team Data 
+        // Update Tenant Team Data
         // -------------------------------------------------
         $tenantteamdata_update  = array(
             'url'           => smit_isset($upload_data['full_path'],''),
@@ -1636,8 +1636,8 @@ class Tenant extends User_Controller {
             'thumbnail'     => $thumbnail,
             'size'          => smit_isset($upload_data['file_size'],0),
             'datemodified'  => $curdate,
-        ); 
-        
+        );
+
         $trans_save_tenant_team  = FALSE;
         if( $save_tenant_team_update = $this->Model_Tenant->update_data_tenant_team($tenantteamdata->id, $tenantteamdata_update) ){
             $trans_save_tenant_team  = TRUE;
@@ -1645,10 +1645,10 @@ class Tenant extends User_Controller {
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan sistem'); 
+            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan sistem');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Commit or Rollback Transaction
         // -------------------------------------------------
@@ -1657,25 +1657,25 @@ class Tenant extends User_Controller {
                 // Rollback Transaction
                 $this->db->trans_rollback();
                 // Set JSON data
-                $data = array('status' => 'error', 'message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan data transaksi database.'); 
+                $data = array('status' => 'error', 'message' => 'Pembaharuan avatar tim tenant tidak berhasil. Terjadi kesalahan data transaksi database.');
                 die(json_encode($data));
             }else{
                 // Delete Previous File
                 if( file_exists($current_file) ){
                     unlink($current_file);
                 }
-                
+
                 // Commit Transaction
                 $this->db->trans_commit();
                 // Complete Transaction
                 $this->db->trans_complete();
-                
+
                 // Set JSON data
                 $data = array(
-                    'status'    => 'success', 
+                    'status'    => 'success',
                     'message'   => 'Pembaharuan avatar tim tenant berhasil!',
-                    'file'      => '<img class="tenant-team-ava img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenantteam/' . $tenantteamdata->id_tenant . '/' . $thumbfile.'" alt="Avatar" />' 
-                ); 
+                    'file'      => '<img class="tenant-team-ava img-responsive img-circle" src="'.BE_UPLOAD_PATH . 'incubationtenantteam/' . $tenantteamdata->id_tenant . '/' . $thumbfile.'" alt="Avatar" />'
+                );
                 die(json_encode($data));
                 // Set Log Data
                 smit_log( 'TENANT_TEAM_AVA_UPDATE', 'SUCCESS', maybe_serialize(array('tenantteam_id'=>$tenantteamdata->id, 'url'=> smit_isset($upload_data['full_path'],''))) );
@@ -1684,9 +1684,9 @@ class Tenant extends User_Controller {
             // Rollback Transaction
             $this->db->trans_rollback();
             // Set JSON data
-            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant akun tidak berhasil. Terjadi kesalahan data.'); 
-            die(json_encode($data)); 
-        } 
+            $data = array('status' => 'error','message' => 'Pembaharuan avatar tim tenant akun tidak berhasil. Terjadi kesalahan data.');
+            die(json_encode($data));
+        }
     }
 
     /**
@@ -1882,14 +1882,14 @@ class Tenant extends User_Controller {
 
             $i = $offset + 1;
             foreach($tenant_list as $row){
-                
+
                 $companiondata          = '';
                 $companion              = '';
                 if( !empty($row->companion_id) ){
                     $companiondata      = $this->Model_User->get_userdata($row->companion_id);
-                    $companion  = $companiondata->name;    
+                    $companion  = $companiondata->name;
                 }
-                
+
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                 }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
@@ -1897,8 +1897,8 @@ class Tenant extends User_Controller {
                 // Button
                 $btn_detail         = '<a href="'.base_url('tenants/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-tenantid="'.$row->id.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
-                
-                
+
+
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -1935,14 +1935,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $userlist               = $_REQUEST['userlist'];
-            
+
             $proses                 = $this->useraction($sGroupActionName, $userlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -1951,7 +1951,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Incubation Detail list data function.
 	 */
@@ -2028,7 +2028,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
 	 * Companion Edit
 	 */
@@ -2073,7 +2073,7 @@ class Tenant extends User_Controller {
         $companion_data  = array(
             'companion_id'      => $companion_id,
             'datemodified'       => $curdate,
-        );  
+        );
 
         // -------------------------------------------------
         // Edit Companion
@@ -2188,9 +2188,9 @@ class Tenant extends User_Controller {
             'ProductValidation.init();',
         ));
         $tenantdata             = '';
-        
+
         if( !$is_admin ){
-            $tenantdata             = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %user_id% = '.$current_user->id.' AND %companion_id% > 0');    
+            $tenantdata             = $this->Model_Tenant->get_all_tenant(0, 0, ' WHERE %user_id% = '.$current_user->id.' AND %companion_id% > 0');
         }
 
         $data['title']          = TITLE . 'Produk Tenant';
@@ -2293,7 +2293,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     /**
     * Tenant Payment Details function.
     */
@@ -2348,7 +2348,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
     * Tenant Payment Edit function.
     */
@@ -2412,7 +2412,7 @@ class Tenant extends User_Controller {
             'UploadFiles.init();',
             'ProductValidation.init();',
         ));
-        
+
         $paymentdata               = '';
         if( !empty($uniquecode) ){
             $paymentdata        = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
@@ -2440,7 +2440,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
 	 * Payment Tenant Edit Function
 	 */
@@ -2454,7 +2454,7 @@ class Tenant extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $uniquecode             = $this->input->post('reg_uniquecode');
         $uniquecode             = trim( smit_isset($uniquecode, "") );
         $event                  = $this->input->post('reg_event');
@@ -2493,13 +2493,13 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
         */
-        
+
         $tenantdata             = '';
         if( !empty($uniquecode) ){
             $tenantdata        = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $tenantdata        = $tenantdata[0];
         }
-        
+
         $file_name      = $tenantdata->filename . '.' . $tenantdata->extension;
         $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'. $tenantdata->user_id . '/' . $file_name;
         $product_image  = $file_url;
@@ -2509,11 +2509,11 @@ class Tenant extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             // Upload Files Process
             $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantpayment/' . $tenantdata->user_id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-            
+
             $config = array(
                 'upload_path'       => $upload_path,
                 'allowed_types' => "jpg|jpeg|png",
@@ -2521,14 +2521,14 @@ class Tenant extends User_Controller {
                 'max_size'          => "2048000",
             );
             $this->load->library('MY_Upload', $config);
-            
+
             $file_details       = '';
             if( !empty($_FILES['reg_details']['name']) ){
                 //unlink($product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_details') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -2539,7 +2539,7 @@ class Tenant extends User_Controller {
                 //$this->image_moo->clear();
                 $file_details           = $upload_data_details;
             }
-            
+
             if( !empty($file_details) ){
                 $tenant_data           = array(
                     'title'             => $event_title,
@@ -2559,7 +2559,7 @@ class Tenant extends User_Controller {
                     'datemodified'      => $curdate,
                 );
             }
-            
+
             // -------------------------------------------------
             // Edit Payment Tenant Selection
             // -------------------------------------------------
@@ -2823,7 +2823,7 @@ class Tenant extends User_Controller {
                 // Button
                 $btn_action = '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
                 $btn_edit   = '<a href="'.base_url('tenants/pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-  
+
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
@@ -2854,14 +2854,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $paymentlist            = $_REQUEST['paymentlist'];
-            
+
             $proses                 = $this->paymentproses($sGroupActionName, $paymentlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -2870,13 +2870,13 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Payment Proses function.
 	 */
     function paymentproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2884,7 +2884,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -2892,7 +2892,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -2902,22 +2902,22 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $paymentdelete  = $this->Model_Tenant->delete_payment($uniquecode);    
+                $paymentdelete  = $this->Model_Tenant->delete_payment($uniquecode);
             }else{
                 $data_update    = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_payment($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data pembayaran selesai di proses',
@@ -2988,7 +2988,7 @@ class Tenant extends User_Controller {
             'TableAjax.init();',
             'UploadFiles.init();',
             'ReportValidation.init();',
-        ));                                     
+        ));
 
         $data['title']          = TITLE . 'Laporan Tenant';
         $data['user']           = $current_user;
@@ -3118,7 +3118,7 @@ class Tenant extends User_Controller {
         if( empty($post_selection_id) ){
             $post_selection_id  = '';
         }
-        
+
         $post_tenant_name       = $this->input->post('tenant_name');
         $post_tenant_email      = $this->input->post('tenant_email');
         $post_tenant_year       = $this->input->post('tenant_year');
@@ -3203,7 +3203,7 @@ class Tenant extends User_Controller {
                 $this->image_moo->load($upload_path . '/' .$upload_data_avatar['file_name'])->resize_crop(200,200)->save($upload_path. '/' .$upload_avatar, TRUE);
                 $this->image_moo->clear();
                 $file_avatar            = $upload_data_avatar;
-                
+
                 $tenantdata1            = array();
                 $data_selection         = "";
                 // Check Selection Data
@@ -3225,14 +3225,14 @@ class Tenant extends User_Controller {
                             )
                         ); die(json_encode($data));
                     }
-                    
+
                     $tenantdata1        = array(
                         'user_id'       => $post_user_id,
                         'username'      => $userdata->username,
                         'name'          => strtoupper( trim(smit_isset($userdata->name, '')) ),
                     );
                     if( !empty($data_selection) ){
-                        $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);    
+                        $update_incubation  = $this->Model_Incubation->update_data_incubationdata($data_selection->id, $tenantdata1);
                     }
                 }else{
                     $tenantdata1        = array(
@@ -3263,7 +3263,7 @@ class Tenant extends User_Controller {
                         }
                     }
                 }
-                
+
                 $tenantdata2         = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'selection_id'  => $data_selection ? trim(smit_isset($data_selection->selection_id, '')) : 0,
@@ -3292,7 +3292,7 @@ class Tenant extends User_Controller {
                 );
 
                 $tenantdata         = array_merge($tenantdata1, $tenantdata2);
-                
+
                 // -------------------------------------------------
                 // Save Tenant Selection
                 // -------------------------------------------------
@@ -3303,9 +3303,9 @@ class Tenant extends User_Controller {
                     $update_data_incubation = array(
                         'tenant_id'  => $save_tenant,
                     );
-                    
+
                     if( !empty($post_selection_id) ){
-                        $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);    
+                        $this->Model_Incubation->update_data_incubationdata($post_selection_id, $update_data_incubation);
                     }
                 }else{
                     // Rollback Transaction
@@ -3492,7 +3492,7 @@ class Tenant extends User_Controller {
 	 */
     function tenantlistproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -3500,7 +3500,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -3508,7 +3508,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -3518,18 +3518,18 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
         elseif( $action=='inwall' ) { $actiontxt = 'Inwall'; $postion = ACTIVE; }
         elseif( $action=='outwall' ) { $actiontxt = 'Outwall'; $postion = NONACTIVE; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             //if( $action=='delete' ){
-                //$tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);    
+                //$tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);
             //}else
             if($action=='inwall'){
                 $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
@@ -3542,7 +3542,7 @@ class Tenant extends User_Controller {
                 $this->Model_Tenant->update_tenant($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar tenant selesai di proses',
@@ -3664,12 +3664,12 @@ class Tenant extends User_Controller {
                     $btn_add = '<a href="'.base_url('tenants/pendampingan/detail/'.$row->uniquecode).'"
                     class="btn_score btn btn-xs btn-primary waves-effect tooltips" data-placement="top" title="Tetapkan"><i class="material-icons">account_box</i></a>';
                 }
-                
+
                 $peneliti_utama     = $row->user_name;
                 if( empty($peneliti_utama) ){
                     $peneliti_utama = $row->name;
                 }
-                
+
                 $event_title        = $row->event_title;
                 if( empty($event_title) ){
                     $event_title    = "<span style='color : red; '>Tidak Ada Data</span>";
@@ -3779,13 +3779,13 @@ class Tenant extends User_Controller {
                         'companion_id'      => $companion_id,
                         'datemodified'      => $curdate
                     );
-                    
+
                     $incubation_id          = $tenant_list->incubation_id;
 
                     if($incubation_id > 0 || !empty($incubation_id)){
                         $this->Model_Incubation->update_data_incubationdata($tenant_list->incubation_id, $tenant_update_data);
                     }
-                    
+
                     if( $this->Model_Tenant->update_data_tenant($tenant_list->id, $tenant_update_data) ){
                         redirect( base_url('tenants/pendampingan') );
                     }
@@ -4063,10 +4063,10 @@ class Tenant extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('tenants/produk/detail/'.$row->uniquecode).'"
                     class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
-                
+
                 $btn_edit   = '<a href="'.base_url('tenants/produk/edit/'.$row->uniquecode).'"
                     class="productedit btn btn-xs btn-warning waves-effect tooltips" id="btn_produk_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                
+
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }elseif($row->status == ACTIVE)  {
@@ -4100,14 +4100,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $productlist            = $_REQUEST['productlist'];
-            
+
             $proses                 = $this->productproses($sGroupActionName, $productlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -4116,7 +4116,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
     * Product Edit function.
     */
@@ -4180,7 +4180,7 @@ class Tenant extends User_Controller {
             'UploadFiles.init();',
             'ProductValidation.init();',
         ));
-        
+
         $productdata               = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
@@ -4208,7 +4208,7 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
 	 * Product Tenant Edit Function
 	 */
@@ -4222,7 +4222,7 @@ class Tenant extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $uniquecode             = $this->input->post('reg_uniquecode');
         $uniquecode             = trim( smit_isset($uniquecode, "") );
         $event                  = $this->input->post('reg_event');
@@ -4261,17 +4261,17 @@ class Tenant extends User_Controller {
             die(json_encode($data));
         }
         */
-        
+
         $productdata               = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Tenant->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $productdata        = $productdata[0];
         }
-        
+
         $file_name      = $productdata->filename . '.' . $productdata->extension;
         $file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $file_name;
         $product_image  = $file_url;
-        
+
         $thumbnail_file_name      = $productdata->thumbnail_filename . '.' . $productdata->thumbnail_extension;
         $thumbnail_file_url       = BE_UPLOAD_PATH . 'tenantproduct/'. $productdata->user_id . '/' . $thumbnail_file_name;
         $thumbnail_product_image  = $thumbnail_file_url;
@@ -4281,11 +4281,11 @@ class Tenant extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             // Upload Files Process
             $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantproduct/' . $productdata->user_id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-            
+
             $config = array(
                 'upload_path'       => $upload_path,
                 'allowed_types' => "jpg|jpeg|png",
@@ -4293,14 +4293,14 @@ class Tenant extends User_Controller {
                 'max_size'          => "2048000",
             );
             $this->load->library('MY_Upload', $config);
-            
+
             $file_thumbnail     = '';
             if( !empty($_FILES['reg_thumbnail']['name']) ){
                 //unlink($thumbnail_product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_thumbnail') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -4309,16 +4309,16 @@ class Tenant extends User_Controller {
                 $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
                 $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
                 $this->image_moo->clear();
-                $file_thumbnail         = $upload_data_thumbnail;    
+                $file_thumbnail         = $upload_data_thumbnail;
             }
-            
+
             $file_details       = '';
             if( !empty($_FILES['reg_details']['name']) ){
                 //unlink($product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_details') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -4329,7 +4329,7 @@ class Tenant extends User_Controller {
                 $this->image_moo->clear();
                 $file_details           = $upload_data_details;
             }
-            
+
             if( !empty($file_thumbnail) && !empty($file_details) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -4344,7 +4344,7 @@ class Tenant extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                );    
+                );
             }elseif( !empty($file_thumbnail) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -4355,7 +4355,7 @@ class Tenant extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                ); 
+                );
             }elseif( !empty($file_details) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -4375,7 +4375,7 @@ class Tenant extends User_Controller {
                     'datemodified'      => $curdate,
                 );
             }
-            
+
             // -------------------------------------------------
             // Edit Incubation Selection
             // -------------------------------------------------
@@ -4426,13 +4426,13 @@ class Tenant extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Product Proses function.
 	 */
     function productproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -4440,7 +4440,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -4448,7 +4448,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -4458,22 +4458,22 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $productdelete  = $this->Model_Tenant->delete_product($uniquecode);    
+                $productdelete  = $this->Model_Tenant->delete_product($uniquecode);
             }else{
                 $data_update    = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_product($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data daftar produk selesai di proses',
@@ -4781,7 +4781,7 @@ class Tenant extends User_Controller {
                     class="blogtenantdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_edit        = '<a href="'.base_url('tenants/blogs/edit/'.$row->uniquecode).'"
                     class="blogtenantedit btn btn-xs btn-warning waves-effect tooltips" id="btn_produk_edit" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
-                
+
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }if($row->status == ACTIVE)  {
@@ -4796,12 +4796,12 @@ class Tenant extends User_Controller {
                 $file_url       = BE_UPLOAD_PATH . 'tenantblog/'.$row->user_id.'/' . $file_name;
                 $image          = $file_url;
                 $image          = '<img class="js-animating-object img-responsive" src="'.$image.'" alt="'.$row->title.'" />';
-                
+
                 $title          = $row->product_title;
                 if( empty($title) ){
                     $title      = '<strong> - </strong>';
                 }
-                
+
                 $records["aaData"][] = array(
                     smit_center('<input name="blogtenantlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
@@ -4820,14 +4820,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $blogtenantlist         = $_REQUEST['blogtenantlist'];
-            
+
             $proses                 = $this->blogtenantproses($sGroupActionName, $blogtenantlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -4836,13 +4836,13 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Blog Tenant Proses function.
 	 */
     function blogtenantproses($action, $data){
         $response = array();
-        
+
         if ( !$action ){
             $response = array(
                 'status'    => 'ERROR',
@@ -4850,7 +4850,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         if ( !$data ){
             $response = array(
                 'status'    => 'ERROR',
@@ -4858,7 +4858,7 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         if ( !$is_admin ){
@@ -4868,22 +4868,22 @@ class Tenant extends User_Controller {
             );
             return $response;
         };
-        
+
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
-        
+
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             if( $action=='delete' ){
-                $blogtenantdelete   = $this->Model_Tenant->delete_blogtenant($uniquecode);    
+                $blogtenantdelete   = $this->Model_Tenant->delete_blogtenant($uniquecode);
             }else{
                 $data_update = array('status'=>$status, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_blogtenant($uniquecode, $data_update);
             }
         }
-        
+
         $response = array(
             'status'    => 'OK',
             'message'   => 'Proses '.strtoupper($actiontxt).' data blog tenant selesai di proses',
@@ -5154,7 +5154,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Report Action Plan list data function.
 	 */
@@ -5193,7 +5193,7 @@ class Tenant extends User_Controller {
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
 
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %username% LIKE "%%s%%"'); }
@@ -5214,7 +5214,7 @@ class Tenant extends User_Controller {
         $reportaction_list  = $this->Model_Tenant->get_all_reportactionplanadmin($limit, $offset, $condition, $order_by);
         $records            = array();
         $records["aaData"]  = array();
-        
+
         if( !empty($reportaction_list) ){
             $iTotalRecords  = smit_get_last_found_rows();
             $cfg_status     = config_item('incsel_status');
@@ -5232,10 +5232,10 @@ class Tenant extends User_Controller {
                 $name_actionplan      = $row->name_actionplan;
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
-                
+
                 $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
-                
+
                 $btn_download   = "<center><span style='color : red;'> - </span></center>";
                 $uploaded       = $row->uploader;
                 if( $uploaded > 0 ){
@@ -5244,7 +5244,7 @@ class Tenant extends User_Controller {
                 }
                 $btn_action     = "";
                 if( $uploaded == 0){
-                    $btn_action = '<a href="'.base_url('tenants/laporan/detail/'.$row->id).'"
+                    $btn_action = '<a href="'.base_url('tenants/laporan/actionplan/detail/'.$row->id).'"
                     class="inact btn btn-xs btn-succes waves-effect tooltips bottom5" data-placement="left" title="Tambah Bukti Berkas"><i class="material-icons">add</i></a> ';
                 }
 
@@ -5272,7 +5272,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     function tenantreportdetail( $id = '' ){
         $current_user           = smit_get_current_user();
         $is_admin               = as_administrator($current_user);
@@ -5347,7 +5347,82 @@ class Tenant extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
+    function tenantreportactionplandetail( $id = '' ){
+        $current_user           = smit_get_current_user();
+        $is_admin               = as_administrator($current_user);
+        $is_pendamping          = as_pendamping($current_user);
+        $is_jury                = as_juri($current_user);
+
+        $headstyles             = smit_headstyles(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.css',
+            BE_PLUGIN_PATH . 'animate-css/animate.css',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.css',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/css/fileinput.css',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.css',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/css/bootstrap-select.css',
+        ));
+
+        $loadscripts            = smit_scripts(array(
+            // Default JS Plugin
+            BE_PLUGIN_PATH . 'node-waves/waves.js',
+            BE_PLUGIN_PATH . 'jquery-slimscroll/jquery.slimscroll.js',
+            // DataTable Plugin
+            BE_PLUGIN_PATH . 'jquery-datatable/jquery.dataTables.min.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/dataTables.bootstrap.js',
+            BE_PLUGIN_PATH . 'jquery-datatable/datatable.js',
+            // Datetime Picker Plugin
+            BE_PLUGIN_PATH . 'momentjs/moment.js',
+            BE_PLUGIN_PATH . 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+            // CKEditor Plugin
+            BE_PLUGIN_PATH . 'ckeditor/ckeditor.js',
+            // Jquery Fileinput Plugin
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/plugins/sortable.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/js/fileinput.js',
+            BE_PLUGIN_PATH . 'bootstrap-fileinput/themes/explorer/theme.js',
+            // Jquery Validation Plugin
+            BE_PLUGIN_PATH . 'jquery-validation/jquery.validate.js',
+            BE_PLUGIN_PATH . 'jquery-validation/additional-methods.js',
+            // Bootstrap Select Plugin
+            BE_PLUGIN_PATH . 'bootstrap-select/js/bootstrap-select.js',
+
+            // Always placed at bottom
+            BE_JS_PATH . 'admin.js',
+            // Put script based on current page
+            BE_JS_PATH . 'pages/index.js',
+            BE_JS_PATH . 'pages/table/table-ajax.js',
+            BE_JS_PATH . 'pages/forms/form-validation.js',
+        ));
+
+        $scripts_add            = '';
+        $scripts_init           = smit_scripts_init(array(
+            'App.init();',
+            'TableAjax.init();',
+            'UploadFiles.init();',
+            'ReportValidation.init();',
+        ));
+
+        $data['title']          = TITLE . 'Laporan Tenant';
+        $data['user']           = $current_user;
+        $data['is_admin']       = $is_admin;
+        $data['is_jury']        = $is_jury;
+        $data['is_pendamping']  = $is_pendamping;
+        $data['id']             = $id;
+        $data['headstyles']     = $headstyles;
+        $data['scripts']        = $loadscripts;
+        $data['scripts_add']    = $scripts_add;
+        $data['scripts_init']   = $scripts_init;
+        $data['main_content']   = 'tenant/reportactionplandetails';
+
+        $this->load->view(VIEW_BACK . 'template', $data);
+	}
+
     /**
 	 * Report Action Plan Add Function
 	 */
@@ -5361,7 +5436,7 @@ class Tenant extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $event                  = $this->input->post('reg_event');
         $event                  = trim( smit_isset($event, "") );
         $year                   = $this->input->post('reg_year');
@@ -5407,37 +5482,37 @@ class Tenant extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             if( !empty($_FILES['reg_actionplan_files']['name']) ){
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $tenantdata->user_id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf",
                     'overwrite'         => FALSE,
                     'max_size'          => "2048000",
                 );
-    
+
                 $this->load->library('MY_Upload', $config);
-    
+
                 if( ! $this->my_upload->do_upload('reg_actionplan_files') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
                 }
-    
+
                 $upload_data_files      = $this->my_upload->data();
                 $file                   = $upload_data_files;
-    
+
                 $status     = NONACTIVE;
                 if( !empty($is_admin) ){
                     $status = ACTIVE;
                 }
-    
+
                 $report_data        = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'tenant_id'     => $event,
@@ -5455,13 +5530,13 @@ class Tenant extends User_Controller {
                     'uploader'      => $tenantdata->user_id,
                     'datecreated'   => $curdate,
                     'datemodified'  => $curdate,
-                );    
+                );
             }else{
                 $status     = NONACTIVE;
                 if( !empty($is_admin) ){
                     $status = ACTIVE;
                 }
-    
+
                 $report_data        = array(
                     'uniquecode'    => smit_generate_rand_string(10,'low'),
                     'tenant_id'     => $event,
@@ -5686,14 +5761,14 @@ class Tenant extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $reportlist             = $_REQUEST['reportlist'];
-            
+
             $proses                 = $this->reportlistproses($sGroupActionName, $reportlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -5702,7 +5777,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Reprt List Proses function.
 	 */
@@ -5758,7 +5833,7 @@ class Tenant extends User_Controller {
         );
         return $response;
     }
-    
+
     /**
 	 * Report Download File function.
 	 */
@@ -5770,7 +5845,7 @@ class Tenant extends User_Controller {
         // Check Report File Data
         $reportdata     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];
-          
+
         if( !$reportdata || empty($reportdata) ){
             redirect( current_url() );
         }
@@ -5779,7 +5854,7 @@ class Tenant extends User_Controller {
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Get Event By User ID function.
 	 */
@@ -5797,7 +5872,7 @@ class Tenant extends User_Controller {
             // JSON encode data
             die(json_encode($data));
         }
-        
+
         $conditions         = ' WHERE %user_id% = '.$user_id.' AND %tenant_id% = 0';
         $order_by           = ' %year% DESC';
     	$incubation_list    = $this->Model_Incubation->get_all_incubationdata(0, 0, $conditions, $order_by);

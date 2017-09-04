@@ -2,7 +2,12 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Laporan Tenant</h2></div>
+            <div class="header">
+                <a href="<?php echo base_url('tenants/laporan'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom20">
+                    <i class="material-icons">arrow_back</i> Kembali
+                </a>
+                <h2>Laporan Tenant</h2>
+            </div>
             <div class="body">
                 <div class="table-container table-responsive">
                     <div class="table-actions-wrapper">
