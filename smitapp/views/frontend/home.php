@@ -225,7 +225,8 @@
                             foreach($tenantdata AS $row){
                                 $file_name      = $row->filename . '.' . $row->extension;
                                 $file_url       = BE_UPLOAD_PATH . 'incubationtenant/'.$row->uploader.'/' . $file_name; 
-                                $tenant         = $file_url;
+                                $file_dir       = BE_UPLOAD_DIR . 'incubationtenant/'.$row->uploader.'/' . $file_name;
+                                $tenant         = !file_exists($file_dir) ? FE_IMG_PATH . 'tenant/logo-tenant1.jpg' : $file_url;
                                 $i++;
                             ?>
                             <div class="item">
