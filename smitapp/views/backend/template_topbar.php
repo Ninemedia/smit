@@ -1,5 +1,5 @@
-<?php 
-    $current_user = smit_get_current_user(); 
+<?php
+    $current_user = smit_get_current_user();
     $status         = $current_user->type;
     if($status == ADMINISTRATOR){
         $bg     = 'bg-blue';
@@ -39,7 +39,7 @@
                     $current_roles  = $current_user->role;
                     $current_roles  = maybe_unserialize($current_roles);
                 ?>
-                <?php if( !$is_admin && !empty($current_roles)) : ?>
+                <?php if( $current_user->id != 1 && !empty($current_roles)) : ?>
                 <li>
                     <div class="user-helper-dropdown">
                         <div class="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -58,7 +58,7 @@
                                     elseif( $type == PENGUSUL )         { $roletxt = 'Pengusul';; }
                                     elseif( $type == PELAKSANA )        { $roletxt = 'Pelaksana';; }
                                     elseif( $type == PELAKSANA_TENANT ) { $roletxt = 'Pelaksana &amp; Tenant';; }
-                                    
+
                                     echo '<li><a class="btn-role" data-url="'.base_url('gantirole').'" >'.$roletxt.'</a></li>';
                                     if($roles_count > 1 && $i != $roles_count){
                                         echo '<li role="seperator" class="divider"></li>';
@@ -87,10 +87,10 @@
                     </div>
                 </li>
                 <!-- #END# User Menu -->
-                
+
                 <!-- Notification List -->
                 <!-- Put Here -->
-                <!-- #END# Notification List -->         
+                <!-- #END# Notification List -->
             </ul>
         </div>
     </div>
