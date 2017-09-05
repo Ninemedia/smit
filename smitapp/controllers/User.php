@@ -1000,6 +1000,7 @@ class User extends SMIT_Controller {
         }
         
         $current_roles      = explode(',', $current_roles);
+        
         if( !in_array($user_role, $current_roles) ){
             // Set JSON data
             $data = array('status' => 'error','message' => 'Terjadi kesalahan, Anda tidak memiliki role sebagai '.$user_roletxt.'!');
@@ -1008,7 +1009,8 @@ class User extends SMIT_Controller {
         
         $curdate            = date('Y-m-d H:i:s');
         $data_update        = array('type' => $user_role, 'datemodified' => $curdate);
-        if( $this->Model_User->update_data($current_user->id, $data_update) ){
+        
+        if( $data_update        = $this->Model_User->update_data($current_user->id, $data_update) ){
             smit_set_auth_cookie( $current_user->id );
             
             // Set JSON data

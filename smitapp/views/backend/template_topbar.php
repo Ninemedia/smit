@@ -59,7 +59,7 @@
                                     elseif( $type == PELAKSANA )        { $roletxt = 'Pelaksana';; }
                                     elseif( $type == PELAKSANA_TENANT ) { $roletxt = 'Pelaksana &amp; Tenant';; }
 
-                                    echo '<li><a class="btn-role" data-url="'.base_url('gantirole').'" >'.$roletxt.'</a></li>';
+                                    echo '<li><a class="btn-role" data-url="'.base_url('gantirole').'" data-role="'.$type.'" >'.$roletxt.'</a></li>';
                                     if($roles_count > 1 && $i != $roles_count){
                                         echo '<li role="seperator" class="divider"></li>';
                                     }
