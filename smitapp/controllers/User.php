@@ -591,7 +591,7 @@ class User extends SMIT_Controller {
     function userlistdata(){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE %type% != '.ADMINISTRATOR.' AND %status% != 3';
+        $condition          = ' WHERE %id% != 1 AND %status% != 3';
         
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -611,8 +611,8 @@ class User extends SMIT_Controller {
         $s_username         = smit_isset($s_username, '');
         $s_name             = $this->input->post('search_name');
         $s_name             = smit_isset($s_name, '');
-        $s_role             = $this->input->post('search_role');
-        $s_role             = smit_isset($s_role, '');
+        $s_type             = $this->input->post('search_type');
+        $s_type             = smit_isset($s_type, '');
         $s_status           = $this->input->post('search_status');
         $s_status           = smit_isset($s_status, '');
         
@@ -623,7 +623,7 @@ class User extends SMIT_Controller {
         
         if( !empty($s_username) )       { $condition .= str_replace('%s%', $s_username, ' AND %username% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
-        if( !empty($s_role) )           { $condition .= str_replace('%s%', $s_role, ' AND %role% LIKE "%%s%%"'); }
+        if( !empty($s_type) )           { $condition .= str_replace('%s%', $s_type, ' AND %type% LIKE "%%s%%"'); }
         if( !empty($s_status) )         { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
         
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
@@ -631,12 +631,11 @@ class User extends SMIT_Controller {
         
         if( $column == 1 )      { $order_by .= '%username% ' . $sort; }
         elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
-        elseif( $column == 3 )  { $order_by .= '%role% ' . $sort; }
-        elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-        elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
+        elseif( $column == 3 )  { $order_by .= '%type% ' . $sort; }
+        elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
+        elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
 
         $user_list          = $this->Model_User->get_all_user($limit, $offset, $condition, $order_by);
-
         $records            = array();
         $records["aaData"]  = array();
         
@@ -677,12 +676,29 @@ class User extends SMIT_Controller {
                     }
                 }
                 
+                if($row->type == ADMINISTRATOR){
+                    $type     = 'ADMINISTRATOR';
+                }elseif($row->type == PENGUSUL){
+                    $type     = 'PENGUSUL';
+                }elseif($row->type == PENDAMPING){
+                    $type     = 'PENDAMPING';
+                }elseif($row->type == JURI){
+                    $type     = 'JURI';
+                }elseif($row->type == TENANT){
+                    $type     = 'TENANT';
+                }elseif($row->type == PELAKSANA){
+                    $type     = 'PELAKSANA';
+                }elseif($row->type == PELAKSANA_TENANT){
+                    $type     = 'PELAKSANA & TENANT';
+                }
+                
                 $records["aaData"][] = array(
                     smit_center('<input name="userlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="' . $row->id . '" type="checkbox"/>
                     <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     '<a href="'.base_url('pengguna/profil/'.$row->id).'">' . $row->username . '</a>',
                     $row->name,
+                    $type,
                     implode( ', ', $arrType ),
                     smit_center($status),
                     smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),

@@ -53,6 +53,7 @@
     							<th class="width15 text-center">Username</th>
     							<th class="width20">Nama</th>
                                 <th class="width15 text-center">Tipe</th>
+                                <th class="width15 text-center">Role</th>
                                 <th class="width10 text-center">Status</th>
                                 <th class="width10 text-center">Tanggal Daftar</th>
     							<th class="width15 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -63,7 +64,7 @@
     							<td><input type="text" class="form-control form-filter input-sm text-center text-lowercase" name="search_username" /></td>
     							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name" /></td>
                                 <td>
-                                    <select name="search_role" class="form-control form-filter input-sm">
+                                    <select name="search_type" class="form-control form-filter input-sm">
     									<option value="">Pilih...</option>
     									<?php
     			                        	$type = smit_user_type();
@@ -75,6 +76,7 @@
     			                        ?>
     								</select>
                                 </td>
+                                <td></td>
                                 <td>
                                     <select name="search_status" class="form-control form-filter input-sm">
     									<option value="">Pilih...</option>
