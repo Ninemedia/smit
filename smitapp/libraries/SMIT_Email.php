@@ -106,6 +106,7 @@ class SMIT_Email
         
         $message    = trim( get_option('be_notif_forgot_password') );
         $message    = str_replace("{%username%}",     $user->username, $message);
+        $message    = str_replace("{%name%}",   strtoupper($user->name), $message);
         $message    = str_replace("{%password%}",     $password, $message);
         
         $html_message           = smit_notification_template_clear($message);

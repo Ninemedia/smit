@@ -277,6 +277,10 @@ class User extends SMIT_Controller {
             'datemodified'  => $curdate
         );
         
+        echo '<pre>';
+        print_r($username);
+        die();
+        
 		// log reset
 		smit_log( 'RESETTING_PASSWORD', $username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => $user ) ) );
         if ( $save_pass = $this->Model_User->update_data( $user->id, $passdata ) ){

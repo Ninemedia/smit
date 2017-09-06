@@ -109,6 +109,7 @@
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Silahkan masukkan alamat Email Anda</span></small>
                 		</div>
+                        <input type="text" id="username_forgot" name="username_forgot" />
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">email</i></span>
                             <div class="form-line">
