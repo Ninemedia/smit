@@ -34,7 +34,8 @@ class Debug extends Public_Controller {
         $username   = 'haryatidian';
         $name       = 'Haryati Dian Warsari';
         $password_global    = '123456';
-		$response   = $this->smit_email->send_email_registration_user($to, $username);
+        $type       = 'TENANT';
+		$response   = $this->smit_email->send_email_registration_juri($to, $username, $password_global, $type);
 		if(is_array($response)) {
 			echo 'failed:' . br();
 			var_dump($response);

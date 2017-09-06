@@ -173,14 +173,16 @@ class SMIT_Email
      * @param string    $password       (Required)  Password of user
 	 * @return Mixed
 	 */
-	function send_email_registration_juri( $to, $username, $password ) {
+	function send_email_registration_juri( $to, $username, $password, $type ) {
         if ( !$to ) return false;
         if ( !$username ) return false;
         if ( !$password ) return false;
+        if ( !$type ) return false;
         
         $message    = trim( get_option('be_notif_registration_juri') );
         $message    = str_replace("{%username%}", $username, $message);
         $message    = str_replace("{%password%}", $password, $message);
+        $message    = str_replace("{%type%}", $type, $message);
         
         $html_message           = smit_notification_template($message);
         
@@ -188,7 +190,7 @@ class SMIT_Email
         $mail_message->plain	= $message;
         $mail_message->html		= $html_message;
 		
-		return $this->send( $to, 'Konfirmasi Pendaftaran Juri', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+		return $this->send( $to, 'Konfirmasi Pendaftaran', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
     
     /**

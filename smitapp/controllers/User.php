@@ -487,10 +487,27 @@ class User extends SMIT_Controller {
                         $this->smit_email->send_email_registration_user($email, $username);
                     }
                     */
+                    
+                    if($user_type == ADMINISTRATOR){
+                        $type     = 'ADMINISTRATOR';
+                    }elseif($user_type == PENGUSUL){
+                        $type     = 'PENGUSUL';
+                    }elseif($user_type == PENDAMPING){
+                        $type     = 'PENDAMPING';
+                    }elseif($user_type == JURI){
+                        $type     = 'JURI';
+                    }elseif($user_type == TENANT){
+                        $type     = 'TENANT';
+                    }elseif($user_type == PELAKSANA){
+                        $type     = 'PELAKSANA';
+                    }elseif($user_type == PELAKSANA_TENANT){
+                        $type     = 'PELAKSANA & TENANT';
+                    }
+                    
                     if( $user_type == PENGUSUL ){
                         $this->smit_email->send_email_registration_pengusul($email, $username);
                     }else{
-                        $this->smit_email->send_email_registration_juri($email, $username, $password_global);
+                        $this->smit_email->send_email_registration_juri($email, $username, $password_global, $type);
                     }
                 }else{
                     // Send Notification to All Administrator
