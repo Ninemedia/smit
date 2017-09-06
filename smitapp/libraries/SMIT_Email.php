@@ -447,6 +447,34 @@ class SMIT_Email
 		
 		return $this->send( $data->email, 'Konfirmasi Seleksi Diterima', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
+    
+    /**
+	 * Send email forgot password function.
+	 *
+     * @param string    $id_user    (Required)  ID User
+     * @param string    $password   (Required)  Password that forgot
+	 * @return Mixed
+	 */
+	function send_email_contact( $email, $contact_name, $contact_email, $contact_title, $contact_desc ) {
+		if ( !$contact_name ) return false;
+        if ( !$contact_email ) return false;
+        if ( !$contact_title ) return false;
+        if ( !$contact_desc ) return false;
+        
+        $message    = trim( get_option('be_notif_contact') );
+        $message    = str_replace("{%name%}",   strtoupper($contact_name), $message);
+        $message    = str_replace("{%email%}",     $contact_email, $message);
+        $message    = str_replace("{%title%}",     $contact_title, $message);
+        $message    = str_replace("{%description%}",     $contact_desc, $message);
+        
+        $html_message           = smit_notification_template_clear($message);
+        
+        $mail_message			= new stdClass();
+        $mail_message->plain	= $message;
+        $mail_message->html		= $html_message;
+		
+		return $this->send( $email, $contact_title, $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+	}
 }
 
 /*

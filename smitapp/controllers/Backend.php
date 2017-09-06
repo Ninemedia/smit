@@ -424,6 +424,10 @@ class Backend extends User_Controller {
         // Forgot Password Notif Setting
         }elseif( $field == 'be_notif_forgot_password' ){
             update_option('be_notif_forgot_password', $value);
+        
+        // Contact Notif Setting
+        }elseif( $field == 'be_notif_contact' ){
+            update_option('be_notif_contact', $value);
         }
     }
 
@@ -469,7 +473,7 @@ class Backend extends User_Controller {
         if( !$mail ) $mail = '';
 
         // Return Mail Content
-        if( $content == "be_notif_forgot_password" ){
+        if( $content == "be_notif_forgot_password" || $content == "be_notif_contact" ){
             $template   = smit_notification_template_clear($mail);
         }else{
             $template   = smit_notification_template($mail);

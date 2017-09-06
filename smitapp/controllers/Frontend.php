@@ -2227,6 +2227,17 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
+                    
+                    // Send Notification to All Administrator
+                    $condition  = ' WHERE %type% = '.ADMINISTRATOR.'';
+                    $order_by   = '';
+                    if( $all_admin  = $this->Model_User->get_all_user(0,0,$condition,$order_by) ){
+                        foreach( $all_admin as $row ){
+                            $admin_email    = $row->email;
+                            $this->smit_email->send_email_contact( $admin_email, $contact_name, $contact_email, $contact_title, $contact_desc );
+                        }
+                    }
+                    
 
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pengiriman pesan baru berhasil!');

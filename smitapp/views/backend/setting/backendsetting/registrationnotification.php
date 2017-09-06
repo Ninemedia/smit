@@ -120,6 +120,26 @@
         </div>
     </div>
     
+    <!-- Contact to Admin -->
+    <div class="panel panel-col-blue">
+        <div class="panel-heading" role="tab" id="heading_notif_contact">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" href="#collapse_notif_contact" aria-expanded="true" aria-controls="collapse_notif_contact">
+                    <i class="material-icons">email</i> Format Email Kontak untuk Administrator
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_notif_contact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_notif_contact">
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control ckeditor" id="be_notif_contact"><?php echo get_option('be_notif_contact'); ?></textarea>
+                </div>
+                <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="contact" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-view-mail" type="button" data-content="be_notif_contact">Lihat Surat</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Forgot Password -->
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_notif_forgot_password">

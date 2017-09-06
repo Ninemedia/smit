@@ -30,12 +30,15 @@ class Debug extends Public_Controller {
 		// using Swiftmailer
 		echo 'sending email using Swiftmailer...' . br();
 		//$response = $this->smit_email->send_email_test($to);
-        //$email      = 'radenrifalardiansyah@gmail.com';
+        $email      = 'radenrifalardiansyah@gmail.com';
         $username   = 'haryatidian';
         $name       = 'Haryati Dian Warsari';
         $password_global    = '123456';
         $type       = 'TENANT';
-		$response   = $this->smit_email->send_email_registration_juri($to, $username, $password_global, $type);
+        $contact_name   = 'Putri';
+        $contact_title  = 'TES EMAIL';
+        $contact_desc   = 'Apakah email saya masuk ? ';
+		$response   = $this->smit_email->send_email_contact( $to, $contact_name, $email, $contact_title, $contact_desc );
 		if(is_array($response)) {
 			echo 'failed:' . br();
 			var_dump($response);
