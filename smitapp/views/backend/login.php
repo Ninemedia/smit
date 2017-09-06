@@ -80,10 +80,8 @@
                 		</div>
                         <div class="row">
                             <div class="col-xs-8 p-t-5">
-                                <!--
                                 <?php echo form_checkbox(array('name'=>'rememberme','value'=>1,'class'=>'filled-in chk-col-blue','id'=>'rememberme')); ?>
                                 <label for="rememberme">Ingat Saya</label>
-                                -->
                             </div>
                             <div class="col-xs-4">
                                 <button class="btn btn-block bg-blue waves-effect" type="submit">MASUK</button>
@@ -109,7 +107,6 @@
                         <div class="alert alert-danger text-center display-hide error-validate">
                 			<small><span>Silahkan masukkan alamat Email Anda</span></small>
                 		</div>
-                        <input type="text" id="username_forgot" name="username_forgot" />
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">email</i></span>
                             <div class="form-line">

@@ -277,15 +277,11 @@ class User extends SMIT_Controller {
             'datemodified'  => $curdate
         );
         
-        echo '<pre>';
-        print_r($username);
-        die();
-        
 		// log reset
-		smit_log( 'RESETTING_PASSWORD', $username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => $user ) ) );
+		smit_log( 'RESETTING_PASSWORD', $user->username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => $user ) ) );
         if ( $save_pass = $this->Model_User->update_data( $user->id, $passdata ) ){
 			// log reset
-			smit_log( 'RESETTING_SUCCESS', $username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => smit_get_userdata_by_id( $user->id ) ) ) );
+			smit_log( 'RESETTING_SUCCESS', $user->username, maybe_serialize( array( 'rand' => $rand, 'passdata' => $passdata, 'user' => smit_get_userdata_by_id( $user->id ) ) ) );
         	$this->session->set_userdata( 'forget', ++$forget );
             // Send Email Confirmation
             $this->smit_email->send_email_forgot_password( $user->id, $rand );
