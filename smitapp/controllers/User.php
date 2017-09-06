@@ -478,12 +478,19 @@ class User extends SMIT_Controller {
                 $this->db->trans_complete();
                 // Send Email Confirmation if Post User by Administrator
                 if( $access=='admin' ){
+                    /*
                     if( $user_type == JURI ){
                         $this->smit_email->send_email_registration_juri($email, $username, $password_global);
                     }elseif( $user_type == PENGUSUL ){
                         $this->smit_email->send_email_registration_pengusul($email, $username);
                     }else{
                         $this->smit_email->send_email_registration_user($email, $username);
+                    }
+                    */
+                    if( $user_type == PENGUSUL ){
+                        $this->smit_email->send_email_registration_pengusul($email, $username);
+                    }else{
+                        $this->smit_email->send_email_registration_juri($email, $username, $password_global);
                     }
                 }else{
                     // Send Notification to All Administrator
@@ -803,7 +810,12 @@ class User extends SMIT_Controller {
             $data_update = array('status'=>$status,'datemodified'=>$curdate);
             if( $this->Model_User->update_data($id,$data_update) ){
                 // Send Email Confirmation
-                $this->smit_email->send_email_registration_user($userdata->email, $userdata->username);
+                if( $userdata->type == PENGUSUL && $userstatus != ACTIVE ){
+                    $this->smit_email->send_email_registration_pengusul($userdata->email, $userdata->username);
+                }else{
+                    if( $action=='confirm' ) $actiontxt = 'Aktif';
+                    $this->smit_email->send_email_registration_user($userdata->email, $userdata->username, $actiontxt);    
+                }
             }
         }
         

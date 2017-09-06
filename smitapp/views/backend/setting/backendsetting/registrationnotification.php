@@ -1,35 +1,15 @@
 <!-- Format Notification -->
 <div class="panel-group" role="tablist" aria-multiselectable="true">
-    <!-- Registration Pengusul Confirm -->
-    <div class="panel panel-col-blue">
-        <div class="panel-heading" role="tab" id="heading_notif_registration_pengusul">
-            <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" href="#collapse_notif_registration_pengusul" aria-expanded="true" aria-controls="collapse_notif_registration_pengusul">
-                    <i class="material-icons">email</i> Format Email Notifikasi Pendaftaran Pengusul
-                </a>
-            </h4>
-        </div>
-        <div id="collapse_notif_registration_pengusul" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_notif_registration_pengusul">
-            <div class="panel-body">
-                <div class="form-group">
-                    <textarea class="form-control ckeditor" id="be_notif_registration_pengusul"><?php echo get_option('be_notif_registration_pengusul'); ?></textarea>
-                </div>
-                <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_pengusul" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
-                <button class="btn btn-info waves-effect btn-view-mail" type="button" data-content="be_notif_registration_pengusul">Lihat Surat</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Registration User Confirm -->
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_notif_registration_user">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_notif_registration_user" aria-expanded="true" aria-controls="collapse_notif_registration_user">
-                    <i class="material-icons">email</i> Format Email Notifikasi Pendaftaran Anggota
+                    <i class="material-icons">email</i> Format Email Notifikasi Konfirmasi Pendaftaran Anggota
                 </a>
             </h4>
         </div>
-        <div id="collapse_notif_registration_user" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_notif_registration_user">
+        <div id="collapse_notif_registration_user" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_notif_registration_user">
             <div class="panel-body">
                 <div class="form-group">
                     <textarea class="form-control ckeditor" id="be_notif_registration_user"><?php echo get_option('be_notif_registration_user'); ?></textarea>
@@ -40,12 +20,32 @@
         </div>
     </div>
     
+    <!-- Registration Pengusul Confirm -->
+    <div class="panel panel-col-blue">
+        <div class="panel-heading" role="tab" id="heading_notif_registration_pengusul">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" href="#collapse_notif_registration_pengusul" aria-expanded="true" aria-controls="collapse_notif_registration_pengusul">
+                    <i class="material-icons">email</i> Format Email Notifikasi Pendaftaran Pengusul
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_notif_registration_pengusul" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_notif_registration_pengusul">
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control ckeditor" id="be_notif_registration_pengusul"><?php echo get_option('be_notif_registration_pengusul'); ?></textarea>
+                </div>
+                <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="registration_pengusul" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-view-mail" type="button" data-content="be_notif_registration_pengusul">Lihat Surat</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Registration Juri Confirm -->
     <div class="panel panel-col-blue">
         <div class="panel-heading" role="tab" id="heading_notif_registration_juri">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" href="#collapse_notif_registration_juri" aria-expanded="true" aria-controls="collapse_notif_registration_juri">
-                    <i class="material-icons">email</i> Format Email Notifikasi Pendaftaran Juri
+                    <i class="material-icons">email</i> Format Email Notifikasi Pendaftaran dari Administrator
                 </a>
             </h4>
         </div>

@@ -147,12 +147,14 @@ class SMIT_Email
      * @param string    $username       (Required)  Username of user
 	 * @return Mixed
 	 */
-	function send_email_registration_user( $to, $username ) {
+	function send_email_registration_user( $to, $username, $status ) {
         if ( !$to ) return false;
         if ( !$username ) return false;
+        //if( empty($status) ) $status = 'AKTIF';
         
         $message    = trim( get_option('be_notif_registration_user') );
         $message    = str_replace("{%username%}", $username, $message);
+        $message    = str_replace("{%status%}", $status, $message);
         
         $html_message           = smit_notification_template($message);
         
@@ -206,6 +208,7 @@ class SMIT_Email
         
         $message    = trim( get_option('be_notif_registration_for_admin') );
         $message    = str_replace("{%username%}", $username, $message);
+        $message    = str_replace("{%name%}", $name, $message);
         
         $html_message           = smit_notification_template_clear($message);
         
