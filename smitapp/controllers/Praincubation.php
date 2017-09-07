@@ -368,7 +368,7 @@ class PraIncubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-            $data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);    
+            $data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
             if( !empty($data_list) ){
                 $export                     = $this->smit_excel->exportSelectionStep1( $data_list );
                 $records["sStatus"]         = "EXPORTED";
@@ -511,10 +511,10 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
         	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
-                
+
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportSelectionStep2( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -1209,7 +1209,7 @@ class PraIncubation extends User_Controller {
         // JSON encode data
         die(json_encode($data));
     }
-    
+
     /**
 	 * Pra Incubation Confirm Score Step 2 All function.
 	 */
@@ -1267,7 +1267,7 @@ class PraIncubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
@@ -1340,7 +1340,7 @@ class PraIncubation extends User_Controller {
                 );
             }
         }
-        
+
         $desc .= '<div class="table-container table-responsive">';
             $desc .= '<table class="table table-striped table-hover">';
                 $desc .= '
@@ -1373,7 +1373,7 @@ class PraIncubation extends User_Controller {
                 $desc .= '</tbody>';
             $desc .= '</table>';
         $desc .= '</div>';
-        
+
         // Save Announcement
         $announcement_data      = array(
             'uniquecode'        => smit_generate_rand_string(10,'low'),
@@ -1857,7 +1857,7 @@ class PraIncubation extends User_Controller {
 
         // Get All Guides Filed
         $guide_files            = $this->Model_Guide->get_all_guides();
-        $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
+        $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4 AND %status% = 1');
 
         $data['title']          = TITLE . 'Details Pengaturan Seleksi Pra-Inkubasi';
         $data['user']           = $current_user;
@@ -2486,7 +2486,7 @@ class PraIncubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportScoreStep1( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -2655,7 +2655,7 @@ class PraIncubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $selectionlist          = $_REQUEST['selectionliststep2'];
@@ -2664,7 +2664,7 @@ class PraIncubation extends User_Controller {
             $records["sStatus"]     = $proses['status'];
             $records["sMessage"]    = $proses['message'];
         }elseif(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportScoreStep2( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -2831,10 +2831,10 @@ class PraIncubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
         	$data_list                      = $this->Model_Praincubation->get_all_ranking(0, 0, $condition, $order_by);
-                
+
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportRankingStep1( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -2998,10 +2998,10 @@ class PraIncubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
         	$data_list                      = $this->Model_Praincubation->get_all_ranking(0, 0, $condition, $order_by);
-                
+
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportRankingStep2( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -4197,7 +4197,7 @@ class PraIncubation extends User_Controller {
                     $btn_details    = '<a href="'.base_url('seleksiprainkubasi/nilai/detail/1/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 }
-                
+
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == CONFIRMED)   { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == RATED)       { $status = '<span class="label bg-purple">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -4659,7 +4659,7 @@ class PraIncubation extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
-    
+
     public function praincubationreportdetail( $id = '' )
 	{
         auth_redirect();
@@ -5571,9 +5571,9 @@ class PraIncubation extends User_Controller {
 
         $end = $iDisplayStart + $iDisplayLength;
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Praincubation->get_all_praincubation_history(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation_history(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportHistory( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -5695,16 +5695,16 @@ class PraIncubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $is_pendamping      = as_pendamping($current_user);
-        
+
         $condition          = ' WHERE %user_id% = '.$current_user->id.'';
         if( !empty($is_pendamping) ){
             $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
         }
-        
+
         if( !empty($is_admin) ){
             $condition          = ' WHERE %companion_id% > 0 ';
         }
-        
+
         $order_by           = '';
         $iTotalRecords      = 0;
 
@@ -5774,13 +5774,13 @@ class PraIncubation extends User_Controller {
                 if( !empty($companiondata) ){
                     $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
                     $btn_edit           = '<a class="accompanimentedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-name="'.strtoupper($companiondata->name).'" title="Ubah"><i class="material-icons">edit</i></a>';
-                }else{ 
-                    $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; 
+                }else{
+                    $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>";
                 }
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                
+
                 if( $is_admin ){
                     $records["aaData"][] = array(
                         smit_center($i),
@@ -6304,9 +6304,9 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if(isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "export_excel"){
-        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);    
+        	$data_list                      = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, $order_by);
         	if( !empty($data_list) ){
         		$export                     = $this->smit_excel->exportSelectionStep1( $data_list );
         		$records["sStatus"]         = "EXPORTED";
@@ -6513,7 +6513,7 @@ class PraIncubation extends User_Controller {
         $event_title            = trim( smit_isset($event_title, "") );
         $description            = $this->input->post('reg_desc');
         $description            = trim( smit_isset($description, "") );
-        
+
         $userdata               = smit_get_userdata_by_id($user_id);
 
         // -------------------------------------------------
@@ -6551,7 +6551,7 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         */
-        
+
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
@@ -6582,14 +6582,14 @@ class PraIncubation extends User_Controller {
         $trans_save_praincubation       = FALSE;
         if( $praincubation_save_id      = $this->Model_Praincubation->save_data_praincubation($praincubationselection_data) ){
             $trans_save_praincubation   = TRUE;
-            
+
             // Check if Upload Selection Files
             // -------------------------------
             if( !empty($_FILES['reg_selection_files']['name']) ){
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -6597,7 +6597,7 @@ class PraIncubation extends User_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-            
+
                 if( ! $this->my_upload->do_upload('reg_selection_files') ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
@@ -6644,7 +6644,7 @@ class PraIncubation extends User_Controller {
                         $data = array('message' => 'error','data' => 'Simpan file seleksi tidak berhasil. Terjadi kesalahan proses!');
                         die(json_encode($data));
                     }
-                }  
+                }
             }
 
             // Check if Upload RAB Files
@@ -6653,7 +6653,7 @@ class PraIncubation extends User_Controller {
                 // Upload Files Process
                 $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $userdata->id;
                 if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-    
+
                 $config = array(
                     'upload_path'       => $upload_path,
                     'allowed_types'     => "doc|docx|pdf|xls|xlsx",
@@ -6661,7 +6661,7 @@ class PraIncubation extends User_Controller {
                     'max_size'          => "2048000",
                 );
                 $this->load->library('MY_Upload', $config);
-                
+
                 if( ! $this->my_upload->do_upload('reg_selection_rab') ){
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
@@ -7018,7 +7018,7 @@ class PraIncubation extends User_Controller {
             }
         }
 	}
-    
+
     /**
 	 * Product Pra-Inkubasi Edit Function
 	 */
@@ -7032,7 +7032,7 @@ class PraIncubation extends User_Controller {
         $post                   = '';
         $curdate                = date('Y-m-d H:i:s');
         $upload_data            = array();
-        
+
         $uniquecode             = $this->input->post('reg_uniquecode');
         $uniquecode             = trim( smit_isset($uniquecode, "") );
         $event                  = $this->input->post('reg_event');
@@ -7071,17 +7071,17 @@ class PraIncubation extends User_Controller {
             die(json_encode($data));
         }
         */
-        
+
         $productdata               = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
             $productdata        = $productdata[0];
         }
-        
+
         $file_name      = $productdata->filename . '.' . $productdata->extension;
         $file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $file_name;
         $product_image  = $file_url;
-        
+
         $thumbnail_file_name      = $productdata->thumbnail_filename . '.' . $productdata->thumbnail_extension;
         $thumbnail_file_url       = BE_UPLOAD_PATH . 'praincubationproduct/'. $productdata->user_id . '/' . $thumbnail_file_name;
         $thumbnail_product_image  = $thumbnail_file_url;
@@ -7091,11 +7091,11 @@ class PraIncubation extends User_Controller {
             // Begin Transaction
             // -------------------------------------------------
             $this->db->trans_begin();
-            
+
             // Upload Files Process
             $upload_path = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationproduct/' . $productdata->user_id;
             if( !file_exists($upload_path) ) { mkdir($upload_path, 0777, TRUE); }
-            
+
             $config = array(
                 'upload_path'       => $upload_path,
                 'allowed_types' => "jpg|jpeg|png",
@@ -7103,14 +7103,14 @@ class PraIncubation extends User_Controller {
                 'max_size'          => "2048000",
             );
             $this->load->library('MY_Upload', $config);
-            
+
             $file_thumbnail     = '';
             if( !empty($_FILES['reg_thumbnail']['name']) ){
                 //unlink($thumbnail_product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_thumbnail') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -7119,16 +7119,16 @@ class PraIncubation extends User_Controller {
                 $upload_thumbnail       = $upload_data_thumbnail['raw_name'] . $upload_data_thumbnail['file_ext'];
                 $this->image_moo->load($upload_path . '/' .$upload_data_thumbnail['file_name'])->resize_crop(800,600)->save($upload_path. '/' .$upload_thumbnail, TRUE);
                 $this->image_moo->clear();
-                $file_thumbnail         = $upload_data_thumbnail;    
+                $file_thumbnail         = $upload_data_thumbnail;
             }
-            
+
             $file_details       = '';
             if( !empty($_FILES['reg_details']['name']) ){
                 //unlink($product_image);
-                
+
                 if( ! $this->my_upload->do_upload('reg_details') ){
                     $message = $this->my_upload->display_errors();
-    
+
                     // Set JSON data
                     $data = array('message' => 'error','data' => $this->my_upload->display_errors());
                     die(json_encode($data));
@@ -7139,7 +7139,7 @@ class PraIncubation extends User_Controller {
                 $this->image_moo->clear();
                 $file_details           = $upload_data_details;
             }
-            
+
             if( !empty($file_thumbnail) && !empty($file_details) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -7154,7 +7154,7 @@ class PraIncubation extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                );    
+                );
             }elseif( !empty($file_thumbnail) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -7165,7 +7165,7 @@ class PraIncubation extends User_Controller {
                     'thumbnail_size'          => smit_isset($file_thumbnail['file_size'],0),
                     'datecreated'       => $curdate,
                     'datemodified'      => $curdate,
-                ); 
+                );
             }elseif( !empty($file_details) ){
                 $product_data           = array(
                     'title'             => $event_title,
@@ -7185,7 +7185,7 @@ class PraIncubation extends User_Controller {
                     'datemodified'      => $curdate,
                 );
             }
-            
+
             // -------------------------------------------------
             // Edit Incubation Selection
             // -------------------------------------------------
@@ -7377,7 +7377,7 @@ class PraIncubation extends User_Controller {
                 // Status
                 $btn_action = '<a href="'.base_url('prainkubasi/produk/detail/'.$row->uniquecode).'" class="sliderdetailset btn btn-xs btn-primary waves-effect tooltips" id="btn_produk_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
                 $btn_action .= ' ';
-                
+
                 if($row->status == NONACTIVE)   {
                     $status         = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>';
                     $btn_action     .= '<a href="'.base_url('produkconfirm/active/'.$row->uniquecode).'" class="produkconfirm btn btn-xs btn-success tooltips waves-effect" data-placement="left" title="Aktif"><i class="material-icons">done</i></a>';
@@ -7412,7 +7412,7 @@ class PraIncubation extends User_Controller {
                     smit_center('<input name="producteditlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
-                    strtoupper($row->name), 
+                    strtoupper($row->name),
                     strtoupper($row->event_title),
                     '<a href="'.base_url('produk/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     $product,
@@ -7426,14 +7426,14 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $producteditlist        = $_REQUEST['producteditlist'];
-            
+
             $proses                 = $this->producteditproses($sGroupActionName, $producteditlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -7442,7 +7442,7 @@ class PraIncubation extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Product Edit Proses function.
 	 */
@@ -7551,7 +7551,7 @@ class PraIncubation extends User_Controller {
 
         $this->load->view(VIEW_BACK . 'template', $data);
     }
-    
+
     /**
     * Product Edit function.
     */
@@ -7615,7 +7615,7 @@ class PraIncubation extends User_Controller {
             'UploadFiles.init();',
             'ProductValidation.init();',
         ));
-        
+
         $productdata               = '';
         if( !empty($uniquecode) ){
             $productdata        = $this->Model_Praincubation->get_all_product(0, 0, ' WHERE %uniquecode% LIKE "'.$uniquecode.'"');
@@ -7972,14 +7972,14 @@ class PraIncubation extends User_Controller {
 
         $end                = $iDisplayStart + $iDisplayLength;
         $end                = $end > $iTotalRecords ? $iTotalRecords : $end;
-        
+
         if (isset($_REQUEST["sAction"]) && $_REQUEST["sAction"] == "group_action") {
             $sGroupActionName       = $_REQUEST['sGroupActionName'];
             $reportlist             = $_REQUEST['reportlist'];
-            
+
             $proses                 = $this->reportlistproses($sGroupActionName, $reportlist);
-            $records["sStatus"]     = $proses['status']; 
-            $records["sMessage"]    = $proses['message']; 
+            $records["sStatus"]     = $proses['status'];
+            $records["sMessage"]    = $proses['message'];
         }
 
         $records["sEcho"]                   = $sEcho;
@@ -7988,7 +7988,7 @@ class PraIncubation extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Reprt List Proses function.
 	 */
@@ -8044,7 +8044,7 @@ class PraIncubation extends User_Controller {
         );
         return $response;
     }
-    
+
     /**
 	 * Report Download File function.
 	 */
@@ -8056,7 +8056,7 @@ class PraIncubation extends User_Controller {
         // Check Report File Data
         $reportdata     = $this->Model_Praincubation->get_all_reportpraincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];
-          
+
         if( !$reportdata || empty($reportdata) ){
             redirect( current_url() );
         }

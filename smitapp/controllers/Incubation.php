@@ -2848,7 +2848,7 @@ class Incubation extends User_Controller {
 
         // Get All Guides Filed
         $guide_files            = $this->Model_Guide->get_all_guides();
-        $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4');
+        $juri_list              = $this->Model_User->get_all_user(0,0,' WHERE %type% = 4 AND %status% = 1');
 
         $data['title']          = TITLE . 'Details Pengaturan Seleksi Inkubasi';
         $data['user']           = $current_user;
