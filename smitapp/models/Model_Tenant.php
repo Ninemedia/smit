@@ -194,7 +194,6 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%year%",                 "A.year", $conditions);
             $conditions = str_replace("%address%",              "A.address", $conditions);
             $conditions = str_replace("%position%",             "A.position", $conditions);
-            $conditions = str_replace("%status%",               "A.status", $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
             $conditions = str_replace("%companion_id%",         "A.companion_id", $conditions);
@@ -214,7 +213,6 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
             $order_by   = str_replace("%address%",              "A.address",  $order_by);
             $order_by   = str_replace("%position%",             "A.position",  $order_by);
-            $order_by   = str_replace("%status%",               "A.status",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
             $order_by   = str_replace("%companion_id%",         "A.companion_id",  $order_by);

@@ -639,9 +639,9 @@ class Tenant extends User_Controller {
     function tenantlistdata( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = '';
+        $condition          = ' WHERE %status% <> 3';
         if( !$is_admin ){
-            $condition      = ' WHERE %user_id% = '.$current_user->id.'';
+            $condition      = ' WHERE %user_id% = '.$current_user->id.' AND %status% <> 3';
         }
 
         $order_by           = '';
