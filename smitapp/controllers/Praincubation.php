@@ -636,9 +636,13 @@ class PraIncubation extends User_Controller {
         }
 
         $file_name      = $praincubation_files->filename . '.' . $praincubation_files->extension;
-        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->uploader . '/' . $file_name;
-
-        force_download($file_name, $file_url);
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->user_id . '/' . $file_name;
+        
+        if( file_exists( $file_url ) ){
+            force_download($file_name, $file_url);
+        }else{
+            redirect( base_url('beranda') );
+        }
     }
 
     /**
