@@ -683,7 +683,11 @@ class Incubation extends User_Controller {
         $file_name      = $incubation_files->filename . '.' . $incubation_files->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/incubationselection/' . $incubation_files->uploader . '/' . $file_name;
 
-        force_download($file_name, $file_url);
+        if( file_exists( $file_url ) ){
+            force_download($file_name, $file_url);
+        }else{
+            redirect( base_url('beranda') );
+        }
     }
 
     /**
