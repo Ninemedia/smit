@@ -438,6 +438,15 @@ class Frontend extends Public_Controller {
             die(json_encode($data));
         }
         */
+        
+        $workunit_id            = $userdata->workunit;
+        $workunit_data_check    = $this->Model_User->get_workunit($workunit_id);
+        $status_workunit        = $workunit_data_check->status;
+        if( $status_workunit != 0 || !empty($status_workunit) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Username anda bukan dari NON LIPI. Hanya username dengan status user dari NON LIPI yang dapat melakukan seleksi Inkubasi.');
+            die(json_encode($data));
+        }
 
         // -------------------------------------------------
         // Check Setting
