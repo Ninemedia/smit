@@ -1324,10 +1324,16 @@ var SettingValidation = function () {
                 reg_workunit: {
                     required: true,
                 },
+                reg_status: {
+                    required: true,
+                },
             },
             messages: {
                 reg_workunit: {
                     required: 'Nama Satuan Kerja harus di isi',
+                },
+                reg_status: {
+                    required: 'Status Satuan Kerja harus di isi',
                 },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

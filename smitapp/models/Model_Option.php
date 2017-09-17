@@ -63,10 +63,12 @@ class Model_Option extends SMIT_Model{
     function get_all_workunit($limit=0, $offset=0, $conditions='', $order_by=''){
         if( !empty($conditions) ){
             $conditions = str_replace("%workunit_name%",        "workunit_name", $conditions);
+            $conditions = str_replace("%status%",               "status", $conditions);
         }
         
         if( !empty($order_by) ){
             $order_by   = str_replace("%workunit_name%",        "workunit_name", $order_by);
+            $order_by   = str_replace("%status%",               "status",  $order_by);
         }
         
         $sql = 'SELECT * FROM ' . $this->workunit. '';

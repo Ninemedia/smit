@@ -66,6 +66,14 @@ $config['user_status']              = array(
 );
 
 /**
+ * User Workunit Status
+ */
+$config['user_workunit_status']              = array(
+    NONACTIVE                       => 'NON LIPI',
+    ACTIVE                          => 'LIPI',
+);
+
+/**
  * Status
  */
 $config['files_status']             = array(

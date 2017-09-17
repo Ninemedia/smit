@@ -40,6 +40,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Status <b style="color: red !important;">(*)</b></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
+                            <div class="form-line">
+                                <input type="hidden" name="reg_id_workunit" id="reg_id_workunit" value="" />
+                                <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
                     <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
                 </div>
                 <?php echo form_close(); ?>
@@ -213,14 +223,28 @@
                         						<tr role="row" class="heading bg-blue">
 													<th class="width5 text-center"><input name="select_all" id="workunit_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="workunit_all"></label></th>
 					    							<th class="width5 text-center">No</th>
-                        							<th class="width75 text-center">Nama Satuan Kerja</th>
+                        							<th class="width50 text-center">Nama Satuan Kerja</th>
+                        							<th class="width25 text-center">Status</th>
                         							<th class="width20 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
                    						        </tr>
                                                 <tr role="row" class="filter display-hide table-filter">
                         							<td></td>
 													<td></td>
                         							<td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_workunit" /></td>
-                        							<td style="text-align: center;">
+                                                    <td>
+                                                        <select name="search_status" class="form-control form-filter input-sm def">
+                        									<option value="">Pilih...</option>
+                        									<?php
+                        			                        	$status = smit_workunit_status();
+                        			                            if( !empty($status) ){
+                        			                                foreach($status as $key => $val){
+                        			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
+                        			                                }
+                        			                            }
+                        			                        ?>
+                        								</select>
+                                                    </td>
+                                                    <td style="text-align: center;">
                         								<button class="btn bg-blue waves-effect filter-submit" id="btn_workunit_list">Search</button>
                                                         <button class="btn bg-red waves-effect filter-cancel" id="btn_workunit_listreset">Reset</button>
                         							</td>
@@ -244,6 +268,24 @@
                                                             <div class="form-line">
                                                                 <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" placeholder="Masukan Nama Satuan Kerja" required>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                                                            <select class="form-control show-tick" name="reg_status" id="reg_status">
+                                                                <option value="">-- Pilih Status --</option>
+                                                                <?php
+                                    	                        	$status = smit_workunit_status();
+                                    	                            if( !empty($status) ){
+                                    	                                foreach($status as $key => $val){
+                            			                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
+                            			                                }
+                                    	                            }else{
+                                    	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+                                    	                            }
+                                    	                        ?>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary waves-effect" id="btn_add_workunit">Buat Satuan Kerja</button>

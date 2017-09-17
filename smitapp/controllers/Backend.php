@@ -1315,9 +1315,15 @@ class Backend extends User_Controller {
 
         $s_workunit         = $this->input->post('search_workunit');
         $s_workunit         = smit_isset($s_workunit, '');
+        $s_status           = $this->input->post('search_status');
+        $s_status           = smit_isset($s_status, '');
 
         if( !empty($s_workunit) )   { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit_name% LIKE "%%s%%"'); }
+        if( !empty($s_status) )     { $condition .= str_replace('%s%', $s_status, ' AND %status% = %s%'); }
+        
         if( $column == 1 )          { $order_by .= '%workunit_name% ' . $sort; }
+        elseif( $column == 2 )      { $order_by .= '%status% ' . $sort; }
+        
         $workunit_list      = $this->Model_Option->get_all_workunit($limit, $offset, $condition, $order_by);
 
         $records            = array();
@@ -1328,6 +1334,12 @@ class Backend extends User_Controller {
 
             $i = $offset + 1;
             foreach($workunit_list as $row){
+                if( $row->status > 0 ){
+                    $status     = "LIPI";
+                }else{
+                    $status     = "NON LIPI";
+                }
+                
                 // Button
                 $btn_action = '<a class="workunitedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->workunit_id.'" data-name="'.$row->workunit_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
                 $records["aaData"][] = array(
@@ -1335,6 +1347,7 @@ class Backend extends User_Controller {
                     <label for="cblist_workunit'.$row->workunit_id.'"></label>'),
                     smit_center($i),
                     $row->workunit_name,
+                    smit_center($status),
                     smit_center( $btn_action ),
                 );
                 $i++;
@@ -1376,12 +1389,15 @@ class Backend extends User_Controller {
         $curdate                = date('Y-m-d H:i:s');
 
         $workunit               = $this->input->post('reg_workunit');
-        $workunit                  = trim( smit_isset($workunit, "") );
+        $workunit               = trim( smit_isset($workunit, "") );
+        $status                 = $this->input->post('reg_status');
+        $status                 = trim( smit_isset($status, "") );
 
         // -------------------------------------------------
         // Check Form Validation
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_workunit','Nama Satuan Kerja','required');
+        $this->form_validation->set_rules('reg_status','Status Satuan Kerja','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
@@ -1399,7 +1415,8 @@ class Backend extends User_Controller {
 
         $workunit_data  = array(
             'workunit_name' => $workunit,
-            'workunit_slug' => smit_slug($workunit)
+            'workunit_slug' => smit_slug($workunit),
+            'status'        => $status
         );
 
         // -------------------------------------------------
