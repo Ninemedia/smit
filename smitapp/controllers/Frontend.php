@@ -709,6 +709,15 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi pra-inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
             die(json_encode($data));
         }
+        
+        $workunit_id    = $userdata->workunit;
+        $workunit_data_check    = $this->Model_User->get_workunit($workunit_id);
+        $status_workunit    = $workunit_data_check->status;
+        if( $status_workunit != 1 || !empty($status_workunit) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Username anda bukan dari LIPI. Hanya username dengan status user dari LIPI yang dapat melakukan seleksi Pra-Inkubasi.');
+            die(json_encode($data));
+        }
 
         // -------------------------------------------------
         // Check Agreement
