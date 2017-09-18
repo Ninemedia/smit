@@ -338,7 +338,8 @@ class Incubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
-        if( $action=='process' )    { $actiontxt = 'Proses Nilai'; $status = ACTIVE; }
+        //if( $action=='process' )    { $actiontxt = 'Proses Nilai'; $status = ACTIVE; }
+        if( $action=='delete' )     { $actiontxt = 'Hapus'; $status = DELETED; }
         // -------------------------------------------------
         // Begin Transaction
         // -------------------------------------------------
@@ -347,6 +348,36 @@ class Incubation extends User_Controller {
         $data = (object) $data;
         foreach( $data as $key => $id ){
             // Check Data Incubation Selection
+            
+            $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
+            $order_by   = ' %id% ASC';
+            $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
+            if( !$incseldata || empty($incseldata) ){
+                continue;
+            }
+            $incseldata  = $incseldata[0];
+            
+            if( $status ==  DELETED){
+                $incselupdatedata   = array(
+                    'view'          => DELETED,
+                    'datemodified'  => $curdate,
+                );    
+            }else{
+                $incselupdatedata   = array(
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );    
+            }
+
+            if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
+                continue;
+            }
+            
+            if( $status != DELETED ){
+                $this->smit_email->send_email_selection_confirmation_step1($incseldata);    
+            }
+            
+            /*
             if($action=='confirm'){
                 $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
                 $order_by   = ' %id% ASC';
@@ -417,6 +448,8 @@ class Incubation extends User_Controller {
                     }
                 }
             }
+            
+            */
         }
 
         // Commit Transaction

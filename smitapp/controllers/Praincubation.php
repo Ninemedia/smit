@@ -805,7 +805,10 @@ class PraIncubation extends User_Controller {
             if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
                 continue;
             }
-            $this->smit_email->send_email_selection_confirmation_step1($praincseldata);
+            
+            if( $status != DELETED ){
+                $this->smit_email->send_email_selection_confirmation_step1($praincseldata);    
+            }
         }
 
         // Commit Transaction
