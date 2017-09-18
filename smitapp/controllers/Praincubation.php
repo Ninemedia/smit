@@ -226,7 +226,7 @@ class PraIncubation extends User_Controller {
     function praincubationlistdatastep1( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE step = 1 ';
+        $condition          = ' WHERE %step% = 1 AND %view% = 1';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -772,6 +772,7 @@ class PraIncubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        if( $action=='delete' )     { $actiontxt = 'Hapus'; $status = DELETED; }
 
         // -------------------------------------------------
         // Begin Transaction
@@ -788,11 +789,19 @@ class PraIncubation extends User_Controller {
                 continue;
             }
             $praincseldata  = $praincseldata[0];
-
-            $praincselupdatedata    = array(
-                'status'        => $status,
-                'datemodified'  => $curdate,
-            );
+            
+            if( $status == DELETED ){
+                $praincselupdatedata    = array(
+                    'view'          => NONACTIVE,
+                    'datemodified'  => $curdate,
+                );    
+            }else{
+                $praincselupdatedata    = array(
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );    
+            }
+            
             if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
                 continue;
             }

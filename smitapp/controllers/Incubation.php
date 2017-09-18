@@ -122,7 +122,7 @@ class Incubation extends User_Controller {
     function incubationlistdatastep1( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE step = 1 ';
+        $condition          = ' WHERE %step% = 1 AND %view% = 1';
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -217,7 +217,7 @@ class Incubation extends User_Controller {
 
                 if( !empty($is_admin) ){
                     $records["aaData"][] = array(
-                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status == 1 || $row->status == 4 ? 'disabled="disabled"' : '' ).'/>
+                        smit_center('<input name="selectionlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status > 0 ? 'disabled="disabled"' : '' ).'/>
                         <label for="cblist'.$row->id.'"></label>'),
                         smit_center( $i ),
                         smit_center( $year ),
