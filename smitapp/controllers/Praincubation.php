@@ -402,7 +402,7 @@ class PraIncubation extends User_Controller {
     function praincubationlistdatastep2( ){
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
-        $condition          = ' WHERE steptwo = 2 ';
+        $condition          = ' WHERE %steptwo% = 2 AND %view% = 1';
 
         $order_by           = '';
         $iTotalRecords      = 0;
