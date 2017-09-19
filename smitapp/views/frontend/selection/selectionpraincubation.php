@@ -71,7 +71,7 @@
                         <div class="body">
                             <?php echo form_open_multipart( 'frontend/praincubationselection', array( 'id'=>'selectionpraincubation', 'role'=>'form' ) ); ?>
                                 <div class="form-group form-float">
-                                    <div id="alert" class="alert display-hide"></div>
+                                    
                                     <section id="account_selection">
                                         <div class="body bg-teal bottom30">
                                             <?php echo get_option('be_frontend_praincubation_note'); ?>
@@ -148,6 +148,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="alert" class="alert display-hide"></div>
                                         <h4 class="bottom10">Dokumen Panduan &amp; Proposal Seleksi Inkubasi</h4>
                                         <?php
                                             $guide_files_ids    = $lss->selection_files;
@@ -164,6 +165,7 @@
                                                 echo '<strong>Tidak ada berkas panduan</strong>';
                                             }
                                         ?>
+                                        
                                         <h4>Data Profil Pengguna</h4>
                                         <div class="input-group">
                                             <label class="form-label">Username Pengguna <b style="color: red !important;">(*)</b></label>

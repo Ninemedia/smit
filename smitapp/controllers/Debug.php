@@ -145,6 +145,66 @@ class Debug extends Public_Controller {
         echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
 	}
     
+    public function getselection($uniquecode, $selection){
+        set_time_limit( 0 );
+		$this->benchmark->mark('started');
+        echo "<pre>";
+        
+        $condition          = ' WHERE %uniquecode% = "'.$uniquecode.'"';
+        if( $selection == "pra" ){
+            $data_selection         = $this->Model_Praincubation->get_all_praincubation(0, 0, $condition, '');    
+        }else{
+            $data_selection         = $this->Model_Incubation->get_all_incubation(0, 0, $condition, '');
+        }
+        
+        print_r($data_selection);
+        
+        $this->benchmark->mark('ended');
+		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
+
+        echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
+    }
+    
+    public function setrateselection($selection_id, $selection){
+        set_time_limit( 0 );
+		$this->benchmark->mark('started');
+        echo "<pre>";
+        
+        
+        if( $selection == "pra" ){
+            $data_selection         = $this->Model_Praincubation->get_praincubation($selection_id);
+            $all_rate_total         = $this->Model_Praincubation->get_praincubation_rate_step1_total($selection_id);
+            $all_rate_count         = $this->Model_Praincubation->get_praincubation_rate_step1_count($selection_id);
+            $average_score          = round( ( $all_rate_total ) /  ( $all_rate_count ) );
+            $data_selection_update  = array(
+                'score'             => $all_rate_total,
+                'average_score'     => $average_score,
+            );
+            $update_data            = $this->Model_Praincubation->update_data_praincubation($data_selection->id, $data_selection_update);    
+        }else{
+            $data_selection         = $this->Model_Incubation->get_incubation($selection_id);
+            $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step1_total($selection_id);
+            $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step1_count($selection_id);
+            $average_score          = round( ( $all_rate_total ) /  ( $all_rate_count ) );
+            $data_selection_update  = array(
+                'score'             => $all_rate_total,
+                'average_score'     => $average_score,
+            );
+            $update_data            = $this->Model_Praincubation->update_data_incubation($data_selection->id, $data_selection_update); 
+        }
+        
+        if( !empty($update_data) ){
+            print_r("Success = ".$average_score);    
+        }else{
+            print_r("Not Success");
+        }
+        
+        $this->benchmark->mark('ended');
+		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
+
+        echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
+    }
+    
     /**
      * Test Function
      */
@@ -163,7 +223,6 @@ class Debug extends Public_Controller {
             }
         }
         */
-        $rate_total             = 70;
         $selection_id           = 2;
         $all_rate_total         = $this->Model_Praincubation->get_praincubation_rate_step1_total($selection_id);
         $all_rate_count         = $this->Model_Praincubation->get_praincubation_rate_step1_count($selection_id);
