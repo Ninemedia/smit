@@ -1498,74 +1498,97 @@ class User extends SMIT_Controller {
         $data                   = '';
         $info                   = smit_alert('Username dan Password tidak boleh kosong. Silahkan ketik Username dan Password anda!');
         
+        $status                 = true;
         if( !empty($username) ){
             $userdata           = $this->Model_User->get_user_by('login', strtolower($username));
             $this->Model_User->decode_password( $userdata );
-        
+            
+            $workunit_id        = $userdata->workunit;
+            $workunitdata       = $this->Model_User->get_workunit($workunit_id);
+
             if( !$userdata ) {
                 $message        = 'error';
                 $info           = smit_alert('Username invalid atau belum terdaftar.');
             }else{
-                if( empty($password) ){
-                    $message    = 'error';
-                    $info       = smit_alert('Silahkan masukkan password pengguna Anda');
-                }elseif( md5( $password ) != md5( $userdata->password ) ){
-                    $message    = 'error';
-                    $info       = smit_alert('Password yang Anda masukkan salah');
-                }else{
-                    if($userdata->type == 1){
-                        $message    = 'error';
-                        $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran seleksi');
-                    }else{
-                        // Check if username has been registeren on selection selection
-                        $user_selection     = '';
-                        if( $selection == 'praincubation' ){
-                            $user_selection = $this->Model_Praincubation->get_all_praincubation('', '', ' WHERE year = '.$year.' AND user_id = '.$userdata->id.'');
-                        }
-                        /*
-                        else{
-                            $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
-                        }
-                        */
-
-                        if( $user_selection || !empty($user_selection) ){
-                            $message    = 'error';
-                            $info       = smit_alert('Username sudah terdaftar dalam seleksi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
-                        }else{
-                            $message    = 'success';
-                            $info       = smit_alert('Data anda ditemukan, Anda dapat mengisi formulir pendaftaran kegiatan.');
-                            $data      .= '
-                            <input type="hidden" name="user_id" class="form-control" value="'.$userdata->id.'" />
-                            <div class="form-group form-float">
-                                <label class="form-label">Nama Pengguna </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">person</i></span>
-                                    <div class="form-line">
-                                        <input type="text" name="name" id="name" class="form-control" placeholder="Nama Pengguna" disabled="" value="'.strtoupper($userdata->name).'" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label">Email Pengguna </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">email</i></span>
-                                    <div class="form-line">
-                                        <input type="text" name="email" id="email"  class="form-control" placeholder="Email Pengguna" disabled="" value="'.$userdata->email.'" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label">Telp Pengguna </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="material-icons">phone</i></span>
-                                    <div class="form-line">
-                                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Telp Pengguna" disabled="" value="'.$userdata->phone.'" />
-                                    </div>
-                                </div>
-                            </div>';
-                        }   
+                if( $selection == "incubation" ){
+                    if( $workunitdata->status != 0 ){
+                        $message        = 'error';
+                        $info           = smit_alert('Maaf, Kegiatan Seleksi Inkubasi hanya bisa dilakukan oleh NON LIPI. Untuk saat ini anda bukan bagian dari NON LIPI');
+                        $status         = false;
                     }
                 }
+                if ($selection == "praincubation" ){
+                    if( $workunitdata->status != 1 ){
+                        $message        = 'error';
+                        $info           = smit_alert('Maaf, Kegiatan Seleksi Pra-Inkubasi hanya bisa dilakukan oleh LIPI. Untuk saat ini anda bukan bagian dari LIPI');
+                        $status         = false;
+                    }
+                }
+                
+                if( $status != false ){
+                    if( empty($password) ){
+                        $message    = 'error';
+                        $info       = smit_alert('Silahkan masukkan password pengguna Anda');
+                    }elseif( md5( $password ) != md5( $userdata->password ) ){
+                        $message    = 'error';
+                        $info       = smit_alert('Password yang Anda masukkan salah');
+                    }else{
+                        if($userdata->type == 1){
+                            $message    = 'error';
+                            $info       = smit_alert('Administrator tidak perlu melakukan pendaftaran seleksi');
+                        }else{
+                            // Check if username has been registeren on selection selection
+                            $user_selection     = '';
+                            if( $selection == 'praincubation' ){
+                                $user_selection = $this->Model_Praincubation->get_all_praincubation('', '', ' WHERE year = '.$year.' AND user_id = '.$userdata->id.'');
+                            }
+                            /*
+                            else{
+                                $user_selection = $this->Model_Incubation->get_incubation_by('userid',$userdata->id);
+                            }
+                            */
+    
+                            if( $user_selection || !empty($user_selection) ){
+                                $message    = 'error';
+                                $info       = smit_alert('Username sudah terdaftar dalam seleksi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
+                            }else{
+                                $message    = 'success';
+                                $info       = smit_alert('Data anda ditemukan, Anda dapat mengisi formulir pendaftaran kegiatan.');
+                                $data      .= '
+                                <input type="hidden" name="user_id" class="form-control" value="'.$userdata->id.'" />
+                                <div class="form-group form-float">
+                                    <label class="form-label">Nama Pengguna </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">person</i></span>
+                                        <div class="form-line">
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Nama Pengguna" disabled="" value="'.strtoupper($userdata->name).'" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label">Email Pengguna </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">email</i></span>
+                                        <div class="form-line">
+                                            <input type="text" name="email" id="email"  class="form-control" placeholder="Email Pengguna" disabled="" value="'.$userdata->email.'" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label">Telp Pengguna </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="material-icons">phone</i></span>
+                                        <div class="form-line">
+                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Telp Pengguna" disabled="" value="'.$userdata->phone.'" />
+                                        </div>
+                                    </div>
+                                </div>';
+                            }   
+                        }
+                    }    
+                }
+                
+                
             }
         }
 
