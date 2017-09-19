@@ -3712,7 +3712,8 @@ class Incubation extends User_Controller {
                 // Update Pra-Incubation Score
                 $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step1_total($selection_id);
                 $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step1_count($selection_id);
-                $average_score          = round( ( $all_rate_total + $rate_total ) /  ( $all_rate_count + 1 ) );
+                //$average_score          = round( ( $all_rate_total + $rate_total ) /  ( $all_rate_count + 1 ) );
+                $average_score          = round( $all_rate_total  /  $all_rate_count );
 
                 $data_selection_update  = array(
                     'score'             => $all_rate_total,
@@ -3991,7 +3992,8 @@ class Incubation extends User_Controller {
                 // Update Pra-Incubation Score
                 $all_rate_total         = $this->Model_Incubation->get_incubation_rate_step2_total($data_selection->id);
                 $all_rate_count         = $this->Model_Incubation->get_incubation_rate_step2_count($data_selection->id);
-                $average_score          = round( ( $all_rate_total + $rate_total2 ) /  ( $all_rate_count + 1 ) );
+                //$average_score          = round( ( $all_rate_total + $rate_total2 ) /  ( $all_rate_count + 1 ) );
+                $average_score          = round( $all_rate_total  /  $all_rate_count );
 
                 $data_selection_update  = array(
                     'scoretwo'          => $all_rate_total,

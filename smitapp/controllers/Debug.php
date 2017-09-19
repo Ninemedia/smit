@@ -153,6 +153,7 @@ class Debug extends Public_Controller {
 		$this->benchmark->mark('started');
         echo "<pre>";
         
+        /*
         $tenant_list    = $this->Model_Tenant->get_all_tenant();
         if( !empty($tenant_list) ){
             foreach($tenant_list as $row){
@@ -161,6 +162,16 @@ class Debug extends Public_Controller {
                 $this->Model_Tenant->update_data($row->id, $data_update);
             }
         }
+        */
+        $rate_total             = 70;
+        $selection_id           = 2;
+        $all_rate_total         = $this->Model_Praincubation->get_praincubation_rate_step1_total($selection_id);
+        $all_rate_count         = $this->Model_Praincubation->get_praincubation_rate_step1_count($selection_id);
+        $average_score          = round( ( $all_rate_total ) /  ( $all_rate_count ) );
+        
+
+        print_r($average_score);
+        die();
         
         $this->benchmark->mark('ended');
 		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
