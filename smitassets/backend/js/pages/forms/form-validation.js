@@ -1357,6 +1357,47 @@ var SettingValidation = function () {
                 $('#save_workunit').modal('show');
             }
         });
+        
+        $('#workunitedit').validate({
+            focusInvalid: true, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                reg_workunit_edit: {
+                    required: true,
+                },
+                reg_status_edit: {
+                    required: true,
+                },
+            },
+            messages: {
+                reg_workunit_edit: {
+                    required: 'Nama Satuan Kerja harus di isi',
+                },
+                reg_status_edit: {
+                    required: 'Status Satuan Kerja harus di isi',
+                },
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                $('.alert-danger', $(this)).fadeIn().delay(3000).fadeOut();
+            },
+            highlight: function (element) { // hightlight error inputs
+                console.log(element);
+                $(element).parents('.form-line').addClass('error'); // set error class to the control group
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-line').removeClass('error');
+            },
+            success: function (label) {
+                label.closest('.form-line').removeClass('error');
+                label.remove();
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            },
+            submitHandler: function (form) {
+                $('#do_edit_workunit').trigger('click');
+            }
+        });
     };
 
     var handleSettingCategoryValidation = function(){

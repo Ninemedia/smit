@@ -1487,6 +1487,7 @@ class Backend extends User_Controller {
         // -------------------------------------------------
         $this->form_validation->set_rules('reg_id_workunit_edit','ID Satuan Kerja','required');
         $this->form_validation->set_rules('reg_workunit_edit','Nama Satuan Kerja','required');
+        $this->form_validation->set_rules('reg_status_edit','Status Satuan Kerja','required');
 
         $this->form_validation->set_message('required', '%s harus di isi');
         $this->form_validation->set_error_delimiters('', '');
