@@ -324,13 +324,19 @@ $("body").delegate( "a.notespradelete", "click", function( event ) {
 $("body").delegate( "a.workunitedit", "click", function( event ) {
     event.preventDefault();
 
+    var form    = $('#workunitedit');
     var id      = $(this).data('id');
     var name    = $(this).data('name');
-    var el_id   = $('#reg_id_workunit');
-    var el_name = $('#reg_workunit');
-
+    var stat    = $(this).data('status');
+    var el_id   = $('#reg_id_workunit_edit', form);
+    var el_name = $('#reg_workunit_edit', form);
+    var el_stat = $('#reg_status_edit', form);
+    
     el_id.val(id);
     el_name.val(name);
+    
+    $(el_stat).val(stat);
+    $(el_stat).selectpicker('render');
 
     $('#edit_workunit').modal('show');
 });

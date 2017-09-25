@@ -2310,13 +2310,12 @@ var App = function() {
         var processEditWorkunit = function( form ) {
             var url     = form.attr( 'action' );
             var data    = new FormData(form[0]);
-            var table_container = $('#workunitedit').parents('.dataTables_wrapper');
+            var table_container = $('#workunit_list').parents('.dataTables_wrapper');
 
             $.ajax({
     			type : "POST",
     			url  : url,
     			data : data,
-
                 cache : false,
                 contentType : false,
                 processData : false,

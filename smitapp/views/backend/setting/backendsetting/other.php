@@ -35,22 +35,30 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                             <div class="form-line">
-                                <input type="hidden" name="reg_id_workunit" id="reg_id_workunit" value="" />
-                                <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" required>
+                                <input type="hidden" name="reg_id_workunit_edit" id="reg_id_workunit_edit" value="" />
+                                <input type="text" name="reg_workunit_edit" id="reg_workunit_edit" class="form-control" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Status <b style="color: red !important;">(*)</b></label>
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="material-icons">subject</i></span>
-                            <div class="form-line">
-                                <input type="hidden" name="reg_id_workunit" id="reg_id_workunit" value="" />
-                                <input type="text" name="reg_workunit" id="reg_workunit" class="form-control" required>
-                            </div>
+                            <span class="input-group-addon"><i class="material-icons">assignment</i></span>
+                            <select class="form-control show-tick" name="reg_status_edit" id="reg_status_edit">
+                                <option value="">-- Pilih Status --</option>
+                                <?php
+    	                        	$status = smit_workunit_status();
+    	                            if( !empty($status) ){
+    	                                foreach($status as $key => $val){
+		                                    echo '<option value="'.$key.'">'.strtoupper($val).'</option>';
+		                                }
+    	                            }else{
+    	                                echo '<option value="">-- Tidak Ada Pilihan --</option>';
+    	                            }
+    	                        ?>
+                            </select>
                         </div>
                     </div>
-                    <!-- <button type="button" class="btn btn-danger waves-effect" id="btn_workunit_reset">Bersihkan</button> -->
                 </div>
                 <?php echo form_close(); ?>
             </div>
