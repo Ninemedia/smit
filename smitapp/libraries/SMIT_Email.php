@@ -242,7 +242,7 @@ class SMIT_Email
         $mail_message->plain	= $message;
         $mail_message->html		= $html_message;
 		
-		return $this->send( $to, 'Konfirmasi Seleksi Pra-Inkubasi', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
+		return $this->send( $to, 'Konfirmasi Kegiatan Seleksi ', $mail_message, get_option( 'mail_sender_admin' ), 'Admin ' . get_option( 'company_name' ) );
 	}
     
     /**

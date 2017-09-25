@@ -148,6 +148,7 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -1935,7 +1936,7 @@ class Incubation extends User_Controller {
                         $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep1/'.$row->uniquecode).'"
                         class="btn_scorestep1 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
-                        $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                        //$btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
@@ -2165,7 +2166,7 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
-        $condition          = ' WHERE steptwo = 2 AND A.status <> 0';
+        $condition          = ' WHERE %steptwo% <> 0';
 
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
@@ -2240,7 +2241,7 @@ class Incubation extends User_Controller {
                         $btn_score  = '<a href="'.base_url('seleksiinkubasi/konfirmasistep2/'.$row->uniquecode).'"
                         class="btn_scorestep2 btn btn-xs btn-success waves-effect tooltips" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }else{
-                        $btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
+                        //$btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
                     class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
