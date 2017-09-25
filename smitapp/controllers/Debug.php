@@ -123,6 +123,36 @@ class Debug extends Public_Controller {
     /**
 	 * Update User Basic Type
 	 */
+	public function statusselection( $uniquecode, $selection ) {
+        set_time_limit( 0 );
+		$this->benchmark->mark('started');
+        echo "<pre>";
+        
+        if($selection == "pra"){
+            $selectiondata  = $this->Model_Praincubation->get_all_praincubation(0,0, " WHERE %uniquecode% LIKE '".$uniquecode."'");
+            $selectiondata  = $selectiondata[0];
+            $update_data    = $this->Model_Praincubation->update_data_praincubation($uniquecode, array('status' => 0));
+        }else{
+            $selectiondata  = $this->Model_Incubation->get_all_incubation(0,0, " WHERE %uniquecode% LIKE '".$uniquecode."'");
+            $selectiondata  = $selectiondata[0];
+            $update_data    = $this->Model_Incubation->update_data_incubation($uniquecode, array('status' => 0));
+        }
+        
+        if( $update_data ){
+            echo "Success";
+        }else{
+            echo "Failed";
+        }
+        
+        $this->benchmark->mark('ended');
+		$elapsed_time = $this->benchmark->elapsed_time('started', 'ended');
+
+        echo br(2) . 'Elapsed Time: ' . $elapsed_time . ' seconds' . '</pre>';
+	}
+    
+    /**
+	 * Update User Basic Type
+	 */
 	public function basictype() {
         set_time_limit( 0 );
 		$this->benchmark->mark('started');
