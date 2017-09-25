@@ -2537,7 +2537,8 @@ class PraIncubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
-        $condition          = ' WHERE steptwo = 2 AND A.status <> 0';
+        $condition          = ' WHERE %statustwo% <> 0 ';
+        //$condition          = ' WHERE %steptwo% = 1 AND A.status <> 0';
 
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);

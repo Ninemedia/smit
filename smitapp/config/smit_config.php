@@ -121,7 +121,7 @@ $config['incsel_status']            = array(
     CONFIRMED                       => 'Dikonfirmasi',
     RATED                           => 'Dinilai',
     ACCEPTED                        => 'Masuk Tahap 2',
-    REJECTED                        => 'Berkas Ditolak',
+    REJECTED                        => 'Tidak Lulus',
 );
 
 // Tahap 2
