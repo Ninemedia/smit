@@ -1135,7 +1135,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     function count_all_list($status ){
         if ( $status == NOTCONFIRMED )  { $this->db->where('status', $status); }
-        $this->db->where('status', 1);
+        $this->db->where('view', 1);
 
         $query = $this->db->get($this->praincubation_selection);
 

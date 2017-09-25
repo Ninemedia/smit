@@ -499,6 +499,7 @@ class Frontend extends Public_Controller {
                 'category'      => $category,
                 'step'          => ONE,
                 'status'        => NONACTIVE,
+                'view'          => ACTIVE,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );
@@ -707,18 +708,36 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.');
             die(json_encode($data));
         }
+        
+        // -------------------------------------------------
+        // Check Agreement
+        // -------------------------------------------------
+        $praincset     = smit_latest_praincubation_setting();
+        if( !$praincset || empty($praincset) ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Tidak ada data pengaturan seleksi');
+            // JSON encode data
+            die(json_encode($data));
+        }
+        if( $praincset->status == 0 ){
+            // Set JSON data
+            $data = array('message' => 'error','data' => 'Pengaturan seleksi sudah ditutup');
+            // JSON encode data
+            die(json_encode($data));
+        }
 
         // -------------------------------------------------
         // Check User Selection
         // -------------------------------------------------
         // Check if username has been registeren on incubation selection
-        $user_selection = $this->Model_Praincubation->get_praincubation_by('userid',$userdata->id);
+        $user_selection = $this->Model_Praincubation->get_praincubation_by('userid', $userdata->id);
         if( $user_selection || !empty($user_selection) ){
             // Set JSON data
             $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi pra-inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
             die(json_encode($data));
         }
         
+        /*
         $workunit_id    = $userdata->workunit;
         $workunit_data_check    = $this->Model_User->get_workunit($workunit_id);
         $status_workunit    = $workunit_data_check->status;
@@ -727,23 +746,7 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Username anda bukan dari LIPI. Hanya username dengan status user dari LIPI yang dapat melakukan seleksi Pra-Inkubasi.');
             die(json_encode($data));
         }
-
-        // -------------------------------------------------
-        // Check Agreement
-        // -------------------------------------------------
-        $incset     = smit_latest_praincubation_setting();
-        if( !$incset || empty($incset) ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Tidak ada data pengaturan seleksi');
-            // JSON encode data
-            die(json_encode($data));
-        }
-        if( $incset->status == 0 ){
-            // Set JSON data
-            $data = array('message' => 'error','data' => 'Pengaturan seleksi sudah ditutup');
-            // JSON encode data
-            die(json_encode($data));
-        }
+        */
 
         // -------------------------------------------------
         // Check File
@@ -769,7 +772,7 @@ class Frontend extends Public_Controller {
             $praincubationselection_data = array(
                 'uniquecode'    => smit_generate_rand_string(10,'low'),
                 'year'          => $year,
-                'setting_id'    => $incset->id,
+                'setting_id'    => $praincset->id,
                 'user_id'       => $userdata->id,
                 'username'      => strtolower($username),
                 'name'          => $name,
@@ -778,6 +781,7 @@ class Frontend extends Public_Controller {
                 'category'      => $category,
                 'step'          => ONE,
                 'status'        => NONACTIVE,
+                'view'          => ACTIVE,
                 'datecreated'   => $curdate,
                 'datemodified'  => $curdate,
             );

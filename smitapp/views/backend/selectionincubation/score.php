@@ -28,7 +28,7 @@
                                         <!-- <a href="<?php echo base_url('seleksiinkubasi/konfirmasistep1'); ?>" class="btn btn-sm btn-success waves-effect incubationconfirmstep1"><i class="material-icons">done_all</i></a> -->
                                         <select class="table-group-action-input form-control input-inline input-small input-sm" disabled="disabled">
                 							<option value="">Select...</option>
-                							<option value="confirm">Konfirmasi</option>
+                							<option value="confirm">Proses Masuk Tahap 2</option>
                 						</select>
                 						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                                         <div class="btn-group">
