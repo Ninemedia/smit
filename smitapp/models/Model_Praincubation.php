@@ -1100,6 +1100,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     function count_all_scoreconfirm_step1($status = 0, $statustwo = 0){
         $this->db->where('status', $status);
+        $this->db->where('view', 1);
         if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
 
         $query = $this->db->get($this->praincubation_selection);
@@ -1116,6 +1117,7 @@ class Model_Praincubation extends SMIT_Model{
      * @return  Int of total rows user
      */
     function count_all_scoreconfirm_step2($statustwo = 0){
+        $this->db->where('view', 1);
         if ( $statustwo != 0 )  { $this->db->where('statustwo', $statustwo); }
 
         $query = $this->db->get($this->praincubation_selection);
@@ -1133,6 +1135,7 @@ class Model_Praincubation extends SMIT_Model{
      */
     function count_all_list($status ){
         if ( $status == NOTCONFIRMED )  { $this->db->where('status', $status); }
+        $this->db->where('status', 1);
 
         $query = $this->db->get($this->praincubation_selection);
 
