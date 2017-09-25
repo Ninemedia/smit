@@ -79,6 +79,28 @@
             </div>
         </div>
     </div>
+    
+    <!-- Notification selection for Admin  -->
+    <!--
+    <div class="panel panel-col-blue">
+        <div class="panel-heading" role="tab" id="heading_notif_selection_for_admin">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" href="#collapse_notif_selection_for_admin" aria-expanded="true" aria-controls="collapse_notif_selection_for_admin">
+                    <i class="material-icons">email</i> Format Email Notifikasi Seleksi untuk Administrator
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_notif_selection_for_admin" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_notif_selection_for_admin">
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control ckeditor" id="be_notif_selection_for_admin"><?php echo get_option('be_notif_selection_for_admin'); ?></textarea>
+                </div>
+                <button class="btn btn-success waves-effect btn-notif-registration" type="button" data-type="selection_for_admin" data-url="<?php echo base_url('backend/updatesettingbackend'); ?>">Simpan Pengaturan</button>
+                <button class="btn btn-info waves-effect btn-view-mail" type="button" data-content="be_notif_selection_for_admin">Lihat Surat</button>
+            </div>
+        </div>
+    </div>
+    -->
 
     <!-- Registration Confirm -->
     <div class="panel panel-col-blue">

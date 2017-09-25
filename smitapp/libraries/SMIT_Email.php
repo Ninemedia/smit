@@ -255,7 +255,7 @@ class SMIT_Email
         if ( !$to ) return false;
         if ( !$step ) return false;
         
-        $message    = trim( get_option('be_notif_rated_confirm') );
+        $message    = trim( get_option('be_notif_rated_selection') );
         $message    = str_replace("{%step%}", 'Proses penilaian Tahap '.$step, $message);
         
         $html_message           = smit_notification_template($message);

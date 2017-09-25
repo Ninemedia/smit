@@ -416,6 +416,8 @@ class Backend extends User_Controller {
             update_option('be_notif_registration_juri', $value);
         }elseif( $field == 'be_notif_registration_for_admin' ){
             update_option('be_notif_registration_for_admin', $value);
+        }elseif( $field == 'be_notif_selection_for_admin' ){
+            update_option('be_notif_selection_for_admin', $value);
             
         // Rated Notif Setting
         }elseif( $field == 'be_notif_rated_selection' ){

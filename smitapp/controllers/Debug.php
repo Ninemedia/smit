@@ -39,6 +39,8 @@ class Debug extends Public_Controller {
         $contact_title  = 'TES EMAIL';
         $contact_desc   = 'Apakah email saya masuk ? ';
 		$response   = $this->smit_email->send_email_contact( $to, $contact_name, $email, $contact_title, $contact_desc );
+        $step       = 1;
+        $response   = $this->smit_email->send_email_rated_confirmation( $to, $step );
 		if(is_array($response)) {
 			echo 'failed:' . br();
 			var_dump($response);
