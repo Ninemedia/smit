@@ -637,7 +637,7 @@ class PraIncubation extends User_Controller {
 
         $file_name      = $praincubation_files->filename . '.' . $praincubation_files->extension;
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/praincubationselection/' . $praincubation_files->user_id . '/' . $file_name;
-        
+
         if( file_exists( $file_url ) ){
             force_download($file_name, $file_url);
         }else{
@@ -789,25 +789,25 @@ class PraIncubation extends User_Controller {
                 continue;
             }
             $praincseldata  = $praincseldata[0];
-            
+
             if( $status == DELETED ){
                 $praincselupdatedata    = array(
                     'view'          => NONACTIVE,
                     'datemodified'  => $curdate,
-                );    
+                );
             }else{
                 $praincselupdatedata    = array(
                     'status'        => $status,
                     'datemodified'  => $curdate,
-                );    
+                );
             }
-            
+
             if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
                 continue;
             }
-            
+
             if( $status != DELETED ){
-                $this->smit_email->send_email_selection_confirmation_step1($praincseldata);    
+                $this->smit_email->send_email_selection_confirmation_step1($praincseldata);
             }
         }
 
