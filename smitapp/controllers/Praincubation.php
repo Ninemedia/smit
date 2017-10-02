@@ -2748,6 +2748,7 @@ class PraIncubation extends User_Controller {
         $s_title            = smit_isset($s_title, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
@@ -5461,7 +5462,7 @@ class PraIncubation extends User_Controller {
         $is_jury            = as_juri($current_user);
         $is_pengusul        = as_pengusul($current_user);
         $is_pelaksana       = as_pelaksana($current_user);
-        $condition          = '';
+        $condition          = ' WHERE %step% > 0';
 
         if( !empty($id) ){
             if(!empty($is_jury)){
@@ -5470,6 +5471,8 @@ class PraIncubation extends User_Controller {
                 $condition          = ' WHERE user_id = '. $current_user->id .' ';
             }
         }
+        
+        
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -5495,13 +5498,14 @@ class PraIncubation extends User_Controller {
         $s_score            = smit_isset($s_score, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% = %s%'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
         if( !empty($s_step) )           { $condition .= str_replace('%s%', $s_step, ' AND %step% = %s%'); }
@@ -6266,7 +6270,7 @@ class PraIncubation extends User_Controller {
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
 
-        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% LIKE "%%s%%"'); }
+        if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% = "%s%"'); }
         if( !empty($s_user_name) )      { $condition .= str_replace('%s%', $s_user_name, ' AND %user_name% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_workunit) )       { $condition .= str_replace('%s%', $s_workunit, ' AND %workunit% = "%s%"'); }
