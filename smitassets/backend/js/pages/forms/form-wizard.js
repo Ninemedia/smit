@@ -134,7 +134,7 @@ var Wizard = function () {
     // Details Selection Incubation Validation
     var handleDetailsSelectionIncubation = function(){
         var form = $('#details_selection_incubation');
-        formWizardValidateIncubation(form, 'details_selection_incubation');
+        formWizardValidateIncubationDetails(form, 'details_selection_incubation');
     };
 
     // Details Selection Pra Incubation Validation
@@ -423,8 +423,8 @@ var Wizard = function () {
             }
         });
     };
-
-    var formWizardValidateIncubation = function(form, id=''){
+    
+    var formWizardValidateIncubationDetails = function(form, id=''){
         form.validate({
             focusInvalid: true, // do not focus the last invalid input
             ignore: "",

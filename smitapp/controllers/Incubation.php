@@ -2828,11 +2828,6 @@ class Incubation extends User_Controller {
                 die(json_encode($data));
             }
 
-
-            echo '<pre>';
-            print_r($_POST);
-            die();
-
             $post_selection_year_publication        = $this->input->post('selection_year_publication');
             $post_selection_desc                    = $this->input->post('selection_desc');
             $post_selection_files                   = $this->input->post('selection_files');
@@ -2868,17 +2863,13 @@ class Incubation extends User_Controller {
                     'datemodified'                      => $curdate,
                 );
 
-                echo '<pre>';
-                print_r($settingdata);
-                die();
-
-                if( $update_setting = $this->Model_Praincubation->update_data_praincubation_setting($praincubationsetdata->id, $settingdata) ){
-                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-success">'.smit_alert('Pengaturan Seleksi Pra-Inkubasi berhasil di update').'</div>');
+                if( $update_setting = $this->Model_Incubation->update_data_incubation_setting($incubationsetdata->id, $settingdata) ){
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-success">'.smit_alert('Pengaturan Seleksi Inkubasi berhasil di update').'</div>');
                 }else{
-                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Pengaturan Seleksi Pra-Inkubasi tidak berhasil di update').'</div>');
+                    $this->session->set_flashdata('message','<div id="alert" class="alert alert-danger">'.smit_alert('Pengaturan Seleksi Inkubasi tidak berhasil di update').'</div>');
                 }
                 // Set JSON data
-                $data = array('data' => base_url('detilprainkubasi/'.$uniquecode));
+                $data = array('data' => base_url('detilseleksiinkubasi/'.$uniquecode));
                 // JSON encode data
                 die(json_encode($data));
             }
