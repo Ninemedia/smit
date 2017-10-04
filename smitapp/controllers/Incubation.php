@@ -2197,6 +2197,7 @@ class Incubation extends User_Controller {
         $s_status           = smit_isset($s_status, '');
         $s_year             = $this->input->post('search_year');
         $s_year             = smit_isset($s_year, '');
+        $s_year             = ( $s_year == 'Pilih Tahun' ? '' : $s_year );
 
         $s_date_min         = $this->input->post('search_datecreated_min');
         $s_date_min         = smit_isset($s_date_min, '');
