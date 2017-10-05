@@ -6620,23 +6620,26 @@ class Backend extends User_Controller {
         $records["aaData"]  = array();
 
         $ikm_list           = $this->Model_Service->get_all_ikmlist($limit, $offset, $condition, $order_by);
-        foreach($ikm_list AS $row){
-            $sangat_setuju  = $this->Model_Service->count_all_answer($row->id, SANGAT_SETUJU);
-            $setuju         = $this->Model_Service->count_all_answer($row->id, SETUJU);
-            $tidak_setuju   = $this->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
-            $sangat_tidak_setuju    = $this->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
-            $total          = $this->Model_Service->count_all_answer($row->id);
-
-            $dataset[]      = array(
-                'ikm_id'                => $row->id,
-                'question'              => $row->question,
-                'sangat_setuju'         => $sangat_setuju,
-                'setuju'                => $setuju,
-                'tidak_setuju'          => $tidak_setuju,
-                'sangat_tidak_setuju'   => $sangat_tidak_setuju,
-                'total'                 => $total
-            );
+        if( !empty($ikm_list) ){
+            foreach($ikm_list AS $row){
+                $sangat_setuju  = $this->Model_Service->count_all_answer($row->id, SANGAT_SETUJU);
+                $setuju         = $this->Model_Service->count_all_answer($row->id, SETUJU);
+                $tidak_setuju   = $this->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
+                $sangat_tidak_setuju    = $this->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
+                $total          = $this->Model_Service->count_all_answer($row->id);
+    
+                $dataset[]      = array(
+                    'ikm_id'                => $row->id,
+                    'question'              => $row->question,
+                    'sangat_setuju'         => $sangat_setuju,
+                    'setuju'                => $setuju,
+                    'tidak_setuju'          => $tidak_setuju,
+                    'sangat_tidak_setuju'   => $sangat_tidak_setuju,
+                    'total'                 => $total
+                );
+            }    
         }
+        
 
         if( !empty($dataset) ){
             $iTotalRecords  = smit_get_last_found_rows();
