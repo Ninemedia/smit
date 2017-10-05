@@ -260,7 +260,11 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
+
                         <div role="tabpanel" class="tab-pane fade in active" id="step_one">
+                            <?php if( $active == 0 ) : ?>
+                                <div class="alert alert-warning bottom0">Saat ini anda sedang tidak menjadi juri pada tahap 1. Terima kasih.</div>
+                            <?php else : ?>
                                     <p>Status penilaian akan berubah jika seluruh juri seleksi sudah menilai berkas proposal. Jika anda sudah melakukan penilaian maka keterangan akan bertanda ceklis.</p>
                                     <div class="table-container table-responsive table-praincubation-score">
                                     <table class="table table-striped table-bordered table-hover" id="jury_stepone" data-url="<?php echo base_url('seleksiinkubasi/jurinilaidatastep1'); ?>">
@@ -350,9 +354,14 @@
                                         </tbody>
                                     </table>
                                 </div>
+
+                            <?php endif; ?>
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
+                            <?php if( $active == 0 ) : ?>
+                                <div class="alert alert-warning bottom0">Saat ini anda sedang tidak menjadi juri pada tahap 2. Terima kasih.</div>
+                            <?php else : ?>
                                 <p>Data tahap 2 akan muncul jika data proposal kegiatan pengusul sudah di konfirmasi oleh admin. Status penilaian akan berubah jika seluruh juri seleksi sudah menilai berkas proposal. Jika anda sudah melakukan penilaian maka keterangan akan bertanda ceklis.</p>
 
                                 <div class="table-container table-responsive">
@@ -443,6 +452,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            <?php endif; ?>
                         </div>
                     </div>
 
