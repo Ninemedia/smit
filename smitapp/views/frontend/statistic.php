@@ -114,6 +114,8 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                
+                                                <hr />
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane fade" id="instantion">
