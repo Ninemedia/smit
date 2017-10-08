@@ -321,6 +321,17 @@ define('SANGAT_TIDAK_SETUJU',       4);
 
 /*
 |--------------------------------------------------------------------------
+| PENGATURAN SELEKSI TAHAP 1
+|--------------------------------------------------------------------------
+*/
+define('DEFINE_A',      "Nilai Dokumen");
+define('DEFINE_B',      "Nilai Target");
+define('DEFINE_C',      "Nilai Perlindungan");
+define('DEFINE_D',      "Nilai Penelitian");
+define('DEFINE_E',      "Nilai Market");
+
+/*
+|--------------------------------------------------------------------------
 | Mailer Engine
 |--------------------------------------------------------------------------
 |

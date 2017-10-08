@@ -2286,11 +2286,6 @@ class Tenant extends User_Controller {
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'tenant/payment';
 
-		// Log for dashboard
-		if ( ! $this->session->userdata( 'log_dashboard' ) ) {
-			$this->session->set_userdata( 'log_dashboard', true );
-		}
-
         $this->load->view(VIEW_BACK . 'template', $data);
 	}
 

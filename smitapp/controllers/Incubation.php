@@ -4521,7 +4521,7 @@ class Incubation extends User_Controller {
                     $rate_total     = '<strong>'.$rate_total.'</strong>';
                 }
                 $records["aaData"][] = array(
-                        smit_center($i),
+                        //smit_center($i),
                         strtoupper($row->name),
                         smit_center( $nilai_dokumen ),
                         smit_center( $nilai_target ),
