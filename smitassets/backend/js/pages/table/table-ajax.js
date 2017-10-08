@@ -284,7 +284,7 @@ var TableAjax = function () {
                     [10, 20, 50, 100, -1],
                     [10, 20, 50, 100, "All"]                        // change per page values here
                 ],
-                "iDisplayLength": 10,                               // default record count per page
+                "iDisplayLength": 50,                               // default record count per page
                 "bServerSide": true,                                // server side processing
                 "sAjaxSource": url,                                 // ajax source
                 "aoColumnDefs": [

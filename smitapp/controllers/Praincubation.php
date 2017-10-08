@@ -2111,6 +2111,17 @@ class PraIncubation extends User_Controller {
                     $active = 0;
                 }
             }
+            
+            $jury_step2             = $lss->selection_juri_phase2;
+            $jury_step2             = explode(",", $jury_step2);
+            foreach($jury_step2 as $id){
+                if($id == $current_user->id){
+                    $active2 = 1;
+                    break;
+                }else{
+                    $active2 = 0;
+                }
+            }
         }
 
         $data['title']          = TITLE . 'Penilaian Seleksi Pra-Inkubasi';
@@ -2125,6 +2136,7 @@ class PraIncubation extends User_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['lss']            = $lss;
         $data['active']         = $active;
+        $data['active2']        = $active2;
         $data['main_content']   = 'selectionpraincubation/score';
 
         $this->load->view(VIEW_BACK . 'template', $data);
@@ -5173,7 +5185,7 @@ class PraIncubation extends User_Controller {
                 }
                 $records["aaData"][] = array(
                         smit_center($i),
-                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($name) . '</a>',
+                        strtoupper($name),
                         smit_center( $nilai_dokumen ),
                         smit_center( $nilai_target ),
                         smit_center( $nilai_perlindungan ),
@@ -5251,7 +5263,7 @@ class PraIncubation extends User_Controller {
 
                 $records["aaData"][] = array(
                         smit_center($i),
-                        '<a href="'.base_url('pengguna/profil/'.$row->jury_id).'">' . strtoupper($row->name) . '</a>',
+                        strtoupper($row->name),
                         smit_center( $row->klaster1_a ),
                         smit_center( $row->klaster1_b ),
                         smit_center( $row->klaster1_c ),

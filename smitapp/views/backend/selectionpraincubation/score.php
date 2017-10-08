@@ -400,7 +400,7 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="step_two">
-                            <?php if( $active == 0 ) : ?>
+                            <?php if( $active2 == 0 ) : ?>
                                 <div class="alert alert-warning bottom0">Saat ini anda sedang tidak menjadi juri pada tahap 2. Terima kasih.</div>
                             <?php else : ?>
                                 <div class="table-container table-responsive">
