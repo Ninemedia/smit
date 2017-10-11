@@ -311,27 +311,27 @@
                                                 Pilihlah nilai IRL sesuai dengan posisi proposal dibawah ini : </p>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input id="irl-1" name="irl1" type="checkbox">
+                                                        <input id="irl-1" name="irl1" type="checkbox" class="irl require-one">
                                                         <label for="irl-1">(1) Idea Prospefektif</label><br />
-                                                        <input id="irl-2" name="irl2" type="checkbox">
+                                                        <input id="irl-2" name="irl2" type="checkbox" class="irl require-one">
                                                         <label for="irl-2">(2) Proposal Riset</label><br />
-                                                        <input id="irl-3" name="irl3" type="checkbox">
+                                                        <input id="irl-3" name="irl3" type="checkbox" class="irl require-one">
                                                         <label for="irl-3">(3) Hasil Antara Lab</label><br />
-                                                        <input id="irl-4" name="irl4" type="checkbox">
+                                                        <input id="irl-4" name="irl4" type="checkbox" class="irl require-one">
                                                         <label for="irl-4">(4) Publikasi</label><br />
-                                                        <input id="irl-5" name="irl5" type="checkbox">
+                                                        <input id="irl-5" name="irl5" type="checkbox" class="irl require-one">
                                                         <label for="irl-5">(5) Hasil Riset Skala Prototipe</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id="irl-6" name="irl6" type="checkbox">
+                                                        <input id="irl-6" name="irl6" type="checkbox" class="irl require-one">
                                                         <label for="irl-6">(6) Paten</label><br />
-                                                        <input id="irl-7" name="irl7" type="checkbox">
+                                                        <input id="irl-7" name="irl7" type="checkbox" class="irl require-one">
                                                         <label for="irl-7">(7) Contoh Produk Skala Komersial</label><br />
-                                                        <input id="irl-8" name="irl8" type="checkbox">
+                                                        <input id="irl-8" name="irl8" type="checkbox" class="irl require-one">
                                                         <label for="irl-8">(8) Mitra Bisnis / Tenant</label><br />
-                                                        <input id="irl-9" name="irl9" type="checkbox">
+                                                        <input id="irl-9" name="irl9" type="checkbox" class="irl require-one">
                                                         <label for="irl-9">(9) Captive Market</label><br />
-                                                        <input id="irl-10" name="irl10" type="checkbox">
+                                                        <input id="irl-10" name="irl10" type="checkbox" class="irl require-one">
                                                         <label for="irl-10">(10) Lisensi</label>
                                                     </div>
                                                 </div>

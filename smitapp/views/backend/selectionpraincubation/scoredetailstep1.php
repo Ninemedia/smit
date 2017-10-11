@@ -71,11 +71,11 @@
                             <p>
                                 Keterangan Kriteria:
                                 <ul>
-                                    <ol>A = Nilai Dokumen</ol>
-                                    <ol>B = Nilai Target</ol>
-                                    <ol>C = Nilai Perlindungan</ol>
-                                    <ol>D = Nilai Penelitian</ol>
-                                    <ol>E = Nilai Market</ol>
+                                    <ol>A = <?php echo DEFINE_A; ?></ol>
+                                    <ol>B = <?php echo DEFINE_B; ?></ol>
+                                    <ol>C = <?php echo DEFINE_C; ?></ol>
+                                    <ol>D = <?php echo DEFINE_D; ?></ol>
+                                    <ol>E = <?php echo DEFINE_E; ?></ol>
                                 </ul>
                             </p>
                         </div>

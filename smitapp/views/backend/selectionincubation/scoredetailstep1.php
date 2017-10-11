@@ -17,7 +17,7 @@
                         <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
-                                    <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
+                                    <!-- <td rowspan="2" class="text-center"><strong>NO.</strong></td></td> -->
                                     <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
@@ -53,11 +53,11 @@
 
                                 ?>
                                 <tr>
-                                    <td colspan="7" align="right">Jumlah Total Nilai</td>
+                                    <td colspan="6" align="right">Jumlah Total Nilai</td>
                                     <td class="text-center"><strong><?php echo $sum_score; ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7" align="right">Nilai Rata-rata</td>
+                                    <td colspan="6" align="right">Nilai Rata-rata</td>
                                     <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
                                     <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php else : ?>
@@ -66,16 +66,30 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        
+                        
+                        <table class="table table-striped table-bordered table-hover" id="komentar_stepone" data-url="<?php echo base_url(); ?>">
+                            <thead>
+        						<tr role="row" class="heading bg-blue">
+                                    <!-- <td class="text-center"><strong>NO.</strong></td></td> -->
+                                    <td style="width20;" class="text-center"><strong>NAMA PENILAI / JURI</strong></td>
+                                    <td class="text-center"><strong>KOMENTAR PENILAIAN</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data Will Be Placed Here -->
+                            </tbody>
+                        </table>
 
                         <div class="alert bg-grey bottom0">
                             <p>
                                 Keterangan Kriteria:
                                 <ul>
-                                    <ol>A = Nilai Dokumen</ol>
-                                    <ol>B = Nilai Target</ol>
-                                    <ol>C = Nilai Perlindungan</ol>
-                                    <ol>D = Nilai Penelitian</ol>
-                                    <ol>E = Nilai Market</ol>
+                                    <ol>A = <?php echo DEFINE_A; ?></ol>
+                                    <ol>B = <?php echo DEFINE_B; ?></ol>
+                                    <ol>C = <?php echo DEFINE_C; ?></ol>
+                                    <ol>D = <?php echo DEFINE_D; ?></ol>
+                                    <ol>E = <?php echo DEFINE_E; ?></ol>
                                 </ul>
                             </p>
                         </div>
