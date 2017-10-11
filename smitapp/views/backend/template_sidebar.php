@@ -14,7 +14,7 @@
         }
     }
     // -------------------------------------------------------------------------------------------------------------
-    
+
     // Pendampingan
     // Pendampingan -> Notulensi
     $total_accompaniment_badge_pra    = 0;
@@ -24,7 +24,7 @@
         if($acompaniment_list_pra > 0){
             $total_accompaniment_badge_pra = $acompaniment_list_pra;
         }
-        
+
         $acompaniment_list_inc  = $this->Model_Incubation->count_notes(UNREAD);
         if($acompaniment_list_inc > 0){
             $total_accompaniment_badge_inc = $acompaniment_list_inc;
@@ -135,7 +135,7 @@
         $title_daftar   = 'Daftar Hasil Pra-Inkubasi';
         $title_daftar_inkubasi   = 'Daftar Hasil Inkubasi';
     }else{ $title_daftar   = 'Daftar Kegiatan'; $title_daftar_inkubasi   = 'Daftar Kegiatan'; }
-    
+
     // -------------------------------------------------------------------------------------------------------------
     // Pengumuman
     $badge_announcement     = 0;
@@ -143,7 +143,7 @@
         $announcement_list  = $this->Model_Announcement->get_all_announcements();
         $badge_announcement = count($announcement_list);
     }
-    
+
     // -------------------------------------------------------------------------------------------------------------
 
     // Set menu array
@@ -760,7 +760,7 @@
             </div>
         </div>
         <!-- #User Info -->
-
+        
         <!-- Menu -->
         <div class="menu">
             <ul class="list">
