@@ -1,14 +1,14 @@
-<?php 
+<?php
     $time   = date('H');
     $hi     = '';
     $status = '';
 	$name	= $user->name;
-    
+
     if( $time > '00' && $time <= '09'  )        { $hi = 'Pagi'; }
     elseif( $time > '09' && $time <= '14'  )    { $hi = 'Siang'; }
     elseif( $time > '14' && $time <= '18'  )    { $hi = 'Sore'; }
     elseif( $time > '18' && $time <= '24'  )    { $hi = 'Malam'; }
-    
+
     if( $is_admin ){
         $status = 'ADMINISTRATOR';
     }else{
@@ -24,20 +24,20 @@
             $status = 'PELAKSANA';
         }
     }
-    
+
     $step1      = ' - ';
     $step2      = ' - ';
-    
+
     if( $is_jury ){
         if( $phase1 == ACTIVE ){
             $step1  = ' ANDA TERPILIH ';
         }
-        
+
         if( $phase2 == ACTIVE ){
             $step2  = ' ANDA TERPILIH ';
         }
     }
-    
+
     if( as_pengusul($user) ){
         $cfg_status     = config_item('incsel_status');
         if( !empty($data_incubation) ){
@@ -46,37 +46,37 @@
             elseif($status_inc_1 == RATED)       { $status_inc_1 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
             elseif($status_inc_1 == ACCEPTED)    { $status_inc_1 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
             elseif($status_inc_1 == REJECTED)    { $status_inc_1 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_inc_1]).'</span>'; }
-            
+
             if( !empty($step_inc_2) ){
                 if($status_inc_2 == NOTCONFIRMED)    { $status_inc_2 = '<span class="label label-default">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
                 elseif($status_inc_2 == CONFIRMED)   { $status_inc_2 = '<span class="label label-success">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
                 elseif($status_inc_2 == RATED)       { $status_inc_2 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
                 elseif($status_inc_2 == ACCEPTED)    { $status_inc_2 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
-                elseif($status_inc_2 == REJECTED)    { $status_inc_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }      
+                elseif($status_inc_2 == REJECTED)    { $status_inc_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_inc_2]).'</span>'; }
             }else{
                 $status_inc_2 = '<center> - </center>';
             }
-                
+
         }
-        
+
         if( !empty($data_praincubation) ){
             if($status_pra_1 == NOTCONFIRMED)    { $status_pra_1 = '<span class="label label-default">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
             elseif($status_pra_1 == CONFIRMED)   { $status_pra_1 = '<span class="label label-success">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
             elseif($status_pra_1 == RATED)       { $status_pra_1 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
             elseif($status_pra_1 == ACCEPTED)    { $status_pra_1 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
             elseif($status_pra_1 == REJECTED)    { $status_pra_1 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_pra_1]).'</span>'; }
-            
+
             if( !empty($step_pra_2) ){
                 if($status_pra_2 == NOTCONFIRMED)    { $status_pra_2 = '<span class="label label-default">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
                 elseif($status_pra_2 == CONFIRMED)   { $status_pra_2 = '<span class="label label-success">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
                 elseif($status_pra_2 == RATED)       { $status_pra_2 = '<span class="label bg-purple">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
                 elseif($status_pra_2 == ACCEPTED)    { $status_pra_2 = '<span class="label label-primary">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
-                elseif($status_pra_2 == REJECTED)    { $status_pra_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; } 
+                elseif($status_pra_2 == REJECTED)    { $status_pra_2 = '<span class="label label-danger">'.strtoupper($cfg_status[$status_pra_2]).'</span>'; }
             }else{
                 $status_pra_2 = '<center> - </center>';
-            }     
+            }
         }
-        
+
     }
 ?>
 
@@ -86,16 +86,16 @@
         $count_all      = $this->Model_User->count_all();
         $count_all      = $count_all - 1;
         $user_newest    = $this->Model_User->get_user_newest();
-    
+
         $countuser_score1       = 0;
         $countuser_score2       = 0;
         $count_all_selection    = 0;
         $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
         $user_list2             = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
         if( !empty($lss) ){
-            $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);    
+            $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);
         }
-        
+
         if($user_list1 > 0){
             $countuser_score1   = $user_list1;
         }
@@ -241,8 +241,8 @@
         </div>
     </div>
     <?php elseif( as_pengusul($user) ): ?>
-    
-    <?php endif; ?> 
+
+    <?php endif; ?>
 </div>
 <!-- #END# Widgets -->
 
@@ -254,7 +254,7 @@
             <div class="body bg-light-green">
                 <p class="bottom0">Selamat datang di Sistem Informasi <a href="<?php echo base_url(); ?>"><strong><?php echo get_option('company_name'); ?></strong></a>. Status Anda saat ini sebagai <strong><?php echo $status; ?></strong></p>
             </div>
-            
+
             <?php if( $is_admin ): ?>
                 <div class="body">
                     <div class="panel-group" role="tablist" aria-multiselectable="true">
@@ -334,7 +334,7 @@
                                     <h5><a href="<?php echo base_url('pengumuman'); ?>">Pengumuman</a></h5>
                                 </div>
                             </div><hr />
-                        </div>        
+                        </div>
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="heading_total">
                                 <h4 class="panel-title">
@@ -419,7 +419,7 @@
                     </div>
                 </div>
             <?php endif ?>
-            
+
             <?php if( as_pendamping($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pendamping'); ?>
@@ -459,7 +459,7 @@
                 <?php endif ?>
             	<!-- End Content Dashboard-->
             <?php endif ?>
-            
+
             <?php if( as_juri($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_juri'); ?>
@@ -494,7 +494,7 @@
                         </div>
                         <h4>Status Juri Anda :</h4>
                         <div class="row clearfix">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="card">
                                     <?php if( !empty($lss) ) : ?>
                                     <div class="header bg-cyan">
@@ -511,7 +511,7 @@
                                         <?php else : ?><br />
                                             Maaf saat ini anda belum terpilih menjadi juri Seleksi Pra-Inkubasi Tahap 2 Tahun <?php echo $lss->selection_year_publication; ?>
                                         <?php endif ?><br /><br />
-                                        
+
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
                                     <?php else : ?>
@@ -519,7 +519,7 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="card">
                                     <?php if( !empty($incss) ) : ?>
                                     <div class="header bg-pink">
@@ -536,7 +536,7 @@
                                         <?php else : ?><br />
                                             Maaf saat ini anda belum terpilih menjadi juri Seleksi Inkubasi Tahap 2 Tahun <?php echo $incss->selection_year_publication; ?>
                                         <?php endif ?><br /><br />
-                                        
+
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
                                     <?php else : ?>
@@ -545,12 +545,12 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
             <?php endif ?>
-            
+
             <?php if( as_tenant($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_tenant'); ?>
@@ -561,7 +561,7 @@
                         <hr />
                         <div class="panel">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <h5>Inkubasi / Tenant</h5>
                                     <ul>
                                         <li style="list-style-type:none;"><a href="<?php echo base_url('tenants/daftar'); ?>">Daftar Tenant</a></li>
@@ -577,12 +577,12 @@
                                     <h5><a href="<?php echo base_url('diskusi'); ?>">Diskusi</a></h5>
                                 </div>
                             </div><hr />
-                        </div>  
+                        </div>
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
-            <?php endif ?> 
-            
+            <?php endif ?>
+
             <?php if( as_pengusul($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_user'); ?>
@@ -621,7 +621,7 @@
                         </div>
                         <h4>Status Pengajuan Seleksi Anda : </h4>
                         <div class="row clearfix">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header bg-cyan">
                                         <?php if( !empty($lss) ) : ?>
@@ -635,7 +635,7 @@
                                         <table class="table-container table-responsive">
                                             <thead>
                                                 <tr row="row" class="heading bg-blue">
-                                                    <th class="width5 center">Tahun</th> 
+                                                    <th class="width5 center">Tahun</th>
                                                     <th class="width20 center">Judul Usulan</th>
                                                     <th class="width10 center">Status 1</th>
                                                     <th class="width10 center">Status 2</th>
@@ -648,7 +648,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            
+
                                             </tbody>
                                         </table>
                                         <?php else : ?>
@@ -658,7 +658,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header bg-pink">
                                         <h2>Seleksi Inkubasi<small>Dibuka</small></h2>
@@ -669,7 +669,7 @@
                                             <table class="table table-striped table-hover">
                                                 <thead>
                                                     <tr row="row" class="heading bg-blue">
-                                                        <th class="width5 center">Tahun</th> 
+                                                        <th class="width5 center">Tahun</th>
                                                         <th class="width20 center">Judul Usulan</th>
                                                         <th class="width10 center">Status 1</th>
                                                         <th class="width10 center">Status 2</th>
@@ -682,14 +682,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                
+
                                                 </tbody>
                                             </table>
                                         </div>
                                         <?php else : ?>
                                              <strong>Maaf saat ini anda sedang tidak ada pengajuan seleksi.</strong><br />
                                         <?php endif ?>
-                                        
+
                                         <i style="color: red !important;">"Diharapkan kepada juri terpilih melakukan penilaian sesuai dengan tanggal yang telah ditentukan sesuai dengan seleksi yang di berikan."</i>
                                     </div>
                                 </div>
@@ -699,7 +699,7 @@
                 <?php endif ?>
             	<!-- End Content Dashboard-->
             <?php endif ?>
-            
+
             <?php if( as_pelaksana($user) ): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pelaksana'); ?>
@@ -729,7 +729,7 @@
                 <?php endif ?>
             	<!-- End Content Dashboard-->
             <?php endif ?>
-            
+
             <?php if( as_pelaksana_tenant($user)): ?>
                 <!-- Content Dasboard-->
                 <?php $dashboard_text = get_option('be_dashboard_pelaksana'); ?>
@@ -765,7 +765,7 @@
                                         <li style="list-style-type:none;"><a href="<?php echo base_url('seleksiinkubasi/riwayat'); ?>">Riwayat Penilaian</a></li>
                                     </ul>
                                 </div>
-                                
+
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <h5>Inkubasi / Tenant</h5>
                                     <ul>
@@ -787,11 +787,9 @@
                     </div>
                 <?php endif ?>
             	<!-- End Content Dashboard-->
-            <?php endif ?>      
-            
+            <?php endif ?>
+
         </div>
     </div>
 </div>
 <!-- #END# Welcome Text -->
-
-  
