@@ -1801,7 +1801,7 @@ if ( !function_exists('smit_category_slug') )
 	function smit_category_slug() {
 		$CI =& get_instance();
         $category   = $CI->Model_Option->get_category();
-        
+
         $slug_arr   = array();
         if( !empty($category) ){
             foreach( $category as $cat ){
@@ -1822,7 +1822,7 @@ if ( !function_exists('smit_category_name') )
 	function smit_category_name() {
 		$CI =& get_instance();
         $category   = $CI->Model_Option->get_category();
-        
+
         $name_arr   = array();
         if( !empty($category) ){
             foreach( $category as $cat ){
@@ -1956,7 +1956,7 @@ if ( !function_exists('smit_select_year') )
         foreach ( range( $earliest_year, $latest_year ) as $i ) {
             $year_arr[] = $i;
         }
-        return $year_arr;
+        return array_reverse($year_arr);
 	}
 }
 
@@ -2046,7 +2046,7 @@ if ( !function_exists('smit_get_total_ikm') ){
                 $tidak_setuju   = $CI->Model_Service->count_all_answer($row->id, TIDAK_SETUJU);
                 $sangat_tidak_setuju    = $CI->Model_Service->count_all_answer($row->id, SANGAT_TIDAK_SETUJU);
                 $total          = $CI->Model_Service->count_all_answer($row->id);
-    
+
                 $dataset[]      = array(
                     'ikm_id'                => $row->id,
                     'question'              => $row->question,
@@ -2138,7 +2138,7 @@ if ( !function_exists('smit_slug') )
     /**
      * Set slug of text
      * @author  Iqbal
-     * 
+     *
      * @param   string  $tring          (Required)  String of text
      * @param   string  $replacement    (Optional)  String replacement for slug (underscores or dash), default 'underscores'
      * @return  String slug

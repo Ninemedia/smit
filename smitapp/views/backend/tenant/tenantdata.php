@@ -119,7 +119,7 @@
 
                                 <p align="justify" class="bottom30"><strong>Informasi !</strong> Admin dapat memasukan Tenant Lama yang sudah terdaftar pada Pusat Inovasi LIPI. Pastikan telah memasukan data Usulan Kegiatan terlebih dahulu sesuai dengan usulan tenant yang akan di masukan. Terima kasih.</p>
                                 <h4><p>Silahkan lengkapi isian data Tenant anda</p></h4>
-                                
+
                                 <!--
                                 <div class="form-group">
                                     <input name="tenant_data" type="radio" id="user_registered" class="radio-col-blue" value="user_registered" checked />
@@ -147,7 +147,7 @@
                                             <?php
                                                 $conditions     = ' WHERE %type% = 3 OR %type% = 7';
                                             	$user_list      = $this->Model_User->get_all_user(0, 0, $conditions);
-                                                
+
                                                 if( !empty($user_list) ){
                                                     echo '<option value="">-- Pilih Nama Penguna --</option>';
                                                     foreach($user_list as $row){
@@ -214,10 +214,11 @@
                                             <label for="name_contact">Tahun Berdiri <b style="color: red !important;">(*)</b></label>
                                             <div class="input-group">
                                                 <?php
-                                                    $option = array(''=>'Pilih Tahun');
-                                                    $year_arr = smit_select_year(1900,2030);
+                                                    $option     = array(''=>'Pilih Tahun');
+                                                    $curyear    = date("Y");
+                                                    $year_arr   = smit_select_year(1900,$curyear);
                                                     //$extra = 'class="form-control def" id="tenant_year"';
-    
+
                                                     if( !empty($year_arr) ){
                                                         foreach($year_arr as $val){
                                                             $option[$val] = $val;
@@ -271,7 +272,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="telp_contact">Kontak</label>
                                     <div class="input-group">
