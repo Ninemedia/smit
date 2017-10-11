@@ -155,6 +155,7 @@
     </div>
     -->
     <?php elseif( as_juri($user) ): ?>
+    <!--
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="info-box bg-blue hover-expand-effect">
             <div class="icon">
@@ -189,6 +190,33 @@
                 <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
                 <div class="text"><?php echo $countuser_score2; ?> PENGUSUL</div>
             </div>
+        </div>
+    </div>
+    -->
+    <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+        <div class="table-container table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr role="row" class="heading bg-blue">
+                        <th class="width50 text-center" colspan="2">Pra-Inkubasi</th>
+                        <th class="width50 text-center" colspan="2">Inkubasi</th>
+                    </tr>
+                    <tr role="row" class="heading bg-blue">
+                        <th class="width25 text-center">Pengusul Tahap 1</th>
+                        <th class="width25 text-center">Pengusul Tahap 2</th>
+                        <th class="width25 text-center">Pengusul Tahap 1</th>
+                        <th class="width25 text-center">Pengusul Tahap 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr align="center">
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score1; ?></strong></td>
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score2; ?></strong></td>
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score1; ?></strong></td>
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score2; ?></strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <?php elseif( as_tenant($user)) :?>
