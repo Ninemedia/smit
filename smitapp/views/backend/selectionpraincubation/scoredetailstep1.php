@@ -1,3 +1,33 @@
+<!-- BEGIN INFORMATION SUCCESS DETAIL COMMENT MODAL -->
+<div class="modal fade" id="pradetail_comment1" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Detail Komentar Step 1</h4>
+			</div>
+			<div class="modal-body">
+                <div class="form-group form-float">
+                    <?php echo form_open_multipart( '', array( 'id'=>'pradetail_commentstep1', 'role'=>'form' ) ); ?>
+                    <div class="form-group">
+                        <label for="telp_contact">Isi Komentar</b></label>
+                        <div class="input-group">
+                            <div class="form-line">
+                                <textarea cols="30" rows="3" class="form-control no-resize" id="commentbody" readonly="TRUE"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <?php echo form_close(); ?>
+                </div>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS DETAIL COMMENT MODAL -->
+
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -21,6 +51,7 @@
                                     <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>Actions</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>

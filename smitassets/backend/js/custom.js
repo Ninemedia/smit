@@ -320,6 +320,44 @@ $("body").delegate( "a.notespradelete", "click", function( event ) {
     });
 });
 
+// Detail Comment Step 1 Incubation
+$("body").delegate( "a.incdetailcommentstep1", "click", function( event ) {
+    event.preventDefault();
+    var form    = $('#incdetail_commentstep1');
+    var id      = $(this).data('id');
+    var uniquecode  = $(this).data('uniquecode');
+    var comment     = $(this).data('comment');
+    
+    //var el_id   = $('#reg_id_workunit_edit', form);
+    //var el_uniquecode = $('#reg_workunit_edit', form);
+    var el_comment = $('#commentbody', form);
+    
+    //el_id.val(id);
+    //el_uniquecode.val(uniquecode);
+    el_comment.val(comment);
+
+    $('#incdetail_comment1').modal('show');
+});
+
+// Detail Comment Step 1 Pra-Incubation
+$("body").delegate( "a.pradetailcommentstep1", "click", function( event ) {
+    event.preventDefault();
+    var form    = $('#pradetail_commentstep1');
+    var id      = $(this).data('id');
+    var uniquecode  = $(this).data('uniquecode');
+    var comment     = $(this).data('comment');
+    
+    //var el_id   = $('#reg_id_workunit_edit', form);
+    //var el_uniquecode = $('#reg_workunit_edit', form);
+    var el_comment = $('#commentbody', form);
+    
+    //el_id.val(id);
+    //el_uniquecode.val(uniquecode);
+    el_comment.val(comment);
+
+    $('#pradetail_comment1').modal('show');
+});
+
 // Workunit Edit
 $("body").delegate( "a.workunitedit", "click", function( event ) {
     event.preventDefault();

@@ -5183,6 +5183,8 @@ class PraIncubation extends User_Controller {
                     $nilai_market   = '<strong>'.$nilai_market.'</strong>';
                     $rate_total     = '<strong>'.$rate_total.'</strong>';
                 }
+                $btn_action = '<a class="pradetailcommentstep1 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
+                
                 $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($name),
@@ -5192,6 +5194,7 @@ class PraIncubation extends User_Controller {
                         smit_center( $nilai_penelitan ),
                         smit_center( $nilai_market ),
                         smit_center( $rate_total ),
+                        smit_center( $btn_action ),
                     );
                 $i++;
             }
