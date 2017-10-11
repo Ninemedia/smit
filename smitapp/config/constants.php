@@ -154,6 +154,7 @@ define('FE_IMG_PATH',           BASE_URL . 'smitassets/frontend/images/');
 define('FE_JS_PATH',            BASE_URL . 'smitassets/frontend/js/');
 define('FE_PLUGIN_PATH',        BASE_URL . 'smitassets/frontend/plugins/');
 define('FE_FONTS',              BASE_URL . 'smitassets/frontend/fonts/');
+define('FE_IMG_DIR',            dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/frontend/images/');
 
 /*
 |--------------------------------------------------------------------------

@@ -14,7 +14,12 @@
                         if($uploaded != 0){
                             $file_name      = $row->filename . '.' . $row->extension;
                             $file_url       = FE_IMG_PATH . 'slider/' . $file_name;
-                            $slider         = $file_url;
+                            $file_path      = FE_IMG_DIR . 'slider/' . $file_name;
+                            $slider         = $file_exist ? $file_url : 'FE_IMG_PATH' . 'slider/slider2.jpg';
+                            
+                            echo '<pre>';
+                            print_r($slider);
+                            echo "</pre>";
                         }
                         ?>
                             <li data-horizontalPosition="center" data-verticalPosition="top" data-initialZoom="1" data-finalZoom="0.85" data-text-id="#bannerscollection_zoominout_sliderText<?php echo $i; ?>">
