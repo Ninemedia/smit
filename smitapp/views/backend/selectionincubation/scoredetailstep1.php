@@ -1,3 +1,33 @@
+<!-- BEGIN INFORMATION SUCCESS DETAIL COMMENT MODAL -->
+<div class="modal fade" id="incdetail_comment1" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Detail Komentar Step 1</h4>
+			</div>
+			<div class="modal-body">
+                <div class="form-group form-float">
+                    <?php echo form_open_multipart( '', array( 'id'=>'incdetail_commentstep1', 'role'=>'form' ) ); ?>
+                    <div class="form-group">
+                        <label for="telp_contact">Isi Komentar</b></label>
+                        <div class="input-group">
+                            <div class="form-line">
+                                <textarea cols="30" rows="3" class="form-control no-resize" id="commentbody" readonly="TRUE"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <?php echo form_close(); ?>
+                </div>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS DETAIL COMMENT MODAL -->
+
 <!-- Content -->
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -17,10 +47,11 @@
                         <table class="table table-striped table-bordered table-hover" id="admin_stepone" data-url="<?php echo base_url('seleksiinkubasi/nilai/detail/step1/'.$data_selection->id.''); ?>">
                             <thead>
         						<tr role="row" class="heading bg-blue">
-                                    <!-- <td rowspan="2" class="text-center"><strong>NO.</strong></td></td> -->
+                                    <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
                                     <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
-                                    <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
+                                    <td colspan="5" style="width35;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>Actions</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -53,11 +84,11 @@
 
                                 ?>
                                 <tr>
-                                    <td colspan="6" align="right">Jumlah Total Nilai</td>
+                                    <td colspan="7" align="right">Jumlah Total Nilai</td>
                                     <td class="text-center"><strong><?php echo $sum_score; ?></strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" align="right">Nilai Rata-rata</td>
+                                    <td colspan="7" align="right">Nilai Rata-rata</td>
                                     <?php if($avarage_score >= KKM_STEP1 && $avarage_score <= MAX_SCORE) :?>
                                     <td class="text-center" style="color: green !important; font-size: 20px;"><strong><?php echo floor($avarage_score); ?></td>
                                     <?php else : ?>
@@ -67,20 +98,6 @@
                             </tfoot>
                         </table>
                         
-                        
-                        <table class="table table-striped table-bordered table-hover" id="komentar_stepone" data-url="<?php echo base_url(); ?>">
-                            <thead>
-        						<tr role="row" class="heading bg-blue">
-                                    <!-- <td class="text-center"><strong>NO.</strong></td></td> -->
-                                    <td style="width20;" class="text-center"><strong>NAMA PENILAI / JURI</strong></td>
-                                    <td class="text-center"><strong>KOMENTAR PENILAIAN</strong></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data Will Be Placed Here -->
-                            </tbody>
-                        </table>
-
                         <div class="alert bg-grey bottom0">
                             <p>
                                 Keterangan Kriteria:
@@ -110,6 +127,7 @@
                                     <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>Actions</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -160,11 +178,11 @@
                             <p>
                                 Keterangan Kriteria:
                                 <ul>
-                                    <ol>A = Nilai Dokumen</ol>
-                                    <ol>B = Nilai Target</ol>
-                                    <ol>C = Nilai Perlindungan</ol>
-                                    <ol>D = Nilai Penelitian</ol>
-                                    <ol>E = Nilai Market</ol>
+                                    <ol>A = <?php echo DEFINE_A; ?></ol>
+                                    <ol>B = <?php echo DEFINE_B; ?></ol>
+                                    <ol>C = <?php echo DEFINE_C; ?></ol>
+                                    <ol>D = <?php echo DEFINE_D; ?></ol>
+                                    <ol>E = <?php echo DEFINE_E; ?></ol>
                                 </ul>
                             </p>
                         </div>
@@ -185,6 +203,7 @@
                                     <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>Actions</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>
@@ -235,11 +254,11 @@
                             <p>
                                 Keterangan Kriteria:
                                 <ul>
-                                    <ol>A = Nilai Dokumen</ol>
-                                    <ol>B = Nilai Target</ol>
-                                    <ol>C = Nilai Perlindungan</ol>
-                                    <ol>D = Nilai Penelitian</ol>
-                                    <ol>E = Nilai Market</ol>
+                                    <ol>A = <?php echo DEFINE_A; ?></ol>
+                                    <ol>B = <?php echo DEFINE_B; ?></ol>
+                                    <ol>C = <?php echo DEFINE_C; ?></ol>
+                                    <ol>D = <?php echo DEFINE_D; ?></ol>
+                                    <ol>E = <?php echo DEFINE_E; ?></ol>
                                 </ul>
                             </p>
                         </div>

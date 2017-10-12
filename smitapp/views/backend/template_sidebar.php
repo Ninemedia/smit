@@ -139,10 +139,10 @@
     // -------------------------------------------------------------------------------------------------------------
     // Pengumuman
     $badge_announcement     = 0;
-    if(!empty($is_admin)){
+    //if(!empty($is_admin)){
         $announcement_list  = $this->Model_Announcement->get_all_announcements();
         $badge_announcement = count($announcement_list);
-    }
+    //}
 
     // -------------------------------------------------------------------------------------------------------------
 
