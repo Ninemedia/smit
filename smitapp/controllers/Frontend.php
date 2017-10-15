@@ -2904,8 +2904,8 @@ class Frontend extends Public_Controller {
                     '<strong>'.strtoupper( $row->name_tenant ).'</strong>',
                     //strtoupper( $row->name ),
                     strtoupper( $row->address ),
-                    $row->email,
-                    smit_center( $row->phone ),
+                    //$row->email,
+                    //smit_center( $row->phone ),
                     smit_center( $btn_action ),
                 );
                 $i++;

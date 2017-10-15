@@ -47,9 +47,10 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center bottom25">
                             <img class="tenant-detail-img" src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenantdata->uploader.'/'.$tenantdata->filename.'.'.$tenantdata->extension; ?>" />
                             <div class="tenant-detail-txt">
-                                <p class="bottom15"><strong><?php echo $tenantdata->name_tenant; ?></strong></p> 
+                                <p class="bottom10"><strong><?php echo $tenantdata->name_tenant; ?></strong></p>
+                                <p class="bottom5"><div class="badge bg-blue"><strong><?php echo ( $tenantdata->position == 1 ? 'INWALL' : 'OUTWALL' ); ?></strong></div></p>  
                                 <p class="bottom5"><i class="icon-mail"></i> <small><?php echo $tenantdata->email; ?></small></p>                               
-                                <p class="bottom5"><i class="icon-phone"></i> <small><?php echo $tenantdata->phone; ?></small></p> 
+                                <p class="bottom5"><i class="icon-phone"></i> <small><?php echo substr($tenantdata->phone, 0, -4); ?>****</small></p> 
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
@@ -73,10 +74,12 @@
                                 <label>Kemitraan Usaha yang Dimiliki</label> 
                                 <p class="bottom15"><?php echo $tenantdata->partnerships; ?></p>                               
                             </div>
+                            <!--
                             <div class="input-group bottom0">
                                 <label>Posisi</label> 
                                 <p class="bottom15"><?php echo ( $tenantdata->position == 1 ? 'INWALL' : 'OUTWALL' ); ?></p>                               
                             </div>
+                            -->
                         </div>
                     </div>
                 </div>
