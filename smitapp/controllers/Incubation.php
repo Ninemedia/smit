@@ -164,23 +164,23 @@ class Incubation extends User_Controller {
         if ( !empty($s_date_min) )      { $condition .= ' AND %datecreated% >= '.strtotime($s_date_min).''; }
         if ( !empty($s_date_max) )      { $condition .= ' AND %datecreated% <= '.strtotime($s_date_max).''; }
 
-        if( !empty($is_admin) ){
-            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
+        if( $is_admin ){
+            if( $column == 2 )      { $order_by .= '%year% ' . $sort; }
+            elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
+            elseif( $column == 4 )  { $order_by .= '%workunit% ' . $sort; }
+            elseif( $column == 5 )  { $order_by .= '%event_title% ' . $sort; }
+            elseif( $column == 6 )  { $order_by .= '%status% ' . $sort; }
+            elseif( $column == 7 )  { $order_by .= '%datecreated% ' . $sort; }
+        }else{
+            if( $column == 2 )      { $order_by .= '%year% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%workunit% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%event_title% ' . $sort; }
             elseif( $column == 5 )  { $order_by .= '%status% ' . $sort; }
             elseif( $column == 6 )  { $order_by .= '%datecreated% ' . $sort; }
-        }else{
-            if( $column == 1 )      { $order_by .= '%year% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%workunit% ' . $sort; }
-            elseif( $column == 3 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 4 )  { $order_by .= '%status% ' . $sort; }
-            elseif( $column == 5 )  { $order_by .= '%datecreated% ' . $sort; }
         }
 
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-
+        
         $records            = array();
         $records["aaData"]  = array();
 

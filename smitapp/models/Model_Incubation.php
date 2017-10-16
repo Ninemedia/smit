@@ -541,6 +541,7 @@ class Model_Incubation extends SMIT_Model{
             $conditions = str_replace("%id%",                   "A.id", $conditions);
             $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
             $conditions = str_replace("%year%",                 "A.year", $conditions);
+            $conditions = str_replace("%workunit%",             "B.workunit", $conditions);
             $conditions = str_replace("%event_title%",          "A.event_title", $conditions);
             $conditions = str_replace("%username%",             "A.username", $conditions);
             $conditions = str_replace("%name%",                 "A.name", $conditions);
@@ -559,6 +560,7 @@ class Model_Incubation extends SMIT_Model{
             $order_by   = str_replace("%id%",                   "A.id", $order_by);
             $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
             $order_by   = str_replace("%year%",                 "A.year",  $order_by);
+            $order_by   = str_replace("%workunit%",             "B.workunit",  $order_by);
             $order_by   = str_replace("%event_title%",          "A.event_title",  $order_by);
             $order_by   = str_replace("%username%",             "A.username",  $order_by);
             $order_by   = str_replace("%name%",                 "A.name",  $order_by);
