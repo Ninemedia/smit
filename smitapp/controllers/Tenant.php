@@ -735,8 +735,9 @@ class Tenant extends User_Controller {
                 elseif($row->status == BANNED)      { $status = '<span class="label label-warning">'.strtoupper($cfg_status[$row->status]).'</span>'; }
                 elseif($row->status == DELETED)     { $status = '<span class="label label-danger">'.strtoupper($cfg_status[$row->status]).'</span>'; }
 
-                if($row->position == ACTIVE)          { $position = '<span class="label label-success">'.strtoupper('INWALL').'</span>'; }
-                elseif($row->position == NONACTIVE)   { $position = '<span class="label label-default">'.strtoupper('OUTWALL').'</span>'; }
+                if($row->position == ACTIVE)            { $position = '<span class="label label-success">'.strtoupper('INWALL').'</span>'; }
+                elseif($row->position == NONACTIVE)     { $position = '<span class="label label-default">'.strtoupper('OUTWALL').'</span>'; }
+                elseif($row->position == GRADUATE)      { $position = '<span class="label label-primary">'.strtoupper('GRADUATE').'</span>'; }
 
                 $event_title        = $row->event_title;
                 if(empty($event_title)){
@@ -3525,16 +3526,14 @@ class Tenant extends User_Controller {
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
         elseif( $action=='inwall' ) { $actiontxt = 'Inwall'; $postion = ACTIVE; }
         elseif( $action=='outwall' ) { $actiontxt = 'Outwall'; $postion = NONACTIVE; }
+        elseif( $action=='graduate' ) { $actiontxt = 'Graduate'; $postion = GRADUATE; }
 
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){
             //if( $action=='delete' ){
                 //$tenantlistdelete       = $this->Model_Tenant->delete_tenant($uniquecode);
             //}else
-            if($action=='inwall'){
-                $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
-                $this->Model_Tenant->update_tenant($uniquecode, $data_update);
-            }elseif($action=='outwall'){
+            if($action=='inwall' || $action=='outwall' || $action=='graduate'){
                 $data_update = array('position'=>$postion, 'datemodified'=>$curdate);
                 $this->Model_Tenant->update_tenant($uniquecode, $data_update);
             }else{
@@ -4463,6 +4462,7 @@ class Tenant extends User_Controller {
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
         elseif( $action=='banned' ) { $actiontxt = 'Banned'; $status = BANNED; }
         elseif( $action=='delete' ) { $actiontxt = 'Hapus'; $status = DELETED; }
+        elseif( $action=='graduate' ) { $actiontxt = 'Graduate'; $status = GRADUATE; }
 
         $data = (object) $data;
         foreach( $data as $key => $uniquecode ){

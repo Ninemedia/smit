@@ -329,7 +329,7 @@ class Frontend extends Public_Controller {
             'Guides.init();',
             'SelectionValidation.init();',
         ));
-        
+
         $lss = smit_latest_incubation_setting();
 
         $data['title']          = TITLE . 'Seleksi Inkubasi';
@@ -438,7 +438,7 @@ class Frontend extends Public_Controller {
             die(json_encode($data));
         }
         */
-        
+
         $workunit_id            = $userdata->workunit;
         $workunit_data_check    = $this->Model_User->get_workunit($workunit_id);
         $status_workunit        = $workunit_data_check->status;
@@ -708,7 +708,7 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Password yang Anda masukkan salah.');
             die(json_encode($data));
         }
-        
+
         // -------------------------------------------------
         // Check Agreement
         // -------------------------------------------------
@@ -736,7 +736,7 @@ class Frontend extends Public_Controller {
             $data = array('message' => 'error','data' => 'Username sudah terdaftar dalam seleksi pra-inkubasi. Anda hanya bisa mendaftar seleksi 1 kali dalam 1 periode seleksi.');
             die(json_encode($data));
         }
-        
+
         /*
         $workunit_id    = $userdata->workunit;
         $workunit_data_check    = $this->Model_User->get_workunit($workunit_id);
@@ -1127,7 +1127,7 @@ class Frontend extends Public_Controller {
             'App.init();',
             'TableAjax.init();',
         ));
-        
+
         // Total rows count
         $tenant_list            = $this->Model_Tenant->get_all_tenant($this->perPageTenant, 0, " WHERE %status% = 1");
         $counttenantdata        = $this->Model_Tenant->count_all(1);
@@ -1150,7 +1150,7 @@ class Frontend extends Public_Controller {
         $data['main_content']   = 'tenant/list';
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
     * Tenant Pagination function.
     */
@@ -1183,7 +1183,7 @@ class Frontend extends Public_Controller {
         //load the view
         $this->load->view(VIEW_FRONT . 'tenant/tenantpagination', $data);
     }
-    
+
     /**
     * Tenant Details function.
     */
@@ -1210,16 +1210,16 @@ class Frontend extends Public_Controller {
 
         $scripts_add            = '';
         $scripts_init           = '';
-        
+
         $tenantdata             = '';
         if( !empty($slug) ){
             $tenantdata         = $this->Model_Tenant->get_tenant_by('slug', $slug);
         }
-        
+
         if( !$tenantdata ){
             redirect( base_url('tenant/daftartenant'), 'refresh' );
         }
-
+        
         $condition              = ' WHERE %status% = 1 AND %id% != '.$tenantdata->id;
         $order_by               = ' %datecreated% DESC';
         $other_tenants          = $this->Model_Tenant->get_all_tenant(LIMIT_DEFAULT,0,$condition,$order_by);
@@ -1428,7 +1428,7 @@ class Frontend extends Public_Controller {
         $this->ajax_pagination->initialize($config);
 
         $tenantdata             = $this->Model_Tenant->get_all_blogtenant($this->perPageBlog, 0, ' WHERE %status% = 1');
-        
+
         $allcategorydata        = $this->Model_Option->get_all_category_product();
         if( !empty($id) ){
             $allcategorydata    = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_id% <> "'.$id.'"');
@@ -1447,7 +1447,7 @@ class Frontend extends Public_Controller {
 
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     /**
     * Blog Pagination function.
     */
@@ -1524,7 +1524,7 @@ class Frontend extends Public_Controller {
 
         $alldata                = $this->Model_Tenant->get_all_blogtenant(LIMIT_DETAIL, 0, ' WHERE %status% = 1 AND %uniquecode% <> "'.$uniquecode.'"');
         $allcategorydata        = $this->Model_Option->get_all_category_product(LIMIT_DETAIL, 0, ' WHERE %category_name% <> "'.$blogdata->category_product.'"');
-        
+
         $data['title']          = TITLE . 'Detail Blog Tenant';
         $data['blogdata']       = $blogdata;
         $data['blog_image']     = $image_blog;
@@ -1967,7 +1967,7 @@ class Frontend extends Public_Controller {
         $data['scripts_add']    = $scripts_add;
         $data['scripts_init']   = $scripts_init;
         $data['main_content']   = 'statistic';
-        
+
         // ======================================
         // Pra-Incubation Chart
         // ======================================
@@ -1988,7 +1988,7 @@ class Frontend extends Public_Controller {
 				$pivot_yearly_praincubation[ $row->period ][ 'total' ] += $row->total;
 				$pivot_yearly_praincubation[ $row->period ][ $category_praincubation ] = $row->total;
 			}
-            
+
             $slug_arr_praincubation         = smit_category_slug();
             $name_arr_praincubation         = smit_category_name();
 
@@ -2010,11 +2010,11 @@ class Frontend extends Public_Controller {
         $data['chart_praincubation']    = json_encode( $chart_praincubation );
         $data['stats_praincubation']	= $stats_praincubation;
         // ======================================
-        
+
         // ======================================
         // Incubation Chart
         // ======================================
-        
+
         // Chart Monthly
         $chart_inc_monthly = array();
         $stats_inc_monthly = '';
@@ -2055,7 +2055,7 @@ class Frontend extends Public_Controller {
         }
         $data['chart_incubation_monthly']   = json_encode( $chart_inc_monthly );
         $data['stats_incubation_monthly']	= $stats_inc_monthly;
-        
+
         // Chart Yearly
         $chart_inc_yearly = array();
         $stats_inc_yearly = '';
@@ -2096,7 +2096,7 @@ class Frontend extends Public_Controller {
         $data['chart_incubation_yearly']    = json_encode( $chart_inc_yearly );
         $data['stats_incubation_yearly']	= $stats_inc_yearly;
         // ======================================
-        
+
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
     // ---------------------------------------------------------------------------------------------
@@ -2139,7 +2139,7 @@ class Frontend extends Public_Controller {
     		}
         </script>
         ';
-        
+
         $scripts_init           = smit_scripts_init(array(
             'App.init();',
             'ContactValidation.init();',
@@ -2249,7 +2249,7 @@ class Frontend extends Public_Controller {
                     $this->db->trans_commit();
                     // Complete Transaction
                     $this->db->trans_complete();
-                    
+
                     // Send Notification to All Administrator
                     $condition  = ' WHERE %type% = '.ADMINISTRATOR.'';
                     $order_by   = '';
@@ -2259,7 +2259,7 @@ class Frontend extends Public_Controller {
                             $this->smit_email->send_email_contact( $admin_email, $contact_name, $contact_email, $contact_title, $contact_desc );
                         }
                     }
-                    
+
 
                     // Set JSON data
                     $data       = array('message' => 'success', 'data' => 'Pengiriman pesan baru berhasil!');
@@ -2772,7 +2772,7 @@ class Frontend extends Public_Controller {
                 $name           = strtoupper($row->name);
                 $event          = $row->event_title;
                 $datecreated    = date('d F Y', strtotime($row->datecreated));
-                
+
                 // Button
                 $btn_action = '<a class="listdetail btn btn-xs btn-primary waves-effect tooltips" id="btn_list_detail" data-id="'.$row->id.'" data-year="'.$year.'" data-name="'.$name.'" data-workunit="'.$workunit.'" data-title="'.$event.'" data-category="'.$row->category.'" data-desc="'.$row->event_desc.'" data-placement="left"><i class="material-icons">zoom_in</i></a>';
 
@@ -2885,12 +2885,12 @@ class Frontend extends Public_Controller {
                 $city   = $city->regional_name;
                 $province   = $this->Model_Address->get_provinces($row->province);
                 $province   = $province->province_name;
-                
+
                 $address        = $row->address;
                 $address        .= ' '.$city;
                 $address        .= ' '.$row->district;
                 $address        .= ' PROVINSI '.$province;
-                
+
                 $btn_action = '<a href="'.base_url('tenant/detail/'.$row->slug).'" class="listdetailtenant btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a>';
 
                 if($row->status == ACTIVE)          { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -2921,11 +2921,11 @@ class Frontend extends Public_Controller {
 
         echo json_encode($records);
     }
-    
+
     // ---------------------------------------------------------------------------------------------
     // SEARCH ENGINE
     // ---------------------------------------------------------------------------------------------
-    
+
     /**
 	 * Search engine function.
 	 */
@@ -2956,9 +2956,9 @@ class Frontend extends Public_Controller {
         $scripts_init                   = smit_scripts_init(array(
             'SearchEngine.init()',
         ));
-        
+
         if( !$_POST ) redirect( base_url() );
-        
+
         $s_key                          = $this->input->post('search_key', TRUE);
         $s_key                          = smit_isset($s_key, '');
         $search_data                    = $this->Model_Search->get_search(0,0,$s_key);
@@ -2971,36 +2971,36 @@ class Frontend extends Public_Controller {
         $s_incubationproduct_data       = array();
         $s_tenantlist_data              = array();
         $s_guides_data                  = array();
-        
+
         if( $search_data || !empty($search_data) ){
             foreach($search_data as $row){
                 if( $row->search_type == 'news' ){
-                    $s_news_data[] = $row; 
+                    $s_news_data[] = $row;
                 }
                 if( $row->search_type == 'blog_tenant' ){
-                    $s_blogtenant_data[] = $row; 
+                    $s_blogtenant_data[] = $row;
                 }
                 if( $row->search_type == 'announcement' ){
-                    $s_announcement_data[] = $row; 
+                    $s_announcement_data[] = $row;
                 }
                 if( $row->search_type == 'list_praincubation' ){
-                    $s_praincubationlist_data[] = $row; 
+                    $s_praincubationlist_data[] = $row;
                 }
                 if( $row->search_type == 'list_praincubation_product' ){
-                    $s_praincubationproduct_data[] = $row; 
+                    $s_praincubationproduct_data[] = $row;
                 }
                 if( $row->search_type == 'list_incubation_product' ){
-                    $s_incubationproduct_data[] = $row; 
+                    $s_incubationproduct_data[] = $row;
                 }
                 if( $row->search_type == 'list_tenant' ){
-                    $s_tenantlist_data[] = $row; 
+                    $s_tenantlist_data[] = $row;
                 }
                 if( $row->search_type == 'list_guide' ){
-                    $s_guides_data[] = $row; 
+                    $s_guides_data[] = $row;
                 }
             }
         }
-        
+
         $data['s_news_data']                = $s_news_data;
         $data['s_blogtenant_data']          = $s_blogtenant_data;
         $data['s_announcement_data']        = $s_announcement_data;
@@ -3020,7 +3020,7 @@ class Frontend extends Public_Controller {
 
         $this->load->view(VIEW_FRONT . 'template', $data);
     }
-    
+
     // ---------------------------------------------------------------------------------------------
 
 }
