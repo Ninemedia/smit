@@ -327,11 +327,11 @@ $("body").delegate( "a.incdetailcommentstep1", "click", function( event ) {
     var id      = $(this).data('id');
     var uniquecode  = $(this).data('uniquecode');
     var comment     = $(this).data('comment');
-    
+
     //var el_id   = $('#reg_id_workunit_edit', form);
     //var el_uniquecode = $('#reg_workunit_edit', form);
     var el_comment = $('#commentbody', form);
-    
+
     //el_id.val(id);
     //el_uniquecode.val(uniquecode);
     el_comment.val(comment);
@@ -346,16 +346,35 @@ $("body").delegate( "a.pradetailcommentstep1", "click", function( event ) {
     var id      = $(this).data('id');
     var uniquecode  = $(this).data('uniquecode');
     var comment     = $(this).data('comment');
-    
+
     //var el_id   = $('#reg_id_workunit_edit', form);
     //var el_uniquecode = $('#reg_workunit_edit', form);
     var el_comment = $('#commentbody', form);
-    
+
     //el_id.val(id);
     //el_uniquecode.val(uniquecode);
     el_comment.val(comment);
 
     $('#pradetail_comment1').modal('show');
+});
+
+// Detail Comment Step 1 Pra-Incubation
+$("body").delegate( "a.pradetailcommentstep2", "click", function( event ) {
+    event.preventDefault();
+    var form    = $('#pradetail_commentstep2');
+    var id      = $(this).data('id');
+    var uniquecode  = $(this).data('uniquecode');
+    var comment     = $(this).data('comment');
+
+    //var el_id   = $('#reg_id_workunit_edit', form);
+    //var el_uniquecode = $('#reg_workunit_edit', form);
+    var el_comment = $('#commentbody', form);
+
+    //el_id.val(id);
+    //el_uniquecode.val(uniquecode);
+    el_comment.val(comment);
+
+    $('#pradetail_comment2').modal('show');
 });
 
 // Workunit Edit
@@ -369,10 +388,10 @@ $("body").delegate( "a.workunitedit", "click", function( event ) {
     var el_id   = $('#reg_id_workunit_edit', form);
     var el_name = $('#reg_workunit_edit', form);
     var el_stat = $('#reg_status_edit', form);
-    
+
     el_id.val(id);
     el_name.val(name);
-    
+
     $(el_stat).val(stat);
     $(el_stat).selectpicker('render');
 
@@ -415,20 +434,20 @@ $("body").delegate( "a.accompanimenttenantedit", "click", function( event ) {
 $(document).ready(function() {
     var tx = 1;
     var tc_el = $('input[name=team_count]');
-    
+
     // Add More Team
     $("body").delegate( "button.addteam-more", "click", function( event ) {
         event.preventDefault();
         tx++;
-    
+
         var wrapper         = $(".addteam_container");
-        var content         = '<div class="card">' + 
-            '<div class="header header-team bg-cyan">' + 
+        var content         = '<div class="card">' +
+            '<div class="header header-team bg-cyan">' +
                 '<a href="javascript:void(0);" class="btn btn-xs btn-default waves-effect deleteteam pull-right tooltips" data-placement="left" title="Hapus">' +
                     'X' +
-                '</a>' + 
-                '<h5>Data Tim Tenant</h5>' + 
-            '</div>' + 
+                '</a>' +
+                '<h5>Data Tim Tenant</h5>' +
+            '</div>' +
             '<div class="body">' +
                 '<div class="row bottom0">' +
                     '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom0-lg" >' +
@@ -447,16 +466,16 @@ $(document).ready(function() {
                             '<label class="form-label">Jabatan/Posisi/Peran *</label>' +
                             '<div class="form-line">' +
                                 '<input type="text" class="form-control team_position" name="team_position_'+tx+'" id="team_position_'+tx+'">' +
-                            '</div>' + 
+                            '</div>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
         '</div>';
-        
+
         tc_el.val(tx);
         $(wrapper).append(content);
-        
+
         $(".team_image").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
@@ -472,10 +491,10 @@ $(document).ready(function() {
             },
             maxFileSize: 1024,
         });
-        
+
         $('a.tooltips').tooltip();
         App.scrollTo( $(this) , 100);
-        
+
         $('input.team_image').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -484,7 +503,7 @@ $(document).ready(function() {
                 }
             });
         });
-        
+
         $('input.team_name').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -493,7 +512,7 @@ $(document).ready(function() {
                 }
             });
         });
-        
+
         $('input.team_position').each(function() {
             $(this).rules('add', {
                 required: true,
@@ -502,12 +521,12 @@ $(document).ready(function() {
                 }
             });
         });
-        
+
         $(".team_image").on('fileselect', function(event, numFiles, label) {
             $(this).parent().parent().parent().parent().parent().find('label.error').remove();
         });
     });
-    
+
     // Delete Team Data
     $("body").delegate( "a.deleteteam", "click", function( event ) {
         event.preventDefault();
@@ -516,7 +535,7 @@ $(document).ready(function() {
         tc_el.val(tx);
         App.scrollTo( $('button.addteam-more') , 100);
     });
-    
+
     $(".team_image").on('fileselect', function(event, numFiles, label) {
         $(this).parent().parent().parent().parent().parent().find('label.error').remove();
     });
@@ -952,14 +971,14 @@ var UploadFiles = function () {
             fileType: "any",
             overwriteInitial: false,
             initialPreviewAsData: true,
-            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            allowedFileExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'jpg', 'jpeg', 'png'],
             fileActionSettings : {
                 showUpload: false,
                 showZoom: false,
             },
             maxFileSize: 1024,
         });
-        
+
         $("input#newsedit_image").fileinput({
             showUpload : false,
             showUploadedThumbs : false,
@@ -1052,7 +1071,7 @@ var UploadFiles = function () {
             /* uploadClass: 'btn btn-success' */
         });
     };
-    
+
     var handleEditUploadFilesActionPlan = function(){
         $("#reg_actionplan_files").fileinput({
             showUpload : false,
@@ -1117,7 +1136,7 @@ var UploadFiles = function () {
             fileType: "any",
             overwriteInitial: false,
             initialPreviewAsData: true,
-            allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+            allowedFileExtensions: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'jpg', 'jpeg', 'png'],
             fileActionSettings : {
                 showUpload: false,
                 showZoom: false,
@@ -1242,7 +1261,7 @@ var Tenant = function () {
             return false;
         });
 	};
-    
+
     // --------------------------------
     // Handle Add Tenant User ID Change
     // --------------------------------
@@ -1252,7 +1271,7 @@ var Tenant = function () {
             var val     = $(this).val();
             var url     = $(this).data('url');
             var el      = $('#tenant_event_id');
-            
+
             $.ajax({
                 type:   "POST",
                 data:   {
@@ -1359,11 +1378,11 @@ var Tenant = function () {
                 },
                 maxFileSize: 2048,
             });
-            
+
             $('#addtenant select').selectpicker('refresh');
             $('html, body').animate( { scrollTop: $('body').offset().top - 200 }, 500 );
-            
-            
+
+
         });
 	};
 
@@ -1453,14 +1472,14 @@ var Tenant = function () {
             $('html, body').animate( { scrollTop: $('body').offset().top + 550 }, 500 );
         });
 	};
-    
+
     // --------------------------------
     // Handle Edit Tenant Team
     // --------------------------------
 	var handleTenantTeamEdit = function() {
         $("body").delegate( "a.tenantteamedit", "click", function( event ) {
             event.preventDefault();
-            
+
             var url             = $(this).attr('href');
             var table_container = $('#list_tenant_team').parents('.dataTables_wrapper');
             var el_uniquecode   = $('input.tenant_team_uniquecode');
@@ -1468,7 +1487,7 @@ var Tenant = function () {
             var el_ava          = $('div.tenant-team-ava-wrapper');
             var el_name         = $('input.team_name_edit');
             var el_position     = $('input.team_position_edit');
-            
+
             $.ajax({
     			type : "POST",
     			url  : $(this).attr('href'),
@@ -1479,7 +1498,7 @@ var Tenant = function () {
     			success: function(response) {
                     $("div.page-loader-wrapper").fadeOut();
                     response = $.parseJSON( response );
-                    
+
                     if( response.status == 'error' ){
                         App.alert({
                             type: 'danger',
@@ -1496,7 +1515,7 @@ var Tenant = function () {
                         el_ava.html(response.data.ava);
                         el_name.val(response.data.name);
                         el_position.val(response.data.position);
-                        
+
                         $('#tenant_team_ava_files').fileinput({
                             showUpload : false,
                             showUploadedThumbs : false,
@@ -1512,14 +1531,14 @@ var Tenant = function () {
                             },
                             maxFileSize: 2048,
                         });
-                        
+
                         $('#tenant_team_edit').modal('show');
                     }
     			}
     		});
         });
 	};
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -1847,7 +1866,7 @@ var Setting = function () {
                 }
             });
         });
-        
+
         $("#slider_image").on('fileselect', function(event, numFiles, label) {
             $(this).parent().parent().parent().parent().parent().find('label.error').remove();
         });
@@ -2042,7 +2061,7 @@ var Charts = function() {
             }
         });
     };
-    
+
     var handleChartPraIncubation = function() {
         // Chart Year Init
         var elm = 'chart-praincubation-year';
@@ -2078,7 +2097,7 @@ var Charts = function() {
             resize: true
 		});
     };
-    
+
     var handleChartTabIncubation = function() {
         // Chart Month Init
         var elmMonth = 'chart-incubation-month';

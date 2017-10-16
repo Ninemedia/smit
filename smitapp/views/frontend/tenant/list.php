@@ -109,18 +109,22 @@
                                             <th class="width5">No</th>
                                             <th class="width15 text-center">Nama Tenant</th>
                                             <th class="width20">Alamat</th>
+                                            <!--
                                             <th class="width10 text-center">Email</th>
                                             <th class="width10 text-center">Telp</th>
+                                            -->
                                             <th class="width10 text-center">Actions<br /></th>
                                         </tr>
                                         <tr role="row" class="filter table-filter">
                                             <td></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_name_tenant" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_address" /></td>
+                                            <!--
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_email" /></td>
                                             <td><input type="text" class="form-control form-filter input-sm text-uppercase" name="search_phone" /></td>
+                                            -->
                                             <td style="text-align: center;">
-                                                <button class="btn bg-blue waves-effect filter-submit bottom5-min bottom5" id="btn_tenant_list">Search</button>
+                                                <button class="btn bg-blue waves-effect filter-submit" id="btn_tenant_list">Search</button>
                                                 <button class="btn bg-red waves-effect filter-cancel">Reset</button>
                                             </td>
                                         </tr>

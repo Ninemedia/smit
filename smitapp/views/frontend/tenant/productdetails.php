@@ -43,7 +43,7 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <h4 class="news-title"><?php echo $productdata->title; ?></h4>
                 <div class="details-img">
-                    <img class="js-animating-object img-responsive" src="<?php echo $product_image; ?>" alt="" />
+                    <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" src="<?php echo $product_image; ?>" alt="" />
                 </div>
                 <p class="news-date">
                     <!-- <i class="fa fa-calendar"></i> Publikasi : <?php echo date('d F Y H:i:s', strtotime($productdata->datecreated)); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
@@ -71,8 +71,8 @@
                         s.setAttribute('data-timestamp', +new Date());
                         (d.head || d.body).appendChild(s);
                     })();
-                </script> 
-                -->  
+                </script>
+                -->
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 bottom30 news-related">
                 <div class="row clearfix">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            
+
 		</div>
 	</div>
 </div>

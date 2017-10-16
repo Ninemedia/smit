@@ -349,7 +349,7 @@ class Incubation extends User_Controller {
         $data = (object) $data;
         foreach( $data as $key => $id ){
             // Check Data Incubation Selection
-            
+
             $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
             $order_by   = ' %id% ASC';
             $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
@@ -357,27 +357,27 @@ class Incubation extends User_Controller {
                 continue;
             }
             $incseldata  = $incseldata[0];
-            
+
             if( $status ==  DELETED){
                 $incselupdatedata   = array(
                     'view'          => DELETED,
                     'datemodified'  => $curdate,
-                );    
+                );
             }else{
                 $incselupdatedata   = array(
                     'status'        => $status,
                     'datemodified'  => $curdate,
-                );    
+                );
             }
 
             if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
                 continue;
             }
-            
+
             if( $status != DELETED ){
-                $this->smit_email->send_email_selection_confirmation_step1($incseldata);    
+                $this->smit_email->send_email_selection_confirmation_step1($incseldata);
             }
-            
+
             /*
             if($action=='confirm'){
                 $condition  = ' WHERE %id% = '.$id.' AND %status% = 0 AND %step% = 1';
@@ -449,7 +449,7 @@ class Incubation extends User_Controller {
                     }
                 }
             }
-            
+
             */
         }
 
@@ -1293,7 +1293,8 @@ class Incubation extends User_Controller {
         ));
         $scripts_add            = '';
 
-        $active                 = '';
+        $active                 = 0;
+        $active2                = 0;
         $lss                    = smit_latest_incubation_setting();
         if( !empty($lss) ){
             $jury_step1             = $lss->selection_juri_phase1;
@@ -1306,7 +1307,7 @@ class Incubation extends User_Controller {
                     $active = 0;
                 }
             }
-            
+
             $jury_step2             = $lss->selection_juri_phase2;
             $jury_step2             = explode(",", $jury_step2);
             foreach($jury_step2 as $id){
@@ -2099,6 +2100,8 @@ class Incubation extends User_Controller {
 
         $curdate = date('Y-m-d H:i:s');
         if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        if( $action=='graduate' )    { $actiontxt = 'Graduate'; $status = ACTIVE; }
+        if( $action=='notgraduate' )    { $actiontxt = 'Not Graduate'; $status = ACTIVE; }
 
         // -------------------------------------------------
         // Begin Transaction
@@ -4521,7 +4524,7 @@ class Incubation extends User_Controller {
                     $rate_total     = '<strong>'.$rate_total.'</strong>';
                 }
                 $btn_action = '<a class="incdetailcommentstep1 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name),
@@ -4593,6 +4596,8 @@ class Incubation extends User_Controller {
                 $total_sum      = $total_klaster1 + $total_klaster2 + $total_klaster3 + $total_klaster4;
                 $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
 
+                $btn_action = '<a class="incdetailcommentstep2 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name),
@@ -4622,6 +4627,7 @@ class Incubation extends User_Controller {
                         '<strong>' . smit_center( floor($sum_klaster4) ) .'</strong>',
                         '<strong>' . smit_center( floor($row->rate_total) ) .'</strong>',
                         '<strong>' . smit_center( floor($row->irl_total) ) .'</strong>',
+                        smit_center( $btn_action ),
                     );
                 $i++;
             }

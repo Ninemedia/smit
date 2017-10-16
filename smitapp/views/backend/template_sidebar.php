@@ -449,7 +449,7 @@
                     'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Pembayaran',
+                    'title'     => 'Dokumen Tenant',
                     'nav'       => 'tenants/pembayaran',
                     'parent'    => 'tenants',
                     'link'      => base_url('tenants/pembayaran'),
@@ -760,7 +760,7 @@
             </div>
         </div>
         <!-- #User Info -->
-        
+
         <!-- Menu -->
         <div class="menu">
             <ul class="list">

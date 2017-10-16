@@ -175,7 +175,7 @@ define('EXPORT_PATH', BASE_URL . 'smitassets/export/');
 
 /*
 |--------------------------------------------------------------------------
-| MM Constant 
+| MM Constant
 |--------------------------------------------------------------------------
 |
 | These modes for set cookie
@@ -227,6 +227,7 @@ define('NONACTIVE',     0);
 define('ACTIVE',        1);
 define('BANNED',        2);
 define('DELETED',       3);
+define('GRADUATE',      4);
 
 /*
 |--------------------------------------------------------------------------
