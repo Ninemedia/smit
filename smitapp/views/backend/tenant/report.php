@@ -7,6 +7,7 @@
                 <?php if($is_admin): ?>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
+                    <!--
                     <li role="presentation" class="active">
                         <a href="#list" data-toggle="tab">
                             <i class="material-icons">list</i> DAFTAR LAPORAN INKUBASI/TENANT
@@ -17,7 +18,8 @@
                             <i class="material-icons">add_box</i> TAMBAH LAPORAN
                         </a>
                     </li>
-                    <li role="presentation">
+                    -->
+                    <li role="presentation" class="active">
                         <a href="#actionplan_list" data-toggle="tab">
                             <i class="material-icons">list</i> ACTION PLAN TENANT
                         </a>
@@ -31,7 +33,7 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="list">
+                    <div role="tabpanel" class="tab-pane fade in" id="list">
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="list_tenantreport" data-url="<?php echo base_url('tenants/laporandata'); ?>">
                                 <thead>
@@ -172,8 +174,8 @@
                         </div>
                         <?php echo form_close(); ?>
                     </div>
-                    
-                    <div role="tabpanel" class="tab-pane fade in" id="actionplan_list">
+
+                    <div role="tabpanel" class="tab-pane fade in active" id="actionplan_list">
                         <div class="table-container table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="list_actionplantenantreport" data-url="<?php echo base_url('tenants/laporanactionplandata'); ?>">
                                 <thead>
@@ -550,17 +552,17 @@
                                                         foreach($cfg_month as $key => $value){
                                                             $reportinc_list     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %user_id% = '.$user->id.' AND %month% = '.$key.'');
                                                             $reportinc_list     = $reportinc_list[0];
-                                                            
+
                                                             if( !empty($reportinc_list) ){
                                                                 //if($reportinc_list->month != $key)
-                                                                    echo '<option value="'.$key.'">'.strtoupper($value).'</option>';    
+                                                                    echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
                                                             }else{
-                                                                echo '<option value="'.$key.'">'.strtoupper($value).'</option>';  
+                                                                echo '<option value="'.$key.'">'.strtoupper($value).'</option>';
                                                             }
-                                                            
+
                                                         }
                                                     }
-                                        
+
                                                 }else{
                                                     echo '<option value="">-- Tidak Ada Pilihan --</option>';
                                                 }

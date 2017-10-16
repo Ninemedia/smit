@@ -2511,7 +2511,7 @@ class Tenant extends User_Controller {
 
             $config = array(
                 'upload_path'       => $upload_path,
-                'allowed_types' => "jpg|jpeg|png",
+                'allowed_types' => "jpg|jpeg|png|doc|docx|xls|xlsx|pdf",
                 'overwrite'         => FALSE,
                 'max_size'          => "2048000",
             );
@@ -2660,7 +2660,7 @@ class Tenant extends User_Controller {
 
             $config = array(
                 'upload_path'   => $upload_path,
-                'allowed_types' => "jpg|jpeg|png",
+                'allowed_types' => "jpg|jpeg|png|doc|docx|xls|xlsx|pdf",
                 'overwrite'     => FALSE,
                 'max_size'      => "2048000",
             );
@@ -2832,13 +2832,18 @@ class Tenant extends User_Controller {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
 
+                $btn_download   = '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'"
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+
+
                 $records["aaData"][] = array(
                     smit_center('<input name="paymentlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     smit_center($row->invoice),
-                    '<a href="'.base_url('pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
-                    $image,
+                    '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    //$image,
+                    smit_center( $btn_download ),
                     smit_center( $status ),
                     //smit_center( date('d F Y H:i:s', strtotime($row->datecreated)) ),
                     smit_center( $btn_action .' '. $btn_edit ),
@@ -5120,7 +5125,7 @@ class Tenant extends User_Controller {
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unggah"><i class="material-icons">file_upload</i></a> ';
 
                 $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
                 $count_all_report  = $this->Model_Tenant->count_all_reporttenant($row->user_id, $row->tenant_id);
 
@@ -5234,12 +5239,12 @@ class Tenant extends User_Controller {
                 $uploaded       = $row->uploader;
                 if( $uploaded > 0 ){
                     $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
-                    class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }
                 $btn_action     = "";
                 if( $uploaded == 0){
                     $btn_action = '<a href="'.base_url('tenants/laporan/actionplan/detail/'.$row->id).'"
-                    class="inact btn btn-xs btn-succes waves-effect tooltips bottom5" data-placement="left" title="Tambah Bukti Berkas"><i class="material-icons">add</i></a> ';
+                    class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Tambah Bukti Berkas"><i class="material-icons">add</i></a> ';
                 }
 
                 $records["aaData"][] = array(
@@ -5627,7 +5632,7 @@ class Tenant extends User_Controller {
 
         $reportaction_list  = $this->Model_Tenant->get_all_reportactionplanadmin(0, 0, ' WHERE %id% = '.$id.'');
         $reportaction_list  = $reportaction_list[0];
-        
+
         if( !empty( $_POST ) ){
             // -------------------------------------------------
             // Begin Transaction

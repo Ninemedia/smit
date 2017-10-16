@@ -6,7 +6,7 @@
                 <a href="<?php echo base_url('tenants/pembayaran'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom20">
                     <i class="material-icons">arrow_back</i> Kembali
                 </a>
-                <h2>Detail Pra Inkubasi</h2>
+                <h2>Detail Dokumen Tenant</h2>
             </div>
             <div class="body">
                 <div class="table-container table-responsive">
@@ -20,12 +20,12 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th style="width: 30%;">Invoice</th>
+                                <th style="width: 30%;">Nomor Dokumen</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo $paymentdata->invoice; ?></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Judul Pembayaran</th>
+                                <th style="width: 30%;">Judul Dokumen</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><strong><?php echo strtoupper( $paymentdata->title ); ?></strong></td>
                             </tr>
@@ -40,12 +40,12 @@
                                 <td><p><?php echo $paymentdata->desc; ?></p></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Tanggal Pembayaran</th>
+                                <th style="width: 30%;">Tanggal Dokumen</th>
                                 <td style="width: 1%;"> : </td>
                                 <td><?php echo date('d F Y H:i:s', strtotime($paymentdata->datecreated)); ?></td>
                             </tr>
                             <tr>
-                                <th style="width: 30%;">Bukti Pembayaran</th>
+                                <th style="width: 30%;">Berkas Dokumen</th>
                                 <td style="width: 1%;"> : </td>
                                 <td>
                                     <div class="details-img">

@@ -39,8 +39,8 @@
                                         <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
                                         <th class="width10 text-center">No. Dokumen</th>
-            							<th class="width20 text-center">Judul Dokumen</th>
-            							<th class="width15 text-center">File Dokumen</th>
+            							<th class="width25 text-center">Judul Dokumen</th>
+            							<th class="width10 text-center">File Dokumen</th>
             							<th class="width10 text-center">Status</th>
                                         <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -129,14 +129,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h4>Gambar Bukti Dokumen</h4>
+                                    <h4>Berkas Dokumen</h4>
                                     <div class="form-group">
                                         <p align="justify">
                                             <strong>Perhatian!</strong>
-                                            File yang dapat di upload adalah dengan Ukuran 500 x 500px Maksimal 1024 KB dan format File adalah <strong>JPG/PNG.</strong>
+                                            File yang dapat di upload adalah dengan UkuranMaksimal 1024 KB dan format File adalah <strong>JPG/PNG/DOC/DOCX/PDF/XLS/XLSX.</strong>
                                         </p>
                                         <div class="form-group">
-                                            <label>Upload Bukti Pembayaran</label>
+                                            <label>Upload Berkas Dokumen</label>
                                             <input id="news_selection_files" name="news_selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
