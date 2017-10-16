@@ -17,6 +17,8 @@
 
                     <!-- Multiple Items To Be Open -->
                     <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
+                        <h4 class="text-center"><?php echo strtoupper($data_selection->user_name); ?></h4>
+                        <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
                         <!-- FORMULIR PENGUSUL -->
                         <div class="panel panel-col-blue">
                             <div class="panel-heading" role="tab" id="formulir">

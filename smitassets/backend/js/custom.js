@@ -358,6 +358,25 @@ $("body").delegate( "a.pradetailcommentstep1", "click", function( event ) {
     $('#pradetail_comment1').modal('show');
 });
 
+// Detail Comment Step 1 Pra-Incubation
+$("body").delegate( "a.pradetailcommentstep2", "click", function( event ) {
+    event.preventDefault();
+    var form    = $('#pradetail_commentstep2');
+    var id      = $(this).data('id');
+    var uniquecode  = $(this).data('uniquecode');
+    var comment     = $(this).data('comment');
+    
+    //var el_id   = $('#reg_id_workunit_edit', form);
+    //var el_uniquecode = $('#reg_workunit_edit', form);
+    var el_comment = $('#commentbody', form);
+    
+    //el_id.val(id);
+    //el_uniquecode.val(uniquecode);
+    el_comment.val(comment);
+
+    $('#pradetail_comment2').modal('show');
+});
+
 // Workunit Edit
 $("body").delegate( "a.workunitedit", "click", function( event ) {
     event.preventDefault();
