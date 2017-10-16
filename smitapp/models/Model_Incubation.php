@@ -1031,6 +1031,22 @@ class Model_Incubation extends SMIT_Model{
 
         return $query->num_rows();
     }
+    
+    /**
+     * Count All Score Rows
+     *
+     * @author  Iqbal
+     * @param   String  $status (Optional) Status of user, default 'all'
+     * @param   Int     $type   (Optional) Type of user, default 'all'
+     * @return  Int of total rows user
+     */
+    function count_all_selection($setting_id = 0){
+        if ( $setting_id != 0 )  { $this->db->where('setting_id', $setting_id); }
+
+        $query = $this->db->get($this->incubation_selection);
+
+        return $query->num_rows();
+    }
 
     /**
      * Retrieve all pra incubation data

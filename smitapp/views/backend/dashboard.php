@@ -90,7 +90,7 @@
         $countuser_score1       = 0;
         $countuser_score2       = 0;
         $count_all_selection    = 0;
-        $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED, NOTCONFIRMED);
+        $user_list1             = $this->Model_Praincubation->count_all_scoreconfirm_step1(CONFIRMED);
         $user_list2             = $this->Model_Praincubation->count_all_scoreconfirm_step2(CONFIRMED);
         if( !empty($lss) ){
             $count_all_selection    = $this->Model_Praincubation->count_all_selection($lss->id);
@@ -100,8 +100,25 @@
             $countuser_score1   = $user_list1;
         }
         if($user_list2 > 0){
-            $countuser_score1   = $user_list2;
+            $countuser_score2   = $user_list2;
         }
+        
+        $countuser_score1inc    = 0;
+        $countuser_score2inc    = 0;
+        $count_all_selectioninc = 0;
+        $user_list1inc          = $this->Model_Incubation->count_all_scoreconfirm_step1(CONFIRMED);
+        $user_list2inc          = $this->Model_Incubation->count_all_scoreconfirm_step2(CONFIRMED);
+        if( !empty($lss) ){
+            $count_all_selectioninc = $this->Model_Incubation->count_all_selection($lss->id);
+        }
+
+        if($user_list1inc > 0){
+            $countuser_score1inc    = $user_list1inc;
+        }
+        if($user_list2inc > 0){
+            $countuser_score2inc    = $user_list2inc;
+        }
+        
     ?>
     <?php if($is_admin): ?>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -212,8 +229,8 @@
                     <tr align="center">
                         <td style="font-size: 24px !important; "><strong><?php echo $countuser_score1; ?></strong></td>
                         <td style="font-size: 24px !important; "><strong><?php echo $countuser_score2; ?></strong></td>
-                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score1; ?></strong></td>
-                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score2; ?></strong></td>
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score1inc; ?></strong></td>
+                        <td style="font-size: 24px !important; "><strong><?php echo $countuser_score2inc; ?></strong></td>
                     </tr>
                 </tbody>
             </table>
