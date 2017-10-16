@@ -2,14 +2,14 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Pembayaran Tenant</h2></div>
+            <div class="header"><h2>Dokumen Tenant</h2></div>
             <div class="body">
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR PEMBAYARAN
+                            <i class="material-icons">list</i> DAFTAR DOKUMEN TENANT
                         </a>
                     </li>
                     <li role="presentation">
@@ -38,9 +38,9 @@
             						<tr role="row" class="heading bg-blue">
                                         <th class="width5 text-center"><input name="select_all" id="select_all" value="1" type="checkbox" class="select_all filled-in chk-col-orange" /><label for="select_all"></label></th>
             							<th class="width5">No</th>
-                                        <th class="width10 text-center">Invoice</th>
-            							<th class="width20 text-center">Judul Pembayaran</th>
-            							<th class="width15 text-center">Gambar Produk</th>
+                                        <th class="width10 text-center">No. Dokumen</th>
+            							<th class="width20 text-center">Judul Dokumen</th>
+            							<th class="width15 text-center">File Dokumen</th>
             							<th class="width10 text-center">Status</th>
                                         <!-- <th class="width10 text-center">Tanggal Daftar</th> -->
             							<th class="width10 text-center">Actions <button class="btn btn-xs btn-warning btn-floating table-search"><i class="material-icons">search</i></button></th>
@@ -87,7 +87,7 @@
                             <div id="alert" class="alert display-hide"></div>
                             <div class="form-group form-float">
                                 <section id="">
-                                    <h4>Pembayaran Tenant</h4>
+                                    <h4>Dokumen Tenant</h4>
                                     <div class="form-group">
                                         <label class="form-label">Nama Tenant <b style="color: red !important;">(*)</b></label>
                                         <p>Tenant yang sudah ada pendamping</p>
@@ -113,11 +113,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Judul Pembayaran <b style="color: red !important;">(*)</b></label>
+                                        <label class="form-label">Judul Dokumen <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">subject</i></span>
                                             <div class="form-line">
-                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Pembayaran" required>
+                                                <input type="text" name="reg_title" id="reg_title" class="form-control" placeholder="Masukan Judul Dokumen" required>
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h4>Gambar Bukti Pembayaran</h4>
+                                    <h4>Gambar Bukti Dokumen</h4>
                                     <div class="form-group">
                                         <p align="justify">
                                             <strong>Perhatian!</strong>
@@ -140,7 +140,7 @@
                                             <input id="news_selection_files" name="news_selection_files" class="form-control" type="file">
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_paymentadd">Tambah Pembayaran</button>
+                                    <button type="submit" class="btn btn-primary waves-effect" id="btn_paymentadd">Tambah Dokumen</button>
                                     <button type="button" class="btn btn-danger waves-effect" id="btn_paymentadd_reset">Bersihkan</button>
                                 </section>
                             </div>
@@ -160,10 +160,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-				<h4 class="modal-title">Pembayaran Tenant</h4>
+				<h4 class="modal-title">Dokumen Tenant</h4>
 			</div>
 			<div class="modal-body">
-                <p>Anda Sedang Melakukan Pembayaran Tenant. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
+                <p>Anda Sedang Melakukan Upload Dokumen Tenant. Pastikan Data yang Anda masukan sudah benar! Terima Kasih</p>
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>

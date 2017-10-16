@@ -36,7 +36,7 @@
 				<h3>Fasilitas Tenant</h3>
 			</div>
             <div class="col-md-12">
-                <img class="js-animating-object img-responsive" src="<?php echo FE_IMG_PATH; ?>slider/slider3.jpg" alt="" />
+                <img class="js-animating-object img-responsive media-object visible-lg visible-md visible-sm" src="<?php echo FE_IMG_PATH; ?>slider/slider3.jpg" alt="" />
             </div>
 			<div class="col-md-12">
                 <div class="panel-body">
@@ -110,7 +110,7 @@
                     <hr />
                 </div>
             </div>
-            
+
             <div class="col-md-12">
                 <div class="panel-body">
                     <h4>Workshop</h4>
@@ -158,9 +158,9 @@
                                     <td><strong>Ruangan</strong></td>
                                     <td><center>:</center></td>
                                     <td>
-                                        Ruang Proses : 650 m<sup>2</sup> <br /> 
-                                        Ruang Lab QC : 40 m<sup>2</sup> <br /> 
-                                        Ruang Kantor (lantai 2) : 60 m<sup>2</sup> <br /> 
+                                        Ruang Proses : 650 m<sup>2</sup> <br />
+                                        Ruang Lab QC : 40 m<sup>2</sup> <br />
+                                        Ruang Kantor (lantai 2) : 60 m<sup>2</sup> <br />
                                         Gudang : 200 m<sup>2</sup> <br />
                                         Ruang Perawatan : 50 m<sup>2</sup> <br />
                                         Toilet & dapur : 30 m<sup>2</sup>
@@ -214,7 +214,7 @@
                     <hr />
                 </div>
             </div>
-            
+
             <div class="col-md-12">
                 <div class="panel-body">
                     <h4>Syndication Room</h4>
@@ -323,7 +323,7 @@
                     <hr />
                 </div>
             </div>
-            
+
 		</div>
 	</div>
 </div>

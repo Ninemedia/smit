@@ -10,7 +10,7 @@
             </div>
             <div class="body">
                 <div class="table-container table-responsive">
-                    <a href="<?php echo base_url('tenants/pembayaran'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a>
+                    <!-- <a href="<?php echo base_url('tenants/pembayaran'); ?>" class="btn btn-sm btn-default waves-effect back pull-right bottom25"><i class="material-icons">arrow_back</i> Kembali</a> -->
 
                     <table class="table table-striped table-hover" id="">
                         <thead>
