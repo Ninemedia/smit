@@ -18,19 +18,19 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xs-12">
                         <div class="media-left">
-                            <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>">
+                            <a href="<?php echo base_url('tenant/detail/'.$tenant->slug.''); ?>">
                                 <img class="js-animating-object img-responsive media-object"
                                 src="<?php echo BE_UPLOAD_PATH . 'incubationtenant/'.$tenant->uploader.'/'.$tenant->filename.'.'.$tenant->extension; ?>" />
                             </a>
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                        <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>" class="media-heading-link"><?php echo $name; ?></a>
+                        <a href="<?php echo base_url('tenant/detail/'.$tenant->slug.''); ?>" class="media-heading-link"><?php echo $name; ?></a>
                         <div class="media-date"><i class="icon-calendar"></i> <?php echo $tenant->year; ?></div>
                         <i class="icon-address"></i> <?php echo $address; ?><br />
                         <i class="icon-message"></i> <?php echo $tenant->email; ?><br />
                         <i class="icon-phone"></i> <?php echo $tenant->phone; ?><br />
-                        <a href="<?php echo base_url('tenant/detail/'.$tenant->uniquecode.''); ?>" class="listdetailtenant waves-effect"><strong>Selengkapnya</strong></a>
+                        <a href="<?php echo base_url('tenant/detail/'.$tenant->slug.''); ?>" class="listdetailtenant waves-effect"><strong>Selengkapnya</strong></a>
                     </div>
                 </div>
             </div>
