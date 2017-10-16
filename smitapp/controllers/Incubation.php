@@ -1293,7 +1293,8 @@ class Incubation extends User_Controller {
         ));
         $scripts_add            = '';
 
-        $active                 = '';
+        $active                 = 0;
+        $active2                = 0;
         $lss                    = smit_latest_incubation_setting();
         if( !empty($lss) ){
             $jury_step1             = $lss->selection_juri_phase1;
