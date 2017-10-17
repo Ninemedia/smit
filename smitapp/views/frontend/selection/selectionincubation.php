@@ -182,3 +182,26 @@
 	</div>
 </div>
 <!-- END INFORMATION SUCCESS SAVE SELECTION INCUBATION MODAL -->
+
+<!-- BEGIN INFORMATION SUCCESS SAVE SELECTION INCUBATION MODAL -->
+<div class="modal fade" id="save_selectionincubation_success" tabindex="-1" role="basic" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Pendaftaran Seleksi Inkubasi Berhasil</h4>
+			</div>
+			<div class="modal-body">
+                <p>
+                    Pendaftaran seleksi Inkubasi baru berhasil!<br />
+                    Data seleksi Anda akan segera di proses<br />
+                    Silahkan <strong><a href="<?php echo base_url('login'); ?>">LOGIN</a></strong> untuk melihat data seleksi Anda!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Tutup</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END INFORMATION SUCCESS SAVE SELECTION INCUBATION MODAL -->
