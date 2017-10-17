@@ -197,6 +197,7 @@ class Model_Tenant extends SMIT_Model{
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
             $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
+            $conditions = str_replace("%companion_name%",       "C.name", $conditions);
             $conditions = str_replace("%product_id%",           "B.id", $conditions);
         }
 
@@ -216,14 +217,18 @@ class Model_Tenant extends SMIT_Model{
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
             $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
+            $order_by   = str_replace("%companion_name%",       "C.name",  $order_by);
             $order_by   = str_replace("%product_id%",           "B.id",  $order_by);
         }
 
         $sql = '
-            SELECT A.*, B.event_title, B.year, B.name AS user_name, B.event_desc, B.category, B.id AS product_id, A.year AS year_tenant
-			FROM ' . $this->tenant. ' AS A
-			LEFT JOIN ' . $this->incubation. ' AS B
-			ON B.id = A.incubation_id';
+        SELECT 
+            A.*, A.year AS year_tenant,
+            B.event_title, B.year, B.name AS user_name, B.event_desc, B.category, B.id AS product_id,
+            C.name AS companion_name
+		FROM ' . $this->tenant. ' AS A
+		LEFT JOIN ' . $this->incubation. ' AS B ON B.id = A.incubation_id 
+        LEFT JOIN ' . $this->user . ' AS C ON C.id = A.companion_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');

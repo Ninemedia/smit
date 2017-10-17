@@ -1828,7 +1828,7 @@ class Tenant extends User_Controller {
         $condition          = ' WHERE %companion_id% > 0 ';
         if( !$is_admin ){
             if( !empty($is_pendamping) ){
-                $condition          = ' WHERE %companion_id% = '.$current_user->id.'';
+                $condition      = ' WHERE %companion_id% = '.$current_user->id.'';
             }else{
                 $condition      = ' WHERE %user_id% = '.$current_user->id.'';
             }
@@ -1858,18 +1858,18 @@ class Tenant extends User_Controller {
         $s_companion_name   = smit_isset($s_companion_name, '');
 
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
-        if( !empty($s_tenant_name) )    { $condition .= str_replace('%s%', $s_tenant_name, ' AND %tenant_name% LIKE "%%s%%"'); }
+        if( !empty($s_tenant_name) )    { $condition .= str_replace('%s%', $s_tenant_name, ' AND %name_tenant% LIKE "%%s%%"'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_companion_name) ) { $condition .= str_replace('%s%', $s_companion_name, ' AND %companion_name% = %s%'); }
 
         if( $is_admin ){
-            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
+            if( $column == 1 )      { $order_by .= '%name_tenant% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 4 )  { $order_by .= '%companion_name% ' . $sort; }
         }else{
-            if( $column == 1 )  { $order_by .= '%event_title% ' . $sort; }
-            elseif( $column == 2 )  { $order_by .= '%tenant_name% ' . $sort; }
+            if( $column == 1 )  { $order_by .= '%name_tenant% ' . $sort; }
+            elseif( $column == 2 )  { $order_by .= '%name% ' . $sort; }
             elseif( $column == 3 )  { $order_by .= '%name% ' . $sort; }
         }
 
@@ -1884,20 +1884,13 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($tenant_list as $row){
 
-                $companiondata          = '';
-                $companion              = '';
-                if( !empty($row->companion_id) ){
-                    $companiondata      = $this->Model_User->get_userdata($row->companion_id);
-                    $companion  = $companiondata->name;
-                }
-
-                if( !empty($companiondata) ){
-                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($companiondata->name) . '</a>';
-                }else{ $companion_name = "<center style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></center>"; }
+                if( $row->companion_id > 0 ){
+                    $companion_name = '<a href="'.base_url('pengguna/profil/'.$row->companion_id).'">' . strtoupper($row->companion_name) . '</a>';
+                }else{ $companion_name = "<span style='color : red !important; '><strong>BELUM ADA PENDAMPING</strong></span>"; }
 
                 // Button
                 $btn_detail         = '<a href="'.base_url('tenants/detail/'.$row->uniquecode).'" class="inact btn btn-xs btn-primary waves-effect tooltips" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-tenantid="'.$row->id.'" data-name="'.$companion.'" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_edit           = '<a class="accompanimenttenantedit btn btn-xs btn-warning waves-effect tooltips" data-placement="left" data-id="'.$row->uniquecode.'" data-tenantid="'.$row->id.'" data-name="'.$row->companion_name.'" title="Ubah"><i class="material-icons">edit</i></a>';
 
 
                 if( !empty($is_admin) ){
@@ -1906,7 +1899,7 @@ class Tenant extends User_Controller {
                         strtoupper($row->name_tenant),
                         '<a href="'.base_url('pengguna/profil/'.$row->user_id).'">' . strtoupper($row->name) . '</a>',
                         strtoupper($row->name),
-                        $companion_name,
+                        smit_center($companion_name),
                         smit_center( $btn_detail .' '.$btn_edit ),
                     );
                 }elseif( !empty($is_pendamping) ){
