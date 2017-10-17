@@ -248,6 +248,7 @@ define('CONFIRMED',     1);
 define('RATED',         2);
 define('ACCEPTED',      3);
 define('REJECTED',      4);
+define('DELETED_SELECTION',      5);
 
 /*
 |--------------------------------------------------------------------------

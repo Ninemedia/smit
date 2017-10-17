@@ -982,7 +982,10 @@ class PraIncubation extends User_Controller {
         }
 
         $curdate = date('Y-m-d H:i:s');
-        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        if( $action=='confirm' )        { $actiontxt = 'Konfirmasi';    $status = ACTIVE; }
+        if( $action=='graduate' )       { $actiontxt = 'Lulus';         $status = ACCEPTED; }
+        if( $action=='notgraduate' )    { $actiontxt = 'Tidak Lulus';   $status = REJECTED; }
+        if( $action=='delete' )         { $actiontxt = 'Hapus';         $status = DELETED_SELECTION; }
 
         // -------------------------------------------------
         // Begin Transaction
@@ -990,9 +993,9 @@ class PraIncubation extends User_Controller {
         $this->db->trans_begin();
 
         $data = (object) $data;
-        foreach( $data as $key => $id ){
+        foreach( $data as $id ){
             // Check Data Pra Incubation Selection
-            $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
+            $condition  = ' WHERE %id% = '.$id.' AND %step% = 1';
             $order_by   = ' %id% ASC';
             $praincseldata  = $this->Model_Praincubation->get_all_praincubation(0,0,$condition,$order_by);
             if( !$praincseldata || empty($praincseldata) ){
@@ -1016,27 +1019,46 @@ class PraIncubation extends User_Controller {
                 $average_score  = 0;
             }
 
+            if($action=='graduate' || $action=='confirm'){
+                $status         = ACCEPTED;
+                $praincselupdatedata    = array(
+                    'score'         => $sum_score,
+                    'average_score' => $average_score,
+                    'status'        => $status,
+                    'statustwo'     => 1,
+                    'steptwo'       => 2,
+                    'datemodified'  => $curdate,
+                );
+            }elseif($action=='notgraduate'){
+                $status         = REJECTED;
+                $praincselupdatedata    = array(
+                    'score'         => $sum_score,
+                    'average_score' => $average_score,
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );
+            }elseif($action=='delete'){
+                $status         = DELETED_SELECTION;
+                $praincselupdatedata    = array(
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );
+            }
+
+            /*
             if( $average_score < KKM_STEP1 ){
                 $status         = REJECTED;
             }else{
                 $status         = ACCEPTED;
             }
-
-            $praincselupdatedata    = array(
-                'score'         => $sum_score,
-                'average_score' => $average_score,
-                'status'        => $status,
-                'statustwo'     => 1,
-                'steptwo'       => 2,
-                'datemodified'  => $curdate,
-            );
-
+            */
             if( !$this->Model_Praincubation->update_data_praincubation($praincseldata->id, $praincselupdatedata) ){
                 continue;
             }else{
-                if( $average_score < KKM_STEP1 ){
+                //if( $average_score < KKM_STEP1 ){
+                if( $action=='notgraduate' ){
                     $this->smit_email->send_email_selection_not_success_step1($praincset, $praincseldata);
-                }else{
+                }elseif( $action=='notgraduate' ){
                     $this->smit_email->send_email_selection_confirmation_step2($praincseldata);
                     $this->smit_email->send_email_selection_success($praincset, $praincseldata);
                 }
@@ -1048,10 +1070,18 @@ class PraIncubation extends User_Controller {
         // Complete Transaction
         $this->db->trans_complete();
 
-        $response = array(
-            'status'    => 'OK',
-            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Pra Inkubasi tahap 1 selesai di proses',
-        );
+        if( $action=='delete' ){
+            $response = array(
+                'status'    => 'OK',
+                'message'   => 'Data Seleksi Berhasil Di '.strtoupper($actiontxt).'.',
+            );
+        }else{
+            $response = array(
+                'status'    => 'OK',
+                'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Pra Inkubasi tahap 1 selesai di proses',
+            );
+        }
+
         return $response;
     }
 
@@ -2098,7 +2128,8 @@ class PraIncubation extends User_Controller {
         ));
         $scripts_add            = '';
 
-        $active                 = '';
+        $active                 = 0;
+        $active2                = 0;
         $lss                    = smit_latest_praincubation_setting();
         if( !empty($lss) ){
             $jury_step1             = $lss->selection_juri_phase1;
@@ -2111,7 +2142,7 @@ class PraIncubation extends User_Controller {
                     $active = 0;
                 }
             }
-            
+
             $jury_step2             = $lss->selection_juri_phase2;
             $jury_step2             = explode(",", $jury_step2);
             foreach($jury_step2 as $id){
@@ -2370,7 +2401,7 @@ class PraIncubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
-        $condition          = ' WHERE step = 1 AND A.status <> 0';
+        $condition          = ' WHERE step = 1 AND %status% <> 0 AND %status% <> 5';
 
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
@@ -2486,7 +2517,7 @@ class PraIncubation extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                    smit_center('<input name="selectionliststep1[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
+                    smit_center('<input name="selectionliststep1[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $sum_score > 0 && $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
                         <label for="cblist'.$row->id.'"></label>'),
                     smit_center($i),
                     smit_center( $year ),
@@ -5184,7 +5215,7 @@ class PraIncubation extends User_Controller {
                     $rate_total     = '<strong>'.$rate_total.'</strong>';
                 }
                 $btn_action = '<a class="pradetailcommentstep1 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
-                
+
                 $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($name),
@@ -5263,7 +5294,7 @@ class PraIncubation extends User_Controller {
                 $total_klaster4 = floor(($sum_klaster4 * (10/100)/5));
                 $total_sum      = $total_klaster1 + $total_klaster2 + $total_klaster3 + $total_klaster4;
                 $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
-                
+
                 $btn_action = '<a class="pradetailcommentstep2 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
                 $records["aaData"][] = array(
                         smit_center($i),
@@ -5488,8 +5519,8 @@ class PraIncubation extends User_Controller {
                 $condition          = ' WHERE user_id = '. $current_user->id .' ';
             }
         }
-        
-        
+
+
 
         $order_by           = '';
         $iTotalRecords      = 0;
@@ -5521,7 +5552,7 @@ class PraIncubation extends User_Controller {
         $s_date_min         = smit_isset($s_date_min, '');
         $s_date_max         = $this->input->post('search_datecreated_max');
         $s_date_max         = smit_isset($s_date_max, '');
-        
+
         if( !empty($s_year) )           { $condition .= str_replace('%s%', $s_year, ' AND %year% = %s%'); }
         if( !empty($s_name) )           { $condition .= str_replace('%s%', $s_name, ' AND %name% LIKE "%%s%%"'); }
         if( !empty($s_title) )          { $condition .= str_replace('%s%', $s_title, ' AND %event_title% LIKE "%%s%%"'); }
