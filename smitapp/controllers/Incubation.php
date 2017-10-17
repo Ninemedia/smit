@@ -1979,13 +1979,15 @@ class Incubation extends User_Controller {
                 }
 
                 if( $row->status == CONFIRMED ){
+                    /*
                     $workunit   = '<strong style="color : red !important; ">'.$workunit.'</strong>';
                     $name       = '<strong style="color : red !important; ">'.$name.'</strong>';
                     $year       = '<strong style="color : red !important; ">'.$year.'</strong>';
                     $event      = '<strong style="color : red !important; ">'.$event.'</strong>';
                     $datecreated= '<strong style="color : red !important; ">'.$datecreated.'</strong>';
+                    */
                     $sum_score  = '<strong style="color : red !important; ">'.floor($sum_score).'</strong>';
-                    $average_score  = '<strong style="color : red !important; ">'.floor($average_score).'</strong>';
+                    $average_score  = '<strong style="color : red !important; ">'.$average_score.'</strong>';
                 }
 
                 $records["aaData"][] = array(
@@ -4842,12 +4844,14 @@ class Incubation extends User_Controller {
                 if( $step == 1 || $step == 2 ){
                     if($rate < KKM_STEP1 || $rate < KKM_STEP2){
                         $rate           = '<strong style="color: red !important;">'.$rate.'</strong>';
+                        /*
                         $year           = '<strong style="color: red !important;">'.$year.'</strong>';
                         $name_jury      = '<strong style="color: red !important;">'.$name_jury.'</strong>';
                         $name           = '<strong style="color: red !important;">'.$name.'</strong>';
                         $event          = '<strong style="color: red !important;">'.$event.'</strong>';
                         $step           = '<strong style="color: red !important;">'.$step.'</strong>';
                         $datecreated    = '<strong style="color: red !important;">'.$datecreated.'</strong>';
+                        */
                     }
                 }
 

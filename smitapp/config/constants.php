@@ -298,8 +298,8 @@ define('PASSWORD_GLOBAL',   '123qwe');
 | KKM Score Selection
 |--------------------------------------------------------------------------
 */
-define('KKM_STEP1',   70);
-define('KKM_STEP2',   70);
+define('KKM_STEP1',   60);
+define('KKM_STEP2',   60);
 define('MAX_SCORE',   100);
 
 /*

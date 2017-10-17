@@ -202,7 +202,6 @@ class Debug extends Public_Controller {
 		$this->benchmark->mark('started');
         echo "<pre>";
         
-        
         if( $selection == "pra" ){
             $data_selection         = $this->Model_Praincubation->get_praincubation($selection_id);
             $all_rate_total         = $this->Model_Praincubation->get_praincubation_rate_step1_total($selection_id);

@@ -54,7 +54,7 @@
                                     <td colspan="6" style="width25;" class="text-center"><strong>KAPASITAS SDM (10%)</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL</strong></td>
                                     <td rowspan="2" class="text-center"><strong>IRL</strong></td>
-                                    <td rowspan="2" class="text-center"><strong>Actions</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>Lihat Komentar</strong></td>
                                 </tr>
                                 <tr role="row" class="heading bg-blue">
         							<td class="text-center">A</td>

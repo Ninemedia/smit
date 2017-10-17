@@ -1915,6 +1915,12 @@ if ( !function_exists('smit_latest_praincubation_setting') )
         $condition  = ' WHERE %status% = 1';
         $order_by   = ' %datecreated% DESC';
         $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by);
+        
+        if( empty($lss) ){
+            $condition  = "";
+            $order_by   = ' %datecreated% DESC';
+            $lss        = $CI->Model_Praincubation->get_all_praincubation_setting(1,0,$condition,$order_by);
+        }
 
         if( !$lss || empty($lss) ) return false;
 		return $lss[0];
