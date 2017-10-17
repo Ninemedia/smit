@@ -1369,8 +1369,8 @@ class PraIncubation extends User_Controller {
             }elseif($action=='delete'){
                 $status         = DELETED_SELECTION;
                 $praincselupdatedata    = array(
-                    'status'        => $status,
-                    'datemodified'  => $curdate,
+                    'statustwo'         => $status,
+                    'datemodified'      => $curdate,
                 );
             }
 

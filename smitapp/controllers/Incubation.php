@@ -180,7 +180,7 @@ class Incubation extends User_Controller {
         }
 
         $incubation_list    = $this->Model_Incubation->get_all_incubation($limit, $offset, $condition, $order_by);
-        
+
         $records            = array();
         $records["aaData"]  = array();
 
@@ -1874,7 +1874,7 @@ class Incubation extends User_Controller {
         $current_user       = smit_get_current_user();
         $is_admin           = as_administrator($current_user);
         $jury_id            = as_juri($current_user);
-        $condition          = ' WHERE step = 1 AND A.status <> 0';
+        $condition          = ' WHERE step = 1 AND %status% <> 0 AND %status% <> 5';
 
         $curdate            = date('Y-m-d H:i:s');
         $curdate            = strtotime($curdate);
@@ -1989,7 +1989,7 @@ class Incubation extends User_Controller {
                 }
 
                 $records["aaData"][] = array(
-                        smit_center('<input name="selectionliststep1[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
+                        smit_center('<input name="selectionliststep1[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->id.'" value="'.$row->id.'" type="checkbox" '.( $sum_score > 0 && $row->status != 2 ? 'disabled="disabled"' : '' ).'/>
                         <label for="cblist'.$row->id.'"></label>'),
                         smit_center($i),
                         smit_center( $year ),
@@ -2099,9 +2099,10 @@ class Incubation extends User_Controller {
         }
 
         $curdate = date('Y-m-d H:i:s');
-        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
-        if( $action=='graduate' )    { $actiontxt = 'Graduate'; $status = ACTIVE; }
-        if( $action=='notgraduate' )    { $actiontxt = 'Not Graduate'; $status = ACTIVE; }
+        if( $action=='confirm' )        { $actiontxt = 'Konfirmasi';    $status = ACTIVE; }
+        if( $action=='graduate' )       { $actiontxt = 'Lulus';         $status = ACCEPTED; }
+        if( $action=='notgraduate' )    { $actiontxt = 'Tidak Lulus';   $status = REJECTED; }
+        if( $action=='delete' )         { $actiontxt = 'Hapus';         $status = DELETED_SELECTION; }
 
         // -------------------------------------------------
         // Begin Transaction
@@ -2111,7 +2112,7 @@ class Incubation extends User_Controller {
         $data = (object) $data;
         foreach( $data as $key => $id ){
             // Check Data Pra Incubation Selection
-            $condition  = ' WHERE %id% = '.$id.' AND %status% = 2 AND %step% = 1';
+            $condition  = ' WHERE %id% = '.$id.' AND %step% = 1';
             $order_by   = ' %id% ASC';
             $incseldata  = $this->Model_Incubation->get_all_incubation(0,0,$condition,$order_by);
             if( !$incseldata || empty($incseldata) ){
@@ -2135,27 +2136,47 @@ class Incubation extends User_Controller {
                 $average_score  = 0;
             }
 
+            if($action=='graduate' || $action=='confirm'){
+                $status         = ACCEPTED;
+                $incselupdatedata    = array(
+                    'score'         => $sum_score,
+                    'average_score' => $average_score,
+                    'status'        => $status,
+                    'statustwo'     => 1,
+                    'steptwo'       => 2,
+                    'datemodified'  => $curdate,
+                );
+            }elseif($action=='notgraduate'){
+                $status         = REJECTED;
+                $incselupdatedata    = array(
+                    'score'         => $sum_score,
+                    'average_score' => $average_score,
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );
+            }elseif($action=='delete'){
+                $status         = DELETED_SELECTION;
+                $incselupdatedata    = array(
+                    'status'        => $status,
+                    'datemodified'  => $curdate,
+                );
+            }
+
+            /*
             if( $average_score < KKM_STEP1 ){
                 $status         = REJECTED;
             }else{
                 $status         = ACCEPTED;
             }
-
-            $incselupdatedata   = array(
-                'score'         => $sum_score,
-                'average_score' => $average_score,
-                'status'        => $status,
-                'statustwo'     => 1,
-                'steptwo'       => 2,
-                'datemodified'  => $curdate,
-            );
+            */
 
             if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
                 continue;
             }else{
-                if( $average_score < KKM_STEP1 ){
+                //if( $average_score < KKM_STEP1 ){
+                if( $action=='notgraduate' ){
                     $this->smit_email->send_email_selection_not_success_step1($incset, $incseldata);
-                }else{
+                }elseif( $action=='graduate' ){
                     $this->smit_email->send_email_selection_confirmation_step2($incseldata);
                     $this->smit_email->send_email_selection_success($incset, $incseldata);
                 }
@@ -2166,11 +2187,18 @@ class Incubation extends User_Controller {
         $this->db->trans_commit();
         // Complete Transaction
         $this->db->trans_complete();
+        if( $action=='delete' ){
+            $response = array(
+                'status'    => 'OK',
+                'message'   => 'Data Seleksi Berhasil Di '.strtoupper($actiontxt).'.',
+            );
+        }else{
+            $response = array(
+                'status'    => 'OK',
+                'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Inkubasi tahap 1 selesai di proses',
+            );
+        }
 
-        $response = array(
-            'status'    => 'OK',
-            'message'   => 'Proses '.strtoupper($actiontxt).' data Seleksi Inkubasi tahap 1 selesai di proses',
-        );
         return $response;
     }
 
@@ -2389,7 +2417,10 @@ class Incubation extends User_Controller {
         }
 
         $curdate = date('Y-m-d H:i:s');
-        if( $action=='confirm' )    { $actiontxt = 'Konfirmasi'; $status = ACTIVE; }
+        if( $action=='confirm' )        { $actiontxt = 'Konfirmasi';    $status = ACTIVE; }
+        if( $action=='graduate' )       { $actiontxt = 'Lulus';         $status = ACCEPTED; }
+        if( $action=='notgraduate' )    { $actiontxt = 'Tidak Lulus';   $status = REJECTED; }
+        if( $action=='delete' )         { $actiontxt = 'Hapus';         $status = DELETED_SELECTION; }
 
         // -------------------------------------------------
         // Begin Transaction
@@ -2424,26 +2455,46 @@ class Incubation extends User_Controller {
                 $average_score  = 0;
             }
 
+            if($action=='graduate' || $action=='confirm'){
+                $status         = ACCEPTED;
+                $incselupdatedata    = array(
+                    'scoretwo'          => $sum_score2,
+                    'average_scoretwo'  => $average_score,
+                    'statustwo'         => $status,
+                    'datemodified'      => $curdate,
+                );
+            }elseif($action=='notgraduate'){
+                $status         = REJECTED;
+                $incselupdatedata    = array(
+                    'scoretwo'          => $sum_score2,
+                    'average_scoretwo'  => $average_score,
+                    'statustwo'         => $status,
+                    'datemodified'      => $curdate,
+                );
+            }elseif($action=='delete'){
+                $status         = DELETED_SELECTION;
+                $incselupdatedata    = array(
+                    'statustwo'         => $status,
+                    'datemodified'      => $curdate,
+                );
+            }
+
+            /*
             if( $average_score < KKM_STEP2 ){
                 $status         = REJECTED;
             }else{
                 $status         = ACCEPTED;
             }
-
-            $incselupdatedata    = array(
-                'scoretwo'          => $sum_score2,
-                'average_scoretwo'  => $average_score,
-                'statustwo'         => $status,
-                'datemodified'      => $curdate,
-            );
+            */
 
             if( !$this->Model_Incubation->update_data_incubation($incseldata->id, $incselupdatedata) ){
                 continue;
             }else{
-                if( $average_score < KKM_STEP2 ){
+                //if( $average_score < KKM_STEP2 ){
+                if( $action=='notgraduate' ){
                     // Send Email Notification Not Success Step 2s
                     $this->smit_email->send_email_selection_not_success_step2($incset, $incseldata);
-                }else{
+                }elseif( $action=='graduate' ){
                     // Update Status User
                     $status_user        = array(
                         'type'          => TENANT,
@@ -2465,55 +2516,57 @@ class Incubation extends User_Controller {
             }
         }
 
-        $desc .= '<div class="table-container table-responsive">';
-            $desc .= '<table class="table table-striped table-hover">';
-                $desc .= '
-                <thead>
-                    <tr role="row" class="heading bg-blue">
-                        <th class="width5">No</th>
-                        <th class="width25">Nama Pengusul</th>
-                        <th class="width55">Judul Seleksi</th>
-                        <th class="width15 text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>';
+        if( $action=='graduate' ){
+            $desc .= '<div class="table-container table-responsive">';
+                $desc .= '<table class="table table-striped table-hover">';
+                    $desc .= '
+                    <thead>
+                        <tr role="row" class="heading bg-blue">
+                            <th class="width5">No</th>
+                            <th class="width25">Nama Pengusul</th>
+                            <th class="width55">Judul Seleksi</th>
+                            <th class="width15 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
-                if( !empty($user_desc) ){
-                    $i=1;
-                    foreach($user_desc as $user){
-                        $desc .= '
-                        <tr>
-                            <td class="width5">'.$i.'</td>
-                            <td class="width25">'.$user['name'].'</td>
-                            <td class="width55">'.$user['title'].'</td>
-                            <td class="width15 text-center"><strong>'. ( $user['status'] == ACCEPTED ? 'DITERIMA' : 'DITOLAK' ).'</strong></td>
-                        </tr>';
-                        $i++;
+                    if( !empty($user_desc) ){
+                        $i=1;
+                        foreach($user_desc as $user){
+                            $desc .= '
+                            <tr>
+                                <td class="width5">'.$i.'</td>
+                                <td class="width25">'.$user['name'].'</td>
+                                <td class="width55">'.$user['title'].'</td>
+                                <td class="width15 text-center"><strong>'. ( $user['status'] == ACCEPTED ? 'DITERIMA' : 'DITOLAK' ).'</strong></td>
+                            </tr>';
+                            $i++;
+                        }
+                    }else{
+                        $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Inkubasi</strong></tr>';
                     }
-                }else{
-                    $desc .= '<tr><td colspan="4" class="text-center"><strong>Tidak Ada Data Seleksi Inkubasi</strong></tr>';
-                }
 
-                $desc .= '</tbody>';
-            $desc .= '</table>';
-        $desc .= '</div>';
+                    $desc .= '</tbody>';
+                $desc .= '</table>';
+            $desc .= '</div>';
 
-        // Save Announcement
-        $announcement_data      = array(
-            'uniquecode'        => smit_generate_rand_string(10,'low'),
-            'user_id'           => $current_user->id,
-            'username'          => strtolower($current_user->username),
-            'name'              => $current_user->name,
-            'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
-            'title'             => 'Pengumuman Hasil Seleksi Inkubasi Tahap 2',
-            'desc'              => $desc,
-            'uploader'          => $current_user->id,
-            'status'            => 1,
-            'datecreated'       => $curdate,
-            'datemodified'      => $curdate,
-        );
-        $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
-
+            // Save Announcement
+            $announcement_data      = array(
+                'uniquecode'        => smit_generate_rand_string(10,'low'),
+                'user_id'           => $current_user->id,
+                'username'          => strtolower($current_user->username),
+                'name'              => $current_user->name,
+                'no_announcement'   => smit_generate_no_announcement(1, 'charup'),
+                'title'             => 'Pengumuman Hasil Seleksi Inkubasi Tahap 2',
+                'desc'              => $desc,
+                'uploader'          => $current_user->id,
+                'status'            => 1,
+                'datecreated'       => $curdate,
+                'datemodified'      => $curdate,
+            );
+            $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
+        }
+        
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
