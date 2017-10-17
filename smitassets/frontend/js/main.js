@@ -584,9 +584,9 @@
                         msg.html(response.data);
                         msg.removeClass('alert-success').addClass('alert-danger').fadeIn('fast').delay(3000).fadeOut();
                     }else{
-                        msg.html(response.data);
-                        msg.removeClass('alert-danger').addClass('alert-success').fadeIn('fast');
-
+                        $('#save_selectionpraincubation_success').modal('show');
+                        $(msg).empty().hide();
+                        
                         $('#selectionpraincubation')[0].reset();
                         $(".selectpicker, .show-tick").val('').selectpicker('render');
                         $('#selection_files').fileinput('refresh', {
