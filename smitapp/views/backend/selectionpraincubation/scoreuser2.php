@@ -25,7 +25,7 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapse_formulir" class="panel-collapse collapse" role="tabpanel" aria-labelledby="formulir">
+                                        <div id="collapse_formulir" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="formulir">
                                             <div class="panel-body">
                                                 <h2 class="card-inside-title text-uppercase top25">FORMULIR EVALUASI TEKNOLOGI LIPI</h2>
                                                 <div class="form-group form-float">
@@ -85,7 +85,7 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapse_berkas" class="panel-collapse collapse" role="tabpanel" aria-labelledby="berkas">
+                                        <div id="collapse_berkas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="berkas">
                                             <div class="panel-body">
                                                 <h2 class="card-inside-title text-uppercase">Berkas dan Proposal Kegiatan</h2>
                                                 <?php
@@ -313,7 +313,7 @@
                                                 <h2 class="card-inside-title text-uppercase">Innovation Readiness Level (IRL)</h2>
                                                 <p>IRL dapat menentukan tahapan dari teknologi, maka semakin tinggi nilai IRL yang diberikan akan semakin baik. <br />
                                                 Pilihlah nilai IRL sesuai dengan posisi proposal dibawah ini : </p>
-                                                
+
                                                 <div class="input-group">
                                                     <div class="checkbox-list" data-error-container="#irl_error">
                                                         <div class="row">

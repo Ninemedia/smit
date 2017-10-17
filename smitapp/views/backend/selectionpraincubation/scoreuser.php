@@ -80,7 +80,7 @@
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapse_berkas" class="panel-collapse collapse" role="tabpanel" aria-labelledby="berkas">
+                            <div id="collapse_berkas" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="berkas">
                                 <div class="panel-body">
                                     <h2 class="card-inside-title text-uppercase">Berkas dan Proposal Kegiatan</h2>
                                     <?php
@@ -107,7 +107,7 @@
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapse_nilai" class="panel-collapse collapse" role="tabpanel" aria-labelledby="nilai">
+                            <div id="collapse_nilai" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="nilai">
                                 <div class="panel-body">
                                     <?php echo form_open_multipart( base_url('seleksiprainkubasi/prosesnilai/1'), array( 'id'=>'selection_score_step1', 'role'=>'form' ) ); ?>
                                     <h2 class="card-inside-title text-uppercase">Penilaian Berkas</h2>

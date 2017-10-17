@@ -173,7 +173,7 @@
             							<!-- <option value="confirm">Konfirmasi Kelulusan</option> -->
                                         <option value="graduate">Lulus</option>
                                         <option value="notgraduate">Tidak Lulus</option>
-                                        <option value="delete">Hapus</option>
+                                        <!-- <option value="delete">Hapus</option> -->
             						</select>
             						<button class="btn btn-sm btn-primary table-group-action-submit" disabled="disabled">Proses</button>
                                     <div class="btn-group">
