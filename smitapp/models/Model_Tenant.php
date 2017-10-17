@@ -1123,6 +1123,65 @@ class Model_Tenant extends SMIT_Model{
 
         return $query->result();
     }
+    
+    /**
+     * Retrieve all pra incubation report data
+     *
+     * @author  Iqbal
+     * @param   Int     $limit              Limit of incubation         default 0
+     * @param   Int     $offset             Offset ot incubation        default 0
+     * @param   String  $conditions         Condition of query          default ''
+     * @param   String  $order_by           Column that make to order   default ''
+     * @return  Object  Result of incubation list
+     */
+    function get_all_actionplantincubation($limit=0, $offset=0, $conditions='', $order_by=''){
+        if( !empty($conditions) ){
+            $conditions = str_replace("%id%",                   "A.id", $conditions);
+            $conditions = str_replace("%user_id%",              "A.user_id", $conditions);
+            $conditions = str_replace("%uniquecode%",           "A.uniquecode", $conditions);
+            $conditions = str_replace("%year%",                 "B.year", $conditions);
+            $conditions = str_replace("%event_title%",          "B.event_title", $conditions);
+            $conditions = str_replace("%username%",             "A.username", $conditions);
+            $conditions = str_replace("%name%",                 "A.name", $conditions);
+            $conditions = str_replace("%user_name%",            "B.user_name", $conditions);
+            $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%workunit%",             "C.workunit", $conditions);
+            $conditions = str_replace("%month%",                "A.month", $conditions);
+            $conditions = str_replace("%companion_id%",         "B.companion_id", $conditions);
+        }
+
+        if( !empty($order_by) ){
+            $order_by   = str_replace("%id%",                   "A.id", $order_by);
+            $order_by   = str_replace("%user_id%",              "A.user_id", $order_by);
+            $order_by   = str_replace("%uniquecode%",           "A.uniquecode",  $order_by);
+            $order_by   = str_replace("%year%",                 "B.year",  $order_by);
+            $order_by   = str_replace("%event_title%",          "B.event_title",  $order_by);
+            $order_by   = str_replace("%username%",             "A.username",  $order_by);
+            $order_by   = str_replace("%name%",                 "A.name",  $order_by);
+            $order_by   = str_replace("%user_name%",            "B.user_name",  $order_by);
+            $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%workunit%",             "C.workunit",  $order_by);
+            $order_by   = str_replace("%month%",                "A.month",  $order_by);
+            $order_by   = str_replace("%companion_id%",         "B.companion_id",  $order_by);
+        }
+
+        $sql = '
+            SELECT A.*, B.event_title, B.event_desc, B.year, C.workunit
+            FROM ' . $this->incubation_actionplan. ' AS A
+            LEFT JOIN ' . $this->incubation . ' AS B ON B.id = A.tenant_id
+            LEFT JOIN ' . $this->user .' AS C ON C.id = A.user_id';
+
+        if( !empty($conditions) ){ $sql .= $conditions; }
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+
+        if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
+
+        $query = $this->db->query($sql);
+
+        if(!$query || !$query->num_rows()) return false;
+
+        return $query->result();
+    }
 
     // ---------------------------------------------------------------------------------
 }

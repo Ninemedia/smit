@@ -2833,9 +2833,8 @@ class Tenant extends User_Controller {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
 
-                $btn_download   = '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'"
+                $btn_download   = '<a href="'.base_url('tenants/pembayaran/unduh/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
-
 
                 $records["aaData"][] = array(
                     smit_center('<input name="paymentlist[]" class="cblist filled-in chk-col-blue" id="cblist'.$row->uniquecode.'" value="' . $row->uniquecode . '" type="checkbox"/>
@@ -2870,6 +2869,27 @@ class Tenant extends User_Controller {
         $records["iTotalDisplayRecords"]    = $iTotalRecords;
 
         echo json_encode($records);
+    }
+    
+    /**
+	 * Payment / Dokument Tenant Download File function.
+	 */
+    function paymentdatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+        
+        // Check Report Payment File Data
+        $paymentdata     = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $paymentdata     = $paymentdata[0];
+
+        if( !$paymentdata || empty($paymentdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $paymentdata->filename . '.' . $paymentdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/tenantpayment/' . $paymentdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
     }
 
     /**
@@ -5232,13 +5252,13 @@ class Tenant extends User_Controller {
                 $datecreated    = date('d F Y H:i:s', strtotime($row->datecreated));
 
 
-                $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                $btn_download   = '<a href="'.base_url('tenants/laporan/unduhactionplan/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-success waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
                 $btn_download   = "<center><span style='color : red;'> - </span></center>";
                 $uploaded       = $row->uploader;
                 if( $uploaded > 0 ){
-                    $btn_download   = '<a href="'.base_url('prainkubasi/daftar/detail/'.$row->uniquecode).'"
+                    $btn_download   = '<a href="'.base_url('tenants/laporan/unduhactionplan/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
                 }
                 $btn_action     = "";
@@ -5968,9 +5988,30 @@ class Tenant extends User_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-
+        
         // Check Report File Data
         $reportdata     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
+        $reportdata     = $reportdata[0];
+
+        if( !$reportdata || empty($reportdata) ){
+            redirect( current_url() );
+        }
+
+        $file_name      = $reportdata->filename . '.' . $reportdata->extension;
+        $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
+        force_download($file_name, $file_url);
+    }
+    
+    /**
+	 * Action Plan Download File function.
+	 */
+    function actionplandatadownloadfile($uniquecode){
+        if ( !$uniquecode ){
+            redirect( current_url() );
+        }
+        
+        // Check Report File Data
+        $reportdata     = $this->Model_Tenant->get_all_actionplantincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];
 
         if( !$reportdata || empty($reportdata) ){

@@ -271,7 +271,8 @@
                                         <span class="input-group-addon"><i class="material-icons">assignment</i></span>
                                         <select class="form-control show-tick" name="reg_year" id="reg_year">
                                             <?php
-                                                $year_arr = smit_select_year(1900,2030);
+                                                $year       = date("Y");
+                                                $year_arr   = smit_select_year(1900,$year);
                 	                            if( !empty($year_arr) ){
                 	                                echo '<option value="">-- Pilih Tahun --</option>';
                 	                                foreach($year_arr as $key => $value){
