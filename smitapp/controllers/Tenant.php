@@ -2863,7 +2863,7 @@ class Tenant extends User_Controller {
 
         echo json_encode($records);
     }
-    
+
     /**
 	 * Payment / Dokument Tenant Download File function.
 	 */
@@ -2871,7 +2871,7 @@ class Tenant extends User_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Report Payment File Data
         $paymentdata     = $this->Model_Incubation->get_all_payment(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $paymentdata     = $paymentdata[0];
@@ -5981,7 +5981,7 @@ class Tenant extends User_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Report File Data
         $reportdata     = $this->Model_Tenant->get_all_reportincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];
@@ -5994,7 +5994,7 @@ class Tenant extends User_Controller {
         $file_url       = dirname($_SERVER["SCRIPT_FILENAME"]) . '/smitassets/backend/upload/report/incubation/' . $reportdata->uploader . '/' . $file_name;
         force_download($file_name, $file_url);
     }
-    
+
     /**
 	 * Action Plan Download File function.
 	 */
@@ -6002,7 +6002,7 @@ class Tenant extends User_Controller {
         if ( !$uniquecode ){
             redirect( current_url() );
         }
-        
+
         // Check Report File Data
         $reportdata     = $this->Model_Tenant->get_all_actionplantincubation(0, 0, ' WHERE %uniquecode% = "'.$uniquecode.'"');
         $reportdata     = $reportdata[0];

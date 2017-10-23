@@ -1952,10 +1952,10 @@ class Incubation extends User_Controller {
                         //$btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
-                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">check</i></a>';
                 }elseif( $row->status == CONFIRMED || $row->status == REJECTED || $row->status == ACCEPTED ){
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->step.'/'.$row->uniquecode).'"
-                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">check</i></a>';
                 }
 
                 if($row->status == NOTCONFIRMED)    { $status = '<span class="label label-default">'.strtoupper($cfg_status[$row->status]).'</span>'; }
@@ -2290,10 +2290,10 @@ class Incubation extends User_Controller {
                         //$btn_score  = '<a class="btn btn-xs btn-grey waves-effect tooltips" disabled="disabled" data-placement="top" data-step="1" title="Konfirmasi"><i class="material-icons">done</i></a>';
                     }
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
-                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">check</i></a>';
                 }elseif( $row->statustwo == CONFIRMED || $row->statustwo == REJECTED || $row->statustwo == ACCEPTED ){
                     $btn_details    = '<a href="'.base_url('seleksiinkubasi/nilai/detail/'.$row->steptwo.'/'.$row->uniquecode).'"
-                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">zoom_in</i></a>';
+                    class="btn_detail btn btn-xs btn-primary waves-effect tooltips" data-placement="top" data-step="1" title="Detail"><i class="material-icons">check</i></a>';
                 }
 
                 if($row->statustwo == CONFIRMED)       { $status = '<span class="label label-success">'.strtoupper($cfg_status[$row->statustwo]).'</span>'; }
@@ -2568,7 +2568,7 @@ class Incubation extends User_Controller {
             );
             $announcement_save_id = $this->Model_Announcement->save_data_announcement($announcement_data);
         }
-        
+
         // Commit Transaction
         $this->db->trans_commit();
         // Complete Transaction
@@ -4580,7 +4580,8 @@ class Incubation extends User_Controller {
                 }
                 $btn_action = '<a class="incdetailcommentstep1 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
 
-                $records["aaData"][] = array(
+                if($is_admin || $is_jury){
+                    $records["aaData"][] = array(
                         smit_center($i),
                         strtoupper($row->name),
                         smit_center( $nilai_dokumen ),
@@ -4591,6 +4592,19 @@ class Incubation extends User_Controller {
                         smit_center( $rate_total ),
                         smit_center( $btn_action ),
                     );
+                }else{
+                    $records["aaData"][] = array(
+                        smit_center($i),
+                        strtoupper("juri ".$i),
+                        smit_center( $nilai_dokumen ),
+                        smit_center( $nilai_target ),
+                        smit_center( $nilai_perlindungan ),
+                        smit_center( $nilai_penelitan ),
+                        smit_center( $nilai_market ),
+                        smit_center( $rate_total ),
+                        smit_center( $btn_action ),
+                    );
+                }
                 $i++;
             }
         }
@@ -4652,10 +4666,14 @@ class Incubation extends User_Controller {
                 $avarage_sum    = floor(($sum_klaster1 + $sum_klaster2 + $sum_klaster3 + $sum_klaster4)/20);
 
                 $btn_action = '<a class="incdetailcommentstep2 btn btn-xs btn-default waves-effect tooltips" data-placement="left" data-id="'.$row->id.'" data-uniquecode="'.$row->uniquecode.'" data-comment="'.$row->comment.'" title="Komentar"><i class="material-icons">comment</i></a>';
-
+                if($is_admin || $is_jury){
+                    $name       = $row->name;
+                }else{
+                    $name       = "juri_".$i;
+                }
                 $records["aaData"][] = array(
                         smit_center($i),
-                        strtoupper($row->name),
+                        strtoupper($name),
                         smit_center( $row->klaster1_a ),
                         smit_center( $row->klaster1_b ),
                         smit_center( $row->klaster1_c ),

@@ -265,7 +265,7 @@
                     </div>
                 <?php else : ?>
                     <div class="pull-right bottom25">
-                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
@@ -275,7 +275,7 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
-                                    <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>PENILAI</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>KRITERIA PASAR (25%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>PRODUK / JASA (40%)</strong></td>
                                     <td colspan="6" style="width25;" class="text-center"><strong>FINANSIAL (15%)</strong></td>

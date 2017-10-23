@@ -97,7 +97,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        
+
                         <div class="alert bg-grey bottom0">
                             <p>
                                 Keterangan Kriteria:
@@ -190,7 +190,7 @@
 
                 <?php else : ?>
                     <div class="text-right bottom25">
-                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>     
+                        <a href="<?php echo base_url('seleksiinkubasi/nilai'); ?>" class="btn btn-sm btn-default waves-effect back"><i class="material-icons">arrow_back</i> Kembali</a>
                     </div>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->name); ?></h4>
                     <h4 class="text-center"><?php echo strtoupper($data_selection->event_title); ?></h4><br />
@@ -200,7 +200,7 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
-                                    <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>PENILAI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
                                     <td rowspan="2" class="text-center"><strong>Lihat Komentar</strong></td>

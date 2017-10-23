@@ -34,7 +34,7 @@
                                 </a>
                             </li>
                         </ul>
-                        
+
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="logo">
@@ -78,8 +78,8 @@
                                     <div class="form-group">
                                         <label for="name_contact">Posisi Tenant <b style="color: red !important;">(*)</b></label>
                                         <div class="input-group">
-                                            <?php 
-                                                $position   = $tenantdata->position = 1 ? 'INWALL' : 'OUTWALL'; 
+                                            <?php
+                                                $position   = $tenantdata->position == 1 ? 'INWALL' : 'OUTWALL'; 
                                             ?>
                                             <span class="input-group-addon"><i class="material-icons">compare_arrows</i></span>
                                             <div class="form-line">
@@ -107,7 +107,7 @@
                                                     <?php
                                                         $option = array(''=>'Pilih Tahun');
                                                         $year_arr = smit_select_year(1900,2030);
-                
+
                                                         if( !empty($year_arr) ){
                                                             foreach($year_arr as $val){
                                                                 $option[$val] = $val;
@@ -301,7 +301,7 @@
                         <!-- <button type="button" class="btn btn-danger btn-sm bg-red waves-effect btn-clear-tenant-team-ava">Bersihkan</button> -->
                     </div>
                 <?php echo form_close(); ?>
-                
+
                 <!-- ============================ -->
                 <!-- ===== Tenant Team Data ===== -->
                 <!-- ============================ -->
@@ -331,7 +331,7 @@
 				<button type="button" class="btn danger waves-effect" data-dismiss="modal">Batal</button>
 				<button type="button" class="btn btn-info waves-effect btn-edit-tenant-team">Ubah</button>
 			</div>
-            
+
 		</div>
 	</div>
 </div>

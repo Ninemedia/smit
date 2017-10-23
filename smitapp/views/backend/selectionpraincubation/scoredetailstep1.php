@@ -200,7 +200,7 @@
                             <thead>
         						<tr role="row" class="heading bg-blue">
                                     <td rowspan="2" class="text-center"><strong>NO.</strong></td></td>
-                                    <td rowspan="2" class="text-center"><strong>PENILAI / JURI</strong></td>
+                                    <td rowspan="2" class="text-center"><strong>PENILAI</strong></td>
                                     <td colspan="5" style="width25;" class="text-center"><strong>KRITERIA PENILAIAN</strong></td>
                                     <td rowspan="2" class="text-center"><strong>TOTAL NILAI</strong></td>
                                     <td rowspan="2" class="text-center"><strong>Lihat Komentar</strong></td>
