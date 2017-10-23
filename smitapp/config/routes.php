@@ -230,6 +230,11 @@ $route['tenants/pembayaran']                    = "tenant/tenantpayment";
 $route['tenants/pembayaran/detail/(:any)']      = "tenant/tenantpaymentdetails/$1";
 $route['tenants/pembayaran/edit/(:any)']        = "tenant/tenantpaymentedit/$1";
 $route['tenants/pembayaran/unduh/(:any)']       = "tenant/paymentdatadownloadfile/$1";
+$route['monitoring_dokumen']                    = "tenant/tenantpayment";
+$route['monitoring_dokumen/detail/(:any)']      = "tenant/tenantpaymentdetails/$1";
+$route['monitoring_dokumen/edit/(:any)']        = "tenant/tenantpaymentedit/$1";
+$route['monitoring_dokumen/unduh/(:any)']       = "tenant/paymentdatadownloadfile/$1";
+
 $route['tenants/pendaftaran']                   = "tenant/tenantadd";
 $route['tenants/tenantlistdata']                = "tenant/tenantlistdata";
 $route['tenants/konfirmasi/(:any)/(:num)']      = "tenant/tenantconfirm/$1/$2";

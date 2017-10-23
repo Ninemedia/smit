@@ -2810,8 +2810,8 @@ class Tenant extends User_Controller {
             $i = $offset + 1;
             foreach($payment_list as $row){
                 // Button
-                $btn_action = '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
-                $btn_edit   = '<a href="'.base_url('tenants/pembayaran/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
+                $btn_action = '<a href="'.base_url('monitoring_dokumen/detail/'.$row->uniquecode).'" class="newsdetail btn btn-xs btn-primary waves-effect tooltips bottom5" id="btn_news_detail" data-placement="left" title="Detail"><i class="material-icons">zoom_in</i></a> ';
+                $btn_edit   = '<a href="'.base_url('monitoring_dokumen/edit/'.$row->uniquecode).'" class="newsedit btn btn-xs btn-warning waves-effect tooltips bottom5" data-placement="left" title="Ubah"><i class="material-icons">edit</i></a>';
 
                 $file_name      = $row->filename . '.' . $row->extension;
                 $file_url       = BE_UPLOAD_PATH . 'tenantpayment/'.$row->user_id.'/' . $file_name;
@@ -2826,7 +2826,7 @@ class Tenant extends User_Controller {
                     $status         = '<span class="label label-success">'.strtoupper($cfg_status[$row->status]).'</span>';
                 }
 
-                $btn_download   = '<a href="'.base_url('tenants/pembayaran/unduh/'.$row->uniquecode).'"
+                $btn_download   = '<a href="'.base_url('monitoring_dokumen/unduh/'.$row->uniquecode).'"
                     class="inact btn btn-xs btn-default waves-effect tooltips bottom5" data-placement="left" title="Unduh"><i class="material-icons">file_download</i></a> ';
 
                 $records["aaData"][] = array(
@@ -2834,7 +2834,7 @@ class Tenant extends User_Controller {
                     <label for="cblist'.$row->uniquecode.'"></label>'),
                     smit_center($i),
                     smit_center($row->invoice),
-                    '<a href="'.base_url('tenants/pembayaran/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
+                    '<a href="'.base_url('monitoring_dokumen/detail/'.$row->uniquecode).'">' . strtoupper($row->title) . '</a>',
                     //$image,
                     smit_center( $btn_download ),
                     smit_center( $status ),

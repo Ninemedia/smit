@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="header">
-                <a href="<?php echo base_url('tenants/pembayaran'); ?>" class="btn btn-sm btn-default waves-effect back pull-right">
+                <a href="<?php echo base_url('monitoring_dokumen'); ?>" class="btn btn-sm btn-default waves-effect back pull-right">
                     <i class="material-icons">arrow_back</i> Kembali
                 </a>
                 <h2>Ubah Data Dokumen</h2>

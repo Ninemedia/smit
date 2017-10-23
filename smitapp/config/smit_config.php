@@ -187,6 +187,7 @@ $config['user_menu_access']             = array(
         'tenants/produk',
         'tenants/pembayaran',
         'tenants/laporan',
+        'monitoring_dokumen',
         // ------------------- PENDAMPINGAN
         'pendamping',
         /*'pendamping/daftar',*/
@@ -240,8 +241,9 @@ $config['user_menu_access']             = array(
         'tenants/pendampingan',
         //'tenants/tambahproduk',
         'tenants/produk',
-        'tenants/pembayaran',
+        //'tenants/pembayaran',
         'tenants/laporan',
+        'monitoring_dokumen',
         'pengumuman',
         //'layanan',
         //'layanan/komunikasi',

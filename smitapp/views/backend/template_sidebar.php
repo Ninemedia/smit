@@ -448,6 +448,7 @@
                     'sub'       => false,
                     'badge'     => 0,
                 ),
+                /*
     			array (
                     'title'     => 'Dokumen Tenant',
                     'nav'       => 'tenants/pembayaran',
@@ -457,6 +458,7 @@
                     'sub'       => false,
                     'badge'     => 0,
                 ),
+                */
     			array (
                     'title'     => 'Monitoring Tenant',
                     'nav'       => 'tenants/laporan',
@@ -467,6 +469,15 @@
                     'badge'     => 0,
                 ),
             ),
+	    ),
+        array (
+            'title'     => 'Monitoring Dokumen',
+            'nav'       => 'monitoring_dokumen',
+            'parent'    => 'false',
+            'link'      => base_url('monitoring_dokumen'),
+            'icon'      => 'folder',
+            'badge'     => 0,
+            'sub'       => false,
 	    ),
         array (
             'title'     => 'Pendampingan',
