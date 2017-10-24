@@ -74,8 +74,9 @@
                                         <td>
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
-                                                $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $option     = array(''=>'Pilih Tahun');
+                                                $year_now   = date('Y')+1;
+                                                $year_arr   = smit_select_year(1945,$year_now);
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;
@@ -181,7 +182,8 @@
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $year_now   = date('Y')+1;
+                                                $year_arr   = smit_select_year(1945,$year_now);
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;
@@ -294,7 +296,8 @@
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $year_now   = date('Y')+1;
+                                                $year_arr   = smit_select_year(1945,$year_now);
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;
@@ -374,7 +377,8 @@
                                             <select name="search_year" class="form-control form-filter input-sm def">
                                             <?php
                                                 $option = array(''=>'Pilih Tahun');
-                                                $year_arr = smit_select_year(date('Y'),2030);
+                                                $year_now   = date('Y')+1;
+                                                $year_arr   = smit_select_year(1945,$year_now);
                                                 if( !empty($year_arr) ){
                                                     foreach($year_arr as $val){
                                                         $option[$val] = $val;

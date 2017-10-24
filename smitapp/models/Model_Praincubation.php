@@ -781,6 +781,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%view%",                 "A.view",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
             $conditions = str_replace("%workunit%",             "B.workunit", $conditions);
+            $conditions = str_replace("%year_setting%",         "D.selection_year_publication", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -802,15 +803,18 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%view%",                 "A.view",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
             $order_by   = str_replace("%workunit%",             "B.workunit",  $order_by);
+            $order_by   = str_replace("%year_setting%",         "D.selection_year_publication",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.workunit, B.name AS user_name, B.email, C.name AS companion_name
+            SELECT A.*,B.workunit, B.name AS user_name, B.email, C.name AS companion_name, D.selection_year_publication AS year_setting
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
             ON B.id = A.user_id
             LEFT JOIN ' . $this->user . ' AS C
-            ON C.id = A.companion_id ';
+            ON C.id = A.companion_id
+            LEFT JOIN ' . $this->praincubation_selection_set . ' AS D
+            ON D.id = A.setting_id ';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
@@ -854,6 +858,7 @@ class Model_Praincubation extends SMIT_Model{
             $conditions = str_replace("%step%",                 "A.step", $conditions);
             $conditions = str_replace("%steptwo%",              "A.steptwo",  $conditions);
             $conditions = str_replace("%datecreated%",          "A.datecreated", $conditions);
+            $conditions = str_replace("%year_setting%",         "C.selection_year_publication", $conditions);
         }
 
         if( !empty($order_by) ){
@@ -873,13 +878,16 @@ class Model_Praincubation extends SMIT_Model{
             $order_by   = str_replace("%step%",                 "A.step",  $order_by);
             $order_by   = str_replace("%steptwo%",              "A.steptwo",  $order_by);
             $order_by   = str_replace("%datecreated%",          "A.datecreated",  $order_by);
+            $order_by   = str_replace("%year_setting%",         "C.selection_year_publication",  $order_by);
         }
 
         $sql = '
-            SELECT A.*,B.workunit, B.name AS user_name, B.email
+            SELECT A.*,B.workunit, B.name AS user_name, B.email, C.selection_year_publication AS year_setting
             FROM ' . $this->praincubation_selection. ' AS A
             LEFT JOIN ' . $this->user . ' AS B
-            ON B.id = A.user_id';
+            ON B.id = A.user_id
+            LEFT JOIN ' . $this->praincubation_selection_set . ' AS C
+            ON C.id = A.setting_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
         $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
