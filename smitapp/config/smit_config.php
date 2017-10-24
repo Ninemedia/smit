@@ -290,6 +290,7 @@ $config['user_menu_access']             = array(
         'prainkubasi/produk',
         //'prainkubasi/tambahlaporan',
         'prainkubasi/laporan',
+        'monitoring_dokumen',
         'panduan',
         'panduan/berkas',
         'pengumuman',

@@ -2,19 +2,19 @@
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-            <div class="header"><h2>Dokumen Tenant</h2></div>
+            <div class="header"><h2>Monitoring Dokumen</h2></div>
             <div class="body">
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#list" data-toggle="tab">
-                            <i class="material-icons">list</i> DAFTAR DOKUMEN TENANT
+                            <i class="material-icons">list</i> DAFTAR DOKUMEN
                         </a>
                     </li>
                     <li role="presentation">
                         <a href="#add" data-toggle="tab">
-                            <i class="material-icons">add_box</i> TAMBAH
+                            <i class="material-icons">add_box</i> TAMBAH DOKUMEN
                         </a>
                     </li>
                 </ul>

@@ -312,7 +312,7 @@
                     'badge'     => 0,
                 ),
     			array (
-                    'title'     => 'Laporan Pra-Inkubasi',
+                    'title'     => 'Action Plan Pra-Inkubasi',
                     'nav'       => 'prainkubasi/laporan',
                     'parent'    => 'prainkubasi',
                     'link'      => base_url('prainkubasi/laporan'),
@@ -460,7 +460,7 @@
                 ),
                 */
     			array (
-                    'title'     => 'Monitoring Tenant',
+                    'title'     => 'Action Plan Tenant',
                     'nav'       => 'tenants/laporan',
                     'parent'    => 'tenants',
                     'link'      => base_url('tenants/laporan'),
