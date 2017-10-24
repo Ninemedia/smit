@@ -2271,7 +2271,7 @@ class Tenant extends User_Controller {
             'PaymentValidation.init();',
         ));
 
-        $data['title']          = TITLE . 'Pembayaran Tenant';
+        $data['title']          = TITLE . 'Monitoring Dokumen';
         $data['user']           = $current_user;
         $data['is_admin']       = $is_admin;
         $data['headstyles']     = $headstyles;
