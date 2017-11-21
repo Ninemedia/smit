@@ -1592,7 +1592,7 @@ class Model_Praincubation extends SMIT_Model{
             ON B.id = A.user_id';
 
         if( !empty($conditions) ){ $sql .= $conditions; }
-        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.datecreated DESC');
+        $sql   .= ' ORDER BY '. ( !empty($order_by) ? $order_by : 'A.year DESC');
 
         if( $limit ) $sql .= ' LIMIT ' . $offset . ', ' . $limit;
 
